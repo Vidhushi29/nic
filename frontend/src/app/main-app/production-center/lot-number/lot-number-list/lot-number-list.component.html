@@ -1,0 +1,232 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <div class="row">
+                <form [formGroup]="ngForm" (ngSubmit)="onSubmit(ngForm.value)" class="w-100">
+                    <div class="col-12 px-3 mt-2 ml-2">
+                        <div class="row w-100">
+                            <div class="col-12 px-4 pb-1 heading" style="font: normal Poppins; font-weight:bold; font-size: 20px; ;
+                        letter-spacing: 0px;
+                        color: #1C1C1C; width: 236px;">
+                                LOT Number
+                            </div>
+                            <div class="col-12 pt-0 pb-1 my-1 search_txt">
+                                <div class="row w-101">
+                                    <div class="col-12 col-md-4 pl-2 mt-2 pr-4 pr-md-0">
+                                        <div class="col-12">
+                                            <label for="Crop Group" class="search_txt">Year of Indent</label>
+                                        </div>
+                                        <div class="col-12 pr-md-0">
+                                            <select class="form-select form-control" aria-label="Default select example"
+                                                formControlName="year">
+                                                <option value="">Select Year of Indent</option>
+                                                <option *ngFor="let year of yearOfIndent" value="{{year.value}}">
+                                                    {{year.name}}</option>
+                                            </select>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <!-- <img src="assets/images/16.svg" alt="" srcset=""> -->
+                                                <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-12 col-md-4 pl-2 mt-2 pr-4 pl-md-0 pr-md-0">
+                                        <div class="col-12">
+                                            <label for="Crop Group" class="search_txt">Season</label>
+                                        </div>
+                                        <div class="col-12 pr-md-0">
+                                            <select class="form-select form-control" aria-label="Default select example"
+                                                formControlName="season">
+                                                <option value="">Select Season</option>
+                                                <option *ngFor="let data of seasonList" value="{{data.season_code}}">
+                                                    {{data.season}}</option>
+                                            </select>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-12 col-md-4 pl-2 mt-2 pr-4 pr-md-0 pl-md-0">
+                                        <div class="col-12">
+                                            <label for="Crop Group" class="search_txt">Crop Name</label>
+                                        </div>
+                                        <div class="col-12 pr-md-2">
+                                            <select class="form-select form-control" aria-label="Default select example"
+                                                formControlName="crop_code">
+                                                <option value="">Select Crop Name</option>
+                                                <option *ngFor="let data of cropName" value="{{data.crop_code}}">
+                                                    {{data.crop_name}}</option>
+                                            </select>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-12 col-md-4 pl-2 pr-4 mt-2 pr-md-0">
+                                        <div class="col-12">
+                                            <label for="Crop Group" class="search_txt">Variety Name</label>
+                                        </div>
+                                        <div class="col-12 pr-md-0">
+                                            <select class="form-select form-control" aria-label="Default select example"
+                                                formControlName="variety_id">
+                                                <option value="">Select Variety Name</option>
+                                                <option *ngFor="let data of cropVarietyData" value="{{data.id}}">
+                                                    {{data.variety_name}}</option>
+                                            </select>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-12 px-4 mt-4 buttons-phone">
+                                        <button
+                                            class="form-button search d-inline-flex justify-content-center verticle-content-middle mb-3 mr-3"
+                                            (click)="search()">Search</button>
+                                        <button
+                                            class="clear-form-button ml-0 d-inline-flex justify-content-center verticle-content-middle mb-3 mr-3"
+                                            (click)="clear()">Clear</button>
+                                    </div>
+                                    <div class="col-12 px-4">
+                                        <hr class="separator m-0 width">
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <!-- <div class="col-12 pb-2">
+                            <hr class="separator ">
+                        </div> -->
+
+                        <!--  -->
+
+                        <!-- <app-indent-breeder-seed-allocation-search></app-indent-breeder-seed-allocation-search> -->
+                        <!-- <app-indent-breeder-seed-allocation-search [isByNodalAgency]="true"></app-indent-breeder-seed-allocation-search> -->
+                    </div>
+                </form>
+                <!-- <div class="col-12 px-4 py-3">
+                    <app-seed-division [isByNodalAgency]="true"></app-seed-division>
+                </div> -->
+                <div class="col-12 px-2 d-flex justify-content-end mt-2 buttons-phone-add"
+                    style="padding-right: 1rem!important;">
+                    <button class="form-button d-flex justify-content-center verticle-content-middle mr-3"
+                        style="width: 100px !important;background-color: #963814;" routerLink="/lot-number">Add</button>
+                </div>
+                <div class="col-12 px-4">
+                    <div class="list-wrapper px-4 py-3">
+                        <div class="row d-none d-md-flex data-row-header">
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">S/N</div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Year of Indent</div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Season </div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Crop Name </div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Variety Name</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">LOT Number</div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">LOT Size</div>
+                            <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Developed By</div> -->
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle justify-content-center">
+                                Action
+                            </div>
+                        </div>
+                        <div class="row data-row " [hidden]="countData==0"
+                            *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index">
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
+                                    <span>{{ (filterPaginateSearch.itemListCurrentPage - 1) *
+                                        filterPaginateSearch.itemListPageSize + dataIndex + 1}}.</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Year Of Indent:</b>&nbsp;</label>
+                                    <span title="{{(data && data.year)}}-{{(((data && data.year)+1)-2000)}}">{{(data && data.year)}}-{{(((data && data.year)+1)-2000)}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Season:</b>&nbsp;</label>
+                                    <span title="{{(data && data.m_season && data.m_season.season) ? data.m_season.season :
+                                        'NA' }}">{{(data && data.m_season && data.m_season.season) ? data.m_season.season :
+                                        'NA' }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Crop Name:</b>&nbsp;</label>
+                                    <span title="{{data && data.m_crop && data.m_crop.crop_name ? data.m_crop.crop_name:''}}">{{(data && data.m_crop && data.m_crop.crop_name && (data.m_crop.crop_name.length > 30) ?
+                                        (data.m_crop.crop_name.substring(0, 30) +
+                                        "..."):(data.m_crop?data.m_crop.crop_name:'NA'))}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Varity Name:</b>&nbsp;</label>
+                                    <span title="{{data && data.m_crop_variety &&data.m_crop_variety.variety_name ? data.m_crop_variety.variety_name:'' }}">{{(data && data.m_crop_variety &&data.m_crop_variety.variety_name && (data.m_crop_variety.variety_name.length >
+                                        10) ? (data.m_crop_variety.variety_name.substring(0, 10) +
+                                        "..."):data.m_crop_variety.variety_name)}}</span>
+
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>LOT No:</b>&nbsp;</label>
+                                    <span title="{{data && data.lot_number ? data.lot_number:'' }}">
+                                        {{(data && data.lot_number && (data.lot_number.length > 20) ?
+                                        (data.lot_number.substring(0, 20) + "..."):data.lot_number)}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>LOT No Size:</b>&nbsp;</label>
+                                    <span title="{{data && data.lot_number_size?data.lot_number_size:''}}">
+                                        {{(data && data.lot_number_size?data.lot_number_size:'')}}
+                                        {{data.m_crop.crop_code.split('')[0] == 'A' ? 'Quintal':'Kg'}}
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none">Developed B:&nbsp;</label>
+                                    <span>{{data.developed_by}}</span>
+                                </div>
+                            </div> -->
+                            <div
+                                class="col-12 col-md-2   py-1 d-flex verticle-content-middle justify-content-md-center phone_view_btn">
+                                <div class="list-action-buttons-wrapper w-fit-content phone_view_action_btn">
+                                    <button class="list-action-buttons" [routerLink]="['/lot-number/view', data.id]">
+                                        <img src="assets/images/view.svg">
+                                    </button>
+                                    <!-- <button class="list-action-buttons mx-2"
+                                        [routerLink]="['/lot-number/edit', data.id]">
+                                        <img src="assets/images/edit.svg">
+                                    </button> -->
+                                    <button *ngIf="(data.reserved_lot_number == null)" class="list-action-buttons"
+                                        (click)="delete(data.id)">
+                                        <img src="assets/images/delete.svg">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&
+                               (!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)) || -->
+                    <div [hidden]="countData!=0" class="px-2 py-3 w-100" style="height: 50px;">
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data Found.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 px-4 py-3 pb-5">
+                    <app-pagination-ui></app-pagination-ui>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

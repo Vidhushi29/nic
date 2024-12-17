@@ -1,0 +1,513 @@
+<div class="main-inventory">
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12 title-inventory pl-2 pb-3 pt-0">
+            <span class="ml-3"> Intake Verification Register</span>
+            <form [formGroup]="ngForm">
+                <!-- first card ui  -->
+                <div class="col-12 col-md-12 col-lg-12 pt-2">
+                    <div class="row card-inventory form-group pb-2">
+                        <div class="col-12 col-md-10 col-lg-10 pt-2">
+                            <div class="row">
+                                <!-- yxear of indent -->
+                                <div class="col-12 col-md-2 col-lg-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="year" class="left-heading required">Year of Indent</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <select class=" form-control input-inventory" formControlName="year" [ngClass]="editData ? 'disblefield' : ''">
+                                                <option value="">Select Year</option>
+                                                <option *ngFor="let year of yearData" value="{{year.year}}">
+                                                    {{ year.year }}-{{ ((year.year % 100) + 1) < 10 ? '0' : '' }}{{
+                                                        (year.year % 100) + 1 }} </option>
+                                            </select>
+                                            <div class=" errorMessage"
+                                                *ngIf="submitted || ngForm.controls['year'].invalid && (ngForm.controls['year'].dirty || ngForm.controls['year'].touched)">
+                                                <span *ngIf=" ngForm.controls['year'].errors?.['required']">
+                                                    Please Select Year.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- season  -->
+                                <div class="col-12 col-md-2 col-lg-4 col-sm-12 pl-0">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <label for="season" class="left-heading required">Season</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <select class=" form-control input-inventory" formControlName="season" [ngClass]="editData ? 'disblefield' : ''">
+                                                <option value="">Please Select Season</option>
+                                                <option *ngFor="let data of seasonlist"  [value]="data && data.season && data.season ? data.season :''">{{data && data.season && data.season=='K' ? 'Kharif': 'Rabi'}}</option>
+                                                       
+                                            </select>
+                                            <div class=" errorMessage"
+                                                *ngIf="submitted || ngForm.controls['season'].invalid && (ngForm.controls['season'].dirty || ngForm.controls['season'].touched)">
+                                                <span *ngIf=" ngForm.controls['season'].errors?.['required']">
+                                                    Please Select Season.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                                <!-- crop -->
+                                <div class="col-12 col-md-2 col-lg-4 col-sm-12 pl-0">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <label for="crop" class="left-heading required">Crop</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div ngbDropdown class="d-inline-block w-100"
+                                                [ngClass]="!ngForm.controls['season'].value || editData ? 'disableButton' : ''">
+                                                <button
+                                                    class="btn takeplacholder w-100 crop toggle-button input-inventory"
+                                                    [disabled]="!ngForm.controls['season'].value" id="crop"
+                                                    ngbDropdownToggle style="text-align: left;">
+                                                    {{ selectCrop && (selectCrop.length > 30) ?
+                                                    (selectCrop.substring(0,23)
+                                                    + '...') : selectCrop ? selectCrop : ' Please Select Crop' }}
+                                                </button>
+
+                                                <div class="dropdown-menu w-100" ngbDropdownMenu="crop"
+                                                    aria-labelledby="sortMenu">
+                                                    <input type="text" class="form-control px-4"
+                                                        formControlName="crop_text" placeholder="Search Crop">
+                                                    <button class="dropdown-item" *ngFor="let item of cropData"
+                                                        (click)="crop(item)" #dropdownItem
+                                                        [attr.data-parent-name]="'crop'">
+                                                        {{ item && item.crop_name ? item.crop_name : '' }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="pl-0 toggle-button" ngbDropdown [ngClass]="!ngForm.controls['season'].value || editData ? 'disableButton' : ''">
+                                                <i class="fa-solid fa-angle-down downicon" (click)="cClick()"></i>
+                                            </div>
+                                            <div class=" errorMessage"
+                                                *ngIf="submitted || ngForm.controls['crop'].invalid && (ngForm.controls['crop'].dirty || ngForm.controls['crop'].touched)">
+                                                <span *ngIf="ngForm.controls['crop'].errors?.['required']">
+                                                    Select Crop Name.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <!-- search button  -->
+                        <div class="col-md-2 col-lg-2 col-sm-12 col-xl-2 pt-1 px-2">
+                            <p style="margin-bottom: 8px;"><span style="color:transparent;">.</span></p>
+                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                <button (click)="searchData(ngForm.value)"
+                                    class="form-button btn-inventory search d-inline-flex justify-content-center verticle-content-middle">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- second ui  -->
+                <!-- *ngIf="isAccept" -->
+                <!-- *ngIf="isAccept" -->
+                <div class="col-12 pt-0" *ngIf="isAccept">
+                    <div class="row card-inventory form-group">
+                        <div class="col-12  pt-1">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg8 col-xl-8 title-inventory pl-3 "
+                                style="font-size: 16px !important;">
+                                Class of Seed: <span
+                                    style="font-size: 15px;font-weight: 400;">{{classofSeedHarvested ? classofSeedHarvested :''}}</span>
+                            </div>  
+                            </div>
+                            <div class="row">     
+                                    
+                                <!-- Variety -->
+                                <div class="col-12 col-md-4 col-lg-4 col-xl-3 col-sm-6 ">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <label for="variety" class="left-heading "> Variety</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <input type="text" class=" form-control input-inventory"
+                                                formControlName="variety">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Line  -->
+                                <div class="col-12 col-md-4 col-lg-4 col-xl-3 col-sm-6 ">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <label class="left-heading ">Parental Line</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <input type="text" class=" form-control input-inventory"
+                                                formControlName="parental_line" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  Plot-Code -->
+                                <div class="col-12 col-md-4 col-lg-4 col-xl-3 col-sm-6 ">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <label class="left-heading ">Plot-Code</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <input type="text" class=" form-control input-inventory"
+                                                formControlName="plot_code" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Bag Number -->
+                                <div class="col-12 col-md-4 col-lg-4 col-xl-3 col-sm-6 ">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <label class="left-heading ">No of Bags</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <input type="text" class=" form-control input-inventory"
+                                                formControlName="bag_number" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Bag Marka-->
+                                <div class="col-12 col-md-4 col-lg-4 col-xl-3 col-sm-6 ">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <label class="left-heading ">Bag Marka</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <input type="text" class=" form-control input-inventory"
+                                                formControlName="bag_marka" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Total Raw Seed Quantity -->
+                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 ">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <label class="left-heading ">Total Raw Seed Quantity ({{unit}})</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <input type="text" class=" form-control input-inventory"
+                                                formControlName="seed_quantity">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Quantity Received -->
+                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 ">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <label class="left-heading ">Quantity Received ({{unit}})</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <input type="text" class=" form-control input-inventory"
+                                            (keydown)="validateDecimalInput($event)"
+                                                formControlName="received_quantity" placeholder=" Enter Received Quantity">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Godown NO.-->
+                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 ">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <label class="left-heading ">No of Bags Received.</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <input type="number" class=" form-control input-inventory"
+                                            (keydown)="checkDecimal($event)" 
+                                            (ngModelChange)="bagrecieved($event)"
+                                            [(ngModel)]="bagsReceived"    
+                                            formControlName="godown_no" 
+                                            placeholder="Enter No of Bags Recieved.">
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-sm-12 col-12 pt-3">
+                            <div class="row data-row table-responsive-sm table-responsive-md  stacktable" formArrayName="harvestVerify">
+                                <table class="table " >
+                                    <thead>
+                                        <tr class="data-row-header">
+                                            <th scope="col" colspan="12" 
+                                                class="col-12 py-2 text-white text-center verticle-content-middle heading datalist"
+                                                >
+                                                Stack Number Composition
+                                            </th>
+                                         
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-bordered" *ngFor="let ele of harvestInvestData().controls; let i = index" [formGroupName]="i">
+                                        <tr>
+                                            <td class="tableheading">
+                                                <div class="col-12 col-md-2 col-lg-12 col-sm-12">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <label for="year" class="left-heading required">Select Stack</label>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <select class=" form-control input-inventory" formControlName="stack" [ngClass]="editData ? 'disblefield' : ''" 
+                                                            (ngModelChange)="selectStack(i)">
+                                                                <option value="" disabled selected>Select  Stack</option>
+                                                                <option value="new_stack" *ngIf="!editData">Create new Stack</option>
+                                                                <option *ngFor="let item of bagMarkDataofInvest" value="{{item && item.stack_id ? item.stack_id:''}}">
+                                                                {{item && item.stack ? item.stack:''}}
+                                                                </option>                                                              
+                                                            </select>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <td class="tableheading">
+                                                <div class="col-12 col-md-2 col-lg-12 col-sm-12">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <label for="year" class="left-heading required">Type of Seed</label>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <select class=" form-control input-inventory" formControlName="type_of_seed" (ngModelChange)="getStackData(i)" [ngClass]="editData || ngForm.controls['harvestVerify']['controls'][i].controls['stackexist'].value==true ? 'disblefield' : 'disblefield'">
+                                                                <option value="" selected disabled>Type of Seed</option>
+                                                                <option *ngFor="let item of typeofSeed" value="{{item && item.id ? item.id :''}}">
+                                                                {{item && item.name ? item.name :''}}    
+                                                                </option>
+                                                            </select>
+                                                         
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <td class="tableheading">
+                                                <div class="col-12 col-md-2 col-lg-12 col-sm-12">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <label for="year" class="left-heading required" style="white-space: pre;">Select Bag Marka</label>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <!-- <select class=" form-control input-inventory" formControlName="bag_marka_id" (ngModelChange)="selectbagMarka(i)">
+                                                                <option value="" >Select Bag Marka</option>
+                                                                <option *ngFor="let item of bagMarkData" value="{{item && item.id ? item.id :''}}">
+                                                                {{item && item.bag_marka ? item.bag_marka :''}}    
+                                                                </option>
+                                                            </select> -->
+                                                            <ng-multiselect-dropdown                                                            
+                                                            [settings]="dropdownSettings"
+                                                            
+                                                            [data]="ngForm.controls['harvestVerify']['controls'][i]['controls']['bag_marka'].baglist"
+                                                            formControlName="bag_marka"
+                                                            (onSelect)="selectbagMarka(i)"
+                                                            (onDeSelect)="selectbagMarka(i)"
+                                                            (onSelectAll)="selectAllMarka(i)"
+                                                            [placeholder]="' Select Bag Marka'">
+                                                        </ng-multiselect-dropdown>                                                           
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="tableheading">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <label class="left-heading ">Stack No.</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <input type="text" class=" form-control input-inventory disblefield"
+                                                            formControlName="showstackNo" placeholder="Stack No.">
+                                                    </div>
+                                                </div>                                             
+                                            </td>
+                                            <td class="btnaction tableheading " *ngIf="!editData">
+                                                <button (click)="remove(i)" class="list-action-buttons-second pt-4"
+                                                        *ngIf="harvestInvestData().controls.length!=1 ">
+                                                        <img src="assets/images/delete.png">
+                                                    </button>
+                                                    <button (click)="addMore(i)"
+                                                        *ngIf="harvestInvestData().controls.length ==i+1"
+                                                        class="list-action-buttons-second   ml-xl-2  pt-4">
+                                                        <img src="assets/images/Add.png">
+                                                    </button>
+                                            </td>
+                                            <td class="tableheading">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <label class="left-heading ">Godown No.</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <input type="text"
+                                                        [ngClass]="editData || ngForm.controls['harvestVerify']['controls'][i].controls['stackexist'].value==true ?' disblefield' : 'form-control input-inventory'"
+                                                        class=" form-control input-inventory "
+                                                            formControlName="godown_no" placeholder="Godown No.">
+                                                    </div>
+                                                </div>                                             
+                                            </td>                                          
+                                          </tr>
+                                    </tbody>                                 
+                                </table>
+                            </div>                          
+                        </div>
+                        <!-- add and cancel button -->
+                        <div class="col-10 pt-3 pb-2 buttons-phone row ml-4 ml-md-0">
+                            <button style="border: 2px solid #B64B1D;"
+                                class=" search btn-inventory-cancel d-inline-flex justify-content-center verticle-content-middle mb-1" (click)="clearData()">Cancel</button>
+                            <button (click)="saveData(ngForm.value)"
+                                class="clear-form-button btn-inventory ml-3 d-inline-flex justify-content-center verticle-content-middle mb-1">{{editData ? 'Update': 'Save'}}</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-md-12 col-lg-12 pt-1 col-xl-12 " *ngIf="isSearch" >
+                    <div class="row card-inventory form-group">
+                        
+                      <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <label for="year" class="label-inventory ">Variety</label>
+                            </div>
+                            <div class="col-lg-3 col-10">
+                                <ng-multiselect-dropdown [settings]="dropdownSettings2"
+                                    [data]="varietyList" formControlName="variety_level_2"
+                                    [placeholder]="' Select Variety '">
+                                </ng-multiselect-dropdown>
+
+                            </div>
+                        </div>
+                        <div class="row pl-0 pt-2">
+                          <div class="col-12 col-xl-12">
+                            <div class="row data-row stacktable table-responsive">
+            
+                              <table class="table  table-bordered text-white ">
+                                <thead>
+            
+                                  <tr class="data-row-header text-white">
+                                    <th class="col-md-1 col-lg-1 col-xl-auto heading ">S.No.</th>
+                                    <th class="col-md-1 col-lg-1 col-xl-2 heading">Variety</th>
+                                    <th class="col-md-1 col-lg-1 col-xl-2 heading">BSPC</th>
+                                    <th class="col-md-1 col-lg-1 col-xl-1 heading">Plot Code</th>
+                                    <!-- <th>Variety Developed By BSPC</t > -->
+                                    <th class="col-md-1 col-lg-1 col-xl-3 heading">Details of Seed
+                                        Received from BSPC</th>
+                                        <th class="col-md-1 col-lg-1 col-xl-1 heading">
+                                            Action
+                                        </th>
+                                        <th class="col-md-1 col-lg-1 col-xl-2 heading">Intake & Storage 
+                                            Details</th>
+                                            <th class="col-md-1 col-lg-1 col-xl-2 heading lotheading">Provisional Lot
+                                                Generated</th>
+                                  </tr>
+                                </thead>
+                                <tbody >
+                                    <ng-container *ngFor="let data of tableData; let dataIndex = index">
+                                        <ng-container *ngFor="let item of data.bsp_details; let bspDetailsIndex = index">
+                                            <ng-container *ngFor="let lot of item.plotDetails; let plotIndex = index">
+                                                <tr>
+                                                <td [attr.rowspan]="data.totalArrlength"  *ngIf="bspDetailsIndex==0 && plotIndex==0">
+                                                        {{dataIndex + 1}}
+                                                    </td>
+                                                    <td [attr.rowspan]="data.totalArrlength"  *ngIf="bspDetailsIndex==0 && plotIndex==0">
+                                                        {{ data && data.variety_name ? data.variety_name :'NA'}}
+                                                        <br>
+                                                        <span style="font-size: 15px;"><b class="font-weight-bold" style="font-size: 15px;">Parental Line:</b>
+                                                            {{ data && data.line_variety_name ? data.line_variety_name :'NA'}}
+                                                        </span>
+                                                    </td>                                                    
+                                                    <td  [attr.rowspan]="item.tagdetaildatatotal"  *ngIf="plotIndex==0">
+                                                        {{ item && item.agency_name ? item.agency_name :'NA'}}
+                                                    </td>
+                                                    <td  [attr.rowspan]="item.tagdetaildatatotal"  *ngIf="plotIndex==0"  >
+                                                        {{ item && item.plot_code ? item.plot_code :'NA'}}
+                                                    </td>
+                                                    <td>
+                                                        <span style="font-size: 15px;"><b class="font-weight-bold" style="font-size: 15px;">Bag Marka:</b>  {{lot &&
+                                                            lot.bag_marka ? lot.bag_marka :'NA'}}</span><br>
+                                                          <span style="font-size: 15px;"><b class="font-weight-bold" style="font-size: 15px;">No. of Bags:</b> {{lot &&
+                                                            lot.no_of_bags ? (lot.no_of_bags)
+                                                              :'NA'}}</span><br>
+                                                          <span style="font-size: 15px;"><b class="font-weight-bold" style="font-size: 15px;">
+                                                            Total Raw Seed Qty ({{unit}}):
+                                                            </b> {{lot &&
+                                                              lot.raw_seed_produced ? (lot.raw_seed_produced) :'NA'}}</span><br>
+                                                           
+                                                            <span style="font-size: 15px;"><b class="font-weight-bold" style="font-size: 15px;">
+                                                                Class of Seed: 
+                                                            </b> {{getBreederData(lot.seed_class_id,lot.stage_id)}}</span><br>
+    
+                                                    </td>
+                                                    <td *ngIf="lot && lot.check_status==null">
+                                                        
+                                                        <!-- *ngIf="lot && !lot.check_status" -->
+                                                        <div class="col-xl-2"   >
+                                                            
+                                                            <button [disabled]="isAccept ? true:''" (click)="isAcceptData(data,lot,lot && lot.id ? lot.id :'' ,0,item)" style="width: 78px; height: 30px !important;"
+                                                                class="clear-form-button btn-inventory d-inline-flex justify-content-center verticle-content-middle mb-1">Accept</button>
+                                                        </div>
+                                                        <div class="col-xl-2">
+                                                            <button [disabled]="isAccept ? true:''" (click)="isRejectData(lot && lot.id ? lot.id :'')" style="width: 78px; height: 30px !important;"
+                                                                class="clear-form-button btn-inventory d-inline-flex justify-content-center verticle-content-middle mb-1">Reject</button>
+                                                        </div>
+                                                      
+                                                    </td>
+                                                    <td *ngIf="lot && lot.check_status!=null">
+                                                        <div class="col-xl-2" *ngIf="lot.check_status==true">
+                                                            
+                                                            <button *ngIf="lot.check_status==true" (click)="isedit(data,lot,lot && lot.id ? lot.id :'',lot && lot.verifyid ? lot.verifyid :'')" style="width: 78px; height: 30px !important;"
+                                                            [ngClass]="lot.check_status==false ? 'disableButton' : ''"
+                                                            [disabled]="lot.check_status==false ? true:''"
+                                                                class="clear-form-button btn-inventory d-inline-flex justify-content-center verticle-content-middle mb-1">Edit</button>
+                                                        </div>
+                                                        <div class="col-xl-2"*ngIf="lot.check_status==false">
+                                                            <span>Rejected</span>
+                                                    
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span style="font-size: 15px;"><b class="font-weight-bold" style="font-size: 15px;">Quantity Received ({{unit}}):</b>  {{lot &&
+                                                            lot.qty_recieved ?( lot.qty_recieved| number : '1.2-2') :'NA'}}</span><br>
+                                                             <span style="font-size: 15px;"><b class="font-weight-bold" style="font-size: 15px;">No of Bags Received:</b>  {{lot &&
+                                                                lot.bag_recieved ?( lot.bag_recieved| number : '1.2-2') :'NA'}}</span><br>
+                                                          <span style="font-size: 15px;"><b class="font-weight-bold" style="font-size: 15px;">Godown No:</b> {{lot &&
+                                                            lot.verifyid ? getgodown(lot.verifyid)
+                                                              :'NA'}}</span><br>
+                                                          <span style="font-size: 15px;"><b class="font-weight-bold" style="font-size: 15px;">
+                                                            Stack No:
+                                                            </b> {{lot &&
+                                                              lot.verifyid ? getStackRang(lot.verifyid) :'NA'}}</span><br>                                                                                                               
+                                                    </td>
+                                                    <td  >
+                                                        <!-- *ngIf="lot && (lot.check_status==null || lot.check_status==true)" -->
+                                                        
+                                                        {{
+                                                        (lot && lot.provision_lot && lot.provision_lot )|| (lot.provision_lot!='Na')? lot.provision_lot
+                                                        : 
+                                                        getRangeData(lot.actualHarvest_date,lot.code,item.spa_code_value,lot.lot_num,lot.max_lot_size,lot.qty_recieved) }}
+                                                    </td>
+                                                    <!-- <td  *ngIf="lot && lot.check_status==false">
+                                                                ----
+                                                    </td> -->
+                                                </tr>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
+                                 
+            
+                                </tbody>
+            
+                              </table>
+            
+                            </div>
+                          </div>
+                        </div>
+            
+                        <div *ngIf="tableData && (tableData.length<1)" class="px-2 py-3 w-100" style="height: 50px;">
+                          <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            No Data Found.
+                          </div>
+                        </div>
+                      </div>                                                      
+                    </div>
+                  </div>
+            </form>
+        </div>
+    </div>
+</div>

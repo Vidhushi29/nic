@@ -1,0 +1,258 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <div class="row">
+                <form [formGroup]="ngForm">
+                    <div class="col-12 px-4 mt-2">
+                        <div class="row">
+                            <div class="col-md-10 pl-4 pb-2 pb-md-3">
+                                <span class="heading_notofied">Submitted Indents of Breeder Seed (SPA Wise)  </span>
+                            </div>
+                            <div class="col-md-1 pl-4 pb-2"
+                                style="font: normal normal 600 20px/30px Poppins; letter-spacing: 0px; color: #1C1C1C;">
+                            </div>
+                            <div class="col-md-1 pl-4 pb-2"
+                                style="font: normal normal 600 20px/30px Poppins; letter-spacing: 0px; color: #1C1C1C;">
+                            </div>
+
+
+                            <div class="col-md-4 pl-2 pt-0 pr-2 py-2 py-md-0 pr-md-0">
+                                <div class="col-12">
+                                    <label for="Crop Group" class="left-heading">Year of Indent</label>
+                                </div>
+                                <div class="col-12 pr-md-0">
+                                    <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="year_of_indent">
+                                        <option value="" selected disabled>Select Year of Indent</option>
+                                        <option *ngFor="let data of yearOfIndent" value="{{data.year}}">
+                                            {{ data && data.year ? getFinancialYear(data.year) : 'NA'}}</option>
+                                    </select>
+
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-2 pt-0 pr-2 py-2 py-md-0 pr-md-0 pl-md-0">
+                                <div class="col-12">
+                                    <label for="Crop Group" class="left-heading">Season</label>
+                                </div>
+                                <div class="col-12 pr-md-0">
+                                    <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="season">
+                                        <option value="" selected disabled>Select Season</option>
+                                        <option *ngFor="let data of seasonList" value="{{data.season}}">
+                                            {{ data && data.season && (data.season=='K')?'Kharif': (data.season=='R')?'Rabi': (data.season=='O')?'Other':''}}</option>
+                                    </select>
+
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-2 pt-0 pr-2 py-2 py-md-0 pl-md-0">
+                                <div class="col-12">
+                                    <label for="Crop Group" class="left-heading">Crop Type</label>
+                                </div>
+                                <div class="col-12 pr-md-0">
+                                    <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="crop_type">
+                                        <option value="" selected disabled>Select Crop Type</option>
+                                        <option *ngFor="let data of cropTypeList" value="{{data.crop_type}}">
+                                            {{ data && data.crop_type ? data.crop_type :''}}</option>
+                                    </select>
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 pl-3 pt-2 pr-2 py-2 py-md-0 ">
+                                <div class="col-12 px-0 ">
+                                    <label for="Crop Group" class="left-heading">Spa Name</label>
+                                </div>
+                                <div class="col-12  mt-0 px-0 px-md-1 pl-md-0">
+                                    
+                                    <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="cropVarietList"
+                                    [(ngModel)]="state_cultivation"
+                                   formControlName="spa_name"                                  
+                                   [placeholder]="'Select SPA Name'">
+                               </ng-multiselect-dropdown>
+                                    <!-- <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="variety_name">
+                                        <option value="" hidden selected>Select Variety Name</option>
+                                        <option *ngFor="let data of cropVarietyData" value="{{data.variety_code}}">
+                                            {{data.variety_name}}</option>
+                                    </select> -->
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+
+                                    </div>
+                                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                                        
+                                    </div> -->
+                                </div>
+
+                            </div>
+
+                            <div class="col-12 mt-3 mt-md-4 buttons-phone">
+                                <button
+                                    class="form-button search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-2"
+                                    (click)="onSearch()"> Search </button>
+                                <button (click)="clear()"
+                                    class="clear-form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                    Clear
+                                </button>
+
+
+                                <div class="dropdown float-right export_dropdown">
+                                    <button (click)="myFunction()"
+                                        class="form-button  search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-2"
+                                        style="font-size: 87%;">Export To &nbsp;<i class="fa fa-angle-down"
+                                            aria-hidden="true"> </i></button>
+                                    <div id="myDropdown" class="dropdown-content">
+                                        <a (click)="download()"> <img src="assets\icons\pdf-icon.png" alt=""
+                                                width="20px" height="20px"> PDF</a>
+                                        <a (click)="exportexcel()"> <img src="assets\icons\excel.jpg" alt=""
+                                                width="20px" alt=""> Excel</a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+
+                            <div _ngcontent-cvx-c131="" class="col-12 px-4">
+                                <hr _ngcontent-cvx-c131="" class="separator m-0">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-12 px-4 data-row" >
+                    <div class="list-wrapper px-4 py-3">
+                       
+                        <br>
+
+                        <div class="row d-md-flex data-row-header" style="zoom: 0.9;">
+                            <div class="col-3 py-3 d-flex verticle-content-middle">
+                                Year of Indent
+                                {{enableTable && ngForm.controls['year_of_indent'].value ? getFinancialYear(ngForm.controls['year_of_indent'].value) :''}}
+                                <!-- {{year}}-{{((year+1)-2000)}} -->
+                            </div>
+                            <div class="col-2 py-3 d-flex verticle-content-middle">
+                                Season 
+                                {{ enableTable && ngForm.controls['season'].value  && (ngForm.controls['season'].value=='K')?'Kharif': (ngForm.controls['season'].value=='R')?'Rabi': (ngForm.controls['season'].value=='O')?'Other':''}}
+                                <!-- {{year}}-{{((year+1)-2000)}} -->
+                            </div>
+                            <div class="col-sm-2 py-3 d-flex verticle-content-middle">Crop Type : 
+                               
+                                {{enableTable && ngForm.controls['crop_type'].value ? (ngForm.controls['crop_type'].value) :''}}
+                            </div>
+                           
+                            <div class="col-3 py-3 d-flex verticle-content-middle">SPA  : 
+                                {{enableTable &&  spa_names ? spa_names :''}}
+                            </div>
+                            <div class="col-2 py-3 d-flex verticle-content-middle float-right">As on Date : {{today |
+                                date:"dd-MM-YYYY"}}
+                             
+                            </div>
+
+                        </div>
+                        <div class="row data-row">
+
+                            <table class="table table-bordered table-responsive" id="excel-table" *ngIf="enableTable">
+                                <thead>
+                                  <tr class="data-row-header">
+                                    <td scope="col" class="col-md-2 py-2">S/N</td>
+                                    <td scope="col" class="col-md-2 py-2">SPA</td>
+                                    <td scope="col" class="col-md-2 py-2">Crop</td>
+                                    <td scope="col" class="col-md-2 py-2">Variety</td>
+                                    <td scope="col" class="col-md-2 py-2">Indent Quantity</td>
+                                    <td scope="col" class="col-md-2 py-2">Total</td>
+
+                                </thead>
+                                <tbody *ngFor="let data of finalData; let dataIndex=index">
+                                  <tr>
+                                    <td><span>{{ dataIndex + 1 }}.</span></td>
+                                    <td class="table-bordered">
+                                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom" title="">{{data &&
+                                        data.agency_name ? data.agency_name :'' }}</span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                    <tr *ngFor="let bspcData of data.data let index =index
+                                    ">
+                                      <td 
+                                        title="{{bspcData && bspcData}}"
+                                        [ngClass]="index>=1 ? 'border-top border-bottom-0 border-right-0 border-left-0' : 'border-top-0 border-bottom-0 border-right-0 border-left-0'"
+                                        style="width:10em">
+                                        {{bspcData   && bspcData.crop_name? bspcData.crop_name : "NA"}}
+                                       <!-- <hr> -->
+                                      </td>
+                                    </tr>
+                                  
+                                    </span>
+                                    </td>
+                                    <td>
+                                      <span>
+                                  <tr *ngFor="let bspcData of data.data let index=index
+                                  ">
+                                    <td  title="{{bspcData && bspcData.agency_name}}"
+                                    [ngClass]="index>=1 ? 'border-top border-bottom-0 border-right-0 border-left-0' : 'border-top-0 border-bottom-0 border-right-0 border-left-0'" style="width:
+                                    10em;color:black">
+                                      {{bspcData && bspcData.variety_name ? bspcData.variety_name : "NA"}}
+                                     <!-- <hr> -->
+                                    </td>
+                                  </tr>
+                                  </span>
+                                  </td>
+                
+                                  <td>
+                                    <span>
+                                      <tr *ngFor="let bspcData of data.data;let index=index">
+                                        <td style="border: none;" title="{{bspcData && bspcData}}"
+                                        [ngClass]="index>=1 ? 'border-top border-bottom-0 border-right-0 border-left-0' : 'border-top-0 border-bottom-0 border-right-0 border-left-0'" style="width:10em;color:black;">
+                                          {{bspcData && bspcData.value ? bspcData.value: "NA"}}
+                                          
+                                        </td>
+                                      </tr>
+                                    </span>
+                                  </td>
+                                  
+                             
+                                     <td>
+                                    <span>
+                                      <tr >
+                                        <td style="border: none;color:black" title="{{data && data.total_weight}}">
+                                          {{data && data.total_weight ? (data.total_weight.toFixed(2)): "NA"}}
+                                          <!-- <hr> -->
+                                        </td>
+                                      </tr>
+                                    </span>
+                                  </td>
+                                
+                                </tbody>
+                
+                              </table>
+
+                            
+                            <ng-template #noVarietyData>
+                                <div style="text-align: center; width: 100%;">
+                                    <p class="my-2 mx-auto">No Data Found</p>
+                                </div>
+                            </ng-template>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-12 px-3   py-3">
+                    <app-pagination-ui></app-pagination-ui>
+                </div>
+                <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+                    class="px-2 py-3 w-100" style="height: 50px;">
+                    <div class="d-flex verticle-content-middle justify-content-center w-100">
+                        No Data Found.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

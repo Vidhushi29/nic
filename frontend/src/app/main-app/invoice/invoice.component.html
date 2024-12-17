@@ -1,0 +1,164 @@
+<form [formGroup]="ngForm" class="pt-2">
+    <div class="main-inventory my-4 w-90  pt-2">
+        <div class="col-12 ">
+            <div class="row">   
+                <div class="col-12 col-md-4 col-lg-4 pl-1 col-sm-12  verticle-content-middle">
+                    <!-- <img src=" https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGrSXLE492jGSSpvCh_LDYPv59Xi-7mmiEpw&s"> -->
+                    <img src="assets/images/logo-here.png">
+                </div> 
+                <div class="col-12 col-md-4 col-lg-4  col-sm-12 verticle-content-middle">
+                    <p class="title-inventory pt-5" >BSPC NAME</p>
+                    <p class="title-inventory1"><b>DISTRICT, STATE</b> </p>
+                </div> 
+                <div class="col-12 col-md-4 col-lg-4 pr-1 col-sm-12 verticle-content-middle">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdNCA4htX69fRcs9zXxQNU0LFrqfvYpxTFqw&s">
+                </div>  
+
+                </div>
+            </div>
+            <hr class="custom-line ">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  pt-3 pr-0">
+                <div class="row card-inventory form-group pb-2 pl-0">
+                    <div class="col-12 ">
+                        <div class="row">   
+                            <div class="col-12 col-md-6 col-lg-6 pl-1 col-sm-12   ">
+                                <p class=" "> Invoice No: 123abABC321</p>  
+                                <p class=" "><i class="buy">Buyer Details:</i> </p>  
+                                <p class=" ">SPA Name:<b class="font-weight-bold" [innerText]="Buyer.value2"> </b> </p> 
+                                <p class=" ">SPA Address:<b class="font-weight-bold" [innerText]="Buyer.value3"> </b> </p>  
+                                <p class=" ">SPA Contact No:<b class="font-weight-bold" [innerText]="Buyer.value4"> </b> </p>  
+                            </div> 
+                            <div class="col-12 col-md-6 col-lg-6 pl-1 col-sm-12   ">
+                                <p class=" ">Date:<b class="font-weight-bold" [innerText]="Seller.value1"> </b>  </p>  
+                                <p class=" "><i class="buy">Seller Details:</i> </p>  
+                                <p class=" ">SPP Name:<b class="font-weight-bold" [innerText]="Seller.value2"> </b> </p> 
+                                <p class=" ">SPP Address:<b class="font-weight-bold" [innerText]="Seller.value3"> </b> </p>  
+                                <p class=" ">SPP Contact No:<b class="font-weight-bold" [innerText]="Seller.value4"> </b> </p>   
+                            </div>    
+                        </div> 
+                    </div>
+                        <div class="row data-row p-0 ">
+                            <table class="table border-top-0 pt-2 col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12 pl-0 pr-0 m-0 ">
+                                <thead class=" w-100 pl-0 table-bordered">
+                                    <tr class="data-row-header">
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white verticle-content-middle heading bill">S.No
+                                        </th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white text-start verticle-content-middle heading variety">
+                                            Crop</th>
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white  verticle-content-middle heading">Variety
+                                        </th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading SPA">Class
+                                        </th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading seed">Bag
+                                            Weight(Kg)</th>
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white  verticle-content-middle heading bill">No.
+                                            Of Bags</th>
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white  verticle-content-middle heading SPA">Per
+                                            Unit Price(INR)</th>
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white  verticle-content-middle heading">Total
+                                            Price(INR)</th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="border-top-0 table-bordered col-md-1 py-2 text-white  verticle-content-middle heading data-row">
+                                    <tr>
+                                        <td scope="col" class="col-md-1 py-2">
+                                            <p class="verticle-content-middle">1.</p>
+                                        </td>
+                                        <td scope="col" class="col-md-1 py-2 verticle-content-middle">Wheat</td>
+                                        <td scope="col" class="col-md-1 py-2 verticle-content-middle">DW-147</td>
+                                        <td scope="col" class="col-md-2 py-2 verticle-content-middle">Breeder I</td>
+                                        <td scope="col" class="col-md-2 py-2 verticle-content-middle">50</td>
+                                        <td scope="col" class="col-md-2 py-2 verticle-content-middle">40</td>
+                                        <td scope="col" class="col-md-2 py-2 verticle-content-middle">100</td>
+                                        <td scope="col" class="col-md-2 py-2 verticle-content-middle">4000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="col-12 w-100 d-flex justify-content-between mr-0">
+                                <p class=" text-white data-row-header1 "><span class="price1 text-white"> </span> <b
+                                        class="text-white price">Grand
+                                        Total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4000&nbsp;&nbsp;</b> </p>
+                            </div>
+                            <div class="col-12 pt-2">
+                                <div class="row">   
+                                    <div class="col-12 col-md-6 col-lg-6   col-sm-12 "> </div> 
+                                       <div class="col-12 col-md-6 col-lg-6   col-sm-12">  
+                                        <div class="col-12 col-md-11 col-lg-11    col-sm-12 ">   
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <div class="d-flex justify-content-between ">
+                                                <p class="">MoU Charges:</p>
+                                                <b class="font-weight-bold" [innerText]="Finalpayment.value1"></b>
+                                            </div>
+                                            <div class="d-flex justify-content-between   ">
+                                                <p class="">CGST:</p>
+                                                <b class="font-weight-bold" [innerText]="Finalpayment.value2"></b>
+                                            </div>
+                                            <div class="d-flex justify-content-between  ">
+                                                <p class="">SGST:</p>
+                                                <b class="font-weight-bold" [innerText]="Finalpayment.value3"></b>
+                                            </div> <hr class="custom-line w-100">
+                                            <div class="d-flex justify-content-between  ">
+                                                <p style="color: #B64B1D;">Total Payable Amount:</p>
+                                                <b style="color: #B64B1D;" class="font-weight-bold" [innerText]="Finalpayment.value4"></b>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12   col-md-12 col-sm-12 col-12 button23 " style="padding-top: -20px;">
+            <div class="row">
+                <div class="col-lg-3 expa col-md-3 col-sm-12 col-12   pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12  ">
+                            <button
+                                class="w-100 py-2  text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 expa col-md-3 col-sm-12 col-12   pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12  ">
+                            <button (click)="download()"
+                                class="w-100 py-2   text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 expa col-md-3 col-sm-12 col-12   pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12  ">
+                            <button (click)="printPage()"
+                                class="w-100 py-2   text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                Print
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 expa col-md-3 col-sm-12 col-12 pt-4 mt-2 pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12  ">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+         
+    </div>
+</form>

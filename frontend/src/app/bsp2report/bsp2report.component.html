@@ -1,0 +1,735 @@
+<div class="row my-4 w-100 mx-0">
+  <div class="col-12 d-flex justify-content-center verticle-content-middle" >
+    <div class="main-content-form-wrapper px-0 py-2">
+      <div class="row">
+        <div class="w-100">
+          <form [formGroup]="ngForm">
+            <div class="col-12 px-4 mt-2">
+              <div class="row">
+                <div class="col-md-12 col-sm-12 r pb-2">
+                  <div class="row">
+                    <!-- <div class="col-12"> -->
+                    <div class="col-md-11 col-sm-12 text-center ">
+                      <span class="heading_notofied">{{agencyName ? agencyName :'NA'}}</span>
+                    </div>
+                    <div class="col-md-1 col-sm-12 float-right ">
+                      <span><img src="../../assets/images/no_logo.png" alt="" srcset=""
+                          style="height: 5em;"></span>
+                      <!-- <span class="heading_notofied">{{agencyName ? agencyName :''}}</span> -->
+                      <!-- </div> -->
+                    </div>
+                    <div class="col-md-11 col-sm-12 text-center addresshead">
+                      <span class="heading_notofied ">{{bspcAddress ? bspcAddress :'NA'}}</span>
+                    </div>
+                    <div class="col-md-11 col-sm-12 text-center pt-2">
+                      <span class="heading_notofied">BSP II</span>
+                    </div>
+                    <div class="col-md-11 col-sm-12 text-center pt-2 ">
+                      <span class="heading_notofied">Time Table of Production And Availability of Breeder Seed</span>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0">
+                  <div class="col-md-12">
+                    <label for="frm_year_of_indent" class="search_txt">Year of Indent <sup
+                        style="color:red;font-size: 18px;">*</sup></label>
+                  </div>
+                  <div class="col-12 pr-md-0">
+                    <select class="form-select form-control" aria-label="Default select example" formControlName="year"
+                      id="frm_year_of_indent">
+                      <option value="">Select Year of Indent</option>
+                      <option *ngFor="let data of yearOfIndent" value="{{data.year}}">{{data && data.year ?
+                        data.year:''}}-{{(data.year-2000)+1}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0 pl-md-0">
+                  <div class="col-md-12">
+                    <label for="frm_breeder" class="search_txt">Season <sup
+                        style="color:red;font-size: 18px;">*</sup></label>
+                  </div>
+                  <div class="col-12 pr-md-0">
+                    <select class="form-select form-control" aria-label="Default select example"
+                      formControlName="season" id="frm_season">
+                      <option value="">Select Season</option>
+                      <option *ngFor="let data of seasonData" value="{{data && data.season ? data.season :''}}">{{data
+                        &&
+                        data.season && (data.season=='K')?'Kharif':(data.season=='R')?'Rabi':'Other'}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0">
+                  <div class="col-md-12">
+                    <label for="frm_crop_name" class="search_txt">Crop Name</label>
+                  </div>
+                  <div class="col-12 ">
+                    <select class="form-select form-control" aria-label="Default select example" formControlName="crop"
+                      id="frm_crop_name">
+                      <option value="">Select Crop</option>
+                      <option *ngFor="let data of cropNameList" value="{{data && data.crop_code ? data.crop_code :''}}">
+                        {{data && data.crop_name ? data.crop_name :''}}</option>
+                    </select>
+
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div _ngcontent-cvx-c131="" class="col-12 pt-4  search-cancle-button buttons-phone">
+                  <button _ngcontent-cvx-c131=""
+                    class="form-button   search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-1"
+                    (click)="submit()"> Search </button>
+                  <button _ngcontent-cvx-c131="" (click)="clear()"
+                    class="clear-form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                    Clear</button>
+
+                  <div class="dropdown float-right export_dropdown">
+                    <button (click)="myFunction()"
+                      class="form-button  search ml-1 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-1"
+                      style="font-size: 87%;">Export To &nbsp;<i class="fa fa-angle-down" aria-hidden="true">
+                      </i></button>
+                    <div id="myDropdown" class="dropdown-content">
+                      <a (click)="download()"> <img src="assets\icons\pdf-icon.png" alt="" width="20px" height="20px">
+                        PDF</a>
+                      <!-- <a (click)="exportexcel()"> <img src="assets\icons\excel.jpg" alt="" width="20px" alt="">
+                        Excel</a> -->
+                    </div>
+                  </div>
+                </div>
+
+                <div _ngcontent-cvx-c131="" class="col-12 px-4">
+                  <hr _ngcontent-cvx-c131="" class="separator m-0">
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- table for exel Download start -->
+        <div style="display: none;">
+
+          <table id="excel-tables" class="table table-bordered table-responsive" style="text-align: center;">
+            <thead>
+              <tr>
+                <th>BSP II (Production Schedule and Availability of Breeder Seed)</th>
+              </tr>
+              <tr>
+                <th>Year of Indent</th>
+                <th>Season</th>
+                <th>Crop Type</th>
+                <th>Crop</th>
+                <th>Variety</th>
+                <th>As on Date</th>
+              </tr>
+              <tr>
+                <th> {{year?year:'NA'}}-{{year?(year-2000)+1:'NA'}}</th>
+                <th>{{this.ngForm.controls['season'].value && (this.ngForm.controls['season'].value ==
+                  'R')?'Rabi':'Kharif'}}</th>
+                <th>{{this.ngForm.controls['crop_type'].value && (this.ngForm.controls['crop_type'].value ==
+                  'A')?'Agriculture':'Horticulture'}}</th>
+                <th>{{cropNameValue?cropNameValue:'NA'}}</th>
+                <th>{{varietyName && varietyName? varietyName:'NA'}}</th>
+                <th>{{todayData
+                  | date:"dd-MM-YYYY"}}</th>
+              </tr>
+              <tr>
+                <th></th>
+              </tr>
+              <tr class="data-row-header">
+                <th scope="col" class="col-1 py-2">S/N</th>
+                <th scope="col" class="col-1 py-2">Crop Name</th>
+                <th scope="col" class="col-1 py-2">Variety</th>
+                <th scope="col" class="col-1 py-2">Total Indented Quantity</th>
+                <th scope="col" class="col-1 py-2">BSPCs Assigned for Production</th>
+                <th scope="col" class="col-1 py-2">Quantity Allotted for Production</th>
+                <th scope="col" class="col-1 py-2">Field Location</th>
+                <th scope="col" class="col-1 py-2">Area Sown</th>
+                <th scope="col" class="col-1 py-2">Expected Production</th>
+                <th scope="col" class="col-1 py-2">Expected Date of Harvest</th>
+                <th scope="col" class="col-1 py-2">Total Expected Production</th>
+                <th scope="col" class="col-1 py-2">Expected Date of Availability</th>
+              </tr>
+            </thead>
+            <ng-container *ngIf="!is_search">
+              <tbody *ngFor="let data of exportdata; let dataIndex=index">
+                <tr>
+                  <td>
+                    <span>{{dataIndex+1}}.</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.variety_name?data.variety_name:''}}">{{data["variety_name"]
+                      ? data["variety_name"] : 'NA'}}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.contact_person_name? data.contact_person_name :''}}">{{
+                      data.contact_person_name ? data.contact_person_name :'NA'}}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.contact_person_address? data.contact_person_address :''}}">{{
+                      data['contact_person_address'] ? data['contact_person_address'] :'NA'}}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.contact_person_designation?data.contact_person_designation:''}}">{{
+                      data.contact_person_designation?data.contact_person_designation:'NA'
+                      }}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.quantity_of_seed_produced?data.quantity_of_seed_produced:''}}">{{
+                      data.quantity_of_seed_produced?data.quantity_of_seed_produced:'NA'
+                      }}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.area?data.area:''}}">{{
+                      data.area?data.area:'NA'
+                      }}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.expct_prod?data.expct_prod:''}}">{{
+                      data.expct_prod?data.expct_prod:'NA'
+                      }}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.field_loc?data.field_loc:''}}">{{
+                      data.field_loc?data.field_loc:'NA'
+                      }}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.expct_harv_frm_to?data.expct_harv_frm_to:''}}">{{
+                      data.expct_harv_frm_to?data.expct_harv_frm_to:'NA'
+                      }}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.expct_insp_frm_to?data.expct_insp_frm_to:''}}">{{
+                      data.expct_insp_frm_to?data.expct_insp_frm_to:'NA'
+                      }}</span>
+                  </td>
+
+                </tr>
+              </tbody>
+            </ng-container>
+            <ng-container *ngIf="is_search">
+              <tbody>
+                <ng-container *ngFor="let data of data1; let dataIndex=index">
+                  <ng-container *ngFor="let bspcData of data.bspc; let bspcIndex=index">
+                    <tr>
+                      <td *ngIf="bspcIndex == 0" [attr.rowspan]="bspcData.length">{{ dataIndex + 1 }}.</td>
+                      <td *ngIf="bspcIndex == 0" [attr.rowspan]="bspcData.length">{{data && data.crop_name ?
+                        data.crop_name :'' }}</td>
+                      <td *ngIf="bspcIndex == 0" [attr.rowspan]="bspcData.length">{{data && data.variety_name ?
+                        data.variety_name :'' }}</td>
+                      <td *ngIf="bspcIndex == 0" [attr.rowspan]="bspcData.length">{{(data1[dataIndex].bspc |
+                        sum:'indent_quantity') | number: '1.1-2'}}</td>
+
+                      <td *ngIf="bspcIndex > 0" [attr.rowspan]="bspcData.length"></td>
+                      <td *ngIf="bspcIndex > 0" [attr.rowspan]="bspcData.length"></td>
+                      <td *ngIf="bspcIndex > 0" [attr.rowspan]="bspcData.length"></td>
+                      <td *ngIf="bspcIndex > 0" [attr.rowspan]="bspcData.length"></td>
+                      <td> {{bspcData && bspcData.name ? bspcData.name : "NA"}}</td>
+                      <td> {{bspcData && bspcData.allocation_qnt ? (bspcData.allocation_qnt | number: '1.1-2') : "NA"}}
+                      </td>
+                      <td>{{bspcData && bspcData.filed_location ? bspcData.filed_location : "NA"}}</td>
+                      <td>{{bspcData && bspcData.area ? (bspcData.area | number: '1.1-3') : "NA"}}</td>
+
+                      <td>{{bspcData && bspcData.expected_production ? (bspcData.expected_production | number: '1.1-2')
+                        : "NA"}}</td>
+                      <td>{{bspcData && bspcData.expected_harvest_to ? (bspcData.expected_harvest_to) : "NA"}}</td>
+                      <td *ngIf="bspcIndex == 0" [attr.rowspan]="bspcData.length"><span>{{(data1[dataIndex].bspc |
+                          sum:'expected_production') | number: '1.1-2'}}</span></td>
+                      <td *ngIf="bspcIndex > 0" [attr.rowspan]="bspcData.length"></td>
+                      <!-- <td>{{(data1[dataIndex].bspc | sum:'expected_production') |  number: '1.1-2'}}</td> -->
+                      <td>{{bspcData && bspcData.expected_availbility ? (bspcData.expected_availbility) : "NA"}}</td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+              </tbody>
+
+            </ng-container>
+          </table>
+        </div>
+        
+        <!-- table for exel Download end -->
+      
+        <ng-container *ngIf="is_search">
+
+          <div  class="col-6 col-md-7 py-3 d-flex verticle-content-middle pl-5 heading_notofied" style="font-size: 15px!important;">Year of Indent :
+            {{ngForm.controls['year'].value}}-{{ngForm.controls['year'].value?(ngForm.controls['year'].value-2000)+1:'NA'}}
+          </div>
+          <div class="col-6 col-md-6 py-3 text-right heading_notofied" style="font-size: 15px!important;">Date :
+            {{todayData
+              | date:"dd-MM-YYYY"}}
+          </div>
+          <div class="col-6 col-md-7 py-3 d-flex verticle-content-middle  heading_notofied pl-5" style="font-size: 15px!important;">Season :
+            {{this.ngForm.controls['season'].value && (this.ngForm.controls['season'].value ==
+            'R')?'Rabi':'Kharif'}}
+          </div>   
+         
+          <div class="col-6 col-md-6 text-right heading_notofied" style="font-size: 15px!important;">Reference Number:
+            Na
+          </div>    
+        </ng-container>
+      
+
+          <div  *ngIf="is_search" class="col-12 px-4" >
+            <div class="list-wrapper px-4 ">
+            
+              <br>
+              <!-- <div class="row d-none d-md-flex data-row-header">
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Year of Indent :
+                  {{ngForm.controls['year'].value}}-{{ngForm.controls['year'].value?(ngForm.controls['year'].value-2000)+1:'NA'}}
+                </div>
+                <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Season :
+                  {{this.ngForm.controls['season'].value && (this.ngForm.controls['season'].value ==
+                  'R')?'Rabi':'Kharif'}}
+                </div>
+               
+  
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Crop :
+                  {{cropNameValue?cropNameValue:'NA'}}
+                </div>
+               
+  
+                <div class="col-6 col-md-2 py-3  d-flex justify-content-end">As on Date: {{todayData
+                  | date:"dd-MM-YYYY"}}
+                </div>
+              </div> -->
+              <div class="middle_line"></div>
+              <div class="row data-row">
+                <table class="table table-bordered table-responsive" style="text-align: center;">
+                  <thead>
+                    <tr class="data-row-header">
+                      <th scope="col" class="col-1 py-2">S/N</th>
+                      <th scope="col" class="col-1 py-2">Crop</th>
+                      <th scope="col" class="col-1 py-2">Variety</th>
+                      <th scope="col" class="col-1 py-2">Quantity Allocated in (Qt)</th>
+                      <th scope="col" class="col-1 py-2">Area Sown in (HA)</th>
+                      <th scope="col" class="col-1 py-2">Expected Production</th>
+                      <th scope="col" class="col-1 py-2">Field Location</th>
+                      <th scope="col" class="col-1 py-2">Date of Sowing</th>
+                      <th scope="col" class="col-1 py-2">Expected Date of Inspection by Monitoring Team</th>
+                      <th scope="col" class="col-1 py-2">Expected Date of Harvest </th>
+                      <th scope="col" class="col-1 py-2">Expected Date of Seed Availability</th>                  
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let data of data1; let dataIndex=index">
+                    <tr>
+                      <td>{{dataIndex +1}}</td>
+                      <td>{{data && data.crop_name ? data.crop_name :''}}</td>
+                      <td>{{data && data.variety_name ? data.variety_name :''}}</td>
+                      <td>{{data && data.crop_name ? data.crop_name :''}}</td>
+                      <td>{{data && data.area_shown ? data.area_shown :''}}</td>
+                      <td>{{data && data.expected_production ? data.expected_production :''}}</td>
+                      <td>{{data && data.field_code ? data.field_code :'NA'}}</td>
+                      <td>{{data && data.date_of_showing ? (data.date_of_showing | date: 'dd/MM/yyyy'):'NA'}}</td>
+                      <td>{{data && data.expected_inspection_from && data.expected_inspection_to ?
+                        ((data.expected_inspection_from | date: 'dd/MM/yyyy')
+                        + '-'+ (data.expected_inspection_from | date: 'dd/MM/yyyy' )
+                        ):'NA'}}</td>
+                      <td>{{data && data.expected_harvest_from && data.expected_harvest_to ? ((data.expected_harvest_from
+                        | date: 'dd/MM/yyyy')
+                        + '-'+ (data.expected_harvest_to | date: 'dd/MM/yyyy' )
+                        ):'NA'}}</td>
+                      <td>{{data && data.expected_harvest_from && data.expected_harvest_to ? ((data.expected_harvest_from
+                        | date: 'dd/MM/yyyy')
+                        + '-'+ (data.expected_harvest_to | date: 'dd/MM/yyyy' )
+                        ):'NA'}}</td>
+                     
+                    </tr>
+  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+       
+
+        <div *ngIf="!is_search" class="px-2 py-3 w-100 pt-2">
+          <div class="d-flex verticle-content-middle justify-content-center w-100">
+            {{isSearchMsg}}
+          </div>
+        </div>
+
+        <div *ngIf="data1 && data1.length <1 && is_search" class="px-2 py-3 w-100" style="height: 50px;">
+          <div class="d-flex verticle-content-middle justify-content-center w-100">
+            No Data Found.
+          </div>
+        </div>
+        <div class="col-12 pl-0" style="margin-left: -1em;" *ngIf="is_search">
+          <span style="font-size: 15px ;font-weight:bold;" class="float-right">
+            {{contact_person_name ? contact_person_name :''}}
+          </span>
+        </div>
+        <div class="col-12 pl-0" style="margin-left: -1em;" *ngIf="is_search">
+          <!-- <span style="font-size: 15px ;font-weight:bold;" class="float-right">
+            {{UserName ? UserName :''}}
+          </span><br> -->
+
+          
+        <span class="float-right pl-0">
+          <span>
+            (Name of Incharge)
+          <br>
+          <span>
+            Designation
+          </span>
+          </span>
+
+        </span>
+        </div>
+        <div class="col-12 ml-3" *ngIf="is_search">
+           <span style="font-size: 12px;">
+            *Note This is an electronically generated report and does not require signature.
+           </span>
+           
+        </div>
+ 
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row my-4 w-100 mx-0 d-none">
+  <div class="col-12 d-flex justify-content-center verticle-content-middle" id="pdf-tables">
+    <div class="main-content-form-wrapper px-0 py-2">
+      <div class="row">
+        <div class="w-100">
+          <form [formGroup]="ngForm">
+            <div class="col-12 px-4 mt-2">
+              <div class="row">
+                <div class="col-md-12 col-sm-12 r pb-2">
+                  <div class="row">
+                    <!-- <div class="col-12"> -->
+                    <div class="col-md-11 col-sm-12 text-center ">
+                      <span class="heading_notofied">{{agencyName ? agencyName :'NA'}}</span>
+                    </div>
+                    <div class="col-md-1 col-sm-12 float-right ">
+                      <span><img src="../../assets/images/no_logo.png" alt="" srcset=""
+                          style="height: 5em;"></span>
+                      <!-- <span class="heading_notofied">{{agencyName ? agencyName :''}}</span> -->
+                      <!-- </div> -->
+                    </div>
+                    <div class="col-md-11 col-sm-12 text-center addresshead">
+                      <span class="heading_notofied ">{{bspcAddress ? bspcAddress :'NA'}}</span>
+                    </div>
+                    <div class="col-md-11 col-sm-12 text-center pt-2">
+                      <span class="heading_notofied">BSP II</span>
+                    </div>
+                    <div class="col-md-11 col-sm-12 text-center pt-2 ">
+                      <span class="heading_notofied">Time Table of Production And Availability of Breeder Seed</span>
+                    </div>
+                  </div>
+
+                </div>
+               
+
+              </div>
+
+             
+            </div>
+          </form>
+        </div>
+
+        <!-- table for exel Download start -->
+        <div style="display: none;">
+
+          <table id="excel-tables" class="table table-bordered table-responsive" style="text-align: center;">
+            <thead>
+              <tr>
+                <th>BSP II (Production Schedule and Availability of Breeder Seed)</th>
+              </tr>
+              <tr>
+                <th>Year of Indent</th>
+                <th>Season</th>
+                <th>Crop Type</th>
+                <th>Crop</th>
+                <th>Variety</th>
+                <th>As on Date</th>
+              </tr>
+              <tr>
+                <th> {{year?year:'NA'}}-{{year?(year-2000)+1:'NA'}}</th>
+                <th>{{this.ngForm.controls['season'].value && (this.ngForm.controls['season'].value ==
+                  'R')?'Rabi':'Kharif'}}</th>
+                <th>{{this.ngForm.controls['crop_type'].value && (this.ngForm.controls['crop_type'].value ==
+                  'A')?'Agriculture':'Horticulture'}}</th>
+                <th>{{cropNameValue?cropNameValue:'NA'}}</th>
+                <th>{{varietyName && varietyName? varietyName:'NA'}}</th>
+                <th>{{todayData
+                  | date:"dd-MM-YYYY"}}</th>
+              </tr>
+              <tr>
+                <th></th>
+              </tr>
+              <tr class="data-row-header">
+                <th scope="col" class="col-1 py-2">S/N</th>
+                <th scope="col" class="col-1 py-2">Crop Name</th>
+                <th scope="col" class="col-1 py-2">Variety</th>
+                <th scope="col" class="col-1 py-2">Total Indented Quantity</th>
+                <th scope="col" class="col-1 py-2">BSPCs Assigned for Production</th>
+                <th scope="col" class="col-1 py-2">Quantity Allotted for Production</th>
+                <th scope="col" class="col-1 py-2">Field Location</th>
+                <th scope="col" class="col-1 py-2">Area Sown</th>
+                <th scope="col" class="col-1 py-2">Expected Production</th>
+                <th scope="col" class="col-1 py-2">Expected Date of Harvest</th>
+                <th scope="col" class="col-1 py-2">Total Expected Production</th>
+                <th scope="col" class="col-1 py-2">Expected Date of Availability</th>
+              </tr>
+            </thead>
+            <ng-container *ngIf="!is_search">
+              <tbody *ngFor="let data of exportdata; let dataIndex=index">
+                <tr>
+                  <td>
+                    <span>{{dataIndex+1}}.</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.variety_name?data.variety_name:''}}">{{data["variety_name"]
+                      ? data["variety_name"] : 'NA'}}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.contact_person_name? data.contact_person_name :''}}">{{
+                      data.contact_person_name ? data.contact_person_name :'NA'}}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.contact_person_address? data.contact_person_address :''}}">{{
+                      data['contact_person_address'] ? data['contact_person_address'] :'NA'}}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.contact_person_designation?data.contact_person_designation:''}}">{{
+                      data.contact_person_designation?data.contact_person_designation:'NA'
+                      }}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.quantity_of_seed_produced?data.quantity_of_seed_produced:''}}">{{
+                      data.quantity_of_seed_produced?data.quantity_of_seed_produced:'NA'
+                      }}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.area?data.area:''}}">{{
+                      data.area?data.area:'NA'
+                      }}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.expct_prod?data.expct_prod:''}}">{{
+                      data.expct_prod?data.expct_prod:'NA'
+                      }}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.field_loc?data.field_loc:''}}">{{
+                      data.field_loc?data.field_loc:'NA'
+                      }}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.expct_harv_frm_to?data.expct_harv_frm_to:''}}">{{
+                      data.expct_harv_frm_to?data.expct_harv_frm_to:'NA'
+                      }}</span>
+                  </td>
+                  <td>
+                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip" data-placement="bottom"
+                      title="{{data.expct_insp_frm_to?data.expct_insp_frm_to:''}}">{{
+                      data.expct_insp_frm_to?data.expct_insp_frm_to:'NA'
+                      }}</span>
+                  </td>
+
+                </tr>
+              </tbody>
+            </ng-container>
+            <ng-container *ngIf="is_search">
+              <tbody>
+                <ng-container *ngFor="let data of data1; let dataIndex=index">
+                  <ng-container *ngFor="let bspcData of data.bspc; let bspcIndex=index">
+                    <tr>
+                      <td *ngIf="bspcIndex == 0" [attr.rowspan]="bspcData.length">{{ dataIndex + 1 }}.</td>
+                      <td *ngIf="bspcIndex == 0" [attr.rowspan]="bspcData.length">{{data && data.crop_name ?
+                        data.crop_name :'' }}</td>
+                      <td *ngIf="bspcIndex == 0" [attr.rowspan]="bspcData.length">{{data && data.variety_name ?
+                        data.variety_name :'' }}</td>
+                      <td *ngIf="bspcIndex == 0" [attr.rowspan]="bspcData.length">{{(data1[dataIndex].bspc |
+                        sum:'indent_quantity') | number: '1.1-2'}}</td>
+
+                      <td *ngIf="bspcIndex > 0" [attr.rowspan]="bspcData.length"></td>
+                      <td *ngIf="bspcIndex > 0" [attr.rowspan]="bspcData.length"></td>
+                      <td *ngIf="bspcIndex > 0" [attr.rowspan]="bspcData.length"></td>
+                      <td *ngIf="bspcIndex > 0" [attr.rowspan]="bspcData.length"></td>
+                      <td> {{bspcData && bspcData.name ? bspcData.name : "NA"}}</td>
+                      <td> {{bspcData && bspcData.allocation_qnt ? (bspcData.allocation_qnt | number: '1.1-2') : "NA"}}
+                      </td>
+                      <td>{{bspcData && bspcData.filed_location ? bspcData.filed_location : "NA"}}</td>
+                      <td>{{bspcData && bspcData.area ? (bspcData.area | number: '1.1-3') : "NA"}}</td>
+
+                      <td>{{bspcData && bspcData.expected_production ? (bspcData.expected_production | number: '1.1-2')
+                        : "NA"}}</td>
+                      <td>{{bspcData && bspcData.expected_harvest_to ? (bspcData.expected_harvest_to) : "NA"}}</td>
+                      <td *ngIf="bspcIndex == 0" [attr.rowspan]="bspcData.length"><span>{{(data1[dataIndex].bspc |
+                          sum:'expected_production') | number: '1.1-2'}}</span></td>
+                      <td *ngIf="bspcIndex > 0" [attr.rowspan]="bspcData.length"></td>
+                      <!-- <td>{{(data1[dataIndex].bspc | sum:'expected_production') |  number: '1.1-2'}}</td> -->
+                      <td>{{bspcData && bspcData.expected_availbility ? (bspcData.expected_availbility) : "NA"}}</td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+              </tbody>
+
+            </ng-container>
+          </table>
+        </div>
+        
+        <!-- table for exel Download end -->
+      
+        <ng-container *ngIf="is_search">
+
+          <div  class="col-6 col-md-7 py-3 d-flex verticle-content-middle pl-5 heading_notofied" style="font-size: 15px!important;">Year of Indent :
+            {{ngForm.controls['year'].value}}-{{ngForm.controls['year'].value?(ngForm.controls['year'].value-2000)+1:'NA'}}
+          </div>
+          <div class="col-6 col-md-6 py-3 text-right heading_notofied" style="font-size: 15px!important;">Date :
+            {{todayData
+              | date:"dd-MM-YYYY"}}
+          </div>
+          <div class="col-6 col-md-7 py-3 d-flex verticle-content-middle  heading_notofied pl-5" style="font-size: 15px!important;">Season :
+            {{this.ngForm.controls['season'].value && (this.ngForm.controls['season'].value ==
+            'R')?'Rabi':'Kharif'}}
+          </div>   
+         
+          <div class="col-6 col-md-6 text-right heading_notofied" style="font-size: 15px!important;">Reference Number:
+            Na
+          </div>    
+        </ng-container>
+      
+
+          <div  *ngIf="is_search" class="col-12 px-4" >
+            <div class="list-wrapper px-4 py-3">
+            
+              <br>
+              <!-- <div class="row d-none d-md-flex data-row-header">
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Year of Indent :
+                  {{ngForm.controls['year'].value}}-{{ngForm.controls['year'].value?(ngForm.controls['year'].value-2000)+1:'NA'}}
+                </div>
+                <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Season :
+                  {{this.ngForm.controls['season'].value && (this.ngForm.controls['season'].value ==
+                  'R')?'Rabi':'Kharif'}}
+                </div>
+               
+  
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Crop :
+                  {{cropNameValue?cropNameValue:'NA'}}
+                </div>
+               
+  
+                <div class="col-6 col-md-2 py-3  d-flex justify-content-end">As on Date: {{todayData
+                  | date:"dd-MM-YYYY"}}
+                </div>
+              </div> -->
+              <div class="middle_line"></div>
+              <div class="row data-row">
+                <table class="table table-bordered table-responsive" style="text-align: center;">
+                  <thead>
+                    <tr class="data-row-header">
+                      <th scope="col" class="col-1 py-2">S/N</th>
+                      <th scope="col" class="col-1 py-2">Crop</th>
+                      <th scope="col" class="col-1 py-2">Variety</th>
+                      <th scope="col" class="col-1 py-2">Quantity Allocated in (Qt)</th>
+                      <th scope="col" class="col-1 py-2">Area Sown in (HA)</th>
+                      <th scope="col" class="col-1 py-2">Expected Production</th>
+                      <th scope="col" class="col-1 py-2">Field Location</th>
+                      <th scope="col" class="col-1 py-2">Date of Sowing</th>
+                      <th scope="col" class="col-1 py-2">Expected Date of Inspection by Monitoring Team</th>
+                      <th scope="col" class="col-1 py-2">Expected Date of Harvest </th>
+                      <th scope="col" class="col-1 py-2">Expected Date of Seed Availability</th>                  
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let data of data1; let dataIndex=index">
+                    <tr>
+                      <td>{{dataIndex +1}}</td>
+                      <td>{{data && data.crop_name ? data.crop_name :''}}</td>
+                      <td>{{data && data.variety_name ? data.variety_name :''}}</td>
+                      <td>{{data && data.crop_name ? data.crop_name :''}}</td>
+                      <td>{{data && data.area_shown ? data.area_shown :''}}</td>
+                      <td>{{data && data.expected_production ? data.expected_production :''}}</td>
+                      <td>{{data && data.field_code ? data.field_code :'NA'}}</td>
+                      <td>{{data && data.date_of_showing ? (data.date_of_showing | date: 'dd/MM/yyyy'):'NA'}}</td>
+                      <td>{{data && data.expected_inspection_from && data.expected_inspection_to ?
+                        ((data.expected_inspection_from | date: 'dd/MM/yyyy')
+                        + '-'+ (data.expected_inspection_from | date: 'dd/MM/yyyy' )
+                        ):'NA'}}</td>
+                      <td>{{data && data.expected_harvest_from && data.expected_harvest_to ? ((data.expected_harvest_from
+                        | date: 'dd/MM/yyyy')
+                        + '-'+ (data.expected_harvest_to | date: 'dd/MM/yyyy' )
+                        ):'NA'}}</td>
+                      <td>{{data && data.expected_harvest_from && data.expected_harvest_to ? ((data.expected_harvest_from
+                        | date: 'dd/MM/yyyy')
+                        + '-'+ (data.expected_harvest_to | date: 'dd/MM/yyyy' )
+                        ):'NA'}}</td>
+                     
+                    </tr>
+  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+       
+
+        <div *ngIf="!is_search" class="px-2 py-3 w-100 pt-2">
+          <div class="d-flex verticle-content-middle justify-content-center w-100">
+            {{isSearchMsg}}
+          </div>
+        </div>
+
+        <div *ngIf="data1 && data1.length <1 && is_search" class="px-2 py-3 w-100" style="height: 50px;">
+          <div class="d-flex verticle-content-middle justify-content-center w-100">
+            No Data Found.
+          </div>
+        </div>
+        <div class="col-12 pl-0" style="margin-left: -1em;" *ngIf="is_search">
+          <span style="font-size: 15px ;font-weight:bold;" class="float-right">
+            {{contact_person_name ? contact_person_name :''}}
+          </span>
+        </div>
+        <div class="col-12 pl-0" style="margin-left: -1em;" *ngIf="is_search">
+          <!-- <span style="font-size: 15px ;font-weight:bold;" class="float-right">
+            {{UserName ? UserName :''}}
+          </span><br> -->
+
+          
+        <span class="float-right pl-0">
+          <span>
+            (Name of Incharge)
+          <br>
+          <span>
+            Designation
+          </span>
+          </span>
+
+        </span>
+        </div>
+        <div class="col-12 ml-3" *ngIf="is_search">
+           <span style="font-size: 12px;">
+            *Note This is an electronically generated report and does not require signature.
+           </span>
+           
+        </div>
+ 
+      </div>
+    </div>
+  </div>
+</div>

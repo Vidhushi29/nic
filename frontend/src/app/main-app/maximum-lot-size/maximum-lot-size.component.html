@@ -1,0 +1,241 @@
+<div class="pt-3 pb-5 px-4">
+    <form [formGroup]="ngForm">
+        <div class=" card">
+            <div class="col-12 heading mt-3">
+                <span [hidden]="isEdit || isView">Add</span><span [hidden]="!isEdit">Update</span><span
+                    [hidden]="!isView">View</span>&nbsp;Maximum LOT Size
+            </div>
+            <!-- form-row -->
+            <div class="row form-group pl-2">
+
+                <div class="col-12 pt-3 px-4">
+
+                    <div class="row">
+                        <div class="col-sm-2 pl-3 pr-4">
+                            <label for="" class="left-heading">Crop Group</label>
+                        </div>
+                        <div class="col-sm-9 pr-4">
+                            <div ngbDropdown class="d-inline-block w-100 " [ngClass]="{'old': isView || isEdit}">
+                                <button class="btn takeplacholder w-100 crop toggle-button"
+                                [ngClass]=" isEdit || isView  ? 'disabledfield' : ''" id="crop_group" ngbDropdownToggle
+                                style="text-align: left;">{{selected_crop_group && (selected_crop_group.length>30) ? (selected_crop_group.substring(0,30)+'...'):selected_crop_group? selected_crop_group :'Select Crop Group'}}</button>
+
+                            <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group" aria-labelledby="sortMenu">
+                                <input type="text" class="form-control px-4"  formControlName="group_text" >
+                                <button class="dropdown-item" *ngFor="let data of groupCropData"
+                                    (click)="group(data)" #dropdownItem [attr.data-parent-name]="'crop_group'">
+                                    {{data.group_name}}
+                                </button>
+                            </div>
+
+                                <!-- <select class="form-control" formControlName="crop_group">
+                                    <option value="">Select Crop Group</option>
+                                    <option *ngFor="let data of groupCropData" value="{{data.group_code}}">
+                                        {{data.group_name}}</option>
+                                </select> -->
+
+                            </div>
+                            <div class="crop_group errorMessage" *ngIf="submitted">
+                                <span [hidden]="ngForm.controls['crop_group'].value!=0">
+                                    Please Select  Crop Group. <br>
+                                </span>
+                            </div>
+                            <div class="pl-0 toggle-button" ngbDropdown>
+                                <i class="fa-solid fa-angle-down downicon" aria-disabled="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 pt-3 px-4">
+                    <div class="row">
+                        <div class="col-sm-2 pl-3 pt-2 pr-sm-3">
+                            <label for="" class="left-heading">Crop Type</label>
+                        </div>
+                        <div class="col-sm-9 pr-5 ml-3">
+                            <div class="row">
+                                
+                                    <input type="text" maxlength="5" minlength="1" min="1"
+                                        (keypress)="checkLength($event,10)" class="form-control"
+                                        (keydown)="checkNumber($event)"
+                                        placeholder="Enter Crop Type" formControlName="crop_type"
+>
+                                 
+                            
+
+                             
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 pt-3 px-4">
+                    <!-- <div class="col-sm-3 pl-4  pt-1">
+                            <label for="" class="left-heading">Crop Name</label>
+                        </div> -->
+
+                    <div class="row">
+                        <div class="col-sm-2 pl-3 pr-4">
+                            <label for="" class="left-heading">Crop Name</label>
+                        </div>
+                        <div class="col-sm-9 pr-4">
+                            <div ngbDropdown class="d-inline-block w-100 " [ngClass]="{'old': isView || isEdit}"
+                                >
+
+                                <button [disabled]="isView || isEdit"
+                                    class="btn takeplacholder w-100 crop toggle-button" id="crop_name" ngbDropdownToggle
+                                    style="text-align: left;">{{crop_names ?crop_names:'Select Crop Name'}}
+                                </button>
+
+                                <div class="dropdown-menu w-100" ngbDropdownMenu="crop_name" aria-labelledby="sortMenu">
+                                    <input type="text" class="form-control px-4"  formControlName="name_text" >
+                                    <button class="dropdown-item" *ngFor="let data of cropDataList" (openChange)="dropdownToggled($event, 'cropName')"
+                                (keydown)="keyPressesonDropdown($event, 'cropName')"
+                                        (click)="cropName(data)" #dropdownItem [attr.data-parent-name]="'cropName'">
+                                        {{data.crop_name}}
+                                        <input type="hidden" formControlName="crop_name">
+                                    </button>
+                                </div>
+                                <div class="cropNameError errorMessage">
+                                    <span>{{cropNameError}}</span>
+
+                                </div>
+                            </div>
+                            <div class="pl-0 toggle-button" ngbDropdown>
+                                <i (click)="cgClick()" class="fa-solid fa-angle-down downicon" aria-disabled="true"></i>
+                            </div>
+                            <div class="crop_name errorMessage" *ngIf="submitted">
+                                <span [hidden]="ngForm.controls['crop_name'].value!=0">
+                                    Please Select Crop Name. <br>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                 
+
+                </div>
+               
+
+
+                <div class="col-12 pt-2 px-4">
+                    <div class="row">
+                        <div class="col-sm-2 pl-3 pt-2 pr-sm-3">
+                            <label for="" class="left-heading">Maximum LOT Size</label>
+                        </div>
+                        <div class="col-sm-9 pr-4">
+                            <div class="row">
+                                <div class="col-10">
+                                    <input type="text" maxlength="5" minlength="1" min="1"
+                                         class="form-control"
+                                        (keypress)="validateInput($event)"
+                                        placeholder="Enter Maximum LOT Size*" formControlName="maximum_lot_size"
+                                        [ngClass]="{'invalid': submitted && ngForm.controls['maximum_lot_size'].errors }">
+                                    <div class="maximum_lot_size errorMessage" >
+                                       <span [hidden]="(ngForm.controls['maximum_lot_size'].value)>0"> {{lotsizeError ? lotsizeError :''}}</span>
+                                        <!-- <span [hidden]="ngForm.controls['maximum_lot_size'].value > 0">
+                                            Maximum LOT size value should not be 0.
+                                            <br>
+                                        </span> -->
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+                                        <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                    </div>
+                                </div>
+
+                                <div class="col-2 pl-2">
+                                    <input type="text" class="form-control" value="{{cropType}}" disabled>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- start add status -->
+                <div *ngIf="isEdit || isView" class="col-12 pt-3">
+                    <div class="row">
+                        <div class="col-sm-2 pl-4  pt-2">
+                            <label for="" class="left-heading">Status</label>
+                        </div>
+                        <div class="col-sm-9 pt-2">
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="row">
+                                        <div class="col-1">
+                                            <label class="switch">
+                                                <input type="checkbox" (change)="toggleDisplayDiv()"
+                                                    formControlName="status_toggle" checked>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="row">
+                                                <div class="col-12 status_in_act">
+                                                    <div [hidden]="!isShowDiv">Inactive</div>
+                                                </div>
+                                                <div class="col-12 status_in_act">
+                                                    <div [hidden]="isShowDiv">Active</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- add status finish -->
+
+                <!-- buttons -->
+
+
+                <div class="col-md-12 pb-3 mt-4 sub_updt_cancel_btn" *ngIf="!isEdit && !isView">
+                    <div class="resp_btn">
+
+                        <button (click)="checkMaxLotname()"
+                            class="form-buttons d-inline-flex justify-content-center verticle-content-middle mb-3 ml-2">Submit</button>
+
+                    </div>
+                    <div class="resp_btn">
+
+                        <button
+                            class="form-buttons d-inline-flex ml-2 justify-content-center verticle-content-middle mb-3 "
+                            routerLink="/maximum-lot-size-list">Cancel</button>
+
+                    </div>
+                </div>
+                <!-- [hidden]="!isEdit || isView" -->
+                <div class="col-12 pb-3 mt-4 sub_updt_cancel_btn" *ngIf="isEdit">
+                    <div class="resp_btn">
+                        <button (click)="checkMaxLotname()"
+                            class="form-buttons  button-phone-update ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Update</button>
+
+                    </div>
+
+                    <div class="resp_btn">
+                        <span>
+                            <button routerLink="/maximum-lot-size-list"
+                                class="form-buttons d-inline-flex ml-2 justify-content-center verticle-content-middle mb-3">Cancel</button>
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="col-12 pb-3 mt-4 sub_updt_cancel_btn">
+
+                    <div class="resp_btn" *ngIf="isView">
+                        <button routerLink="/maximum-lot-size-list"
+                            class="form-buttons d-inline-flex ml-2 justify-content-center verticle-content-middle mb-3">Cancel</button>
+
+                    </div>
+                </div>
+
+
+
+                <!-- <buttons -->
+
+            </div>
+        </div>
+
+    </form>

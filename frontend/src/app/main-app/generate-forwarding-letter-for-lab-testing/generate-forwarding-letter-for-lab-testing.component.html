@@ -1,0 +1,543 @@
+<form [formGroup]="ngForm" class="pt-2">
+    <div class="main-inventory my-4 w-90  pt-2">
+        <span class="title-inventory pt-3 ">
+            Generate Forwarding Letter For Testing
+        </span>
+        <!-- first card ui -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 pb-2 pt-2 pr-0">
+            <div class="row  card-inventory form-group formargin">
+                <!-- start sectio 1 -->
+                <div class="col-12 col-md-10 col-lg-10 col-sm-12 pt-1 pl-4 formargin">
+                    <div class="row">
+                        <!-- year of indent -->
+                        <div class="col-12 col-md-4 col-lg-4 col-xl-4 col-sm-12">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Year of Indent</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="year">
+                                        <option value="">Select Year</option>
+                                        <option *ngFor="let data of yearOfIndent"
+                                            value="{{data && data.year ? data.year :''}}">
+                                            {{data && data.year ? data.year :''}}- {{data && data.year ?
+                                            (data.year-2000)+1 :''}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- season -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Season</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="season">
+                                        <option value="">Select Season</option>
+                                        <option *ngFor="let data of seasonlist "
+                                            value="{{data && data.season ? data.season :''}}"> {{data &&
+                                            data.season_name ?
+                                            data.season_name :''}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- crop -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Crop</label>
+                                </div>
+                                <div class="col-md-12 px-2">
+                                    <div ngbDropdown class="d-inline-block w-100 ">
+                                        <button
+                                            [disabled]="!ngForm.controls['year'].value && !ngForm.controls['season'].value"
+                                            class="btn takeplacholder w-100 crop toggle-button input-inventory form-control"
+                                            id="crop_group" ngbDropdownToggle style="text-align: left;">{{selectCrop &&
+                                            (selectCrop.length>30) ? (selectCrop.substring(0,30)+'...'):selectCrop?
+                                            selectCrop :'Select Crop '}}
+                                        </button>
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group"
+                                            aria-labelledby="sortMenu">
+                                            <input type="text" class="form-control px-4" formControlName="crop_text"
+                                                (click)="cropdatatext()">
+                                            <button class="dropdown-item" *ngFor="let data of cropName"
+                                                (click)="cropNameValue(data)" #dropdownItem
+                                                [attr.data-parent-name]="'crop_group'">
+                                                {{data && data.crop_name ? data.crop_name :''}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 expa col-md-2 col-sm-12 col-12 pt-4 mt-2 pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12  ">
+                            <button
+                                class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1"
+                                (click)="toggleSearch()">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 pt-2 pr-0">
+            <div class="row card-inventory form-group formargin">
+              <!-- Start section 1 -->
+              <div class="col-12 col-md-10 col-lg-10 col-sm-12 pt-1 pl-4 formargin" *ngIf="searchClicked">
+                <div class="row align-items-center">
+                  <!-- Radio button 1 -->
+                  <div class="col-12 col-md-2 col-lg-2 col-sm-12 radio-container">
+                    <label class="radio-label d-flex align-items-center justify-content-center">
+                      <input type="radio" name="tableSelection" (change)="selectTable('table1')" [checked]="selectedTable === 'table1'" class="radio-input" >
+                      <span class="radio-text font-weight-bold ml-2">For Sending to STL</span>
+                    </label>
+                  </div>
+          
+                  <!-- Radio button 2 -->
+                  <div class="col-12 col-md-2 col-lg-2 col-sm-12 radio-container">
+                    <label class="radio-label d-flex align-items-center justify-content-center">
+                      <input type="radio" name="tableSelection" (change)="selectTable('table2')" [checked]="selectedTable === 'table2'" class="radio-input">
+                      <span class="radio-text font-weight-bold ml-2">For Grow-out Test</span>
+                    </label>
+                  </div>
+                  <!-- *ngIf="ngForm.get('team_name').value" -->
+                  <!-- Conditional Section: Select State and Testing Lab for table1 -->
+                  <!-- <div class="col-12 col-md-6 col-lg-6" *ngIf="selectedTable === 'table1' || !selectedTable"> -->
+                 
+                  <div class="col-12 col-md-6 col-lg-6" *ngIf="selectedTable === 'table1' || !selectedTable">
+                    <div class="row">
+                      <!-- Select State -->
+                      <div class="col-md-6 col-lg-6">
+                        <label for="state" class="label-inventory required">Select State</label>
+                        <div ngbDropdown class="d-inline-block w-100">
+                          <button class="btn w-100 crop toggle-button input-inventory form-control" id="state_text"
+                            ngbDropdownToggle>{{ selectstate && (selectstate.length > 30) ? (selectstate.substring(0, 30) + '...') : selectstate || 'Select' }}
+                          </button>
+                          <div class="dropdown-menu w-100" ngbDropdownMenu="state_text" aria-labelledby="sortMenu">
+                            <input type="text" class="form-control px-4" formControlName="state_text" (click)="labdatastate()">
+                            <button class="dropdown-item" *ngFor="let data of stateList" (click)="state_select(data)">
+                              {{data.state_name}}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+          
+                      <!-- Select Testing Lab -->
+                      <div class="col-md-6 col-lg-6">
+                        <label for="lab1_text" class="label-inventory required">Select Testing Lab</label>
+                        <div ngbDropdown class="d-inline-block w-100">
+                          <button class="btn w-100 crop toggle-button input-inventory form-control" id="lab1_text"
+                            ngbDropdownToggle>{{ selectlab && (selectlab.length > 30) ? (selectlab.substring(0, 30) + '...') : selectlab || 'Select' }}
+                          </button>
+                          <div class="dropdown-menu w-100" ngbDropdownMenu="lab1_text" aria-labelledby="sortMenu">
+                            <input type="text" class="form-control" formControlName="lab1_text" (click)="labdatatext1()">
+                            <button class="dropdown-item" *ngFor="let data of lab2" (click)="lab1Value(data)">
+                              <!-- {{data && data.lab_name ? data.lab_name : ''}} -->
+                              {{ (data && data.labFullName && data.labFullName !== 'NA') ? data.labFullName : (data.lab_name ? data.lab_name : '') }}
+
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                 <!-- {{this.ngForm.controls['testing_lab_id'].value}} -->
+          
+                  <!-- Conditional Section: Select Centre for table2 -->
+                 <!-- hfgyeyu{{ngForm.get('lab1_text').value}} -->
+                  <div class="col-12 col-md-6 col-lg-6" *ngIf="selectedTable === 'table2'">
+                    <div class="row">
+                      <!-- Select Centre -->
+                      <div class="col-8">
+                        <label for="treat_group" class="label-inventory required">Select Centre</label>
+                        <div ngbDropdown class="d-inline-block w-100">
+                          <button class="btn w-100 crop toggle-button input-inventory form-control" id="treat_group"
+                            ngbDropdownToggle>{{ selecttreat && (selecttreat.length > 30) ? (selecttreat.substring(0, 30) + '...') : selecttreat || 'Select' }}
+                          </button>
+                          <div class="dropdown-menu w-100" ngbDropdownMenu="treat_group" aria-labelledby="sortMenu">
+                            <input type="text" class="form-control px-4" formControlName="treat_text" (click)="treatdatatext1()">
+                            <button class="dropdown-item" *ngFor="let data of treat1" (click)="treat1Value(data)">
+                              {{data && data.agency_name ? data.agency_name : ''}}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        <!--  Second Card ui -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12  pt-3 pr-0">
+            <div class="row card-inventory form-group pb-2 pl-0 "
+                *ngIf="selectedTable === 'table1' || selectedTable === 'table2'">
+                <div class="col-12 ">
+                    <div class="col-12 col-md-12 col-lg-12 ">
+                        <div class="col-12 col-md-10 col-lg-10 col-sm-12 formargin  pt-1 pb-1">
+
+                            <div class="row" *ngIf="this.selectedTable === 'table1' && ngForm.controls['testing_lab_id'].value || selectedTable === 'table2' && ngForm.controls['gotbsp'].value">
+                                <div class="col-12 col-md-12 col-lg-12 mt-1">
+                                    <div class="col-12 col-md-12 col-lg-12 col-sm-12 formargin  pt-1 pb-1">
+                                        <div class="row">
+                                            <div class="col-12 col-md-2 col-lg-2 col-xl-2 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                        <label class="filter1">Filter by:</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-3 col-lg-3  col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-12 pb-1 pl-0 pr-2  ">
+                                                        <ng-multiselect-dropdown [placeholder]="'Variety'"
+                                                            [settings]="dropdownSettings" [data]="dropdownList1"
+                                                            formControlName="variety_array"
+                                                            (onSelect)="onItemSelect($event)" (onDeSelect)="onItemSelect($event)" (onDeSelectAll)="seedProcessRegisterData(null)"
+                                                            (onSelectAll)="selcetAll($event)"
+                                                           >
+                                                        </ng-multiselect-dropdown>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-3 col-lg-3 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <select class=" form-control input-inventory"
+                                                            formControlName="Status">
+                                                            <option value="">Status</option>
+                                                            <option *ngFor="let data of Statuslist "
+                                                                value="{{data && data.Status ? data.Status :''}}">
+                                                                {{data && data.Status ?
+                                                                data.Status :''}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col=12 col-md-2 col-lg-2">
+                        </div>
+                        <div class="row data-row p-0 " *ngIf="this.selectedTable === 'table1' && ngForm.controls['testing_lab_id'].value" >
+                            <table
+                                class="table border-top-0   col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12 pl-0 pr-0 m-0 ">
+                                <thead class=" w-100 pl-0 table-bordered">
+                                    <tr class="data-row-header">
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white  verticle-content-middle heading">S.No
+                                        </th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading">
+                                            Variety
+                                        </th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading">Lot
+                                            Details </th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading">
+                                            Sample
+                                            Details</th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading">
+                                            Select Tests</th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading">
+                                            Chemical
+                                            Treatment</th>
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white  verticle-content-middle heading">Choose
+                                            Samples </th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="border-top-0 table-bordered col-md-1 py-2 text-white  verticle-content-middle heading data-row"
+                                    formArrayName="generateSampleSlipData">
+                                    <ng-container *ngFor="let data of generateSampleSlipData.controls; let i=index">
+                                        <!-- <tr [formGroupName]="i"  [ngClass]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['opacity'].value ?'opacity-low':''"> --> 
+                                        <!-- <tr [formGroupName]="i"  [ngClass]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['opacity'].value ?'':''"> -->
+                                            <tr [formGroupName]="i" [ngClass]="{ 'active-row': ngForm.controls['generateSampleSlipData']['controls'][i].controls['unique_code_new'].value }">
+                                            <td scope="col" class="col-md-1 py-2">
+                                                <p class=" verticle-content-middle">{{i+1}}</p>
+                                            </td>
+                                            <td scope="col" class="col-md-2 py-2 verticle-content-middle ">
+                                                <p>{{ngForm.controls['generateSampleSlipData']['controls'][i].controls['variety_name'].value}}
+                                                </p>
+                                                <p
+                                                    *ngIf="ngForm.controls['generateSampleSlipData']['controls'][i].controls['variety_code_line_name'].value">
+                                                    Parental Line
+                                                    :{{ngForm.controls['generateSampleSlipData']['controls'][i].controls['variety_code_line_name'].value
+                                                    ?
+                                                    ngForm.controls['generateSampleSlipData']['controls'][i].controls['variety_code_line_name'].value:"NA"}}
+                                                </p>
+                                            </td>
+                                            <td scope="col" class="col-md-2 py-2 verticle-content-middle">
+                                                <p>Lot No: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['lot_no'].value ? ngForm.controls['generateSampleSlipData']['controls'][i].controls['lot_no'].value:'NA'"></b><br>
+                                                    Class of Seed: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['class_of_seed'].value ? ngForm.controls['generateSampleSlipData']['controls'][i].controls['class_of_seed'].value:'NA'"></b><br>
+                                                    Godown No.: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['godown_no'].value  ? ngForm.controls['generateSampleSlipData']['controls'][i].controls['godown_no'].value:'NA'"></b><br>
+                                                    Stack No.: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['stack_no'].value ? ngForm.controls['generateSampleSlipData']['controls'][i].controls['stack_no'].value:'NA'"></b><br>
+                                                    No. Of Bags: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['no_of_bags'].value ? ngForm.controls['generateSampleSlipData']['controls'][i].controls['no_of_bags'].value:'NA'"></b>
+                                                </p>
+                                            </td>
+                                            <td scope="col" class="col-md-2 text-start py-2 verticle-content-middle">
+                                                <p>Unique Code: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['unique_code'].value ? ngForm.controls['generateSampleSlipData']['controls'][i].controls['unique_code'].value:'NA'"></b><br>
+                                                    Sample No: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['sample_no'].value ? ngForm.controls['generateSampleSlipData']['controls'][i].controls['sample_no'].value:'NA'"></b><br>
+                                                    Testing Lab: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['m_seed_test_laboratory'].value ? ngForm.controls['generateSampleSlipData']['controls'][i].controls['m_seed_test_laboratory'].value:'NA'"></b><br>
+                                                    Consignment No: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['consignment_no'].value ? ngForm.controls['generateSampleSlipData']['controls'][i].controls['consignment_no'].value:'NA'"></b><br>
+                                                        <span
+                                                        *ngIf="ngForm.controls['generateSampleSlipData']['controls'][i].controls['status'].value"
+                                                        style="color: #DC8B34 ;font-size: 16px;">{{ngForm.controls['generateSampleSlipData']['controls'][i].controls['status'].value
+                                                        ?
+                                                        ((ngForm.controls['generateSampleSlipData']['controls'][i].controls['status'].value=='re-sample'?ngForm.controls['generateSampleSlipData']['controls'][i].controls['status'].value:'') | uppercase) :'NA'}}</span>
+                                                </p>
+                                            </td>
+
+                                            <td scope="col" class="col-md-2 py-2 verticle-content-middle ">
+                                                <!-- <div class=" col-md-12  pl-2 ">
+                                                    <span
+                                                        *ngFor="let testsData of ngForm.controls['generateSampleSlipData']['controls'][i].controls['tests'].value">
+                                                        {{testsData && testsData.lab_test_name ?
+                                                        testsData.lab_test_name:""}},
+                                                    </span>
+                                                </div> -->
+                                                <div class="col-md-12 pl-2">
+                                                    <span *ngIf="ngForm.controls['generateSampleSlipData']['controls'][i].controls['unique_code'].value">
+                                                        <!-- {{ngForm.controls['generateSampleSlipData']['controls'][i].controls['tests'].value}} -->
+                                                      {{ ngForm.controls['generateSampleSlipData']['controls'][i].controls['tests'].value ? getFormattedTests(ngForm.controls['generateSampleSlipData']['controls'][i].controls['tests'].value):'' }}
+                                                    </span>
+                                                </div>
+                                                  
+                                            </td>
+                                            <td scope="col" class="col-md-2 py-2 verticle-content-middle">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-12 col-lg-12">
+                                                        {{ngForm.controls['generateSampleSlipData']['controls'][i].controls['chemical_treatment1'].value}}
+                                                        <div
+                                                            *ngIf="ngForm.controls['generateSampleSlipData']['controls'][i].controls['chemical_treatment1'].value === 'Yes'">
+                                                            {{ngForm.controls['generateSampleSlipData']['controls'][i].controls['chemical_treatment'].value}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+ 
+
+                                            <td scope="col" class="col-md-1 py-2">
+                                                <div class="form-check verticle-content-middle">
+                                                    <!-- Checkbox input -->
+                                                    <input class="form-check-input" type="checkbox" id="checkboxOption"
+                                                           formControlName="choose_sample"
+                                                           (change)="onCheckboxChange($event)">
+                                                    <label class="form-check-label" for="checkboxOption"></label>
+                                                    
+                                                    <!-- Conditional Button -->
+                                                    <button type="button"
+                                                            id="reprint"
+                                                            *ngIf="ngForm.controls['generateSampleSlipData']['controls'][i].controls['unique_code_new'].value"
+                                                            class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1"
+                                                            (click)="downloadSingleRowData(data)" style="width:180px !important">
+                                                        Reprint slip
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+
+                            <div *ngIf="generateSampleSlipData.controls.length < 1" class="px-2 py-3 w-100"
+                                style="height: 50px;">
+                                <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                    No Data Found.
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row data-row p-0 " *ngIf="this.selectedTable === 'table2' && ngForm.controls['gotbsp'].value">
+                            <table
+                                class="table border-top-0   col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12 pl-0 pr-0 m-0 ">
+                                <thead class=" w-100 pl-0 table-bordered">
+                                    <tr class="data-row-header">
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white verticle-content-middle heading">S.No</th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading">Variety
+                                        </th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading">Lot
+                                            Details </th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading">Sample
+                                            Details</th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading">
+                                            Select Tests</th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading">
+                                            Chemical Treatment</th>
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white  verticle-content-middle heading">Choose
+                                            Samples</th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="border-top-0 table-bordered col-md-1 py-2 text-white  verticle-content-middle heading data-row"
+                                    formArrayName="generateSampleSlipData">
+                                    <ng-container *ngFor="let employee of generateSampleSlipData.controls; let i=index">
+                                        <tr [formGroupName]="i">
+                                            <td scope="col" class="col-md-1 py-2">
+                                                <p class="  verticle-content-middle">{{i+1}}</p>
+                                            </td>
+                                            <td scope="col" class="col-md-2 py-2 verticle-content-middle"> <p>{{ngForm.controls['generateSampleSlipData']['controls'][i].controls['variety_name'].value}}
+                                            </p>
+                                            <p
+                                                *ngIf="ngForm.controls['generateSampleSlipData']['controls'][i].controls['variety_code_line_name'].value">
+                                                Parental Line
+                                                :{{ngForm.controls['generateSampleSlipData']['controls'][i].controls['variety_code_line_name'].value
+                                                ?
+                                                ngForm.controls['generateSampleSlipData']['controls'][i].controls['variety_code_line_name'].value:"NA"}}
+                                            </p></td>
+                                            <td scope="col" class="col-md-2 py-2">
+                                                <p>Lot No: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['lot_no'].value ? ngForm.controls['generateSampleSlipData']['controls'][i].controls['lot_no'].value:'NA'"></b><br>
+                                                    Class of Seed: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['class_of_seed'].value"></b><br>
+                                                    Godown No.: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['godown_no'].value ?ngForm.controls['generateSampleSlipData']['controls'][i].controls['godown_no'].value : 'NA'"></b><br>
+                                                    Stack No.: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['stack_no'].value ? ngForm.controls['generateSampleSlipData']['controls'][i].controls['stack_no'].value :'NA' "></b><br>
+                                                    No. Of Bags: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['no_of_bags'].value"></b>
+                                                </p>
+                                            </td>
+                                            <td scope="col" class="col-md-2 text-start py-2">
+                                                <p>Unique Code: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['unique_code'].value"></b><br>
+                                                    Sample No: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['sample_no'].value"></b><br>
+                                                    Consignment No: <b class="font-weight-bold"
+                                                        [innerText]="ngForm.controls['generateSampleSlipData']['controls'][i].controls['consignment_no'].value ? ngForm.controls['generateSampleSlipData']['controls'][i].controls['consignment_no'].value:'NA'"></b><br>
+                                                   
+                                                    Centre: {{this.ngForm.controls['generateSampleSlipData']['controls'][i].controls['selectagency'].value}}
+                                                   
+                                                </p>
+                                            </td>
+                                            <td scope="col" class="col-md-2 py-2">
+                                                <div class=" col-md-12  pl-2 ">
+                                                    <input type="text" class="text-center form-control input-inventory"
+                                                        formControlName="testing_lab" placeholder="Grow-out Test"
+                                                        [disabled]="true">
+                                                </div>
+                                            </td>
+                                            <td scope="col" class="col-md-2 py-2">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-12 col-lg-12">
+                                                        {{ngForm.controls['generateSampleSlipData']['controls'][i].controls['chemical_treatment1'].value}}
+                                                        <div
+                                                            *ngIf="ngForm.controls['generateSampleSlipData']['controls'][i].controls['chemical_treatment1'].value === 'Yes'">
+                                                            {{ngForm.controls['generateSampleSlipData']['controls'][i].controls['chemical_treatment'].value}}
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="col-12 col-md-12 col-lg-12  ">
+                                                        <select class=" form-control input-inventory"
+                                                            [(ngModel)]="selectedTreatment2"
+                                                            formControlName="chemical_treatment">
+                                                            <option value="">Select</option>
+                                                            <option *ngFor="let data of treatment1"
+                                                                value="{{data && data.treatment1 ? data.treatment1 :''}}">
+                                                                {{data && data.treatment1 ? data.treatment1 :''}}
+                                                            </option>
+                                                        </select>
+
+                                                        <div *ngIf="selectedTreatment2 == 'Yes'">
+                                                            <input type="text" class="form-control input-inventory mt-2"
+                                                                placeholder="Enter chemical name"
+                                                                formControlName="chemical_treatment">
+                                                        </div>
+                                                    </div> -->
+                                                </div>
+                                            </td>
+
+                                            <td scope="col" class="col-md-1 py-2 ">
+                                                <div class="form-check verticle-content-middle">
+                                                    <!-- <input class="form-check-input" type="checkbox" id="checkboxOption"
+                                                        (change)="onCheckboxChange($event)">
+                                                    <label class="form-check-label" for="checkboxOption"></label> -->
+                                                    <input class="form-check-input" type="checkbox" id="checkboxOption"
+                                                    formControlName="choose_sample"
+                                                    (change)="onCheckboxChange($event)">
+                                             <label class="form-check-label" for="checkboxOption"></label>
+                                             
+                                             <!-- Conditional Button -->
+                                             <button type="button"
+                                                     id="reprint"
+                                                     *ngIf="ngForm.controls['generateSampleSlipData']['controls'][i].controls['unique_code_new'].value"
+                                                     class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1"
+                                                      style="width:180px !important" (click)="downloadSingleRowData(employee)">
+                                                 Reprint slip
+                                             </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+
+                                </tbody>
+                            </table>
+                            <div *ngIf="generateSampleSlipData.controls.length < 1" class="px-2 py-3 w-100"
+                                style="height: 50px;">
+                                <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                    No Data Found.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-10 col-lg-10 col-sm-12 formargin pt-1">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <button (click)="generateSampleForwardingSlip()"
+                                            class="w-100 form-button bot search d-inline-flex justify-content-center align-items-center verticle-content-middle btn-inventory mr-3 mt-3 mb-4 pt-2"
+                                            *ngIf="(selectedTable === 'table1' || selectedTable === 'table2') && checkboxChecked">
+                                            <p style="margin: 0; padding: 0;" class="pb-2">Generate Forwarding Letter
+                                            </p>
+                                        </button>
+                                        <!-- <button class="w-100 form-button bot  search d-inline-flex justify-content-center verticle-content-middle btn-inventory mt-3 mb-4">
+                                            Generate Forwarding Letter
+                                        </button> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

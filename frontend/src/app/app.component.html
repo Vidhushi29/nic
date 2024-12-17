@@ -1,0 +1,38 @@
+<!-- <div [hidden]="url == 'web-login'"> -->
+<!-- <div [hidden]="url == 'login-home' || url == 'web-login'" class="header-wrapper">
+  <app-header></app-header>
+</div>
+
+<div [hidden]="url == 'login-home' || url == 'web-login'" class="collaps-btn">
+  <button class="toggle-sidebar" (click)="showSidebar = !showSidebar">
+    <i *ngIf="showSidebar" class="fas fa-times-circle"></i>
+    <i *ngIf="!showSidebar" class="fas fa-bars"></i>
+  </button>
+</div>
+
+<div [hidden]="url == 'login-home' || url == 'web-login'" class="sidebar-wrapper" [ngClass]="!showSidebar ? 'sidebar-wrapper-hidden-small-screen': ''">
+  <app-sidebar></app-sidebar>
+</div>
+
+<div class="content-wrapper" id="sidebar-content-wrapper">
+  <router-outlet></router-outlet>
+  <br>
+  <br>
+  <div [hidden]="url == 'login-home' || url == 'web-login'" class="footer-wrapper">
+    <app-footer class="footer"></app-footer>
+  </div>
+</div> -->
+<ngx-ui-loader
+fgsColor="#f8f8f800"
+pbColor="#E97E15"
+logoUrl="assets/images/laoder.transparent.gif"
+></ngx-ui-loader>
+<router-outlet>
+  <!-- <span *ngIf="showLoader" class="loading"></span> -->
+</router-outlet>
+
+
+<!-- </div> -->
+<!-- <div [hidden]="url != 'web-login'"> -->
+    <!-- <router-outlet></router-outlet> -->
+<!-- </div> -->

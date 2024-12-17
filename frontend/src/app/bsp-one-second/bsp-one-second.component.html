@@ -1,0 +1,565 @@
+<form [formGroup]="ngForm">
+    <div class="main-inventory my-4 w-90 py-1">
+        <span class="title-inventory pt-1">
+            Composition of Monitoring Team
+        </span>
+        <div class="row">
+            <!-- first card ui -->
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row card-inventory form-group">
+                    <!-- start sectio 1 -->
+                    <div class="col-md-11 col-lg-11 col-sm-11 col-xl-11 pt-1">
+                        <div class="row">
+                            <!-- year of indent -->
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-3 col-sm-6">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                        <label for="year" class="label-inventorys required">Year of Indent</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                        <select class=" form-control input-inventory" formControlName="year">
+                                            <option value="">Please Select Year</option>
+                                            <option *ngFor="let year of inventoryYearData" value="{{year.year}}">{{year
+                                                && year.year}}-{{(year.year-2000)+1}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- season -->
+                            <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label for="year" class="label-inventorys required">Season</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <select class=" form-control input-inventory" formControlName="season">
+                                            <option value="">Please Select Season</option>
+                                            <option *ngFor="let data of inventorySeasonData"
+                                                value="{{data && data.season_code ? data.season_code:''}}">{{data &&
+                                                data.season_code && (data.season_code=='K')? 'Kharif'
+                                                :(data.season_code=='R')?'Rabi':'NA'}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- crop -->
+                            <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label for="year" class="label-inventorys required">Crop</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <div ngbDropdown class="d-inline-block w-100 ">
+                                            <button class="btn takeplacholder w-100 crop toggle-button" id="crop"
+                                                ngbDropdownToggle style="text-align: left;">{{selectedCrop2 &&
+                                                (selectedCrop2.length>20) ?
+                                                (selectedCrop2.substring(0,20)+'...'):selectedCrop2? selectedCrop2
+                                                :'Select Crop'}}</button>
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="crop"
+                                                aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4"
+                                                    formControlName="crop_text">
+                                                <button class="dropdown-item" *ngFor="let data of inventoryCropData"
+                                                    (click)="crop(data)" #dropdownItem [attr.data-parent-name]="'crop'">
+                                                    {{data && data.crop_name ? data.crop_name:''}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown>
+                                            <i class="fa-solid fa-angle-down downicon" (click)="cClick()"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label for="year" class="label-inventorys required">State</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <div ngbDropdown class="d-inline-block w-100 ">
+                                            <button class="btn takeplacholder w-100 crop toggle-button" id="state"
+                                                ngbDropdownToggle
+                                                style="text-align: left;font-weight:400;">{{selected_state &&
+                                                (selected_state.length>30) ?
+                                                (selected_state.substring(0,30)+'...'):selected_state?
+                                                selected_state :'Select State'}}</button>
+
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="state"
+                                                aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4"
+                                                    formControlName="state_text">
+                                                <button class="dropdown-item" *ngFor="let data of stateList"
+                                                    (click)="state_select(data)" #dropdownItem
+                                                    [attr.data-parent-name]="'state'">
+                                                    {{data && data.state_name ? data.state_name :''}}
+                                                    <!-- <input type="hidden" formControlName="crop_code"> -->
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown>
+                                            <i class="fa-solid fa-angle-down downicon" (click)="csClick()"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-1 pl-lg-0 col-md-6 col-12 pt-4 mt-2">
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                <button (click)="search(null)"
+                                    class="w-100 py-2 text-white btn-inventory bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-2" *ngIf="isCrop">
+                <div class="card-inventory form-group ">
+                    <div class="row ">
+                        <div class="col-12 col-xl-12 pb-3">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-lg-12">
+                                    <span class="label-inventorys required">Select Team</span>
+                                </div>
+                                <div class="col-xl-3 col-md-6 col-sm-12 col-lg-6 ">
+                                    <!-- <input type="text" class="form-control w-100" placeholder="Enter Team Name"
+                                        formControlName="team_name"> -->
+                                    <select class="form-control w-100" formControlName="team_name">
+                                        <option value="">Please Select</option>
+                                        <option value="other">Create New Team</option>
+                                        <option *ngFor="let data of monitoringTeamName"
+                                            value="{{data && data.id ? data.id:(data && data.name?data.name:'')}}">{{
+                                            data &&
+                                            data.name ? data.name:''}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-xl-9 col-md-9 col-sm-12 col-lg-9 ">
+                                    <div class="col-12 col-md-12 col-lg-12">
+                                        <div class="row px-2 pt-2">
+                                            <div class="col-12 col-md-8 col-lg-8 col-sm-12" *ngIf="is_radioBtn">
+                                                <div class="row">
+                                                    <!--[ngClass]="(ngForm.controls['breeder_avail_qnt'].value==0 && ngForm.controls['nucleus_avail_qnt'].value==0) ?'radio-disabled':''"-->
+                                                    <div class="col-md-2 col-sm-6 col-md-2 col-lg-4 mb-2 mb-md-0">
+                                                        <div class="form-check">
+                                                            <input #input
+                                                                class="radio-button form-check-input radio-btn"
+                                                                name="notifiedValue" type="radio"
+                                                                formControlName="is_developed"
+                                                                (change)="notifiedvalue('yes')" id="flexRadioDefault1"
+                                                                value="yes"
+                                                                [checked]="ngForm.controls['is_developed'].value =='yes'">
+                                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                                Use same Team
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <!-- [(ngModel)]="notifiedValue" -->
+                                                    <!-- checked -->
+                                                    <div class="col-md-2 col-sm-6 col-md-2 col-lg-4">
+                                                        <div class="form-check">
+                                                            <input class="radio-button form-check-input radio-btn"
+                                                                name="notifiedValue" type="radio"
+                                                                formControlName="is_developed"
+                                                                (change)="notifiedvalue('no')" id="flexRadioDefault2"
+                                                                value="no"
+                                                                [checked]="ngForm.controls['is_developed'].value =='no'">
+                                                            <label class="form-check-label" for="flexRadioDefault2">
+                                                                Modify Team
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-12 px-3" formArrayName="bsp1Arr" *ngIf="isVisible">
+
+                            <ng-container *ngFor="let ele of getItems(ngForm); let i = index" [formGroupName]="i">
+                                <div class="row card-monitoring form-group mx-1"
+                                    [ngClass]="(ngForm.controls['is_developed'].value =='yes'?'disabledFiled':'')">
+                                    <div
+                                        [ngClass]="itemsArray.length!=1 ?'col-xl-11 col-lg-11 col-md-11 col-12 pt-3' :'col-xl-11 col-lg-11 col-md-11 col-12 pt-3'">
+
+                                        <div class="row">
+                                            <div class="col-12 col-md-4 col-lg-4 col-xl-3 col-sm-6">
+                                                <div class="row pb-2">
+                                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                        <label for="year" class="label-inventorys required">Type of
+                                                            Agency</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                        <div ngbDropdown class="d-inline-block w-100 "
+                                                            [ngClass]="(ngForm.controls['is_developed'].value =='yes'?'disabledFiled':'')">
+                                                            <button class="btn takeplacholder w-100 crop toggle-button"
+                                                                [disabled]="(ngForm.controls['is_developed'].value =='yes')"
+                                                                [id]="'agency' + i" ngbDropdownToggle
+                                                                style="text-align: left;font-weight:400;">{{ngForm.controls['bsp1Arr']['controls'][i].controls['type_of_agency']
+                                                                &&
+                                                                ngForm.controls['bsp1Arr']['controls'][i].controls['type_of_agency'].value
+                                                                &&
+                                                                ngForm.controls['bsp1Arr']['controls'][i].controls['type_of_agency'].value.agency_name
+                                                                &&
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['type_of_agency'].value.agency_name.length>20)?
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['type_of_agency'].value.agency_name.substring(0,20)+'...'):
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['type_of_agency'].value.agency_name)
+                                                                &&
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['type_of_agency'].value.agency_name)?
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['type_of_agency'].value.agency_name)
+                                                                :selectAgency? selectAgency: 'Select Type of
+                                                                Agency'}}</button>
+                                                            <div class="dropdown-menu w-100" ngbDropdownMenu="agency"
+                                                                aria-labelledby="sortMenu">
+                                                                <input type="text" class="form-control px-4"
+                                                                    formControlName="agency_text_nested"
+                                                                    (ngModelChange)="filterNestedAgencyName($event,i)">
+                                                                <button class="dropdown-item"
+                                                                    [disabled]="ngForm.controls['is_developed'].value =='yes'"
+                                                                    *ngFor="let data of ngForm.controls['bsp1Arr']['controls'][i]['controls'].type_of_agency.agencylist"
+                                                                    (click)="agncyData(data,i)" #dropdownItem
+                                                                    [attr.data-parent-name]="'agency'">
+                                                                    {{data && data.name ? data.name :''}}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="pl-0 toggle-button" ngbDropdown>
+                                                            <i class="fa-solid fa-angle-down downicon"
+                                                                (click)="csagencyClick(i)"></i>
+                                                        </div>
+                                                        <!-- <select class=" form-control input-inventory"
+                                                            [ngClass]="(ngForm.controls['is_developed'].value =='yes'?'disabledFiled':'')"
+                                                            formControlName="type_of_agency">
+                                                            <option value="">Please Select Type of Agency</option>
+                                                            <option *ngFor="let data of agencylist" value="{{data
+                                                                && data.id ? data.id :''}}">{{data
+                                                                && data.name ? data.name :''}}</option>
+                                                        </select> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4 col-lg-4 col-xl-3 col-sm-6">
+                                                <div class="row pb-2">
+                                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                        <label for="year"
+                                                            class="label-inventorys required">Designation</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                        <!-- <select class=" form-control input-inventory"
+                                                        (ngModelChange)="getStatelistSecond(i)"
+                                                            formControlName="designation"
+                                                            [ngClass]="(ngForm.controls['is_developed'].value =='yes'?'disabledFiled':'')">
+                                                            <option value="">Please Select Designation</option>
+                                                            <option *ngFor="let data of designationList" value="{{data
+                                                                && data.id ? data.id :''}}">{{data
+                                                                && data.name ? (data.name | titlecase) :''}}</option>
+                                                        </select> -->
+                                                        <div ngbDropdown class="d-inline-block w-100 "
+                                                            [ngClass]="(ngForm.controls['is_developed'].value =='yes'?'disabledFiled':'')">
+                                                            <button class="btn takeplacholder w-100 crop toggle-button"
+                                                                [disabled]="(ngForm.controls['is_developed'].value =='yes')"
+                                                                [id]="'designation' + i" ngbDropdownToggle
+                                                                style="text-align: left;font-weight:400;">
+                                                                {{ngForm.controls['bsp1Arr']['controls'][i].controls['designation']
+                                                                &&
+                                                                ngForm.controls['bsp1Arr']['controls'][i].controls['designation'].value
+                                                                &&
+                                                                ngForm.controls['bsp1Arr']['controls'][i].controls['designation'].value.designation_name
+                                                                &&
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['designation'].value.designation_name.length>20)?
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['designation'].value.designation_name.substring(0,20)+'...'):
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['designation'].value)
+                                                                &&
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['designation'].value.designation_name)?
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['designation'].value.designation_name)
+                                                                :selectState? selectState: 'Select
+                                                                Designation'}}</button>
+                                                            <div class="dropdown-menu w-100"
+                                                                ngbDropdownMenu="designation"
+                                                                aria-labelledby="sortMenu">
+                                                                <input type="text" class="form-control px-4"
+                                                                    formControlName="designation_text_nested"
+                                                                    (ngModelChange)="filterNestedDesignationName($event,i)">
+                                                                <button class="dropdown-item"
+                                                                    [disabled]="ngForm.controls['is_developed'].value =='yes'"
+                                                                    *ngFor="let data of ngForm.controls['bsp1Arr']['controls'][i]['controls'].designation.designationList"
+                                                                    (click)="desigationData(data,i)" #dropdownItem
+                                                                    [attr.data-parent-name]="'designation'">
+                                                                    {{data && data.name ? data.name :''}}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="pl-0 toggle-button" ngbDropdown>
+                                                            <i class="fa-solid fa-angle-down downicon"
+                                                                (click)="csdesignationClick(i)"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4 col-lg-4 col-xl-3 col-sm-6">
+                                                <div class="row pb-2">
+                                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                        <label for="year"
+                                                            class="label-inventorys required">State</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                        <div ngbDropdown class="d-inline-block w-100 "
+                                                            [ngClass]="(ngForm.controls['is_developed'].value =='yes'?'disabledFiled':'')">
+                                                            <button class="btn takeplacholder w-100 crop toggle-button"
+                                                                [disabled]="(ngForm.controls['is_developed'].value =='yes')"
+                                                                [id]="'states' + i" ngbDropdownToggle
+                                                                style="text-align: left;font-weight:400;">{{ngForm.controls['bsp1Arr']['controls'][i].controls['state']
+                                                                &&
+                                                                ngForm.controls['bsp1Arr']['controls'][i].controls['state'].value
+                                                                &&
+                                                                ngForm.controls['bsp1Arr']['controls'][i].controls['state'].value.state_name
+                                                                &&
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['state'].value.state_name.length>20)?
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['state'].value.state_name.substring(0,20)+'...'):
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['state'].value)
+                                                                &&
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['state'].value.state_name)?
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['state'].value.state_name)
+                                                                :selectState? selectState: 'Select State'}}</button>
+                                                            <div class="dropdown-menu w-100" ngbDropdownMenu="states"
+                                                                aria-labelledby="sortMenu">
+                                                                <input type="text" class="form-control px-4"
+                                                                    formControlName="state_text_nested"
+                                                                    (ngModelChange)="filterNestedStateName($event,i)">
+                                                                <button class="dropdown-item"
+                                                                    [disabled]="ngForm.controls['is_developed'].value =='yes'"
+                                                                    *ngFor="let data of ngForm.controls['bsp1Arr']['controls'][i]['controls'].state.stateList"
+                                                                    (click)="stateData(data,i,$event)" #dropdownItem
+                                                                    [attr.data-parent-name]="'states'">
+                                                                    {{data && data.state_name ? data.state_name :''}}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="pl-0 toggle-button" ngbDropdown>
+                                                            <i class="fa-solid fa-angle-down downicon"
+                                                                (click)="csStateClick(i)"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4 col-lg-4 col-xl-3 col-sm-6">
+                                                <div class="row pb-2">
+                                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                        <label for="year"
+                                                            class="label-inventorys">District</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                        <div ngbDropdown class="d-inline-block w-100 toggle-button"
+                                                            [ngClass]="(ngForm.controls['is_developed'].value =='yes'?'disabledFiled':'')"
+                                                            style="text-align: left;">
+                                                            <button class="btn takeplacholder w-100 crop toggle-button "
+                                                                [disabled]="(ngForm.controls['is_developed'].value =='yes')"
+                                                                [ngClass]="(ngForm.controls['is_developed'].value =='yes'?'disabledFiled':'')"
+                                                                [id]="'variety_name' + i" ngbDropdownToggle
+                                                                style="text-align: left;">
+                                                                {{ngForm.controls['bsp1Arr']['controls'][i].controls['district'].value
+                                                                &&
+                                                                ngForm.controls['bsp1Arr']['controls'][i].controls['district'].value.district_name
+                                                                &&
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['district'].value.district_name.length>20)?
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['district'].value.district_name.substring(0,20)+'...'):
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['district'].value)
+                                                                &&
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['district'].value.district_name)?
+                                                                (ngForm.controls['bsp1Arr']['controls'][i].controls['district'].value.district_name)
+                                                                :varietyNames? varietyNames: 'Select District'}}
+                                                            </button>
+
+                                                            <div class="dropdown-menu w-100"
+                                                                ngbDropdownMenu="variety_name"
+                                                                aria-labelledby="sortMenu">
+                                                                <input type="text" class="form-control px-4"
+                                                                    formControlName="district_text"
+                                                                    (ngModelChange)="filterDistrictName($event,i)">
+                                                                <button class="dropdown-item"
+                                                                    *ngFor="let data of ngForm.controls['bsp1Arr']['controls'][i]['controls'].district.distictList"
+                                                                    (click)="VarieyName(data,i,$event)" #dropdownItem
+                                                                    [attr.data-parent-name]="'cropName'">
+                                                                    {{data && data.district_name ? data.district_name
+                                                                    :'' }}
+                                                                    <input type="hidden">
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                                <i class="fa-solid fa-angle-down downicon"
+                                                                    (click)="cvClick(i)"></i>
+                                                            </div>
+                                                        </div>
+                                                        <!-- <div class="pl-0 toggle-button" ngbDropdown
+                                                        >
+                                                        <i class="fa-solid fa-angle-down downicon" (click)="csStateClick(i)"></i>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- *ngIf="isAddModre" -->
+                                    <div *ngIf="isAddModre"
+                                        [ngClass]="itemsArray.length!=1 ?'col-xl-1 col-lg-1 col-md-1 col-12 pt-4' :'col-xl-1 col-lg-1 col-md-1 col-12 pt-4'">
+                                        <div class="row">
+                                            <div class="col-xl-6 col-lg-6 pl-0 mt-lg-6 col-md-6 pt-3 col-12"
+                                                *ngIf="itemsArray.length==i+1">
+
+                                                <button class="list-action-buttons-second ml-lg-3  mt-md-2 "
+                                                    style="cursor: pointer;" (click)="addMore(i)">
+                                                    <img src="assets/images/Add.png">
+                                                </button>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 pl-md-0 pl-xl-6 mt-lg-6 col-md-6 pt-3 col-12"
+                                                *ngIf="itemsArray.length!=1">
+                                                <button class="list-action-buttons-second ml-lg-3 mt-md-2 "
+                                                    style="cursor: pointer;" (click)="remove(i)">
+                                                    <img src="assets/images/delete.png">
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <div class="col-8 pt-3 pb-2 buttons-phone">
+                                <div class="row">
+                                    <div class="col-xl-2 col-md-6 col-12">
+                                        <button style="border: 2px solid #B64B1D;" (click)="cancel()"
+                                            class=" search btn-inventory-cancel w-100 py-xl-2 py-md-2 py-sm-2 py-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Cancel</button>
+                                    </div>
+                                    <div class="col-xl-2 pl-lg-0 col-md-6 col-12">
+                                        <button (click)="save(ngForm.value)"
+                                            class="w-100 py-2 text-white btn-inventory bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3">{{editMode
+                                            ? 'Update':'Save'}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- third card ui -->
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1" *ngIf="showTab">
+                <div class="row card-inventory form-group pb-4">
+                    <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12">
+                        <div class="row">
+                            <div class="col-12 col-xl-12">
+                                <div class="row data-row table-responsive">
+
+                                    <table class="table table-bordered table-responsive-sm table-responsive-lg pt-3">
+                                        <thead class="data-row-header">
+                                            <tr class="table-header">
+                                                <th scope="col" style="color: white;font-size: 16px;font-weight: 700;">
+                                                    Year</th>
+                                                <th scope="col" style="color: white;font-size: 16px;font-weight: 700;">
+                                                    Season
+                                                </th>
+                                                <th scope="col" style="color: white;font-size: 16px;font-weight: 700;">
+                                                    Crop</th>
+                                                <th scope="col" style="color: white;font-size: 16px;font-weight: 700;">
+                                                    State</th>
+                                                <th scope="col" style="color: white;font-size: 16px;font-weight: 700;">
+                                                    Team Name
+                                                </th>
+                                                <th scope="col" style="color: white;font-size: 16px;font-weight: 700;">
+                                                    Designation</th>
+                                                <th scope="col" style="color: white;font-size: 16px;font-weight: 700;">
+                                                    Type of
+                                                    Agency</th>
+                                                <th scope="col" style="color: white;font-size: 16px;font-weight: 700;">
+                                                    State</th>
+                                                <th scope="col" style="color: white;font-size: 16px;font-weight: 700;">
+                                                    District
+                                                </th>
+                                                <th scope="col" style="color: white;font-size: 16px;font-weight: 700;">
+                                                    Action
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <ng-container *ngFor="let item of datatodisplay;let dataIndex=index">
+                                                <ng-container *ngFor="let val of item.bsp1Arr;let bsp1Index=index">
+                                                    <tr>
+                                                        <td *ngIf="bsp1Index == 0" [attr.rowspan]="item.totalbsp1">
+                                                            {{item && item.year ? getFinancialYear(item.year) :'Na'}}
+                                                        </td>
+                                                        <td *ngIf="bsp1Index == 0" [attr.rowspan]="item.totalbsp1">
+                                                            {{item && item.season && (item.season=='K')? 'Kharif'
+                                                            :(item.season=='R')?'Rabi':'NA'}}</td>
+                                                        <td *ngIf="bsp1Index == 0" [attr.rowspan]="item.totalbsp1"
+                                                            title="{{item && item.crop ? getCrop(item.crop):''}}">
+                                                            {{item && item.crop ? (getCrop(item.crop).length>20 ?
+                                                            getCrop(item.crop).substring(0,20)+'...':getCrop(item.crop))
+                                                            :'Na'}}</td>
+                                                        <td *ngIf="bsp1Index == 0" [attr.rowspan]="item.totalbsp1">
+                                                            {{item && item.state_id ? getStateList(item.state_id)
+                                                            :'Na'}}</td>
+                                                        <td *ngIf="bsp1Index == 0" [attr.rowspan]="item.totalbsp1">
+                                                            {{item && item.name ? (item.name) :'Na'}}</td>
+                                                        <td>{{val && val.desination_id ?
+                                                            getDesignation(val.desination_id) :'Na'}}</td>
+                                                        <td>{{val && val.agency_name ? (val.agency_name) :'NA'}}</td>
+                                                        <!-- <td>{{val && val.type_of_agency ? getAgencyDataForlist(val.type_of_agency):'NA'}}</td> -->
+                                                        <td>{{val && val.state_name ? (val.state_name) :'Na'}}</td>
+                                                        <td>{{val && val.district_name ? val.district_name:'Na'}}</td>
+                                                        <td *ngIf="bsp1Index == 0" [attr.rowspan]="item.totalbsp1">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <button class="list-action-buttons-second" style=""
+                                                                        [ngClass]="is_update?'action-disabled':'action-enable'"
+                                                                        (click)="getData(item.id,'editMode')"
+                                                                        [disabled]="is_update">
+                                                                        <img src="assets/images/Vector.svg">
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <button
+                                                                        class="list-action-buttons-second  "
+                                                                        [ngClass]="is_update?'action-disabled':'action-enable'"
+                                                                        (click)="delete(item.id)"
+                                                                        [disabled]="is_update">
+                                                                        <img src="assets/images/Vector_delete.svg">
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+                                            </ng-container>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="datatodisplay && datatodisplay.length<1" class="px-2 py-3 w-100"
+                            style="height: 50px;">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data Found.
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div *ngIf="!isSearch" class="col-12 col-md-12 col-lg-12 px-4 px-md-3 py-1 pb-4 pr-0">
+                        <app-pagination-ui></app-pagination-ui>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

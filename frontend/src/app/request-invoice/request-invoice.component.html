@@ -1,0 +1,448 @@
+<form [formGroup]="ngForm" class="pt-2">
+    <div class="main-inventory my-4 w-90  pt-2">
+        <span class="title-inventory pt-3 ">
+           Request Invoice and Make Payment
+        </span>
+        <!-- first card ui -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-2">
+            <div class="row card-inventory form-group">
+                <!-- start sectio 1 -->
+                <div class="col-12 col-md-10 col-lg-10 col-sm-12 pt-1 pl-3">
+                    <div class="row">
+                        <!-- year of indent -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Year of Indent</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="year">
+                                        <option value="">Select Year</option>
+                                        <option *ngFor="let data of yearOfIndent"
+                                            value="{{data && data.value ? data.value :''}}">
+                                            {{data && data.year ? data.year :''}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- season -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Season</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="season">
+                                        <option value="">Select Season</option>
+                                        <option *ngFor="let data of seasonlist "
+                                            value="{{data && data.season ? data.season :''}}"> {{data && data.season ?
+                                            data.season :''}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- crop -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Crop</label>
+                                </div>
+                                <div class="col-md-12 px-2">
+                                    <div ngbDropdown class="d-inline-block w-100 ">
+                                        <button
+                                            class="btn takeplacholder w-100 crop toggle-button input-inventory form-control"
+                                            id="crop_group" ngbDropdownToggle style="text-align: left;">{{selectCrop
+                                            &&
+                                            (selectCrop.length>30) ?
+                                            (selectCrop.substring(0,30)+'...'):selectCrop? selectCrop
+                                            :'Select Crop '}}
+                                        </button>
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group"
+                                            aria-labelledby="sortMenu">
+                                            <input type="text" class="form-control px-4" formControlName="crop_text"
+                                                (click)="cropdatatext()">
+                                            <button class="dropdown-item" *ngFor="let data of cropName"
+                                                (click)="cropNameValue(data)" #dropdownItem
+                                                [attr.data-parent-name]="'crop_group'">
+                                                {{data && data.crop_name ? data.crop_name :''}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-2 col-xl-2 col-sm-12 col-12 pt-4 mt-2">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-xl-12 col-lg-12 pr-2">
+                            <button
+                                class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  second Card ui -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12  pt-3 pr-0" *ngIf="visibleForm">
+            <div class="row card-inventory pb-2 pl-0">
+                <!-- <div class="row data-row "> -->
+                <div class="col-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <table class="table data-row">
+                        <thead class="w-100">
+                            <tr class="data-row-header">
+                                <th class="col-md-1 py-3 px-2 text-white vertical-align-center heading">Bag Weight (kg)
+                                </th>
+                                <th class="col-md-1 py-3 px-2 text-white vertical-align-center heading">No. of Bags
+                                    Available
+                                </th>
+                                <th class="col-md-2 py-3 px-3 text-white vertical-align-center heading">Quantity of
+                                    Breeder
+                                    Seed Available(Qt)
+                                </th>
+                                <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">No. of Bags to
+                                    be
+                                    kept for SPA
+                                </th>
+                                <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">Total Quantity
+                                    of
+                                    Breeder Seed to be kept for SPA (Qt)
+                                </th>
+                                <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">Per Unit MRP (in
+                                    Rupees)
+                                </th>
+                                <th class="col-md-2 py-3 px-3 text-white vertical-align-center heading">Total Ammount
+                                    for
+                                    each bag weight (in Rupees)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="py-2 text-white table-bordered heading data-row">
+                            <ng-container *ngFor="let data of bspc.controls; let i=index">
+                                <ng-container [formGroupName]="i" class="row data-row2 px-3">
+                                    <tr>
+                                        <td>{{ngForm.controls['bspc']['controls'][i].controls['bag_weight'].value}}</td>
+                                        <td>{{ngForm.controls['bspc']['controls'][i].controls['nog_of_bag'].value}}</td>
+                                        <td>{{ngForm.controls['bspc']['controls'][i].controls['qnt_of_breeder_seed'].value}}</td>
+                                        <td><input type="number" class="form-control" formControlName="no_of_bag" (change)="sumValue($event,i)"></td>
+                                        <td>{{ngForm.controls['bspc']['controls'][i].controls['total_qnt_of_breeder_seed_spa'].value}}</td>
+                                        <td>{{ngForm.controls['bspc']['controls'][i].controls['per_unit_mrp'].value}}</td>
+                                        <td>
+                                            {{ngForm.controls['bspc']['controls'][i].controls['total_amount'].value}}
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </ng-container>
+                            <!-- <ng-container *ngFor="let data of generateInvoice;let i=index">
+                               
+                                
+                            </ng-container> -->
+                            <tr class="row-color">
+                                <th colspan="6"class="text-white">Grand Total</th>
+                                <th class="text-white">{{ngForm.controls['grand_total_amt'].value ? ngForm.controls['grand_total_amt'].value:0}}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="col-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 pt-1">
+                    <!-- <div class="row"> -->
+                        <!-- <div class="col-12 col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                        </div> -->
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                            </div>
+
+                            <div class="col-12 col-sm-8 col-md-8 col-xl-8 col-lg-8 pr-4 pt-1">
+                                <div class="row">
+                                    <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-2">
+                                        <label for="" class="label-inventory">Additional Charges (if any):</label>
+                                    </div>
+                                    <div class="col-12 col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                                        <ng-multiselect-dropdown class="seed-division-variety"
+                                            formControlName="selectedCharges" [placeholder]="'Select Charges'"
+                                            [settings]="dropdownSettings" [data]="additionalCharges"(onSelect)="onItemSelect($event)">
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-12 col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                        <!-- <input type="text" class="form-control" formControlName="" placeholder=""> -->
+                                    </div>
+                                </div>
+
+                                <!-- mou charges -->
+                                <div class="row pt-2"*ngIf="visibleMouCharges">
+                                    <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                    </div>
+                                    <div class="col-12 col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                                        <label for="" class="label-inventory">MoU Charges :</label>
+                                    </div>
+                                    <div class="col-12 col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                        <input type="text" class="form-control" formControlName="mou_amt" (change)="calculateCharges()" placeholder="">
+                                    </div>
+                                </div>
+
+                                <!-- licence fee -->
+                                <div class="row pt-1"*ngIf="visibleLicenceCharges">
+                                    <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                    </div>
+                                    <div class="col-12 col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                                        <label for="" class="label-inventory">Licence Fee :</label>
+                                    </div>
+                                    <div class="col-12 col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                        <input type="text" class="form-control" formControlName="licence_amt" (change)="calculateCharges()" placeholder="">
+                                    </div>
+                                </div>
+
+                                <!-- CGST charges-->
+                                <div class="row pt-1"*ngIf="visibleCgstCharges">
+                                    <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                    </div>
+                                    <div class="col-12 col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                                        <label for="" class="label-inventory">CGST Charges :</label>
+                                    </div>
+                                    <div class="col-12 col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                        <input type="text" class="form-control" formControlName="cgst_amt" (change)="calculateCharges()" placeholder="">
+                                    </div>
+                                </div>
+
+                                <!-- sgst charges -->
+                                <div class="row pt-1"*ngIf="visibleSgstCharges">
+                                    <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                    </div>
+                                    <div class="col-12 col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                                        <label for="" class="label-inventory">SGST Charges :</label>
+                                    </div>
+                                    <div class="col-12 col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                        <input type="text" class="form-control" formControlName="sgst_amt" (change)="calculateCharges()" placeholder="">
+                                    </div>
+                                </div>
+
+                                <!-- igst charges -->
+                                <div class="row pt-1" *ngIf="visibleIgstCharges">
+                                    <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                    </div>
+                                    <div class="col-12 col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                                        <label for="" class="label-inventory">IGST Charges :</label>
+                                    </div>
+                                    <div class="col-12 col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                        <input type="text" class="form-control" formControlName="igst_amt" (change)="calculateCharges()" placeholder="">
+                                    </div>
+                                </div>
+                                <!-- total payable Invoice Ammount -->
+                                <hr>
+                                <div class="row pt-1">
+                                    <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                    </div>
+                                    <div class="col-12 col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                                        <label for="" class="label-inventory">Total Payable Invoice Ammount:</label>
+                                    </div>
+                                    <div class="col-12 col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                        <input type="text" class="form-control" formControlName="total_amt" value="{{(this.ngForm.controls['total_amt'].value ? this.ngForm.controls['total_amt'].value:this.ngForm.controls['grand_total_amt'].value ? this.ngForm.controls['grand_total_amt'].value: 0)}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    <!-- </div> -->
+                </div>
+                <!-- </div> -->
+                <div class="col-12 col-md-6 col-sm-6 col-xl-6">
+                    <div class="row">
+                        <div class="col-12 col-md-6 col-sm-6 col-xl-6 pt-1" *ngIf="true">
+                            <button (click)="cancel()"
+                                class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                Cancel
+                            </button>
+                        </div>
+                        <div class="col-12 col-md-6 col-sm-6 col-xl-6 pt-1" *ngIf="true">
+                            <button (click)="createInvoice()"
+                                class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                Generate Invoice
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--  Third Card ui -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12  pt-3 pr-0">
+            <div class="row card-inventory form-group pb-2 pl-0">
+                <div class="col-12 col-md-12 col-lg-12 pt-1">
+                    <div class="col-12 col-md-12 col-lg-12 col-sm-12 pt-1 pb-1 pr-3 pl-2">
+                        <div class="row">
+                            <div class="col-12 col-md-1 col-lg-1 col-sm-12 col-xl-1">
+                                <label for="" class="label-inventory">Filter by :</label>
+                            </div>
+
+                            <div class="col-12 col-md-3 col-lg-3 col-sm-12 col-xl-3">
+                                <div class="row">
+                                    <!-- <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label for="year" class="label-inventory required">Variety</label>
+                                    </div> -->
+                                    <div class="col-md-12 px-2">
+                                        <select class=" form-control input-inventory" formControlName="year">
+                                            <option value="">Variety</option>
+                                            <option *ngFor="let data of yearOfIndent"
+                                                value="{{data && data.value ? data.value :''}}">
+                                                {{data && data.year ? data.year :''}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-2 col-lg-2">
+                    </div>
+                    <div class="row data-row ">
+                        <table class="table">
+                            <thead class="w-100">
+                                <tr class="data-row-header">
+                                    <th class="col-md-1 py-3 px-2 text-white vertical-align-center heading">S.No.
+                                    </th>
+                                    <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">Variety
+                                    </th>
+                                    <th class="col-md-2 py-3 px-3 text-white vertical-align-center heading">Indent Quantity (Qt)
+                                    </th>
+                                    <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">
+                                        BSPC Name
+                                    </th>
+                                    <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">Quantity of
+                                        Breeder Seed Allocated (Qt)</th>
+                                    <th class="col-md-2 py-3 px-3 text-white vertical-align-center heading">Action</th>
+                                    <th class="col-md-3 py-3 px-2 text-white vertical-align-center heading">
+                                    Availabilty of Breeder Seed as per Invoice (Qt)    
+                                    </th>
+                                    <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">Invoice
+                                        Ammount (INR)</th>
+                                        <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">
+                                            Payment Status
+                                        </th>
+                                        <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">
+                                            Payment Details
+                                        </th>
+                                </tr>
+                            </thead>
+                            <tbody class="py-2 text-white table-bordered heading data-row">
+                                <ng-container *ngFor="let data of filterData;let i=index">
+                                    <ng-container *ngFor="let spaSata of data.spas;let parentalIndex = index">
+                                        <tr>
+                                            <td *ngIf="parentalIndex==0" [attr.rowspan]="data.count">
+                                                {{i+1}}</td>
+
+                                            <td *ngIf="parentalIndex==0" [attr.rowspan]="data.count">
+                                                {{data.variety ? data.variety:''}} <br>
+                                                <span *ngIf="data && data.parental_line">
+                                                    Parental Line:{{data && data.parental_line ? data.parental_line:''}}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {{spaSata.spa_name ? spaSata.spa_name:''}}</td>
+                                            <td>
+                                                {{spaSata.quantity_qt ? spaSata.quantity_qt:''}}</td>
+                                            <td>
+                                                {{spaSata.quantity_qt ? spaSata.quantity_qt:''}}</td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-12 pt-1" *ngIf="false">
+                                                        <button
+                                                            class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                                            View Invoice
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-12 pt-1" *ngIf="true">
+                                                        <button (click)="createInvoice()"
+                                                            class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                                            Request Invoice
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-12 pt-1" *ngIf="true">
+                                                        <button (click)="createInvoice()"
+                                                            class="w-100 py-2  text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                                            View Invoice
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                Total No. of Bags (Bag size):<span
+                                                    *ngFor="let data1 of data.stock_kept_for_spa.total_no_of_bags">{{
+                                                    data1 && data1.bag_size?data1.bag_size + ',':'--'}}</span> <br>
+                                                Total Quantity (Qt):{{data.stock_kept_for_spa &&
+                                                data.stock_kept_for_spa.total_quantity ?
+                                                data.stock_kept_for_spa.total_quantity:'--'}}
+                                            </td>
+                                            <td>
+                                                {{spaSata.quantity_qt ? spaSata.quantity_qt:'--'}}
+                                            </td>
+                                            <td >
+                                               
+                                              <span *ngIf="spaSata && spaSata.payment_status && spaSata.payment_status==1">
+                                                {{spaSata &&  spaSata.payment_status && (spaSata.payment_status==1)?'Partialy Paid':'--'}}
+                                            
+                                              </span>
+                                                <button  *ngIf="spaSata && spaSata.payment_status!=1"
+                                                class="w-100 py-2  text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                               Pay
+                                            </button>
+                                            </td>
+                                           
+                                            <td style="text-align:left">
+                                                <span >Amount Paid: <b
+                                                        class="font-weight-bold">{{spaSata && spaSata.amount_paid ?
+                                                        spaSata.amount_paid :'--'}}</b></span><br
+                                                    >
+
+                                                <span class="datalist">Payment Method: <b
+                                                        class="font-weight-bold">{{spaSata &&
+                                                        spaSata.payment_method && (spaSata.payment_method==1)?'Upi' :'Cash'}}</b></span><br>
+                                                <span class="datalist">Transaction No: <b
+                                                        class="font-weight-bold">{{spaSata &&
+                                                        spaSata.transaction ? spaSata.transaction
+                                                        :''}}</b></span><br>
+                                               
+
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </ng-container>
+                                <!-- <tr *ngFor="let data of varietyPrice;let i = index">
+                                    <td>{{data.crop_name ? data.crop_name:''}}</td>
+                                    <td>{{data.variety_name ? data.variety_name:''}}</td>
+                                    <td>{{data.parental_line ? data.parental_line:''}}</td>
+                                    <td>{{data.valid_form ? data.valid_form:'' }}</td>
+                                    <td>{{data.per_quintal ? data.per_quintal :''}}</td>
+
+                                    <td class="col-md-2 py-2">
+                                        <div class="row">
+                                            <div class="col-12 pt-1">
+                                                <button class="list-action-buttons">
+                                                  <span>View Invoice</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

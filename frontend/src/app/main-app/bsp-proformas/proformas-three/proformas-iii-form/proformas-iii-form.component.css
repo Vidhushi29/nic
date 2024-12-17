@@ -1,0 +1,328 @@
+.form-nodal-input {
+    background: transparent;
+}
+
+.form-nodal-input,
+.form-nodal-input:active,
+.form-nodal-input:focus {
+    border: 1px solid #979797 !important;
+    outline: none ! important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+}
+
+.form-nodal-input-custom-placeholder {
+    margin-top: 0px;
+    margin-bottom: -39px;
+}
+
+.va-l {
+    background: #fff;
+    font-weight: 700;
+    padding: 0.8rem !important;
+    color: #000;
+    box-shadow: 1px 1px 4px #33333369;
+}
+
+.form-nodal-input-custom-placeholder,
+.form-nodal-input,
+.form-nodal-input:active,
+.form-nodal-input:focus {
+    padding-left: 0.75rem !important;
+    font: normal Poppins 15px/23px;
+    letter-spacing: 0px;
+    color: rgb(0 0 0 / 70%);
+    height: 38px !important;
+}
+
+.custom-file-upload {
+
+    display: inline-block;
+    padding: 12px 12px;
+    cursor: pointer;
+    width: 170px;
+    border-radius: 4px;
+    background: #e97f38;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    margin-right: -12px;
+}
+.form-nodal-input-custom-placeholder.hide+.form-nodal-input:not([disabled]),
+.form-nodal-input:not([disabled]):active,
+.form-nodal-input:not([disabled]):focus {
+    background: #FFFFFF 0% 0% no-repeat padding-box !important;
+}
+
+.form-nodal-input-custom-placeholder.hide span {
+    display: none !important;
+}
+
+.form-nodal-input-custom-placeholder.disabled {
+    background: #F1F1F1 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+}
+
+.nodal-search-icon {
+    color: #707070;
+    font-size: 18px;
+    position: absolute;
+    right: 25px;
+    top: 16px;
+}
+
+.col-accordion {
+    background: #F5F5F5 0% 0% no-repeat padding-box;
+    border: 1px solid #979797;
+    border-radius: 5px;
+    max-height: 1000px;
+    -webkit-transition: max-height 1s ease;
+    -moz-transition: max-height 1s ease;
+    transition: max-height 1s ease;
+}
+
+.col-accordion.hide {
+    overflow: hidden;
+    max-height: 50px;
+}
+
+.accordion-dropdown {
+    position: absolute;
+    right: 45px;
+    margin-top: 20px;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+}
+
+@media (min-width:1165px) and (max-width: 1295px) {
+    .form-child {
+        zoom: 0.8;
+    }
+}
+
+.member-row-1 {
+
+    width: 99.4%;
+    height: max-content;
+}
+
+@media only screen and (max-width: 500px) {
+    .member-row-1{
+        width: 98% !important;
+    }
+    
+}
+
+.add-mem{
+    color: #4f50f6 !important;
+    padding-left: 12px !important;
+}
+
+@media only screen and (max-width: 500px) {
+    .add-mem{
+        padding-left: 0px !important;
+    }
+    
+}
+
+.member-row {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 10px 18px #0000000d;
+    border: 1px solid #F3F3F3;
+    border-radius: 10px;
+    width: 98%;
+    height: max-content;
+}
+
+label {
+    font: normal Poppins 14px;
+    color: #2329ff;
+    font-weight: 600;
+}
+
+input {
+    padding: 0.25rem 0.75rem !important;
+    font: normal Poppins 15px/23px;
+    letter-spacing: 0px;
+    color: rgb(0 0 0 / 70%);
+    /* height: 38px !important; */
+    border: 1px solid #979797 !important;
+    outline: none ! important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+    width: 100%;
+}
+
+.deleteMember {
+    font: normal normal normal 14px Poppins;
+    padding: 0.5rem 2rem;
+    letter-spacing: 0px;
+    color: #E97E15;
+    border: 1px solid #E97E15;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: white;
+}
+
+.editMember {
+    font: normal Poppins 14px;
+    padding: 0.5rem 2rem;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    background: #E97E15 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+    border: 1px solid #E97E15;
+    cursor: pointer;
+}
+
+.labelColumn {
+    width: 140px;
+    font: normal Poppins 15px;
+    
+}
+
+.dataColumn {
+    width: 75%;
+    font: normal Poppins 15px;
+
+}
+.dark-header{
+    background: #b74b27;
+    color: #fff;
+}
+
+::ng-deep .yearofIndent-wrapper .ngb-dropdown-disabled .dropdown-toggle,
+::ng-deep .cropName-wrapper .ngb-dropdown-disabled .dropdown-toggle,
+::ng-deep .ngb-dropdown-disabled .dropdown-toggle {
+    background: rgb(245 245 245 / 70%) 0% 0% no-repeat padding-box !important;
+}
+
+
+::ng-deep .dynamic-input-custom-placeholder {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.dataRow {
+    display: inline-flex;
+}
+.dataRow>p {
+    margin-left: 12px;
+    letter-spacing: 0px;
+    color: rgb(0, 0, 0, 0.7);
+    opacity: 1;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+span {
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+   
+}
+
+.width{
+    width: 98.5% !important;
+}
+
+@media only screen and (max-width: 500px) {
+    .width{
+        width: 91.5% !important;
+    }
+    
+}
+.main-rep-card
+{
+    height: 6cm;
+    width: 453.54330709px;
+    background-color: #fed16c ;
+}
+.left-logo-img
+{
+    height: 1cm;
+    width: 1cm;
+}
+
+.left-logo
+{
+    float: right;
+}
+.right-logo
+{
+    float: left;
+}
+.heading
+{
+    font-size: 14px;
+    /* font-weight: bold; */
+    text-align: center;
+}
+.address-title
+{
+   font-size: 10px;
+   font-weight: 500;
+}
+.title
+{
+    font-weight: 900;
+}
+.diveder-image
+{
+    width: 140px;
+}
+.divider
+{
+    margin-top: -25px;
+}
+.class-of
+{
+    margin-top: -25px;
+    font-weight: 500;
+}
+
+
+
+
+.input-field
+{
+    margin-top: -11px;
+    line-height: 3px;
+}
+
+/* input[type=text] {
+    
+    border: none;
+    background-color: #fed16c ;
+    border-bottom: 1px dashed black;
+    width: 100px;
+    font-size: 10px;
+  }
+  input[type=text]:focus
+  {
+    outline: none;
+  }*/
+
+  .input-heading
+  {
+    font-size: 10px;
+  } 
+
+
+
+
+
+
+
+.bar-code-img
+{
+    width: 5.8cm;
+    height: 0.5cm;
+}
+
+.qr-code-img
+{
+    width: 1cm;
+    height: 1cm;
+}

@@ -1,0 +1,399 @@
+<div class="pt-3 pb-3 px-4">
+    <form [formGroup]="ngForm">
+        <div class=" card">
+            <div class="col-12 heading mt-3">
+                Nucleus Seed Availability by Breeder
+            </div>
+
+            <!-- form-row -->
+            <!-- <div class="row form-group"> -->
+
+            <!-- form ui start  -->
+            <div class="col-12 pt-3">
+                <div class="row">
+                    <div class="col-2 col-md-2 col-sm-12 pl-4">
+                        <label for="" class="left-heading">Breeder Production Centre Name</label>
+                    </div>
+                    <div class="col-10 col-md-10 col-sm-12 pr-4 ">
+                        <input type="text" class="form-control form-input" value="ABCD Breeder Production">
+                        <div class="crop_group errorMessage "
+                            *ngIf="submitted || ngForm.controls['crop_group'].invalid && (ngForm.controls['crop_group'].dirty || ngForm.controls['crop_group'].touched)">
+                            <span *ngIf=" ngForm.controls['crop_group'].errors?.['required']">
+                                Please Select Crop Group. <br>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- </div> -->
+
+            </div>
+
+            <div class="col-12 pt-3">
+                <div class="row">
+                    <div class="col-2 col-md-2 col-sm-12 pl-4">
+                        <label for="" class="left-heading">Contact Officer and Address and Designation</label>
+                    </div>
+                    <div class="col-10 col-md-10 col-sm-12 pr-4">
+                        <select class="form-select form-control form-input" formControlName="season"
+                            aria-label="Default select example">
+                            <option value="">Select Season</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                        <div class="season errorMessage "
+                            *ngIf="submitted || ngForm.controls['season'].invalid && (ngForm.controls['season'].dirty || ngForm.controls['season'].touched)">
+                            <span *ngIf=" ngForm.controls['season'].errors?.['required']">
+                                Please Select Season. <br>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 pt-3">
+                <div class="row">
+                    <div class="col-2 col-md-2 col-sm-12 pl-4">
+                        <label for="" class="left-heading">Year*</label>
+                    </div>
+                    <div class="col-10 col-md-10 col-sm-12 pr-4">
+                        <select class="form-select form-control " formControlName="season"
+                            aria-label="Default select example">
+                            <option value="">Select Season</option>
+                            <option value="1">2019</option>
+                            <option value="1">2020</option>
+                            <option value="1">2021</option>
+                            <option value="2">2022</option>
+                            <option value="3">2023</option>
+                        </select>
+                        <div class="crop_name errorMessage "
+                            *ngIf="submitted || ngForm.controls['crop_name'].invalid && (ngForm.controls['crop_name'].dirty || ngForm.controls['crop_name'].touched)">
+                            <span *ngIf=" ngForm.controls['crop_name'].errors?.['required']">
+                                Please Enter Crop Name. <br>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 pt-3">
+                <div class="row">
+                    <div class="col-2 col-md-2 col-sm-12 pl-4">
+                        <label for="" class="left-heading">Crop Name*</label>
+                    </div>
+                    <div class="col-10 col-md-10 col-sm-12 pr-4">
+                        <select class="form-select form-control " formControlName="season"
+                            aria-label="Default select example">
+                            <option value="">Select Season</option>
+                            <option value="1">crop 1</option>
+                            <option value="1">crop 2</option>
+                            <option value="1">crop 3</option>
+                            <option value="2">crop 4</option>
+                            <option value="3">crop 5</option>
+                        </select>
+                        <div class="botanical_name errorMessage "
+                            *ngIf="submitted || ngForm.controls['botanical_name'].invalid && (ngForm.controls['botanical_name'].dirty || ngForm.controls['botanical_name'].touched)">
+                            <span *ngIf=" ngForm.controls['botanical_name'].errors?.['required']">
+                                Please Enter Botanical Name.<br>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- form ui start  -->
+
+            <hr>
+
+
+
+            <!-- search button implement start-->
+            <div class="col-6 pt-3 pb-3 px-4">
+                <input class="form-control" type="text" placeholder="search">
+            </div>
+            <!-- search button implement stop-->
+
+            <!-- accordion start -->
+            <div class="accordion px-4" id="accordionExample">
+
+                <div class="accordion-item mb-3">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Variety Name 01
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+
+                            <div class="row form-group">
+                                <!-- Quantity of Nucleus Seed (Kg)* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12 pb-3">
+                                            <label class="accordation-form-input-text" for="">Quantity of Nucleus Seed
+                                                (Kg)*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control " type="text" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Reference No of MoA/Authorization in Case Variety is not the Centre Taking up BSP* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="accordation-form-input-text" for="">Reference No of
+                                                MoA/Authorization in Case Variety is not
+                                                the Centre Taking up BSP*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control " type="text" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Date of Reference No of MoA/Authorization in Case Variety is not the Centre Taking up BSP* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="accordation-form-input-text" for="">Date of Reference No of
+                                                MoA/Authorization in Case Variety
+                                                is not the Centre Taking up BSP*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control " type="date" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Reference No of Office order, Cash memo/BNSIV Proof of Procuring Nucleus Seed from the Source* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="accordation-form-input-text" for="">Reference No of Office
+                                                order, Cash Memo/BNSIV Proof of
+                                                Procuring Nucleus Seed from the Source*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control " type="text" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Date of Office Order, Cash memo/BNSIV Proof of Procuring Nucleus Seed from the Source* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="accordation-form-input-text" for="">Date of Office Order, Cash
+                                                Memo/BNSIV Proof of Procuring
+                                                Nucleus Seed from the Source*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control " type="date" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item mb-3">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Variety Name 02
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+
+                            <div class="row form-group">
+                                <!-- Quantity of Nucleus Seed (Kg)* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12 pb-4">
+                                            <label class="accordation-form-input-text" for="">Quantity of Nucleus Seed
+                                                (Kg)*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control " type="text" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Reference No of MoA/Authorization in Case Variety is not the Centre Taking up BSP* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="accordation-form-input-text" for="">Reference No of
+                                                MoA/Authorization in Case Variety is not
+                                                the Centre Taking up BSP*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control " type="text" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Date of Reference No of MoA/Authorization in Case Variety is not the Centre Taking up BSP* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="accordation-form-input-text" for="">Date of Reference No of
+                                                MoA/Authorization in Case Variety
+                                                is not the Centre Taking up BSP*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control " type="date" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Reference No of Office order, Cash memo/BNSIV Proof of Procuring Nucleus Seed from the Source* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="accordation-form-input-text" for="">Reference No of Office
+                                                order, Cash Memo/BNSIV Proof of
+                                                Procuring Nucleus Seed from the Source*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control " type="text" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Date of Office Order, Cash memo/BNSIV Proof of Procuring Nucleus Seed from the Source* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="accordation-form-input-text" for="">Date of Office Order, Cash
+                                                Memo/BNSIV Proof of Procuring
+                                                Nucleus Seed from the Source*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control " type="date" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item mb-3">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Variety Name 03
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+
+                            <div class="row form-group">
+                                <!-- Quantity of Nucleus Seed (Kg)* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12 pb-4">
+                                            <label class="accordation-form-input-text" for="">Quantity of Nucleus Seed
+                                                (Kg)*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control " type="text" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Reference No of MoA/Authorization in Case Variety is not the Centre Taking up BSP* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="accordation-form-input-text" for="">Reference No of
+                                                MoA/Authorization in Case Variety is not
+                                                the Centre Taking up BSP*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control " type="text" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Date of Reference No of MoA/Authorization in Case Variety is not the Centre Taking up BSP* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="accordation-form-input-text" for="">Date of Reference No of
+                                                MoA/Authorization in Case Variety
+                                                is not the Centre Taking up BSP*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control " type="date" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Reference No of Office order, Cash memo/BNSIV Proof of Procuring Nucleus Seed from the Source* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="accordation-form-input-text" for="">Reference No of Office
+                                                order, Cash Memo/BNSIV Proof of
+                                                Procuring Nucleus Seed from the Source*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control " type="text" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Date of Office Order, Cash memo/BNSIV Proof of Procuring Nucleus Seed from the Source* -->
+                                <div class="col-4 col-md-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="accordation-form-input-text" for="">Date of Office Order, Cash
+                                                Memo/BNSIV Proof of Procuring
+                                                Nucleus Seed from the Source*</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input class="form-control" type="date" placeholder="Enter Here">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- accordion fin -->
+
+            <!-- button section start -->
+            <div class="col-7 px-4 pt-3 pb-3 " (click)="enrollFormSave()">
+                <div class="w-25 py-1 text-center pt-1 " role="button" style="background: #E97E15 0% 0% no-repeat padding-box;
+                box-shadow: 0px 3px 0px #CB6706;
+                border-radius: 5px;
+                opacity: 1; ">
+                    <span style="font: normal  Poppins 16px/25px ;
+                  letter-spacing: 0px;
+                  color: #FFFFFF;
+                  opacity: 1;" class="px-3">
+                        Submit & Next
+                    </span>
+
+                </div>
+            </div>
+            <!-- button section finish -->
+            <!-- </div> -->
+        </div>
+    </form>
+</div>

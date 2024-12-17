@@ -1,0 +1,263 @@
+.form-nodal-input {
+    background: transparent;
+}
+
+.form-nodal-input,
+.form-nodal-input:active,
+.form-nodal-input:focus {
+    border: 1px solid #979797 !important;
+    outline: none ! important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+}
+
+.form-nodal-input-custom-placeholder {
+    margin-top: 0px;
+    margin-bottom: -39px;
+}
+
+.plant-lable{
+    color: #1c1c1c;
+    border: 1px solid #979797;
+    width: 100%;
+    padding: 6px;
+    border-radius: 5px;
+    margin-left: 1;
+    padding-left: 10px;
+}
+
+.va-l {
+    background: #fff;
+    color: #000 !important;
+    font-weight: 700;
+    padding: 0.9rem !important;
+    box-shadow: 1px 1px 4px #33333369;
+}
+
+.form-nodal-input-custom-placeholder,
+.form-nodal-input,
+.form-nodal-input:active,
+.form-nodal-input:focus {
+    padding-left: 0.75rem !important;
+    font: normal Poppins 15px/23px;
+    letter-spacing: 0px;
+    color: rgb(0 0 0 / 70%);
+    height: 38px !important;
+}
+
+.form-nodal-input-custom-placeholder.hide+.form-nodal-input:not([disabled]),
+.form-nodal-input:not([disabled]):active,
+.form-nodal-input:not([disabled]):focus {
+    background: #FFFFFF 0% 0% no-repeat padding-box !important;
+}
+
+.form-nodal-input-custom-placeholder.hide span {
+    display: none !important;
+}
+
+.form-nodal-input-custom-placeholder.disabled {
+    background: #F1F1F1 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+}
+
+.nodal-search-icon {
+    color: #707070;
+    font-size: 18px;
+    position: absolute;
+    right: 25px;
+    top: 16px;
+}
+
+.col-accordion {
+    background: #F5F5F5 0% 0% no-repeat padding-box;
+    border: 1px solid #979797;
+    border-radius: 5px;
+    /* max-height: 1000px; */
+    max-height: auto;
+    -webkit-transition: max-height 1s ease;
+    -moz-transition: max-height 1s ease;
+    transition: max-height 1s ease;
+}
+
+.col-accordion.hide {
+    overflow: hidden;
+    max-height: 55px;
+}
+
+.accordion-dropdown {
+    position: absolute;
+    right: 45px;
+    margin-top: 20px;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+}
+
+@media (min-width:1165px) and (max-width: 1295px) {
+    .form-child {
+        zoom: 0.8;
+    }
+}
+
+::ng-deep .yearofIndent-wrapper .ngb-dropdown-disabled .dropdown-toggle,
+::ng-deep .cropName-wrapper .ngb-dropdown-disabled .dropdown-toggle {
+    background: rgb(245 245 245 / 70%) 0% 0% no-repeat padding-box !important;
+}
+
+::ng-deep .field-title-wrapper {
+    /* height: 70px; */
+    align-items: start;
+    font-size: 14px;
+}
+
+::ng-deep .dynamic-input-custom-placeholder {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.dataRow {
+    display: inline-flex;
+}
+
+.dataRow>p {
+    margin-left: 12px;
+    letter-spacing: 0px;
+    color: rgb(0, 0, 0, 0.7);
+    opacity: 1;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.add-plant-btn {
+    position: absolute;
+    top: 16px;
+    right: 90px;
+    font-size: 14px;
+    width: auto;
+    height: auto;
+    padding: 8px 15px;
+}
+
+.modal {
+    top: 0;
+    left: 0;
+    background-color: rgb(0, 0, 0, 0.2);
+}
+
+.modal-dialog {
+    margin-top: 20%;
+}
+
+.header {
+    background: #DC8B3A 0% 0% no-repeat padding-box;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 500;
+    font-family: system-ui;
+    color: white;
+}
+
+.plant-form>div>div>span {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: system-ui;
+    color: rgb(63, 63, 63);
+}
+
+.plant-form>div>div>select,
+.plant-form>div>div>input {
+    border: 1px solid #979797 !important;
+    outline: none ! important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+    min-height: 40px;
+    width: 100%;
+}
+
+select, input {
+    padding: 7px 10px !important;
+}
+
+.footer {
+    text-align: right;
+}
+
+.footer>button {
+    text-align: center;
+    font: normal Poppins 16px/25px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    background: #E97E15 0% 0% no-repeat padding-box;
+    /* box-shadow: 0px 3px 0px #cb6706; */
+    border-radius: 5px;
+    outline: none !important;
+    border: none !important;
+    width: 158px;
+    height: 46px;
+    cursor: pointer;
+}
+
+.plant-card {
+    border: 1px solid #979797 !important;
+    border-radius: 3px !important;
+    background-color: white;
+}
+
+label {
+    text-align: left;
+    letter-spacing: 0px;
+    color: #2329ff;
+    opacity: 1;
+    font-weight: 600;
+}
+
+input, select {
+    border: 1px solid #979797 !important;
+    outline: none ! important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+    min-height: 40px;
+    width: 100%;
+}
+
+.plant-edit-buttons {
+    display: inline-flex;
+}
+
+.plant-edit-buttons>button {
+    text-align: center;
+    font: normal Poppins 16px/25px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    background: #E97E15 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+    outline: none !important;
+    border: none !important;
+    height: 40px;
+    width: 50%;
+}
+
+
+.swal2-container, .swal2-center, .swal2-backdrop-show, .swal2-title{
+    display: none;
+    position: relative;
+    box-sizing: border-box;
+    grid-template-columns: minmax(0, 100%);
+    width: 32em;
+    max-width: 100%;
+    padding: 0 0 1.25em;
+    border: none;
+    border-radius: 5px;
+    background: #fff;
+    color: #545454;
+    font-family: inherit;
+    font-size: 1rem;
+    height: 74% !important;
+}
+
+sup{
+    color: red !important;
+}

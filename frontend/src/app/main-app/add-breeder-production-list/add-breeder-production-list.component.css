@@ -1,0 +1,79 @@
+.heading_notofied {
+    font: normal Poppins;
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: 0px;
+    text-align: left;
+    opacity: 1;
+}
+
+.data-row-header {
+    background: #E97E15 0% 0% no-repeat padding-box;
+}
+
+.data-row-header * {
+    font: normal Poppins 600 15px/19px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+}
+
+.data-row {
+    border: 1px solid #B2C7D7;
+    border-top: none !important;
+}
+
+.data-row * {
+    font: normal Poppin bold 15px/18px;
+    letter-spacing: 0px;
+    color: #000000;
+}
+
+.search_txt {
+    text-align: left;
+    font: normal Poppins 15px/19px;
+    letter-spacing: 0px;
+    color:  #2329ff;
+    font-weight: 600;
+    opacity: 1;
+    /* font-size: 20px; */
+}
+span {
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+}
+
+.form-button-add {
+    background: #963814 0% 0% no-repeat padding-box;
+    text-align: left;
+    font: normal Poppins 16px/25px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+
+    /* box-shadow: 0px 3px 0px #CB6706; */
+    border-radius: 5px;
+    outline: none !important;
+    border: none !important;
+    width: 158px;
+    height: 46px;
+    cursor: pointer;
+}
+.disabledfield {
+    pointer-events: none;
+}
+@media screen and (min-width: 992px) {
+    .statusheading{
+     padding-left: 2rem;
+    }
+    .statusValue{
+     padding-left: 2rem;
+     white-space: nowrap;
+    }
+    .mobileheading{
+     padding-left: 1em;
+    }
+    .mobileNumberHeading{
+     padding-left: 1em;
+     white-space: nowrap;
+    }
+   }

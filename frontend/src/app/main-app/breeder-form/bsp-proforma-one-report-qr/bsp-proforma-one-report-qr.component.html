@@ -1,0 +1,227 @@
+<div class="col-12 col-md-12 col-lg-12 pt-0">
+    <div class="row card-inventory form-group">
+        <div>
+            <div id="pdf-report" class="sheet"
+                style="margin-top: 40px;margin-left: 40px;margin-right: 40px;margin-bottom: 60px;">
+                <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+                    <tbody>
+                        <tr>
+                            <td colspan="10"
+                                style="width:1061.5pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                <p style="margin-top:0pt; margin-bottom:0pt; text-align:center;"
+                                    class="heading_notofied1 headingofpdftable1">
+                                    {{userName ? userName:'NA'}}</p>
+
+                                <p style="margin-top:-14px; margin-bottom:0pt; text-align:left;z-index:3">
+                                    <img src="{{'/assets/images/no_logo.png'}}" style="width:100px">
+                                </p>
+                                <p style="margin-top:-60pt; margin-bottom:0pt; text-align:center;"
+                                    class="heading_notofied1 headingofpdftable1">
+                                    {{districtName ? districtName :'NA'}}, {{stateName ? stateName :'NA'}}
+                                </p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="10"
+                                style="width:1061.5pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="10"
+                                style="width:1061.5pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                <p style="margin-top:0pt; margin-bottom:0pt; text-align:center;"
+                                    class="heading_notofied1 headingofpdftable1">
+                                    &ldquo;ALLOTMENT OF BREEDER SEED PRODUCTION
+                                    TARGETS (BSP-I) &rdquo;
+                                </p>
+
+                                <p style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:11pt;">
+                                    <strong>&nbsp;</strong>
+                                </p>
+                            </td>
+
+
+                        </tr>
+                        <tr>
+                            <td colspan="10"
+                                style="width:1061.5pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                <hr style="border:3px solid #228B22;">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td colspan="4"
+                                style="width:346.6pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                <p style="margin-top:12pt; margin-bottom:18pt;" class="heading_notofied1">
+                                    Indent Year:
+                                    {{this.ngForm.controls['year'].value}}-{{(this.ngForm.controls['year'].value-2000)+1}}
+                                </p>
+                            </td>
+                            <td colspan="3"
+                                style="width:346.65pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                <p style="margin-top:12pt; margin-bottom:18pt;text-align:center;"
+                                    class="heading_notofied1">
+                                    Production
+                                    Year:
+                                    {{this.ngForm.controls['year'].value-1}}-{{(this.ngForm.controls['year'].value-2000)}}
+
+                                </p>
+                            </td>
+                            <td colspan="3"
+                                style="width:346.65pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                <p style="margin-top:12pt; margin-bottom:18pt;text-align:right;"
+                                    class="heading_notofied1">
+                                    Date: {{currentDateNew ? (currentDateNew |
+                                    date:'dd-MM-yyyy'):''}}
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"
+                                style="width:346.6pt;  border-bottom-width:0.75pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                <p style="margin-top:12pt; margin-bottom:18pt;" class="heading_notofied1">
+                                    Season: {{this.ngForm.controls['season'].value ?
+                                    (this.ngForm.controls['season'].value
+                                    =='K'?'Kharif':'Rabi'):'NA'}}
+                                </p>
+                            </td>
+                            <td colspan="3"
+                                style="width:346.6pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                <p style="margin-top:12pt; margin-bottom:18pt;text-align:center;"
+                                    class="heading_notofied1">
+                                    Season: {{this.ngForm.controls['season'].value ?
+                                    (this.ngForm.controls['season'].value
+                                    =='K'?'Kharif':'Rabi'):'NA'}}
+                                </p>
+                            </td>
+                            <td colspan="3"
+                                style="width:346.65pt; border-bottom-width:0.75pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                <p style="margin-top:12pt; margin-bottom:18pt;text-align:right;"
+                                    class="heading_notofied1">
+                                    Reference
+                                    No: {{filterPaginateSearch && filterPaginateSearch.itemList &&
+                                    filterPaginateSearch.itemList[0] && filterPaginateSearch.itemList[0].ref_no ?
+                                    filterPaginateSearch.itemList[0].ref_no:''}}
+                                </p>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom-style:solid; border-bottom-width:0.75pt;">
+                            <td style="padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                <p style="margin-top:12pt; margin-bottom:18pt;" class="heading_notofied1">
+                                    Crop Name: {{this.ngForm.controls['crop'].value ?
+                                    getCropName(this.ngForm.controls['crop'].value):'NA'}}
+                                </p>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <table class="table table-bordered" style="text-align: center;">
+                    <thead class="headingofpdftable">
+                        <tr class="data-row-headers">
+                            <th>S.No.</th>
+                            <th class="">Variety Name</th>
+                            <th class="">Notification Year</th>
+                            <th>Parental Line </th>
+                            <th>Parental Line Qty.</th>
+                            <th>Indented Quantity({{unitValue?unitValue:""}})</th>
+                            <th>Details of BSPC</th>
+                            <th style="white-space: nowrap;">Production <br>Delay</th>
+                            <th style="white-space: nowrap;">Bs - Bs <br>Permission</th>
+                            <th>Target Quantity ({{unitValue ?
+                                unitValue:''}})</th>
+                            <!-- *ngIf="isFinalSubmit" -->
+                            <th>Monitoring Team</th> 
+                        </tr>
+                    </thead>
+
+                    <tbody class="data-row table-bordered">
+                        <ng-container *ngFor="let data of filterPaginateSearch.itemList;let i=index">
+                            <ng-container *ngFor="let parentalData of data.variety_line;let parentalIndex = index">
+                                <ng-container *ngFor="let bspcData of parentalData.bspc;let bspcIndex = index">
+                                    <tr>
+                                        <td *ngIf="parentalIndex==0 && bspcIndex==0" [attr.rowspan]="data.count"
+                                            style="border-left: none !important;">
+                                            {{i+1}}</td>
+                                        <td *ngIf="parentalIndex==0 && bspcIndex==0" [attr.rowspan]="data.count"
+                                            style="border-left: none !important;">
+                                            {{data.variety_name}}</td>
+
+                                        <td *ngIf="parentalIndex==0 && bspcIndex==0" [attr.rowspan]="data.count"
+                                            style="border-left: none !important;">
+                                            {{parentalData && parentalData.not_date ?
+                                            (parentalData.not_date | date:'yyyy'):'NA' }}</td>
+                                        <td *ngIf="bspcIndex==0" [attr.rowspan]="parentalData.count"
+                                            style="border-left: none !important;">
+                                            {{parentalData && parentalData.line_variety_name ?
+                                            parentalData.line_variety_name:"NA"}}
+                                        </td>
+                                        <td *ngIf="bspcIndex==0" [attr.rowspan]="parentalData.count"
+                                            style="border-left: none !important;">
+                                            {{parentalData && parentalData.indent_qnt ?
+                                            (parentalData.indent_qnt | number:'1.2-3'):"NA"}}
+                                        </td>
+                                        <td *ngIf="parentalIndex==0 && bspcIndex==0" [attr.rowspan]="data.count">
+                                            {{data && data.indent_qnt ? (data.indent_qnt | number:'1.2-3'):0}}</td>
+                                        <td>{{bspcData && bspcData.bspc_name ?
+                                            bspcData.bspc_name:"NA"}},&nbsp;{{bspcData &&
+                                            bspcData.district_code ?
+                                            getDistrictName(bspcData.district_code,bspcData.state_code):"NA"}},&nbsp;{{bspcData
+                                            && bspcData.state_code ?
+                                            getStateName(bspcData.state_code):"NA"}}
+                                        </td>
+                                        <td>{{bspcData && bspcData.production_type ?
+                                            bspcData.production_type:"NA"}}
+                                        </td>
+                                        <td>{{ bspcData && bspcData.isPermission ? 'Yes' : 'N/A' }}</td>
+                                        <td>
+                                            {{bspcData && bspcData.target_quantity ?
+                                            (bspcData.target_quantity | number:'1.2-3'):0}}</td>
+                                        <!-- *ngIf="isFinalSubmit" -->
+                                        <td style="text-align:left"><span
+                                                *ngFor="let team of getTeamMemberPdf(bspcData.team_id);let i = index">{{i+1}}.&nbsp;{{team
+                                                && team.agency_type ? team.agency_type:''}},{{team &&
+                                                team['desingnation_name'] ?
+                                                team['desingnation_name']:''}}<br></span>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+
+                <p style="margin-top:0pt; margin-bottom:8pt;">&nbsp;</p>
+                <p style="margin-top:0pt; margin-bottom:8pt;">&nbsp;</p>
+                <p style="margin-top:0pt; margin-left:900.1pt; margin-bottom:0pt; text-align:center; line-height:108%;"
+                    class="heading_notofied">
+                    --SD--
+                </p>
+                <p
+                    style="margin-top:0pt; margin-left:900.1pt; margin-bottom:0pt; text-align:center; line-height:108%; font-size:16pt;">
+                    <strong>({{profileData && profileData.contact_person_name ?
+                        profileData.contact_person_name:'NA' }})</strong>
+                </p>
+                <p
+                    style="margin-top:0pt; margin-left:900.1pt; margin-bottom:0pt; text-align:center; line-height:108%; font-size:16pt;">
+                    <strong>{{ profileData && profileData['m_designation.name'] ? profileData['m_designation.name']:'NA'}}</strong>
+                </p>
+                <p
+                    style="margin-top:0pt; margin-left:900.1pt; margin-bottom:0pt; text-align:center; line-height:108%; font-size:16pt;">
+                    <strong>&nbsp;</strong>
+                </p>
+                <p
+                    style="margin-top:0pt; margin-left:900.1pt; margin-bottom:0pt; text-align:center; line-height:108%; font-size:16pt;">
+                    <strong>&nbsp;</strong>
+                </p>
+                <p style="margin-top:0pt; margin-bottom:0pt; line-height:108%; font-size:14pt;">*Note:
+                    This
+                    is an electronically generated report and does not require signature.</p>
+            </div>
+        </div>
+    </div>
+</div>

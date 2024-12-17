@@ -1,0 +1,740 @@
+<div class="row my-4 w-100 mx-0 pt-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <div class="">
+                <form [formGroup]="ngForm" (ngSubmit)="onSubmit()">
+                    <div class="col-12 px-2 mt-2">
+                        <div class="row">
+                            <div class="col-12 pl-4 pb-3">
+                                <span class="heading_notofied">List of Crop Varieties</span>
+                            </div>
+                        </div>
+
+                        <div class="row px-3 pb-2">
+                            <div class="col-md-1 pb-md-0 pb-2">
+                                <div class="form-check ">
+                                    <input class="radio-button form-check-input pl-1" name="notifiedValue" [(ngModel)]="notifiedValue" type="radio" (change)="notifiedvalue('notified')"
+                                        id="flexRadioDefault1"  value="non-notified" checked>
+                                    <label class="form-check-label pl-1" for="flexRadioDefault1">
+                                       Notified
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- [(ngModel)]="notifiedValue" -->
+                            <!-- checked -->
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    <input class="radio-button form-check-input radio-btn" [(ngModel)]="notifiedValue" name="notifiedValue" type="radio"(change)="notifiedvalue('non_notified')"  
+                                        id="flexRadioDefault2" >
+                                    <label class="form-check-label pl-1" for="flexRadioDefault2">
+                                        Non-Notified
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 pl-2 pr-2 pr-md-0">
+                                <div class="col-md-12">
+                                    <label for="Crop Group" id="search_text" class="search_text">Select Fields</label>
+                                </div>
+                                <div class="col-12 pr-md-0">
+                                    <!-- <div ngbDropdown class="d-inline-block w-100">
+                                        <button class="btn takeplacholder w-100 crop toggle-button" id="crop_group" ngbDropdownToggle style="text-align: left;" aria-disabled="true">    
+                                            {{crop_groups &&  (crop_groups.length>30) ? (crop_groups.substring(0,30)+'...'):crop_groups?crop_groups :'Select Crop Group'}}
+                                        </button>
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group" aria-labelledby="sortMenu">
+                                        
+                                            
+                                            <input type="text" class="form-control px-4"  formControlName="crop_text" >
+                                               <button class="dropdown-item" *ngFor="let data of cropData " value="{{data.crop_group_code}}" (click)="cropGroupData(data)" #dropdownItem [attr.data-parent-name]="'cropGroup'">
+                                                    {{data && data.group_name ? data.group_name :''}}
+                                                </button>
+                                        </div>
+    
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown
+                                        id="crop_group">
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                    </div>     -->
+                                    <!-- <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="crop_group">
+                                        <option value="" disabled>Select Crop Group</option>
+                                        <option *ngFor="let data of cropData" value="{{data.group_code}}">
+                                            {{data.group_name}}</option>
+                                    </select>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+
+                                    </div> -->
+                                    <!-- (onDropDownClose)="ngClearMultiSelectSelection()" -->
+                                    <!-- (keydown)="keyPressedOnMultiDropdown($event)" -->
+                                    <!-- (onSelect)="dynamicGridData($event)" -->
+                                    <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="varietyFieldDropdown"
+                                        formControlName="filed_data" [placeholder]="'Select Fields'">
+                                    </ng-multiselect-dropdown>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3 pl-2 pr-2 pr-md-0">
+                                <div class="col-md-12 px-3 px-md-2">
+                                    <label for="Crop Group" id="search_text" class="search_text">Crop Group</label>
+                                </div>
+                                <div class="col-12 pr-md-0 pl-md-2">
+                                    <div ngbDropdown class="d-inline-block w-100">
+                                        <button class="btn takeplacholder w-100 crop toggle-button" id="crop_group"
+                                            ngbDropdownToggle style="text-align: left;" aria-disabled="true">
+                                            {{crop_groups && (crop_groups.length>30) ?
+                                            (crop_groups.substring(0,30)+'...'):crop_groups?crop_groups :'Select Crop
+                                            Group'}}
+                                        </button>
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group"
+                                            aria-labelledby="sortMenu">
+
+
+                                            <input type="text" class="form-control px-4" formControlName="crop_text">
+                                            <button class="dropdown-item" *ngFor="let data of cropData "
+                                                value="{{data.crop_group_code}}" (click)="cropGroupData(data)"
+                                                #dropdownItem [attr.data-parent-name]="'cropGroup'">
+                                                {{data && data.group_name ? data.group_name :''}}
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown id="crop_group">
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                    </div>
+                                    <!-- <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="crop_group">
+                                        <option value="" disabled>Select Crop Group</option>
+                                        <option *ngFor="let data of cropData" value="{{data.group_code}}">
+                                            {{data.group_name}}</option>
+                                    </select>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+
+                                    </div> -->
+                                </div>
+
+                            </div>
+                            <div class="col-md-3 pl-2  pl-md-0 pr-2 pr-md-0">
+                                <div class="col-md-12">
+                                    <label for="Crop Group" class="search_text">Crop Name</label>
+                                </div>
+                                <div class="col-12 pr-md-0">
+
+                                    <div ngbDropdown class="d-inline-block w-100 ">
+                                        <button class="btn takeplacholder w-100 crop toggle-button"
+                                            [ngClass]=" disabledfieldcropName  ? 'disabledfield' : ''" id="crop_name"
+                                            ngbDropdownToggle style="text-align: left;">{{crop_names &&
+                                            (crop_names.length>30) ? (crop_names.substring(0,30)+'...'):crop_names?
+                                            crop_names :'Select Crop
+                                            Name'}}</button>
+
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop_name"
+                                            aria-labelledby="sortMenu">
+                                            <input type="text" class="form-control px-4"
+                                                formControlName="crop_name_text">
+                                            <button class="dropdown-item" *ngFor="let data of cropNameList"
+                                                (click)="cropNames(data)" #dropdownItem
+                                                [attr.data-parent-name]="'crop_name'">
+                                                {{data  && data.crop_name ? data.crop_name
+                                                :""}}
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown
+                                        [ngClass]=" disabledfieldcropName  ? 'disabledfield' : ''">
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cnClick()"></i>
+                                    </div>
+                                    <!-- <select [ngClass]=" disabledfield ? 'disabledfield' : ''"
+                                        class="form-select form-control" aria-label="Default select example"
+                                        formControlName="crop_name">
+                                        <option value="" hidden selected>Select Crop Name</option>
+                                   
+                                        <option *ngFor="let data of cropNameList"
+                                            value="{{ data && data.m_crop && data.m_crop.crop_code ?data.m_crop.crop_code :'' }}">
+                                            {{data && data.m_crop && data.m_crop.crop_name ? data.m_crop.crop_name
+                                            :""}}</option>
+                                    </select>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+
+                                    </div> -->
+                                </div>
+
+                            </div>
+                            <div class="col-md-3 pl-2 pl-md-0 pl-md-0 pr-2">
+                                <div class="col-md-12">
+                                    <label for="Crop Group" class="search_text">Variety Name</label>
+                                </div>
+                                <div class="col-12 ">
+                                    <div ngbDropdown class="d-inline-block w-100 ">
+                                        <button class="btn takeplacholder w-100 crop toggle-button"
+                                            [ngClass]=" disabledfieldVariety ? 'disabledfield' : ''" id="variety_name"
+                                            ngbDropdownToggle style="text-align: left;">{{variety_names &&
+                                            (variety_names.length>30) ?
+                                            (variety_names.substring(0,30)+'...'):variety_names? variety_names :'Select
+                                            Variety
+                                            Name'}}</button>
+
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="variety_name"
+                                            aria-labelledby="sortMenu">
+                                            <input type="text" class="form-control px-4"
+                                                formControlName="variety_name_text">
+                                            <button class="dropdown-item" *ngFor="let data of cropVarietyData"
+                                                (click)="varietyNames(data)" #dropdownItem
+                                                [attr.data-parent-name]="'variety_name'">
+                                                {{data.variety_name}}
+                                                <!-- <input type="hidden" formControlName="crop_code"> -->
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown
+                                        [ngClass]=" disabledfieldVariety ? 'disabledfield' : ''">
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cvClick()"></i>
+                                    </div>
+                                    <!-- <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="variety_name">
+                                        <option value="" hidden selected>Select Variety Name</option>
+                                        <option *ngFor="let data of cropVarietyData" value="{{data.variety_code}}">
+                                            {{data.variety_name}}</option>
+                                    </select>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+
+                                    </div> -->
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row pt-3">
+                            <div _ngcontent-cvx-c131="" class="col-12 mt-md-2  buttons-phone">
+                                <button _ngcontent-cvx-c131=""
+                                    class="form-button   search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-2"
+                                    (click)="search();dynamicGridData($event)"> Search </button>
+                                <button _ngcontent-cvx-c131="" (click)="clear()"
+                                    class="clear-form-button d-inline-flex justify-content-center verticle-content-middle ml-2 mb-3">
+                                    Clear
+                                </button>
+
+                                <div *ngIf="searchBtn" class="dropdown float-right  export_dropdown">
+                                    <button (click)="myFunction()"
+                                        class="form-button  search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-2"
+                                        style="font-size: 87%;">Export To &nbsp;<i class="fa fa-angle-down"
+                                            aria-hidden="true"> </i></button>
+                                    <div id="myDropdown" class="dropdown-content">
+                                        <a (click)="download()"> <img src="assets\icons\pdf-icon.png" alt=""
+                                                width="20px" height="20px"> PDF</a>
+                                        <a (click)="exportexcel()"> <img src="assets\icons\excel.jpg" alt=""
+                                                width="20px" alt=""> Excel</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div _ngcontent-cvx-c131="" class="col-12 px-4">
+                                <hr _ngcontent-cvx-c131="" class="separator m-0">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- table for exel Download start -->
+                <table id="excel-table" style="display:none">
+                    <thead>
+                        <tr>
+                            <th colspan="5">List of Crop Varieties
+                            </th>
+                        </tr>
+                        <tr>
+                            <td >
+                                Crop Group
+                            </td>
+                            <td >
+                                Crop Name
+                            </td>
+                            <td >
+                                Variety Name
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >{{crop_groups ? crop_groups:''}}</td>
+                            <td >{{crop_names ? crop_names:''}}</td>
+                            <td >{{variety_names ? variety_names:''}}</td>
+                        </tr>
+                        <tr class="data-row-header">
+                            <th scope="col" class="col-md-1 py-3">S/N</th>
+                            <!-- <th *ngFor="let data of gridData;" scope="col" class="col-md-3 py-3">{{data && data.fieldName ? data.fieldName :''}}</th> -->
+                            <th class="col-md-2 py-3" *ngIf="activeCropGroup">Crop Group</th>
+                            <th class="col-md-2 py-3" *ngIf="activeCropName">Crop Name</th>
+                            <th class="col-md-2 py-3" *ngIf="activeCropCode">Crop Code</th>
+                            <th class="col-md-2 py-3" *ngIf="activeVarietyName">Variety Name</th>
+                            <th class="col-md-2 py-3" *ngIf="activeVarietyCode">Variety Code</th>
+                            <th class="col-md-2 py-3" *ngIf="activeMeetingNo">Meeting Number</th>
+                            <th class="col-md-2 py-3" *ngIf="activeType"> Variety Type </th>
+                            <!-- <th class="coz-md-2 py-3" *ngIf="activeNotificationYear">Notification Year</th> -->
+                            <th class="col-md-2 py-3" *ngIf="activeNotificationDate">Notification Date</th>
+                            <th class="col-md-2 py-3" *ngIf="activeNotificationNumber">Notification Number</th>
+                            <th class="col-md-2 py-3" *ngIf="activeIntroduceYear">Introduction Year</th>
+                            <th class="col-md-2 py-3" *ngIf="activeDevelopedBy">Developed By</th>
+                            <th class="col-md-2 py-3" *ngIf="activereleaseNo">Year of Release</th>
+                            <th class="col-md-2 py-3" *ngIf="year_of_releases">Year of Introduction in the Marke</th>
+                            <th class="col-md-2 py-3" *ngIf="recomdenedState">Recommended State(s) for Cultivation</th>
+                            <th class="col-md-2 py-3" *ngIf="ietnumber">IET Number/Name By Which Tested</th>
+                            <th class="col-md-2 py-3" *ngIf="responsible_institution_for_developing_breeder_seed">Responsible Institution for Developing Breeder Seed</th>
+                            <th class="col-md-2 py-3" *ngIf="maturityStatus">Types of Maturity</th>
+                            <th class="col-md-2 py-3" *ngIf="activegeneric_morphological_characteristics">Generic Morphological Characteristics</th>
+                            <th class="col-md-2 py-3" *ngIf="activespecific_morphological_characteristics">Specific Morphological Characteristics</th>
+                            <th class="col-md-2 py-3" *ngIf="activesaverage_yield">Average Yield (Kg/Ha)</th>
+                            <th class="col-md-2 py-3" *ngIf="activesadaptationa_and_recommended_ecology">Adaptation and Recommended Ecology</th>
+                            <th class="col-md-2 py-3" *ngIf="activeagronomic_feature">Agronomic Feature</th>
+                            <th class="col-md-2 py-3" *ngIf="activereaction_to_major_diseases">Reaction to Major Diseases</th>
+                            <th class="col-md-2 py-3" *ngIf="activereaction_to_major_pests">Reaction to Major Pests</th>
+                            <th class="col-md-2 py-3" *ngIf="activefertiliser_dosage">Fertiliser Dosage(Kg/Ha)</th>
+
+                            <th scope="col" class="col-md-2 py-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let data of exportdata; let dataIndex=index">
+                        <tr>
+                            <td>{{ dataIndex + 1}}</td>
+                            <td *ngIf="activeCropGroup">
+                                <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom"
+                                    title="{{data && data.m_crop && data.m_crop.m_crop_group && data.m_crop.m_crop_group.group_name ? data.m_crop.m_crop_group.group_name :'NA'}}">{{(data
+                                    && data.m_crop && data.m_crop.m_crop_group &&
+                                    (data.m_crop.m_crop_group.group_name.length > 30) ?
+                                    (data.m_crop.m_crop_group.group_name.substring(0, 30)
+                                    +
+                                    "..."):(data.m_crop? data.m_crop.m_crop_group.group_name :"NA"))}}</span>
+                            </td>
+                            <td *ngIf="activeCropName">
+                                <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom"
+                                    title="{{data && data.m_crop && data.m_crop.crop_name ? data.m_crop.crop_name:''}}">{{(data
+                                    &&
+                                    data.m_crop &&
+                                    (data.m_crop.crop_name.length > 30) ? (data.m_crop.crop_name.substring(0, 30) +
+                                    "..."):(data.m_crop? data.m_crop.crop_name :"NA"))}}</span>
+                            </td>
+                            <td *ngIf="activeCropCode">
+                                <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom"
+                                    title="{{data && data.m_crop && data.m_crop.crop_code ? data.m_crop.crop_code:''}}">{{(data
+                                    &&
+                                    data.crop_code &&
+                                    (data.crop_code.length > 30) ? (data.crop_code.substring(0, 30) +
+                                    "..."):(data && data.crop_code ? data.crop_code :"NA"))}}</span>
+                            </td>
+                            <td *ngIf="activeVarietyName">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom" title="{{data && data.variety_name}}">{{(data &&
+                                    data.variety_name &&
+                                    (data.variety_name.length > 30) ? (data.variety_name.substring(0, 30) +
+                                    "..."):(data.variety_name? data.variety_name:"NA"))}}</span>
+                            </td>
+                            <td *ngIf="activeVarietyCode">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom" title="{{data && data.variety_code}}">{{(data &&
+                                    data.variety_code &&
+                                    (data.variety_code.length > 30) ? (data.variety_code.substring(0, 30) +
+                                    "..."):(data.variety_code?data.variety_code :'NA'))}}</span>
+                            </td>
+
+                            <td *ngIf="activeMeetingNo">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom" title="{{data && data.meeting_number}}">{{data &&
+                                    data.meeting_number ? data.meeting_number:"NA"}}</span>
+                            </td>
+
+                            <td *ngIf="activeType">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom" title="{{data && data.type}}">{{data &&
+                                    data.type ? data.type :"NA"}}</span>
+                            </td>
+                            <td *ngIf="activeNotificationDate">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom" title="{{data && data.not_date}}">{{data &&
+                                    data.not_date ? data.not_date : "NA"}}</span>
+                            </td>
+                            <td *ngIf="year_of_releases">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom" title="{{data && data.year_of_releases}}">{{data &&
+                                    data.year_of_releases ? data.year_of_releases : "NA"}}</span>
+                            </td>
+
+                            <td *ngIf="activeIntroduceYear">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom" title="{{data && data.introduce_year}}">{{data &&
+                                    data.introduce_year ? data.introduce_year :'NA' }}</span>
+                            </td>
+
+                            <td *ngIf="activeDevelopedBy">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom" title="{{data && data.developed_by}}">{{data &&
+                                    data.developed_by ? data.developed_by :"NA"}}</span>
+                            </td>
+                            <td *ngIf="activereleaseNo">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="{{data && data.release_date ? data.release_date :'NA'}}">{{
+                                    data && data.release_date?data.release_date :'NA'}}</span>
+                            </td>
+                            <td *ngIf="recomdenedState">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="{{data && data.state_data ? getState(data.state_data ) :'NA'}}">{{
+                                    data && data.state_data?getState(data.state_data):'NA'}}</span>
+                            </td>
+                            <td *ngIf="ietnumber">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="{{data && data.state_data ? getState(data.state_data ) :'NA'}}">{{
+                                    data && data.state_data?getState(data.state_data):'NA'}}</span>
+                            </td>
+                            <td *ngIf="ietnumber">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="{{data && data.m_variety_characteristic && (data.m_variety_characteristic.iet_number ) ? (data.m_variety_characteristic.iet_number ) :'NA'}}">{{
+                                        data && data.m_variety_characteristic && (data.m_variety_characteristic.iet_number ) ? (data.m_variety_characteristic.iet_number ) :'NA'}}</span>
+                            </td>
+                            <td *ngIf="responsible_institution_for_developing_breeder_seed">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="{{data && data.m_variety_characteristic && (data.m_variety_characteristic.responsible_institution_for_developing_breeder_seed ) ? getInstitutionData(data.m_variety_characteristic.responsible_institution_for_developing_breeder_seed) :'NA'}}">{{
+                                        data && data.m_variety_characteristic && (data.m_variety_characteristic.responsible_institution_for_developing_breeder_seed ) ? getInstitutionData(data.m_variety_characteristic.responsible_institution_for_developing_breeder_seed) :'NA'}}</span>
+                            </td>
+                            <td *ngIf="maturityStatus">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom"
+
+                                    title="{{data && data.m_variety_characteristic && (data.m_variety_characteristic.matuarity_type_id ) ? getMature(data.m_variety_characteristic.matuarity_type_id) :'NA'}}">{{data && data.m_variety_characteristic && (data.m_variety_characteristic.matuarity_type_id ) ? getMature(data.m_variety_characteristic.matuarity_type_id) :'NA'}}</span>
+                            </td>
+                            <td *ngIf="activegeneric_morphological_characteristics">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="{{data && data.m_variety_characteristic && (data.m_variety_characteristic.generic_morphological ) ? (data.m_variety_characteristic.generic_morphological ) :'NA'}}">{{
+                                        data && data.m_variety_characteristic && (data.m_variety_characteristic.generic_morphological ) ? (data.m_variety_characteristic.generic_morphological ) :'NA'}}</span>
+                            </td>
+                            <td *ngIf="activespecific_morphological_characteristics">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="{{data && data.m_variety_characteristic && (data.m_variety_characteristic.specific_morphological ) ? (data.m_variety_characteristic.specific_morphological ) :'NA'}}">{{
+                                        data && data.m_variety_characteristic && (data.m_variety_characteristic.specific_morphological ) ? (data.m_variety_characteristic.specific_morphological ) :'NA'}}</span>
+                            </td>
+                            <td *ngIf="activesaverage_yield">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="{{data && data.m_variety_characteristic && (data.m_variety_characteristic.average_yeild_from ) ? (data.m_variety_characteristic.average_yeild_from ) :'NA'}}">{{
+                                        data && data.m_variety_characteristic && (data.m_variety_characteristic.average_yeild_from ) ? (data.m_variety_characteristic.average_yeild_from ) :'NA'}}</span>
+                            </td>
+                            <td *ngIf="activesadaptationa_and_recommended_ecology">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="{{data && data.m_variety_characteristic && (data.m_variety_characteristic.adoptation ) ? (data.m_variety_characteristic.adoptation ) :'NA'}}">{{
+                                        data && data.m_variety_characteristic && (data.m_variety_characteristic.adoptation ) ? (data.m_variety_characteristic.adoptation ) :'NA'}}</span>
+                            </td>
+                          
+                            <td *ngIf="activeagronomic_feature">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="{{data && data.m_variety_characteristic && (data.m_variety_characteristic.agronomic_features ) ? (data.m_variety_characteristic.agronomic_features ) :'NA'}}">{{
+                                        data && data.m_variety_characteristic && (data.m_variety_characteristic.agronomic_features ) ? (data.m_variety_characteristic.agronomic_features ) :'NA'}}</span>
+                            </td>
+                            <td *ngIf="activereaction_to_major_diseases">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="{{data && data.m_variety_characteristic && (data.m_variety_characteristic.reaction_major_diseases ) ? (data.m_variety_characteristic.reaction_major_diseases ) :'NA'}}">{{
+                                        data && data.m_variety_characteristic && (data.m_variety_characteristic.reaction_major_diseases ) ? (data.m_variety_characteristic.reaction_major_diseases ) :'NA'}}</span>
+                            </td>
+                            <td *ngIf="activereaction_to_major_pests">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="{{data && data.m_variety_characteristic && (data.m_variety_characteristic.reaction_to_pets ) ? (data.m_variety_characteristic.reaction_to_pets ) :'NA'}}">{{
+                                        data && data.m_variety_characteristic && (data.m_variety_characteristic.reaction_to_pets ) ? (data.m_variety_characteristic.reaction_to_pets ) :'NA'}}</span>
+                            </td>
+                            <td *ngIf="activefertiliser_dosage">
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="{{data && data.m_variety_characteristic && (data.m_variety_characteristic.fertilizer_dosage ) ? (data.m_variety_characteristic.fertilizer_dosage ) :'NA'}}">{{
+                                        data && data.m_variety_characteristic && (data.m_variety_characteristic.fertilizer_dosage ) ? (data.m_variety_characteristic.fertilizer_dosage ) :'NA'}}</span>
+                            </td>
+                            <td>
+                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom">{{data &&
+                                    (data.is_active==1)?'Active':'Inactive'}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- table for exel Download end -->
+
+
+                <div class="col-12 px-4">
+                    <div *ngIf="searchBtn" class="list-wrapper px-2 py-3">
+                        <div class="row d-md-flex data-row-header extra-header">
+                            <div class="col-12 col-md-12 py-3 d-flex justify-content-center">List of Crop Varieties</div>
+                        </div>
+                        <br>
+                        <div class="row data-row">
+                            <table class="table table-bordered table-responsive">
+                                <thead>
+                                    <tr class="data-row-header">
+                                        <th scope="col" class="col-md-1 py-3">S/N</th>
+                                        <!-- <th *ngFor="let data of gridData;" scope="col" class="col-md-3 py-3">{{data && data.fieldName ? data.fieldName :''}}</th> -->
+                                        <th class="col-md-2 py-3" *ngIf="activeCropGroup">Crop Group</th>
+                                        <th class="col-md-2 py-3" *ngIf="activeCropName">Crop Name</th>
+                                        <th class="col-md-2 py-3" *ngIf="activeCropCode">Crop Code</th>
+                                        <th class="col-md-2 py-3" *ngIf="activeVarietyName">Variety Name</th>
+                                        <th class="col-md-2 py-3" *ngIf="activeVarietyCode">Variety Code</th>
+                                        <th class="col-md-2 py-3" *ngIf="activeyear_of_releaseCode">Year of Release</th>
+                                        <th class="col-md-2 py-3" *ngIf="activeMeetingNo">Meeting Number</th>
+                                        <th class="col-md-2 py-3" *ngIf="activeType"> Variety Type </th>
+                                        <!-- <th class="coz-md-2 py-3" *ngIf="activeNotificationYear">Notification Year</th> -->
+                                        <th class="col-md-2 py-3" *ngIf="activeNotificationDate">Notification Date</th>
+                                        <th class="col-md-2 py-3" *ngIf="activeNotificationNumber">Notification Number</th>
+                                        <th class="col-md-2 py-3" *ngIf="activeIntroduceYear">Introduction Year</th>
+                                        <th class="col-md-2 py-3" *ngIf="activeDevelopedBy">Developed By</th>
+                                        <!-- <th class="col-md-2 py-3" *ngIf="activereleaseNo">Year of Release</th> -->
+                                        <th class="col-md-2 py-3" *ngIf="year_of_releases">Year of Introduction in the Market</th>
+                                        <th class="col-md-2 py-3" *ngIf="recomdenedState">Recommended State(s) for Cultivation</th>
+                                        <th class="col-md-2 py-3" *ngIf="ietnumber">IET Number/Name By Which Tested</th>
+                                        <th class="col-md-2 py-3" *ngIf="responsible_institution_for_developing_breeder_seed">Responsible Institution for Developing Breeder Seed</th>
+                                        <th class="col-md-2 py-3" *ngIf="maturityStatus">Types of Maturity</th>
+                                        <th class="col-md-2 py-3" *ngIf="activegeneric_morphological_characteristics">Generic Morphological Characteristics</th>
+                                        <th class="col-md-2 py-3" *ngIf="activespecific_morphological_characteristics">Specific Morphological Characteristics</th>
+                                        <th class="col-md-2 py-3" *ngIf="activesaverage_yield">Average Yield (Kg/Ha)</th>
+                                        <th class="col-md-2 py-3" *ngIf="activesadaptationa_and_recommended_ecology">Adaptation and Recommended Ecology</th>
+                                        <th class="col-md-2 py-3" *ngIf="activeagronomic_feature">Agronomic Feature</th>
+                                        <th class="col-md-2 py-3" *ngIf="activereaction_to_major_diseases">Reaction to Major Diseases</th>
+                                        <th class="col-md-2 py-3" *ngIf="activereaction_to_major_pests">Reaction to Major Pests</th>
+                                        <!-- <th class="col-md-2 py-3" *ngIf="activereaction_to_major_pests">Reaction to Major Pests</th> -->
+                                        <th class="col-md-2 py-3" *ngIf="activefertiliser_dosage">Fertiliser Dosage(Kg/Ha)</th>
+
+                                        <th scope="col" class="col-md-2 py-3">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody [hidden]="countData==0"
+                                    *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index">
+                                    <td>
+                                        <span title="{{(filterPaginateSearch.itemListCurrentPage - 1) *
+                                            filterPaginateSearch.itemListPageSize + dataIndex + 1}}">{{
+                                            (filterPaginateSearch.itemListCurrentPage - 1) *
+                                            filterPaginateSearch.itemListPageSize + dataIndex + 1}}.</span>
+                                    </td>
+                                    <td *ngIf="activeCropGroup">
+                                        <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom"
+                                            title="{{data && data.group_name ? data.group_name :'NA'}}">{{(data
+                                            &&
+                                            (data.group_name.length > 30) ?
+                                            ((data.group_name.substring(0, 30)|uppercase)
+                                            +
+                                            "..."):(data.group_name ? data.group_name :"NA"))}}</span>
+                                    </td>
+                                    <td *ngIf="activeCropName">
+                                        <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom"
+                                            title="{{data && data.crop_name ? data.crop_name:'NA'}}">{{(data &&
+                                            data.crop_name &&
+                                            (data.crop_name.length > 30) ? ((data.crop_name.substring(0,
+                                            30)|uppercase) +
+                                            "..."):(data && data.crop_name ? data.crop_name :"NA"))}}</span>
+                                    </td>
+                                    <td *ngIf="activeCropCode">
+                                        <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom"
+                                            title="{{data && data.crop_code ? data.crop_code:'NA'}}">{{(data &&
+                                            data.crop_code &&
+                                            (data.crop_code.length > 30) ? ((data.crop_code.substring(0,
+                                            30)|uppercase) +
+                                            "..."):(data && data.crop_code ? data.crop_code :"NA"))}}</span>
+                                    </td>
+                                    <td *ngIf="activeVarietyName">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.variety_name ? data.variety_name:'NA'}}">{{(data &&
+                                            data.variety_name &&
+                                            (data.variety_name.length > 30) ? (data.variety_name.substring(0, 30) +
+                                            "..."):(data.variety_name? data.variety_name:"NA"))}}</span>
+                                    </td>
+                                    <td *ngIf="activeVarietyCode">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.variety_code ? data.variety_code :'NA'}}">{{(data &&
+                                            data.variety_code &&
+                                            (data.variety_code.length > 30) ? (data.variety_code.substring(0, 30) +
+                                            "..."):(data.variety_code?data.variety_code :'NA'))}}</span>
+                                    </td>
+
+                                    <!-- ---------------------------- -->
+                                    
+                                    <td *ngIf="activeyear_of_releaseCode">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.release_date ? data.release_date:'NA'}}">{{data &&
+                                            data.release_date?data.release_date :'NA'}}</span>
+                                    </td>
+                                    <td *ngIf="activeMeetingNo">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.meeting_no ? data.meeting_no:'NA'}}">{{data &&
+                                            data.meeting_no?data.meeting_no :'NA'}}</span>
+                                    </td>
+
+                                    <td *ngIf="activeType">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom" title="{{data && data.type ? data.type:'NA'}}">{{
+                                            data &&
+                                            data.type ? data.type:'NA'}}</span>
+                                    </td>
+                                    <td *ngIf="year_of_releases">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom" title="{{data && data.year_of_releases}}">{{data &&
+                                            data.year_of_releases ? data.year_of_releases : "NA"}}</span>
+                                    </td>
+                                    <td *ngIf="activeNotificationDate">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.notification_date ? data.notification_date:'NA'}}">{{data
+                                            &&
+                                            data.notification_date ? (data.notification_date |
+                                            date:'dd-MM-yyyy'):'NA'}}</span>
+                                    </td>
+                                    <td *ngIf="activeNotificationNumber">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.notification_no ? data.notification_no:'NA'}}">{{data
+                                            &&
+                                            data.notification_no ? (data.notification_no ):'NA'}}</span>
+                                    </td>
+                                    <td *ngIf="activeIntroduceYear">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.introduce_year ? data.introduce_year :'NA'}}">{{data
+                                            && data.introduce_year? data.introduce_year :'NA'}}</span>
+                                    </td>
+                                    <td *ngIf="activeDevelopedBy">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.developed_by ? data.developed_by :'NA'}}">{{
+                                            data && data.developed_by?data.developed_by :'NA'}}</span>
+                                    </td>
+                                    <!-- <td *ngIf="activereleaseNo">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.release_date ? data.release_date :'NA'}}">{{
+                                            data && data.release_date?data.release_date :'NA'}}</span>
+                                    </td> -->
+                                    <td *ngIf="recomdenedState">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.state_data ? getState(data.state_data ) :'NA'}}">{{
+                                            data && data.state_data?getState(data.state_data):'NA'}}</span>
+                                    </td>
+                                    <td *ngIf="ietnumber">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.iet_number ? data.iet_number :'NA'}}">{{
+                                            data && data.iet_number?data.iet_number :'NA'}}</span>
+                                    </td>
+                                    <td *ngIf="responsible_institution_for_developing_breeder_seed">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.responsible_institution_for_developing_breeder_seed ? getInstitutionData(data.responsible_institution_for_developing_breeder_seed) :'NA'}}">{{
+                                            data && data.responsible_institution_for_developing_breeder_seed?getInstitutionData(data.responsible_institution_for_developing_breeder_seed) :'NA'}}</span>
+                                    </td>
+                                    <td *ngIf="maturityStatus">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.matuarity_type_id && ( data.matuarity_type_id==1)?'Early' :(data.matuarity_type_id==2)?'Medium': (data.matuarity_type_id==3)?'Late':'NA'}}">{{
+                                            data && data.matuarity_type_id && ( data.matuarity_type_id==1)?'Early' :(data.matuarity_type_id==2)?'Medium': (data.matuarity_type_id==3)?'Late':'NA'}}</span>
+                                    </td>
+                                     <td *ngIf="resemblanceofvarietyStatus">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.resemblance_to_variety ? data.resemblance_to_variety :'NA'}}">{{
+                                            data && data.resemblance_to_variety?data.resemblance_to_variety :'NA'}}</span>
+                                    </td>
+                                     <td *ngIf="activegeneric_morphological_characteristics">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.generic_morphological ? data.generic_morphological :'NA'}}">{{
+                                            data && data.generic_morphological?data.generic_morphological :'NA'}}</span>
+                                    </td>
+                                     <!-- <td *ngIf="activespecific_morphological_characteristics">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.specific_morphological ? data.specific_morphological :'NA'}}">{{
+                                            data && data.specific_morphological?data.specific_morphological :'NA'}}</span>
+                                    </td> -->
+                                     <td *ngIf="activespecific_morphological_characteristics">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.specific_morphological ? data.specific_morphological :'NA'}}">{{
+                                            data && data.specific_morphological?data.specific_morphological :'NA'}}</span>
+                                    </td>
+                                     <td *ngIf="activesaverage_yield">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.average_yeild_from ? data.average_yeild_from :'NA'}}">{{
+                                            data && data.average_yeild_from?data.average_yeild_from :'NA'}}</span>
+                                    </td>
+                                     <td *ngIf="activesadaptationa_and_recommended_ecology">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.adoptation ? data.adoptation :'NA'}}">{{
+                                            data && data.adoptation?data.adoptation :'NA'}}</span>
+                                    </td>
+                                     <td *ngIf="activeagronomic_feature">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.activeagronomic_feature ? data.activeagronomic_feature :'NA'}}">{{
+                                            data && data.activeagronomic_feature?data.activeagronomic_feature :'NA'}}</span>
+                                    </td>
+                                     <td *ngIf="activereaction_to_major_diseases">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.reaction_major_diseases ? data.reaction_major_diseases :'NA'}}">{{
+                                            data && data.reaction_major_diseases?data.reaction_major_diseases :'NA'}}</span>
+                                    </td>
+                                     <!-- <td *ngIf="activereaction_to_major_pests">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.reaction_to_pets ? data.reaction_to_pets :'NA'}}">{{
+                                            data && data.reaction_to_pets?data.reaction_to_pets :'NA'}}</span>
+                                    </td> -->
+                                     <td *ngIf="activefertiliser_dosage">
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="{{data && data.fertilizer_dosage ? data.fertilizer_dosage :'NA'}}">{{
+                                            data && data.fertilizer_dosage?data.fertilizer_dosage :'NA'}}</span>
+                                    </td>
+                                    <td>
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                            data-placement="bottom">{{data &&
+                                            (data.is_active==1)?'ACTIVE':'INACTIVE'}}</span>
+                                    </td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1 && searchBtn)"
+                        class="px-2 py-3 w-100" style="height: 50px;">
+                        <!-- <hr _ngcontent-jwr-c108="" class="separator mx-0 mt-1"> -->
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            No Data Found.
+                        </div>
+                    </div>
+                    <div *ngIf="!searchBtn" class="px-2 py-3 w-100" style="height: 50px;">
+                        <!-- <hr _ngcontent-jwr-c108="" class="separator mx-0 mt-1"> -->
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            Please Select Filter.
+                        </div>
+                    </div>
+
+                </div>
+                <div *ngIf="searchBtn" class="col-12 px-4 px-md-0 py-1 pb-4">
+                    <app-pagination-ui></app-pagination-ui>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

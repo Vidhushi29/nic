@@ -1,0 +1,277 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <div class="row">
+                <form [formGroup]="ngForm">
+                    <div class="col-12 px-4 mt-2">
+                        <div class="row">
+                            <div class="col-md-10 pl-4 pb-2">
+                                <span class="heading_notofied">Allocation of Breeder Seeds to Indenters Lifting</span>
+                            </div>
+                            <div class="col-md-1 pl-4 pb-2"
+                                style="font: normal normal 600 20px/30px Poppins; letter-spacing: 0px; color: #1C1C1C;">
+                            </div>
+                            <div class="col-md-1 pl-4 pb-2"
+                                style="font: normal normal 600 20px/30px Poppins; letter-spacing: 0px; color: #1C1C1C;">
+                            </div>
+                            <div class="col-md-4 mt-2 pl-2 py-2 py-md-0 pr-md-0">
+                                <div class="col-md-12">
+                                    <label for="" class="search_txt">Year of Indent</label>
+                                </div>
+                                <div _ngcontent-cvx-c131="" class="col-md-12 pr-2 pr-md-0">
+                                    <select class="form-control" formControlName="year"
+                                        (change)="onChangeYear(ngForm.value.year)">
+                                        <option value="">Select Year of Indent</option>
+                                        <option *ngFor="let data of yearOfIndent" value="{{data.year}}">
+                                            {{data.year}}-{{(data.year-2000) + 1}}
+                                        </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-2 mt-2 py-2 py-md-0 pr-md-0 pl-md-0">
+                                <div class="col-12">
+                                    <label for="Crop Name" class="search_txt">Crop Name</label>
+                                </div>
+                                <div class="col-12 pr-2 pr-md-0">
+                                    <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="crop" (change)="onChangeCropCode(ngForm.value.crop)">
+                                        <option value="">Select Crop Name</option>
+                                        <option *ngFor="let data of response_crop_group" value="{{data.crop_code}}">
+                                            {{data.m_crop.crop_name || 'NA'}}</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4 pl-0 mt-2 pl-2 py-2 py-md-0 pl-md-0">
+                                <div class="col-12">
+                                    <label for="Crop Name" class="search_txt">Variety Name</label>
+                                </div>
+                                <div class="col-12 pr-2">
+                                    <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="season">
+                                        <option value="">Select Variety Name</option>
+                                        <option *ngFor="let data of seasonList" value="{{data.variety_id}}">
+                                            {{data.m_crop_variety.variety_name || 'NA'}}
+                                        </option>
+                                    </select>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+                                        <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12 mt-0 buttons-phone">
+                                <button
+                                    class="form-button   search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-2"
+                                    (click)="submit()"> Search </button>
+                                <button (click)="clear()"
+                                    class="clear-form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                    Clear
+                                </button>
+
+
+                                <div class="dropdown float-right export_dropdown">
+                                    <button (click)="myFunction()"
+                                        class="form-button  search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-2"
+                                        style="font-size: 87%;">Export To &nbsp;<i class="fa fa-angle-down"
+                                            aria-hidden="true"> </i></button>
+                                    <div id="myDropdown" class="dropdown-content">
+                                        <a (click)="download()"> <img src="assets\icons\pdf-icon.png" alt=""
+                                                width="20px" height="20px"> PDF</a>
+                                        <a (click)="exportexcel()"> <img src="assets\icons\excel.jpg" alt=""
+                                                width="20px" alt=""> Excel</a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+
+                            <div _ngcontent-cvx-c131="" class="col-12 px-4">
+                                <hr _ngcontent-cvx-c131="" class="separator m-0">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-12 px-4" id="excel-table">
+                    <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+                    <div class="list-wrapper px-4 py-3">
+                        <div class="row d-md-flex data-row-header extra-header">
+                            <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                            </div> -->
+                            <div class="col-12 col-md-12 py-3 d-flex justify-content-center">Allocation of Breeder Seeds
+                                to Indenters Lifting</div>
+                            <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                            </div> -->
+                        </div>
+                        <br>
+
+                        <!-- <div class="row d-md-flex data-row-header">
+                            <div class="col-3 col-md-3 py-3 d-flex verticle-content-middle">Year :
+                                {{year?year:'2022'}}</div>
+                            <div class="col-3 col-md-3 py-3 d-flex verticle-content-middle">Crop :
+                                {{crop?crop:'BULBVEGETABLES'}}
+                            </div>
+                            <div class="col-3 col-md-3 py-3 d-flex verticle-content-middle">Variety :
+                                {{season?season:'Kharif'}}
+                            </div>
+
+                            <div class="col-3 col-md-3 py-3 d-flex justify-content-end">As on Date: {{todayData
+                                | date:"dd-MM-YYYY"}}</div>
+
+                        </div>
+                        <div class="middle_line"></div> -->
+
+                        <div class="row data-row">
+                            <table class="table table-bordered table-responsive">
+                                <thead>
+                                    <tr class="data-row-header">
+                                        <th scope="col" class="col-md-0 py-3 sn-report">S/N</th>
+                                        <th scope="col" class="col-md-2 py-3">Variety</th>
+                                        <th scope="col" class="col-md-3 py-3">Indent Agency</th>
+                                        <th scope="col" class="col-md-3 py-3">Indent Quantity
+                                        </th>
+                                        <th scope="col" class="col-md-2 py-3">Production Centre</th>
+                                        <th scope="col" class="col-md-2 py-3">Allocation</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index">
+                                    <tr>
+                                        <td>
+                                            <label class="d-md-none" class="d-md-none"></label>
+                                            <span>{{ (filterPaginateSearch.itemListCurrentPage - 1) *
+                                                filterPaginateSearch.itemListPageSize + dataIndex + 1}}.</span>
+                                        </td>
+                                        <td>
+                                            <label class="d-md-none"></label>
+
+                                            <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom"
+                                                title="{{data && data.m_state?data.m_state.state_name:''}}">{{(data &&
+                                                data.m_crop_variety && data.m_crop_variety.variety_name) ||
+                                                'NA'}}</span>
+                                        </td>
+                                        <td>
+                                            <label class="d-md-none"></label>
+
+                                            <span style="cursor: pointer;" data-toggle="tooltip"
+                                                data-placement="bottom" title="{{(data &&
+                                                    data.indent_of_breederseed && data.indent_of_breederseed.user &&
+                                                    data.indent_of_breederseed.user.agency_detail &&
+                                                    data.indent_of_breederseed.user.agency_detail.agency_name) ||
+                                                    'NA'}}">{{(data &&
+                                                data.indent_of_breederseed && data.indent_of_breederseed.user &&
+                                                data.indent_of_breederseed.user.agency_detail &&
+                                                data.indent_of_breederseed.user.agency_detail.agency_name) ||
+                                                'NA'}}</span>
+                                        </td>
+                                        <td><label class="d-md-none"></label>
+
+                                            <span style="cursor: pointer;" data-toggle="tooltip"
+                                                data-placement="bottom" title="{{(data &&
+                                                    data.indent_of_breederseed &&
+                                                    data.indent_of_breederseed.indent_quantity) || 'NA'}}
+                                                    {{(data.crop_code[0]=='H')?'Kg':'Quintal'}}">
+                                                {{(data &&
+                                                data.indent_of_breederseed &&
+                                                data.indent_of_breederseed.indent_quantity) || 'NA'}}
+                                                {{(data.crop_code[0]=='H')?'Kg':'Quintal'}}</span>
+                                        </td>
+                                        <td><label class="d-md-none"></label>
+
+                                            <span style="cursor: pointer;" data-toggle="tooltip"
+                                                data-placement="bottom" title="{{(data && data.user && data.user.name | titlecase) ||
+                                                    'NA'}}">
+                                                {{(data && data.user && data.user.name | titlecase) ||
+                                                'NA'}}</span>
+                                        </td>
+                                        <td><label class="d-md-none"></label>
+
+                                            <span style="cursor: pointer;" data-toggle="tooltip"
+                                                data-placement="bottom">
+                                                {{(data && data.quantity) ||
+                                                'NA'}}</span>
+                                        </td>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- <table class="table table-bordered border-primary table-responsive text-center">
+                                    <thead style="display:none;">
+                                        <tr style="background-color: #eb9777;">
+                                            <td>Year: {{year?year:'2022'}}</td>
+                                            <td>Season: {{season?season:'Kharif'}}</td>
+                                            <td>Crop Name: {{crop?crop:'BULB VEGETABLES'}}</td>
+                                            <td>As on Date: {{todayData | date:"dd-MM-YYYY"}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Variety</td>
+                                            <td>Indent Needed</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <div *ngFor="let data of finalData; let dataIndex=index">
+                                            <tr class="v1">
+                                                <td rowspan="0" title="{{(data.variety_id?data.variety_id:'NA')}}"
+                                                    width="30%">{{(data && data.variety_id && (data.variety_id.length >
+                                                    30) ? (data.variety_id.substring(0, 30) +
+                                                    "..."):(data.variety_id?data.variety_id:'NA'))}}</td>
+                                                <td rowspan="0" title="{{(data.season?data.season:'NA')}}" width="30%">
+                                                    {{(data && data.season && (data.season.length>
+                                                    30) ? (data.season.substring(0, 30) +
+                                                    "..."):(data.season?data.season:'NA'))}}</td>
+                                                <td rowspan="0" title="{{(data.variety_id?data.variety_id:'NA')}}"
+                                                    width="80%">{{(data && data.variety_id && (data.variety_id.length >
+                                                    30) ? (data.variety_id.substring(0, 30) +
+                                                    "..."):(data.variety_id?data.variety_id:'NA'))}}</td>
+                                                <td rowspan="0" title="{{(data.variety_id?data.variety_id:'NA')}}"
+                                                    width="80%">{{(data && data.variety_id && (data.variety_id.length >
+                                                    30) ? (data.variety_id.substring(0, 30) +
+                                                    "..."):(data.variety_id?data.variety_id:'NA'))}}</td>
+                                                <td rowspan="0" title="{{(data.variety_id?data.variety_id:'NA')}}"
+                                                    width="30%">{{(data && data.variety_id && (data.variety_id.length >
+                                                    30) ? (data.variety_id.substring(0, 30) +
+                                                    "..."):(data.variety_id?data.variety_id:'NA'))}}</td>
+                                                <td rowspan="0" title="{{(data.variety_id?data.variety_id:'NA')}}"
+                                                    width="80%">{{(data && data.variety_id && (data.variety_id.length >
+                                                    30) ? (data.variety_id.substring(0, 30) +
+                                                    "..."):(data.variety_id?data.variety_id:'NA'))}}</td>
+                                               
+                                            </tr>
+                                        </div>
+                                    </tbody>
+                                </table> -->
+
+
+                    </div>
+                </div>
+
+                <!-- <div class="col-6 px-4 py-3">
+                    <button _ngcontent-cvx-c131=""
+                        class="form-button search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-3"
+                        (click)="freeze()">Freeze </button> -->
+
+                <div class="col-12 px-3   py-3">
+                    <app-pagination-ui></app-pagination-ui>
+                    <!-- <div _ngcontent-col-c109="" class="w-fit-content pr-2 d-block d-lg-inline-flex"><button _ngcontent-col-c109="" class="prev-paginate page-numbers d-inline-flex justify-content-center verticle-content-middle mx-2"><i _ngcontent-col-c109="" class="fal fa-less-than"></i></button><div _ngcontent-col-c109="" class="page-number-wrapper d-inline-flex py-2 py-lg-0"><button _ngcontent-col-c109="" class="page-numbers mx-2 active" ng-reflect-ng-class="active"> 1 </button><button _ngcontent-col-c109="" class="page-numbers mx-2" ng-reflect-ng-class=""> 2 </button>
+                    </div><div _ngcontent-col-c109="" class="enter-page-wrapper d-inline-flex mx-2"><input _ngcontent-col-c109="" placeholder="Enter Page No." formcontrolname="enterPage" class="px-2 ng-untouched ng-pristine ng-valid" ng-reflect-name="enterPage" ng-reflect-ng-class=""><button _ngcontent-col-c109="" class="page-numbers active">Go</button></div></div> -->
+                </div>
+                <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+                    class="px-2 py-3 w-100" style="height: 50px;">
+                    <div class="d-flex verticle-content-middle justify-content-center w-100">
+                        No Data Found.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

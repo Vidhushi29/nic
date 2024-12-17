@@ -1,0 +1,170 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="container main-content-form-wrapper px-0 py-2">
+            <div class="row">
+                <div class="col-12 px-4 py-3">
+                    <div class="row">
+                        <div class="col-12 px-4" style="font: normal normal 600 20px/30px Poppins;
+                        letter-spacing: 0px;
+                        color: #1C1C1C;">
+                            Nucleus Seed Availability by Breeder
+                        </div>
+                        <div class="col-12 pt-2 pb-0">
+                            <!-- <div class=""> -->
+                            <div class="row form-group pl-3 pr-3">
+                                <!-- Year of Indent -->
+                                <div class="col-4">
+                                    <div class="row form-group">
+                                        <div class="col-12">
+                                            <label for="Year of Indent">Year of Indent</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="" id="" class="form-control dropdown">
+                                                <option value="">Select Year of Indent</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2022">2022</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Crop Name -->
+                                <div class="col-4">
+                                    <div class="row form-group">
+                                        <div class="col-12">
+                                            <label for="Crop Name">Crop Name</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="" id="" class="form-control dropdown">
+                                                <option value="">Select Crop Name</option>
+                                                <option value="">Crop 1</option>
+                                                <option value="">Crop 2</option>
+                                                <option value="">Crop 3</option>
+                                                <option value="">Crop 4</option>
+                                                <option value="">Crop 5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Variety Name -->
+                                <div class="col-4">
+                                    <div class="row form-group">
+                                        <div class="col-12">
+                                            <label for="Variety Name">Variety Name</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="" id="" class="form-control dropdown">
+                                                <option value="">Select Variety Name </option>
+                                                <option value="">Variety 1</option>
+                                                <option value="">Variety 2</option>
+                                                <option value="">Variety 3</option>
+                                                <option value="">Variety 4</option>
+                                                <option value="">Variety 5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- </div> -->
+                        </div>
+                        <div class="col-12 px-4">
+                            <button
+                                class="clear-form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="clear()">
+                                Clear
+                            </button>
+                            <button
+                                class="form-button search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-3"
+                                (click)="search()">
+                                Search
+                            </button>
+                        </div>
+
+                        <div class="col-12 pl-0">
+                            <hr class="separator ">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 px-4 d-flex justify-content-end" style="padding-right: 2rem!important;">
+                    <button class="form-button d-flex justify-content-center verticle-content-middle"
+                        style="width: 100px !important;" (click)="addFormRedirection()">Add</button>
+                </div>
+                <div class="col-12 px-4">
+                    <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+                    <div class="list-wrapper px-4 py-3">
+                        <div class="row d-none d-md-flex data-row-header">
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">S/N</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Breeder Production Centre
+                                Name</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Contact Officer Name</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Contact Officer Designation
+                                & Address</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Quantity of Nucleus Seed
+                                (Kg)</div>
+                            <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle justify-content-center">
+                                Action
+                            </div>
+                        </div>
+                        <div class="row data-row"
+                            *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index">
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none" class="d-md-none">S/N:&nbsp;</label>
+                                    <span>{{ (filterPaginateSearch.itemListCurrentPage - 1) *
+                                        filterPaginateSearch.itemListPageSize + dataIndex + 1}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none">Breeder Production Centre Name:&nbsp;</label>
+                                    <span>{{ data.variety.name }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none">Contact Officer Name:&nbsp;</label>
+                                    <span>{{ data.year.name }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none">Contact Officer Designation & Address:&nbsp;</label>
+                                    <span>{{ data.crop.name }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none">Quantity of Nucleus Seed (Kg):&nbsp;</label>
+                                    <span>{{ data.crop.name }}</span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3 py-3 d-flex verticle-content-middle justify-content-md-center">
+                                <div class="list-action-buttons-wrapper w-fit-content">
+                                    <button class="list-action-buttons mr-2"
+                                        [routerLink]="['/indent-breeder-seed-allocation-list/submission/edit', data.id]">
+                                        <img src="assets/images/edit.svg">
+                                    </button>
+                                    <button class="list-action-buttons mx-2"
+                                        [routerLink]="['/indent-breeder-seed-allocation-list/submission/view', data.id]">
+                                        <img src="assets/images/view.svg">
+                                    </button>
+                                    <button class="list-action-buttons ml-2" (click)="delete(data.id)">
+                                        <img src="assets/images/delete.svg">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 px-4 py-3">
+                    <app-pagination-ui></app-pagination-ui>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

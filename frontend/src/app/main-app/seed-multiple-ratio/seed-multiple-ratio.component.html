@@ -1,0 +1,93 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="container main-content-form-wrapper px-0 py-2">
+            <div class="row">
+                <div class="col-12 px-4 py-3">
+                    <app-indent-breeder-seed-allocation-search></app-indent-breeder-seed-allocation-search>
+                </div>
+                <div class="col-12 px-4 d-flex justify-content-end" style="padding-right: 2rem!important;">
+                    <button class="form-button d-flex justify-content-center verticle-content-middle"
+                        style="width: 100px !important;"
+                        routerLink="/indent-breeder-seed-allocation-list/submission">Add</button>
+                </div>
+                <div class="col-12 px-4">
+                    <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+                    <div *ngIf="filterPaginateSearch && filterPaginateSearch.itemList && filterPaginateSearch.itemList.length > 0"
+                        class="list-wrapper px-4 py-3">
+                        <div class="row d-none d-md-flex data-row-header">
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">S/N</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Variety</div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Year</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Crop Name</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Crop Type</div>
+                            <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle justify-content-center">
+                                Action
+                            </div>
+                        </div>
+                        <div class="row data-row"
+                            *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index">
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none" class="d-md-none">S/N:&nbsp;</label>
+                                    <span>{{ (filterPaginateSearch.itemListCurrentPage - 1) *
+                                        filterPaginateSearch.itemListPageSize + dataIndex + 1}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none">Variety:&nbsp;</label>
+                                    <span>{{ data.variety.name }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none">Year:&nbsp;</label>
+                                    <span>{{ data.year.name }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none">Crop Name:&nbsp;</label>
+                                    <span>{{ data.m_crop.crop_name }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none">Crop Type:&nbsp;</label>
+                                    <span>{{ data.crop.cropType }}</span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3 py-1 d-flex verticle-content-middle justify-content-md-center">
+                                <div class="list-action-buttons-wrapper w-fit-content">
+                                    <button class="list-action-buttons mx-2 my-2"
+                                        [routerLink]="['/indent-breeder-seed-allocation-list/submission/edit', data.id]">
+                                        <img src="assets/images/edit.svg">
+                                    </button>
+                                    <button class="list-action-buttons mx-2 my-2"
+                                        [routerLink]="['/indent-breeder-seed-allocation-list/submission/view', data.id]">
+                                        <img src="assets/images/view.svg">
+                                    </button>
+                                    <button class="list-action-buttons mx-2 my-2" (click)="delete(data.id, data.crop.name)">
+                                        <img src="assets/images/delete.svg">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&
+                                (!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+                        class="px-2 py-3 w-100" style="height: 50px;">
+                        <hr _ngcontent-jwr-c108="" class="separator mx-0 mt-1">
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            No Indent Breeder Seed allocation found.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 px-4 py-3">
+                    <app-pagination-ui></app-pagination-ui>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

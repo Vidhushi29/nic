@@ -1,0 +1,93 @@
+<form [formGroup]="formSuperGroup" (ngSubmit)="submitForm(formSuperGroup.value)">
+    <div class="row my-4 w-100 mx-0 form-child">
+        <div class="col-12 d-flex justify-content-center verticle-content-middle">
+            <div class="main-content-form-wrapper px-2 py-2">
+                <div class="row">
+                    <!-- <div class="row"> -->
+                    <div class="col-12 px-4 mt-2 pb-3">
+                        <span class="page-type-1-title ml-0">
+                            BSP Proforma VI (Utilization of Breeder Seed)
+                        </span>
+                    </div>
+                    <div class="col-12 mt-2 pr-2">
+                        <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="IstPartFormGroup" [isView]="isView">
+                        </app-dynamic-fields>
+                    </div>
+                    <div *ngIf="dataRow" class="col-12 mt-2 mx-2 dataRow for-font">
+                        <p class="mb-0">Total Varieties : <span class="ml-0"> {{prdData.length}} </span> </p>
+                        <p class="mt-0">Total Indent Quantity : <span class="ml-0"> {{totalIndentQuantity | number : '1.2-2'}} </span> </p>
+                    </div>
+                    <div class="col-12 px-4 mt-2">
+                        <hr class="separator my-0 mx-2">
+                    </div>
+                    <div class="col-md-4 px-4 py-2 col-10"
+                        *ngIf="!isEdit && !isView && filterPaginateSearch.itemListTotalPage > 0">
+                        <div class="form-nodal-input-custom-placeholder d-flex verticle-content-middle mx-2"
+                            [ngClass]="formGroupControls['search'].value ? 'hide' : ''">
+                            <span>Search Here</span>
+                            <i class="fa fa-search nodal-search-icon"></i>
+                        </div>
+                        <input class="form-nodal-input mx-2 w-100" formControlName="search">
+                    </div>
+                    <div class="col-12 px-4" *ngIf="filterPaginateSearch.initialized">
+                        <div *ngFor="let eachIIndPartFormArray of filterPaginateSearch.itemList; let varietyIndexInAccordion=index"
+                            class="col-accordion m-2"
+                            [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? '' : 'hide'">
+                            <div (click)="activateVarietyIndexInAccordion(varietyIndexInAccordion)">
+                                <label class="px-3 py-2 mx-0 mt-1 mb-0 va-l">
+                                    {{ eachIIndPartFormArray.name }}
+                                </label>
+                                <i class="fas accordion-dropdown"
+                                    [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                            </div>
+                            <app-dynamic-fields [fieldsList]="eachIIndPartFormArray.arrayfieldsIIndPartList"
+                                [formGroup]="eachIIndPartFormArray.formGroup" [isView]="isView"
+                                [isLabelControlParallel]="false"></app-dynamic-fields>
+                        </div>
+                        <div *ngIf="isView" class="col-12 px-0">
+                            <!--- style="margin-top: -103px;"-->
+                            <button class="form-button ml-2 d-flex justify-content-center verticle-content-middle mb-3"
+                                [routerLink]="['/seed-division/bsp-proformas-6s']">Cancel</button>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row reverse-col-in-row-till-lg mt-2">
+                            <div *ngIf="!isView" class=" px-4 pb-md-5"
+                                [ngClass]="filterPaginateSearch.itemListTotalPage < 2 ? 'col-12' : 'col-12 col-xl-6'">
+                                <button
+                                    *ngIf="filterPaginateSearch.initialized 
+                                        && filterPaginateSearch.itemListTotalPage > 1 
+                                        && filterPaginateSearch.itemListCurrentPage != filterPaginateSearch.itemListTotalPage"
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="saveAndNavigate()">
+                                    Save And Next
+                                </button>
+                                <button type="submit"
+                                    *ngIf="filterPaginateSearch.initialized 
+                                        && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                    {{buttonText}}
+                                </button>
+                                <button
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    [routerLink]="['/seed-division/bsp-proformas-6s']">Cancel</button>
+                                <a href="javascript:void(0)"
+                                    *ngIf="(!isView || (isEdit && isDraft)) && filterPaginateSearch.initialized 
+                                    && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="saveAsDraft()">Save as
+                                    Draft</a>
+
+                            </div>
+                            <div class="col-12 col-xl-6 px-4 pb-md-5 d-flex justify-content-end py-2 py-xl-0">
+                                <app-pagination-ui></app-pagination-ui>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->
+</form>

@@ -1,0 +1,169 @@
+.dynamic-input {
+    background: transparent;
+}
+
+.view-only-field,
+.dynamic-input,
+.dynamic-input:active,
+.dynamic-input:focus {
+    border: 1px solid #979797 !important;
+    outline: none ! important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+}
+
+.dynamic-input-custom-placeholder {
+    margin-top: 0px;
+    margin-bottom: -39px;
+}
+
+.dynamic-input-custom-placeholder,
+.dynamic-input,
+.dynamic-input:active,
+.dynamic-input:focus {
+    padding-left: 0.75rem !important;
+    font: normal Poppins 15px/23px;
+    letter-spacing: 0px;
+    color: rgb(0 0 0 / 70%);
+    height: 38px !important;
+}
+
+.dynamic-input-custom-placeholder.hide+.dynamic-input:not([disabled]),
+.dynamic-input:not([disabled]):active,
+.dynamic-input:not([disabled]):focus {
+    background: #FFFFFF 0% 0% no-repeat padding-box !important;
+}
+
+.dynamic-input-custom-placeholder.hide span {
+    display: none !important;
+}
+
+.dynamic-input-custom-placeholder.disabled,
+.html-dynamic-control.disabled {
+    background: #F1F1F1 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+}
+
+.single-radio-label-wrapper input[type="radio"] {
+    background: #E97E15 0% 0% no-repeat padding-box;
+    display: none;
+}
+
+.single-radio-label-wrapper input[type="radio"]+label {
+    font: normal Poppins 500 15px/23px;
+    letter-spacing: 0px;
+    color: rgb(0, 0, 0, 0.7);
+    font-size: 14px;
+}
+
+.single-radio-label-wrapper input[type="radio"]+label div {
+    cursor: pointer;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.single-radio-label-wrapper input[type="radio"]+label div.radio-border {
+    margin: -1px 4px 0 0;
+    width: 25px;
+    height: 25px;
+    border: 2px solid #4C4C4C;
+}
+
+.single-radio-label-wrapper input[type="radio"]+label div.radio-checked {
+    width: 15px;
+    height: 15px;
+}
+
+.single-radio-label-wrapper input[type="radio"]:checked+label div.radio-border {
+    border-color: #E97E15 !important;
+}
+
+.single-radio-label-wrapper input[type="radio"]:checked+label div.radio-checked {
+    background-color: #E97E15 !important;
+}
+
+.single-radio-label-wrapper input[type="radio"]:checked+label {
+    color: #1C1C1C !important;
+}
+
+.single-radio-label-wrapper input[type="radio"]+label div,
+.single-radio-label-wrapper input[type="radio"]:checked+label div {
+    -webkit-transition: background-color 0.4s ease;
+    -o-transition: background-color 0.4s ease;
+    -moz-transition: background-color 0.4s ease;
+    transition: background-color 0.4s ease;
+}
+
+.dynamic-dropdown button.toggle-button,
+.dynamic-dropdown button.toggle-button:focus,
+.dynamic-dropdown button.toggle-button:active {
+    height: 38px !important;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #979797 !important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+
+    font: normal Poppins 15px/23px !important;
+    letter-spacing: 0px !important;
+    color: rgb(0, 0, 0, 0.7) !important;
+    text-transform: capitalize !important;
+    text-align: left;
+}
+
+.dynamic-dropdown .dropdown-toggle::after {
+    display: none !important;
+}
+
+.dynamic-dropdown .dropdown-toggle i {
+    float: right !important;
+    color: #707070 !important;
+}
+
+.dynamic-dropdown .dropdown-menu.show {
+    transform: translate(0px, 50px) !important;
+    width: calc(100%);
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #979797;
+    border-radius: 5px;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.dynamic-dropdown .dropdown-menu button {
+    background: white !important;
+}
+
+.dynamic-dropdown .dropdown-menu button,
+.dynamic-dropdown .dropdown-menu button:focus,
+.dynamic-dropdown .dropdown-menu button:active {
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
+    font: normal Poppins 15px/23px !important;
+    letter-spacing: 0px;
+    color: #000000 !important;
+    cursor: pointer;
+}
+
+.label {
+    text-align: left;
+    font: normal Poppins 600 15px/23px;
+    letter-spacing: 0px;
+    color: #1C1C1C;
+    opacity: 1;
+}
+
+.dynamic-dropdown .dropdown-menu button:hover,
+.dynamic-dropdown .dropdown-menu button:focus,
+.dynamic-dropdown .dropdown-menu button:active {
+    background: #F1F1F1 0% 0% no-repeat padding-box !important;
+}
+
+.html-control-suffix-text {
+    font: normal Poppins 15px/23px;
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 0.7 !important;
+}

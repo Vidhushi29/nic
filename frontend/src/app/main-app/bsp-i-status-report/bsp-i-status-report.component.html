@@ -1,0 +1,165 @@
+<form [formGroup]="ngForm" class="pt-2"> 
+    <div class="main-inventory my-4 w-90  pt-2">
+        <span class="title-inventory1 pt-3 ">
+            BSP I Status Report
+        </span>
+        <!-- first card ui -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 pb-2 pt-2 pr-0">
+            <div class="row  card-inventory form-group formargin">
+                <!-- start sectio 1 -->
+                <div class="col-12 col-md-10 col-lg-10 col-sm-12 pt-1 pl-4 formargin">
+                    <div class="row">
+                        <!-- year of indent -->
+                        <div class="col-12 col-md-4 col-lg-4 col-xl-4 col-sm-12">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Year of Indent</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="year">
+                                        <option value="">Select Year</option>
+                                        <option *ngFor="let data of yearOfIndent"
+                                            value="{{data && data.year ? data.year :''}}">
+                                            {{data && data.year ? data.year :''}}-{{data && data.year ?
+                                            (data.year-2000)+1 :''}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div> 
+                         <!-- season  -->
+                         <div class="col-12 col-md-4 col-lg-4 col-sm-12">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="year" class="label-inventory required">Season</label>
+                                </div>
+                                <div class="col-12">
+                                    <select class=" form-control input-inventory" formControlName="season">
+                                        <option value="">Please Select Season</option>
+                                        <option *ngFor="let data of seasonlist"
+                                            value="{{data.season__code}}">{{data && data.season_name ?
+                                            data.season_name:''}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- crop -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                              <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                <label for="year" class="label-inventory required">Crop</label>
+                              </div>
+                              <div class="col-md-12 px-2">
+                                <div ngbDropdown class="d-inline-block w-100">
+                                  <button  [disabled]="ngForm.controls['crop'].disabled"
+                                    class="btn takeplacholder w-100 crop toggle-button input-inventory form-control"
+                                    id="crop_group" ngbDropdownToggle style="text-align: left;">
+                                    {{ selectCrop && (selectCrop.length > 30) ? (selectCrop.substring(0, 30) + '...') : selectCrop ? selectCrop : 'Select Crop ' }}
+                                  </button>
+                                  <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group" aria-labelledby="sortMenu">
+                                    <input type="text" class="form-control px-4" formControlName="crop_text" (click)="cropdatatext()">
+                                    <button class="dropdown-item" *ngFor="let data of cropName" (click)="cropNameValue(data)" #dropdownItem [attr.data-parent-name]="'crop_group'">
+                                      {{ data && data.crop_name ? data.crop_name : '' }}
+                                    </button>
+                                  </div>
+                                </div>
+                                <div class="pl-0 toggle-button" ngbDropdown>
+                                  <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                </div>
+                                <div class="pl-0 toggle-button" ngbDropdown>
+                                  <img src="assets/images/16.svg" alt="">
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 expa col-md-2 col-sm-12 col-12 pt-4 mt-2 pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12  ">
+                            <button   
+                                class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="toggleSearch()">
+                                Search
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--  Second Card ui --> 
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12  pt-3 pr-0" *ngIf="searchClicked">
+            <div class="row card-inventory form-group pb-2 pl-0 ">
+                <div class="col-12 ">
+                    <div class="col-12 col-md-12 col-lg-12 "> 
+                        <!-- *ngIf="searchClicked" -->
+                        <div class="row data-row pt-2 " *ngIf="searchClicked">
+                            <table class="table border-top-0 col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12 pl-0 pr-0 m-0">
+                                <thead class="w-100 pl-0 table-bordered">
+                                  <tr class="data-row-header">
+                                    <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading">S.No.</th>
+                                    <th scope="col" class="col-md-2 py-2 text-white verticle-content-middle heading">PDPC Code</th>
+                                    <th scope="col" class="col-md-3 py-2 text-white verticle-content-middle heading">PDPC Name</th> 
+                                    <th scope="col" class="col-md-3 py-2 text-white verticle-content-middle heading">Status</th>
+                                    <th scope="col" class="col-md-2 py-2 text-white verticle-content-middle heading">Submission Date</th>
+                                    <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading">Download PDF</th>
+                                  </tr>
+                                </thead>
+                                <tbody class="border-top-0 table-bordered col-md-1 py-2 text-white verticle-content-middle heading data-row">
+                                    <!-- Check if allData has any entries -->
+                                   <ng-container *ngIf="allData && allData.length > 0; else noDataTemplate">
+                                    <ng-container *ngFor="let data of allData; let i = index">
+                                        <tr>
+                                            <td class="col-md-1 py-2 verticle-content-middle">
+                                                <b class="font-weight-bold text-center verticle-content-middle">{{ i+1 }}</b>
+                                            </td>
+                                          <td class="col-md-2 py-2 verticle-content-middle">
+                                            <b class="font-weight-bold text-center verticle-content-middle">{{ data.bspcCode }}</b>
+                                          </td>
+                                          <td class="col-md-3 py-2 verticle-content-middle">
+                                            <b class="font-weight-bold text-center verticle-content-middle">{{ data.bspcName }}</b>
+                                          </td> 
+                                          <td class="col-md-3 py-2 verticle-content-middle">
+                                            <b class="font-weight-bold text-center verticle-content-middle" 
+                                               [ngClass]="{ 'text-green': data.status === 'Completed',
+                                                            'text-yellow': data.status === 'Working',
+                                                            'text-red': data.status === 'Pending'
+                                                          }">
+                                                {{ data.status }}</b>
+                                          </td>
+                                          <td class="col-md-2 py-2 verticle-content-middle">
+                                            <b class="font-weight-bold text-center verticle-content-middle">
+                                                <!-- Show submissionDate only if status is 'completed' --> 
+                                               {{ data.status === 'Completed' ? data.submissionDate : '' }}
+                                              </b>
+                                          </td>
+                                          <!-- [ngClass]="{'disabled-link': data.status !== 'Completed'}"  -->
+                                          <td class="col-md-1 py-2 verticle-content-middle" [ngClass]="{'disabled-link': data.status !== 'Completed'}"> 
+                                            <button (click)="downloadPdf(data.user_id,null)" class="form-button text-white btn-inventory search d-inline-flex justify-content-center verticle-content-middle mb-3':'disableBtn'">Download</button>
+                                          </td>
+                                        </tr>
+                                      </ng-container>
+                                   </ng-container>
+                                    <!-- Template to show when no data is available -->
+                                    <ng-template #noDataTemplate>
+                                    <tr *ngIf="allData && allData.length == 0">
+                                       <td colspan="4" class="text-center py-2">
+                                            <b class="font-weight-bold text-center verticle-content-middle">No Data Found</b>
+                                        </td>
+                                    </tr>
+                                    </ng-template>
+                                </tbody>
+                            </table>
+                                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <app-bsp-profarma-one-form class="d-none"></app-bsp-profarma-one-form> 
+</form>
+

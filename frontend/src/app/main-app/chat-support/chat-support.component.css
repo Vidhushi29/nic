@@ -1,0 +1,382 @@
+/* chat-support.component.css */
+body, html {
+  height: 100vh; 
+  margin: 0; /* Ensure no default margin on the body */
+  overflow: hidden; /* Prevent vertical scrolling for the entire page */
+  font-family: Arial, sans-serif;
+}
+
+.chat-support {
+  display: flex;
+  height: 100%;
+  background: linear-gradient(to right, #f0f4f8, #d9e2ec); /* Light gradient background */
+}
+.category {
+  margin-bottom: 10px;
+}
+
+.category h4 {
+  background-color: #e78f3c; /* Blue background */
+  color: white; /* White text */
+  padding: 10px 15px;
+  margin: 0;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.category h4:hover {
+  background-color: #8bc059; /* Change color on hover */
+  transform: scale(1.03); /* Slightly increase size on hover */
+}
+.user-list {
+  width: 30%;
+  max-width: 300px;
+  background: #dac4b6;
+  border-right: 1px solid #b39676; /* Darker border for a richer look */
+  overflow-y: auto;
+  height: calc(100vh - 20px); /* Increased height by 20px */
+  position: relative;
+}
+
+
+.search-box {
+  padding: 10px;
+  border-bottom: 1px solid #a57c2e; /* Darker color to match the theme */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow for depth */
+  background: #dac4b6;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 25px; /* More rounded input for a modern look */
+  border: 1px solid #b39676;
+  outline: none;
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+.search-box input:focus {
+  border-color: #6f4e1e; /* Deeper color for focus */
+  box-shadow: 0 0 10px rgba(111, 78, 30, 0.6); /* Enhanced glow effect */
+}
+
+.user-item {
+  display: flex;
+  align-items: center;
+  padding: 12px; /* Increased padding for a spacious feel */
+  cursor: pointer;
+  border-bottom: 1px solid #e0c4a6; /* Softer border color */
+  transition: background 0.3s, transform 0.2s;
+}
+
+.user-item:hover {
+  background: #e9ecef;
+  transform: scale(1.02); /* Slight scaling effect on hover */
+}
+
+.avatar img {
+  width: 45px; /* Slightly larger avatar */
+  height: 45px;
+  border-radius: 50%;
+  margin-right: 15px; /* More space between avatar and text */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow for the avatar */
+}
+img {
+  width: 45px; /* Slightly larger avatar */
+  height: 45px;
+  border-radius: 50%;
+  margin-right: 15px; /* More space between avatar and text */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow for the avatar */
+}
+.user-info h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #4b3621; /* Richer text color */
+}
+
+.user-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #6c757d;
+  font-style: italic; /* Italicized for subtle emphasis */
+}
+
+
+.chat-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f1f3f5;
+}
+  
+/* Optional: Style for the span to be a badge or circle */
+.unread-total {
+   
+  background-color: #ff0000; /* Red background */
+  color: #ffffff; /* White text color */
+  border-radius: 60%;  /* Circle shape */
+  padding: 6px 12px; /* Padding around the text */
+  font-size: 16px; /* Font size for the badge */
+  line-height: 1; /* Align text vertically */
+  text-align: center; /* Center text horizontally */
+  font-weight: bold;
+  float: right; /* Align to the right */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Deeper shadow for a more pronounced effect */
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+
+}
+
+ 
+.unread-count {
+  background-color: #e74c3c; /* Modern red color */
+  color: white;
+  border-radius: 50%; /* Circle shape */
+  padding: 6px 12px; /* Increased padding for a larger badge */
+  font-size: 14px; /* Larger font size for better readability */
+  font-weight: bold;
+  margin-right: 15px;
+  position: absolute;
+  top: 5px; /* Adjusted for better alignment */
+  right: 35px; /* Adjusted for better alignment */
+  min-width: 28px; /* Increased minimum width for consistency */
+  text-align: center; /* Center the text */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Deeper shadow for a more pronounced effect */
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+}
+
+.unread-count:hover {
+  background-color: #c0392b; /* Darker red on hover */
+  transform: scale(1.2); /* Larger scale effect */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+.username {
+  color: #ec4908;
+  font-size: 18px; /* Increase font size */
+  font-weight: bold; /* Make the text bold */
+  transition: color 0.3s, transform 0.3s; /* Add smooth transition */
+}
+
+.username:hover {
+  color: #c08259; /* Change color on hover */
+  transform: scale(1.1); /* Slightly increase size on hover */
+}
+.chat-header {
+  padding: 15px; /* Increase padding for a more prominent header */
+  background: linear-gradient(90deg, #aad670, #6a9e34); /* Add a gradient for depth */
+  width: 100%;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #6a9e34; /* Darker border for contrast */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+  border-top-left-radius: 15px; /* Rounded corners for a modern look */
+  border-top-right-radius: 15px;
+}
+
+.chat-header h3 {
+  margin: 0;
+  font-family: 'Roboto', sans-serif; /* Modern font */
+  font-weight: 500; /* Slightly bolder for emphasis */
+  font-size: 1.5rem; /* Larger font size */
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Subtle text shadow for readability */
+}
+
+.chat-header button {
+  background: rgba(255, 255, 255, 0.1); /* Light transparent background for the button */
+  border: none;
+  color: #fff;
+  font-size: 22px; /* Slightly larger font size */
+  cursor: pointer;
+  transition: color 0.3s, transform 0.3s, background 0.3s; /* Smooth transitions */
+  padding: 8px;
+  border-radius: 50%; /* Rounded button for a modern touch */
+}
+
+.chat-header button:hover {
+  color: #ff6347; /* Use a more vibrant color on hover */
+  transform: rotate(180deg); /* Rotate button on hover for more interaction */
+  background: rgba(255, 255, 255, 0.2); /* Slightly darker background on hover */
+}
+
+.chat-header button:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.7); /* Add a custom focus shadow */
+}
+
+
+ 
+.chat-body {
+  background: linear-gradient(to bottom right, #f7e8d3, #dac4b6); /* Gradient background for a soft, warm feel */
+  background-size: cover; /* Ensure the background image covers the entire chat body */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Prevent the background from repeating */
+  padding: 15px; /* Increased padding for a spacious feel */
+  border-bottom-left-radius: 10px; /* Optional: Add rounded corners */
+  border-bottom-right-radius: 10px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+  height: 95vh; /* Full viewport height */
+  overflow-y: auto; /* Allow scrolling if content overflows */
+  font-family: 'Roboto', sans-serif; /* Modern font for a clean look */
+  color: #333; /* Darker text color for contrast */
+} 
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 15px; /* Slightly more rounded corners */
+  display: inline-block;
+  max-width: 60%;
+  position: relative;
+  clear: both;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  font-family: 'Arial', sans-serif; /* Use a clean and modern font */
+}
+
+.sent {
+  float: right;
+  text-align: right;
+  color: rgb(219, 53, 53); /* White text for better contrast */
+  background: linear-gradient(155deg, #e6c27d, #d6a445, #e6c27d); /* Add a gradient background */
+  margin-bottom: 1.5rem;
+  padding: 12px; /* Increase padding for a more comfortable look */
+  border-radius: 15px; 
+  max-width: 80%;  
+  position: relative;  
+  margin-top: 10px;
+}
+
+.received {
+  float: left;
+  text-align: left;
+  color: rgb(204, 30, 30); /* White text for better contrast */
+  background: linear-gradient(155deg, #e8e2a7, #d6cc70, #e8e2a7); /* Add a gradient background */
+  margin-bottom: 1.5rem;
+  padding: 12px;  
+  border-radius: 15px;  
+  max-width: 80%;  
+  position: relative; 
+}
+
+.timestamp {
+  font-size: 12px;
+  color: #333; /* A neutral, less distracting color */
+  margin-top: 5px; /* Adjust spacing for better balance */
+  text-align: right; 
+  white-space: nowrap;  
+  position: relative;  
+  bottom: -30px;  
+  right: 15px;  
+  opacity: 0.7; /* Make the timestamp less prominent */
+}
+
+.chat-footer {
+  width: 85vw ; 
+  display: flex;
+  align-items: center; /* Center the content vertically */
+  justify-content: space-between; /* Space out the elements horizontally */
+  padding: 20px; /* Increase padding for better touch targets */
+  background-color: #6dbf74; /* Use a slightly richer shade of green */
+  border-top: 2px solid #9ccc82; /* Make the top border a bit thicker and match the color palette */
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.15); /* Enhance the shadow for a more pronounced effect */
+  position: relative;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  border-radius: 10px 10px 0 0; /* Add rounded corners to the top */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add smooth transitions for hover effects */
+}
+
+.chat-footer:hover {
+  background-color: #8dc248;  
+  box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.2);  
+}
+
+.chat-footer input {
+  flex: 1; /* Allow the input to take up available space */
+  padding: 10px;
+  border: 2px solid #9ccc82;
+  border-radius: 10px;
+  margin-right: 10px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle inner shadow for depth */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for input focus */
+}
+
+.chat-footer input:focus {
+  border-color: #8abf75; /* Change the border color on focus */
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhance the inner shadow on focus */
+}
+
+.chat-footer button {
+  background-color: #ee9726;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for hover effects */
+}
+
+.chat-footer button:hover {
+  background-color: #d67366; /* Darken the button on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Intensify the shadow on hover */
+  color: #000c09;
+}
+ 
+.footer-text {
+  font-family: 'Poppins', sans-serif; /* Ensure the correct font is applied */
+  font-size: 16px;
+  line-height: 25px;
+  letter-spacing: 0px;
+  opacity: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .chat-footer {
+    width: 100vw; /* Ensure the footer spans the full viewport width on smaller screens */
+    padding: 10px; /* Adjust padding for smaller screens */
+    flex-direction: column; /* Stack input and button vertically on smaller screens */
+  }
+
+  .chat-footer input {
+    width: 100%; /* Ensure input field takes the full width */
+    margin-bottom: 10px; /* Add space between input and button */
+  }
+
+  .chat-footer button {
+    width: 100%; /* Ensure button takes the full width */
+    margin-left: 0; /* Remove left margin */
+  }
+}
+
+
+.footer-main {
+  /* position: absolute; */
+  position: fixed;
+  z-index: 4;
+  vertical-align: middle;
+  width: 65%;
+  background-color: #ffff;
+  margin-bottom: 30px;
+  bottom: 20px;
+  /* top: 20px; */
+  /* margin-top: 100px; */
+}
+
+@media screen and (min-device-width: 279px) and (max-device-width: 768px) {
+  .footer-main {
+      position: relative;
+      z-index: 4;
+      vertical-align: middle;
+      width: 100%;
+      background-color: #ffff;
+      height: 60px;
+      /* bottom: 0; */
+      top: 20px;
+      /* margin-top: 100px; */
+  }
+
+}

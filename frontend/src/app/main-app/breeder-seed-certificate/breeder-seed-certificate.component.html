@@ -1,0 +1,208 @@
+<div class="pt-3 pb-5 px-4 wrapper">
+    <form>
+        <ng-container>
+
+
+            <div class=" card pb-5 " >
+
+                <div class="col-12 heading  "  style="margin-top: 1.5rem!important;">
+                    <!-- Generation of Breeder Seed Certificate -->
+                </div>
+
+                <!-- id="content-section" -->
+                <div class="row py-4  mx-5  " style="border: 1px solid burlywood;word-wrap: break-word;"  id="content"  #content>
+                    <div class="example-container-1 mat-elevation-z0 bg-white  mx-2" >
+                        <div class="col-12 pb-3 pt-4">
+                            <div class="row pt-5">
+                                <div class=" col-md-2 d-flex justify-content-end">
+                                    <span class=""><img src="../../../assets/images/certificat.png" alt=""
+                                        class="img-fluid" height="280px"></span>
+                                </div>
+                                <div class="col-md-8 text-center pl-lg-4 ">
+                                    <span class="left-heading  font-weight-bold  " style="font-size: 20px;">{{certificate_names ? certificate_names :'NA'}}
+                                    
+                                    </span>
+                                    <br>
+                                    <span class="left-heading  font-weight-bold  " style="font-size: 20px;">{{certificate_address ? certificate_address :'NA'}}
+                                    
+                                    </span>
+
+                                </div>
+                                <div class=" col-md-2 d-flex justify-content-end  ">
+                                    <span class=""><img  align="right" src="../../../assets/images/certificat.png" alt=""
+                                        class="img-fluid" height="280px"></span>
+                                </div>
+                                <div class="col-12  text-center">
+                                    <span class="left-heading  font-weight-bold"  style="font-size: 20px;"> BREEDER SEED CERTIFICATE</span>
+                                </div>
+                            </div>
+                        </div>
+                      
+                    
+                        
+
+                        <div class="row pt-5 px-3">
+
+                            <div class="col-12 pl-4">
+                                S.No.<span class=""style="font-weight: 900;">RSK/BSC/{{serialNumber && serialNumber && (serialNumber <=9)
+                                    ? ('00'):((serialNumber>=10) && (serialNumber<=99)) ? '0':
+                                    (serialNumber>=100) ? '':'NA'
+
+                                }}{{serialNumber  ? serialNumber :'NA'}}
+                                    <!-- 00{{pdfdata && pdfdata.serial_number_update && ((pdfdata.serial_number_update)<=9) ?
+                                        (  pdfdata.serial_number_update) : "N/A"}} -->
+                                        
+                                </span>
+                            </div>
+                            <div class=" col-md-12 pl-4">
+                                <a class="w-50 btn-1 text-center  text-decoration-none">Date: <span style="font-weight: 900;">{{pdfdata && (pdfdata.generation_date) ? (pdfdata.generation_date) : "N/A"}} </span>
+                                </a>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="row pt-3 ">
+                            <div class="col-12 pl-4">
+                                <div class="row">
+                                    <div class="col-12">
+                                      <p class="lable_bold px-3" id="lable_para" style="
+                                        text-align: justify;font-size: 16px;text-justify: auto!important;word-wrap: break-word;">Certified that the
+                                        <!-- <span
+                                        style="font-weight: 900;">{{ pdfdata && pdfdata.indent_of_breederseed &&
+                                        pdfdata.indent_of_breederseed.user &&
+                                        pdfdata.indent_of_breederseed.user.name ?
+                                        pdfdata.indent_of_breederseed.user.name : "N/A"}}
+                                    </span> -->
+
+                                    <span
+                                        style="font-weight: 900;">{{ pdfdata &&
+                                        pdfdata.crop_name ?
+                                        pdfdata.crop_name : "N/A"}}
+                                    </span>
+                                    breeder seed of variety/parental line                                   
+                                    <span style="font-weight: 900;">
+                                        {{pdfdata && pdfdata.variety_name ? pdfdata.variety_name : "N/A"}}
+                                    </span>
+                                        was supplied to M/s                                 
+                                        <span style="font-weight: 900;">{{pdfdata && pdfdata.SpaName2 ? pdfdata.SpaName2 : "N/A"}}</span>
+                                            out of the breeder seed stock raised and produced during Kharif/Rabi
+                                            <span style="font-weight: 900;">{{ pdfdata && pdfdata.season ? pdfdata.season : "N/A"}}  {{years}}
+                                            </span> 
+                                            in my direct and strict supervision against CR/Bill NO
+                                            <span style="font-weight: 900;">
+                                                {{ pdfdata && pdfdata.bill_number ? pdfdata.bill_number : "N/A"}}
+                                            </span>
+                                            Dated
+                                            <span style="font-weight: 900;">
+                                                <!-- {{pdfdata && pdfdata.date_of_bill?
+                                                pdfdata.date_of_bill : "N/A"}}
+                                                {{years}} -->
+                                                {{pdfdata && pdfdata.date_of_bill ? (pdfdata.date_of_bill| date: 'dd/MM/yyyy') : "N/A"}} 
+
+                                            
+                                            </span>
+                                                with Breeder Tags
+                                                <span class="href"
+                                                style="font-weight: 900;">{{pdfdata&&pdfdata.label_numbers?
+                                                pdfdata.label_numbers : "N/A"}}
+
+                                            </span>
+                                            for sowing season Kharif/Rabi  
+                                            
+                                            <span style="font-weight: 900;"> {{ pdfdata && pdfdata.season ? pdfdata.season : "N/A"}}  {{years}}</span> the standing crop was inspected by the joint
+                                            inspection committee on
+                                            <span style="font-weight: 900;white-space: pre;">{{pdfdata&&pdfdata.date_of_inspection? (pdfdata.date_of_inspection): "N/A"}}</span>.
+                                      </p>
+
+                                    </div>
+                                    <!-- <div class="col-8  " >
+
+                                    </div> -->
+                                </div>
+                            </div>
+
+                            <!-- <div class="col-8 " >
+                                <div class="row pl-4" >
+                                    <div class="col-12 " >
+                                        <label for="" class="lable_bold">breeder seed of variety/parentalline 
+                                            <span style="font-weight: 900;">
+                                                {{pdfdata && pdfdata.m_crop_variety && pdfdata.m_crop_variety.variety_name ? pdfdata.m_crop_variety.variety_name : "N/A"}}
+                                            </span>
+                                        </label>
+                                           
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                        <!--         
+                        <div class="row ">
+                            <div class="col-12 pl-4">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <label for="" class="lable_bold">
+                                          the standing cropwas inspected by the joint inspection committee on _ _ _ ____ _ _ ____ _ _ 
+                                          ____ _ _  ____ _ _ _ _ _ _ _ _ _
+                                        <span>for sawing season kharif/Rabi ______</span>
+                                     
+                                        </label>
+                                         
+                                    </div>  
+                                    
+                                    <div class="col-4">
+                                        <p  style="font-weight: 900;">{{pdfdata&&pdfdata.date_of_inspection? pdfdata.date_of_inspection : "N/A"}}</p>
+                                        <p>{{mainMemberDetailsData && mainMemberDetailsData.pension_account_number ?
+                                          mainMemberDetailsData.pension_account_number:''}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="row pt-5">
+                            <div class="col-12 pl-4">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="" class="lable_bold">
+                                            &nbsp;&nbsp;&nbsp;Production Scientist
+                                            <!-- <span>for sawing season kharif/Rabi ______</span> -->
+                                        </label>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="" class="lable_bold">
+                                            &nbsp;&nbsp;&nbsp;(Breeder Seed)
+                                            <!-- <span>for sawing season kharif/Rabi ______</span> -->
+                                        </label>
+                                    </div>
+                                    <div class="col-1">
+                                        <!-- <p>{{mainMemberDetailsData && mainMemberDetailsData.pension_account_number ?
+                                          mainMemberDetailsData.pension_account_number:''}}</p> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="row ml-lg-4">
+                    <div class="col-2 pt-3  ml-4 pl-0 ">
+
+                        <button class="form-button w-100 d-inline-flex justify-content-center verticle-content-middle mb-3 "
+                            (click)="download()">Download</button>
+    
+                    </div>
+                    <div class="col-2 pt-3  ml-lg-1 pl-0">
+    
+                        <button class="form-button w-100 d-inline-flex justify-content-center verticle-content-middle mb-3 "
+                        routerLink="/breeder/bsp-proformas/bills">Cancel</button>
+    
+                    </div>
+                </div>
+                <!-- <div class="col-3 pt-3  ml-3 pl-5 pl-0"> 
+                    <button class="link-button" (click)="downloadImage($event);">Download Attachment</button>
+                </div> -->
+            </div>
+
+        </ng-container>
+    </form>

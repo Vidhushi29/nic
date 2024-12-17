@@ -1,0 +1,242 @@
+<form [formGroup]="ngForm" class="pt-2">
+    <div class="main-inventory my-4 w-90  pt-2">
+        <span class="title-inventory pt-3 ">
+            Approval for Reprinting Tags
+        </span>
+        <!-- first card ui -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12  pt-2 pr-0">
+            <div class="row  card-inventory form-group formargin">
+                <!-- start sectio 1 -->
+                <div class="col-12 col-md-10 col-lg-10 col-sm-12 pt-1 pl-4 formargin">
+                    <div class="row">
+                        <!-- year of indent -->
+                        <div class="col-12 col-md-4 col-lg-4 col-xl-4 col-sm-12">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Year of Indent</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="year">
+                                        <option value="">Select Year</option>
+                                        <option *ngFor="let data of yearOfIndent"
+                                            value="{{data && data.year ? data.year :''}}">
+                                            {{data && data.year ? data.year :''}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- season -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Season</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="season">
+                                        <option value="">Select Season</option>
+                                        <option *ngFor="let data of seasonlist "
+                                            value="{{data && data.season ? data.season :''}}"> {{data &&
+                                            data.season_name ?
+                                            data.season_name :''}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- crop -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Crop</label>
+                                </div>
+                                <div class="col-md-12 px-2">
+                                    <div ngbDropdown class="d-inline-block w-100 ">
+                                        <button
+                                            class="btn takeplacholder w-100 crop toggle-button input-inventory form-control"
+                                            id="crop_group" ngbDropdownToggle style="text-align: left;">{{selectCrop &&
+                                            (selectCrop.length>30) ? (selectCrop.substring(0,30)+'...'):selectCrop?
+                                            selectCrop :'Select Crop '}}
+                                        </button>
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group"
+                                            aria-labelledby="sortMenu">
+                                            <input type="text" class="form-control px-4" formControlName="crop_text">
+                                            <button class="dropdown-item" *ngFor="let data of cropDataList"
+                                                (click)="cropNameValue(data)" #dropdownItem
+                                                [attr.data-parent-name]="'crop_group'">
+                                                {{data && data.crop_name ? data.crop_name :''}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 expa col-md-2 col-sm-12 col-12 pt-4 mt-2 pr-4 formargin">
+                    <div class="row">
+                        <div class="col-11 col-md-11 col-lg-11  ">
+                            <button (click)="search()"
+                                class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  Second Card ui -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12  pt-3 pr-0" *ngIf="isSearch">
+            <div class="row card-inventory form-group pb-2 pl-0">
+                <div class="col-12 ">
+                    <div class="col-12 col-md-12 col-lg-12 ">
+                        <div class="col-12 col-md-10 col-lg-10 col-sm-12 formargin  pt-1 pb-1">
+                            <div class="row">
+                                <!-- Variety-->
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-1">
+                                            <label for="year" class="label-inventory">Filter by :</label>
+                                        </div>
+                                        <div class="col-3 pb-1">
+                                            <select class=" form-control input-inventory" formControlName="variety_filter" (change)="getReprintAllData()">
+                                                <option value="">Select Variety</option>
+                                                <option *ngFor="let data of varietyList "
+                                                    value="{{data && data.variety_code ? data.variety_code :''}}"> {{data &&
+                                                    data.variety_name ?
+                                                    data.variety_name :''}}
+                                                </option>
+                                            </select>
+                                            <!-- <ng-multiselect-dropdown   [placeholder]="'Select Variety'"
+                                                [settings]="dropdownSettings" [data]="dropdownList1"
+                                                [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
+                                                (onSelectAll)="onSelectAll($event)">
+                                            </ng-multiselect-dropdown> -->
+                                        </div>
+                                        <div class="col-3 pb-1">
+                                            <select class=" form-control input-inventory" formControlName="spp_filter" (change)="getReprintAllData()">
+                                                <option value="">Select SPP</option>
+                                                <option *ngFor="let data of spaDataList "
+                                                    value="{{data && data.id ? data.id :''}}"> {{data &&
+                                                    data.spp_name ?
+                                                    data.spp_name :''}}
+                                                </option>
+                                            </select>
+                                            <!-- <ng-multiselect-dropdown   [placeholder]="'Select Variety'"
+                                                [settings]="dropdownSettings" [data]="dropdownList1"
+                                                [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
+                                                (onSelectAll)="onSelectAll($event)">
+                                            </ng-multiselect-dropdown> -->
+                                        </div>
+                                        <div class="col-3 pb-1">
+                                            <select class=" form-control input-inventory" formControlName="status_filter" (change)="getReprintAllData()">
+                                                <option value="">Select Status</option>
+                                                <option *ngFor="let data of statusData "
+                                                    value="{{data && data.id ? data.id :''}}"> {{data &&
+                                                    data.status ?
+                                                    data.status :''}}
+                                                </option>
+                                            </select>
+                                            <!-- <ng-multiselect-dropdown   [placeholder]="'Select Variety'"
+                                                [settings]="dropdownSettings" [data]="dropdownList1"
+                                                [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
+                                                (onSelectAll)="onSelectAll($event)">
+                                            </ng-multiselect-dropdown> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col=12 col-md-2 col-lg-2">
+                        </div>
+                        <!-- *ngIf="selectedTable === 'table1'" -->
+                        <div class="row data-row ">
+                            <table class="table">
+                                <thead class="w-100">
+                                    <tr class="data-row-header">
+                                        <th class="col-md-1 py-3 px-2 text-white vertical-align-center heading">S.No
+                                        </th>
+                                        <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">Variety
+                                        </th>
+                                        <th class="col-md-2 py-3 px-3 text-white vertical-align-center heading">Lot
+                                            Details </th>
+                                        <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">Target
+                                            to be reprinted</th>
+                                        <th class="col-md-1 py-3 px-2 text-white vertical-align-center heading">No. of
+                                            Tags</th>
+                                        <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">Reason
+                                            for Reprinting</th>
+                                        <th class="col-md-1 py-3 px-2 text-white vertical-align-center heading">
+                                            Requestor(SPP)</th>
+                                        <th class="col-md-1 py-3 px-3 text-white vertical-align-center heading">Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="py-2 text-white   heading data-row">
+                                    <tr *ngFor="let data of getReprintAllDataList;let i=index;">
+                                        <td class="col-md-1 py-2">
+                                            {{i+1}}
+                                        </td>
+                                        <td class="col-md-2 py-2">{{data && data.m_crop_variety &&
+                                            data.m_crop_variety.variety_name ?
+                                            data.m_crop_variety.variety_name:"NA"}}<br>
+                                            <span
+                                                *ngIf="data && data.m_variety_line && data.m_variety_line.line_variety_name">
+                                                Parental line:{{data && data.m_variety_line &&
+                                                data.m_variety_line.line_variety_name ?
+                                                data.m_variety_line.line_variety_name:""}}
+                                            </span>
+                                        </td>
+                                        <td class="col-md-2 py-2">
+                                            <!-- <span *ngFor="let item of data.lot_details"> -->
+                                            Lot No:<b class="font-weight-bold"> {{data && data.seed_tag_detail.lot_no ?
+                                                data.seed_tag_detail.lot_no:"NA"}}</b><br>
+                                            Lot Quantity(Qt):<b class="font-weight-bold">{{data && data.seed_tag_detail &&
+                                                data.seed_tag_detail.lot_qty
+                                                ? data.seed_tag_detail.lot_qty:"NA"}}</b><br>
+                                            Total No. of Bags:<b class="font-weight-bold">{{data && data.seed_tag_detail &&
+                                                data.seed_tag_detail.no_of_bags ?
+                                                data.seed_tag_detail.no_of_bags:""}}</b><br>
+                                            <!-- </span> -->
+                                        </td>
+                                        <td class="col-md-1 py-2">{{data && data.id ? getAllTag(data.id):'NA'}}</td>
+                                        <td class="col-md-1 py-2">{{data && data.id ? getAllTag(data.id).length:'NA'}}
+                                        </td>
+                                        <td class="col-md-2 py-2">{{data && data.reason ?
+                                            getReasionData(data.reason):''}}</td>
+                                        <td class="col-md-1 py-2">{{data && data.user && data.user.name ? data.user.name:'NA'}}
+                                        </td>
+                                        <td class="col-md-1 py-2">
+                                            <div class="row">
+                                                <div class="col-12 pb-1">
+                                                    <button [disabled]="data.is_approved!=null && data.is_approved" (click)="updateStatus(data.id,'Approved')"
+                                                        class="form-button btn-inventory-approve search d-inline-flex justify-content-center verticle-content-middle">
+                                                        <span class="text-white">{{data && data.is_approved?'Approved':'Approve'}}</span>
+                                                    </button>
+                                                </div>
+
+                                                <div class="col-12 pt-1">
+                                                    <button [disabled]="data.is_approved!=null && data.is_approved==false" (click)="updateStatus(data.id,'Rejected')"
+                                                        class="form-button btn-inventory-reject search d-inline-flex justify-content-center verticle-content-middle">
+                                                        <span class="text-white">{{data && data.is_approved==false?'Rejected':'Reject'}}</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

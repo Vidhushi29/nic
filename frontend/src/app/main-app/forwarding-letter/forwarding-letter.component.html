@@ -1,0 +1,169 @@
+<div class="main-inventory my-4 w-90  pt-2">
+    <!-- <span class="title-inventory pt-3 ">
+        Reprint Tags
+    </span> -->
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 pt-2" id="printSection">
+      <!-- {{this.testing_type}} -->
+        <div class="row card-inventory form-group  pt-2 pl-2 pr-2 pb-2 border" *ngIf="this.testing_type==='STL' && this.submissionid=='table1'">
+            <!-- start sectio 1 -->
+            <div class="col-12 col-md-12 col-lg-12 col-sm-12 mt-3 mb-2 ">
+                <!-- firest section -->
+                <div class="row pt-1">
+                    <!-- logo -->
+                    <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                        <img src="../../../assets/images/no_logo.png" alt="logo" width="100px" height="100px" />
+                    </div>
+
+                    <!-- bspc name detais -->
+                    <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                        <p style="text-align: center;"><b>{{userName ? userName:"NA"}}</b></p>
+                        <p style="text-align: center;"><b>&nbsp;{{districtName?
+                                districtName+',':"NA"}}&nbsp;{{stateName ? stateName:"NA"}}</b></p>
+                    </div>
+
+                    <!-- saple slip details -->
+                    <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="align-items: end;">
+                    </div>
+                </div>
+                <!-- {{data && data.unique_code ? data.unique_code:'NA' }} -->
+                <!-- second section -->
+                <div class="row pt-3">
+                    <!-- logo -->
+                    <div class="col-12 col-md-5 col-lg-5 col-sm-5 col-xl-5">
+                        <p>To</p>
+                        <p>The Seed Testing Officer</p>
+                        <p><b>{{forwarderTestingData && forwarderTestingData[0] &&
+                                forwarderTestingData[0].m_seed_test_laboratory &&
+                                forwarderTestingData[0].m_seed_test_laboratory.lab_name ?
+                                forwarderTestingData[0].m_seed_test_laboratory.lab_name:'NA'}}</b></p> <br>
+                        <p>Consignment No:&nbsp;<b> {{forwarderTestingData && forwarderTestingData[0] &&
+                                forwarderTestingData[0].consignment_no ? forwarderTestingData[0].consignment_no:''}}</b>
+                        </p> <br>
+                        <p><b>The following Samples have been forwarded for testing to laboratory</b></p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- start sectio 2 -->
+            <div class="col-12 col-md-12 col-lg-12 col-sm-12 mt-3 mb-2 ">
+                <div class="row data-row ">
+                    <table class="table table-bordered" style="text-align: center;">
+                        <thead class="">
+                            <tr class="data-row-header">
+                                <th class="text-white">S.No.</th>
+                                <th class="text-white" style="white-space:nowrap;">Crop</th>
+                                <th class="text-white" style="white-space:nowrap;">Variety</th>
+                                <th class="text-white" style="white-space:nowrap;">Class</th>
+                                <th class="text-white" style="white-space:nowrap;">Unique Code</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="data-row table-bordered">
+                            <tr *ngFor="let data of forwarderTestingData;let i=index;">
+                                <td>{{i+1}}</td>
+                                <td>{{data && data.crop_code ? cropNameConvert(data.crop_code):'NA' }}</td>
+                                <td>{{data && data['m_crop_variety'] && data['m_crop_variety'].variety_name ?
+                                    data['m_crop_variety'].variety_name:'NA' }}
+                                    <span *ngIf="data && data['m_variety_line'] && data['m_variety_line'].line_variety_name"> <br> {{data
+                                        &&data['m_variety_line'] && data['m_variety_line'].line_variety_name ?
+                                        data['m_variety_line'].line_variety_name:'' }}</span>
+                                </td>
+                                <td>{{data && data.class_of_seed ? data.class_of_seed:'NA' }}</td>
+                                <td>{{data && data.unique_code ? data.unique_code:'NA' }}</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row card-inventory form-group  pt-2 pl-2 pr-2 pb-2 border" *ngIf="this.testing_type === 'GOT' && this.submissionid=='table2'">
+            <!-- start sectio 1 -->
+            <div class="col-12 col-md-12 col-lg-12 col-sm-12 mt-3 mb-2 ">
+                <!-- firest section -->
+                <div class="row pt-1">
+                    <!-- logo -->
+                    <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                        <img src="../../../assets/images/no_logo.png" alt="logo" width="100px" height="100px" />
+                    </div>
+
+                    <!-- bspc name detais -->
+                    <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                        <p style="text-align: center;"><b>{{userName ? userName:"NA"}}</b></p>
+                        <p style="text-align: center;"><b>&nbsp;{{districtName?
+                                districtName+',':"NA"}}&nbsp;{{stateName ? stateName:"NA"}}</b></p>
+                    </div>
+
+                    <!-- saple slip details -->
+                    <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="align-items: end;">
+                    </div>
+                </div>
+                <!-- {{data && data.unique_code ? data.unique_code:'NA' }} -->
+                <!-- second section -->
+                <div class="row pt-3">
+                    <!-- logo -->
+                    <div class="col-12 col-md-5 col-lg-5 col-sm-5 col-xl-5">
+                        <p>To</p>
+                        <p>In-charge</p>
+                        <p>{{this.bspcuserName}}</p>
+                        <!-- <p><b>{{forwarderTestingData && forwarderTestingData[0] &&
+                                forwarderTestingData[0].m_seed_test_laboratory &&
+                                forwarderTestingData[0].m_seed_test_laboratory.lab_name ?
+                                forwarderTestingData[0].m_seed_test_laboratory.lab_name:'NA'}}</b></p> <br> -->
+                        <p>Consignment No:&nbsp;<b> {{forwarderTestingData && forwarderTestingData[0] &&
+                                forwarderTestingData[0].consignment_no ? forwarderTestingData[0].consignment_no:''}}</b>
+                        </p> <br>
+                        <p><b>The following Samples have been forwarded for doing grow out test at your centre</b></p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- start sectio 2 -->
+            <div class="col-12 col-md-12 col-lg-12 col-sm-12 mt-3 mb-2 ">
+                <div class="row data-row ">
+                    <table class="table table-bordered" style="text-align: center;">
+                        <thead class="">
+                            <tr class="data-row-header">
+                                <th class="text-white">S.No.</th>
+                                <th class="text-white" style="white-space:nowrap;">Crop</th>
+                                <th class="text-white" style="white-space:nowrap;">Variety</th>
+                                <th class="text-white" style="white-space:nowrap;">Class</th>
+                                <th class="text-white" style="white-space:nowrap;">Unique Code</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="data-row table-bordered">
+                            <tr *ngFor="let data of forwarderTestingData;let i=index;">
+                                <td>{{i+1}}</td>
+                                <td>{{data && data.crop_code ? cropNameConvert(data.crop_code):'NA' }}</td>
+                                <td>{{data && data['m_crop_variety'] && data['m_crop_variety'].variety_name ?
+                                    data['m_crop_variety'].variety_name:'NA' }}
+                                    <span *ngIf="data && data['m_variety_line'] && data['m_variety_line'].line_variety_name"> <br> {{data
+                                        &&data['m_variety_line'] && data['m_variety_line'].line_variety_name ?
+                                        data['m_variety_line'].line_variety_name:'' }}</span>
+                                </td>
+                                <td>{{data && data.class_of_seed ? data.class_of_seed:'NA' }}</td>
+                                <td>{{data && data.unique_code ? data.unique_code:'NA' }}</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-5 col-md-5 col-lg-5 pt-1">
+            </div>
+            <div class="col-12 col-sm-2 col-md-2 col-lg-2 pt-1">
+                <button (click)="printContent()"
+                    class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">Print</button>
+            </div>
+            <div class="col-12 col-sm-5 col-md-5 col-lg-5 pt-1">
+            </div>
+        </div>
+    </div>
+</div>

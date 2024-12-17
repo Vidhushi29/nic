@@ -1,0 +1,609 @@
+<div class="pt-3 pb-3 px-4">
+    <form [formGroup]="ngForm">
+
+
+        <div class=" card">
+            <div class="row">
+            <div class="col-md-10 col-sm-12 heading mt-3 pb-2 pl-4">
+                <span class="ml-2">{{title}}</span>
+                
+            </div>
+            <!-- <div class="col-md-2 col-sm-12 mt-3 pb-0 sub_updt_cancel_btn" *ngIf="isView ">
+                <div class="resp_btn">
+                    <button class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                        routerLink="/profile/submission/edit">Edit Profile</button>
+                </div>
+                
+            </div> -->
+        </div>
+            <!-- form-row -->
+            <div class="row form-group pl-2">
+                <div class="col-12 pt-2 px-4 ">
+                    <div class="row">
+                        <div class="col-lg-2 col-sm-12 col-md-2 pl-3">
+
+                            <label for="" class="left-heading">{{userType=='BR' ?'Name of Co-ordinating Institute':userType=='SPP'? 'Name of the Institute': userType=='BPC'? 'Production Centre Name': 'Agency Name'}}</label>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4 mr-2 ">
+                            <input type="text" class="form-control" [placeholder]="userType=='BR' ?'Name of Co-ordinating Institute':userType=='SPP'? 'Name of the Institute':userType=='BPC'? 'Production Centre Name': 'Agency Name'"
+                                [ngClass]=" disabledfield ? 'form-crop' : ''" formControlName="agency_name"
+                                (keypress)="checkAlpha($event)" (paste)="onPaste($event,'agency_name','50')"
+                                (keypress)="checkLength($event,50)">
+                            <div class="agency_name errorMessage"
+                                *ngIf="submitted || ngForm.controls['agency_name'].invalid && ngForm.controls['agency_name'].dirty || ngForm.controls['agency_name'].touched">
+                                <span *ngIf="ngForm.controls['agency_name'].errors?.['required']">Please Enter a {{userType=='BR' ?'Name of Co-ordinating Institute':userType=='SPP'? 'Name of the Institute':userType=='BPC'? 'Production Centre Name': 'Agency Name'}}.</span>
+                                <span *ngIf="ngForm.controls['agency_name'].errors?.['pattern']">Please Enter a Valid
+                                    {{userType=='BR' ?'Name of Co-ordinating Institute':userType=='SPP'? 'Name of the Institute': userType=='BPC'? 'Production Centre Name':'Agency Name'}}.</span>
+                            </div>
+                            <div class="pl-0 toggle-button" ngbDropdown>
+                                <img src="assets/images/16.svg" alt="" srcset="">
+                            </div>
+                        </div>
+
+                        <!-- (blur)="onBlurCropName($event)" -->
+                        <div class="col-sm-12 col-md-2  pl-3">
+                            <label for="" class="left-heading">{{userType=='SPP'?'Name of SPP In-Charge':'Short Name/Display Name'}}</label>
+                        </div>
+                        <div class="col-sm-12 col-md-4 in_sel_box mr-2">
+                            <input type="text" name="begin" placeholder="Enter {{userType=='SPP'?'Name of SPP In-Charge':'Short Name/Display Name'}}"
+                                class="form-control" formControlName="display_name"
+                                (keypress)="checkAlphaforShortname($event)" (keypress)="checkLength($event,5)"
+                                [ngClass]="{'invalid': submitted && ngForm.controls['display_name'].errors }" 
+                                (paste)="onPaste($event,'display_name','5')">
+                            <div class="display_name errorMessage"
+                                *ngIf=" ngForm.controls['display_name'].invalid && ngForm.controls['display_name'].dirty || ngForm.controls['display_name'].touched">
+                                <span *ngIf="ngForm.controls['display_name'].errors?.['required']"></span>
+                                <span *ngIf="ngForm.controls['display_name'].errors?.['pattern']">Please Enter a Valid
+                                    {{userType=='SPP'?'Name of SPP In-Charge':'Short Name/Display Name'}}.</span>
+                            </div>
+                            <div class="display_name errorMessage"
+                                *ngIf="submitted || ngForm.controls['display_name'].invalid && (ngForm.controls['display_name'].dirty || ngForm.controls['display_name'].touched)">
+                                <span *ngIf=" ngForm.controls['display_name'].errors?.['required']">
+                                    Please Enter {{userType=='SPP'?'Name of SPP':'Short Name/Display Name'}}.<br>
+                                </span>
+                            </div>
+                            <div class="pl-0 toggle-button" ngbDropdown>
+                                <img src="assets/images/16.svg" alt="" srcset="">
+                            </div>
+                            <!-- <div *ngIf="errorMsg">
+                                <span class="text-danger">{{alreadyExistsMsg}}</span>
+                            </div> -->
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-12 pt-0 px-4">
+                    <div class="row">
+                        <div class="col-lg-2 col-sm-12 col-md-2 pl-3" *ngIf=" userType!='BPC' && userType!='SPP'  ">
+
+                            <label for="" class="left-heading">{{userType=='BR' ? "Project Co-ordinator's Category":'Category of Agency'}}</label>
+                           
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4 mr-2" *ngIf=" userType!='BPC' && userType!='SPP' ">
+                            <select class="form-select form-control" formControlName="category_agency"
+                                [ngClass]="{'invalid': submitted && ngForm.controls['category_agency'].errors }"
+                                aria-label="Default select example">
+                                <option value="" disabled>{{userType=='BR' ? "Project Co-ordinator's Category":'Category of Agency'}}</option>
+                                <!-- <option value="1">ICAR Institute</option> -->
+                                <option *ngFor="let data of category_agency_data" value="{{data && data.id ? data.id:''}}">{{data && data.category_name ? data.category_name :'' }}</option>
+                                
+                            </select>
+                            <div class="category_agency errorMessage" *ngIf="submitted   ">
+                                <span [hidden]="ngForm.controls['category_agency'].value!=0">
+                                    Please Select Category Agency. <br>
+                                </span>
+
+
+                            </div>
+                            <div class="pl-0 toggle-button" ngbDropdown>
+                                <img src="assets/images/16.svg" alt="" srcset="">
+                            </div>
+                    
+                        </div>
+
+
+                        <div class=" col-lg-2 col-sm-12 col-md-2 pl-3">
+
+                            <label for="" class="left-heading">State</label>
+                        </div>
+                        <div  [ngClass]="userType=='BPC' ||  userType=='SPP'  ? 'col-lg-4 col-sm-12 col-md-4 mr-2' : 'col-sm-12 col-md-4 in_sel_box mr-2'">
+                            <select class="form-select form-control" formControlName="state"
+                                [ngClass]=" disabledfield ? 'form-crop' : ''" aria-label="Default select example">
+                                <option value="" disabled>Select State</option>
+                                <option *ngFor="let state of stateList" value="{{state.state_code}}">
+                                    {{state.state_name}}</option>
+                            </select>
+
+                            <div class="state errorMessage "
+                                *ngIf="submitted || ngForm.controls['state'].invalid && (ngForm.controls['state'].dirty || ngForm.controls['state'].touched)">
+                                <span *ngIf=" ngForm.controls['state'].errors?.['required']">
+                                    Please Select State. <br>
+                                </span>
+                            </div>
+                            <div class="pl-0 toggle-button" ngbDropdown>
+                                <img src="assets/images/16.svg" alt="" srcset="">
+                            </div>
+                        </div>
+                        <div class=" col-lg-2 col-sm-12 col-md-2 pl-3" *ngIf="userType=='SPP' ||  userType=='BPC'">
+
+                            <label for="" class="left-heading">{{userType=='SPP' ?'SPP Code' :'BSPC Code'}}</label>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4 in_sel_box mr-2" *ngIf="userType=='SPP' ||  userType=='BPC'">
+                            <input type="text"  placeholder="Enter {{userType=='SPP' ?'SPP Code' :'BSPC Code'}}"
+                            [ngClass]=" disabledfield ? 'form-crop form-control' : 'form-control'"
+                                formControlName="code" (keydown)="checkLength($event,50)">                                                
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 pt-0 px-4">
+                    <div class="row" style="border-bottom: 1px solid;">
+                        <div class=" col-lg-2 col-sm-12 col-md-2 pl-3">
+
+                            <label for="" class="left-heading">District</label>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4 mr-2">
+                            <select class="form-select form-control" formControlName="district"
+                                [ngClass]=" disabledfield ? 'form-crop' : ''" aria-label="Default select example">
+                                <option value="" disabled>Select District</option>
+                                <option *ngFor="let district of districtList" value="{{district.district_code}}">
+                                    {{district.district_name}}</option>
+                            </select>
+
+                            <div class="district errorMessage "
+                                *ngIf="submitted || ngForm.controls['district'].invalid && (ngForm.controls['district'].dirty || ngForm.controls['district'].touched)">
+                                <span *ngIf=" ngForm.controls['district'].errors?.['required']">
+                                    Please Select District. <br>
+                                </span>
+                            </div>
+                            <div class="pl-0 toggle-button" ngbDropdown>
+                                <img src="assets/images/16.svg" alt="" srcset="">
+                            </div>
+                        </div>
+                        <div class=" col-lg-2 col-sm-12 col-md-2 pl-3">
+
+                            <label for="" class="left-heading">{{userType=='SPP'?'Address of SPP': 'Address'}}</label>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4 in_sel_box mr-2">
+                            <input type="text" class="form-control" placeholder="Enter {{userType=='SPP'?'Address of SPP': 'Address'}}"
+                                formControlName="address" (keydown)="checkLength($event,50)">
+                            <div class="address errorMessage"
+                                *ngIf="submitted || ngForm.controls['address'].invalid && (ngForm.controls['address'].dirty || ngForm.controls['address'].touched)">
+                                <span *ngIf=" ngForm.controls['address'].errors?.['required']">
+                                    Please Enter {{userType=='SPP'?'Address of SPP': 'Address'}}. <br>
+                                </span>
+
+
+                            </div>
+                            <div class="pl-0 toggle-button" ngbDropdown>
+                                <img src="assets/images/16.svg" alt="" srcset="">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xl-12 pt-2" *ngIf="userType=='BR'|| userType=='BPC' || userType=='SPP' || userType=='IN'">
+                        <div class="resp_btn float-right">
+                            <button
+                                class="form-button cancel_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="enableEdit()">Edit</button>
+                        </div>
+                      
+                    </div>
+ 
+                </div>
+
+                
+
+
+                <div class="col-12 pt-3 px-4">
+                    <div class="row">
+                        <div class=" col-lg-2 col-sm-12 col-md-2 pl-3" *ngIf="userType!='BR'&& userType!='BPC' && userType!='SPP'">
+
+                            <label for="" class="left-heading">Enter Pincode</label>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4 mr-2" *ngIf="userType!='BR'&& userType!='BPC' && userType!='SPP'">
+                            <input type="number" class="form-control" formControlName="pincode"
+                                placeholder="Enter Pincode" (keydown)=" checkLength($event, 6)" minlength="6"
+                                maxlength="6" autocomplete="off" (paste)="onPasteNumber($event,'pincode','6')">
+                            <div class="pincode errorMessage"
+                                *ngIf="submitted || ngForm.controls['pincode'].invalid && (ngForm.controls['pincode'].dirty || ngForm.controls['pincode'].touched)">
+                                <span *ngIf=" ngForm.controls['pincode'].errors?.['required']">
+                                    Please Enter Pincode.<br>
+                                </span>
+                            </div>
+                            <div class="pl-0 toggle-button" ngbDropdown>
+                                <img src="assets/images/16.svg" alt="" srcset="">
+                            </div>
+                        </div>
+                        <div class=" col-lg-2 col-sm-12 col-md-2 pl-3">
+
+                            <label for="" class="left-heading">{{userType=='BR' ? 'Nodal Officer Name':userType=='SPP' ? 'Name of SPP In-Charge': 'Contact Person Name'}}</label>
+                        </div>
+                        <div [ngClass]="userType=='BR' || userType=='BPC' || userType=='SPP' ? 'col-lg-4 col-sm-12 col-md-4 mr-2' : 'col-sm-12 col-md-4 in_sel_box mr-2'">
+                            <input type="text" class="form-control" [placeholder]="userType=='BR' ? 'Enter Nodal Officer Name':userType=='SPP' ? 'Name of SPP In-Charge': 'Enter Contact Person Name'"
+                                formControlName="contact_person_name" (keypress)="checkAlpha($event)"
+                                (keypress)="checkLength($event,50)"
+                                (paste)="onPaste($event,'contact_person_name','50')">
+                            <div class="contact_person_name errorMessage"
+                                *ngIf="submitted ||ngForm.controls['contact_person_name'].invalid && ngForm.controls['contact_person_name'].dirty || ngForm.controls['contact_person_name'].touched">
+                                <span *ngIf="ngForm.controls['contact_person_name'].errors?.['required']">Please Enter a
+                                    {{userType=='BR' ? 'Nodal Officer Name':userType=='SPP' ? 'Name of SPP In-Charge':userType=='SPP' ? 'Name of SPP In-Charge': 'Contact Person Name'}}.</span>
+                                <span *ngIf="ngForm.controls['contact_person_name'].errors?.['pattern']">Please Enter a
+                                    Valid {{userType=='BR' ? 'Nodal Officer Name':userType=='SPP' ? 'Name of SPP In-Charge': 'Contact Person Name'}}.</span>
+                            </div>
+                            <div class="pl-0 toggle-button" ngbDropdown>
+                                <img src="assets/images/16.svg" alt="" srcset="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <div class="col-12 pt-0 px-4">
+                    <div class="row">
+                        <div class=" col-lg-2  col-sm-12 col-md-2 pl-3">
+
+                            <label for="" class="left-heading">{{userType=='BR' ? 'Nodal Officer Designation':userType=='SPP'?'Designation': 'Contact Person Designation'}}</label>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4 mr-2">
+                            <select class="form-select form-control" formControlName="contact_person_designation"
+                                aria-label="Default select example">
+                                <option value="" disabled>Select {{userType=='BR' ? 'Nodal Officer Designation':userType=='SPP'?'Designation': 'Contact Person Designation'}}.</option>
+                                <!-- <option value="1">ICAR Institute</option> -->
+                                <option [value]="data.id" *ngFor="let data of designationList" value="{{data && data.id ? data.id :''}}">{{data && data.name ? data.name :''}}</option>
+                            </select>
+
+                            <div class="contact_person_name errorMessage"
+                                *ngIf="submitted || ngForm.controls['contact_person_designation'].invalid && ngForm.controls['contact_person_designation'].dirty || ngForm.controls['contact_person_designation'].touched">
+                                <span *ngIf="ngForm.controls['contact_person_designation'].errors?.['required']">Please
+                                    Enter a {{userType=='BR' ? 'Nodal Officer Designation':userType=='SPP'?'Designation': 'Contact Person Designation'}}.</span>
+                                <span *ngIf="ngForm.controls['contact_person_designation'].errors?.['pattern']">Please
+                                    Enter a Valid {{userType=='BR' ? 'Nodal Officer Designation':userType=='SPP'?'Designation': 'Contact Person Designation'}}.</span>
+                            </div>
+                           
+                        </div>
+                        <div class="col-lg-2 col-sm-12 col-md-2 pl-3 mt-4 mt-md-0">
+
+                            <label for="" class="left-heading">Mobile Number</label>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4 in_sel_box mr-2">
+                            <div class="input-group mb-2">
+                                <!-- [ngClass]="{'invalid': submitted && ngForm.controls['mobile'].errors }" -->
+                                <input type="text" class="form-control" formControlName="mobile" minlength="10"  maxlength="10" >
+                                <!-- <input type="text" class="form-control"
+                                   
+                                    id="inlineFormInputGroup" placeholder="Enter Mobile Number" formControlName="mobile"
+                                    (keydown)="checkNumber($event); checkLength($event, 10)" minlength="10"
+                                    (paste)="onPasteNumber($event,'mobile','10')"
+                                    maxlength="10" autocomplete="off"> -->
+                            </div>
+                           
+                            <!-- <div class="mobile errorMessage"
+                                *ngIf="ngForm.controls['mobile'].invalid && ngForm.controls['mobile'].dirty || ngForm.controls['mobile'].touched">
+                                
+                                <span *ngIf="ngForm.controls['mobile'].errors?.['minlength']">Please Enter a Valid
+                                    Mobile Number.</span> -->
+                            <!-- </div> -->
+                            <div class="mobile errorMessage"
+                                *ngIf="submitted || ngForm.controls['mobile'].invalid && (ngForm.controls['mobile'].dirty || ngForm.controls['mobile'].touched)">
+                                <span *ngIf=" ngForm.controls['mobile'].errors?.['required']">
+                                    Please Enter Mobile Number. <br>
+                                </span>
+                                <span *ngIf=" ngForm.controls['mobile'].errors?.['pattern'] && !ngForm.controls['mobile'].errors?.['required']">
+                                    Invalid Mobile Number. <br>
+                                </span>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-12 pt-2 px-4 mt-2 mt-md-0" *ngIf="userType!='SPP'">
+                    <div class="row">
+                        <div class=" col-lg-2  col-sm-12 col-md-2 pl-3" *ngIf="userType!='SPP'">
+
+                            <label for="" class="left-heading">E-mail ID</label>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4 mr-2" *ngIf="userType!='SPP'">
+                            <input type="text" class="form-control" placeholder="Enter E-mail ID"
+                                formControlName="email" (keypress)="checkLength($event,50)" maxlength="50"
+                                (paste)="onPaste($event,'email','50')">
+                            <div class="email errorMessage"
+                                *ngIf="ngForm.controls['email'].invalid && ngForm.controls['email'].dirty || ngForm.controls['email'].touched">
+                               
+                                <span *ngIf="ngForm.controls['email'].errors?.['pattern']">Please Enter a Valid E-mail
+                                    ID.</span>
+                            </div>
+                            <div class="email errorMessage"
+                                *ngIf="submitted || ngForm.controls['email'].invalid && (ngForm.controls['email'].dirty || ngForm.controls['email'].touched)">
+                                <span *ngIf=" ngForm.controls['email'].errors?.['required']">
+                                    Please Enter E-mail ID. <br>
+                                </span>
+
+
+                            </div>
+                            
+                        </div>
+                        <div class="col-lg-2 col-sm-12 col-md-2 pl-3 mt-4 mt-md-0">
+
+                            <label for="" class="left-headings">Phone Number</label>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4 in_sel_box mr-2">
+                            <div class="input-group mb-2">
+
+                                <input type="text" class="form-control" id="inlineFormInputGroup"
+                                    formControlName="phone" (keydown)="checkNumber($event); checkLength($event, 10)"
+                                    minlength="10" maxlength="10" autocomplete="off"
+                                    (paste)="onPasteNumber($event,'phone','10')"
+                                    [placeholder]="isView || isEdit && !response_phone_number ? '' :'Enter Phone Number' ">
+                            </div>
+
+                            <div class="phone errorMessage"
+                                *ngIf="submitted || ngForm.controls['phone'].invalid && (ngForm.controls['phone'].dirty || ngForm.controls['phone'].touched)">
+                                <span *ngIf=" ngForm.controls['phone'].errors?.['pattern']">
+                                    Invalid Phone Number. <br>
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-12 pt-3 px-4">
+                    <div class="row">
+                        <div class=" col-lg-2 col-sm-12 col-md-2 pl-3" *ngIf="userType!='BR' && userType!='SPP' ">
+                            <span for="" class="left-headings">Fax Number</span>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4 mr-2" *ngIf="userType!='BR' && userType!='SPP'">
+
+                            <input type="number" class="form-control" formControlName="fax_number" type="number"
+                                (keydown)="checkLength($event,12)" minlength="12" maxlength="12"
+                                (paste)="onPasteNumber($event,'fax_number','12')"
+                                [placeholder]="isView || isEdit && !response_fax_number ? '' :'Enter Phone Number' ">
+                        </div>
+
+                        <div class="col-lg-2 col-sm-12 col-md-2 pl-3 mt-4 mt-md-0" *ngIf="this.userType=='BR'">
+
+                            <label for="" class="left-headings">Crop Name</label>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4  mr-2"
+                        ngbDropdown *ngIf="this.userType=='BR'"
+                       [ngClass]="editdata ? '' :'disabledfield'"
+                        >
+                          
+                            <ng-multiselect-dropdown
+                                [disabled]="isDropdownDisabled"
+                                [settings]="dropdownSettings"
+                                [data]="cropNameDataList"
+                                [(ngModel)]="crop_datas"
+                                formControlName="crop_data"
+                                [placeholder]="'Select Crop Name'" class="mr-2"
+                                
+                               >
+                            </ng-multiselect-dropdown>
+                            <!-- (keydown)="keyPressedOnMultiDropdown($event)" -->
+                            <!-- (onDropDownClose)="ngClearMultiSelectSelection()" -->
+                            <!-- <div class="input-group mb-2">
+
+                                <input type="text" class="form-control" id="inlineFormInputGroup"
+                                    formControlName="crop_name" (keydown)="checkNumber($event); checkLength($event, 10)"
+                                    minlength="10" maxlength="10" autocomplete="off"
+                                    (paste)="onPasteNumber($event,'phone','10')"
+                                    [placeholder]="isView || isEdit && !response_phone_number ? '' :'Enter Phone Number' ">
+                            </div>
+
+                            <div class="phone errorMessage"
+                                *ngIf="submitted || ngForm.controls['phone'].invalid && (ngForm.controls['phone'].dirty || ngForm.controls['phone'].touched)">
+                                <span *ngIf=" ngForm.controls['phone'].errors?.['pattern']">
+                                    Invalid Phone Number. <br>
+                                </span>
+                            </div> -->
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-12 pt-4 px-4">
+                    <div class="row">
+                        <div class=" col-lg-2  col-sm-12 col-md-2 pl-3">
+
+                            <label for="" class="left-headings">Latitude</label>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4 mr-2">
+                            <input type="text" class="form-control" formControlName="latitude"
+                                placeholder="Enter Latitude" (keydown)="checkDecimal($event); checkLength($event, 12)"
+                                (paste)="onPasteNumber($event,'latitude','12')"
+                                minlength="12" maxlength="12">
+
+                            <div class="latitude errorMessage "
+                                *ngIf="submitted || ngForm.controls['latitude'].invalid && (ngForm.controls['latitude'].dirty || ngForm.controls['latitude'].touched)">
+                                <span *ngIf=" ngForm.controls['latitude'].errors?.['required']">
+                                    Please Enter Latitude. <br>
+                                </span>
+                                <!-- <span *ngIF="LatituteError">
+                                    {{LatituteError}} <br>
+                                </span> -->
+                            </div>
+                            <div class="latitude errorMessage "
+                                *ngIf="submitted && LatituteError && !ngForm.controls['latitude'].errors?.['required']">
+
+                                <span>
+                                    {{LatituteError}} <br>
+                                </span>
+                            </div>
+                            <div class="pl-0 toggle-button" ngbDropdown>
+                                <img src="assets/images/16.svg" alt="" srcset="">
+                            </div>
+
+
+                        </div>
+                        <div class=" col-lg-2 col-sm-12 col-md-2 pl-3">
+
+                            <label for="" class="left-headings">Longitude</label>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4 in_sel_box mr-2">
+                            <input type="text" class="form-control" formControlName="longitude"
+                                placeholder="Enter Longitude" (keydown)="checkDecimal($event); checkLength($event, 12)"
+                                (paste)="onPasteNumber($event,'longitude','12')"
+                                minlength="12" maxlength="12">
+
+
+                            <div class="longitude errorMessage "
+                                *ngIf="submitted || ngForm.controls['longitude'].invalid && (ngForm.controls['longitude'].dirty || ngForm.controls['longitude'].touched)">
+                                <span *ngIf=" ngForm.controls['longitude'].errors?.['required']">
+                                    Please Enter Longitude. <br>
+                                </span>
+
+                            </div>
+                            <div class="latitude errorMessage "
+                                *ngIf="submitted && LongituteError && !ngForm.controls['longitude'].errors?.['required']">
+
+                                <span>
+                                    {{LongituteError}}. <br>
+                                </span>
+                            </div>
+                            <div class="pl-0 toggle-button" ngbDropdown>
+                                <img src="assets/images/16.svg" alt="" srcset="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-sm-12 pt-0 px-4">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-6 col-5 col-lg-2 pl-3">
+                            <label for="" class="left-headings">Logo
+
+                            </label>
+                           
+                        </div>
+                        <!-- <div class="col-md-12 col-sm-11 pl-sm-3 pl-lg-0 ml-lg-2 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4 d-flex"> -->
+                        <div class="col-md-3 col-lg-1 col-sm-6 col-3 pl-0 ml-3 " (click)="uploadImage()" [ngStyle]="{'pointer-events': !editdata ? 'none' : ''}">
+                            <div class=" py-1 text-center pt-1 upload_btn" role="button"
+                                [ngStyle]="{'pointer-events': !editdata ? 'none' : ''}" style="background: #E97E15 0% 0% no-repeat padding-box;
+                                box-shadow: 0px 3px 0px #CB6706;
+                                border-radius: 5px;
+                                opacity: 1;
+                                ">
+                                <span style="font: normal  Poppins 16px/25px ;
+                              letter-spacing: 0px;
+                              color: #FFFFFF;
+                              opacity: 1;" class="px-1">
+                                    Upload
+                                </span>
+
+
+                            </div>
+                           
+                            <!-- <div *ngIf="submitted && downloadUrl==''" class="errorMessage">
+                                <span style="white-space:nowrap;">Please Upload Logo</span>
+                            </div> -->
+                            <div *ngIf="ImgError" class="errorMessage" >
+                                <span style="white-space:nowrap;">{{ImgError}}</span>
+                            </div>
+                            <div class="col-12 pt-3 pl-0">
+                                <!-- <span class="pt-4 upload_img_condition " style="white-space: nowrap;">(png,jpeg,jpg,
+                                    Format <br> Maximum Size is 2 Mb)
+
+                                </span> -->
+                                <div class="pl-0 toggle-button" ngbDropdown>
+                                    <img src="assets/images/16.svg" alt="" srcset="">
+                                    <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                </div>
+                            </div>
+                            
+                        </div>
+
+
+
+                        <input [ngStyle]="{'pointer-events': !editdata ? 'none' : ''}" type="file" id="fileInput" #fileInput (change)="onFileChange($event)"
+                            [(ngModel)]="fileImage" formControlName="file" style="display: none;">
+
+                            <span style="white-space: nowrap;"> File Maximum Size is upto 2 Mb 
+                                 <br> File type .png,.jpeg,.jpg only
+
+                            </span>
+                            <span *ngIf="file_name">
+                                {{file_name.substring(0, 130)}}
+                            </span>
+                           
+                        <!-- </div> -->
+
+                    </div>
+                </div>
+                <div class="col-12 pt-2 px-4">
+                    <div class="row">
+                        <div class=" col-lg-2  col-sm-12 col-md-2 pl-3">
+
+
+                        </div>
+                        
+                        <div class=" col-lg-2 col-sm-12 col-md-2 pl-3">
+
+                            <!-- <label for="" class="left-heading">Longitude</label> -->
+                        </div>
+                        <div class="col-lg-4 col-sm-12 col-md-4 in_sel_box">
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- buttons -->
+
+                <div class="col-md-12 pb-3 mt-4 sub_updt_cancel_btn" *ngIf="!isEdit && !isView">
+                    <div class="resp_btn">
+                        <button (click)="getMinManLongLang()"
+                            class="form-button submit_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Submit</button>
+                    </div>
+                    <div class="resp_btn">
+                        <button
+                            class="form-button cancel_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                            (click)="redirect()">Cancel</button>
+                    </div>
+                </div>
+                <div class="col-12 pb-3 mt-4 sub_updt_cancel_btn" *ngIf="isEdit">
+                    <div class="resp_btn">
+                        <button (click)=" getMinManLongLang();"
+                            class="form-button update_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                            Update Profile</button>
+                    </div>
+                    <div class="resp_btn">
+                        <button (click)="redirect()"
+                            class="form-button ml-2 cancel_btn d-inline-flex justify-content-center verticle-content-middle mb-3">Cancel</button>
+                    </div>
+                    
+                </div>
+                <div class="col-md-12 pb-3 mt-4 sub_updt_cancel_btn">
+                     
+                    <div class="resp_btn" *ngIf="editdata && (userType=='BR'|| userType=='BPC' || userType=='SPP' || userType=='IN')" >
+                        <button (click)="updateProfile()"
+                            class="form-button ml-2 cancel_btn d-inline-flex justify-content-center verticle-content-middle mb-3">Update</button>
+                    </div>
+                    <div class="resp_btn" *ngIf="isView">
+                        <button (click)="redirect()"
+                            class="form-button ml-2 cancel_btn d-inline-flex justify-content-center verticle-content-middle mb-3">Cancel</button>
+                    </div>
+                </div>
+
+                <!-- <buttons -->
+
+
+
+
+
+            </div>
+        </div><br><br>
+
+    </form>

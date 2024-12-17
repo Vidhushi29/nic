@@ -1,0 +1,228 @@
+<form [formGroup]="ngForm">
+<div class="main-rep-card m-2" *ngFor="let data of cardData;">   
+        <div class="main-heading">
+            <div class="row">
+                <div class="col-md-2 col-sm-12 float-right">
+                    <div class="left-logo mt-2">
+                        <p> <img src="../../assets/images/left-icar-logo.png" class="left-logo-img"> </p>
+                    </div>
+                    
+                </div>
+                <div class="col-md-8 col-sm-12 ">
+                    <div class="heading mt-2">
+                        <span align="center" class="title">Indian Institute of Wheat & Barley Research</span>
+                            <p class="address-title">KARNAL - 132001, Haryana</p>
+                            <p class="divider"><img src="../../assets/images/card-divider.png" class="diveder-image"></p>
+                            <p class="class-of">Class of Seed : Breeder Seed</p>
+                        </div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <div class="right-logo mt-2">
+                        <p> <img src="../../assets/images/left-icar-logo.png" class="left-logo-img"> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-field">
+            <div class="row" style="margin: 0%;">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            
+                        </div>
+                        <div class="col-md-6">
+                        
+                        </div>
+                    </div>
+                            
+                
+                            
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12" >
+                    
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label class="input-heading">*Pure Seed</label>
+                        </div>
+                        <div class="col-md-7">
+                        <input type="text" value="{{data.pureSeed}}">
+                        </div>
+                    </div>
+                            
+                
+                            
+                </div>    
+            </div>
+            <div class="row" style="margin: 0%;">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="input-heading">Crop</label>
+                            </div>
+                            <div class="col-md-7">
+                            <input type="text" value= "{{data.crop}}">
+                            </div>
+                        </div>                         
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="input-heading">*Inert matter</label>
+                            </div>
+                            <div class="col-md-7">
+                            <input type="text" value= "{{data.inertMatter}}">
+                            </div>
+                        </div>      
+                    </div>       
+            </div>
+            <div class="row" style="margin: 0%;">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label class="input-heading">Variety</label>
+                        </div>
+                        <div class="col-md-7">
+                        <input type="text" value= "{{data.Variety}}">
+                        </div>
+                    </div>                         
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label class="input-heading">*Germination</label>
+                        </div>
+                        <div class="col-md-7">
+                        <input type="text" value= "{{data.germination}}">
+                        </div>
+                    </div>      
+                </div>       
+            </div>
+            <div class="row" style="margin: 0%;">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label class="input-heading">Lable No.</label>
+                        </div>
+                        <div class="col-md-7">
+                        <input type="text" value= "{{data.lableNo}}">
+                        </div>
+                    </div>                         
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label class="input-heading">**Oil Content</label>
+                        </div>
+                        <div class="col-md-7">
+                        <input type="text" value= "{{data.oilContent}}">
+                        </div>
+                    </div>      
+                </div>       
+            </div>
+            <div class="row" style="margin: 0%;">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label class="input-heading">Lot No.</label>
+                        </div>
+                        <div class="col-md-7">
+                        <input type="text" value= "{{data.lotNo}}">
+                        </div>
+                    </div>                         
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    
+                    <div class="row">
+                        <div class="col-md-7">
+                            <label class="input-heading">*Producing Institution</label>
+                        </div>
+                        <div class="col-md-5">
+                        <input type="text" style="width: 66px !important;" value= "{{data.producingInstitution}}">
+                        </div>
+                    </div>      
+                </div>       
+            </div>
+            <div class="row" style="margin: 0%;">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label class="input-heading">Date of test</label>
+                        </div>
+                        <div class="col-md-7">
+                        <input type="text" value= "{{data.dateOftest}}">
+                        </div>
+                    </div>                         
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    
+                    <div class="row">
+                        <div class="col-md-7">
+                            <label class="input-heading">Issuing authority name</label>
+                        </div>
+                        <div class="col-md-5">
+                        <input type="text" style="width: 66px !important;" value= "{{data.issuingAuthorityname}}">
+                        </div>
+                    </div>      
+                </div>       
+            </div>
+            <div class="row" style="margin: 0%;">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    
+                    <div class="row">
+                        <div class="col-md-5">
+                            
+                        </div>
+                        <div class="col-md-7">
+                        
+                        </div>
+                    </div>                         
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label class="input-heading">Designation</label>
+                        </div>
+                        <div class="col-md-7">
+                        <input type="text" value= "{{data.designation}}">
+                        </div>
+                    </div>      
+                </div>       
+            </div>
+        </div>
+
+        <div class="bar-code-section">
+            <div class="row">
+                <div class="col-md-2 col-lg-3 col-sm-12">
+                </div>
+                <div class="col-md-2 col-lg-6 col-sm-12">
+                    <div class="bar-code mt-2">
+                        <p> <img src="../../assets/images/bar-code.png" class="bar-code-img"> </p>
+                    </div>
+                </div>
+                <div class="col-md-2 col-lg-3 col-sm-12">
+                    <div class="QR-code">
+                        <p> <img src="../../assets/images/qr.png" class="qr-code-img"> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</form>

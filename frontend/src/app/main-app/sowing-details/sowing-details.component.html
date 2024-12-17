@@ -1,0 +1,390 @@
+<form [formGroup]="ngForm" class="pt-2">
+    <div class="main-inventory my-2 w-90 pt-2">
+        <span class="title-inventory pt-3">
+            Grow Out Test Sowing Details and Report
+        </span>
+
+        <!-- First Card UI -->
+        <div class="col-12 pb-2 pt-2 pr-0">
+            <div class="row card-inventory form-group formargin">
+                <div class="col-12 col-md-10 pt-1 pl-4 formargin">
+                    <div class="row">
+                        <!-- Year of Indent -->
+                        <div class="col-xl-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="year" class="label-inventory required">Year of Indent</label>
+                                </div>
+                                <div class="col-12">
+                                    <select formControlName="year"
+                                        class="form-control input-inventory">
+                                        <option value="">Select Year of Indent</option>
+                                        <option *ngFor="let data of yearOfIndent" [value]="data?.year">
+                                            {{ getFinancialYear(data.year) }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Season -->
+                        <div class="col-xl-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="season" class="label-inventory required">Season</label>
+                                </div>
+                                <div class="col-12">
+                                    <select formControlName="season" class="form-control input-inventory">
+                                        <option value="">Select Season</option>
+                                        <option *ngFor="let data of seasonlist" [value]="data && data.season">
+                                            {{ data && data.seasonName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Crop -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Crop</label>
+                                </div>
+                                <div class="col-md-12 px-2">
+                                    <div ngbDropdown class="d-inline-block w-100 ">
+                                        <button
+                                            [disabled]="!ngForm.controls['year'].value && !ngForm.controls['season'].value"
+                                            class="btn takeplacholder w-100 crop toggle-button input-inventory form-control"
+                                            id="crop_group" ngbDropdownToggle style="text-align: left;">{{selectCrop &&
+                                            (selectCrop.length>30) ? (selectCrop.substring(0,30)+'...'):selectCrop?
+                                            selectCrop :'Select Crop '}}
+                                        </button>
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group"
+                                            aria-labelledby="sortMenu">
+                                            <input type="text" class="form-control px-4" formControlName="crop_text"
+                                                (click)="cropdatatext()">
+                                            <button class="dropdown-item" *ngFor="let data of cropList"
+                                                (click)="cropNameValue(data)" #dropdownItem
+                                                [attr.data-parent-name]="'crop_group'">
+                                                {{data && data.crop_name ? data.crop_name :''}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 pt-4 mt-2 pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12">
+                            <button class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1"
+                                (click)="toggleSearch()">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Card UI -->
+        <div class="col-12 pt-3 pr-0" *ngIf="searchClicked && consignmentList && consignmentList.length > 0 || is_update">
+            <div class="row card-inventory form-group  pl-0">
+                <div class="col-12">
+                    <div class="col-12 pt-1 pb-1">
+                        <!-- Variety Selection -->
+                        <div class="row align-items-center">
+                            <!-- Consignment Dropdown -->
+                            <div class="col-xl-3 col-sm-12">
+                                <label for="consignment" class="required"><b>Select Consignment</b></label>
+                                <select class="form-control input-inventory" formControlName="consignment" (change)="onConsignmentChange($event)">
+                                    <option value="" disabled>Select Consignment</option>
+                                    <option *ngFor="let data of consignmentList" [value]="data?.consignment_number">
+                                        {{data?.consignment_number}}
+                                    </option>
+                                </select>
+                            </div>
+                            <!-- Test No Dropdown -->
+                            <div class="col-xl-3 col-sm-12">
+                                <label for="variety" class="required"><b>Test No.</b></label>
+                                <select formControlName="testno" class="form-control">
+                                    <option value="" disabled>Select Test No.</option>
+                                    <option *ngFor="let testNo of testNumberList" [value]="testNo && testNo.test_number">
+                                        {{ testNo && testNo.test_number }}
+                                    </option>
+                                </select>
+                            </div>
+                            <!-- Inline Details Section (Conditional) -->
+                            <div class="col-xl-6 col-sm-12 d-flex justify-content-between pt-4" *ngIf="isTestSelected">
+                                <div class="text-center py-4 my-4">
+                                    <span><b>Variety: </b> {{testNumberDetails && testNumberDetails[0] && testNumberDetails[0].variety_name ? testNumberDetails[0].variety_name : 'NA'}}</span>
+                                </div>
+                                <div class="text-center py-4 my-4">
+                                    <span><b>Class: </b> {{testNumberDetails && testNumberDetails[0] && testNumberDetails[0].class_of_seed ? testNumberDetails[0].class_of_seed : 'NA'}}</span>
+                                </div>
+                                <div class="text-center py-4 my-4">
+                                    <span><b>Unique No.: </b> {{testNumberDetails && testNumberDetails[0] && testNumberDetails[0].unique_code ? testNumberDetails[0].unique_code : 'NA'}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Fields -->
+                        <div *ngIf="isTestSelected">
+                            <div class="row">
+                                <div class="col-xl-2 col-md-2 col-sm-12 position-relative py-4">
+                                    <div class="row">
+                                        <div class="col-12 py-2">
+                                            <b> <span class="">Sowing Location</span></b>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-1 col-md-1 col-sm-12 position-relative">
+                                    <div class="row">
+                                        <div class="col-12 py-3">
+                                            <span class="vertical2 ml-3"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- State Dropdown -->
+                                <div class="col-xl-3 col-md-3 col-sm-12 position-relative">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label for="state" class="label-inventory required">State</label>
+                                    </div>
+                                    <div class="col-md-12 px-2">
+                                        <div ngbDropdown class="d-inline-block w-100 ">
+                                            <button class="takeplacholder w-100 state toggle-button input-inventory form-control"
+                                                id="state_group" ngbDropdownToggle style="text-align: left;">{{selectState &&
+                                                (selectState.length>30) ? (selectState.substring(0,30)+'...'):selectState?
+                                                selectState :'Select State '}}
+                                            </button>
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="state_group"
+                                                aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4" formControlName="state_text"
+                                                    (click)="statedatatext()">
+                                                <button class="dropdown-item" *ngFor="let data of stateList"
+                                                    (click)="stateNameValue(data)" #dropdownItem
+                                                    [attr.data-parent-name]="'state_group'">
+                                                    {{data && data.state_name ? data.state_name :''}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown>
+                                            <i class="fa-solid fa-angle-down downicon" (click)="sgClick()"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                                <!-- District Dropdown -->
+                                <div class="col-xl-3 col-md-3 col-sm-12 position-relative">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <label for="district" class="label-inventory required">District</label>
+                                        </div>
+                                        <div class="col-md-12 px-2">
+                                            <div ngbDropdown class="d-inline-block w-100 ">
+                                                <button class="takeplacholder w-100 district toggle-button input-inventory form-control"
+                                                    id="district_group" ngbDropdownToggle style="text-align: left;">{{selectDistrict &&
+                                                    (selectDistrict.length>30) ? (selectDistrict.substring(0,30)+'...'):selectDistrict?
+                                                    selectDistrict :'Select District '}}
+                                                </button>
+                                                <div class="dropdown-menu w-100" ngbDropdownMenu="district_group"
+                                                    aria-labelledby="sortMenu">
+                                                    <input type="text" class="form-control px-4" formControlName="district_text"
+                                                        (click)="districtdatatext()">
+                                                    <button class="dropdown-item" *ngFor="let data of districtList"
+                                                        (click)="districtNameValue(data)" #dropdownItem
+                                                        [attr.data-parent-name]="'district_group'">
+                                                        {{data && data.district_name ? data.district_name :''}}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <i class="fa-solid fa-angle-down downicon" (click)="dgClick()"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             <!-- Address Input -->
+                                <div class="col-xl-3 col-md-3 col-sm-12 position-relative">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="address" class="required">Address</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input id="address" formControlName="address" class="form-control" placeholder="Enter Address">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-xl-2 col-md-2 col-sm-12 position-relative py-2">
+                                    <div class="row">
+                                        <div class="col-12 py-2">
+                                            <b><label for="state">Sowing Details</label></b>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-1 col-md-1 col-sm-12 position-relative">
+                                    <div class="row">
+                                        <div class="col-12 py-3">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Area Sown -->
+                                <div class="col-xl-3 col-md-3 col-sm-12 position-relative">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="areaSown" class=" required">Area Sown (Ha)</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input id="areaSown" formControlName="areaSown" type="number"
+                                                class="form-control" placeholder="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Date of Sowing -->
+                                <div class="col-xl-3 col-md-3 col-sm-12 position-relative">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="dateOfSowing" class="required">Date of Sowing</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input id="dateOfSowing" formControlName="dateOfSowing" type="date"
+                                                class="form-control" placeholder="DD/MM/YYYY">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Expected Date of Inspection -->
+                                <div class="col-xl-3 col-md-3 col-sm-12 position-relative">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="expected_date_inspection" class="required">Expected Date of Inspection</label>
+                                        </div>
+                                        <div class="col-12 position-relative">
+                                            <input
+                                                class="form-control w-100 not_date input-format input-border"
+                                                placeholder="DD/MM/YYYY - DD/MM/YYYY"
+                                                (click)="ChangeInspectionField()"
+                                                *ngIf="ngForm.controls['showDisableInspectionDate'].value==false"
+                                                type="text"
+                                                value="{{ngForm.controls['expected_date_inspection'].value && ngForm.controls['expected_date_inspection'].value.singleDate && ngForm.controls['expected_date_inspection'].value.singleDate.formatted ? ngForm.controls['expected_date_inspection'].value.singleDate.formatted :''}}">
+
+                                            <input (keydown)="preventKeyPress($event)"
+                                                *ngIf="ngForm.controls['showDisableInspectionDate'].value==true"
+                                                class="form-control w-100 input-format input-border not_date "
+                                                formControlName="expected_date_inspection"
+                                                angular-mydatepicker [options]="myDpOptions"
+                                                #dp4="angular-mydatepicker"
+                                                (dateChanged)="onDateChanged($event,1)"
+                                                (click)="dp4.toggleCalendar()"
+                                                [defaultMonth]="defaultMonth" (name)="parsedDate"
+                                                id="end" placeholder="DD/MM/YYYY - DD/MM/YYYY"
+                                                autofill="false" autocomplete="off" />
+                                         <img src="assets/images/calendar.svg" alt="Calendar" class="calendar-icon" (click)="toggleCalendar()"/>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <hr>
+                        <div class="col-md-12 d-flex align-items-center mt-4">
+                            <button type="button" class="btn btn-inventory  col-md-2" (click)="cancel()"> Cancel </button>
+                            <button type="button" *ngIf="!is_update" class="btn2 btn-inventory1 ml-2 col-md-2" (click)="onSubmit()"> Save </button>
+                            <button type="button" *ngIf="is_update" class="btn2 btn-inventory1 ml-2 col-md-2" (click)="onUpdateData()"> Update </button>
+                        </div>
+                        <br>
+                        <br>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 pt-2" *ngIf="searchClicked">
+            <div class="row card-inventory form-group pb-2 pl-0">
+                <div class="col-12 col-md-3 col-lg-3 col-sm-12 pl-5 py-3">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                            <label for="testSearch" class="">Select Test No.</label>
+                            <select class=" form-control input-inventory"
+                                formControlName="testSearch">
+                                <option value="" disabled>Select Test No</option>
+                                <option *ngFor="let testNo of testNumberTableList" value="{{testNo && testNo.test_number}}">
+                                    {{ testNo && testNo.test_number }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 ">
+                    <div class="col-12 col-md-12 col-lg-12 ">
+                        <div class="row data-row p-0">
+                            <table class="table border-top-0 col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12 pl-0 pr-0 m-0 ">
+                                <thead class=" w-100 pl-0 table-bordered">
+                                    <tr class="data-row-header">
+                                        <th scope="col" class="py-2 text-white verticle-content-middle heading datalist font-weight-bold">S.No.</th>
+                                        <th scope="col" class="col-md-2 py-2 text-white verticle-content-middle heading datalist font-weight-bold">Consignment No.</th>
+                                        <th scope="col" class="col-md-2 py-2 text-white verticle-content-middle heading datalist font-weight-bold">Test No.</th>
+                                        <th scope="col" class="col-md-3 py-2 text-white verticle-content-middle heading datalist font-weight-bold">Sowing Location</th>
+                                        <th scope="col" class="col-md-3 py-2 text-white verticle-content-middle heading datalist font-weight-bold">Sowing Details</th>
+                                        <th scope="col" class="col-md-2 py-2 text-white verticle-content-middle heading datalist font-weight-bold">Test Report</th>
+                                        <th scope="col" style="min-width:8em;" class="col-md-2 py-2 text-white verticle-content-middle heading datalist font-weight-bold">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-bordered">
+                                        <ng-container *ngFor="let data of sowingDetailsList; let i = index">
+                                            <tr>
+                                                <td scope="col-12" class="col-md-1 py-2 verticle-content-middle">
+                                                    {{ i+1 }}
+                                                </td>
+                                                <td scope="col-12" class="col-md-2 py-2 verticle-content-middle">
+                                                    {{ data.consignment_number }}
+                                                </td>
+                                                <td scope="col-12" class="col-md-2 py-2 verticle-content-middle">
+                                                    {{ data.test_number }}
+                                                </td>
+                                                <!-- Land Details -->
+                                                <td scope="col-12" class="col-md-3 py-2 verticle-content-middle" style="text-align:left">
+                                                    <span>Address:&nbsp;</span><span><b class="font-weight-bold">{{data.address}}</b></span><br>
+                                                    <span>District:&nbsp;</span><span><b class="font-weight-bold">{{data.district_name}}</b></span><br>
+                                                    <span>State:&nbsp;</span><span><b class="font-weight-bold">{{data.state_name}}</b></span><br>
+                                                </td>
+                                                <!-- Sowing Details -->
+                                                <td scope="col-12" class="col-md-3 py-2 verticle-content-middle" style="text-align:left">
+                                                    <span>Area Sown (Ha):&nbsp;</span><span><b class="font-weight-bold">{{data.area_shown}}</b></span><br>
+                                                    <span>Date of Sowing:&nbsp;</span><span><b class="font-weight-bold">{{formatDate(data.date_of_showing)}}</b></span><br>
+                                                    <span>Expected Date of sowing:&nbsp;</span><span><b class="font-weight-bold">{{formatDate(data.expected_start_date)}}- {{formatDate(data.expected_end_date)}}</b></span><br>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-light">
+                                                        view
+                                                    </button>
+                                                </td>
+                                                <!-- Action Buttons -->
+                                                <td class="datalist">
+                                                    <button class="list-action-buttons-second" (click)="editGotShowingDetail(data)">
+                                                        <img src="assets/images/Vector.svg">
+                                                    </button>
+                                                    <button class="list-action-buttons-second ml-lg-3 mt-sm-2" (click)="deleteGotShowingDetail(data.id)">
+                                                        <img src="assets/images/Vector_delete.svg">
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                </tbody>
+                            </table>
+                            <div *ngIf="sowingDetailsList && (sowingDetailsList.length<1)" class="px-2 py-3 w-100" style="height: 50px;">
+                                <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                  No Data Found.
+                                </div>
+                              </div>                      
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+</form>

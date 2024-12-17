@@ -1,0 +1,152 @@
+.color {
+    color: green;
+    white-space: nowrap;
+}
+
+.table-bordered td,
+.table-bordered th {
+    border: 3px solid rgba(222, 219, 219, 0.957);  
+}
+
+.text-end {
+    text-align: end !important;
+}
+
+.underline-text {
+    text-decoration: underline;
+}
+.heading1 {
+    color: #228B22;
+}
+
+.headingofpdftable {
+    background-color: #90EE90;
+}
+tr th{
+    background-color: #90EE90;
+}
+
+tr td {
+    /* background-color:rgb(0, 26, 255); */
+    /* color: rgb(0, 26, 255); */
+    text-align: center !important;
+    vertical-align: top !important;
+    /* vertical-align: middle; */
+    word-break: break-all !important;
+    /* white-space: pre-wrap; */
+    overflow-wrap: break-word !important; 
+    word-wrap: break-word !important; 
+    word-break: break-word !important; 
+
+}
+
+tr th {
+    text-align: center !important;
+    vertical-align: top !important;
+    /* vertical-align: middle; */
+    word-break: break-all !important;
+    /* white-space: pre-wrap; */
+    overflow-wrap: break-word !important; 
+    word-wrap: break-word !important; 
+    word-break: break-word !important; 
+
+}
+
+.break-words {
+    white-space: nowrap; /* Prevent wrapping */
+    display: inline-block; /* Allow wrapping of spans */
+    overflow-wrap: anywhere!important;
+}
+
+.break-words span {
+    display: block; /* Each word on its own line */
+    word-wrap: break-word; /* Break words when needed */
+}
+table{
+    overflow: hidden;
+}
+.tr th{
+    text-align: center !important;
+    vertical-align: top !important;
+    white-space: pre-wrap;
+    overflow-wrap: break-word !important; 
+word-wrap: break-word !important; 
+word-break: break-word !important; 
+}
+.tr td{
+    text-align: center !important;
+    vertical-align: top !important;
+    white-space: pre-wrap;
+    overflow-wrap: break-word !important; 
+word-wrap: break-word !important; 
+word-break: break-word !important; 
+}
+.data-row-headers * {
+    font: normal Poppins 600 15px/19px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    /* color: #FFFFFF; */
+}
+
+.data-row-headers {
+    /* background: #B64B1D 0% 0% no-repeat padding-box; */
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    /* margin: 0.2%; */
+    /* padding: 2%; */
+}
+@media screen and (max-width: 1150px){
+
+    .datalist{
+        white-space: nowrap;
+    }
+}
+@media screen and (min-width: 600px){
+    .heading_last_data{
+        display: flex!important;
+        justify-content: end!important;
+        float: right!important;
+    }
+    
+}
+@media screen and (max-width: 850px){
+
+    .logoclass{
+        display: flex;
+        justify-content: center;
+    }
+}
+@media screen and (min-width: 900px){
+.textheading{
+    white-space: nowrap;
+    /* margin-top: -8em; */
+}
+.textheading2{
+    /* margin-top: -6em; */
+}
+.textheading3{
+    /* margin-top: -5em; */
+}
+.dateClass{
+    margin-left: -1em;
+}
+.refclass{
+    margin-left: -1em;
+
+}
+}
+
+@media screen and (min-width:850px) and (max-width: 991px) {
+    .textheading1{
+        /* white-space: nowrap; */
+        margin-top: -8em;
+    }
+    .textheading2{
+        margin-top: -6em;
+    }
+    .textheading3{
+        margin-top: -5em;
+    }
+    
+    
+}

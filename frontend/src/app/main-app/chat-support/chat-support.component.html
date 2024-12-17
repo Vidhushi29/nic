@@ -1,0 +1,178 @@
+<div class="chat-support mt-3 col-sm-12 col-lg-12 col-md-12" style="overflow-y: hidden !important;">
+  <div class="user-list">
+    <!-- Search Box -->
+    <!-- <div class="search-box">
+      <input [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Search or start new chat" />
+    </div> -->
+
+    <!-- Seed Division Dropdown -->
+    <div class="category mt-1">
+      <h4 (click)="toggleDropdown('seedDivision')">
+        <img  src="assets/images/breederheading.svg" alt="Avatar">
+        Seed Division
+        <span class="unread-total"  *ngIf="totalUnreadSeedDivision > 0">
+          {{ totalUnreadSeedDivision }}
+        </span>
+      </h4>
+      <div *ngIf="showSeedDivision" class="user-group">
+        <div class="user-item col-sm-12 col-lg-12 col-md-12" *ngFor="let user of filteredUsersByType('SD')" (click)="selectUser(user)">
+          <div class="avatar">
+            <img  src="assets/images/seeding.svg" alt="Avatar">
+          </div>
+          <div class="user-info col-sm-12 col-lg-12 col-md-12">
+            <h5 class="username">{{ user.name | uppercase }}</h5>
+            <p>{{ user.lastMessage }}</p>
+            <span class="unread-count" *ngIf="user.unreadCount && user.unreadCount > 0">{{ user.unreadCount }} </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nodal Dropdown -->
+    <div class="category">
+      <h4 (click)="toggleDropdown('nodal')">
+        <img  src="assets/images/breederheading.svg" alt="Avatar">
+        Nodal
+        <span class="unread-total"  *ngIf="totalUnreadNodal > 0">
+          {{ totalUnreadNodal }}
+        </span>
+      </h4>
+      <div *ngIf="showNodal" class="user-group">
+        <div class="user-item col-sm-12 col-lg-12 col-md-12" *ngFor="let user of filteredUsersByType('ICAR', 'HICAR')" (click)="selectUser(user)">
+          <div class="avatar">
+            <img  src="assets/images/seeding.svg" alt="Avatar">
+          </div>
+          <div class="user-info col-sm-12 col-lg-12 col-md-12">
+            <h5 class="username">{{ user.name }}</h5>
+            <p>{{ user.lastMessage }}</p>
+            <span class="unread-count" *ngIf="user.unreadCount && user.unreadCount > 0">{{ user.unreadCount }} </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PDPC Dropdown -->
+    <div class="category">  
+      <h4 (click)="toggleDropdown('pdpc')">
+        <img  src="assets/images/breederheading.svg" alt="Avatar">
+         PDPC
+         <span class="unread-total"  *ngIf="totalUnreadPdpc > 0">
+           {{ totalUnreadPdpc }}
+         </span>
+      </h4>
+      <div *ngIf="showPdpc" class="user-group">
+        <div class="search-box">
+          <input [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Search or start new chat" />
+        </div>
+        <div class="user-item col-sm-12 col-lg-12 col-md-12" *ngFor="let user of filteredUsersByType('BR')" (click)="selectUser(user)">
+          <div class="avatar">
+            <img  src="assets/images/seeding.svg" alt="Avatar">
+          </div>
+          <div class="user-info col-sm-12 col-lg-12 col-md-12">
+            <h5 class="username">{{ user.name }}</h5>
+            <p>{{ user.lastMessage }}</p>
+            <span class="unread-count" *ngIf="user.unreadCount && user.unreadCount > 0">{{ user.unreadCount }} </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BSPC Dropdown -->
+    <div class="category">
+      <h4 (click)="toggleDropdown('bspc')">
+        <img  src="assets/images/breederheading.svg" alt="Avatar">
+         BSPC
+         <span class="unread-total"   *ngIf="totalUnreadBspc > 0">
+           {{ totalUnreadBspc }}
+         </span>
+       </h4>
+      <div *ngIf="showBspc" class="user-group">
+        <div class="search-box">
+          <input [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Search or start new chat" />
+        </div>
+        <div class="user-item col-sm-12 col-lg-12 col-md-12" *ngFor="let user of filteredUsersByType('BPC')" (click)="selectUser(user)">
+          <div class="avatar">
+            <img  src="assets/images/seeding.svg" alt="Avatar">
+          </div>
+          <div class="user-info col-sm-12 col-lg-12 col-md-12">
+            <h5 class="username">{{ user.name }}</h5>
+            <p>{{ user.lastMessage }}</p>
+            <span class="unread-count" *ngIf="user.unreadCount && user.unreadCount > 0">{{ user.unreadCount }} </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPP Dropdown -->
+    <div class="category">
+      <h4 (click)="toggleDropdown('spp')">
+        <img  src="assets/images/breederheading.svg" alt="Avatar">
+         SPP
+         <span class="unread-total"   *ngIf="totalUnreadSpp > 0">
+           {{ totalUnreadSpp }}
+         </span>
+       </h4>
+      <div *ngIf="showSpp" class="user-group">
+        <div class="search-box">
+          <input [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Search or start new chat" />
+        </div>
+        <div class="user-item col-sm-12 col-lg-12 col-md-12" *ngFor="let user of filteredUsersByType('SPP')" (click)="selectUser(user)">
+          <div class="avatar">
+            <img  src="assets/images/seeding.svg" alt="Avatar">
+          </div>
+          <div class="user-info col-sm-12 col-lg-12 col-md-12">
+            <h5 class="username">{{ user.name | uppercase }}</h5>
+            <p>{{ user.lastMessage }}</p>
+            <span class="unread-count" *ngIf="user.unreadCount && user.unreadCount > 0">{{ user.unreadCount }} </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INDENTER Dropdown -->
+    <div class="category">
+      <h4 (click)="toggleDropdown('indenter')">
+        <img  src="assets/images/breederheading.svg" alt="Avatar">
+        INDENTER
+        <span class="unread-total"  *ngIf="totalUnreadIndenter > 0">
+          {{ totalUnreadIndenter }}
+        </span>
+      </h4>
+      <div *ngIf="showIndenter" class="user-group">
+        <div class="search-box">
+          <input [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Search or start new chat" />
+        </div>
+        <div class="user-item col-sm-12 col-lg-12 col-md-12" *ngFor="let user of filteredUsersByType('IN')" (click)="selectUser(user)">
+          <div class="avatar">
+            <img  src="assets/images/seeding.svg" alt="Avatar">
+          </div>
+          <div class="user-info col-sm-12 col-lg-12 col-md-12">
+            <h5 class="username">{{ user.name | uppercase }}</h5>
+            <p>{{ user.lastMessage }}</p>
+            <span class="unread-count" *ngIf="user.unreadCount && user.unreadCount > 0">{{ user.unreadCount }} </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Window -->
+  <div class="chat-window col-sm-12 col-lg-12 col-md-12" *ngIf="selectedUser">
+    <div class="chat-header">
+      <h3 class="username">{{ selectedUser.name }}</h3>
+      <button (click)="deselectUser()">X</button>
+    </div>
+    <div class="chat-body mb-5" #chatBody>
+      <div *ngFor="let message of messages">
+        <p class="message" [ngClass]="{'sent': message.sentByCurrentUser, 'received': !message.sentByCurrentUser}">
+          {{ message.text }}
+          <span class="timestamp mb-5">{{ formatTimestamp(message.timestamp) }}</span> 
+        </p>
+      </div>
+    </div>
+    <div class="chat-footer footer-main col-sm-12 col-lg-12 col-md-12">
+      <input [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Type a message...">
+      <button (click)="sendMessage()">Send</button>
+    </div>
+  </div>
+</div>

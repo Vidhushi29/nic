@@ -1,0 +1,102 @@
+<form [formGroup]="formSuperGroup" (ngSubmit)="submitForm(formSuperGroup.value)">
+    <div class="row my-4 w-100 mx-0 form-child">
+        <div class="col-12 d-flex justify-content-center verticle-content-middle">
+            <div class="main-content-form-wrapper px-3 mt-1">
+                <div class="row">
+                    <!-- <div class="row"> -->
+                    <div class="col-12 px-3 mt-3">
+                        <h3 class="page-type-1-title">
+                            BSP Bills/Certificates 
+                        </h3>
+                    </div>
+                    <div class="col-12 mx-2 mb-2 for-alignment">
+                        <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="IstPartFormGroup" [isView]="isView">
+                        </app-dynamic-fields>
+                    </div>
+
+                    <!-- <div *ngIf="dataRow" class="col-12 mt-2 mx-2 dataRow">
+                        <p class="mb-0">Total Varieties : <span class="ml-2"> {{prdData.length}}, </span> </p>
+                        <p class="mt-0">Total Indent Quantity : <span class="ml-2"> {{totalIndentQuantity}} </span> </p>
+                    </div> -->
+
+                    <div class="col-12 px-3 mb-2">
+                        <hr class="separator m-0 mx-1">
+                    </div>
+                    <!-- <div class="col-md-4 px-2 py-2 col-10"
+                        *ngIf="!isEdit && !isView && filterPaginateSearch.itemListTotalPage > 0">
+                        <div class="form-nodal-input-custom-placeholder d-flex verticle-content-middle mx-2"
+                            [ngClass]="formGroupControls['search'].value ? 'hide' : ''">
+                            <span>Search Here</span>
+                            <i class="fa fa-search nodal-search-icon"></i>
+                        </div>
+                        <input class="form-nodal-input mx-2 w-100" formControlName="search">
+                    </div> -->
+
+                    <div class="col-12 px-2" *ngIf="filterPaginateSearch.initialized">
+                        <div class="row mx-1 aloc_breeder_padding" *ngIf="(isView || isEdit)">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class=" my-2 d-flex verticle-content-middle field-title-wrapper field_title pl-2 col-12 col-md-4 col-lg-4">
+                                        <label class="m-0 left-heading">
+                                            <h5>Bill Number: <span class="label-item">{{this.bspData.bill_number}} </span></h5> 
+                                        </label>                    
+                                    </div>
+                                    <div class=" my-2 d-flex verticle-content-middle field-title-wrapper field_title pl-2 col-12 col-md-4 col-lg-4">
+                                        <label class="m-0 left-heading">
+                                            <h5>Bill Date: <span class="label-item">{{this.bspData.created_at | date: 'dd/MM/yyyy'}}</span></h5> 
+                                        </label>                       
+                                    </div>   
+                                </div>   
+                            </div>
+                        </div>
+                        <div *ngFor="let eachIIndPartFormArray of filterPaginateSearch.itemList; let varietyIndexInAccordion=index"
+                            class="col-accordion m-2"
+                            [ngClass]="">
+                            <app-dynamic-fields [fieldsList]="eachIIndPartFormArray.arrayfieldsIIndPartList"
+                                [formGroup]="eachIIndPartFormArray.formGroup" [isView]="isView"
+                                [isLabelControlParallel]="false"></app-dynamic-fields>
+                        </div>
+                    </div>
+                    <div class="col-12" >
+                        <div class="row reverse-col-in-row-till-lg">
+                            <div *ngIf="!isView" class="pl-2 pb-md-5 sub_updt_cancel_btn resp_btn2 col-12"
+                                [ngClass]="filterPaginateSearch.itemListTotalPage < 2 ? 'col-12' : 'col-12 col-xl-6'">
+                                <button
+                                    *ngIf="filterPaginateSearch.initialized 
+                                        && filterPaginateSearch.itemListTotalPage > 1 
+                                        && filterPaginateSearch.itemListCurrentPage != filterPaginateSearch.itemListTotalPage"
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="saveAndNavigate()">
+                                    Save And Next
+                                </button>
+                                <button type="submit"
+                                    *ngIf="filterPaginateSearch.initialized 
+                                        && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                    {{buttonText}}
+                                </button>
+                                <button
+                                    class="form-button ml-2 cancel_btn d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    [routerLink]="['/breeder/bsp-proformas/bills']">Cancel</button>
+                                <a href="javascript:void(0)"
+                                    *ngIf="(!isView || (isEdit && isDraft)) && filterPaginateSearch.initialized 
+                                    && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="saveAsDraft()">Save as
+                                    Draft</a>
+                            </div>
+                            <div class="col-12 col-xl-6 px-4 pb-md-5 d-flex justify-content-end py-2 py-xl-0">
+                                <app-pagination-ui></app-pagination-ui>
+                            </div>
+                        </div>
+                        <div *ngIf="isView" class="col-12 px-4 px-md-0">
+                            <button class="form-button ml-4 ml-md-0 d-flex justify-content-center verticle-content-middle mb-3"
+                                routerLink="/breeder/bsp-proformas/bills">Cancel</button>
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,683 @@
+<!-- <p>breeder-seed-inventory works!</p> -->
+<form [formGroup]="ngForm">
+    <div class="main-inventory row my-4 w-90 py-1">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-0 pt-1 pb-2">
+                Direct/Additional Indent
+            </div>
+
+            <!-- first card ui  -->
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row card-inventory form-group pb-3">
+                    <!-- start sectio 1  -->
+                    <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12 pt-1">
+                        <div class="row for-width">
+                            <!-- year of indent -->
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-2 col-sm-6">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                        <label for="year" class="left-heading required ">Year of Indent</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12 pr-1">
+                                        <select class=" form-control input-inventory" formControlName="year">
+                                            <option value="">Please Select Year</option>
+                                            <option *ngFor="let year of inventoryYearData" value="{{year.value}}">
+                                                <!-- {{ year.year }}-{{ ((year.year % 100) + 1) < 10 ? '0' : '' }}{{ (year.year % 100) + 1 }} -->
+                                                {{year.year}}
+                                            </option>
+                                        </select>
+                                        <div class=" errorMessage"
+                                            *ngIf="submitted || ngForm.controls['year'].invalid && (ngForm.controls['year'].dirty || ngForm.controls['year'].touched)">
+                                            <span *ngIf=" ngForm.controls['year'].errors?.['required']">
+                                                Please Select Year.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- season  -->
+                            <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-2 pr-1 pl-1">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label for="year" class="left-heading required">Season</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <select class=" form-control input-inventory" formControlName="season">
+                                            <option value="">Please Select Season</option>
+                                            <option [value]="'K'" [selected]="selectedSeason === 'K'">Kharif</option>
+                                            <option [value]="'R'" [selected]="selectedSeason === 'R'">Rabi</option>
+                                        </select>
+                                        <div class=" errorMessage"
+                                            *ngIf="submitted || ngForm.controls['season'].invalid && (ngForm.controls['season'].dirty || ngForm.controls['season'].touched)">
+                                            <span *ngIf=" ngForm.controls['season'].errors?.['required']">
+                                                Please Select Season.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- crop -->
+                            <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-2 pl-1 pr-1">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label for="year" class="left-heading required">Crop</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <div ngbDropdown class="d-inline-block w-100">
+                                            <button class="btn takeplacholder w-100 crop toggle-button input-inventory"
+                                                id="crop" ngbDropdownToggle style="text-align: left;">
+                                                {{ selectCrop && (selectCrop.length > 30) ? (selectCrop.substring(0,23)
+                                                + '...') : selectCrop ? selectCrop : 'Select Crop' }}
+                                            </button>
+
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="crop"
+                                                aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4" formControlName="crop_text"
+                                                    placeholder="Search Crop...">
+                                                <button class="dropdown-item" *ngFor="let item of cropData"
+                                                    (click)="crop(item)" #dropdownItem [attr.data-parent-name]="'crop'">
+                                                    {{ item && item.crop_name ? item.crop_name : '' }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown>
+                                            <i class="fa-solid fa-angle-down downicon" (click)="cClick()"></i>
+                                        </div>
+                                        <div class=" errorMessage"
+                                            *ngIf="submitted || ngForm.controls['crop'].invalid && (ngForm.controls['crop'].dirty || ngForm.controls['crop'].touched)">
+                                            <span *ngIf="ngForm.controls['crop'].errors?.['required']">
+                                                Please Select crop Name.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Variety -->
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-2 col-sm-6 pl-1 pr-1">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                        <label for="variety" class="left-heading required">Variety</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                        <div ngbDropdown class="d-inline-block w-100">
+                                            <button
+                                                class="btn takeplacholder w-100 variety_name toggle-button input-inventory"
+                                                id="variety_name" ngbDropdownToggle style="text-align: left;">
+                                                {{ selectVariety && (selectVariety.length > 30) ?
+                                                (selectVariety.substring(0,23) + '...') : selectVariety ? selectVariety
+                                                : 'Select Variety' }}
+                                            </button>
+
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="variety_name"
+                                                aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4"
+                                                    formControlName="variety_text" placeholder="Search Variety...">
+                                                <button class="dropdown-item" *ngFor="let item of varietyData"
+                                                    (click)="variety(item)" #dropdownItem
+                                                    [attr.data-parent-name]="'variety_name'">
+                                                    {{ item && item.variety_name ? item.variety_name : '' }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown>
+                                            <i class="fa-solid fa-angle-down downicon" (click)="vClick()"></i>
+                                        </div>
+                                        <div class="errorMessage"
+                                            *ngIf="submitted || ngForm.controls['variety'].invalid && (ngForm.controls['variety'].dirty || ngForm.controls['variety'].touched)">
+                                            <span *ngIf="ngForm.controls['variety'].errors?.['required']">
+                                                Please Select Variety.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Variety Notification Year -->
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-2 col-sm-6 pl-1 pr-1">
+                                <div class="row">
+                                    <div class="col-7 pr-1">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label for="variety_notification_year" class="left-heading">Notification
+                                                    Year</label>
+                                            </div>
+                                            <div class="col-12">
+                                                <input class="form-control input-inventory"
+                                                    formControlName="variety_notification_year"
+                                                    placeholder="Notification Year">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-5 pl-1">
+                                        <div class="d-flex align-items-end justify-content-center h-100">
+                                            <button class="btn btn-inventory search2" style="width: 8rem; color: white;"
+                                                (click)="searchData()">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end sectio 1  -->
+
+            <!-- start section 2 -->
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row card-inventory form-group">
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-12 mt-2" *ngIf="isVarietySelected">
+                        <div class="row">
+                            <div class="" class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="row">
+                                    <!-- State -->
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12">
+                                                <label for="state" class="left-heading required">Select State</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12">
+                                                <!-- <select type="text" class=" form-control input-inventory"
+                                                    formControlName="state">
+                                                    <option value="">Please Select State</option>
+                                                    <option *ngFor="let data of stateData" value="{{data.state_code}}">
+                                                        {{data && data.state_name ?
+                                                        data.state_name :""}}</option>
+                                                </select> -->
+                                                <div ngbDropdown class="d-inline-block w-100">
+                                                    <button
+                                                        class="btn takeplacholder w-100 crop toggle-button input-inventory"
+                                                        id="state" ngbDropdownToggle style="text-align: left;">
+                                                        {{ selectState && (selectState.length > 30) ?
+                                                        (selectState.substring(0,23) + '...') : selectState ?
+                                                        selectState : 'Select State' }}
+                                                    </button>
+
+                                                    <div class="dropdown-menu w-100" ngbDropdownMenu="state"
+                                                        aria-labelledby="sortMenu">
+                                                        <input type="text" class="form-control px-4"
+                                                            formControlName="state_text" placeholder="Search State...">
+                                                        <button class="dropdown-item" *ngFor="let item of stateData"
+                                                            (click)="state(item)" #dropdownItem
+                                                            [attr.data-parent-name]="'state'">
+                                                            {{ item && item.state_name ? item.state_name : '' }}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="pl-0 toggle-button" ngbDropdown>
+                                                    <i class="fa-solid fa-angle-down downicon" (click)="sClick()"></i>
+                                                </div>
+                                                <div class=" errorMessage"
+                                                    *ngIf="submitted || ngForm.controls['state'].invalid && (ngForm.controls['state'].dirty || ngForm.controls['state'].touched)">
+                                                    <span *ngIf=" ngForm.controls['state'].errors?.['required']">
+                                                        Please Select State.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="district" class="left-heading required">Select
+                                                    District</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div ngbDropdown class="d-inline-block w-100">
+                                                    <button
+                                                        class="btn takeplacholder w-100 crop toggle-button input-inventory"
+                                                        id="district" ngbDropdownToggle style="text-align: left;">
+                                                        {{ selectDistrict && (selectDistrict.length > 30) ?
+                                                        (selectDistrict.substring(0,23) + '...') : selectDistrict ?
+                                                        selectDistrict : 'Select District' }}
+                                                    </button>
+
+                                                    <div class="dropdown-menu w-100" ngbDropdownMenu="district"
+                                                        aria-labelledby="sortMenu">
+                                                        <input type="text" class="form-control px-4"
+                                                            formControlName="district_text"
+                                                            placeholder="Search District...">
+                                                        <button class="dropdown-item" *ngFor="let item of districtData"
+                                                            (click)="district(item)" #dropdownItem
+                                                            [attr.data-parent-name]="'district'">
+                                                            {{ item && item.district_name ? item.district_name : '' }}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="pl-0 toggle-button" ngbDropdown>
+                                                    <i class="fa-solid fa-angle-down downicon" (click)="dClick()"></i>
+                                                </div>
+                                                <div class=" errorMessage"
+                                                    *ngIf="submitted || ngForm.controls['district'].invalid && (ngForm.controls['district'].dirty || ngForm.controls['district'].touched)">
+                                                    <span *ngIf=" ngForm.controls['district'].errors?.['required']">
+                                                        Please Select District.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="selectSpa" class="left-heading required">Select SPA
+                                                    Name</label>
+                                            </div>
+                                            <!-- <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <select type="text" class="form-control input-inventory"
+                                                    formControlName="selectSpa" placeholder="Select SPA Name"
+                                                    (change)="onSelectSPA()">
+                                                    <option value="">Select SPA Name</option>
+                                                    <option *ngFor="let spa of allSpaData" value="{{spa.spa_code}}">
+                                                        {{spa && spa.spa_name}}</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                                <div class=" errorMessage"
+                                                    *ngIf="submitted || ngForm.controls['selectSpa'].invalid && (ngForm.controls['selectSpa'].dirty || ngForm.controls['selectSpa'].touched)">
+                                                    <span *ngIf=" ngForm.controls['selectSpa'].errors?.['required']">
+                                                        Please Select SPA.
+                                                    </span>
+                                                </div>
+                                            </div> -->
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div ngbDropdown class="d-inline-block w-100"
+                                                    [ngClass]="!ngForm.controls['district'].value ? 'disableButton' : ''">
+                                                    <button
+                                                        class="btn takeplacholder w-100 crop toggle-button input-inventory"
+                                                        id="spa" ngbDropdownToggle style="text-align: left;"
+                                                        [disabled]="!ngForm.controls['district'].value">
+                                                        {{ selectSpa && (selectSpa.length > 30) ?
+                                                        (selectSpa.substring(0,23)
+                                                        + '...') : selectSpa ? selectSpa : 'Select SPA Name' }}
+                                                    </button>
+
+                                                    <div class="dropdown-menu w-100" ngbDropdownMenu="spa"
+                                                        aria-labelledby="sortMenu">
+                                                        <input type="text" class="form-control px-4"
+                                                            formControlName="spa_text" placeholder="Search Spa...">
+                                                        <button class="dropdown-item" *ngFor="let item of allSpaData"
+                                                            (click)="spa(item)" #dropdownItem
+                                                            [attr.data-parent-name]="'spa'">
+                                                            {{ item && item.spa_name ? item.spa_name : '' }}
+                                                        </button>
+                                                        <button class="dropdown-item"
+                                                            (click)="otherClicked()">Other</button>
+                                                    </div>
+                                                </div>
+                                                <div class="pl-0 toggle-button" ngbDropdown>
+                                                    <i class="fa-solid fa-angle-down downicon" (click)="spaClick()"></i>
+                                                </div>
+                                                <div class=" errorMessage"
+                                                    *ngIf="submitted || ngForm.controls['selectSpa'].invalid && (ngForm.controls['selectSpa'].dirty || ngForm.controls['selectSpa'].touched)">
+                                                    <span *ngIf="ngForm.controls['selectSpa'].errors?.['required']">
+                                                        Please Select SPA.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1"
+                                        *ngIf="showOtherInputBox">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="otherInput" class="left-heading ">
+                                                    Enter SPA Name
+                                                </label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="otherInput" class=" form-control input-inventory"
+                                                    formControlName="otherInput" placeholder="Enter SPA Name">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="address" class="left-heading ">Address</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input class=" form-control input-inventory" formControlName="address"
+                                                    placeholder="Enter Address" (input)="onInputChange($event)">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="mobile_no" class="left-heading required">Mobile No.</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="text" (input)="validateInput($event)"
+                                                    class="form-control input-inventory" formControlName="mobile_no"
+                                                    placeholder="Enter Mobile Number" maxlength="10">
+                                                <div class="mobile_no errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['mobile_no'].invalid && ngForm.controls['mobile_no'].dirty || ngForm.controls['mobile_no'].touched">
+                                                    <span *ngIf=" ngForm.controls['mobile_no'].errors?.['required']">
+                                                        Please Enter Mobile Number.
+                                                    </span>
+                                                    <span
+                                                        *ngIf="ngForm.controls['mobile_no'].errors?.['pattern']">Please
+                                                        Enter a Valid Mobile.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="email" class="left-heading required">
+                                                    Email ID
+                                                </label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="email" class=" form-control input-inventory"
+                                                    formControlName="email" placeholder="Enter Email ID">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['email'].invalid && ngForm.controls['email'].dirty || ngForm.controls['email'].touched">
+                                                    <span *ngIf=" ngForm.controls['email'].errors?.['required']">
+                                                        Please Enter Email Id.
+                                                    </span>
+                                                    <span *ngIf="ngForm.controls['email'].errors?.['pattern']">Please
+                                                        Enter Valid Email.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1" *ngIf=!isLimeSection>
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="indent_qnt" class="left-heading required"
+                                                    *ngIf=!showQuantity>Indent Qty(In
+                                                    Quintal)</label>
+                                                <label for="indent_qnt" class="left-heading required"
+                                                    *ngIf=showQuantity>Indent Qty(In
+                                                    KG)</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="indent_qnt" placeholder="Enter Here"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class=" errorMessage"
+                                                    *ngIf="submitted || ngForm.controls['indent_qnt'].invalid && (ngForm.controls['indent_qnt'].dirty || ngForm.controls['indent_qnt'].touched)">
+                                                    <span *ngIf=" ngForm.controls['indent_qnt'].errors?.['required']">
+                                                        Please Enter Indent Qnt.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="lime-main-section" *ngIf="isLimeSection ">
+                                    <div class="lime-main-heading">
+                                        <span>{{selectVariety }} is a Hybrid Variety. Please fill Indent Quantity for
+                                            its
+                                            Parental Lines.</span>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12 pt-2">
+                                        <div class="row" *ngFor="let data of lineData; let i = index">
+                                            <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-2 pt-1 pl-0">
+                                                <label for="line_variety_{{ i }}" class="left-heading required">Line
+                                                    Name</label>
+                                                <input type="text" class="form-control input-inventory"
+                                                    [id]="'line_variety_' + i"
+                                                    [value]="data && data.line_variety_name? data.line_variety_name : '' "
+                                                    placeholder="Line Name" disabled>
+                                            </div>
+                                            <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-2 pt-1 pl-0">
+                                                <label for="indentQnty_{{ i }}" class="left-heading required">Indent
+                                                    Quantity ({{ this.unit }})</label>
+
+                                                <input type="number" class="form-control input-inventory"
+                                                    [id]="'indentQnty_'+ i" [formControl]="getFormControl(i)"
+                                                    placeholder="Indent Quantity" *ngIf="!isEditMode">
+
+                                                <input type="number" class="form-control input-inventory"
+                                                    [id]="'indentQnty_'+ i" [formControl]="getFormControl(i)"
+                                                    placeholder="Indent Quantity"
+                                                    [value]="data && data.quantity? data.quantity : ''"
+                                                    *ngIf="isEditMode">
+                                                <div class="errorMessage"
+                                                    *ngIf="submitted || ngForm.get('indentQnty_' + i)?.invalid && (ngForm.get('indentQnty_' + i)?.dirty || ngForm.get('indentQnty_' + i)?.touched)">
+                                                    <span *ngIf="ngForm.get('indentQnty_' + i)?.errors?.['required']">
+                                                        Please Enter Indent Qt.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- finish section 2 -->
+
+                            <!-- button section -->
+                            <div class="col-12 col-md-10 col-lg-10 pt-4 pb-2 buttons-phone col-xl-10">
+                                <button
+                                    class="btn-inventory-cancel search d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="revertDataCancelation()" style="border: 2px solid #B64B1D;">Cancel</button>
+                                <button
+                                    class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="createNewSpa()" *ngIf="!is_update">Save</button>
+                                <button
+                                    class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="updateForm()" *ngIf="is_update">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 " style="visibility: hidden; height: 100px;" *ngIf="!isShowTable"></div>
+            <!-- second card ui  -->
+            <div class="col-12 col-md-12 col-lg-12 col-xl-12" *ngIf="isShowTable">
+                <div class="row card-inventory form-group">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-3 pb-2">
+                        Additionally Generated Indents
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12">
+                        <div class="list-wrapper">
+                            <div class="row d-none d-md-flex data-row-header">
+                                <div
+                                    class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                    Crop</div>
+                                <div
+                                    class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                    Variety</div>
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex align-items-center justify-content-center text-center">
+                                    Notification Year </div>
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex align-items-center justify-content-center text-center">
+                                    Parental Line
+                                </div>
+                                <div class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex align-items-center justify-content-center text-center"
+                                    *ngIf=!showQuantity>
+                                    Indent Qty (Qt)
+                                </div>
+                                <div class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex align-items-center justify-content-center text-center"
+                                    *ngIf=showQuantity>
+                                    Indent Qty (Kg)
+                                </div>
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex align-items-center justify-content-center text-center">
+                                    State
+                                </div>
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                    SPA
+                                </div>
+                                <div class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-22 d-flex align-items-center justify-content-center text-center" >
+                                    Generated On
+                                </div>           
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex align-items-center justify-content-center text-center ">
+                                    Action
+                                </div>
+                            </div>
+                            <div>
+                                <div *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index"
+                                    class="row data-row">
+                                    <div
+                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-1 d-flex align-items-center justify-content-center text-center">
+                                        <div class="w-fit-content">
+                                            <span>
+                                                {{data && data.crop_name ? data.crop_name : ""}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-1 d-flex align-items-center justify-content-center text-center">
+                                        <div class="w-fit-content">
+                                            <span>
+                                                {{data && data.variety_name ? data.variety_name : ""}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex align-items-center justify-content-center text-center">
+                                        <div class="w-fit-content">
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                {{data && data.notification_year ? data.notification_year : ""}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex align-items-center justify-content-center text-center">
+                                        <div class="w-fit-content">
+                                            <ng-container *ngIf="data.parental_line && data.parental_line.length > 0; else noData">
+                                                <span *ngFor="let line of data.parental_line">
+                                                    <span style="cursor: pointer; word-break: break-word;"
+                                                        data-toggle="tooltip" data-placement="bottom"
+                                                        title="{{ line.variety_code_line }}">
+                                                        {{ line.line_variety_name}}
+                                                    </span><br>
+                                                </span>
+                                            </ng-container>
+                                            <ng-template #noData>
+                                                N/A
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex align-items-center justify-content-center text-center">
+                                        <div class="w-fit-content">
+                                            <span *ngIf="data.parental_line && data.parental_line.length > 0">
+                                                <span *ngFor="let line of data.parental_line">
+                                                    <span style="cursor: pointer; word-break: break-word;"
+                                                        data-toggle="tooltip" data-placement="bottom"
+                                                        title="{{ line.variety_code_line }}">
+                                                        {{ line.quantity | number: '1.2-2' }}<br>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                            <span *ngIf="!data.parental_line || data.parental_line.length === 0"> {{data
+                                                && data.quantity ? data.quantity : ""}}</span>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-1 d-flex align-items-center justify-content-center text-center">
+                                        <div class="row col-xl-12">
+                                            <div class="col-12">
+                                                <ng-container *ngIf="data.parental_line && data.parental_line.length > 0; else noData">
+                                                    <div *ngFor="let line of data.parental_line">
+                                                        <span class="row">
+                                                            <div class=" myClass col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 d-flex align-items-center justify-content-center text-center">
+                                                                <span style="cursor: pointer; word-break: break-word;"
+                                                                    data-toggle="tooltip" data-placement="bottom"
+                                                                    title="{{ line.variety_code_line }}">
+                                                                  {{ line.line_variety_name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                </span>
+                                                            </div>
+                                                            <div class=" myClass col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 d-flex align-items-center justify-content-center text-center">
+                                                                <span style="cursor: pointer; word-break: break-word;"
+                                                                    data-toggle="tooltip" data-placement="bottom"
+                                                                    title="{{ line.variety_code_line }}">
+                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ line.quantity | number: '1.2-2' }}<br>
+                                                                </span>
+                                                            </div>
+                                                            <br>
+                                                        </span>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-template #noData>
+                                                    <div class="row d-flex align-items-center justify-content-center text-center">
+                                                        <div class=" myClass col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 d-flex align-items-center justify-content-center text-center">
+                                                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;N/A&nbsp;
+                                                            &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+                                                        </div>
+                                                        <div class=" myClass col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 d-flex verticle-content-top justify-content-end">
+                                                            {{data && data.quantity ? data.quantity : ""}}
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex align-items-center justify-content-center text-center">
+                                        <div class="w-fit-content">
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                {{data && data.state_name ? data.state_name : ""}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-2 py-1 d-flex align-items-center justify-content-center text-center">
+                                        <div class="w-fit-content">
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                {{data && data.spa_name ? data.spa_name : ""}}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex align-items-center justify-content-center text-center">
+                                        <div class="w-fit-content">
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                {{ formatDate(data.created_at) }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="col-12 col-sm-1 col-md-2 col-lg-2 col-xl-1 py-1 d-flex align-items-center justify-content-center text-center justify-content-md-center phone_view_btn">
+                                        <div
+                                            class="list-action-buttons-wrapper w-fit-content phone_view_action_btn pl-md-3 pl-lg-0 pl-xl-3 pl-sm-0">
+                                            <button class="list-action-buttons" style="cursor: pointer;"
+                                                (click)="patchDataForUpdate(data)">
+                                                <img src="assets/images/Vector.svg">
+                                            </button>
+                                            <button class="list-action-buttons " style="cursor: pointer;">
+                                                <img src="assets/images/Vector_delete.svg"
+                                                    (click)="deleteDirectIndent(data.id)">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList) || filterPaginateSearch.itemList.length < 1)"
+                            class="px-2 py-3 w-100" style="height: 50px;">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data Found.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-12 px-4 px-md-3 py-1 pb-4 pl-4">
+                        <app-pagination-ui></app-pagination-ui>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

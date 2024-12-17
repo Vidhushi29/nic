@@ -1,0 +1,65 @@
+.data-row-header {
+    background: #E97E15 0% 0% no-repeat padding-box;
+}
+
+.data-row-header * {
+    font: normal Poppins 600 15px/19px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+}
+
+.data-row {
+    border: 1px solid #B2C7D7;
+    border-top: none !important;
+}
+
+.data-row * {
+    font: normal Poppins bold 15px/18px;
+    letter-spacing: 0px;
+    color: #000000;
+}
+
+label {
+    text-align: left;
+    font: normal Poppins 15px/19px;
+    letter-spacing: 0px;
+    color: #1C1C1C;
+    opacity: 1;
+}
+
+.dropdown {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #979797;
+    border-radius: 5px;
+    opacity: 1;
+}
+
+.dropdown-text {
+    text-align: left;
+    font: normal Poppins 15px/23px;
+    letter-spacing: 0px;
+    color: #000000;
+    text-transform: capitalize;
+    opacity: 0.7;
+
+}
+
+option:hover {
+    background-color: #E97E15;
+}
+span {
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+    cursor: pointer;
+}
+
+::ng-deep .field_text_select{
+    padding-right: 0.5rem !important;
+    margin-left: -3px !important;
+}
+
+::ng-deep .search_text{
+    padding-right: 1rem !important;
+    margin-left: 7px !important;
+}

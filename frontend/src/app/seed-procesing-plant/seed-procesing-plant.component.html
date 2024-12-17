@@ -1,0 +1,1018 @@
+<div class="main-inventory">
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12 title-inventory pl-2 pb-3 pt-0">
+            Seed Processing Register
+            <form [formGroup]="ngForm">
+                <div class="co-12 px-3">
+                    <div class="row card-inventory">
+                        <!-- first card ui  -->
+                        <div class="col-12 col-md-12 col-lg-11">
+                            <div class="row">
+                                <!-- year of indent -->
+                                <div class="col-12 col-md-12 col-lg col-xl  col-sm-12 ">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="year" class="left-heading required">Year of
+                                                Indent</label>
+                                        </div>
+                                        <div class="col-12 ">
+                                            <select formControlName="year"
+                                                [ngClass]=" showLotPageData ? 'disableField form-control input-inventory w-100' : 'form-control input-inventory w-100 '">
+                                                <option value="">Select Year</option>
+                                                <option *ngFor="let year of yearData" value="{{year.year}}">
+                                                    {{ year.year }}-{{ ((year.year % 100) + 1) < 10 ? '0' : '' }}{{
+                                                        (year.year % 100) + 1 }} </option>
+                                            </select>
+                                            <div class=" errorMessage"
+                                                *ngIf="submitted || ngForm.controls['year'].invalid && (ngForm.controls['year'].dirty || ngForm.controls['year'].touched)">
+                                                <span *ngIf=" ngForm.controls['year'].errors?.['required']">
+                                                    Please Select Year.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Season  -->
+                                <div class="col-12 col-md-12 col-lg col-xl col-sm-12 ">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-lg-0">
+                                            <label for="season" class="left-heading required">Season</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-lg-0">
+                                            <select formControlName="season"
+                                                [ngClass]=" showLotPageData ? 'disableField form-control input-inventory w-100' : 'form-control input-inventory w-100 '">
+                                                <option value="">Please Select Season</option>
+                                                <option *ngFor="let data of seasonlist"
+                                                    [value]="data && data.season && data.season ? data.season :''">
+                                                    {{data && data.season && data.season=='K' ? 'Kharif':
+                                                    'Rabi'}}</option>
+
+                                            </select>
+                                            <div class=" errorMessage"
+                                                *ngIf="submitted || ngForm.controls['season'].invalid && (ngForm.controls['season'].dirty || ngForm.controls['season'].touched)">
+                                                <span *ngIf=" ngForm.controls['season'].errors?.['required']">
+                                                    Please Select Season.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- crop -->
+                                <div class="col-12 col-md-12 col-lg col-xl col-sm-12 ">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-lg-0">
+                                            <label for="year" class="left-heading required">Crop</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-lg-0">
+                                            <div ngbDropdown
+                                                [ngClass]="!ngForm.controls['season'].value || editData || showLotPageData ? 'disableField d-inline-block w-100' : 'd-inline-block w-100'">
+                                                <button
+                                                    class="btn takeplacholder w-100 crop toggle-button input-inventory"
+                                                    [disabled]="!ngForm.controls['season'].value" id="crop"
+                                                    [title]="selectCrop ? selectCrop :''" ngbDropdownToggle
+                                                    style="text-align: left;">
+                                                    {{ selectCrop && (selectCrop.length > 30) ?
+                                                    (selectCrop.substring(0,23)
+                                                    + '...') : selectCrop ? selectCrop : 'Select Crop' }}
+                                                </button>
+
+                                                <div class="dropdown-menu w-100" ngbDropdownMenu="crop"
+                                                    aria-labelledby="sortMenu">
+                                                    <input type="text" class="form-control px-4"
+                                                        formControlName="crop_text" placeholder="Search Crop">
+                                                    <button class="dropdown-item" *ngFor="let item of cropData"
+                                                        (click)="crop(item)" #dropdownItem
+                                                        [attr.data-parent-name]="'crop'">
+                                                        {{ item && item.crop_name ? item.crop_name : '' }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="pl-0 toggle-button" ngbDropdown
+                                                [ngClass]="!ngForm.controls['season'].value || showLotPageData ? 'disableField' : ''">
+                                                <i class="fa-solid fa-angle-down downicon" (click)="cClick()"></i>
+                                            </div>
+                                            <div class=" errorMessage"
+                                                *ngIf="submitted || ngForm.controls['crop'].invalid && (ngForm.controls['crop'].dirty || ngForm.controls['crop'].touched)">
+                                                <span *ngIf="ngForm.controls['crop'].errors?.['required']">
+                                                    Please Select Crop Name.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- searh button -->
+                            </div>
+                        </div>
+                        <!-- (click)="searchData(ngForm.value)" -->
+                        <div class="col-12 col-md-12 col-lg-1 col-xl-1 col-sm-12  pl-lg-0 pt-lg-4 mt-lg-3 pt-2">
+                            <button (click)="searchData(ngForm.value)"
+                                class="form-button btn-inventory search w-100 d-inline-flex justify-content-center verticle-content-middle">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mt-2" *ngIf="showLotPageData">
+                    <div class="row card-inventory form-group">
+                        <div class="col-12 mt-2 pt-2 col-md-12 col-lg-12 float-right">
+
+                            <div class="row pb-3">
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <span class="card-title">Lot Details</span><br>
+
+                                            <span class="datalist">Variety: <b class="font-weight-bold">{{variety_name ?
+                                                    variety_name :"NA"}}</b></span><br>
+                                            <span class="datalist">Parental Line: <b class="font-weight-bold">{{line_variety_name ?
+                                                    line_variety_name :"NA"}}</b></span><br>
+                                            <span class="datalist">Lot No: <b class="font-weight-bold">{{provision_lot ?
+                                                    provision_lot :'NA'}}</b></span><br>
+                                            <span class="datalist">Class of Seed: <b
+                                                    class="font-weight-bold">{{classofSeedHarvestedData ?
+                                                    classofSeedHarvestedData :''}}</b></span><br>
+                                            <span class="datalist">Lot Quantity ({{unit}}): <b
+                                                    class="font-weight-bold">{{raw_seed_produced ?
+                                                    convertToQty(raw_seed_produced)
+                                                    :'NA'}}</b></span><br>
+                                            <span class="datalist">No of Bags: <b class="font-weight-bold">{{no_of_bags
+                                                    ? no_of_bags :"NA"}}</b></span><br>
+                                            <span class="datalist">Godown No: <b class="font-weight-bold">{{godown_no ?
+                                                    godown_no:'NA'}}</b></span><br>
+                                            <span class="datalist">Stack No: <b class="font-weight-bold">{{stackDatas ?
+                                                    stackDatas :"NA"}}</b></span><br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md" *ngIf="!showLotPageDataSecond">
+                                    <div class="card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <span class="card-title">Processed Seed Details </span><br>
+                                                <div class="col-12" formArrayName="spp">
+                                                    <ng-container *ngFor="let data of spp.controls  let i=index
+                                                    trackBy: trackByFn" [formGroupName]="i">
+
+                                                        <div class="row">
+                                                            <div class="col-12 col-md-12 col-lg col-xl  col-sm-12 ">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label for="year" class="left-heading ">
+                                                                            No. of Bags</label>
+                                                                    </div>
+                                                                    <div class="col-12 ">
+                                                                        <input type="text" formControlName="no_of_bags"
+                                                                            class=" form-control input-inventory w-100"
+                                                                            (ngModelChange)="getQuantity(i)">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-12 col-lg col-xl  col-sm-12 ">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label for="year" class="left-heading ">
+                                                                            Bag Size (kg).</label>
+                                                                    </div>
+                                                                    <div class="col-12 ">
+                                                                        <input type="text" formControlName="bags"
+                                                                            class=" form-control input-inventory w-100"
+                                                                            (ngModelChange)="getQuantity(i)">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-12 col-lg col-xl  col-sm-12 ">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label for="year" class="left-heading ">
+                                                                            Quantity ({{unit}}).</label>
+                                                                    </div>
+                                                                    <div class="col-12 ">
+                                                                        <input type="text" formControlName="qty"
+                                                                            class="form-control input-inventory w-100 disableField">
+
+                                                                    </div>
+                                                                </div>  
+                                                            </div>
+                                                            <div class="col-xl-1 pt-4" *ngIf="spp.controls.length!=1 ">
+                                                                <button (click)="remove(i); getLossQty() "
+                                                                    class="list-action-buttons-second">
+                                                                    <img src="assets/images/delete.png">
+                                                                </button>
+
+                                                            </div>
+                                                            <div class="col-xl-1 pt-4 pl-0"
+                                                                *ngIf="spp.controls.length ==i+1 ">
+                                                                <button (click)="addMore(i)"
+                                                                    class="list-action-buttons-second ml-xl-3">
+                                                                    <img src="assets/images/Add.png">
+                                                                </button>
+                                                            </div>
+
+                                                        </div>
+                                                    </ng-container>
+                                                    <div class="row pt-3">
+                                                        <div class="col-12 col-md-12 col-lg col-xl  col-sm-12 ">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label for="year" class="left-heading ">
+                                                                        Total Processed Quantity in {{unit}}
+                                                                        (%).</label>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-12 col-lg col-xl  col-sm-12 ">
+                                                            <div class="row">
+
+                                                                <div class="col-12 ">
+                                                                    <input type="text"
+                                                                        class="form-control input-inventory w-100 disableField"
+                                                                        formControlName="total_breeder_qty"
+                                                                        [value]="ngForm.controls['total_breeder_qty'].value ? ngForm.controls['total_breeder_qty'].value :''">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" *ngIf="showLotPageDataSecond">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <span class="card-title">Estimated Processed Seed</span><br>
+                                            <div class="col-12 pl-0">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label for="year" class="left-heading ">Tentative
+                                                                    Recovery (%)</label>
+                                                            </div>
+                                                            <div class="col-12 ">
+                                                                <input type="text"
+                                                                    class="form-control input-inventory w-100 "
+                                                                    formControlName="tentative_recovery"
+                                                                    (ngModelChange)="gettentativeRecovery()">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label for="year" class="left-heading ">Recovery
+                                                                    Quantity (Qt)</label>
+                                                            </div>
+                                                            <div class="col-12 ">
+                                                                <input type="text"
+                                                                    class="form-control input-inventory w-100 disableField"
+                                                                    formControlName="recovery_qty">
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" *ngIf="!showLotPageDataSecond">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <span class="card-title">Rejection Details</span><br>
+                                            <div class="col-12 pl-0">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label for="year" class="left-heading ">Undersize in
+                                                                    ({{unit}})</label>
+                                                                <span style="font-size:16px"> ({{under_sizepercent ?
+                                                                    under_sizepercent.toFixed(2):''}}%)</span>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <input type="text"   
+                                                                    class="form-control input-inventory w-100 "
+                                                                    formControlName="under_size"
+                                                                    (ngModelChange)="getLossQty()">
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label for="year" class="left-heading ">Processing Loss
+                                                                    in {{unit}}.(%)</label>
+                                                            </div>
+                                                            <div class="col-12 ">
+                                                                <input type="text"
+                                                                    class="form-control input-inventory w-100 disableField"
+                                                                    formControlName="processing_loss">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label for="year" class="left-heading ">
+                                                                    Total Rejected Qty in {{unit}}.(%)</label>
+                                                            </div>
+                                                            <div class="col-12 ">
+                                                                <input type="text"
+                                                                    class="form-control input-inventory w-100 disableField"  
+                                                                    formControlName="total_rejected">
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="row" *ngIf="showLotPageDataSecond">
+                        <div class="col-xl-1 ">
+                            <button (click)="submit()"
+                                class="search w-100 text-white btn-inventorys ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Save</button>
+
+                        </div>
+                        <div class="col-xl-1 ">
+                            <button (click)="cancel()" style="border:1px solid #B64B1D!important; outline:none"
+                                class="search w-100 text-white btn-inventorys ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Cancel</button>
+                        </div>
+                    </div>
+                    <!-- <div class="row "  *ngIf="!showLotPageDataSecond">
+                        <div class="col-xl-2 ">
+                            <button (click)="cancel()" style="border:1px solid #B64B1D!important; outline:none"
+                                class="btn-inventory-cancel search d-inline-flex justify-content-center verticle-content-middle mb-3">Back</button>
+                        </div>
+                        <div class="col-xl-2 pl-0">
+                            <button (click)="submit()"
+                                class="search w-100 text-white btn-inventorys ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Generate
+                                Tag Numbers</button>
+
+                        </div>
+                    </div> -->
+
+                </div>
+                <div class="col-lg-12 col-sm-12 col-12 pt-3" *ngIf="showLotPageData && !showLotPageDataSecond">
+                    <div class="row data-row table-responsive-sm table-responsive-md stacktable">
+                        <table class="table " formArrayName="stack">
+                            <thead>
+                                <tr class="data-row-header">
+                                    <th scope="col" colspan="12"
+                                        class="col-12 py-2 text-white text-center verticle-content-middle heading datalist">
+                                        Stack Number Composition
+                                    </th>
+                                </tr>
+                            </thead>
+                            <ng-container class="table-bordered"
+                                *ngFor="let ele of stackComposition().controls; let i = index" [formGroupName]="i">
+                                <tr>
+                                    <td class="tableheading">
+                                        <div class="col-12 col-md-2 col-lg-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="year" class="left-heading required">Select Stack</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <select class=" form-control input-inventory"
+                                                        formControlName="stack_com"
+                                                        (ngModelChange)="getStackDataValue2(i)">
+                                                        <option value="" disabled selected>Select Stack</option>
+                                                        <option value="new_stack" *ngIf="!editData">Create new Stack
+                                                        </option>
+                                                        <option *ngFor="let item of bagMarkDataofInvest"
+                                                            value="{{item && item.stack_id ? item.stack_id:''}}">
+                                                            {{item && item.stack_no ? item.stack_no:''}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+
+                                    <td class="tableheading">
+                                        <div class="col-12 col-md-2 col-lg-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="year" class="left-heading required">Type of Seed</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <select formControlName="type_of_seed"
+                                                        (ngModelChange)="getStackDataValue(i)"
+                                                        [ngClass]="disableField  ? 'form-control input-inventory disableField':'form-control input-inventory disableField'">
+                                                        <option value="" selected disabled>Type of Seed</option>
+                                                        <option *ngFor="let item of typeofSeed"
+                                                            value="{{item && item.id ? item.id :''}}">
+                                                            {{item && item.name ? item.name :''}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td class="tableheading">
+                                        <div class="col-12 col-md-2 col-lg-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="year" class="left-heading required"
+                                                        style="white-space: pre;">No. of Bags</label>
+                                                </div>
+                                                <div class="col-12">
+
+                                                    <ng-multiselect-dropdown [settings]="dropdownSettings"
+                                                        [data]="ngForm.controls['stack']['controls'][i].controls['bagData'].value" formControlName="bag_marka"
+                                                        [placeholder]="' Select No. of Bags'">
+                                                    </ng-multiselect-dropdown>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="btnaction tableheading d-flex ">
+                                        <button (click)="remove2(i)" class="list-action-buttons-second pt-4"
+                                            *ngIf="stack.controls.length!=1 ">
+                                            <img src="assets/images/delete.png">
+                                        </button>
+                                        <button (click)="addMore2(i)" *ngIf="stack.controls.length ==i+1"
+                                            class="list-action-buttons-second ml-xl-2 pt-4">
+                                            <img src="assets/images/Add.png">
+                                        </button>
+                                    </td>
+                                    <td class="tableheading">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label class="left-heading ">Stack No.</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="text" class=" form-control input-inventory disableField"
+                                                    formControlName="showstackNo" placeholder="Stack No.">
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <!-- [ngClass]="editData || ngForm.controls['harvestVerify']['controls'][i].controls['stackexist'].value==true ?' disblefield' : 'form-control input-inventory'" -->
+                                    <td class="tableheading">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label class="left-heading ">Godown No.</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="text"
+                                                    [ngClass]="disableField  ? 'form-control input-inventory disableField':'form-control input-inventory'"
+                                                    formControlName="godown_no" placeholder="Godown No.">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </ng-container>
+                        </table>
+                    </div>
+                    <div class="row pt-3 ">
+                        <div class="col-xl-1 ">
+                            <button (click)="submit()"
+                                class="search w-100 text-white btn-inventorys ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Save</button>
+
+                        </div>
+                        <div class="col-xl-1 ">
+                            <button (click)="cancel()" style="border:1px solid #B64B1D!important; outline:none"
+                                class="search w-100 text-white btn-inventorys ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Cancel</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- third card ui -->
+                <!-- (click)="download()" -->
+                <div class="col-12 mt-2" *ngIf="showGrid">
+                    <div class="row card-inventory form-group">
+                        <div class="col-12 mt-2 pt-2 col-md-12 col-lg-12 float-right">
+                            <div class="col-12 pl-0">
+                                <div class="row  ">
+                                    <div class="col-lg-4  col-md-8 col-12">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="exampleRadios" id="exampleRadio1" value="1"
+                                                            [checked]="ngForm.controls['getRadio'].value==1"
+                                                            (change)="changeRadio('1')">
+                                                        <label class="form-check-label" for="exampleRadio1">Fresh
+                                                            Stock</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-4">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="exampleRadios" id="exampleRadio3" value="2"
+                                                            [checked]="ngForm.controls['getRadio'].value==2"
+                                                            (change)="changeRadio('2')">
+                                                        <label class="form-check-label" for="exampleRadio3">Carry
+                                                            Over</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 col-12">
+                                        <div class="row g-0 justify-content-lg-end">
+
+                                            <div class="col-xl-1 col-lg-1 col-2 pl-lg-0 ml-lg-0 ml-3">
+                                                <span class="filtertext">Filter By:</span>
+                                            </div>
+                                            <div class="col-xl-4 col-md-4 col-6 pl-0">
+                                                <ng-multiselect-dropdown [settings]="dropdownSettings2"
+                                                    [data]="varietyList" formControlName="variety_level_2"
+                                                    [placeholder]="' Select Variety '">
+                                                </ng-multiselect-dropdown>
+
+                                            </div>
+                                            <div class="col-xl-4 col-md-4 col-6 pl-0">
+                                                <select class=" form-control input-inventory w-100 "
+                                                    formControlName="lot_no">
+                                                    <option value="">Select Lot</option>
+                                                    <option *ngFor="let item of LotData"
+                                                        value="{{item && item.lot_id  ? item.lot_id :''}}">
+                                                        {{item && item.value ? item.value :''}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 pt-3">
+                            <div class="row data-row">
+                                <table class="table table-responsive">
+                                    <thead>
+                                        <tr class="data-row-header">
+                                            <th scope="col"
+                                                class="col-md-1 py-2 text-white verticle-content-middle heading datalist"
+                                                style="white-space:pre;">
+                                                S.No.
+                                            </th>
+                                            <th scope="col"
+                                                class="col-md-2 py-2 text-white verticle-content-middle heading datalist ">
+                                                Variety
+                                            </th>
+                                            <th scope="col"
+                                                class="col-md-2 py-2 text-white verticle-content-middle heading datalist ">
+                                                Storage Details
+                                            </th>
+                                            <th scope="col"
+                                                class="col-md-2 py-2 text-white verticle-content-middle heading datalist ">
+                                                Lot Details
+                                            </th>
+
+                                            <th scope="col"
+                                                class="col-md-2 py-2 text-white verticle-content-middle heading datalist ">
+                                                Action
+                                            </th>
+                                            <th scope="col" class="col-md-2 py-2 text-white heading datalist gridspace">
+                                                <span class="d-flex justify-content-left text-white ">
+                                                    Processed Quantity
+                                                </span>
+                                                <span class="d-flex justify-content-left text-white ">in {{unit}}
+                                                    (%)</span>
+                                            </th>
+                                            <th scope="col"
+                                                class="col-md-2 py-2 text-white verticle-content-middle heading datalist gridspace">
+                                                <span class="d-flex justify-content-left text-white ">
+                                                    Rejected Quantity
+                                                </span>
+                                                <span class="d-flex justify-content-left text-white ">in
+                                                    {{unit}}(%)</span>
+
+                                            </th>
+                                            <th scope="col"
+                                                class="col-md-2 py-2 text-white verticle-content-middle heading datalist"
+                                                style="min-width:10em">
+                                                Storage Details
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-bordered" *ngIf="ngForm.controls['getRadio'].value==1">
+
+                                        <ng-container *ngFor="let data of tableData; let dataIndex = index">
+                                            <ng-container
+                                                *ngFor="let item of data.bsp_details; let bspDetailsIndex = index">
+                                                <ng-container
+                                                    *ngFor="let lot of item.plotDetails; let plotIndex = index">
+                                                    <!-- <ng-container
+                                                        *ngFor="let val of lot.stack_details; let stackIndex = index"> -->
+                                                    <tr>
+                                                        <td [attr.rowspan]="data.plotData.length"
+                                                            *ngIf="bspDetailsIndex==0 && plotIndex==0 ">
+                                                            {{dataIndex + 1}}
+
+                                                        </td>
+
+                                                        <td [attr.rowspan]="data.plotData.length"
+                                                            *ngIf="bspDetailsIndex==0 && plotIndex==0 ">
+                                                            {{ data && data.variety_name ? data.variety_name :'NA'}}
+                                                            <br>
+                                                            <span style="font-size: 15px;"><b class="font-weight-bold"
+                                                                    style="font-size: 15px;">Parental Line:</b>
+                                                                {{ data && data.line_variety_name ?
+                                                                data.line_variety_name :'NA'}}
+                                                            </span>
+                                                        </td>
+                                                        <td style="text-align:left" *ngIf=" plotIndex==0 "
+                                                            [attr.rowspan]="item.tagdetaildatatotal">
+                                                            <span class="datalist"> No. of Bags: <b
+                                                                    class="font-weight-bold">{{item &&
+                                                                    item.no_of_bags ? item.no_of_bags
+                                                                    :'NA'}}
+
+                                                                </b></span><br>
+                                                            <span>Godown No: <b class="font-weight-bold">{{item &&
+                                                                    item.godown_no ?
+                                                                    item.godown_no :'NA'}}</b></span><br>
+
+                                                            <span class="datalist">Stack No: <b
+                                                                    class="font-weight-bold">{{item && item.verifyid
+                                                                    ? getStackRang(item.verifyid)
+                                                                    :'NA'}}</b></span><br>
+                                                        </td>
+                                                        <td style="text-align:left">
+                                                            <span title="{{lot && lot.lot_number
+                                                            ? lot && lot.lot_number :'NA'}}">Lot No: <b
+                                                                    class="font-weight-bold">
+                                                                {{lot && lot.lot_number ? removeQuantity(lot.lot_number,lot.lot_qty):'NA'}}    
+                                                                </b></span><br>
+                                                            <span class="datalist">Class of Seed: <b
+                                                                    class="font-weight-bold">
+                                                                    {{lot && lot.class_of_seed_harvested ? lot.class_of_seed_harvested: getBreederData(lot.seed_class_id,lot.stage_id)}}
+                                                                </b></span><br>
+
+                                                            <span class="datalist">Lot Quantity ({{unit}}): <b
+                                                                    class="font-weight-bold">{{lot &&
+                                                                    lot.lot_qty ? (lot.lot_qty) :'NA'}}</b></span><br>
+                                                        </td>
+                                                        <td>
+                                                            <button (click)="showLotPage(data,item,1,lot)"
+                                                                [disabled]="lot && (lot.action && lot.action!=2 && (lot.lot_id == lot.process_lot_id))"
+                                                                [ngClass]="lot && (lot.action && lot.action!=2 && (lot.lot_id == lot.process_lot_id)) ? 'form-button-second generateClass search w-100 d-inline-flex justify-content-center verticle-content-middle':'form-button text-white btn-inventory generateClass search w-100 d-inline-flex justify-content-center verticle-content-middle'">
+                                                                {{ngForm.controls['getRadio'].value==1 ?'Processing
+                                                                Seed':'Re-process'}}
+                                                            </button>
+                                                            <br>
+                                                            <button (click)="showLotPageSecond(data,item,2,lot)"
+                                                                [disabled]="data && (lot.action) && (lot.lot_id == lot.process_lot_id)"
+                                                                [ngClass]="data && (lot.action && (lot.lot_id == lot.process_lot_id))? 'form-button-second mt-3 generateClass search w-100 d-inline-flex justify-content-center verticle-content-middle':'form-button mt-3 text-white btn-inventory generateClass search w-100 d-inline-flex justify-content-center verticle-content-middle'">
+                                                                Estimated Processed Seed </button>
+
+                                                            <button *ngIf="ngForm.controls['getRadio'].value==2"
+                                                                (click)="foward(data,item,3,lot)"
+                                                                class="form-button text-white btn-inventory generateClass mt-2 search w-100 d-inline-flex justify-content-center verticle-content-middle">
+                                                                Forward For Sampling </button>
+                                                        </td>
+                                                        <td style="text-align:left"
+                                                            *ngIf="lot && ((lot.action && lot.action==1)  )|| (lot && !lot.action) ||  lot && ((lot.action && lot.action==3))">
+                                                            <span *ngIf=" (lot.lot_id == lot.process_lot_id)"> <b
+                                                                    class="font-weight-bold">
+
+                                                                    {{lot &&
+                                                                    lot.total_processed_qty ?
+                                                                    (lot.total_processed_qty | number : '1.2-2') :'--'}}
+                                                                    ({{lot &&
+                                                                    lot.total_processed_qty ?
+                                                                    getTotalLotQty(lot.total_processed_qty,lot.lot_qty):'--'}}
+                                                                    %)
+
+                                                                </b></span><br>
+
+                                                        </td>
+                                                        <td style="text-align:left"
+                                                            *ngIf="(lot && (lot.action && lot.action==2) ) ">
+                                                            <span *ngIf=" (lot.lot_id == lot.process_lot_id)"> <b
+                                                                    class="font-weight-bold">
+                                                                    {{lot &&
+                                                                    lot.recover_qty ?
+                                                                    (lot.recover_qty| number : '1.2-2')  :'--'}}
+
+                                                                    ({{lot && lot.tentative_qty ? (lot.tentative_qty |
+                                                                    number :'1.2-2') :''}}%)
+                                                                </b>
+
+                                                            </span>
+                                                            <span class="estimate"
+                                                                *ngIf=" (lot.lot_id == lot.process_lot_id)">E</span>
+                                                            <br>
+
+                                                        </td>
+                                                        <td style="text-align:left"
+                                                            *ngIf="(lot && (lot.action && lot.action==1) )|| (lot && !lot.action) || (lot && (lot.action && lot.action==3))">
+                                                            <span *ngIf=" (lot.lot_id == lot.process_lot_id)">
+                                                                {{lot && lot.total_rejected_qty ? (lot.total_rejected_qty | number : '1.2-2')
+                                                                :''}}
+                                                                ({{lot &&
+                                                                lot.lot_qty ?
+                                                                getUndersize(lot.lot_qty, lot.total_rejected_qty)
+                                                                :'--'}} %)
+                                                            </span>
+                                                            <span *ngIf=" (lot.lot_id == lot.process_lot_id)">UnderSize
+                                                                : <b class="font-weight-bold">
+                                                                    {{lot &&
+                                                                    lot.undersize_qty ?
+                                                                    (lot.undersize_qty | number : '1.2-2') :'--'}}
+                                                                    ({{lot &&
+                                                                    lot.undersize_qty ?
+                                                                    getUndersize(lot.lot_qty, lot.undersize_qty) :'--'}}
+                                                                    %)
+                                                                </b></span><br>
+
+                                                            <span class="datalist"
+                                                                *ngIf=" (lot.lot_id == lot.process_lot_id)">Processing
+                                                                Loss: <b class="font-weight-bold">
+                                                                    {{lot &&
+                                                                    lot.process_loss ?
+                                                                    (lot.process_loss | number : '1.2-2') :'--'}}</b>
+                                                                ({{lot &&
+                                                                lot.process_loss ?
+                                                                getUndersize(lot.lot_qty, lot.process_loss) :'--'}} %)
+                                                            </span><br>
+                                                        </td>
+                                                        <td style="text-align:left"
+                                                            *ngIf="lot && (lot.action && lot.action==2) ">
+                                                            <span *ngIf=" (lot.lot_id == lot.process_lot_id)"> <b
+                                                                    class="font-weight-bold">
+                                                                    {{lot &&
+                                                                    lot.lot_qty ? ((convertToQty(lot.lot_qty) -
+                                                                    lot.recover_qty ) | number :'1.2-2'):'NA'}}
+                                                                    ({{lot && lot.tentative_qty ?
+                                                                    (100-lot.tentative_qty):''
+                                                                    }} %)
+                                                                </b></span><br>
+                                                            <span class="estimate"
+                                                                *ngIf=" (lot.lot_id == lot.process_lot_id)">E</span>
+
+                                                        </td>
+                                                        <td style="text-align:left">
+                                                            <span *ngIf="lot && (lot.action && lot.action!=2)">Godown No
+                                                                : <b class="font-weight-bold">{{lot &&
+                                                                    lot.godown_no_detail ?
+                                                                    convertToString(lot.godown_no_detail)
+                                                                    :'--'}}</b></span><br>
+
+                                                            <span class="datalist"
+                                                                *ngIf="lot && (lot.action && lot.action!=2) ">Stack No:
+                                                                <b class="font-weight-bold">{{lot &&
+                                                                    lot.stackDetails ?
+                                                                    convertToString(lot.stackDetails)
+                                                                    :'--'}}</b></span><br>
+                                                            <span class="datalist"
+                                                                *ngIf="lot && (lot.action && lot.action!=2) ">No. of
+                                                                Bags: <b class="font-weight-bold">{{lot &&
+                                                                    lot.no_of_bag_details ?
+                                                                    convertArrayToRange(lot.no_of_bag_details)
+                                                                    :'--'}}</b></span><br>
+                                                        </td>
+
+
+                                                    </tr>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
+
+
+                                    </tbody>
+                                    <tbody class="table-bordered" *ngIf="ngForm.controls['getRadio'].value==2">
+                                        <ng-container *ngFor="let data of dummyData; let dataIndex = index">
+                                            <ng-container
+                                                *ngFor="let item of data.seed_class_details; let varietyIndex = index">
+                                                <tr>
+                                                    <td *ngIf="varietyIndex==0"
+                                                        [attr.rowspan]="data.seed_class_details.length">{{dataIndex+1}}
+                                                    </td>
+                                                    <td style="text-align:left" *ngIf="varietyIndex==0"
+                                                        [attr.rowspan]="data.seed_class_details.length">
+                                                        <span>Variety Name: <b class="font-weight-bold">{{data
+                                                                &&
+                                                                data.variety_name ?
+                                                                data.variety_name :'NA'}}</b></span><br>
+                                                        <span>Parental Line: <b class="font-weight-bold">{{data &&
+
+                                                                data.line_variety_name ?
+                                                                (data.line_variety_name)
+                                                                :'NA'}}</b></span><br>
+                                                    </td>
+                                                    <td style="text-align:left">
+                                                        <span class="datalist"> No. of Bags: <b
+                                                                class="font-weight-bold">{{item &&
+                                                                item.tag_no ? (item.tag_no.length)
+                                                                :'NA'}}
+
+                                                            </b></span><br>
+                                                        <span>Godown No: <b class="font-weight-bold">{{item &&
+                                                                item.godown_no ?
+                                                                item.godown_no :'NA'}}</b></span><br>
+
+                                                        <span class="datalist">Stack No: <b
+                                                                class="font-weight-bold">{{item && item.verifyid
+                                                                ? getStackRang(item.verifyid)
+                                                                :'NA'}}</b></span><br>
+                                                    </td>
+                                                    <td style="text-align:left">
+                                                        <span
+                                                            title="{{item && item.lot_no ? getLotNoData(item.lot_no):'NA'}}">Lot
+                                                            No: <b class="font-weight-bold">
+                                                                {{item && item.lot_no ?
+                                                                getLotNoData(item.lot_no):'NA'}}</b></span><br>
+                                                        ` <span class="datalist">Class of Seed: <b
+                                                                class="font-weight-bold">
+                                                                Breeder Seed {{item && item.stage_id ? convertToRoman(item.stage_id):'NA'}}
+
+                                                            </b></span><br>
+
+                                                        <span class="datalist">Lot Quantity ({{unit}}): <b
+                                                                class="font-weight-bold">
+                                                                {{item &&
+                                                                item.quantity_recieved ?
+                                                                convertToQty(item.quantity_recieved)
+                                                                :'NA'}}</b></span><br>
+                                                    </td>
+                                                    <td>
+                                                        <button
+                                                            [disabled]="(item && (item.action && item.action!=2 && (item.carry_over_seed_details_id == item.carry_over_seed_details_data_id)))"
+                                                            (click)="showLotPage(data,item,1,null)"
+                                                            [ngClass]="item && (item.action && item.action!=2 && (item.carry_over_seed_details_id == item.carry_over_seed_details_data_id)) ? 'form-button-second   generateClass search w-100 d-inline-flex justify-content-center verticle-content-middle':'form-button text-white btn-inventory generateClass search w-100 d-inline-flex justify-content-center verticle-content-middle'">
+                                                            {{ngForm.controls['getRadio'].value==1 ?'Processing
+                                                            Seed':'Re-process'}}
+
+                                                        </button>
+                                                        <br>
+                                                        <!-- <button [disabled]="item && (item.action) "
+                                                            (click)="showLotPageSecond(data,item,2,null)"
+                                                            [disabled]="item && (item.action && item.action!=2 && (item.carry_over_seed_details_id == item.carry_over_seed_details_data_id))"
+                                                            [ngClass]="item && (item.action )? 'form-button-second mt-3  generateClass search w-100 d-inline-flex justify-content-center verticle-content-middle':'form-button mt-3 text-white btn-inventory generateClass search w-100 d-inline-flex justify-content-center verticle-content-middle'">
+                                                            Estimated Processed Seed </button> -->
+                                                        <button
+                                                            [ngClass]="item && (item.action && item.action!=2 && (item.carry_over_seed_details_id == item.carry_over_seed_details_data_id)) ? 'form-button-second   generateClass search w-100 d-inline-flex justify-content-center verticle-content-middle mt-3':'form-button text-white btn-inventory generateClass search w-100 d-inline-flex justify-content-center verticle-content-middle mt-3'"
+                                                            (click)="foward(data,item,3,null)">
+                                                            Forward For Sampling </button>
+                                                    </td>
+                                                    <td style="text-align:left"
+                                                        *ngIf=" (item.action && item.action==1)|| (!item.action)">
+                                                        <span
+                                                            *ngIf=" (item.carry_over_seed_details_id == item.carry_over_seed_details_data_id)">
+                                                            <b class="font-weight-bold">{{item &&
+                                                                item.total_processed_qty ?
+                                                                item.total_processed_qty :'--'}}
+                                                                ({{item &&
+                                                                item.total_processed_qty ?
+                                                                getUndersize(item.quantity_recieved,
+                                                                item.total_processed_qty) :'--'}} %)
+                                                            </b></span>
+
+                                                        <br>
+
+                                                    </td>
+                                                    <td *ngIf="(item && (item.action && item.action==3))">--</td>
+                                                    <td style="text-align:left"
+                                                        *ngIf="(item.action && item.action==2) ">
+                                                        <span
+                                                            *ngIf=" (item.carry_over_seed_details_id == item.carry_over_seed_details_data_id)">
+                                                            <b class="font-weight-bold">
+
+                                                                {{item &&
+                                                                item.recover_qty ?
+                                                                (item.recover_qty) :'--'}}
+                                                                ({{item && item.tentative_qty ? item.tentative_qty:''
+                                                                }} %)
+                                                            </b></span>
+                                                        <span class="estimate"
+                                                            *ngIf=" (item.carry_over_seed_details_id == item.carry_over_seed_details_data_id)">E</span>
+                                                        <br>
+
+                                                    </td>
+                                                    <td *ngIf="(item && (item.action && item.action==3))">--</td>
+                                                    <td style="text-align:left"
+                                                        *ngIf="(item.action && item.action==1)|| (!item.action)  ">
+                                                        <span
+                                                            *ngIf="item && (item.carry_over_seed_details_id == item.carry_over_seed_details_data_id)">
+                                                            {{item &&
+                                                            item.total_rejected_qty ?
+                                                            (item.total_rejected_qty| number : '1.2-2') :'--'}}
+                                                            ({{item &&
+                                                            item.total_rejected_qty ?
+                                                            getUndersize(item.quantity_recieved,item.total_rejected_qty)
+                                                            :'--'}} %)
+                                                        </span>
+                                                        <span
+                                                            *ngIf="item && (item.carry_over_seed_details_id == item.carry_over_seed_details_data_id)">UnderSize
+                                                            : <b class="font-weight-bold">{{item &&
+                                                                item.undersize_qty ?
+                                                                item.undersize_qty :'--'}}
+                                                                ({{item &&
+                                                                item.undersize_qty ?
+                                                                getUndersize(item.quantity_recieved, item.undersize_qty)
+                                                                :'--'}} %)
+                                                            </b></span><br>
+
+                                                        <span class="datalist"
+                                                            *ngIf=" (item.carry_over_seed_details_id == item.carry_over_seed_details_data_id)">Processing
+                                                            Loss: <b class="font-weight-bold">{{item &&
+                                                                item.process_loss ?
+                                                                (item.process_loss) :'--'}}
+                                                                ({{item &&
+                                                                item.total_rejected_qty ?
+                                                                getUndersize(item.quantity_recieved, item.process_loss)
+                                                                :'--'}} %)
+                                                            </b></span>
+
+                                                        <br>
+                                                    </td>
+                                                    <td style="text-align:left"
+                                                        *ngIf="item && (item.action && item.action==2) ">
+
+                                                        <span
+                                                            *ngIf=" (item.carry_over_seed_details_id == item.carry_over_seed_details_data_id)">
+                                                            <b class="font-weight-bold">
+                                                                {{item &&
+                                                                item.quantity_recieved ?
+                                                                ((convertToQty(item.quantity_recieved) -
+                                                                item.recover_qty) | number :'1.2-2'):'NA'}}
+
+                                                                ({{item && item.tentative_qty ?
+                                                                (100-item.tentative_qty):''
+                                                                }} %)
+                                                            </b></span>
+                                                        <span class="estimate"
+                                                            *ngIf="(item.carry_over_seed_details_id == item.carry_over_seed_details_data_id)">E</span>
+                                                        <br>
+                                                    </td>
+                                                    <td style="text-align:left">
+                                                        <span *ngIf="item && (item.action && item.action!=2)">Godown No
+                                                            : <b class="font-weight-bold">{{item &&
+                                                                item.godown_no_detail ?
+                                                                convertToString(item.godown_no_detail)
+                                                                :'--'}}</b></span><br>
+
+                                                        <span class="datalist"
+                                                            *ngIf="item && (item.action && item.action!=2)">Stack No: <b
+                                                                class="font-weight-bold">{{item &&
+                                                                item.stackDetails ?
+                                                                convertToString(item.stackDetails)
+                                                                :'--'}}</b></span><br>
+                                                        <span class="datalist"
+                                                            *ngIf="item && (item.action && item.action!=2)">No. of Bags:
+                                                            <b class="font-weight-bold">{{item &&
+                                                                item.no_of_bag_details ?
+                                                                convertArrayToRange(item.no_of_bag_details)
+                                                                :'--'}}</b></span><br>
+                                                    </td>
+                                                </tr>
+
+                                            </ng-container>
+                                        </ng-container>
+                                    </tbody>
+                                    <tbody
+                                        *ngIf="tableData && tableData.length<1 && ngForm.controls['getRadio'].value==1">
+                                        <tr>
+                                            <td colspan="8" style="text-align: center;">No Data Found</td>
+                                            <td colspan="4"></td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody
+                                        *ngIf="dummyData && dummyData.length<1 && ngForm.controls['getRadio'].value==2">
+                                        <tr>
+                                            <td colspan="8" style="text-align: center;">No Data Found</td>
+                                            <td colspan="4"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

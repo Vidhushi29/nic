@@ -1,0 +1,434 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <div class="row">
+
+                <div class="col-12 px-4 mt-2">
+                    <div class="row">
+                        <div class="col-12 px-4 heading_notofied">
+                            Creation of Label Number for Breeder Seeds
+                        </div>
+                        <div class="col-12 pt-2 pb-3 pr-2 search_text">
+                            <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="searchFormGroup"
+                                [isLabelControlParallel]="false">
+                            </app-dynamic-fields>
+                        </div>
+                        <div class="col-12 ml-2 ml-md-1 mt-2 buttons-phone">
+                            <button
+                                class="form-button search d-inline-flex justify-content-center verticle-content-middle mb-3 mr-0 ml-1 mr-4"
+                                (click)="search()">Search</button>
+                            <button
+                                class="clear-form-button d-inline-flex justify-content-center verticle-content-middle mb-3 mr-3"
+                                (click)="clear()">Clear</button>
+                        </div>
+
+                        <div class="col-12 px-4">
+                            <hr class="separator m-0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 px-4 d-flex justify-content-end mt-3 buttons-phone-add"
+                    style="padding-right: 2rem!important;">
+                    <button class="form-button d-flex justify-content-center verticle-content-middle"
+                        style="width: 100px !important; background-color: #963814;"
+                        routerLink="/creation-of-label-number-for-seeds">Add</button>
+                </div>
+                <div class="col-12 px-4">
+                    <div class="list-wrapper px-4 py-3">
+                        <div class="row d-none d-md-flex data-row-header">
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">S/N</div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Year of Indent</div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Season</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Crop Name</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Variety Name</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Label Number</div>
+                            <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Inert Matter</div>
+                            <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle">Germination(%)</div> -->
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle justify-content-center">
+                                Action
+                            </div>
+                        </div>
+                        <div class="row data-row" *ngFor="let data of filterPaginateSearch.itemList; let dataIndex = index">
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
+                                    <span>{{ (filterPaginateSearch.itemListCurrentPage - 1) *
+                                        filterPaginateSearch.itemListPageSize + dataIndex + 1}}.</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Year of Indent:</b>&nbsp;</label>
+                                    <span
+                                        title="{{(data.year_of_indent)}}-{{(((data.year_of_indent)+1)-2000)}}">{{(data.year_of_indent)}}-{{(((data.year_of_indent)+1)-2000)}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Season:</b>&nbsp;</label>
+                                    <span title="{{data && data.m_season &&
+                                        data.m_season.season ? data.m_season.season:'NA'}}">{{data && data.m_season &&
+                                        data.m_season.season ? data.m_season.season:'NA'}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Crop Name:</b>&nbsp;</label>
+                                    <span title="{{data && data.m_crop &&
+                                        data.m_crop.crop_name ? data.m_crop.crop_name :''}}">{{ data && data.m_crop &&
+                                        data.m_crop.crop_name && (data.m_crop.crop_name.length>30)
+
+                                        ?(data.m_crop.crop_name.substring(0,30))+'...':data && data.m_crop &&
+                                        data.m_crop.crop_name ? data.m_crop.crop_name :'Na'}}&nbsp;</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Variety Name:</b>&nbsp;</label>
+                                    <span title="{{data && data.m_crop_variety &&
+                                        data.m_crop_variety.variety_name ? data.m_crop_variety.variety_name :''}}">{{
+                                        data && data.m_crop_variety &&
+                                        data.m_crop_variety.variety_name && (data.m_crop_variety.variety_name.length>30)
+                                        ?(data.m_crop_variety.variety_name.substring(0,30))+"...":
+                                        data && data.m_crop_variety && data.m_crop_variety.variety_name ?
+                                        data.m_crop_variety.variety_name
+                                        :'NA'}}&nbsp;
+                                        &nbsp;</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Label Number:</b>&nbsp;</label>
+                                    <span title="{{data.generated_label_number}}">
+                                        {{(data && data.generated_label_number) ? data.generated_label_number : NaN}}
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none">Inert Matter:&nbsp;</label>
+                                    <span>{{ data.inert_matter || NaN}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none">Germination(%):&nbsp;</label>
+                                    <span>{{ data.germination || NaN}}&nbsp;</span>
+                                </div>
+                            </div> -->
+                            <div
+                                class="col-12 col-md-3 py-1 d-flex verticle-content-middle justify-content-md-center phone_view_btn">
+                                <div class="list-action-buttons-wrapper w-fit-content phone_view_action_btn">
+                                    <button class="list-action-buttons"
+                                        [routerLink]="['/creation-of-label-number-for-seeds/view', data.id]">
+                                        <img src="assets/images/view.svg">
+                                    </button>
+                                    <!-- <button class="list-action-buttons"
+                                        [routerLink]="['/creation-of-label-number-for-seeds/edit', data.id]">
+                                        <img src="assets/images/edit.svg">
+                                    </button> -->
+                                    <button class="list-action-buttons" (click)="delete(data.id)">
+                                        <img src="assets/images/delete.svg">
+                                    </button>
+                                    <!-- <button class="list-action-buttons" (click)="download(data,dataIndex)">
+                                       
+                                        <img src="assets/images/download.jpg">
+                                    </button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="testingList.length < 1" class="px-2 py-3 w-100" style="height: 50px;">
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            No Data Found.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 px-4 py-3">
+                    <app-pagination-ui></app-pagination-ui>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- style="display: none;" -->
+<div style="display: none;">
+    <div id="content_card">
+        <div class="col d-flex justify-content-center" *ngFor="let item of carddata; let index= index" id="{{item.id}}">
+            <div class="card main-rep-card m-3 mt-5 pb-2">
+                <div class="main-heading" style=" background-color: #fed16c !important">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-12 float-right">
+                            <div class="left-logo mt-2">
+                                <p> <img src="../../assets/images/left-icar-logo.png" class="left-logo-img"> </p>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-sm-12 ">
+                            <div class="heading mt-2">
+                                <span align="center" class="title">{{productiuon_name ? productiuon_name :''}}</span>
+                                <p class="address-title">{{breederaddress ? breederaddress :''}}</p>
+                                <p class="divider"><img src="../../assets/images/card-divider.png"
+                                        class="diveder-image"></p>
+                                <p class="class-of">Class of Seed : Breeder Seed</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="right-logo mt-2">
+                                <p> <img src="../../assets/images/left-icar-logo.png" class="left-logo-img"> </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-field" style=" background-color: #fed16c !important">
+                    <div class="row" style="margin: 0%;">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-6">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="input-heading">*Pure Seed</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" value="{{item && item.purt_seed? item.purt_seed :''}} %">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin: 0%;">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-5 ">
+                                    <span class="input-heading">Crop</span>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" value="{{item && item.crop_name ? item.crop_name :''}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+
+                            <div class="row">
+                                <div class="col-md-5 ">
+                                    <span class="input-heading">*Inert matter</span>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" value="{{item && item.inert_matter ? item.inert_matter :''}} %">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin: 0%;">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <span class="input-heading">Variety</span>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" value="{{item && item.varietyName ? item.varietyName :''}}">
+                                    <!-- <input type="text" value= "{{data.Variety}}"> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <span class="input-heading">*Germination</span>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" value="{{item && item.germination ? item.germination :''}} %">
+                                    <!-- <input type="text" value= "{{data.germination}}"> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin: 0%;">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <span class="input-heading">Lable No.</span>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" value="{{item && item.Label_Number ? item.Label_Number :''}}">
+                                    <!-- <input type="text" value= "{{data.lableNo}}"> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row mt-2">
+                                <div class="col-md-7 mt-2">
+                                    <span class="input-heading">*Producing Institution</span>
+                                </div>
+                                <div class="col-md-5">
+                                    <input type="text" style="width: 66px !important;" value="{{productiuon_name ? productiuon_name :''}}">
+                                    <!-- //<input type="text" style="width: 66px !important;" value= "{{data.producingInstitution}}"> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <span class="input-heading">**Oil Content</span>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" value=" %">
+                                    <input type="text" value= "{{item && item.Label_Number ? item.Label_Number :''}}">
+                                    <input type="text" value= "{{data.oilContent}}">
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="row" style="margin: 0%;">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <span class="input-heading">Lot No.</span>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" value="{{item && item.lot_number ? item.lot_number :''}}"
+                                        style=" width: 115px !important;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 pt-1">
+                            <div class="row pt-2">
+                                <div class="col-md-8">
+                                    <span class="input-heading">Issuing authority name</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" style="width: 42px !important;margin-top:-5vh" value="{{contactPersonName ? contactPersonName :''}}">
+                                    <!-- <input type="text" style="width: 66px !important;" value= "{{data.issuingAuthorityname}}"> -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <span class="input-heading">*Producing Institution</span>
+                                </div>
+                                <div class="col-md-5">
+                                    <input type="text" style="width: 66px !important;margin-top: -5vh;" value="{{productiuon_name ? productiuon_name :''}}">
+                                    <input type="text" style="width: 66px !important;" value= "{{data.producingInstitution}}">
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="row" style="margin: 0%;">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <span class="input-heading">Date of test</span>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" value="{{item && item.date_of_test ? item.date_of_test:''}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <span class="input-heading">Designation</span>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" value="{{designationname ? designationname :''}}">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <span class="input-heading">Issuing authority name</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" style="width: 42px !important;" value="{{contactPersonName ? contactPersonName :''}}">
+                                 
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="row" style="margin: 0%;">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-5">
+
+                                </div>
+                                <div class="col-md-7">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-lg-6 col-md-6 col-sm-12">
+
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <span class="input-heading">Designation</span>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" value="{{designationname ? designationname :''}}">
+
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+
+                <div class="bar-code-section" style=" background-color: #fed16c !important">
+                    <div class="row">
+                        <div class="col-md-2 col-lg-3 col-sm-12">
+                            <div class="QR-code">
+                                <div style=" margin-top: -32px;
+                                    margin-left: 22px;">
+                                    <qrcode [qrdata]="'https://seedtrace.gov.in/tracetag?tagNo='+(item.Label_Number)"
+                                        [allowEmptyString]="true"
+                                        [ariaLabel]="'QR Code image with the following content...'" [cssClass]="'top'"
+                                        [colorDark]="'#000000ff'" [colorLight]="'#fed16c'" [elementType]="'canvas'"
+                                        [errorCorrectionLevel]="'M'" [imageSrc]="" [imageHeight]="80" [imageWidth]="80"
+                                        [margin]="2" [scale]="1" [title]="'A custom title attribute'" [width]="15">
+                                    </qrcode>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-lg-6 col-sm-12">
+                            <div class="bar-code mt-3">
+                                <div style=" margin-top: -18px;margin-left: -8px;" class="bar-code-img">
+                                    <ngx-barcode
+                                        [bc-value]="'https://seedtrace.gov.in/tracetag?tagNo='+(item.Label_Number)"
+                                        [bc-display-value]="true" [bc-width]=".3" [bc-height]="14"
+                                        [bc-background]="'#fed16c'" [bc-font-size]="4" [bc-margin-top]="1"
+                                        [bc-margin-bottom]="1" [bc-margin-left]="1" [bc-margin-right]="1"></ngx-barcode>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-lg-3 col-sm-12">
+                            <!-- <div class="QR-code">
+                                    <p> <img src="../../assets/images/qr.png" class="qr-code-img"> </p>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

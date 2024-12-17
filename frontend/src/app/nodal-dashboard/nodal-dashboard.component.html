@@ -1,0 +1,798 @@
+<div class="container-fluid d-none">
+    <div class="row justify-content-center row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 ">
+        <div class="col mt-4 ">
+            <div class="card cropCard">
+                <div class="col-12">
+                    <span class="card-title">Total No. of Crops</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7 ">
+                        <span class="noOfcrop mx-2">{{itemCount && itemCount[0] && itemCount[0].total_crop
+                            ?itemCount[0].total_crop:0}}</span>
+                    </div>
+                    <div class="col-4  text-center">
+                        <div class="row justify-content-end">
+                            <div class="myDiv01">
+                                <img src="../../../assets/images/cropCard.svg" alt="" srcset=""
+                                    class=" cropCard_image01 pl-0 " style="opacity: 1;">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Number -->
+        <div class="col mt-4">
+            <div class="card notified_varities">
+                <div class="col-12">
+                    <span class="card_notified_title">Total No. of Notified Varieties</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7 ">
+                        <!-- 176 -->
+                        <span class="noOfVarieties mx-2">{{itemCount && itemCount[1] &&
+                            itemCount[1].total_variety?itemCount[1].total_variety:0}}</span>
+                    </div>
+                    <div class="col-4  text-center">
+                        <div class="row justify-content-end">
+
+                            <div class="myDiv02">
+                                <img src="../../../assets/images/bell.svg" alt="" srcset=""
+                                    class=" cropCard_image01 pl-0 " style="opacity: 1;">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- THird Number -->
+        <div class="col mt-4">
+            <div class="card card_of_indentors">
+                <div class="col-12">
+                    <span class="card-title-Indentors">Total No. of Indenters</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7">
+                        <!-- 176 -->
+                        <span class="noOfIndentor mx-2">{{itemCount && itemCount[2] && itemCount[2].total_indenter
+                            ?itemCount[2].total_indenter:0}}</span>
+                    </div>
+                    <div class="col-4  text-center indentorrow">
+                        <div class="row justify-content-end">
+                            <div class="myDiv03">
+                                <img src="../../../assets/images/indent_2.svg" alt="" srcset=""
+                                    class=" cropCard_image01 pl-0 " style="opacity: 1;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- fourth -->
+        <div class="col mt-4">
+            <div class="card ICARCard">
+                <div class="col-12">
+                    <span class="card-title-Icar">Total No. of Co-ordinator</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7 ">
+                        <!-- 176 -->
+                        <span class="noOfIcar mx-2">{{itemCount && itemCount[3] && itemCount[3].total_icar
+                            ?itemCount[3].total_icar:0}}</span>
+                    </div>
+                    <div class="col-4  text-center">
+                        <div class="row justify-content-end">
+                            <div class="myDiv04">
+                                <img src="../../../assets/images/layer1.svg" alt="" srcset=""
+                                    class=" cropCard_image01 pl-0 " style="opacity: 1;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col mt-2">
+            <div class="card card_production">
+                <div class="col-12">
+                    <span class="card-title-production">Breeder Seed Production Center</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7 ">
+                        <!-- 176 -->
+                        <span class="card_production_title mx-2">{{itemCount &&
+                            itemCount[4] && itemCount[4].total_bpc ?itemCount[4].total_bpc:0}}</span>
+                    </div>
+                    <div class="col-4  text-center">
+                        <div class="row justify-content-end ">
+                            <div class="myDiv05">
+                                <img src="../../../assets/images/wash.svg" alt="" srcset=""
+                                    class=" cropCard_image01 pl-0 " style="opacity: 1;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col mt-2">
+            <div class="card card_production">
+                <div class="col-12">
+                    <span class="card-title-production">Seed testing lab</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7 ">
+                        <!-- 176 -->
+                        <span class="card_production_title mx-2">{{itemCount &&
+                            itemCount[4] && itemCount[4].total_bpc ?itemCount[4].total_bpc:0}}</span>
+                    </div>
+                    <div class="col-4  text-center">
+                        <div class="row justify-content-end ">
+                            <div class="myDiv05">
+                                <img src="../../../assets/images/wash.svg" alt="" srcset=""
+                                    class=" cropCard_image01 pl-0 " style="opacity: 1;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mt-2">
+            <div class="col-12 pl-0 pr-0  table-responsive">
+                <table class="table">
+                    <thead
+                        style="background: #E97E15 0% 0% no-repeat padding-box;
+                border-radius: 10px 10px 0px 0px;opacity: 1;text-align: left;font: normal Poppins 400 16px/20px ;letter-spacing: 0px;color: #FFFFFF;opacity: 1;">
+                        <tr>
+                            <th scope="col" class="col-md-2">Year Of Indent</th>
+                            <th scope="col" class="col-md-1">Season</th>
+                            <!-- <th>Crop</th>
+                            <th>Variety</th> -->
+                            <th scope="col" class="col-md-2">Indent</th>
+                            <th scope="col" class="col-md-2">Production</th>
+                            <th scope="col" class="col-md-2">Allocation</th>
+                            <th scope="col" class="col-md-2">Lifting</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        <ng-container *ngFor="let data of tableArray ; let i=index;">
+                            <ng-container *ngFor="let data1 of data.data_table;let dataIndex=index;">
+                                <tr>
+                                    <!-- *ngIf="i==0 && dataIndex==0" -->
+                                    <td  class="year" [attr.rowspan]="data.data_table.length">
+                                        {{data && data.year ? data.year :'Na'}}
+                                    </td>
+                                    <td>
+                                        {{data1 && data1.season ? data1.season :'Na'}}
+                                    </td>
+                                    <!-- <td>
+                                        <span>{{data && data.crop ? data.crop :'Na'}}</span>
+                                    </td>
+                                    <td>
+                                        <span>{{data && data.Variety ? data.Variety :'Na'}}</span>
+                                    </td> -->
+                                    <td class='indenttd'>
+                                        C-{{data1 && data1.Indent ? data1.Indent :'Na'}}/ V-{{data1 &&
+                                            data1.Indent ? data1.Indent :'Na'}}/ Q- {{data1 &&
+                                            data1.Indent ? data1.Indent :'Na'}}
+                                    </td>
+                                    <td class='allocationtd'>
+                                        C-{{data1 && data1.Indent ? data1.Indent :'Na'}}/ V-{{data1 &&
+                                            data1.Indent ? data1.Indent :'Na'}}/  Q- {{data1 &&
+                                            data1.Indent ? data1.Indent :'Na'}}
+                                    </td>
+                                    <td class="allocationtd">
+
+                                        C-{{data1 && data1.allocation ? data1.allocation :'Na'}}/
+                                            V-{{data1 && data1.allocation ? data1.allocation :'Na'}}/
+                                            Q C-{{data1 && data1.allocation ? data1.allocation :'Na'}}
+                                    </td>
+                                    <td class="liftingtd">
+                                        C-{{data1 && data1.lifting ? data1.lifting :'0'}}/ V-{{data1
+                                            && data1.lifting ? data1.lifting :'0'}}/ Q-{{data1 &&
+                                            data1.lifting ? data1.lifting :'0'}}
+                                    </td>
+
+                                    <!-- <td>{{data.year}}-{{(data.year+1)-2000}}</td>
+                                    <td>{{data && data.season && (data.season == 'K')?'Kharif':(data.season == 'R')?'Rabi':'All
+                                        Season'}}</td>
+                                    <td>{{data && data.m_crop && data.m_crop.crop_name?data.m_crop.crop_name:'All Crop'}}</td>
+                                    <td>{{data && data.m_crop_variety &&
+                                        data.m_crop_variety.variety_name?data.m_crop_variety.variety_name:'All Variety'}}</td>
+                                    <td>Completed</td>
+                                    <td>{{data && data.bsp_1 && data.bsp_1?'Completed':'Pending'}}</td>
+                                    <td>{{data && data.bsp_5_b && data.bsp_5_b?'Completed':'Pending'}}</td> -->
+                                <tr>
+                            </ng-container>
+                        </ng-container>
+                        <!-- </tr> -->
+
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <!-- <div class="col mt-4">
+            <div class="card">
+            </div>
+        </div> -->
+
+        <div class="col-12 pt-3">
+            <div class="card">
+                <form [formGroup]="ngForm">
+                    <div class="row px-1 no-gutters py-0 ">
+                        <!--  Year of indent -->
+                        <div class="col-lg-3 col-sm-12 mt-3">
+                            <div class="col-12">
+                                <span for="" class="left-heading"> Crop Type</span>
+                            </div>
+                            <div class="col-lg col-sm-12 py-2">
+                                <select id="cars" class="form-control" formControlName="crop_type">
+                                    <option value="A" [selected]="cropTypeLoginWise =='A'">Agriculture</option>
+                                    <option value="H" [selected]="cropTypeLoginWise =='H'">Horticulture</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mt-3 ">
+                            <div class="col-12 ">
+                                <span for="" class="left-heading">Year of Indent</span>
+                            </div>
+                            <div class="col-lg col-sm-12 py-2">
+                                <select id="cars" class="form-control" formControlName="year_of_indent">
+                                    <option value="" selected>Select Year of Indent</option>
+                                    <option *ngFor="let year of yearOfIndent" value="{{year.year}}">
+                                        {{year.year}}-{{(year.year+1)-2000}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!--  Season -->
+                        <div class="col-lg-3 col-sm-12 mt-3">
+                            <div class="col-12">
+                                <span for="" class="left-heading">Season</span>
+                            </div>
+                            <div class="col-lg col-sm-12 py-2">
+                                <select id="cars" class="form-control" formControlName="season">
+                                    <option value="">Select Season</option>
+                                    <option *ngFor="let data of seasonList" value="{{data.season_code}}">{{data.season}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--  crop Type -->
+
+                        <div class="col-lg-3 col-sm-12 mt-4 pr-3 pl-2">
+                            <div class="col-12">
+                                <span for="" class="left-heading"> Crop Name</span>
+                            </div>
+                            <!-- 
+                            <div class="col-lg col-sm-12 py-2">
+                                <select id="cars" class="form-control" formControlName="crop_name">
+                                    <option value="">Select Crop Name</option>
+                                    <option value="all_crop">All Crop</option>
+                                    <option value="cumulative">Cumulative</option>
+                                    <ng-container *ngFor="let data of distinctCrop;">
+                                        <option *ngFor="let val of data" value="{{val && val.crop_code}}">{{val &&
+                                            val.crop_name}}
+                                        </option>
+                                    </ng-container>
+                                </select>
+                            </div> -->
+                            <!-- [disabled]="hiddenVeriey" -->
+                            <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="cropDataList"
+                                [(ngModel)]="crop_name" formControlName="crop_name" [placeholder]="'Select Crop Name'"
+                                (keydown)="keyPressedOnMultiDropdown($event)"
+                                (onDropDownClose)="ngClearMultiSelectSelection()">
+                            </ng-multiselect-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-3 ml-1 buttons-phone dash_buttons-phone pb-3">
+
+                        <button (click)="onSubmit(ngForm.value)"
+                            class="form-button search d-inline-flex justify-content-center verticle-content-middle mr-2">
+                            <span class="">Search</span>
+                        </button>
+                        <button (click)="clear()"
+                            class="clear-form-button ml-3 mt-2 d-inline-flex justify-content-center verticle-content-middle mr-2">
+                            <span class="">Clear</span>
+                        </button>
+
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <div class="row pt-3 pl-1 no-gutters inden_dash_no-gutters">
+        <div class="col-lg-3">
+            <span class="title">Total Indents:
+                <span class="total_qty">{{totalIndent && totalIndent[0] &&
+                    totalIndent[0].indent_quantity?(totalIndent[0].indent_quantity | number:'1.2-2'):0}}</span><span
+                    class="mx-1">{{unit}}</span>
+            </span>
+        </div>
+        <div class="col-lg-3">
+            <span class="title">Total Lifting:
+                <span class="total_qty">{{totalLifted &&
+                    totalLifted[0].lifting_quantity?(totalLifted[0].lifting_quantity | number:'1.2-2'):0}}</span><span
+                    class="mx-1">{{unit}}</span>
+            </span>
+        </div>
+        <div class="col-lg-4">
+            <span class="title">BSP VI (Utilization of Breeder Seed):
+                <span class="total_qty">{{totalAllocateLifting && totalAllocateLifting?(totalAllocateLifting |
+                    number:'1.2-2'):0}}</span><span class="mx-1">{{unit}}</span>
+            </span>
+        </div>
+    </div> -->
+
+    <!--start card 2 ui-->
+    <div class="row justify-content-center row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 ">
+        <div class="col mt-4 ">
+            <div class="card cropCard">
+                <div class="col-12">
+                    <span class="card-title">Recieved Indents:</span>
+                </div>
+                <div class="row pt-4 pl-3 ">
+
+                    <div class="col-8 ">
+                        <span class="total_qty">{{RecievedIndentDataQantity && RecievedIndentDataQantity[0] &&
+                            RecievedIndentDataQantity[0].recieved_indenter?(RecievedIndentDataQantity[0].recieved_indenter
+                            |
+                            number:'1.2-2'):0}}</span><span class="mx-1">{{unit}}</span>
+                    </div>
+                    <!-- <div class="col-4  text-center">
+                        <div class="row justify-content-end">
+                            <div class="myDiv01">
+                                <img src="../../../assets/images/cropCard.svg" alt="" srcset="" class=" cropCard_image01 pl-0 "
+                                style="opacity: 1;">
+                                
+                            </div>
+                        </div>
+                    </div> -->
+
+                </div>
+            </div>
+        </div>
+        <!-- Second Number a-->
+        <div class="col mt-4">
+            <div class="card notified_varities">
+                <div class="col-12">
+                    <span class="card_notified_title">Freeze Indents:</span>
+                </div>
+                <div class="row pt-4 pl-3 ">
+
+                    <div class="col-12 ">
+                        <!-- 176 -->
+                        <span class="title">
+                            <span class="total_qty">{{freezeDataQantity && freezeDataQantity[0] &&
+                                freezeDataQantity[0].total_freeze ?(freezeDataQantity[0].total_freeze |
+                                number:'1.2-2'):0}}</span><span class="mx-1">{{unit}}</span>
+                        </span>
+                    </div>
+                    <!-- <div class="col-4  text-center">
+                        <div class="row justify-content-end">
+
+                            <div class="myDiv02">
+                                <img src="../../../assets/images/bell.svg" alt="" srcset="" class=" cropCard_image01 pl-0 "
+                                style="opacity: 1;">
+                                
+                            </div>    
+                        </div>
+                        
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Number b-->
+        <div class="col mt-4">
+            <div class="card notified_varities">
+                <div class="col-12">
+                    <span class="card_notified_title">Total Allocation:</span>
+                </div>
+                <div class="row pt-4 pl-3 ">
+
+                    <div class="col-11 ">
+                        <!-- 176 -->
+                        <span class="title">
+                            <span class="total_qty">{{secondCardData && secondCardData[0] &&
+                                secondCardData[0].total_allocation ?(secondCardData[0].total_allocation |
+                                number:'1.2-2'):0}}</span><span class="mx-1">{{unit}}</span>
+                        </span>
+                    </div>
+                    <!-- <div class="col-4  text-center">
+                        <div class="row justify-content-end">
+
+                            <div class="myDiv02">
+                                <img src="../../../assets/images/bell.svg" alt="" srcset="" class=" cropCard_image01 pl-0 "
+                                style="opacity: 1;">
+                                
+                            </div>    
+                        </div>
+                        
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <!-- THird Number -->
+        <div class="col mt-4">
+            <div class="card card_of_indentors">
+                <div class="col-12">
+                    <span class="card-title-Indentors">Total Lifting:</span>
+                </div>
+                <div class="row pt-4 pl-3 ">
+
+                    <div class="col-11">
+                        <!-- 176 -->
+                        <span class="title">
+                            <span class="total_qty">{{secondCardData && secondCardData[1] &&
+                                secondCardData[1].total_lifting ?(secondCardData[1].total_lifting |
+                                number:'1.2-2'):0}}</span><span class="mx-1">{{unit}}</span>
+                        </span>
+                    </div>
+                    <!-- <div class="col-4  text-center indentorrow">
+                        <div class="row justify-content-end">
+                            <div class="myDiv03">
+                                <img src="../../../assets/images/indent_2.svg" alt="" srcset="" class=" cropCard_image01 pl-0 "
+                                style="opacity: 1;">
+                                
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <!-- fourth -->
+        <div class="col mt-4">
+            <div class="card ICARCard">
+                <div class="col-12">
+                    <span class="card-title-Icar">Total UnLifting:</span>
+                </div>
+                <div class="row pt-4 pl-3 ">
+
+                    <div class="col-11 ">
+                        <span class="title">
+                            <span class="total_qty">{{secondCardData && secondCardData[3] &&
+                                secondCardData[3].total_unlifting ? covertintoPositive(secondCardData[3].total_unlifting |
+                                number:'1.2-2'):0}}</span><span class="mx-1">{{unit}}</span>
+                        </span>
+                        <!-- 176 -->
+                        <!-- <span class="noOfIcar mx-2">{{itemCount && itemCount?itemCount[3].total_icar:0}}</span> -->
+                    </div>
+                    <!-- <div class="col-4  text-center">
+                        <div class="row justify-content-end">
+                            <div class="myDiv04">
+                                <img src="../../../assets/images/layer1.svg" alt="" srcset="" class=" cropCard_image01 pl-0 "
+                                style="opacity: 1;">
+                                
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- <table class="table">
+                <thead
+                    style="background: #E97E15 0% 0% no-repeat padding-box;
+            border-radius: 10px 10px 0px 0px;opacity: 1;text-align: left;font: normal Poppins 400 16px/20px ;letter-spacing: 0px;color: #FFFFFF;opacity: 1;">
+                    <tr>
+                        <th>Year of Indent</th>
+                        <th>Season</th>
+                        <th>Crop Name</th>
+                        <th>Variety</th>
+                        <th>Indent</th>
+                        <th>Allocation</th>
+                        <th>Lifting</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let data of tableArray">
+                    <tr >
+                        <td>
+                            <span>{{data && data.year ? data.year :'Na'}}</span>
+                        </td>
+                        <td>
+                            <span>{{data && data.season ? data.season :'Na'}}</span>
+                        </td>
+                        <td>
+                            <span>{{data && data.crop ? data.crop :'Na'}}</span>
+                        </td>
+                        <td>
+                            <span>{{data && data.Variety ? data.Variety :'Na'}}</span>
+                        </td>
+                        <td class='indenttd'>
+                            <span>{{data && data.Indent ? data.Indent :'Na'}}</span>
+                        </td>
+                        <td class="allocationtd">
+                            
+                            <span>{{data && data.allocation ? data.allocation :'Na'}}</span>
+                        </td>
+                        <td class="liftingtd">
+                            <span>{{data && data.lifting ? data.lifting :'0'}}</span>
+                        </td> -->
+
+        <!-- </div> -->
+
+
+        <!-- <div class="mt-3">
+        <div class="col-12 pl-0 pr-0 pt-3 table-responsive">
+
+            <table class="table">
+                <thead
+                    style="background: #E97E15 0% 0% no-repeat padding-box;
+            border-radius: 10px 10px 0px 0px;opacity: 1;text-align: left;font: normal Poppins 400 16px/20px ;letter-spacing: 0px;color: #FFFFFF;opacity: 1;">
+                    <tr>
+                        <th>Indent Year</th>
+                        <th>Season</th>
+                        <th>Crop Name</th>
+                        <th>Variety</th>
+                        <th>Status of Indent</th>
+                        <th>Status of Allocation</th>
+                        <th>Status of Lifting</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let data of indentData">
+                    <tr *ngIf="chooseYearCrop">
+                        <td>{{data.year}}-{{(data.year+1)-2000}}</td>
+                        <td>{{data && data.season && (data.season == 'K')?'Kharif':(data.season == 'R')?'Rabi':'All
+                            Season'}}</td>
+                        <td>{{data && data.m_crop && data.m_crop.crop_name?data.m_crop.crop_name:'All Crop'}}</td>
+                        <td>{{data && data.m_crop_variety &&
+                            data.m_crop_variety.variety_name?data.m_crop_variety.variety_name:'All Variety'}}</td>
+                        <td>Completed</td>
+                        <td>{{data && data.bsp_1 && data.bsp_1?'Completed':'Pending'}}</td>
+                        <td>{{data && data.bsp_5_b && data.bsp_5_b?'Completed':'Pending'}}</td>
+                    </tr>
+                </tbody>
+                <ng-container *ngFor="let data of indentYear">
+                    <ng-container *ngFor="let val of data.season">
+                        <tr *ngIf="allCombileData">
+                            <td>{{data.year}}-{{(data.year+1)-2000}}</td>
+                            <td>{{val && (val == 'K')?'Kharif':(val == 'R')?'Rabi':''}}</td>
+                            <td>All Indent Crops</td>
+                            <td>All Indent Variety</td>
+                            <td>Completed</td>
+                            <td>{{isBsp1Completed}}</td>
+                            <td>{{isBsp5Completed}}</td>
+                        </tr>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngFor="let data of indentYear">
+                    <ng-container *ngFor="let val of data.season">
+                        <ng-container *ngFor="let cropVal of data.crop_name">
+                            <tr *ngIf="chooseOnlyYear">
+                                <td>{{data.year}}-{{(data.year+1)-2000}}</td>
+                                <td>{{val && (val == 'K')?'Kharif':(val == 'R')?'Rabi':''}}</td>
+                                <td>{{cropVal && cropVal?cropVal:''}}</td>
+                                <td>All Indent Variety</td>
+                                <td>Completed</td>
+                                <td>{{isBsp1Completed}}</td>
+                                <td>{{isBsp5Completed}}</td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+                <tr *ngIf="notFound">
+                    <td colspan="8">
+                        <h4 class="text-danger text-center">No Data Found</h4>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div> -->
+
+        <!-- start graph ui -->
+        <!-- <div class="row pt-3"> -->
+
+        <!--Chart Start -->
+        <!-- First chart -->
+        <div class="col-12 pb-4 pt-3 " [ngClass]="totalIndentCard ? 'd-block' : 'd-none'">
+            <div class="card " style=" border-radius: 10px 10px 0px 0px;">
+                <div class="col-12" style="background: #E97E15 0% 0% no-repeat padding-box;
+             opacity: 1;">
+                    <div class="row pb-2 pt-2 chart_heading1">
+                        <div class="col-md-4 chart_item1">
+                            <span class="chart_title">{{graphtitle}} Wise Total Indents and Lifting</span>
+                        </div>
+                        <div class="col-md-2 chart_item1" *ngIf="isYear">
+                            <span class="chart_title">Year: {{year}}-{{(year-2000)+1}}</span>
+                        </div>
+                        <div class="col-md-2 chart_item1" *ngIf="isSeason">
+                            <span class="chart_title">Season: {{(season=='K')?'Kharif':'Rabi'}}</span>
+                        </div>
+                        <div class="col-md-3 chart_item1" *ngIf="isCropName">
+                            <span class="chart_title">Crop Name: {{crop_name?crop_name:''}}</span>
+                        </div>
+                        <div class="col-md-2 chart_item1">
+                            <span class="chart_title"> As on Date: {{todayDateintoDDMMYYY}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 pt-2">
+                    <div class="row   pl-3 chart_icon_items1">
+                        <div class=" square ">
+                        </div>
+                        <div class="col-lg-1 col-12 pl-1 chart_icon_items1">
+                            <span>Indent Quantity</span>
+                        </div>
+                        <div class=" square_breeder_seed ">
+                        </div>
+                        <div class="col-lg-1 col-12 pl-1 chart_icon_items1">
+                            <span>Production</span>
+                        </div>
+                        <div class="square_breeder_seed ">
+                        </div>
+                        <div class="col-lg-3 col-12 pl-1 chart_icon_items1">
+                            <span style="white-space: nowrap;">Breeder Seed Allotted for Lifting</span>
+                        </div>
+                        <div class=" square_breeder_seed_left ">
+
+                        </div>
+                        <div class="col-lg-2 col-12 pl-1 chart_icon_items1">
+                            <span style="white-space: nowrap;">Breeder Seed Lifting</span>
+                        </div>
+                        <div class="col-lg-2 col-12 ">
+                            <!-- <select name="" id="" class="form-control">
+                        <option value="">Select Variety</option>
+                        <option *ngFor="let data of variety" value="{{data && data.m_crop_variety && data.m_crop_variety.id}}">{{data && data.m_crop_variety && data.m_crop_variety.variety_name}}</option>
+                    </select> -->
+                            <form [formGroup]="ngForm">
+                                <div class="col-lg col-sm-12 py-1">
+                                    <select id="cars" [(ngModel)]="cropFilterData" class="form-control"
+                                        formControlName="crop_name_graph"
+                                        (change)="graphShowHiddenFunctionality($event)">
+                                        <option value="all_crop">All Crop</option>
+                                        <!-- <ng-container *ngFor="let data of graphFilterCrop;"> -->
+                                        <option *ngFor="let val of graphFilterCrop" value="{{val && val.crop_code}}">
+                                            {{val &&
+                                            val.crop_name}}
+                                        </option>
+                                        <!-- </ng-container> -->
+                                    </select>
+                                </div>
+                            </form>
+
+
+                        </div>
+
+                        <div class="col-lg-2 col-12 pl-0 ">
+                            <button
+                                class="form-button search d-inline-flex justify-content-center verticle-content-middle mr-2">
+                                <span class="">Print</span>
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div [hidden]="showVariety" id="container">
+
+                </div>
+                <div [hidden]="!showVariety" id="variety-container">
+
+                </div>
+
+
+
+            </div>
+        </div>
+        <!-- [ngStyle]="{'display': totalIndentCard ? 'block':'none' }" -->
+
+        <!-- Second Chart  -->
+        <!-- [ngStyle]="{'display': showBspCard ? 'block':'none' }" -->
+        <div class="col-12 pb-4">
+            <div class="card " style=" border-radius: 10px 10px 0px 0px;">
+                <div class="col-12" style="background: #E97E15 0% 0% no-repeat padding-box;
+            
+             opacity: 1;">
+                    <div class="row pb-2 pt-2 chart_heading2">
+                        <div class="col-md-4 chart_item2">
+                            <span class="chart_title">Indenter Wise Total Indents and Lifting</span>
+                        </div>
+                        <div class="col-md-2 chart_item2" *ngIf="isYear">
+                            <span class="chart_title">Year: {{year}}-{{(year-2000)+1}}</span>
+                        </div>
+                        <div class="col-md-2 chart_item2" *ngIf="isSeason">
+                            <span class="chart_title">Season: {{(season=='K')?'Kharif':'Rabi'}}</span>
+                        </div>
+                        <div class="col-md-3 chart_item2" *ngIf="isCropName">
+                            <span class="chart_title">Crop Name: {{crop_name?crop_name:''}}</span>
+                        </div>
+                        <div class="col-md-2 chart_item2">
+                            <span class="chart_title"> As on Date: {{todayDateintoDDMMYYY}}</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-12 pt-2 ">
+             <div class="row   no-gutters ">
+                <div class=" col-3 pt-2">
+                    <div class="square w-50"></div>
+                    <span>Indent Quantity</span>
+                </div>
+                <div class="col-lg col-sm-12 pl-0">
+                    
+                </div>
+                
+             </div>
+             </div> -->
+                <div class="col-12 pt-2">
+                    <div class="row   pl-3 chart_icon_items2">
+                        <div class=" square ">
+
+                        </div>
+                        <div class="col-lg-2 col-12 pl-2 chart_text_items2">
+                            <span>Indent Quantity</span>
+                        </div>
+                        <div class=" square_breeder_seed ">
+
+                        </div>
+                        <div class="col-lg-3 col-12 pl-2 chart_text_items2">
+                            <span style="white-space: nowrap;">Breeder Seed Allotted for Lifting</span>
+                        </div>
+                        <div class=" square_breeder_seed_left ">
+
+                        </div>
+                        <div class="col-lg-3 col-12 pl-2 chart_text_items2">
+                            <span style="white-space: nowrap;">Breeder Seed Lifting</span>
+                        </div>
+                        <div class="col-lg-3 col-12 chart_text_items2">
+                            <!-- <select name="" id="" class="form-control">
+                        <option value="">Select Variety</option>
+                        <option *ngFor="let data of variety" value="{{data && data.m_crop_variety && data.m_crop_variety.id}}">{{data && data.m_crop_variety && data.m_crop_variety.variety_name}}</option>
+                    </select> -->
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div id="containers">
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div class="container">
+
+            <div class="main-inventory row w-90 ">
+            <!-- <div class="card w-100 h-100"> -->
+            <div class="centered-text card h-100 w-100 px-2 d-flex justify-content-center">
+            <h4>
+            We will be live soon!
+            </h4> 
+            </div>
+            <!-- </div> -->
+            </div>
+            </div>
+            

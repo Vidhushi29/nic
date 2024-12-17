@@ -1,0 +1,441 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+      <div class="main-content-form-wrapper px-0 py-2">
+        <div class="row">
+          <div class="w-100">
+            <form [formGroup]="ngForm">
+              <div class="col-12 px-4 mt-2">
+                <div class="row">
+                  <div class="col-md-12 col-sm-12 pl-4 pb-2">
+                    <span class="heading_notofied">BSP II (Production Schedule and Availability of Breeder Seed)</span>
+                  </div>
+                  <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0">
+                    <div class="col-md-12">
+                      <label for="frm_year_of_indent" class="search_txt">Year of Indent <sup style="color:red;font-size:18px">*</sup></label>
+                    </div>
+                    <div class="col-12 pr-md-0">
+                      <select class="form-select form-control" aria-label="Default select example" formControlName="year"
+                        id="frm_year_of_indent">
+                        <option value="">Select Year of Indent</option>
+                        <option *ngFor="let data of yearOfIndent" value="{{data.year}}">{{data && data.year ?
+                          data.year:''}}-{{(data.year-2000)+1}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0 pl-md-0">
+                    <div class="col-md-12">
+                      <label for="frm_breeder" class="search_txt">Season <sup style="color:red;font-size:18px">*</sup></label>
+                    </div>
+                    <div class="col-12 pr-md-0">
+                      <select class="form-select form-control" aria-label="Default select example"
+                        formControlName="season" id="frm_season">
+                        <option value="">Select Season</option>
+                        <option *ngFor="let data of seasonData" value="{{data.season_code}}">{{data.season_name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pl-md-0">
+                    <div class="col-md-12">
+                      <label for="frm_crop_name" class="search_txt">Crop Type <sup style="color:red;font-size:18px">*</sup></label>
+                    </div>
+                    <div class="col-12">
+                      <select class="form-select form-control" aria-label="Default select example"
+                        formControlName="crop_type" id="frm_crop_name">
+                        <option value="">Select Crop Type</option>
+                        <option *ngFor="let data of cropTypeData" value="{{data.crop_type}}">{{data.crop_type_name}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <!-- <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0">
+                    <div class="col-md-12">
+                      <label for="frm_bspc" class="search_txt">PD/PC</label>
+                    </div>
+                    <div class="col-12 pr-md-0">
+                      <select class="form-select form-control" aria-label="Default select example"
+                        formControlName="breeder" id="frm_bspc">
+                        <option value="">Select PD/PC</option>
+                        <option *ngFor="let data of breederListData" value="{{data.breeder_id}}">{{data.breeder_name}}
+                        </option>
+                      </select>
+                    </div>
+                  </div> -->
+                  <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0">
+                    <div class="col-md-12">
+                      <label for="frm_crop_name" class="search_txt">Crop Name</label>
+                    </div>
+                    <div class="col-12 pr-md-0">
+                      <!-- <select class="form-select form-control" aria-label="Default select example" formControlName="crop"
+                        ngModel="{{crop_id}}" (ngModelChange)="getVarietyNameList($event)" id="frm_crop_name">
+                        <option value="">Select Crop</option>
+                        <option *ngFor="let data of cropNameList" value="{{data.crop_code}}">{{data.crop_name}}</option>
+                      </select> -->
+                      <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="cropNameList" formControlName="crop" [disabled]="cropdropdownHidden"
+                      [placeholder]="'Select Crop Name'">
+                    </ng-multiselect-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0 pl-md-0">
+                    <div class="col-md-12">
+                      <label for="frm_variety_name" class="search_txt">Variety Name</label>
+                    </div>
+                    <div class="col-12 pr-md-0">
+                      <!-- <select class="form-select form-control" aria-label="Default select example"
+                        formControlName="variety" id="frm_variety_name">
+                        <option value="">Select Variety</option>
+                        <option *ngFor="let data of varietyNameList" value="{{data.variety_code}}">{{data.variety_name}}
+                        </option>
+                      </select> -->
+                      <ng-multiselect-dropdown [settings]="dropdownSettings1" [data]="varietyNameList" [disabled]="varietydropdownHidden"
+                      formControlName="variety" [placeholder]="'Select Variety Name'">
+                    </ng-multiselect-dropdown>
+                    </div>
+                  </div>
+  
+                </div>
+                <div class="row">
+                  <div _ngcontent-cvx-c131="" class="col-12 pt-4  search-cancle-button buttons-phone">
+                    <button _ngcontent-cvx-c131=""
+                      class="form-button   search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-1"
+                      (click)="submit()"> Search </button>
+                    <button _ngcontent-cvx-c131="" (click)="clear()"
+                      class="clear-form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"> Clear</button>
+  
+                    <div class="dropdown float-right export_dropdown">
+                      <button (click)="myFunction()"
+                        class="form-button  search ml-1 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-1"
+                        style="font-size: 87%;">Export To &nbsp;<i class="fa fa-angle-down" aria-hidden="true">
+                        </i></button>
+                      <div id="myDropdown" class="dropdown-content">
+                        <a (click)="download()"> <img src="assets\icons\pdf-icon.png" alt="" width="20px" height="20px">
+                          PDF</a>
+                        <a (click)="exportexcel()"> <img src="assets\icons\excel.jpg" alt="" width="20px" alt="">
+                          Excel</a>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div _ngcontent-cvx-c131="" class="col-12 px-4">
+                    <hr _ngcontent-cvx-c131="" class="separator m-0">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+   
+          <!-- table for exel Download start -->
+          <div style="display: none;" >
+            <div class="list-wrapper px-4 py-3" id="excel-tables">
+              <tr>
+                <th>BSP II (Production Schedule and Availability of Breeder Seed)</th>
+              </tr>
+              <div class="row d-none d-md-flex data-row-header extra-header">
+                <div class="col-2 col-md-2 py-3 d-flex verticle-content-middle">
+                </div>
+                <div class="col-8 col-md-8 py-3 d-flex justify-content-center">
+
+                  <span>BSP II (Production Schedule and Availability of Breeder Seed)</span>
+                </div>
+                <div class="col-2 col-md-2 py-3 d-flex verticle-content-middle">
+                </div>
+              </div>
+              <tr>
+                <td>Year of Indent</td>
+                <td>Season</td>
+                <td>Crop Type</td>
+                <td>Unit</td>
+              </tr>
+              <tr>
+                 <td>
+                  {{year?getFinancialYear(year):'NA'}}
+                </td>
+                <td>
+                  {{season&&(season=='R')?'RABI' :(season=='K') ? 'Kharif':'NA'}}
+                </td>
+                <td>
+                  {{crop_type&&(crop_type=='A')?'Agriculture':(crop_type=='H')?'Horticulture':""}}
+                </td>
+                <td>
+                  {{crop_type&&(crop_type=='A')?'Kg':(crop_type=='H')?'Quintal':""}}
+                </td>
+              </tr>
+              <br>
+              <div class="row d-none d-md-flex data-row-header">
+                <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle">Year of Indent :
+                  {{year?getFinancialYear(year):'NA'}}
+                </div>
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Season :
+                  {{season&&(season=='R')?'RABI' :(season=='K') ? 'Kharif':'NA'}}
+                </div>
+                <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle">Crop Type :
+                  {{crop_type&&(crop_type=='A')?'Agriculture':(crop_type=='H')?'Horticulture':""}}
+                </div>
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Unit:
+                  {{crop_type&&(crop_type=='A')?'Quintal':(crop_type=='H')?'Kg':""}}
+                </div>
+                
+                
+  
+                <div class="col-6 col-md-2 py-3  d-flex justify-content-end">As on Date: {{todayData
+                  | date:"dd-MM-YYYY"}}
+                </div>
+              </div>
+              <div class="middle_line"></div>
+              <div class="row data-row">
+                <table class="table table-bordered table-responsive" style="text-align: center;">
+                  <thead>
+                    <tr class="data-row-header">
+                      <th scope="col" class="col-1 py-2">S/N</th>
+                      <th scope="col" class="col-1 py-2">Crop Name</th>
+                      <th scope="col" class="col-1 py-2">Variety</th>
+                      <th scope="col" class="col-1 py-2">Total Indented Quantity</th>
+                      <th scope="col" class="col-1 py-2">BSPCs Assigned for Production</th>
+                      <th scope="col" class="col-1 py-2">Targeted Quantity</th>
+                      <th scope="col" class="col-1 py-2">Area Sown  (Ha)</th>
+                      <th scope="col" class="col-1 py-2">Expected Production</th>
+                      <th scope="col" class="col-1 py-2">Total Expected Production</th>
+                      <th scope="col" class="col-1 py-2">Field Location</th>
+                      <th scope="col" class="col-1 py-2">Expected Inspection Period (From)</th>
+                      <th scope="col" class="col-1 py-2">Expected Inspection Period (To)</th>
+                      <th scope="col" class="col-1 py-2">Expected Date of  Harvest (From)</th>
+                      <th scope="col" class="col-1 py-2">Expected Date of  Harvest (To)</th>
+
+                      <th scope="col" class="col-1 py-2">Expected Date of Availability</th>
+                      <th scope="col" class="col-1 py-2">Location of Availability of Seed</th>
+                    </tr>
+                  </thead>
+                  <tbody >
+                    <ng-container *ngFor="let data of data1; let dataIndex=index">
+                        <ng-container *ngFor="let bspcData of data.variety; let bspcIndex=index">
+                        <ng-container *ngFor="let cropda of bspcData.bspc; let cropIndex=index">
+
+                          <tr>
+                            <td *ngIf="bspcIndex == 0 && cropIndex==0" [attr.rowspan]="data.totalCount">{{ dataIndex + 1 }}.</td>
+                            <td *ngIf="bspcIndex == 0 && cropIndex==0" [attr.rowspan]="data.totalCount">{{data && data.crop_name ? data.crop_name :'' }}</td>
+                            <td *ngIf=" cropIndex==0" [attr.rowspan]="bspcData.spa_count"  >{{bspcData && bspcData.variety_name ? bspcData.variety_name :'' }}</td>
+                            <td *ngIf=" cropIndex==0"  [attr.rowspan]="bspcData.spa_count">{{bspcData && bspcData.indent_quantity ? bspcData.indent_quantity :'' }}</td>
+                            <td >{{cropda && cropda.name ? cropda.name :'' }}</td>
+                            <td >{{cropda && cropda.quantity_of_seed_produced ? cropda.quantity_of_seed_produced :'' }}</td>
+                            <td >{{cropda && cropda.area ? cropda.area :'' }}</td>
+                            <td >{{cropda && cropda.expected_production ? cropda.expected_production :'' }}</td>
+                            <td *ngIf=" cropIndex==0"  [attr.rowspan]="bspcData.spa_count">{{bspcData && bspcData.totalExpected ? bspcData.totalExpected :'' }}</td>
+                            <td >{{cropda && cropda.field_location ? cropda.field_location :'0' }}</td>                          
+                            <td >{{cropda && cropda.expected_inspection_from ? cropda.expected_inspection_from :'0' }}</td>
+                            <td >{{cropda && cropda.expected_inspection_to ? cropda.expected_inspection_to :'0' }}</td>
+                            <td >{{cropda && cropda.expected_harvest_from ? cropda.expected_harvest_from :'0' }}</td>
+                            <td >{{cropda && cropda.expected_harvest_to ? cropda.expected_harvest_to :'0' }}</td>
+                            <td >{{cropda && cropda.expected_availbility ? cropda.expected_availbility :'0' }}</td>
+                            <td >{{cropda && cropda.location_availbility_seed ? cropda.location_availbility_seed :'0' }}</td>
+                           
+                          </tr>
+                        </ng-container>
+                        </ng-container>
+                      </ng-container>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div style="display: none;" >
+            <div class="list-wrapper px-4 py-3" id="excel-tables-export">
+              
+              <div class="row d-none d-md-flex data-row-header extra-header">
+                <div class="col-2 col-md-2 py-3 d-flex verticle-content-middle">
+                </div>
+                <div class="col-8 col-md-8 py-3 d-flex justify-content-center">
+
+                  <span>BSP II (Production Schedule and Availability of Breeder Seed)</span>
+                </div>
+                <div class="col-2 col-md-2 py-3 d-flex verticle-content-middle">
+                </div>
+              </div>
+             
+              
+              <br>
+              <div class="row d-none d-md-flex data-row-header">
+                <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle">Year of Indent :
+                  {{year?getFinancialYear(year):'NA'}}
+                </div>
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Season :
+                  {{season&&(season=='R')?'RABI' :(season=='K') ? 'Kharif':'NA'}}
+                </div>
+                <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle">Crop Type :
+                  {{crop_type&&(crop_type=='A')?'Agriculture':(crop_type=='H')?'Horticulture':""}}
+                </div>
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Unit:
+                  {{crop_type&&(crop_type=='A')?'Quintal':(crop_type=='H')?'Kg':""}}
+                </div>
+                
+                
+  
+                <div class="col-6 col-md-2 py-3  d-flex justify-content-end">As on Date: {{todayData
+                  | date:"dd-MM-YYYY"}}
+                </div>
+              </div>
+              <div class="middle_line"></div>
+              <div class="row data-row">
+                <table class="table table-bordered table-responsive" style="text-align: center;">
+                  <thead>
+                    <tr class="data-row-header">
+                      <th scope="col" class="col-1 py-2">S/N</th>
+                      <th scope="col" class="col-1 py-2">Crop Name</th>
+                      <th scope="col" class="col-1 py-2">Variety</th>
+                      <th scope="col" class="col-1 py-2">Total Indented Quantity</th>
+                      <th scope="col" class="col-1 py-2">BSPCs Allocated for Production</th>
+                      <th scope="col" class="col-1 py-2">Targeted Quantity</th>
+                      <th scope="col" class="col-1 py-2">Area Sown (Ha)</th>
+                      <th scope="col" class="col-1 py-2">Expected Production</th>
+                      <th scope="col" class="col-1 py-2">Total Expected Production</th>
+                      <th scope="col" class="col-1 py-2">Field Location</th>
+                      <th scope="col" class="col-1 py-2">Expected Inspection Period (From)</th>
+                      <th scope="col" class="col-1 py-2">Expected Inspection Period (To)</th>
+                      <th scope="col" class="col-1 py-2">Expected Date of  Harvest (From)</th>
+                      <th scope="col" class="col-1 py-2">Expected Date of  Harvest (To)</th>
+
+                      <th scope="col" class="col-1 py-2">Expected Date of Availability</th>
+                      <th scope="col" class="col-1 py-2">Location of Availability of Seed</th>
+                    </tr>
+                  </thead>
+                  <tbody >
+                    <ng-container *ngFor="let data of data1; let dataIndex=index">
+                        <ng-container *ngFor="let bspcData of data.variety; let bspcIndex=index">
+                        <ng-container *ngFor="let cropda of bspcData.bspc; let cropIndex=index">
+
+                          <tr>
+                            <td *ngIf="bspcIndex == 0 && cropIndex==0" [attr.rowspan]="data.totalCount">{{ dataIndex + 1 }}.</td>
+                            <td *ngIf="bspcIndex == 0 && cropIndex==0" [attr.rowspan]="data.totalCount">{{data && data.crop_name ? data.crop_name :'' }}</td>
+                            <td *ngIf=" cropIndex==0" [attr.rowspan]="bspcData.spa_count"  >{{bspcData && bspcData.variety_name ? bspcData.variety_name :'' }}</td>
+                            <td *ngIf=" cropIndex==0"  [attr.rowspan]="bspcData.spa_count">{{bspcData && bspcData.indent_quantity ? bspcData.indent_quantity :'' }}</td>
+                            <td >{{cropda && cropda.name ? cropda.name :'' }}</td>
+                            <td >{{cropda && cropda.quantity_of_seed_produced ? cropda.quantity_of_seed_produced :'' }}</td>
+                            <td >{{cropda && cropda.area ? cropda.area :'' }}</td>
+                            <td >{{cropda && cropda.expected_production ? cropda.expected_production :'' }}</td>
+                            <td *ngIf=" cropIndex==0"  [attr.rowspan]="bspcData.spa_count">{{bspcData && bspcData.totalExpected ? bspcData.totalExpected :'' }}</td>
+                            <td >{{cropda && cropda.field_location ? cropda.field_location :'0' }}</td>                          
+                            <td >{{cropda && cropda.expected_inspection_from ? cropda.expected_inspection_from :'0' }}</td>
+                            <td >{{cropda && cropda.expected_inspection_to ? cropda.expected_inspection_to :'0' }}</td>
+                            <td >{{cropda && cropda.expected_harvest_from ? cropda.expected_harvest_from :'0' }}</td>
+                            <td >{{cropda && cropda.expected_harvest_to ? cropda.expected_harvest_to :'0' }}</td>
+                            <td >{{cropda && cropda.expected_availbility ? cropda.expected_availbility :'0' }}</td>
+                            <td >{{cropda && cropda.location_availbility_seed ? cropda.location_availbility_seed :'0' }}</td>
+                           
+                          </tr>
+                        </ng-container>
+                        </ng-container>
+                      </ng-container>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- table for exel Download end -->
+  
+          <div *ngIf="is_search" class="col-12 px-4" id="excel-table">
+            <div class="list-wrapper px-4 py-3">
+              <div class="row d-none d-md-flex data-row-header extra-header">
+                <div class="col-2 col-md-2 py-3 d-flex verticle-content-middle">
+                </div>
+                <div class="col-8 col-md-8 py-3 d-flex justify-content-center">
+                  <span>BSP II (Production Schedule and Availability of Breeder Seed)</span>
+                </div>
+                <div class="col-2 col-md-2 py-3 d-flex verticle-content-middle">
+                </div>
+              </div>
+              <br>
+              <div class="row d-none d-md-flex data-row-header">
+                <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle">Year of Indent :
+                  {{year?getFinancialYear(year):'NA'}}
+                </div>
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Season :
+                  {{season&&(season=='R')?'RABI' :(season=='K') ? 'Kharif':'NA'}}
+                </div>
+                <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle">Crop Type :
+                  {{crop_type&&(crop_type=='A')?'Agriculture':(crop_type=='H')?'Horticulture':""}}
+                </div>
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Unit:
+                  {{crop_type&&(crop_type=='A')?'Quintal':(crop_type=='H')?'Kg':""}}
+                </div>
+                
+                
+  
+                <div class="col-6 col-md-2 py-3  d-flex justify-content-end">As on Date: {{todayData
+                  | date:"dd-MM-YYYY"}}
+                </div>
+              </div>
+              <div class="middle_line"></div>
+              <div class="row data-row">
+                <table class="table table-bordered table-responsive" style="text-align: center;">
+                  <thead>
+                    <tr class="data-row-header">
+                      <th scope="col" class="col-1 py-2">S/N</th>
+                      <th scope="col" class="col-1 py-2">Crop Name</th>
+                      <th scope="col" class="col-1 py-2">Variety</th>
+                      <th scope="col" class="col-1 py-2">Total Indented Quantity</th>
+                      <th scope="col" class="col-1 py-2">BSPCs Allocated for Production</th>
+                      <th scope="col" class="col-1 py-2">Targeted Quantity</th>
+                      <th scope="col" class="col-1 py-2">Area Sown (Ha)</th>
+                      <th scope="col" class="col-1 py-2">Expected Production</th>
+                      <th scope="col" class="col-1 py-2">Total Expected Production</th>
+                      <th scope="col" class="col-1 py-2">Field Location</th>
+                      <th scope="col" class="col-1 py-2">Expected Inspection Period (From)</th>
+                      <th scope="col" class="col-1 py-2">Expected Inspection Period (To)</th>
+                      <th scope="col" class="col-1 py-2">Expected Date of  Harvest (From)</th>
+                      <th scope="col" class="col-1 py-2">Expected Date of  Harvest (To)</th>
+
+                      <th scope="col" class="col-1 py-2">Expected Date of Availability</th>
+                      <th scope="col" class="col-1 py-2">Location of Availability of Seed</th>
+                    </tr>
+                  </thead>
+                  <tbody >
+                    <ng-container *ngFor="let data of data1; let dataIndex=index">
+                        <ng-container *ngFor="let bspcData of data.variety; let bspcIndex=index">
+                        <ng-container *ngFor="let cropda of bspcData.bspc; let cropIndex=index">
+
+                          <tr>
+                            <td *ngIf="bspcIndex == 0 && cropIndex==0" [attr.rowspan]="data.totalCount">{{ dataIndex + 1 }}.</td>
+                            <td *ngIf="bspcIndex == 0 && cropIndex==0" [attr.rowspan]="data.totalCount">{{data && data.crop_name ? data.crop_name :'' }}</td>
+                            <td *ngIf=" cropIndex==0" [attr.rowspan]="bspcData.spa_count"  >{{bspcData && bspcData.variety_name ? bspcData.variety_name :'' }}</td>
+                            <td *ngIf=" cropIndex==0"  [attr.rowspan]="bspcData.spa_count">{{bspcData && bspcData.indent_quantity ? bspcData.indent_quantity :'' }}</td>
+                            <td >{{cropda && cropda.name ? cropda.name :'' }}</td>
+                            <td >{{cropda && cropda.quantity_of_seed_produced ? cropda.quantity_of_seed_produced :'' }}</td>
+                            <td >{{cropda && cropda.area ? cropda.area :'' }}</td>
+                            <td >{{cropda && cropda.expected_production ? cropda.expected_production :'' }}</td>
+                            <td *ngIf=" cropIndex==0"  [attr.rowspan]="bspcData.spa_count">{{bspcData && bspcData.totalExpected ? bspcData.totalExpected :'' }}</td>
+                            <td >{{cropda && cropda.field_location ? cropda.field_location :'0' }}</td>                          
+                            <td >{{cropda && cropda.expected_inspection_from ? cropda.expected_inspection_from :'0' }}</td>
+                            <td >{{cropda && cropda.expected_inspection_to ? cropda.expected_inspection_to :'0' }}</td>
+                            <td >{{cropda && cropda.expected_harvest_from ? cropda.expected_harvest_from :'0' }}</td>
+                            <td >{{cropda && cropda.expected_harvest_to ? cropda.expected_harvest_to :'0' }}</td>
+                            <td >{{cropda && cropda.expected_availbility ? cropda.expected_availbility :'0' }}</td>
+                            <td >{{cropda && cropda.location_availbility_seed ? cropda.location_availbility_seed :'0' }}</td>
+                           
+                          </tr>
+                        </ng-container>
+                        </ng-container>
+                      </ng-container>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+  
+          <div *ngIf="!is_search" class="px-2 py-3 w-100 pt-2">
+            <div class="d-flex verticle-content-middle justify-content-center w-100">
+              {{isSearchMsg}}
+            </div>
+          </div>
+  
+          <div *ngIf="data1 && data1.length <1 && is_search" class="px-2 py-3 w-100" style="height: 50px;">
+            <div class="d-flex verticle-content-middle justify-content-center w-100">
+              No Data Found.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

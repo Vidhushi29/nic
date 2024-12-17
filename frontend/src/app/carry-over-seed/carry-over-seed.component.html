@@ -1,0 +1,830 @@
+<!-- <p>breeder-seed-inventory works!</p> -->
+<div class="main-inventory">
+
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12 title-inventory pl-2 pb-3 pt-0">
+            <div class="col-xl-12 col-md-10 col-sm-10 " style="font: normal Poppins 600 20px/30px;
+            letter-spacing: 0px;
+            font-weight: bold;
+            font-size: 20px;
+            color: #1C1C1C;">
+                {{tittle}}
+            </div>
+            
+         
+            <form [formGroup]="ngForm">
+                <br>
+                <div class="col-12">
+                    <div class="row px-2 pt-1 pb-1">
+                        <div class="col-lg-8 col-md-12 col-12">
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2 col-md-2 col-lg-3 mb-2 mb-md-0">
+                                    <div class="form-check">
+                                        <!-- checked -->
+                                        <!-- [checked]="ngForm.controls['willing_to_produce'].value=='yes'" -->
+                                        <input class="radio-button form-check-input radio-btn" name="notifiedValue"
+                                            type="radio" (change)="productionTypeValue('NORMAL')" [ngClass]="isDisableNormal?'disableField':''" [disabled]="isDisableNormal" id="flexRadioDefault1"
+                                            value="non-notified" >
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Normal Varieties
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- [(ngModel)]="notifiedValue" -->
+                                <!-- checked -->
+                                <!-- [checked]="ngForm.controls['willing_to_produce'].value=='no' && ngForm.controls['variety'].value" -->
+                                <div class="col-md-2 col-sm-2 col-md-2 col-lg-3 pl-lg-5 pl-md-5 pl-sm-2 ">
+                                    <div class="form-check">
+                                        <input class="radio-button form-check-input radio-btn" name="notifiedValue"
+                                            type="radio" (change)="productionTypeValue('DELAY')"[ngClass]="isDisableDelay?'disableField':''" [disabled]="isDisableDelay" id="flexRadioDefault2" >
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                            Delayed Varieties
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-md-2 col-lg-3 pl-lg-5 pl-md-5 pl-sm-2 ">
+                                    <div class="form-check">
+                                        <input class="radio-button form-check-input radio-btn" name="notifiedValue"
+                                            type="radio" (change)="productionTypeValue('REALLOCATION')"[ngClass]="isDisableNormalReallocate?'disableField':''" [disabled]="isDisableNormalReallocate" id="flexRadioDefault2">
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                            Reallocated Varieties
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 col-sm-1 col-md-1 col-lg-1 ">
+                                    <!-- form-button btn-inventory search d-inline-flex justify-content-center verticle-content-middle mb-3 -->
+                                    <button (click)="resetRadioBtn()"
+                                        class="btn-reset w-50 search text-white inline-flex justify-content-center verticle-content-middle" title="Reset"><i class="fa fa-refresh" style="font-size:20px;color:rgb(255, 255, 255)"></i>
+                                    </button>
+                                    <!-- (click)="search()" -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- first card ui  -->
+
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="row card-inventory form-group">
+
+                        <!-- start sectio 1  -->
+                        <div *ngIf="!showetailsPage"
+                            [ngClass]="!showDetsails ? 'col-12 col-md-12 col-lg-12 col-xl-10 pt-4 pb-xl-3':'col-12 col-xl-10 col-md-12 col-lg-12 pt-4'">
+                            <div class="row">
+                                <!-- year of indent -->
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-4 col-sm-12 ">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="year" class="label-inventory required">Year of Indent</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <select formControlName="year"
+                                                [ngClass]="(is_update ||showAddMoreInthisVariety) ? ' form-control input-inventory disableField':'form-control input-inventory'">
+                                                <option value="">Please Select Year of Indent</option>
+                                                <option *ngFor="let data of yearOfIndent"
+                                                    value="{{data && data.year ? data.year :''}}">{{data && data.year ?
+                                                    getFinancialYear(data.year) :''}}</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- season  -->
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="year" class="label-inventory required">Season</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <select formControlName="season"
+                                                [ngClass]="(is_update || showAddMoreInthisVariety) ? 'form-control input-inventory disableField':'form-control input-inventory'">
+                                                <option value="">Please Select Season</option>
+                                                <option *ngFor="let data of seasonlist"
+                                                    value="{{data && data.season ? data.season :'' }}">{{data &&
+                                                    data.season && (data.season=='K') ? 'Kharif' :(data.season=='R')
+                                                    ?'Rabi':'' }}</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- crop -->
+                                <div class="col-12 col-md-12 col-xl-4 col-lg-12 col-sm-12 ">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="year" class="label-inventory required">Crop</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <div ngbDropdown class="  w-100 "
+                                                [ngClass]="(is_update||showAddMoreInthisVariety) ? 'disableFields':''">
+                                                <button
+                                                    class="btn takeplacholder input-inventory w-100 crop toggle-button"
+                                                    id="crop" ngbDropdownToggle style="text-align: left;">{{selectCrop
+                                                    &&
+                                                    (selectCrop.length>25) ?
+                                                    (selectCrop.substring(0,25)+'...'):selectCrop?
+                                                    selectCrop :'Select Crop
+                                                    '}}</button>
+                                                <div class="dropdown-menu w-100" ngbDropdownMenu="crop"
+                                                    aria-labelledby="sortMenu">
+                                                    <input type="text" class="form-control px-4"
+                                                        formControlName="crop_text">
+                                                    <button class="dropdown-item" *ngFor="let item of cropList"
+                                                        (click)="crop(item)" #dropdownItem
+                                                        [attr.data-parent-name]="'crop'">
+                                                        {{item && item.crop_name ? item.crop_name:''}}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <i class="fa-solid fa-angle-down downicon" (click)="cClick()"></i>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-lg-12 col-sm-12 col-xl-2 pt-xl-1 px-2" *ngIf="!showetailsPage">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 d-xl-block d-lg-none d-md-block d-sm-none">
+                                    <p><span style="color:transparent;">.</span></p>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-lg-4 pl-md-3 pt-lg-2 mt-lg-1">
+                                    <!-- form-button btn-inventory search d-inline-flex justify-content-center verticle-content-middle mb-3 -->
+                                    <button (click)="getBsp2List()"
+                                        class="btn-inventory w-100 search text-white inline-flex justify-content-center verticle-content-middle">Search</button>
+                                    <!-- (click)="search()" -->
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-12 col-md-10 col-lg-12 pt-1 d-lg-none p-3 d-md-block d-sm-block "
+                            *ngIf="isSearch">
+                            <div class="row">
+
+                                <div class="col-12 col-md-6 col-lg-3 col-sm-6 nowrap">
+                                    <label class="label-inventory-v2 ">Total Varieties:&nbsp;</label>
+                                    <span>{{response && response.totalVarieties ? response.totalVarieties :0 }}</span>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-3 col-sm-6 nowrap">
+                                    <label class="label-inventory-v2">Total Targeted Quantity({{unit}}) </label>
+                                    <span> {{response && response.total_targeted_quantity ?
+                                        (response.total_targeted_quantity):0
+                                        }}</span>
+
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-3  col-sm-6 nowrap">
+                                    <label class="label-inventory-v2">Varieties (National):</label>
+                                    <span> {{response && response.varities_national ?
+                                        (response.varities_national)
+                                        :0 }}</span>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-2  col-sm-6 nowrap">
+                                    <label class="label-inventory-v2">Target Quantity (National)({{unit}}):</label>
+                                    <span> {{response && response.total_quantity_national ?
+                                        (response.total_quantity_national) :0 }}</span>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-2  col-sm-6 nowrap">
+                                    <label class="label-inventory-v2">Varieties (Additional):</label>
+                                    <span> {{response && response.varities_direct ?
+                                        (response.varities_direct)
+                                        :0 }}</span>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-2  col-sm-6 nowrap">
+                                    <label class="label-inventory-v2">Target Quantity (Additional)({{unit}}):</label>
+                                    <span> {{response && response.total_quantity_direct ?
+                                        (response.total_quantity_direct)
+                                        :0 }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-lg-inline-flex pt-2 pl-2 d-md-none d-sm-none d-none" *ngIf="isSearch">
+                            <div class="p-2"> <label class="label-inventory-v2 ">Total Varieties:
+                                </label>
+                                <span> {{response && response.totalVarieties ? response.totalVarieties :0 }}</span>
+                            </div>
+                            <div class="p-2"><label class="label-inventory-v2">Total Targeted Quantity({{unit}}):
+
+                                </label>
+                                <span> {{response && response.total_targeted_quantity ?
+                                    (response.total_targeted_quantity)
+                                    :0
+                                    }}</span>
+                            </div>
+                            <div class="p-2"> <label class="label-inventory-v2 ">Varieties (National):
+                                </label>
+                                <span> {{response && response.varities_national ?
+                                    (response.varities_national)
+                                    :0 }}</span>
+                            </div>
+                            <div class="p-2"> <label class="label-inventory-v2 ">Target Quantity (National)({{unit}}):
+                                </label>
+                                <span> {{response && response.total_quantity_national ?
+                                    (response.total_quantity_national)
+                                    :0 }}</span>
+                            </div>
+                            <div class="p-2"> <label class="label-inventory-v2 ">Varieties (Additional):
+                                </label>
+                                <span> {{response && response.varities_direct ? response.varities_direct :0 }}</span>
+                            </div>
+                            <div class="p-2">
+                                <label class="label-inventory-v2">Target Quantity (Additional) ({{unit}}):</label>
+                                <span> {{response && response.total_quantity_direct ?
+                                    (response.total_quantity_direct) :0
+                                    }}</span>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+
+                <!--  Second Card ui   *ngIf="showDetsails && showSecondCard" *ngIf="showDetsails && showSecondCard"-->
+                <div class="col-12 pt-0" >
+                    <div class="row card-inventory form-group">
+                        <div class="col-xl-3 col-12   pt-3 pb-3"
+                            *ngIf="(!showetailsPage  && isSearch && Variety.length>0)||editDataValue">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="year" class="label-inventory ">Variety</label>
+                                </div>
+                                <div class="col-12"
+                                    [ngClass]="(is_update||showAddMoreInthisVariety) ? 'disableFields':''">
+                                    <div ngbDropdown class="d-inline-block w-100 ">
+                                        <button class="btn takeplacholder input-inventory w-100 crop toggle-button"
+                                            id="variety" ngbDropdownToggle style="text-align: left;">{{selectVariety &&
+                                            (selectVariety.length>30) ?
+                                            (selectVariety.substring(0,30)+'...'):selectVariety?
+                                            selectVariety :'Select Variety
+                                            '}}</button>
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop"
+                                            aria-labelledby="sortMenu">
+                                            <input type="text" class="form-control px-4" formControlName="vaiety_text">
+                                            <button class="dropdown-item" *ngFor="let item of VarietyList"
+                                                (click)="variety(item)" #dropdownItem
+                                                [attr.data-parent-name]="'variety'">
+                                                {{item && item.display_text ? item.display_text:''}}
+                                            </button>
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown>
+                                            <i class="fa-solid fa-angle-down downicon" (click)="vClick()"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-xl-2 col-12   pt-3 pb-3"
+                            *ngIf="(!showetailsPage  && isSearch && Variety.length>0 && parentalList && parentalList.length>0 )||(editDataValue && showparental )">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="year" class="label-inventory ">Parental Line</label>
+                                </div>
+                                <div class="col-12" [ngClass]="is_update ? 'disableFields':''">
+
+                                    <div ngbDropdown class="d-inline-block w-100 ">
+                                        <button class="btn takeplacholder input-inventory w-100 crop toggle-button"
+                                            id="parental" ngbDropdownToggle style="text-align: left;">{{selectParental
+                                            &&
+                                            (selectParental.length>30) ?
+                                            ((selectParental.substring(0,30).toUpperCase())+'...'):selectParental?
+                                            selectParental.toUpperCase():'Select Parental line
+                                            '}}</button>
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="parental"
+                                            aria-labelledby="sortMenu">
+                                            <input type="text" class="form-control px-4"
+                                                formControlName="parental_text">
+                                            <button class="dropdown-item" *ngFor="let item of parentalListData"
+                                                (click)="parentalData(item)" #dropdownItem
+                                                [attr.data-parent-name]="'parental'">
+                                                {{item && item.display_text ? (item.display_text.toUpperCase()):''}}
+                                            </button>
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown>
+                                            <i class="fa-solid fa-angle-down downicons" (click)="pClick()"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div [ngClass]="showparental ? 'col-md-6 col-xl-7   pl-0 pb-3 pt-xl-4 mt-xl-2 d-xl-block d-lg-none d-sm-none d-md-none':'col-md-6 col-xl-9   pl-0 pb-3 pt-xl-4 mt-xl-2 d-xl-block d-lg-none d-sm-none d-md-none'"
+                            *ngIf="showFirstDetailsPage && showVarietyDetails && Variety.length>0 && !showparental && ngForm.controls['variety'].value||(editDataValue && !showparental && ngForm.controls['variety'].value) ">
+
+                            <div class="d-xl-inline-flex pl-1 pt-3">
+                                <div class="pl-2">
+                                    <label class="label-inventory-v2">Target Quantity (National)({{unit}}):</label>
+                                    <span> {{responseList && responseList.total_quantity_national ?
+                                        responseList.total_quantity_national:0}}</span>
+                                </div>
+                                &nbsp;+ &nbsp;
+                                <div class=""> <label class="label-inventory-v2 ">Target Quantity (Additional)
+                                        ({{unit}}):
+                                    </label>
+                                    <span> {{responseList && responseList.total_quantity_direct ?
+                                        responseList.total_quantity_direct:0}}
+                                    </span>
+                                </div>
+                                &nbsp; &nbsp;=
+                                <div class="pl-2" style="color:red">
+                                    <label class="label-inventory-v2" style="color:red">Total Targeted
+                                        Quantity({{unit}}):</label>
+                                    <span> {{responseList && responseList.quantity_targeted ?
+                                        responseList.quantity_targeted :0 }}</span>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div [ngClass]="showparental ? 'col-md-6 col-xl-7   pl-0 pb-3 pt-xl-4 mt-xl-2 d-xl-block d-lg-none d-sm-none d-md-none':'col-md-6 col-xl-9   pl-0 pb-3 pt-xl-4 mt-xl-2 d-xl-block d-lg-none d-sm-none d-md-none'"
+                            *ngIf="showFirstDetailsPage && showVarietyDetails && Variety.length>0 && showparental && ngForm.controls['variety'].value && ngForm.controls['variety_line_code'].value ||(editDataValue && showparental) ">
+
+                            <div class="d-xl-inline-flex pl-1 pt-3">
+                                <div class="pl-1">
+                                    <label class="label-inventory-v2">Target Quantity (National)({{unit}}):</label>
+                                    <span> {{responseList && responseList.total_quantity_national ?
+                                        responseList.total_quantity_national:0}}</span>
+                                </div>
+                                &nbsp;+&nbsp;
+                                <div class=""> <label class="label-inventory-v2 "> Target Quantity (Additional)
+                                        ({{unit}}):
+                                    </label>
+                                    <span> {{responseList && responseList.total_quantity_direct ?
+                                        responseList.total_quantity_direct:0}}
+
+                                    </span>
+                                </div>
+                                &nbsp;=
+                                <div class="pl-2" style="color:red">
+                                    <label class="label-inventory-v2" style="color:red">Total Targeted
+                                        Quantity({{unit}}):</label>
+                                    <span> {{responseList && responseList.quantity_targeted ?
+                                        responseList.quantity_targeted :0 }}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-xl-9 col-12"
+                            *ngIf="(parentalList && parentalList.length>0 && ngForm.controls['variety_line_code'].value)||(parentalList && parentalList.length<1 && VarietyList && VarietyList.length>0 && ngForm.controls['variety'].value)|| editDataValue">
+                            <div class="row">
+                                <!-- Quantity of Nucleus Seed Available -->
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-4 col-sm-12 ">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="year" class="label-inventory ">Quantity of Nucleus Seed
+                                                Available({{unit}})</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input type="text" class="form-control input-inventory disableField"
+                                                formControlName="qty_of_nucleus_seed">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Quantity of Breeder Seed Available  -->
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="year" class="label-inventory ">Quantity of Breeder Seed
+                                                Available({{unit}})</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input type="text" class="form-control input-inventory disableField"
+                                                formControlName="qty_of_breeeder_seed">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Permission received for B/S-B/S production -->
+                                <div class="col-12 col-md-12 col-xl-4 col-lg-12 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="year" class="label-inventory ">Permission received for B/S-B/S
+                                                production</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input type="text" class="form-control input-inventory disableField"
+                                                formControlName="permission_of_production">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-12 pt-3"
+                            *ngIf="(parentalList && parentalList.length>0 && ngForm.controls['variety_line_code'].value)||(parentalList && parentalList.length<1 && VarietyList && VarietyList.length>0 && ngForm.controls['variety'].value)|| (editDataValue )">
+                            <div class="row no-gutters">
+                                <div class="col-xl-3 col-md-6  col-12">
+                                    <div class="form-group">
+                                        <span class="label-inventory">Meet target requirement using:</span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-auto col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>
+                                            <input type="radio" name="option" value="1" (click)="setmeettarget(1)"
+                                                [checked]="ngForm.controls['meet_target'].value==1" [disabled]="is_update" [ngClass]="(is_update) ? 'disableField':''">
+                                            <span class="label-inventory pl-2 radiotext">Only Carry-over seeds</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-xl-auto col-md-12 pl-xl-3 col-12">
+                                    <div class="form-group pl-xl-5">
+                                        <label>
+                                            <input type="radio" name="option" value="2" (click)="setmeettarget(2)"
+                                                [checked]="ngForm.controls['meet_target'].value==2" [disabled]="is_update">
+                                            <span class="label-inventory pl-2 radiotext">Partly Carry-over and partly Fresh
+                                                Production</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-xl-auto pl-xl-3  col-md-12 col-12">
+                                    <div class="form-group pl-xl-5">
+                                        <label>
+                                            <input type="radio" name="option" value="3" (click)="setmeettarget(3)"
+                                                [checked]="ngForm.controls['meet_target'].value==3" [ngClass]="(is_update) ? 'disableField':''" [disabled]="is_update">
+                                            <span class="label-inventory pl-2 radiotext">Only Fresh Production</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12"
+                            *ngIf="(parentalList && parentalList.length>0 && ngForm.controls['variety_line_code'].value && ngForm.controls['meet_target'].value!=3)||(parentalList && parentalList.length<1 && VarietyList && VarietyList.length>0 && ngForm.controls['variety'].value &&  ngForm.controls['meet_target'].value!=3)|| (editDataValue &&  ngForm.controls['meet_target'].value!=3)">
+                            <div class="table-details ">
+                                <table class="table  table-bordered table-responsive-sm  pt-3"
+                                    formArrayName="carry_over">
+                                    <thead class="data-row-header">
+                                        <tr>
+                                            <th scope="col" class="col-md-2">Class</th>
+                                            <th scope="col" class="col-md-1">Stage</th>
+                                            <th scope="col" class="col-md-1">Year</th>
+                                            <th scope="col" class="col-md-1">Season</th>
+                                            <th scope="col" class="col-md-2">Lot No. (bag size in kg)</th>
+                                            <th scope="col" class="col-md-2">Tag No.</th>
+                                            <th scope="col" class="col-md-1">Quantity available ({{unit}})</th>
+                                            <th scope="col" class="col-md-1">Quantity to be used ({{unit}})</th>
+                                            <th scope="col" class="col-md-3">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <ng-container>
+                                        <tr *ngFor="let ele of employees().controls; let i = index" [formGroupName]="i">
+
+                                            <td *ngIf="ngForm.controls['carry_over']['controls'][i]['controls'].show_class.value==false">
+                                                <select  class=" form-control input-inventory secondpagetd"
+                                                    formControlName="class_of_seed" (ngModelChange)="getStageList(i)">
+                                                    <option value="">Please Select Class of Seed
+                                                    </option>
+                                                    <option *ngFor="let data of classOfSeed" value="{{data && data.id ? data.id :''}}" >
+                                                        {{data && data.class_type ? data.class_type :''}}
+                                                    </option>
+                                                </select>
+                                               
+                                            </td>
+                                            <td  *ngIf="ngForm.controls['carry_over']['controls'][i]['controls'].show_class.value==true">
+                                                <input type="text" value="Breeder Seed" 
+                                                    class="form-control disableField">
+                                                </td>
+                                            <td>                                              
+                                                <select class=" form-control input-inventory secondpagetd"
+                                                    formControlName="stage" (ngModelChange)="getSeedInventoYear(i)">
+                                                    <option value="">Please Select Stage
+                                                    </option>
+                                                    <option *ngFor="let data of  ngForm.controls['carry_over']['controls'][i]['controls'].stage.stageList"
+                                                        value="{{data && data.value ? data.value :''}}">
+                                                        {{data
+                                                        && data.display_text ?
+                                                        (data.display_text|uppercase)
+                                                        :''}}
+                                                    </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class=" form-control input-inventory secondpagetd"
+                                                    formControlName="year" (ngModelChange)="getSeedInventoSeason(i)">
+                                                    <option value="">Please Select Year
+                                                    </option>
+                                                    <option
+                                                        *ngFor="let data of  ngForm.controls['carry_over']['controls'][i]['controls'].year.yearList"
+                                                        value="{{data && data.value ? data.value :''}}">
+                                                        {{data
+                                                        && data.display_text ?
+                                                        (data.display_text|uppercase)
+                                                        :''}}
+                                                    </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class=" form-control input-inventory secondpagetd"
+                                                    formControlName="season" (ngModelChange)="getLotNo(i)">
+                                                    <option value="">Please Select Season
+                                                    </option>
+                                                    <option
+                                                        *ngFor="let data of  ngForm.controls['carry_over']['controls'][i]['controls'].season.seasonList"
+                                                        value="{{data && data.season ? data.season :''}}">
+                                                        {{data
+                                                        && data.display_text ?
+                                                        (data.display_text|uppercase)
+                                                        :''}}
+                                                    </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class=" form-control input-inventory secondpagetd"
+                                                    formControlName="lot_no" (ngModelChange)="getTagNo(i)">
+                                                    <option value="">Please Select Lot No
+                                                    </option>
+                                                    <option
+                                                        *ngFor="let data of  ngForm.controls['carry_over']['controls'][i]['controls'].lot_no.lotNoList"
+                                                        value="{{data && data.lot_id ? data.lot_id :''}}">
+                                                        {{data
+                                                        && data.display_text ?
+                                                        (data.display_text|uppercase)
+                                                        :''}} ({{data && data.bag_size ? data.bag_size :''}})
+                                                    </option>
+                                                </select>
+                                            </td>
+                                            <td class="secondpagetd">
+                                                <ng-multiselect-dropdown [settings]="dropdownSettings"
+                                                    [data]="ngForm.controls['carry_over']['controls'][i]['controls'].tag_no.tag_noList"
+                                                    formControlName="tag_no" [placeholder]="' Select Tag No '"
+                                                    (ngModelChange)="getValue(i)">
+                                                </ng-multiselect-dropdown>
+                                            </td>
+                                            <td>
+                                                <input type="number" formControlName="qty_available"
+                                                    class="form-control disableField">
+                                            </td>
+                                            <td>
+                                                <input type="number" formControlName="qty_recieved"
+                                                    class="form-control" (ngModelChange)="gettotalValue(i)"
+                                                    [ngClass]="ngForm.controls['carry_over']['controls'][i]['controls'].enableqty_recieved.value==true ? 'disableField':''"
+                                                    >
+                                            </td>
+                                            <td>
+                                                <button (click)="remove(i)" class="list-action-buttons-second"
+                                                    *ngIf="employees().controls.length!=1 ">
+                                                    <img src="assets/images/delete.png">
+                                                </button>
+                                                <button (click)="addMore(i)"
+                                                    *ngIf="employees().controls.length ==i+1"
+                                                    class="list-action-buttons-second ml-xl-2">
+                                                    <img src="assets/images/Add.png">
+                                                </button>
+                                            </td>
+
+                                        </tr>
+                                    </ng-container>
+
+
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12"
+                            *ngIf="(parentalList && parentalList.length>0 && ngForm.controls['variety_line_code'].value && ngForm.controls['meet_target'].value!=3)||(parentalList && parentalList.length<1 && VarietyList && VarietyList.length>0 && ngForm.controls['variety'].value &&  ngForm.controls['meet_target'].value!=3)||(editDataValue && ngForm.controls['meet_target'].value!=3)">
+                            <div class="row">
+                                <div class="col-12 col-md-6 col-lg-6 col-xl-3 col-sm-6">
+                                    <div class="row pb-2">
+                                        <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                            <label for="year" class="label-inventorys ">
+                                                Total Quantity to be used as carry-over ({{unit}})
+                                            </label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                            <input type="text" formControlName="total_breederseed"
+                                                class="form-control disableField">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-container>
+                            <div class="row pl-xl-4 pt-xl-3"
+                                *ngIf="(parentalList && parentalList.length>0 && ngForm.controls['variety_line_code'].value)||(parentalList && parentalList.length<1 && VarietyList && VarietyList.length>0 && ngForm.controls['variety'].value) || editDataValue">
+                                <div class="col-xl-4">
+
+                                    <button
+                                        class="btn-inventory-cancel search d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        style="border: 2px solid #B64B1D;" (click)="firstPageCancel()">Cancel</button>
+                                    <button
+                                        class="search pl-md-2 d-xl-none form-button text-white btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Submit</button>
+                                </div>
+                                <div class="col-xl-4 d-md-none d-lg-none d-sm-none pl-xl-5 d-xl-block">
+                                    <button (click)="saveForm()"
+                                        class="search form-button text-white btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">{{is_update
+                                        ?'Update': 'Save'}}</button>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <div class="col-12 col-xl-9  pl-xl-0 pb-3 d-xl-none d-lg-block" *ngIf="showFirstDetailsPage ">
+                            <div class="row">
+                                <div class="col-md-4 pt-md-3" style="white-space: nowrap;">
+                                    <label class="label-inventory-v2 ">Quantity Targeted ({{unit}}):
+                                    </label>
+                                    <span>{{responseList && responseList.quantity_targeted ?
+                                        responseList.quantity_targeted :0 }}</span>
+                                </div>
+                                <div class="col-md-4 pt-md-3 pl-2" style="white-space: nowrap;">
+                                    <label class="label-inventory-v2 " style="white-space: nowrap;">Target Quantity
+                                        (National) ({{unit}}):
+                                    </label>
+                                    <span>{{responseList && responseList.total_quantity_national ?
+                                        responseList.total_quantity_national:0}}</span>
+                                </div>
+                                <div class="col-md-4 pt-md-3 pl-2" style="white-space: nowrap;">
+                                    <label class="label-inventory-v2 " style="white-space: nowrap;">Target Quantity
+                                        (Additional) ({{unit}}):
+                                    </label>
+                                    <span>{{responseList && responseList.total_quantity_direct ?
+                                        responseList.total_quantity_direct:0}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- third card ui  -->
+
+                <div class="col-12 pt-0" *ngIf="isSearch">
+                    <div class="row card-inventory form-group">
+                        <div [ngClass]="freezeData ? 'd-none':'col-12 col-md-12 col-lg-9 col-sm-12 pt-3'"
+                            *ngIf="!freezeData">
+                            <div class="row">
+
+                                <div class="col-12">
+                                    <label for="year" class="label-inventory ">Variety</label>
+                                </div>
+                                <div class="col-lg-4 col-10">
+                                    <ng-multiselect-dropdown [settings]="dropdownSettings"
+                                        [data]="varietyListofBsp2list" formControlName="variety_level_2"
+                                        [placeholder]="' Select Variety '">
+                                    </ng-multiselect-dropdown>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="col-12 pt-3">
+                            <div class="row data-row">
+                                <table class="table table-responsive">
+                                    <thead>
+                                        <tr class="data-row-header">
+                                            <th scope="col"
+                                                class=" py-2 text-white  verticle-content-middle heading datalist"
+                                                style="white-space:pre">
+                                                S.No.
+                                            </th>
+                                            <th scope="col"
+                                                class="col-md-2 py-2 text-white  verticle-content-middle heading datalist">
+                                                Variety Details
+                                            </th>
+
+                                            <th scope="col" style="text-align:left!important"
+                                                class="col-md-2 py-2 text-white  verticle-content-middle heading datalist">
+                                                Total Target Qty. ({{unit}})
+                                            </th>
+                                            <th scope="col" style="text-align:left!important"
+                                                class="col-md-3 py-2 text-white  verticle-content-middle heading datalist ">
+                                                Seed Details
+                                            </th>
+                                            <th scope="col" style="text-align:left!important"
+                                                class="col-md-2 py-2 text-white  verticle-content-middle heading datalist">
+                                                Lot No.
+                                            </th>
+                                            <th scope="col" style="text-align:left!important"
+                                                class="col-md-2 py-2 text-white  verticle-content-middle heading datalist">
+                                                Tag No.
+                                            </th>
+                                            <th scope="col" style="min-width:8em;"
+                                                class="col-md-3 py-2 text-white  verticle-content-middle heading datalist">
+                                                Lot Quantity to be used ({{unit}})
+                                            </th>
+                                            <th scope="col" style="min-width:8em;"
+                                                class="col-md-3 py-2 text-white  verticle-content-middle heading datalist">
+                                                Total Qty to be used as Carry-over ({{unit}})
+                                            </th>
+                                            <th scope="col" style="min-width:8em;"
+                                                class="col-md-1 py-2 text-white  verticle-content-middle heading datalist">
+                                                Action
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-bordered" *ngIf="dummyData && dummyData.length>0">
+                                        <ng-container *ngFor="let data of dummyData; let dataIndex = index">
+                                            <ng-container
+                                                *ngFor="let item of data.seed_class_details; let varietyIndex = index">
+                                                <tr>
+                                            <td  *ngIf="varietyIndex==0" [attr.rowspan]="data.seed_class_details.length">{{dataIndex+1}}</td>
+                                            <td style="text-align:left"  *ngIf="varietyIndex==0" [attr.rowspan]="data.seed_class_details.length">
+                                                <span>Variety Name: <b class="font-weight-bold">{{data
+                                                       &&
+                                                        data.variety_name ?
+                                                        data.variety_name :'NA'}}</b></span><br>
+                                                <span>Parental Line: <b class="font-weight-bold">{{data &&
+                                                        
+                                                        data.line_variety_name ?
+                                                        (data.line_variety_name)
+                                                        :'NA'}}</b></span><br>
+                                            </td>
+                                            <td  *ngIf="varietyIndex==0" [attr.rowspan]="data.seed_class_details.length">
+                                                {{data && data.total_targeted_qty ? (data.total_targeted_qty.toFixed(2)):'NA'}}
+                                                </td>
+                                            <td style="text-align:left">
+                                                <span>Class: <b class="font-weight-bold">{{data && data.meet_target!=3 ? 'Breeder':'NA'}}</b></span><br>
+                                                <span>Stage: <b class="font-weight-bold">{{item &&
+                                                    item.stage ? getStage(item.stage) :'NA'}}</b></span><br>
+                                                <span>Year: <b class="font-weight-bold">{{data &&
+                                                    item.year ? getYearData(item.year) :'NA'}}</b></span><br>
+                                                <span>Season: <b class="font-weight-bold">{{data &&
+                                                    item.season ? getSeasonData(item.season) :'NA'}}</b></span><br>
+
+                                            </td>
+                                            <td>
+                                                <span>{{item && item.lot_no ? getLotNoData(item.lot_no):'NA'}}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{item && item.tag_no ? getTagNoData(item.tag_no):'NA'}}</span>
+                                            </td>
+                                            <td >
+                                                <span>{{item && item.quantity_recieved ? convertToQty(item.quantity_recieved):'NA'}}</span>
+                                            </td>
+                                            <td *ngIf="varietyIndex==0" [attr.rowspan]="data.seed_class_details.length">
+                                                <span>{{data && data.total_qty ? convertToQty(data.total_qty):'NA'}}</span>
+                                            </td>
+                                           
+                                            <td class="datalist" *ngIf="varietyIndex==0" [attr.rowspan]="data.seed_class_details.length">
+                                                        <button class="list-action-buttons-second"
+                                                            [ngStyle]="{'opacity':(data.is_freezed==1|| is_update ) ? '0.4':''}"
+                                                            (click)="editData(data && data.id ? data.id :'')"
+                                                            style="cursor: pointer;"
+                                                            [disabled]="(data.is_freezed==1|| is_update )">
+                                                            <img src="assets/images/Vector.svg">
+                                                        </button>
+                                                        <button
+                                                            class="list-action-buttons-second ml-lg-3 mt-sm-2 mt-md-2 "
+                                                            (click)="delete(data && data.id ? data.id :'',data.meet_target)"
+                                                            [disabled]="data.is_freezed==1 || is_update "
+                                                            style="cursor: pointer;"
+                                                            [ngStyle]="{'opacity':(data.is_freezed==1|| is_update )? '0.4':''}"
+                                                            >
+                                                            <img src="assets/images/Vector_delete.svg">
+                                                        </button>
+                                                    </td>
+
+                                                </tr>
+
+                                        </ng-container>
+                                        </ng-container>
+                                    </tbody>
+                                    <tbody *ngIf="dummyData && dummyData.length<1">
+                                        <tr>
+                                            <td colspan="8" style="text-align: center;">No Data Found</td>
+                                            <td colspan="4"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-2 px-0 px-md-3 py-1 pb-4 pr-0 ">
+
+                            <div class="col-12 pt-4 pl-0">
+                                <button [disabled]="(Variety.length!=0 && !freezeData )"
+                                    [ngClass]="(Variety.length==0 && !freezeData) ?'text-white form-button btn-inventory search d-inline-flex justify-content-center verticle-content-middle mb-3':'disableBtn'" (click)="finalizeData()">Submit</button>
+                                <!-- (click)="search()" -->
+                            </div>
+                        </div>
+                        <div class="col-12 px-4 px-md-0 py-1 pb-4 pr-0">
+                            <app-pagination-ui></app-pagination-ui>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

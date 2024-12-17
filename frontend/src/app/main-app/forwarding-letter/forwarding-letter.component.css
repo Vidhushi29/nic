@@ -1,0 +1,86 @@
+:root {
+    --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
+}
+
+@supports (font-variation-settings: normal) {
+    :root {
+        font-family: 'Inter var', sans-serif;
+    }
+}
+
+.main-inventory {
+    background-color: #B64B1D0D;
+    border: 1px #D2D2D2;
+    border-radius: 10px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    height: auto;
+    margin: 1%;
+    padding-left: 1.25%;
+    padding-right: 1.5%;
+    padding-bottom: 1%;
+    margin-left: 15px;
+    letter-spacing: 0px;
+    color: #000000;
+}
+
+.card-inventory {
+    width: auto;
+    height: auto;
+    /* border-radius: 10px; */
+    border: 2px solid #0000;
+    background: #FFFFFF;
+}
+
+hr.new2 {
+    border-top: 2px dashed #000000;
+}
+.border{
+    padding: 1%;
+    border: 2px solid #000000;
+}
+.btn-inventory1 { 
+    border-radius: 5px;
+    color: white;
+    border: none;
+    height: 37px;
+    outline: none;
+    background: #B64B1D;
+} 
+.table {
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+
+}
+
+.data-row-header {
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+    color: #FFFFFF;
+    letter-spacing: 0px;
+    font-size: 17px;
+    font-weight: 600;
+    background: #502411 0% 0% no-repeat padding-box;
+    /* background: #B64B1D 0% 0% no-repeat padding-box; */
+    /* margin: 0.2%; */
+}
+.data-row-header1{
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+    /* color: #FFFFFF; */
+    letter-spacing: 0px;
+    /* background: #B64B1D 0% 0% no-repeat padding-box; */
+}
+.data-row {
+    border: 1px solid #dcdcdc;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important; 
+    background-color: #FFFFFF;
+    margin: 0.2%;
+    margin-bottom:none !important;
+}
+.text-white{
+    font-size: 14px;
+    font-weight: 600;
+}

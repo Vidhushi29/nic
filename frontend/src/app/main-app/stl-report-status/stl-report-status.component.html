@@ -1,0 +1,360 @@
+<form [formGroup]="ngForm">
+    <div class="main-inventory my-4 w-90  pt-2">
+        <span class="title-inventory pt-3 ">
+            STL Report Status
+        </span>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 pt-2">
+            <div class="row card-inventory form-group  pt-2 pl-2 pr-2 pb-2 border">
+                <!-- start sectio 1 -->
+                <div class="col-12 col-md-10 col-lg-10 col-sm-10 mt-1">
+                    <div class="row">
+                        <div class="col-12 col-md-3 col-lg-3 col-sm-3">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Year of Indent</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="year">
+                                        <option value="">Select Year</option>
+                                        <option *ngFor="let data of yearDataList" value="{{data.year}}">
+                                            {{data.year}}-{{data.year-2000+1}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 col-lg-3 col-sm-3">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Season</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="season">
+                                        <option value="">Select Season</option>
+                                        <option *ngFor="let data of seasonDataList" value="{{data.season}}">
+                                            {{data.season_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 col-lg-3 col-sm-3">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Crop</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="crop">
+                                        <option value="">Select Crop</option>
+                                        <option *ngFor="let data of cropDataList" value="{{data.crop_code}}">
+                                            {{data.crop_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 col-lg-3 col-sm-3">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory ">Variety</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="variety">
+                                        <option value="">Select Variety</option>
+                                        <option *ngFor="let data of varietyDataList" value="{{data.variety_code}}">
+                                            {{data.variety_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-2 col-md-2 col-lg-2 pt-3 mt-1">
+                    <button (click)="searchData()"
+                        class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-3">Search</button>
+                </div>
+            </div>
+        </div>
+        <!-- start sectio 2 -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="formDivVisibile">
+            <div class="row card-inventory form-group  pl-2 pr-2">
+                <div class="div-heading col-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 pt-2 pb-2 verticle-content-middle"
+                    style="text-align: center;">
+                    <span class="text-white"><b>Crop Sample Details</b></span>
+                </div>
+                <div class="description-div pb-1 pt-1 pl-1 pr-1">
+                    <span><b>PS</b>:&nbsp;Pure Seed </span>&nbsp;&nbsp;
+                    <span><b>IM</b>:&nbsp;Inert Matter (%)</span>&nbsp;&nbsp;
+                    <span><b>WS</b>:&nbsp;Weed Seed (No/kg)</span>&nbsp;&nbsp;
+                    <span><b>M</b>:&nbsp;Moisture (%)</span>&nbsp;&nbsp;
+                    <span><b>OWS</b>:&nbsp;Objectionable Weed Seed(No/kg)</span>&nbsp;&nbsp;
+                    <span><b>OCS</b>:&nbsp;Other Crop Seed (%)</span>&nbsp;&nbsp;
+                    <span><b>NS</b>:&nbsp;Normal Seedlings (%)</span>&nbsp;&nbsp;
+                    <span><b>WS(P)</b>:&nbsp;Weed Seed (Purity)(%)</span>&nbsp;&nbsp;
+                    <span><b>OCP(P)</b>:&nbsp;Other Crop Seed (Purity)(%)</span>&nbsp;&nbsp;
+                    <span><b>AS</b>:&nbsp;Abnormal Seedlings (%)</span>&nbsp;&nbsp;
+                    <span><b>DS</b>:&nbsp;Dead Seed (%)</span>&nbsp;&nbsp;
+                    <span><b>HS</b>:&nbsp;Hard Seed (%)</span>&nbsp;&nbsp;
+                    <span><b>FS</b>:&nbsp;Fresh Ungerminated (%)</span>&nbsp;&nbsp;
+                    <span><b>ID</b>:&nbsp;Insect Damage(%)</span>&nbsp;&nbsp;
+                    <span><b>DIS</b>:&nbsp;Disease(%)</span>&nbsp;&nbsp;
+                    <span><b>ODV</b>:&nbsp;Other Distinguishable Varieties (%No/KG)</span>&nbsp;&nbsp;
+                    <span><b>NG</b>:&nbsp;Nematode GaPs(%)</span>&nbsp;&nbsp;
+                </div>
+            </div>
+        </div>
+
+        <!-- start sectio 3 -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 pt-1" *ngIf="formDivVisibile">
+            <div class="row card-inventory form-group  pt-1 pl-1 pr-1 pb-2">
+                <div class="col-12 col-md-12 col-lg-12 col-sm-12" style="text-align: center;overflow-x: auto;">
+                    <table class="table table-bordered">
+                        <thead class="table-header">
+                            <tr class="data-row-header">
+                                <th class="text-white table-left-header" style="white-space:nowrap;">S.No.</th>
+                                <th class="text-white" style="white-space:nowrap;">Sample Details</th>
+                                <th class="text-white" style="white-space:nowrap;">Testing Details</th>
+                                <th class="text-white" style="white-space:nowrap;">Physical Purity(% By Weight)</th>
+                                <th class="text-white" style="white-space:nowrap;">Determination By(No./Kg)</th>
+                                <th class="text-white" style="white-space:nowrap;">Germination(%)</th>
+                                <th class="text-white" style="white-space:nowrap;">SEED HEALTH(%)</th>
+                                <th class="text-white" style="white-space:nowrap;">Other</th>
+                                <th class="text-white table-right-header" style="white-space:nowrap;">Action</th>
+                            </tr>
+                        </thead>
+                        <!-- <thead class="table-header">
+                            <tr class="data-row-header">
+                                <th class="text-white table-left-header" style="white-space:nowrap;">S.No.</th>
+                                <th class="text-white" style="white-space:nowrap;">Sample Details</th>
+                                <th class="text-white" style="white-space:nowrap;">Testing Details</th>
+                                <th class="text-white" style="white-space:nowrap;">PS</th>
+                                <th class="text-white" style="white-space:nowrap;">IM</th>
+                                <th class="text-white" style="white-space:nowrap;">WS(P)</th>
+                                <th class="text-white" style="white-space:nowrap;">OC(P)</th>
+                                <th class="text-white" style="white-space:nowrap;">WS</th>
+                                <th class="text-white" style="white-space:nowrap;">OS</th>
+                                <th class="text-white" style="white-space:nowrap;">OCS</th>
+                                <th class="text-white" style="white-space:nowrap;">NS</th>
+                                <th class="text-white" style="white-space:nowrap;">AS</th>
+                                <th class="text-white" style="white-space:nowrap;">DS</th>
+                                <th class="text-white" style="white-space:nowrap;">HS</th>
+                                <th class="text-white" style="white-space:nowrap;">FS</th>
+                                <th class="text-white" style="white-space:nowrap;">M</th>
+                                <th class="text-white" style="white-space:nowrap;">ODV</th>
+                                <th class="text-white" style="white-space:nowrap;">ID</th>
+                                <th class="text-white" style="white-space:nowrap;">NG</th>
+                                <th class="text-white" style="white-space:nowrap;">HUSK</th>
+                                <th class="text-white table-right-header" style="white-space:nowrap;">Action</th>
+                            </tr>
+                        </thead> -->
+                        <tbody class="data-row table-bordered"
+                            *ngIf="stlReportStatusData && stlReportStatusData.length >0">
+                            <tr *ngFor="let data of stlReportStatusData;let i=index;">
+                                <td>{{i+1}}</td>
+                                <td><span>
+                                        <p>Variety:&nbsp;<b>{{data && data.m_crop_variety &&
+                                                data.m_crop_variety.variety_name ?
+                                                data.m_crop_variety.variety_name:"NA"}}</b> <br>
+                                            <span
+                                                *ngIf="data.m_variety_line && data.m_variety_line.line_variety_name">Variety
+                                                Line:&nbsp;{{data && data.m_variety_line &&
+                                                data.m_variety_line.line_variety_name ?
+                                                data.m_variety_line.line_variety_name:"NA"}}</span>
+                                        </p>
+                                        <p>Lot No:&nbsp;<b>{{data && data.lot_no ? data.lot_no:"NA"}}</b></p>
+                                        <p>Unique Code:&nbsp;<b> {{data && data.unique_code ?
+                                                data.unique_code:"NA"}}</b></p>
+                                        <p>Sample No:&nbsp;<b>{{data && data.sample_no ? data.sample_no:"NA"}}</b></p>
+                                    </span></td>
+                                <td><span>
+                                        <p>STL:&nbsp;<b>{{data && data.seedLabtest && data.seedLabtest.lab_name ?
+                                                data.seedLabtest.lab_name:"NA"}}</b></p>
+                                        <p>Date of testing:&nbsp;<b>{{data && data.date_of_test ? (data.date_of_test |
+                                                date: 'dd/MM/yyyy'):"NA"}}</b></p>
+                                    </span></td>
+                                <td><span>
+                                        PS: <b>{{data && data.pure_seed ? data.pure_seed:"NA"}} </b> <br>
+                                        WS(P): <b>{{data && data.weed_seed_purity ? data.weed_seed_purity:"NA"}}</b>
+                                        <br>
+                                        OCS(P): <b>{{data && data.other_crop_purity ? data.other_crop_purity:"NA"}}</b>
+                                        <br>
+                                        IM: <b>{{data && data.inert_matter ? data.inert_matter:"NA"}} </b>
+                                    </span></td>
+                                <td><span>
+                                        <!-- TWS: <b>{{data && data.total_weed_seed ? data.total_weed_seed:"NA"}}</b>  <br> -->
+                                        WS: <b>{{data && data.weed_seed ? data.weed_seed:"NA"}}</b> <br>
+                                        OWS: <b>{{data && data.other_seed ? data.other_seed:"NA"}}</b> <br>
+                                        <!-- OWS: <b></b>{{data && data.objectionable_weed_seed ? data.objectionable_weed_seed:"NA"}} <br> -->
+                                        OCS: <b>{{data && data.other_crop_seed ? data.other_crop_seed:"NA"}}</b> <br>
+                                        ODV: <b>{{data && data.other_distinguisable_varieties ?
+                                            data.other_distinguisable_varieties:"NA"}}</b>
+                                    </span> </td>
+                                <td><span>
+                                        NS: <b>{{data && data.normal_seeding ? data.normal_seeding:"NA"}}</b> <br>
+                                        AS: <b>{{data && data.abnormal_seeding ? data.abnormal_seeding:"NA"}}</b> <br>
+                                        DS: <b>{{data && data.dead_seed ? data.dead_seed:"NA"}}</b> <br>
+                                        HS: <b>{{data && data.hard_seed ? data.hard_seed:"NA"}}</b> <br>
+                                        FS: <b>{{data && data.fs ? data.fs:"NA"}}</b>
+                                        <!-- FS: <b>{{data && data.fug_seed ? data.fug_seed:"NA"}}</b>   -->
+                                    </span> </td>
+                                <td> <span>
+                                        ID: <b>{{data && data.insect_damage ? data.insect_damage:"NA"}}</b> <br>
+                                        Disease: <b></b>N/A <br>
+                                        <!-- Disease: <b>{{data && data.disease ? data.disease:"NA"}}</b>  <br> -->
+                                        NG: <b>N/A</b>
+                                        <!-- NG: <b>{{data && data.nematode_galls ? data.nematode_galls:"NA"}}</b>   -->
+                                    </span>
+                                </td>
+                                <td> <span>
+                                        Moisture: <b>{{data && data.m ? data.m:"NA"}}</b> <br>
+                                        HS: <b>{{data && data.husk ? data.husk:"NA"}} </b>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12"
+                                                *ngIf="data.status != 'discard' && data.status != 're-sample' &&( data.status == 'success' || data.status ==null)">
+                                                <!-- routerLink="/generate-tag-number" -->
+                                                <!-- <button (click)="saveData(data,'success')"  [disabled]="data.status == 'success' && data.status != 're-sample'"
+                                                class="w-100 py-2 mt-2 text-white btn-inventory1 btn-inventory2 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-3">Proceed
+                                                for packing</button> -->
+                                                <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="data.status != 'discard' && data.status != 're-sample' && (data.status == 'success' || data.status == null)">
+                                                    <button 
+                                                        (click)="confirmProceedForPacking(data)" 
+                                                        [disabled]="data.isProceeded" 
+                                                        [ngClass]="{'btn-proceeded': data.isProceeded, 'btn-inventory1': !data.isProceeded, 'btn-inventory2': !data.isProceeded}" 
+                                                        class="w-100 py-2 mt-2 text-white d-inline-flex justify-content-center verticle-content-middle mb-3 mt-3">
+                                                        {{ data.isProceeded ? 'Proceeded for packing' : 'Proceed for packing' }}
+                                                    </button>
+                                                </div> -->
+
+                                            </div>
+                                            <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="data.status != 'success' && data.status != 're-sample' && (data.status == 'discard' || data.status ==null)">
+                                            <button (click)="saveData(data,'discard')" [disabled]="data.status != 'success' && data.status != 're-sample' && data.status == 'discard'"
+                                                class="w-100 py-2 mt-2 text-white btn-inventory1 btn-inventory2 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-3">Discard</button>
+                                        </div> -->
+                                            <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="isDiscardVisible(data)">
+                                            <button 
+                                              (click)="confirmDiscard(data)" 
+                                              [disabled]="data.isDiscarded" 
+                                              [ngClass]="{'btn-discarded': data.isDiscarded, 'btn-inventory1': !data.isDiscarded, 'btn-inventory2': !data.isDiscarded}" 
+                                              class="w-100 py-2 mt-2 text-white d-inline-flex justify-content-center verticle-content-middle mb-3 mt-3">
+                                              {{ data.isDiscarded ? 'Discarded' : 'Discard' }}
+                                            </button>
+                                        </div> -->
+
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12"
+                                                *ngIf="data.status != 're-sample' && data.status != 're-sample-forwarding' && data.status != 'discard' && (data.status == 'success' || data.status ==null)">
+                                                <!-- routerLink="/generate-sample-slip-for-testing" -->
+                                                <button (click)="saveData(data,'success')"
+                                                    [ngClass]="{'disabled-btn':(data.status == 'success' && data.status != 'discard' && data.status != 're-sample' && data.status != 're-sample-forwarding')}"
+                                                    [disabled]="data.status == 'success' && data.status != 'discard' && data.status != 're-sample' && data.status != 're-sample-forwarding'"
+                                                    class="w-100 py-2 mt-2 text-white btn-inventory1 btn-inventory2 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-3">{{(data.status
+                                                    == 'success' && data.status != 'discard' && data.status !=
+                                                    're-sample' && data.status != 're-sample-forwarding')?"Proceeded for
+                                                    Packaging":"Proceed for packing"}}</button>
+                                            </div>
+
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12"
+                                                *ngIf="data.status != 're-sample' && data.status != 're-sample-forwarding' && data.status != 'success' && (data.status == 'discard' || data.status ==null)">
+                                                <!-- routerLink="/generate-sample-slip-for-testing" -->
+                                                <button (click)="saveData(data,'discard')"
+                                                    [ngClass]="{'disabled-btn': (data.status == 'discard' && data.status != 'success' && data.status != 're-sample' && data.status != 're-sample-forwarding')}"
+                                                    [disabled]="data.status == 'discard' && data.status != 'success' && data.status != 're-sample' && data.status != 're-sample-forwarding'"
+                                                    class="w-100 py-2 mt-2 text-white btn-inventory1 btn-inventory2 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-3">{{(data.status
+                                                    == 'discard' && data.status != 'success' && data.status !=
+                                                    're-sample' && data.status != 're-sample-forwarding') ?
+                                                    "Discarded":"Discard"}}</button>
+                                            </div>
+
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12"
+                                                *ngIf="data.status != 'discard' && data.status != 'success' && (data.status == 're-sample' || data.status == 're-sample-forwarding' || data.status ==null)">
+                                                <!-- routerLink="/generate-sample-slip-for-testing" -->
+                                                <button (click)="saveData(data,'re-sample')"
+                                                    [ngClass]="{'disabled-btn': (data.status != 'success' && (data.status == 're-sample' || data.status == 're-sample-forwarding'))}"
+                                                    [disabled]="data.status != 'success' && (data.status == 're-sample' || data.status == 're-sample-forwarding')"
+                                                    class="w-100 py-2 mt-2 text-white btn-inventory1 btn-inventory2 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-3">{{
+                                                    (data.status != 'success' && (data.status == 're-sample' ||
+                                                    data.status ==
+                                                    're-sample-forwarding'))?"Re-sampled":"Re-sample"}}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                        <!-- Template for when no data is available -->
+                        <tbody *ngIf="stlReportStatusData && stlReportStatusData.length < 0">
+                            <tr>
+                                <td colspan="10" class="text-center py-2">
+                                    <b class="font-weight-bold text-center verticle-content-middle">No Data Found</b>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <!-- <tbody class="data-row table-bordered"
+                            *ngIf="stlReportStatusData && stlReportStatusData.length >0">
+                            <tr *ngFor="let data of stlReportStatusData;let i=index;">
+                                <td>{{i+1}}</td>
+                                <td><span>
+                                        <p>Variety:&nbsp;<b>{{data && data.m_crop_variety && data.m_crop_variety.variety_name ? data.m_crop_variety.variety_name:"NA"}}</b> <br>
+                                            <span *ngIf="data.m_variety_line && data.m_variety_line.line_variety_name">Variety Line:&nbsp;{{data && data.m_variety_line && data.m_variety_line.line_variety_name ? data.m_variety_line.line_variety_name:"NA"}}</span>
+                                        </p>
+                                        <p>Lot No:&nbsp;<b>{{data && data.lot_no ? data.lot_no:"NA"}}</b></p>
+                                        <p>Unique Code:&nbsp;<b> {{data && data.unique_code ? data.unique_code:"NA"}}</b></p>
+                                        <p>Sample No:&nbsp;<b>{{data && data.sample_no ? data.sample_no:"NA"}}</b></p>
+                                    </span></td>
+                                <td><span>
+                                        <p>STL:&nbsp;<b>{{data && data.testing_lab ? data.testing_lab:"NA"}}</b></p>
+                                        <p>Date of testing:&nbsp;<b>{{data && data.testing_lab ? data.testing_lab:"NA"}}</b></p>
+                                    </span></td>
+                                <td>{{data && data.pure_seed ? data.pure_seed:"NA"}}</td>
+                                <td>{{data && data.inert_matter ? data.inert_matter:"NA"}}</td>
+                                <td>{{data && data.weed_seed_purity ? data.weed_seed_purity:"NA"}}</td>
+                                <td>{{data && data.other_crop_purity ? data.other_crop_purity:"NA"}}</td>
+                                <td>{{data && data.weed_seed ? data.weed_seed:"NA"}}</td>
+                                <td>{{data && data.other_seed ?data.other_seed:"NA"}}</td>
+                                <td>{{data && data.other_crop_seed ? data.other_crop_seed:"NA"}}</td>
+                                <td>{{data && data.normal_seeding ? data.normal_seeding:"NA"}}</td>
+                                <td>{{data && data.abnormal_seeding ? data.abnormal_seeding:"NA"}}</td>
+                                <td>{{data && data.dead_seed ? data.dead_seed:"NA"}}</td>
+                                <td>{{data && data.hard_seed ? data.hard_seed:"NA"}}</td>
+                                <td>{{data && data.fresh_ungerminated ? data.fresh_ungerminated:"NA"}}</td>
+                                <td>{{data && data.m ? data.m:"NA"}}</td>
+                                <td>{{data && data.other_distinguisable_varieties ? data.other_distinguisable_varieties:"NA"}}</td>
+                                <td>{{data && data.insect_damage ? data.insect_damage:"NA"}}</td>
+                                <td>{{data && data.nematode ?data.nematode:"NA"}}</td>
+                                <td>{{data && data.husk ? data.husk:"NA"}}</td>
+                                <td>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="data.status != 'discard' && data.status != 're-sample' &&( data.status == 'success' || data.status ==null)">
+                                                 routerLink="/generate-tag-number" 
+                                                <button (click)="saveData(data,'success')"  [disabled]="data.status == 'success' && data.status != 're-sample'"
+                                                    class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-3">Proceed
+                                                    for packing</button>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="data.status != 'success' && data.status != 're-sample' && (data.status == 'discard' || data.status ==null)">
+                                                <button (click)="saveData(data,'discard')" [disabled]="data.status != 'success' && data.status != 're-sample' && data.status == 'discard'"
+                                                    class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-3">Discard</button>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="data.status != 'discard' && data.status != 'success' && (data.status == 're-sample' || data.status ==null)">
+                                                routerLink="/generate-sample-slip-for-testing"
+                                                <button (click)="saveData(data,'re-sample')"  [disabled]="data.status != 'success' && data.status == 're-sample'"
+                                                    class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-3">Re-sample</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tbody>  -->
+                        <!-- <div *ngIf="stlReportStatusData && stlReportStatusData.length < 1">
+                            <P>No data Found</P>
+                        </div> -->
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>

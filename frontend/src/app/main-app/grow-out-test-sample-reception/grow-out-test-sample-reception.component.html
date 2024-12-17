@@ -1,0 +1,228 @@
+<form [formGroup]="ngForm" class="pt-2">
+    <div class="main-inventory my-4 w-90  pt-2">
+        <span class="title-inventory pt-3 pl-3">
+            Grow Out Test Sample Reception
+        </span>
+        <!-- first card ui -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 pb-2 pt-2 pr-0">
+            <div class="row  card-inventory form-group formargin">
+                <!-- start sectio 1 -->
+                <div class="col-12 col-md-10 col-lg-10 col-sm-12 pt-1 pl-4 formargin">
+                    <div class="row">
+                        <!-- year of indent -->
+                        <div class="col-12 col-md-4 col-lg-4 col-xl-4 col-sm-12">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Year of Indent</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="year">
+                                        <option value="">Select Year</option>
+                                        <option *ngFor="let data of sampleReceptionYearList"
+                                            value="{{data && data.year ? data.year :''}}">
+                                            {{ getFinancialYear(data.year) }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- season -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Season</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="season">
+                                        <option value="">Select Season</option>
+                                        <option *ngFor="let data of sampleReceptionSeasonList "
+                                            value="{{data && data.season ? data.season :''}}"> 
+                                            {{data && data.seasonName ? data.seasonName :''}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- crop -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Crop</label>
+                                </div>
+                                <div class="col-md-12 px-2">
+                                    <div ngbDropdown class="d-inline-block w-100 ">
+                                        <button
+                                            [disabled]="!ngForm.controls['year'].value && !ngForm.controls['season'].value"
+                                            class="btn takeplacholder w-100 crop toggle-button input-inventory form-control"
+                                            id="crop_group" ngbDropdownToggle style="text-align: left;">{{selectCrop &&
+                                            (selectCrop.length>30) ? (selectCrop.substring(0,30)+'...'):selectCrop?
+                                            selectCrop :'Select Crop '}}
+                                        </button>
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group"
+                                            aria-labelledby="sortMenu">
+                                            <input type="text" class="form-control px-4" formControlName="crop_text"
+                                                (click)="cropdatatext()">
+                                            <button class="dropdown-item" *ngFor="let data of sampleReceptionCropList"
+                                                (click)="cropNameValue(data)" #dropdownItem
+                                                [attr.data-parent-name]="'crop_group'">
+                                                {{data && data.crop_name ? data.crop_name :''}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 expa col-md-2 col-sm-12 col-12 pt-4 mt-2 pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12  ">
+                            <button
+                                class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1"
+                                (click)="toggleSearch()">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  Second Card ui -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12  pt-2 pr-0" *ngIf="searchClicked">
+            <div class="row card-inventory form-group pb-2 pl-0">
+                <div class="col-12 col-md-12 col-lg-12 col-sm-12 formargin  pt-1 pb-1">
+                    <div class="row">
+                        <div class="col-12 col-md-2 col-lg-2 col-xl-2 col-sm-12 mt-2">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12 pl-4 ">
+                                    <label class="filter1 mt-2"> Select Consignment Number :</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Consignment -->
+                        <div class="col-12 col-md-3 col-lg-3 col-xl-3 col-sm-12 mt-2">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="consignment" (change)="onConsignmentChange($event)">
+                                        <option value="" disabled>Select Consignment</option>
+                                        <option *ngFor="let data of sampleReceptionConsignmentList"
+                                            value="{{data && data.consignment_number ? data.consignment_number :''}}">
+                                            {{data && data.consignment_number ? data.consignment_number :''}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2 col-lg-2 col-xl-2 col-sm-12 mt-2">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <!-- <label class="filter1">Select Consignment Number:</label> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2 col-lg-2 col-xl-2 col-sm-12 mt-2">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 col-lg-3 col-xl-3 col-sm-12 mt-1" *ngIf="isConsignmentSelected">
+                            <div class="row justify-content-center">
+                                <div class="col-auto">
+                                    <button
+                                        class="form-button bot search d-inline-flex justify-content-center align-items-center btn-inventory mt-1 mb-2 ml-5"
+                                        style="width: 80%;">
+                                        View Forwarding Letter
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row data-row px-0 t" *ngIf="isConsignmentSelected">
+            <table class="table-bordered table border-top-0 table-responsive col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pl-0 pr-0 m-0">
+                <thead class="w-100">
+                    <tr class="data-row-header">
+                        <th scope="col-12" class="col-md-1 py-2 text-center font-weight-bold text-white bor verticle-content-middle heading">BSPC</th>
+                        <th scope="col-12" class="col-md-2 py-2 text-start font-weight-bold text-white verticle-content-middle heading"> Variety/Parental line</th>
+                        <th scope="col-12" class="col-md-2 py-3 text-start font-weight-bold text-white heading">Class</th>
+                        <th scope="col-12" class="col-md-2 py-3 text-start font-weight-bold text-white heading">Unique No.</th>
+                        <th scope="col-12" class="col-md-3 py-2 text-start font-weight-bold text-white heading">Received Sample</th>
+                        <th scope="col-12" class="col-md-2 py-2 text-start font-weight-bold text-white heading">Rejection Reason</th>
+                    </tr>
+                </thead>
+                <tbody class=" w-100  col-md-12 text-white text-center text-center data-row" style="height: auto;">
+                    <ng-container *ngFor="let data of sampleReceptionAllList; let i = index">
+                        <tr>
+                            <td scope="col-12" class="col-md-1 py-2 verticle-content-middle"><b class="pl-3 verticle-content-middle text-center">
+                                {{ data && data.bspc_name ? data.bspc_name : 'NA' }}</b>
+                            </td>
+                            <td scope="col-12" class="col-md-2 py-2">
+                                <b>{{ data && data.variety_name ? data.variety_name : 'NA' }}</b><br>
+                                  <ng-container *ngFor="let lineData of data.line_variety;">
+                                     <span>{{ lineData && lineData.line_variety_name ? lineData.line_variety_name : 'NA' }},</span>
+                                 </ng-container>
+                            </td>
+                            <td scope="col-12" class="col-md-2 py-2 verticle-content-middle"><b class="text-center verticle-content-middle">
+                                {{ data && data.class_of_seed ? data.class_of_seed : 'NA' }}</b>
+                            </td>
+                            <td scope="col-12" class="col-md-2 py-2 verticle-content-middle"><b class="text-center verticle-content-middle">
+                              {{ data && data.unique_code ? data.unique_code : 'NA' }}</b>
+                             </td>
+                             <td scope="col-12" class="col-md-3 py-2 verticle-content-middle">
+                                 <div class="row justify-content-center">
+                                    <div *ngIf="data.status == 'PENDING'" class="col-12 col-md-6 px-2 d-flex justify-content-center align-items-center">
+                                         <button (click)="onAccept(data.id)" class="form-button botton1 search d-inline-flex justify-content-center btn-inventory" style="background-color: rgb(52, 161, 52) !important;">
+                                            Accept
+                                        </button>
+                                    </div>
+                    
+                                    <div *ngIf="data.status == 'PENDING'" class="col-12 col-md-6 px-2 d-flex justify-content-center align-items-center">
+                                        <button (click)="onReject(data.id)" class="form-button botton1 search d-inline-flex justify-content-center btn-inventory" style="background-color: rgb(228, 99, 99) !important;">
+                                            Reject
+                                        </button>
+                                    </div>
+                            
+                                    <div *ngIf="data.status == 'APPROVED'" class="col-12 col-md-12 px-2 d-flex justify-content-center align-items-center">
+                                        <p class="verticle-content-middle text-center">
+                                            <b class="font-weight-bold">Accepted</b> &nbsp;&nbsp;&nbsp;&nbsp; Test No: {{ data.test_number }}
+                                        </p>
+                                    </div>
+                            
+                                    <div *ngIf="data.status == 'REJECTED'" class="col-12 col-md-12 px-2 d-flex justify-content-center align-items-center">
+                                        <p class="verticle-content-middle text-center">
+                                            <b class="font-weight-bold">Rejected</b>
+                                        </p>
+                                    </div>
+                                </div>
+                             </td>
+                             <td scope="col-12" class="col-md-2 px-0 py-2">
+                                <b class="text-center verticle-content-middle">
+                                    <span *ngIf="data.status == 'APPROVED'">N/A</span>
+                                    <span *ngIf="data.status == 'REJECTED'">{{ data.comment }}</span>
+                                    <span *ngIf="data.status == 'PENDING'">N/A</span>
+                                </b>
+                             </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+            <div *ngIf="sampleReceptionAllList && (sampleReceptionAllList.length<1)" class="px-2 py-3 w-100" style="height: 50px;">
+                <div class="d-flex verticle-content-middle justify-content-center w-100">
+                  No Data Found.
+                </div>
+              </div>                      
+        </div>  
+    </div>
+</form>

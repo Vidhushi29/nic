@@ -1,0 +1,286 @@
+<form [formGroup]="ngForm" class="pt-2">
+    <div class="main-inventory my-2 w-90 pt-2">
+        <span class="title-inventory pt-3">Monitoring Team Details For GOT</span>
+        <div class="col-12 pb-2 pt-2 pr-0">
+            <div class="row card-inventory form-group formargin">
+                <!-- Section 1 -->
+                <div class="col-12 col-md-10 pt-1 pl-4 pb-3 formargin">
+                    <div class="row">
+                        <!-- Year of Indent -->
+                        <div class="col-xl-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="year" class="label-inventory required">Year of Indent</label>
+                                </div>
+                                <div class="col-12">
+                                    <select formControlName="year" class="form-control input-inventory">
+                                        <option value="">Select Year of Indent</option>
+                                        <option *ngFor="let data of yearOfIndent" [value]="data?.year">
+                                            {{ getFinancialYear(data.year) }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Season -->
+                        <div class="col-xl-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="season" class="label-inventory required">Season</label>
+                                </div>
+                                <div class="col-12">
+                                    <select formControlName="season" class="form-control input-inventory">
+                                        <option value="">Select Season</option>
+                                        <option *ngFor="let data of seasonlist" [value]="data && data.season">
+                                            {{ data && data.seasonName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Crop -->
+                        <div class="col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Crop</label>
+                                </div>
+                                <div class="col-md-12 px-2">
+                                    <div ngbDropdown class="d-inline-block w-100 ">
+                                        <button
+                                            [disabled]="!ngForm.controls['year'].value && !ngForm.controls['season'].value"
+                                            class="btn takeplacholder w-100 crop toggle-button input-inventory form-control"
+                                            id="crop_group" ngbDropdownToggle style="text-align: left;">{{selectCrop &&
+                                            (selectCrop.length>30) ? (selectCrop.substring(0,30)+'...'):selectCrop?
+                                            selectCrop :'Select Crop '}}
+                                        </button>
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group"
+                                            aria-labelledby="sortMenu">
+                                            <input type="text" class="form-control" formControlName="crop_text"
+                                                (click)="cropdatatext()">
+                                            <button class="dropdown-item" *ngFor="let data of cropList"
+                                                (click)="cropNameValue(data)" #dropdownItem
+                                                [attr.data-parent-name]="'crop_group'">
+                                                {{data && data.crop_name ? data.crop_name :''}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Search Button -->
+                <div class="col-lg-2 col-md-2 col-sm-12 pt-4 mt-2 pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12">
+                            <button class="w-100 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mt-2" (click)="toggleSearch()">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 2nd section -->
+            <div class="col-12 pt-3 px-0" *ngIf="searchClicked">
+                <div class="row card-inventory form-group  pl-0">
+                    <div class="col-12">
+                        <div class="col-12 pt-1 pb-1">
+                            <div class="row align-items-center">
+                                <!-- Select Team Dropdown -->
+                                <div class="col-xl-3 col-sm-12">
+                                    <label for="consignment" class="label-inventory">Select Team</label>
+                                    <select class="form-control w-100" formControlName="selectedTeam">
+                                        <option value="" disabled>Please Select</option>
+                                        <option value="new team">Create New Team</option>
+                                        <option *ngFor="let data of monitoringTeamList" value="{{data && data.got_monitoring_team_id}}">
+                                            {{data && data.team_name}}</option>
+                                    </select>
+                                </div>
+                                 <hr>
+                                <!-- Iterate over rows in FormArray -->
+                                <div class="col-12 row my-4" formArrayName="rows">
+                                    <div class="col-xl-12" *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
+                                        <div class="row align-items-center" style="display: -webkit-box;">
+                                            <!-- Name Field -->
+                                            <div class="col-xl-2 col-sm-12 ">
+                                                <label for="name" class="required">Name</label>
+                                                <input type="text" class="form-control" formControlName="name" placeholder="Enter Name">
+                                                <!-- <span>this is required</span>
+                                                <span>this is required2</span> -->
+                                                <div class="errorMsg"
+                                                    *ngIf="submitted || (ngForm.controls['rows']['controls'][i].controls['name'].touched)">
+                                                    <!-- <span class="text-danger pt-1"
+                                                            *ngIf="ngForm.controls['rows']['controls'][i].controls['name'].value.length>50">Accept
+                                                            max 50 character</span> -->
+                                                    <span class="text-danger pt-1 fs-4"
+                                                        *ngIf="ngForm.controls['rows']['controls'][i].controls['name'].invalid">Accept
+                                                        min 3 and max 50 character</span>
+                                                </div>
+                                            </div>
+                                            <!-- Designation Field as Dropdown -->
+                                            <div class="col-xl-2 col-sm-12">
+                                                <label for="designation" class="required">Designation</label>
+                                                <div ngbDropdown class="d-inline-block w-100">
+                                                    <button
+                                                        class="btn takeplacholder w-100 crop toggle-button d-flex justify-content-between align-items-center"
+                                                        [id]="'destination' + i"
+                                                        ngbDropdownToggle
+                                                        style="text-align: left; font-weight: 400;">
+                                                        {{ngForm.controls['rows']['controls'][i].controls['designation'] &&
+                                                        ngForm.controls['rows']['controls'][i].controls['designation'].value &&
+                                                        ngForm.controls['rows']['controls'][i].controls['designation'].value.designation_name &&
+                                                        (ngForm.controls['rows']['controls'][i].controls['designation'].value.designation_name.length > 20)
+                                                            ? ngForm.controls['rows']['controls'][i].controls['designation'].value.designation_name.substring(0, 20) + '...'
+                                                            : ngForm.controls['rows']['controls'][i].controls['designation'].value &&
+                                                            ngForm.controls['rows']['controls'][i].controls['designation'].value.designation_name
+                                                                ? ngForm.controls['rows']['controls'][i].controls['designation'].value.designation_name
+                                                                : selectDestination
+                                                                    ? selectDestination
+                                                                    : 'Select Designation'}}
+                                                        <i class="fa-solid fa-angle-down ml-2 downicon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu w-100" ngbDropdownMenu="designation" aria-labelledby="sortMenu">
+                                                        <input
+                                                            type="text"
+                                                            class="form-control px-4"
+                                                            formControlName="designation_text"
+                                                            (ngModelChange)="filterDesignationName($event, i)">
+                                                        <button
+                                                            class="dropdown-item"
+                                                            *ngFor="let data of ngForm.controls['rows']['controls'][i]?.controls.designation_id.designationList"
+                                                            (click)="designation(data, i, $event)"
+                                                            #dropdownItem
+                                                            [attr.data-parent-name]="'designation'"
+                                                            title="{{data && data.designation_name ? data.designation_name : ''}}">
+                                                            {{data && data.designation_name ? data.designation_name : ''}}
+                                                        </button>
+                                                        <div class="errorMsg"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Mobile Field -->
+                                            <div class="col-xl-2 col-sm-12">
+                                                <label for="mobile" class="required">Mobile</label>
+                                                <input type="number" class="form-control" formControlName="mobile" placeholder="Enter Number">
+                                                <div class="errorMsg"
+                                                *ngIf="submitted || (ngForm.controls['rows']['controls'][i].controls['mobile'].touched)">
+                                                <span class="text-danger pt-1"
+                                                    *ngIf="ngForm.controls['rows']['controls'][i].controls['mobile'].invalid">Invalid
+                                                    Mobile No.</span>
+                                            </div>
+                                            </div>
+                                            <!-- Email Field -->
+                                            <div class="col-xl-2 col-sm-12">
+                                                <label for="email" class="required">Email</label>
+                                                <input type="email" class="form-control" formControlName="email" placeholder="Enter Email">
+                                                <div class="errorMsg"
+                                                *ngIf="submitted || (ngForm.controls['rows']['controls'][i].controls['email'].touched)">
+                                                <span class="text-danger pt-1"
+                                                    *ngIf="ngForm.controls['rows']['controls'][i].controls['email'].invalid">Invalid
+                                                    Email ID.</span>
+                                            </div>
+                                            </div>
+                                            <!-- Add/Remove Buttons -->
+                                            <div class="col-xl-4 col-sm-12 pt-4 mt-2">
+                                                 <button (click)="removeRow(i)" class="list-action-buttons-second" *ngIf="rows.length > 1">
+                                                    <img src="assets/images/delete.png"></button>
+                                                  <button (click)="addRow(i)" *ngIf="i === rows.length - 1" class="list-action-buttons-second ml-xl-2" style=" width: 38px !important;">
+                                                    <img src="assets/images/Add.png"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <br>
+                                 <hr>
+                                <div class="col-xl-3 col-sm-12 my-3" *ngIf="isTeamSelected">
+                                    <label for="consignment" class="required">Select User for Got Inspection App
+                                    </label>
+                                    <select class="form-control w-100" formControlName="userforInspection">
+                                        <option value="" disabled>Please Select</option>
+                                              <option *ngFor="let option of this.rowOptions"> {{ option.name }},{{option.userdesignation}}</option>
+                                   
+                                        <!-- <option *ngFor="let option of this.rowOptions"> {{ option.name }} , {{option.designation }}</option> -->
+                                    </select>
+                                </div>
+                                 <hr>
+                            </div>
+                            <div class="col-xl-3 col-sm-12 select-test mt-1" *ngIf="isTeamSelected">
+                                <label for="year" class="required">Select Test </label>
+                                <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="testNumberList"
+                                    formControlName="selectedTest" [placeholder]="'Select Test No'">
+                                </ng-multiselect-dropdown>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="col-md-12 d-flex align-items-center mt-4" *ngIf="isTeamSelected">
+                            <button type="button" class="btn btn-inventory col-md-2" (click)="cancel()">Cancel </button>
+                            <button type="button" *ngIf="!is_update" class="btn2 btn-inventory1 ml-2 col-md-2" (click)="save()">Save </button>
+                            <button type="button" *ngIf="is_update" class="btn2 btn-inventory1 ml-2 col-md-2" (click)="updateMonitoringTeam()">Update </button>
+                        </div>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="searchClicked">
+            <div class="row card-inventory form-group pb-2 pl-0">
+                <div class="col-12 ">
+                    <div class="col-12 col-md-12 col-lg-12 ">
+                        <div class="row data-row p-0">
+                            <table class="table border-top-0 col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12 pl-0 pr-0 m-0 ">
+                                <thead class=" w-100 pl-0 table-bordered">
+                                    <tr class="data-row-header">
+                                        <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading datalist">Team Name</th>
+                                        <th scope="col" class="col-md-2 py-2 text-white verticle-content-middle heading datalist">Name</th>
+                                        <th scope="col" class="col-md-2 py-2 text-white verticle-content-middle heading datalist">Designation</th>
+                                        <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading datalist">Mobile No.</th>
+                                        <th scope="col" class="col-md-2 py-2 text-white verticle-content-middle heading datalist">Email</th>
+                                        <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading datalist">User Name For App</th>
+                                        <th scope="col" class="col-md-2 py-2 text-white verticle-content-middle heading datalist">Sample Test No</th>
+                                        <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading datalist" style="min-width:8em;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-bordered">
+                                <tbody class="table-bordered">
+                                    <ng-container *ngFor="let team of monitoringTeamList; let teamIndex = index">
+                                        <ng-container *ngFor="let member of team.members; let memberIndex = index">
+                                            <tr [ngClass]="{'inspection-done': member && member.is_team_lead == true}">
+                                                <td scope="col-12" class="col-md-1 py-2 verticle-content-middle" *ngIf="memberIndex == 0" [attr.rowspan]="team && team.members.length" class="team-name">{{ team && team.team_name }}</td>
+                                                <td scope="col-12" class="col-md-2 py-2 verticle-content-middle">{{ member && member.name }}</td>
+                                                <td scope="col-12" class="col-md-2 py-2 verticle-content-middle">{{ member && member.designation_name }}</td>
+                                                <td scope="col-12" class="col-md-1 py-2 verticle-content-middle">{{ member && member.mobile_number }}</td>
+                                                <td scope="col-12" class="col-md-2 py-2 verticle-content-middle">{{ member && member.email_id }}</td>
+                                                <td scope="col-12" class="col-md-1 py-2 verticle-content-middle">{{ member && member.user_name }}</td>
+                                                <td scope="col-12" class="col-md-2 py-2 verticle-content-middle" *ngIf="memberIndex == 0" [attr.rowspan]="team && team.members.length">{{ team && team.got_test_number ? parseTestNames(team.got_test_number) : 'NA' }}</td>
+                                             
+                                                <td scope="col-12" class="col-md-1 py-2 verticle-content-middle" class="actions" *ngIf="memberIndex == 0" [attr.rowspan]="team && team.members && team.members.length">
+                                                    <ng-container *ngIf="!team.is_button_disable">
+                                                    <button class="list-action-buttons-second" (click)="editMember(team)"><img src="assets/images/Vector.svg">
+                                                    </button>
+                                                    <button class="list-action-buttons-second ml-lg-3 mt-sm-2" (click)="deleteMember(team && team.got_monitoring_team_id)"><img src="assets/images/Vector_delete.svg">
+                                                    </button>
+                                                    </ng-container>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </ng-container>
+                                  </tbody>
+                                <tbody>
+                              </tbody>
+                            </table>
+                            <div *ngIf="monitoringTeamList && (monitoringTeamList.length<1)" class="px-2 py-3 w-100" style="height: 50px;">
+                                <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                  No Data Found.
+                                </div>
+                              </div>                                      
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

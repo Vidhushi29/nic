@@ -1,0 +1,78 @@
+<div style="margin-left: 40%" class="hold-transition login-page login-box">
+  <div class="login-logo" style="background-color: #963814 !important;">
+    <img src="assets/images/Group%201120.png" class="login_logo_img" height="auto"
+      style="display: block;margin-left: auto;margin-right: auto;width: 300px; background-color: #963814 !important;">
+    <!--   <b>SAFEsnap</b>-->
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body" style="background-color: #EDE3D7 !important;">
+    <p class="login-box-msg" style="color: #963814 !important;">Sign in to start your session111</p>
+    <div class="alert alert-danger" [hidden]="!error">
+      <strong><i class="icon fa fa-ban"></i>Invalid! </strong> username or password
+    </div>
+    <form class="mb-3" [formGroup]="loginForm" novalidate (ngSubmit)="signIn()">
+
+      <div class="form-group has-feedback">
+        <span class="fa fa-user form-control-feedback"></span>
+        <select formControlName="state_code" class="form-control">
+            <option value="">Please Select State</option>
+            <option *ngFor="let data of stateListsecond" value="{{data && data.state_code}}" >{{data && data.state_name ? data.state_name :''}}</option>
+            <!-- <option value="9" >Uttar Pradesh</option>
+            <option value="23" >Madhya Pradesh</option>
+            <option value="8" >Rajasthan</option> -->
+        </select>
+        <!-- <input type="text" formControlName="state_code" > -->
+        <!--        <div *ngIf="submitted && f.username.errors">-->
+        <!--          <span [hidden]="!f.username.errors.required" class="error-block"> Username is required.</span>-->
+        <!--        </div>-->
+      </div>
+
+      <div class="form-group has-feedback">
+        <span class="fa fa-user form-control-feedback"></span>
+        <input type="text" formControlName="username" class="form-control" placeholder="Username">
+        <!--        <div *ngIf="submitted && f.username.errors">-->
+        <!--          <span [hidden]="!f.username.errors.required" class="error-block"> Username is required.</span>-->
+        <!--        </div>-->
+      </div>
+
+      <div class="form-group has-feedback">
+        <span class="fa fa-key form-control-feedback"></span>
+        <div >
+          <input id="id_password" type="password" class="form-control" formControlName="password" >
+          <span toggle="#password-field" id="togglePassword"  
+          [ngClass]="!passwordShowToggle ? 'fa fa-fw fa-eye field-icon toggle-password':'fa fa-fw fa-eye-slash field-icon toggle-password'"
+          (click)="togglePassword()">
+        </span>
+        </div>
+       <!-- <div>
+        <input type="password" formControlName="password" class="form-control" placeholder="Password">
+        <i class="fa-solid fa-eye"></i>
+       </div> -->
+        <!--        <div *ngIf="submitted && f.password.errors">-->
+        <!--          <span [hidden]="!f.password.errors.required" class="error-block"> Password is required. </span>-->
+        <!--        </div>-->
+      </div>
+
+    
+      <div class="row">
+        <div class="col-xs-2">
+          <a routerLink="/forgot-password" type="button" class="btn btn-link btn-block btn-flat">
+            <!--              Forgot Password?-->
+          </a>
+        </div>
+        <div class="col-xs-6">
+        </div>
+        <div class="col-xs-4">
+          <button type="submit" [disabled]="loginForm.invalid || loginForm.pristine"
+            class="btn btn-info btn-block btn-flat" style="background-color: #963814 !important;">
+            Sign In
+            <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
+          </button>
+
+        </div>
+      </div>
+    </form>
+
+    <!-- /.login-card-body -->
+  </div>
+</div>

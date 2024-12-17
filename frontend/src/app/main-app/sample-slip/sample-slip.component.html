@@ -1,0 +1,425 @@
+<div class="main-inventory my-4 w-90  pt-2">
+    <!-- <span class="title-inventory pt-3 ">
+        Reprint Tags
+    </span> -->
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 pt-2" >
+        <!-- {{sampleSlipData.length}} -->
+         <div id="printSection">
+            <div  class="row card-inventory form-group  pt-4 pl-2 pr-2 border" *ngFor="let data of sampleSlipData;let i =index">
+                <div *ngIf="i > 0"  class="page-break"></div>
+                <!-- jhghugiriugri{{data.testing_type}} -->
+            {{data.length}}
+                <!-- start sectio 1 -->
+                <!-- <div *ngIf="data.testing_type == 'STL'"> -->
+                <div class="col-12 col-md-12 col-lg-12 col-sm-12 mt-3" *ngIf="data.testing_type == 'STL' && this.submissionid==='table1'">
+                    <!-- firest section -->
+                    <div class="row pt-1">
+                        <!-- logo -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <img src="../../../assets/images/no_logo.png" alt="logo" width="90px" height="90px"/>
+                        </div>
+    
+                        <!-- bspc name detais -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <p style="text-align: center;"><b>{{userName ? userName:"NA"}}</b></p>
+                            <p style="text-align: center;"><b>&nbsp;{{districtName? districtName+',':"NA"}}&nbsp;{{stateName ? stateName:"NA"}}</b></p>
+                        </div>
+    
+                        <!-- saple slip details -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4"style="align-items: end;">
+                            <p class="pt-1" style="text-align: end;"><b>SAMPLE SLIP (LAB)</b></p>
+                        </div>
+                    </div>
+                 
+                    <!-- second section -->
+                    <div class="row pt-1">
+                        <!-- logo -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <p><b>Crop :&nbsp;</b>{{data && data.crop_name ? data.crop_name:"NA"}}</p>
+                            <p><b>Variety :&nbsp;</b>{{data && data.variety_name ? data.variety_name:"NA"}}</p>
+                            <p *ngIf="data && data.line_variety_name"><b>Parental Line :&nbsp;</b>{{data && data.line_variety_name ? data.line_variety_name:"NA"}}</p>
+                        </div>
+    
+                        <!-- bspc name detais -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <!-- <p style="text-align: center;"><b>Lot no:&nbsp;</b>{{data && data.lot_no ? data.lot_no:""}}</p> -->
+                            <p style="text-align: center;"><b>Lot Quantity ({{unit}}):&nbsp;</b>{{data && data.total_processed_qnt ? data.total_processed_qnt:""}}</p>
+                            <p style="text-align: center;"><b>Class :&nbsp;</b>{{data && data.class_of_seed ? data.class_of_seed:"NA"}}</p>
+                        </div>
+    
+                        <!-- saple slip details -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <p style="text-align: end;"><b>Unique Code :&nbsp;{{data && data.unique_code ? data.unique_code:"NA"}}</b></p>
+                            <p style="text-align: end;"><b>Date :&nbsp;</b>{{formattedDate()}}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- third section -->
+                    <div class="row pt-1">
+                        <!-- logo -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <p><b>STL :&nbsp;</b>{{getTestingLabData(data.testing_lab)}}</p>
+                            <p><b>Tests Required :&nbsp;</b>{{ getSapleTestData(data.id)}}</p>
+                            <p><b>Chemical Treatment :&nbsp;</b>{{data && data.chemical_treatment ? data.chemical_treatment:"NA"}}</p>
+                        </div>
+    
+                        <!-- bspc name detais -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                          
+                        </div>
+    
+                        <!-- saple slip details -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                           
+                        </div>
+                    </div>
+                    <!-- fourth section -->
+                    <div class="row" >
+                        <!-- logo -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+    
+                        </div>
+    
+                        <!-- bspc name detais -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+    
+                        </div>
+    
+                        <!-- saple slip details -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4"style="">
+                            <p style="text-align: end;"><b>Sign and Seal</b></p>
+                        </div>
+                    </div>
+                    <hr class="new2">
+                </div>
+    
+                 <!-- start sectio 2 -->
+                 <div class="col-12 col-md-12 col-lg-12 col-sm-12 mt-1 " *ngIf="data.testing_type == 'STL' && this.submissionid==='table1'">
+                    <!-- firest section -->
+                    <div class="row pt-1">
+                        <!-- logo -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <img src="../../../assets/images/no_logo.png" alt="logo" width="90px" height="90px"/>
+                        </div>
+    
+                        <!-- bspc name detais -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <p style="text-align: center;"><b>{{userName ? userName:"NA"}}</b></p>
+                            <p style="text-align: center;"><b>&nbsp;{{districtName? districtName+',':"NA"}}&nbsp;{{stateName ? stateName:"NA"}}</b></p>
+                        </div>
+    
+                        <!-- saple slip details -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4"style="align-items: end;">
+                            <p class="pt-1" style="text-align: end;"><b>SAMPLE SLIP (PRODUCER)</b></p>
+                        </div>
+                    </div>
+                    
+                    <!-- second section -->
+                    <div class="row pt-1">
+                        <!-- logo -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <p><b>Crop :&nbsp;</b>{{data && data.crop_name ? data.crop_name:"NA"}}</p>
+                            <p><b>Variety :&nbsp;</b>{{data && data.variety_name ? data.variety_name:"NA"}}</p>
+                            <p *ngIf="data && data.line_variety_name"><b>Parental Line :&nbsp;</b>{{data && data.line_variety_name ? data.line_variety_name:"NA"}}</p>
+                        </div>
+    
+                        <!-- bspc name detais -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <p style="text-align: center;"><b>Lot no:&nbsp;</b>{{data && data.lot_no ? data.lot_no:""}}</p>
+                            <p style="text-align: center;"><b>Lot Quantity ({{unit}}):&nbsp;</b>{{data && data.total_processed_qnt ? data.total_processed_qnt:""}}</p>
+                            <p style="text-align: center;"><b>Class :&nbsp;</b>{{data && data.class_of_seed ? data.class_of_seed:"NA"}}</p>
+                        </div>
+    
+                        <!-- saple slip details -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <p style="text-align: end;"><b>Unique Code :&nbsp;{{data && data.unique_code ? data.unique_code:"NA"}}</b></p>
+                            <p style="text-align: end;"><b>Date :&nbsp;</b>{{formattedDate()}}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- third section -->
+                    <div class="row pt-1">
+                        <!-- logo -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <p><b>STL :&nbsp;</b>{{data && data.testing_lab ? getTestingLabData(data.testing_lab):"NA"}}</p>
+                            <p><b>Tests Required :&nbsp;</b>{{ getSapleTestData(data.id)}}</p>
+                            <p><b>Chemical Treatment :&nbsp;</b>{{data && data.chemical_treatment ? data.chemical_treatment:"NA"}}</p>
+                        </div>
+    
+                        <!-- bspc name detais -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                          
+                        </div>
+    
+                        <!-- saple slip details -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                           
+                        </div>
+                    </div>
+                    <!-- fourth section -->
+                    <div class="row" >
+                        <!-- logo -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+    
+                        </div>
+    
+                        <!-- bspc name detais -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+    
+                        </div>
+    
+                        <!-- saple slip details -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4"style="">
+                            <p style="text-align: end;"><b>Sign and Seal</b></p>
+                        </div>
+                    </div>
+                    <hr class="new2">
+                </div>
+    
+                  <!-- start sectio 3 -->
+                  <div class="col-12 col-md-12 col-lg-12 col-sm-12 mt-1" *ngIf="data.testing_type == 'STL' && this.submissionid==='table1'">
+                    <!-- firest section -->
+                    <div class="row pt-1">
+                        <!-- logo -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <img src="../../../assets/images/no_logo.png" alt="logo" width="90px" height="90px"/>
+                        </div>
+    
+                        <!-- bspc name detais -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <p style="text-align: center;"><b>{{userName ? userName:"NA"}}</b></p>
+                            <p style="text-align: center;"><b>&nbsp;{{districtName? districtName+',':"NA"}}&nbsp;{{stateName ? stateName:"NA"}}</b></p>
+                        </div>
+    
+                        <!-- saple slip details -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4"style="align-items: end;">
+                            <p class="pt-1" style="text-align: end;"><b>SAMPLE SLIP (GUARD)</b></p>
+                        </div>
+                    </div>
+                    
+                    <!-- second section -->
+                    <div class="row pt-1">
+                        <!-- logo -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <p><b>Crop :&nbsp;</b>{{data && data.crop_name ? data.crop_name:"NA"}}</p>
+                            <p><b>Variety :&nbsp;</b>{{data && data.variety_name ? data.variety_name:"NA"}}</p>
+                            <p *ngIf="data && data.line_variety_name"><b>Parental Line :&nbsp;</b>{{data && data.line_variety_name ? data.line_variety_name:"NA"}}</p>
+                        </div>
+    
+                        <!-- bspc name detais -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <p style="text-align: center;"><b>Lot no:&nbsp;</b>{{data && data.lot_no ? data.lot_no:""}}</p>
+                            <p style="text-align: center;"><b>Lot Quantity ({{unit}}):&nbsp;</b>{{data && data.total_processed_qnt ? data.total_processed_qnt:""}}</p>
+                            <p style="text-align: center;"><b>Class :&nbsp;</b>{{data && data.class_of_seed ? data.class_of_seed:"NA"}}</p>
+                        </div>
+    
+                        <!-- saple slip details -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <p style="text-align: end;"><b>Unique Code :&nbsp;{{data && data.unique_code ? data.unique_code:"NA"}}</b></p>
+                            <p style="text-align: end;"><b>Date :&nbsp;</b>{{formattedDate()}}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- third section -->
+                    <div class="row pt-1">
+                        <!-- logo -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <p><b>STL :&nbsp;</b>{{data && data.testing_lab ? getTestingLabData(data.testing_lab):"NA"}}</p>
+                            <p><b>Tests Required :&nbsp;</b>{{ getSapleTestData(data.id)}}</p>
+                            <p><b>Chemical Treatment :&nbsp;</b>{{data && data.chemical_treatment ? data.chemical_treatment:"NA"}}</p>
+                        </div>
+    
+                        <!-- bspc name detais -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                          
+                        </div>
+    
+                        <!-- saple slip details -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                           
+                        </div>
+                    </div>
+                    <!-- fourth section -->
+                    <div class="row" >
+                        <!-- logo -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+    
+                        </div>
+    
+                        <!-- bspc name detais -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+    
+                        </div>
+    
+                        <!-- saple slip details -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4"style="">
+                            <p style="text-align: end;"><b>Sign and Seal</b></p>
+                        </div>
+                    </div>
+                    <hr class="new2">
+                </div>
+                <!-- </div> -->
+                <!-- <div *ngIf="data.testing_type == 'GOT'">
+                   sdfghbjkml
+                </div> -->
+    
+                <!--  i < sampleSlipData.length - 1 -->
+                <!-- <div *ngIf="i > 0" class="page-break"></div> -->
+                <!--  -->
+
+                  <!-- start sectio 2 -->
+                  <div class="col-12 col-md-12 col-lg-12 col-sm-12 mt-1 " *ngIf="data.testing_type == 'GOT' && this.submissionid==='table2'">
+                    <!-- First section -->
+                    <div class="row pt-1 pb-2">
+                        <!-- Logo -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <img src="../../../assets/images/no_logo.png" alt="logo" width="90px" height="90px"/>
+                        </div>
+                
+                        <!-- BSPC Name and Location -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="line-height: 12px;">
+                            <p style="text-align: center; font-size: 20px;"><b>{{userName ? userName : "BSPC NAME"}}</b></p>
+                            <p style="text-align: center;font-size: 20px"><b>{{districtName ? districtName + ',' : "NA"}} {{stateName ? stateName : "NA"}}</b></p>
+                        </div>
+                
+                        <!-- Sample Slip Details -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="text-align: end;">
+                            <p class="pt-1"><b>SAMPLE SLIP (TEST CENTRE)</b></p>
+                        </div>
+                    </div>
+                
+                    <!-- Second section (Crop, Variety, Lot Info) -->
+                    <div class="row pt-5">
+                        <!-- Crop and Variety -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="line-height: 12px;">
+                            <p><b>Crop:</b> {{data && data.crop_name ? data.crop_name : "NA"}}</p>
+                            <p><b>Variety:</b> {{data && data.variety_name ? data.variety_name : "NA"}}</p>
+                            <p *ngIf="data && data.line_variety_name"><b>Parental Line:</b> {{data.line_variety_name}}</p>
+                        </div>
+                
+                        <!-- Lot Info -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="line-height: 12px;text-align: center;">
+                            <!-- <p class="mx-3 px-3"><b>Lot No.:</b> {{data.lot_no ? data.lot_no : "NA"}}</p> -->
+                            <p class="mx-3 px-5"><b>Lot Quantity ({{this.unit2}}):</b> {{data.total_processed_qnt ? data.total_processed_qnt : "NA"}}</p>
+                            <p class="mx-5 px-5"><b>Class:</b> {{data.class_of_seed ? data.class_of_seed : "NA"}}</p>
+                        </div>
+                
+                        <!-- Unique Code and Date -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="text-align: end; line-height: 12px;">
+                            <p><b>Unique code:</b> {{data.unique_code ? data.unique_code : "NA"}}</p>
+                            <p><b>Date:</b> {{formattedDate() ? formattedDate() : "NA"}}</p>
+                        </div>
+                    </div>
+                
+                    <!-- Third section (Testing Lab, Tests Required, Treatment) -->
+                    <div class="row pt-3">
+                        <!-- Test Centre -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="line-height: 12px;">
+                            <p><b style="line-height: normal !important">Test Centre:</b> {{this.bspcName ? this.bspcName : "NA"}}</p>
+                            <p><b>Tests Required:</b> {{"Grow out Test"}}</p>
+                            <p><b>Chemical Treatment:</b> {{data.chemical_treatment ? data.chemical_treatment : "NA"}}</p>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4"></div>
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4"></div>
+                    </div>
+                
+                    <!-- Fourth section (Sign and Seal) -->
+                    <div class="row">
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4"></div>
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4"></div>
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="text-align: end;">
+                            <p><b>Sign and Seal</b></p>
+                        </div>
+                    </div>
+                
+                    <!-- Print Button -->
+                  
+                
+                    <hr class="new2">
+                </div>
+                
+    
+                  <!-- start sectio 3 -->
+                  <div class="col-12 col-md-12 col-lg-12 col-sm-12 mt-1 " *ngIf="data.testing_type == 'GOT' && this.submissionid==='table2'">
+                    <!-- First section -->
+                    <div class="row pt-1 pb-2">
+                        <!-- Logo -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4">
+                            <img src="../../../assets/images/no_logo.png" alt="logo" width="90px" height="90px"/>
+                        </div>
+                
+                        <!-- BSPC Name and Location -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="line-height: 12px;">
+                            <p style="text-align: center; font-size: 20px;"><b>{{userName ? userName : "BSPC NAME"}}</b></p>
+                            <p style="text-align: center;font-size: 20px"><b>{{districtName ? districtName + ',' : "DISTRICT"}} {{stateName ? stateName : "STATE"}}</b></p>
+                        </div>
+                
+                        <!-- Sample Slip Details -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="text-align: end;">
+                            <p class="pt-1"><b>SAMPLE SLIP (GUARD)</b></p>
+                        </div>
+                    </div>
+                
+                    <!-- Second section (Crop, Variety, Lot Info) -->
+                    <div class="row pt-5">
+                        <!-- Crop and Variety -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="line-height: 12px;">
+                            <p><b>Crop:</b> {{data && data.crop_name ? data.crop_name : "Na"}}</p>
+                            <p><b>Variety:</b> {{data && data.variety_name ? data.variety_name : "Na"}}</p>
+                            <p *ngIf="data && data.line_variety_name"><b>Parental Line:</b> {{data.line_variety_name}}</p>
+                        </div>
+                
+                        <!-- Lot Info -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="line-height: 12px;text-align: center">
+                            <p class="mx-3 px-3"><b>Lot No.:</b> {{data.lot_no ? data.lot_no : "SEP23-0001-001-1(i)"}}</p>
+                            <p class="mx-3 px-5"><b>Lot Quantity ({{this.unit2}}):</b> {{data.total_processed_qnt ? data.total_processed_qnt : 200}}</p>
+                            <p class="mx-5 px-5"><b>Class:</b> {{data.class_of_seed ? data.class_of_seed : "Breeder I"}}</p>
+                        </div>
+                
+                        <!-- Unique Code and Date -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="text-align: end; line-height: 12px;">
+                            <p><b>Unique code:</b> {{data.unique_code ? data.unique_code : "wt Y4 5Ab n4"}}</p>
+                            <p><b>Date:</b> {{formattedDate() ? formattedDate() : '24/11/23'}}</p>
+                        </div>
+                    </div>
+                
+                    <!-- Third section (Testing Lab, Tests Required, Treatment) -->
+                    <div class="row pt-1">
+                        <!-- Test Centre -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="line-height: 12px;">
+                            <p><b style="line-height: normal !important">Test Centre:</b> {{this.bspcName ? this.bspcName : "NA"}}</p>
+                            <p><b>Tests Required:</b> {{"Grow out Test"}}</p>
+                            <p><b>Chemical Treatment:</b> {{data.chemical_treatment ? data.chemical_treatment : "Yes (name of chemical)"}}</p>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4"></div>
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4"></div>
+                    </div>
+                
+                    <!-- Fourth section (Sign and Seal) -->
+                    <div class="row">
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4"></div>
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4"></div>
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-4 col-xl-4" style="text-align: end;">
+                            <p><b>Sign and Seal</b></p>
+                        </div>
+                    </div>
+                
+                    <!-- Print Button -->
+                  
+                
+                    <hr class="new2">
+                </div>
+            </div>
+         </div>
+      
+        <div class="row">
+            <div class="col-12 col-sm-5 col-md-5 col-lg-5 pt-1">
+            </div>
+            <div class="col-12 col-sm-2 col-md-2 col-lg-2 pt-1">
+                <button  (click)="printContent()" class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">Print</button>
+            </div>
+            <div class="col-12 col-sm-5 col-md-5 col-lg-5 pt-1">
+            </div>
+        </div>
+    </div>
+</div>

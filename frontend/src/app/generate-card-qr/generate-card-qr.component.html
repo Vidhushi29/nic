@@ -1,0 +1,564 @@
+
+
+
+
+
+<div class="row my-4 w-100 mx-0  ">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle" id="pdf-tables">
+        <div class=" px-0 py-2" style="width: 100%;">
+            <div class="container print-section " *ngFor="let item of carddata; let index= index" [id]="item.pageId">
+                <div class="row align-items-center "  >
+                    <div class="col-6 mx-auto">
+                        <div class="card shadow border tagCard mt-4" >
+                            <div class="card-body d-flex flex-column align-items-center ">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-12 float-right pl-0">
+                                            <div class="left-logo mt-2">
+                                                <p> <img src="../../assets/images/left-icar-logo.png"
+                                                        class="left-logo-img"> </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 col-sm-12 ">
+                                            <div class="heading mt-2">
+                                                <span align="center" class="title">{{agency_name ?
+                                                    agency_name
+                                                    :'NA'}}</span>
+                                                <p class="address-title">{{district_name ? district_name
+                                                    :'NA'}},{{state_name ? state_name:'NA'}}</p>
+                                                <p class="divider"><img src="../../assets/images/card-divider.png"
+                                                        class="diveder-image"></p>
+                                                <p class="class-of">Class of Seed : Breeder Seed</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 float-right pl-0 d-flex justify-content-end">
+                                            <div class="left-logo mt-2" style="float: right;">
+                                                <!-- <qrcode [qrdata]="baseUrl+ 'generate-card/'+ encryptedData"
+                                                [allowEmptyString]="true"
+                                                [ariaLabel]="'QR Code image with the following content...'"
+                                                [cssClass]="'top'" [colorDark]="'#000000ff'" [colorLight]="'#fed16c'"
+                                                [elementType]="'canvas'" [errorCorrectionLevel]="'M'" [imageSrc]=""
+                                                [imageHeight]="80" [imageWidth]="80" [margin]="2" [scale]="1"
+                                                [title]="'A custom title attribute'" [width]="140">
+                                            </qrcode> -->
+                                            <qrcode [qrdata]="baseUrl + 'tag-number-verification?tagNo=' +  tagArraydata"
+                                              [allowEmptyString]="true"
+                                              [ariaLabel]="'QR Code image with the following content...'"
+                                              [cssClass]="'top'" [colorDark]="'#000000ff'" [colorLight]="'#fed16c'"
+                                              [elementType]="'canvas'" [errorCorrectionLevel]="'M'" [imageSrc]=""
+                                              [imageHeight]="80" [imageWidth]="80" [margin]="2" [scale]="1"
+                                              [title]="'A custom title attribute'" [width]="140">
+                                            </qrcode>
+                                                <!-- <qrcode
+                                                [qrdata]="baseUrl+ 'breeder-bsp-profarma-one-qr/'+ encryptedData"
+                                                 [allowEmptyString]="true"
+                                                    [ariaLabel]="'QR Code image with the following content...'"
+                                                    [cssClass]="'qrcod'" [colorDark]="'#000000ff'"
+                                                    [colorLight]="'#fed16c'" [elementType]="'canvas'"
+                                                    [errorCorrectionLevel]="'M'" [imageSrc]="" [imageHeight]="80"
+                                                    [imageWidth]="80" [margin]="2" [scale]="1"
+                                                    [title]="'A custom title attribute'" [width]="90">
+                                                </qrcode> -->
+                                                <!-- <p> <img src="../../assets/images/left-icar-logo.png" class="left-logo-img"> </p> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Crop</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5 ">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text" value="{{selectCrop ? selectCrop :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading" style="white-space: nowrap;">Date of
+                                                        Test:</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.date_of_test ? item.date_of_test :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading"
+                                                        style="white-space: nowrap;">Variety</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text"
+                                                        value="{{item && item.variety_name ? item.variety_name :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading" style="white-space: nowrap;">Pure
+                                                        Seed(%):</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.pure_seed ? item.pure_seed :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Parental
+                                                        <br> Line</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text"
+                                                        value="{{item && item.line_variety_name ? item.line_variety_name :'NA'}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading" style="white-space: nowrap;">Inert
+                                                        Seed(%):</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.inert_matter ? item.inert_matter :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Lot
+                                                        No.</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text" value="{{item && item.lot_no ? item.lot_no :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading"
+                                                        style="white-space: nowrap;">Germination(%):</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.germination ? item.germination :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Tag
+                                                        No.</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input 
+                                                    *ngIf="previewTagtext"
+                                                   class="first "
+                                                    style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em; color: transparent;text-shadow: 0 0 8px #000;;"
+                                                        type="text" value="{{item && item.tags ? item.tags :''}}">
+                                                        <input 
+                                                        *ngIf="!previewTagtext"
+                                                       class="first "
+                                                        style="width: 147px; 
+                                                height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                            type="text" value="{{item && item.tags ? item.tags :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                   
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Bag
+                                                        Weight<br> (Kg).</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text"
+                                                        value="{{item && item.bag_weight ? item.bag_weight :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <span class="input-heading" style="white-space: nowrap;margin-left: -1em;">This tag is system generated and does required any signature.</span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 pl-0 d-flex justify-content-end">
+                                        <div class="row pt-2">
+                                            <div class="col-md-3  ">
+                                                <!-- <span class="input-heading" style="white-space: nowrap;margin-left: -1em;">This tag is system generated and does required any signature.</span> -->
+                                            </div>
+                                            <div class="col-md-12 " style="margin-left: -3em;margin-top:-4em">
+                                                <span class="input-heading"  style="white-space: nowrap;display: flex;justify-content:end;">
+                                                    (-SD-)
+                                                    </span>
+                                            </div>
+                                            <div class="col-md-12 ">
+                                                <span class="input-heading"  style="white-space: nowrap;display: flex;justify-content:end;margin-top:-2em">
+                                                    {{contactPersonName ? contactPersonName:'NA'}}
+                                                    </span>
+                                            </div>
+                                            <div class="col-md-12 ">
+                                                <span class="input-heading"  style="white-space: nowrap;display: flex;justify-content:end;margin-top:-1em">
+                                                    {{designation_name ? designation_name:'NA'}}
+                                                    </span>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row my-4 w-100 mx-0  d-none">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle" id="demo">
+        <div class=" px-0 py-2" style="width: 100%;">
+            <div class="container print-section " *ngFor="let item of cardDatadetails; let index= index" [id]="item.pageId">
+                <div class="row align-items-center "  >
+                    <div class="col-6 mx-auto">
+                        <div class="card shadow border tagCard mt-4" >
+                            <div class="card-body d-flex flex-column align-items-center ">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-12 float-right pl-0">
+                                            <div class="left-logo mt-2">
+                                                <p> <img src="../../assets/images/left-icar-logo.png"
+                                                        class="left-logo-img"> </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 col-sm-12 ">
+                                            <div class="heading mt-2">
+                                                <span align="center" class="title">{{agency_name ?
+                                                    agency_name
+                                                    :'NA'}}</span>
+                                                <p class="address-title">{{district_name ? district_name
+                                                    :'NA'}}, {{state_name ? state_name:'NA'}}</p>
+                                                <p class="divider"><img src="../../assets/images/card-divider.png"
+                                                        class="diveder-image"></p>
+                                                <p class="class-of">Class of Seed : Breeder Seed</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 float-right pl-0 d-flex justify-content-end">
+                                            <div class="left-logo mt-2" style="float: right;">
+                                                <qrcode [allowEmptyString]="true"
+                                                    [ariaLabel]="'QR Code image with the following content...'"
+                                                    [cssClass]="'qrcod'" [colorDark]="'#000000ff'"
+                                                    [colorLight]="'#fed16c'" [elementType]="'canvas'"
+                                                    [errorCorrectionLevel]="'M'" [imageSrc]="" [imageHeight]="80"
+                                                    [imageWidth]="80" [margin]="2" [scale]="1"
+                                                    [title]="'A custom title attribute'" [width]="90">
+                                                </qrcode>
+                                                <!-- <p> <img src="../../assets/images/left-icar-logo.png" class="left-logo-img"> </p> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Crop</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5 ">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text" value="{{selectCrop ? selectCrop :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading" style="white-space: nowrap;">Date of
+                                                        Test:</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.date_of_test ? item.date_of_test :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading"
+                                                        style="white-space: nowrap;">Variety</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text"
+                                                        value="{{item && item.variety_name ? item.variety_name :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading" style="white-space: nowrap;">Pure
+                                                        Seed(%):</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.pure_seed ? item.pure_seed :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Parental
+                                                        <br> Line</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text"
+                                                        value="{{item && item.line_variety_name ? item.line_variety_name :'NA'}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading" style="white-space: nowrap;">Inert
+                                                        Seed(%):</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.inert_matter ? item.inert_matter :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Lot
+                                                        No.</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text" value="{{item && item.lot_no ? item.lot_no :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading"
+                                                        style="white-space: nowrap;">Germination(%):</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.germination ? item.germination :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Tag
+                                                        No.</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input 
+                                                    *ngIf="previewTagtext"
+                                                   class="first "
+                                                    style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;filter: blur(3px);"
+                                                        type="text" value="X/XX/XX/XXXX">
+                                                        <input 
+                                                        *ngIf="!previewTagtext"
+                                                       class="first "
+                                                        style="width: 147px; 
+                                                height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                            type="text"value="X/XX/XX/XXXX">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Bag
+                                                        Weight<br> (Kg).</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text"
+                                                        value="{{item && item.bag_weight ? item.bag_weight :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-lg-7 col-md-6 col-sm-12 pl-0 d-flex justify-content-end">
+                                            <div class="row pt-2">
+                                                <div class="col-md-12 " style="margin-left: -3em;">
+                                                    <span class="input-heading" style="white-space: nowrap;display: flex;justify-content:end;">
+                                                        (-SD-)
+                                                        </span>
+                                                </div>
+                                                <div class="col-md-12 ">
+                                                    <span class="input-heading"  style="white-space: nowrap;display: flex;justify-content:end;">
+                                                        {{contactPersonName ? contactPersonName:'NA'}}
+                                                        </span>
+                                                </div>
+                                                <div class="col-md-12 ">
+                                                    <span class="input-heading"  style="white-space: nowrap;display: flex;justify-content:end;">
+                                                        {{designation_name ? designation_name:'NA'}}
+                                                        </span>
+                                                </div>
+                                               
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <span class="input-heading" style="white-space: nowrap;margin-left: -1em;">This tag is system generated and does required any signature.</span>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12 pl-0 d-flex justify-content-end">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <!-- <span class="input-heading" style="white-space: nowrap;margin-left: -1em;">This tag is system generated and does required any signature.</span> -->
+                                                </div>
+                                                <div class="col-md-12 " style="margin-left: -3em;margin-top:-4em">
+                                                    <span class="input-heading"  style="white-space: nowrap;display: flex;justify-content:end;">
+                                                        (-SD-)
+                                                        </span>
+                                                </div>
+                                                <div class="col-md-12 ">
+                                                    <span class="input-heading"  style="white-space: nowrap;display: flex;justify-content:end;margin-top:-2em">
+                                                        {{contactPersonName ? contactPersonName:'NA'}}
+                                                        </span>
+                                                </div>
+                                                <div class="col-md-12 ">
+                                                    <span class="input-heading"  style="white-space: nowrap;display: flex;justify-content:end;margin-top:-1em">
+                                                        {{designation_name ? designation_name:'NA'}}
+                                                        </span>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- <div class="row pl-0">
+                                        <div class="col-lg-12 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;margin-left: -1em;">This tag is system generated and does required any signature.</span>
+                                                </div>
+                                                <div class="col-md-12 " style="margin-left: -3em;margin-top:-4em">
+                                                    <span class="input-heading" style="white-space: nowrap;display: flex;justify-content:end;">
+                                                        (-SD-)
+                                                        </span>
+                                                </div>
+                                                <div class="col-md-12 ">
+                                                    <span class="input-heading"  style="white-space: nowrap;display: flex;justify-content:end;margin-top:-2em">
+                                                        {{contactPersonName ? contactPersonName:'NA'}}
+                                                        </span>
+                                                </div>
+                                                <div class="col-md-12 ">
+                                                    <span class="input-heading"  style="white-space: nowrap;display: flex;justify-content:end;margin-top:-1em">
+                                                        {{designation_name ? designation_name:'NA'}}
+                                                        </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- <button type="button" class="btn btn-primary me-2" (click)="show(child['modal'])">
+    open child modal
+    </button> -->
+
+
+<!-- </div> -->

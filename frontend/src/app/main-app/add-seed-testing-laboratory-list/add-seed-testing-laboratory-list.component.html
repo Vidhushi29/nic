@@ -1,0 +1,292 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class=" main-content-form-wrapper px-1 py-2">
+            <div class="row">
+                <div class="col-12 pl-4 pb-3 px-4 mt-2 ml-1 for-margin">
+                    <span class="heading_notofied">
+                        Seed Testing Laboratory
+                    </span>
+                    <div [hidden]="true">
+                        <app-add-seed-testing-laboratory-search></app-add-seed-testing-laboratory-search>
+                    </div>
+                    <form [formGroup]="ngForm">
+                        <div class="col-12 pt-0">
+                            <div class="row ">
+                                <div class="col-12 col-md-4 mt-lg-3 mt-4 mt-md-3  px-0 pr-2 pr-md-3 pl-0">
+                                    <div class="col-12 px-0">
+                                        <label for="Crop Group" class="search_txt">State Name</label>
+                                    </div>
+                                    <div class="col-12  mt-0 px-0">
+                                        <div ngbDropdown class="d-inline-block w-100 "
+                            
+                                        >
+                                            <button class="btn takeplacholder w-100 crop toggle-button"
+                                                 id="state" ngbDropdownToggle
+                                                style="text-align: left;font-weight:400;">{{selected_state && (selected_state.length>30) ? (selected_state.substring(0,30)+'...'):selected_state? selected_state :'Select State Name'}}</button>
+            
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="state" aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4"  formControlName="state_text" >
+                                                <button class="dropdown-item" *ngFor="let state of stateList"
+                                                    (click)="state_select(state)" #dropdownItem [attr.data-parent-name]="'state'">
+                                                    {{ state && state['state_name'] ? state['state_name'] :''}}
+                                                    <!-- <input type="hidden" formControlName="crop_code"> -->
+                                                </button>
+                                                <!-- <button class="dropdown-item"(click)="cropName('Juice')">Juice</button>
+                                              <button class="dropdown-item" (click)="cropName('Juice')">SugarCane</button> -->
+                                            </div>
+            
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown
+                                            >
+                                            <i class="fa-solid fa-angle-down downicon" (click)="cnClick()"></i>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- <div class="col-12 col-md-4 mt-lg-3 mt-4 mt-md-3  px-0 pr-2 pr-md-3 pl-0">
+                                    <div class="col-12 px-0">
+                                        <label for="Crop Group" class="search_txt">District Name</label>
+                                    </div>
+                                    <div class="col-12  mt-0 px-0">
+                                        <div ngbDropdown class="d-inline-block w-100 "
+                            
+                                        >
+                                            <button class="btn takeplacholder w-100 crop toggle-button"
+                                                [ngClass]=" disabledfieldDist   ? 'disabledfield' : ''" id="district" ngbDropdownToggle
+                                                style="text-align: left;">{{selected_district && (selected_district.length>30) ? (selected_district.substring(0,30)+'...'):selected_district? selected_district :'Select District Name'}}</button>
+            
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="district" aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4"  formControlName="district_text" >
+                                                <button class="dropdown-item" *ngFor="let data of districtList"
+                                                    (click)="district_select(data)" #dropdownItem [attr.data-parent-name]="'district'">
+                                                    {{data.district_name}}-->
+                                                    <!-- <input type="hidden" formControlName="crop_code"> -->
+                                                <!-- </button> -->
+                                        
+                                            <!-- </div> -->
+            
+                                        <!-- </div> -->
+                                        <!-- <div class="pl-0 toggle-button" ngbDropdown
+                                            [ngClass]=" disabledfieldDist ? 'disabledfield' : ''">
+                                            <i class="fa-solid fa-angle-down downicon" (click)="cdClick()"></i>
+                                        </div> -->
+                                        <!-- <select class="form-select form-control" aria-label="Default select example"
+                                            formControlName="district_id" (change)="onChangeDistrict()">
+                                            <option value="" disabled>Select District Name</option>
+                                            <option *ngFor="let district of districtList"
+                                                value="{{district['m_district.district_code']}}">
+                                                {{district['m_district.district_name']}}</option>
+                                        </select> -->
+
+
+                                    <!-- </div> -->
+                                <!-- </div> -->
+
+                                <!-- <div class="col-12 col-md-4 mt-lg-3 mt-4 mt-md-3  px-0 pr-2 pr-md-2 pl-0">
+                                    <div class="col-12 px-0">
+                                        <label for="Crop Group" class="search_txt">Laboratory Name</label>
+                                    </div>
+                                    <div class="col-12 mt-0 px-0">
+                                        <div ngbDropdown class="d-inline-block w-100 "
+                            
+                                        >
+                                            <button class="btn takeplacholder w-100 crop toggle-button"
+                                                [ngClass]=" disabledfieldAgency  ? 'disabledfield' : ''" id="agency" ngbDropdownToggle
+                                                style="text-align: left;">{{selected_agency && (selected_agency.length>30) ? (selected_agency.substring(0,30)+'...'):selected_agency? selected_agency :'Select Laboratory Name'}}</button>
+            
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="agency" aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4"  formControlName="agency_text" >
+                                                <button class="dropdown-item" *ngFor="let data of LabData"
+                                                    (click)="agency_select(data)" #dropdownItem [attr.data-parent-name]="'agency'">
+                                                    {{data.lab_name}}
+                                                    <!-- <input type="hidden" formControlName="crop_code"> -->
+                                                <!-- </button> -->
+                                                <!-- <button class="dropdown-item"(click)="cropName('Juice')">Juice</button>
+                                              <button class="dropdown-item" (click)="cropName('Juice')">SugarCane</button> -->
+                                            <!-- </div> -->
+            
+                                        <!-- </div> -->
+                                        <!-- <div class="pl-0 toggle-button" ngbDropdown
+                                            [ngClass]=" disabledfieldAgency ? 'disabledfield' : ''">
+                                            <i class="fa-solid fa-angle-down downicon" (click)="caClick()"></i>
+                                        </div> -->
+                                        <!-- <select class="form-select form-control" aria-label="Default select example"
+                                            formControlName="lab_name">
+                                            <option value="" selected>Select Laboratory Name</option>
+                                            <option *ngFor="let data of LabData" value="{{data.lab_name}}">
+                                                {{data.lab_name}}</option>
+                                        </select> -->
+                                        <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                                            <img src="assets/images/16.svg" alt="" srcset=""> -->
+                                            <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                        <!-- </div> -->
+
+                                    <!-- </div> -->
+                                <!-- </div> -->
+                            </div>
+                        </div>
+                    <br>
+
+                        <div class="col-12 mt-0 px-0 buttons-phone ">
+                            <!-- class="form-button search ml-0 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="onSubmit(ngForm.value)"> -->
+                            <button
+                                class="form-button search d-inline-flex mr-3 justify-content-center verticle-content-middle mb-3"
+                                (click)="onSubmit(ngForm.value)">
+                                <!-- class="form-button search ml-0 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="getPageData()"> -->
+                                Search
+                            </button>
+                            <button
+                                class="clear-form-button ml-0 mr-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="clear()">
+                                Clear
+                            </button>
+
+                        </div>
+                    </form>
+                    <div class="col-12 px-0 pr-2">
+                        <hr class="separator  m-0">
+                    </div>
+                </div>
+
+                <!-- <div class="col-12 px-4 buttons-phone-add d-flex justify-content-end"
+                    style="padding-right: 32px!important;">
+                    <button class="form-button  d-flex justify-content-center verticle-content-middle"
+                        style="width: 100px !important;background-color: #963814;"
+                        routerLink="/add-seed-testing-laboratory">Add</button>
+                </div> -->
+                <!-- {{this.isState}} -->
+                <div class="col-12 px-4 py-2" *ngIf="isState === true">
+                    <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+                    <div class="list-wrapper px-4 py-2">
+                        <div class="row d-none d-md-flex data-row-header">
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">S/N</div>
+                            <div class="col-6 col-md-4 py-3 d-flex verticle-content-middle">Laboratory Name</div>
+                            <div class="col-6 col-md-4 py-3 d-flex verticle-content-middle">Short Name</div>
+                            <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">District</div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">State </div> -->
+                            <!-- <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle pl-lg-3">Mobile Number</div>
+                            <div class="col-6 col-md-2 py-3 pl-5 d-flex verticle-content-middle ">Status</div> -->
+
+                            <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle justify-content-center">
+                                Action
+                            </div>
+                        </div>
+                        <div class="row data-row"
+                            *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index">
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
+                                    <span>{{ (filterPaginateSearch.itemListCurrentPage - 1) *
+                                        filterPaginateSearch.itemListPageSize + dataIndex + 1}}.</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Laboratory Name:</b>&nbsp;</label>
+                                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data.labFullName}}">
+                                        {{data && data.labFullName && (data.labFullName.length>20)?
+                                        (data.lab_name.substring(0,20)+ '...')  :
+                                        data && data.labFullName ? (data.labFullName|uppercase) :"NA"
+                                        }}</span>
+                                </div>
+                            </div>
+                          
+                            <div class="col-6 col-md-4 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Short Name:</b>&nbsp;</label>
+                                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data.lab_name}}">{{data && data.lab_name ?
+                                        (data.lab_name|uppercase) :"NA"
+                                        }}</span>
+                                </div>
+                            </div>
+                            <!-- <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>District Name:</b>&nbsp;</label>
+                                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data && data.m_district && data.m_district.district_name ? data.m_district.district_name:''}}">{{(data &&
+                                        data.m_district &&
+                                        data.m_district.district_name ? ((data.m_district.district_name.length > 30) ?
+                                        ((data.m_state.state_name.substring(0, 30)|uppercase) +
+                                        "..."):(data.m_district.district_name?
+                                        (data.m_district.district_name|uppercase):"NA")):"NA")}}</span>
+
+                                </div>
+                            </div> -->
+                            <!-- <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>State:</b>&nbsp;</label> -->
+                                    <!-- <span>{{ data.contact_person_name
+                                        }}</span> -->
+                                    <!-- <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom"
+                                        title="{{data && data.m_state && data.m_state.state_name ? data.m_state.state_name:''}}">{{(data && data.m_state &&
+                                        data.m_state.state_name ? ((data.m_state.state_name.length > 30) ?
+                                        ((data.m_state.state_name.substring(0, 30)|uppercase) + "..."):(data.m_state.state_name?
+                                        (data.m_state.state_name|uppercase):"NA")):'NA')}}</span>
+                                </div>
+                            </div>
+                             -->
+
+                            <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none">Address:&nbsp;</label>
+                                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"  data-placement="bottom" title="{{data.m_state.state_name}}">{{(data && data.m_state && data.m_state.state_name&&(data.m_state.state_name.length > 30) ? (data.m_state.state_name.substring(0, 30) + "..."):(data.m_state.state_name? data.m_state.state_name:"NA"))}}</span>
+                                    <span>{{ data.address
+                                        }}</span>
+                                </div>
+                            </div>
+                           -->
+                            <!-- <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle pl-lg-3">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Mobile Number:</b>&nbsp;</label>
+                                    <span title="{{data && data.mobile_number ? data.mobile_number:'NA'}}">{{data && data.mobile_number ? data.mobile_number:"NA"}}</span>
+                                </div>
+                            </div> -->
+                            <!-- <div class="col-6 col-md-2 py-1 pl-5 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Status:</b>&nbsp;</label>
+                                    <span style="text-transform: capitalize;cursor: pointer;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data &&
+                                            (data.is_active==1)?'ACTIVE':'INACTIVE'}}">{{data &&
+                                        (data.is_active==1)?'ACTIVE':'INACTIVE'}}</span>
+                                </div>
+                            </div> -->
+<!-- {{data.labId.split('-')[0]]}} -->
+                            <div
+                                class="col-12 col-md-3 py-1 d-flex verticle-content-middle justify-content-md-center phone_view_btn">
+                                <div class="list-action-buttons-wrapper w-fit-content phone_view_action_btn">
+                                    <button class="list-action-buttons"
+                                        [routerLink]="['/add-seed-testing-laboratory/view', dataIndex,data.labId.split('-')[0]]">
+                                        <img src="assets/images/view.svg">
+                                    </button>
+                                    <!-- <button class="list-action-buttons"
+                                        [routerLink]="['/add-seed-testing-laboratory/edit', data.id]">
+                                        <img src="assets/images/edit.svg">
+                                    </button>
+                                    <button class="list-action-buttons" (click)="delete(data.id)">
+                                        <img src="assets/images/delete.svg">
+                                    </button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div [hidden]="countData!=0" class="px-2 py-3 w-100" style="height: 50px;">
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data Found.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 px-4 px-md-3 py-1 pb-5">
+                    <app-pagination-ui></app-pagination-ui>
+                </div><br><br>
+            </div>
+        </div>
+    </div>
+</div>

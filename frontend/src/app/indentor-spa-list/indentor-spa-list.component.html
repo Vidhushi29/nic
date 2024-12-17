@@ -1,0 +1,338 @@
+<div class="row my-4 w-100 mx-0">
+
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <div class="row">
+                <div class="col-12 pl-4 pb-1 px-4 mt-2 ml-2">
+                    <span class="heading_notofied">
+
+                        Add Seed Producing Agency (SPA)
+                    </span>
+                    <form [formGroup]="ngForm">
+                        <div class="col-12 pt-0 ml-0">
+                            <div class="row ">
+                                <!-- <div class="col-12 col-md-4 mt-4 mt-md-3 px-0 pr-3">
+                                    <div class="col-12 px-0">
+                                        <label for="Crop Group" class="search_txt">State</label>
+                                    </div>
+                                    <div class="col-12  mt-0 px-0">
+                                        <div ngbDropdown class="d-inline-block w-100 "
+                            
+                                        >
+                                            <button class="btn takeplacholder w-100 crop toggle-button"
+                                                 id="state" ngbDropdownToggle
+                                                style="text-align: left;font-weight:400;">{{selected_state && (selected_state.length>30) ? (selected_state.substring(0,30)+'...'):selected_state? selected_state :'Select State'}}</button>
+            
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="state" aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4"  formControlName="state_text" >
+                                                <button class="dropdown-item" *ngFor="let data of stateList"
+                                                    (click)="state_select(data)" #dropdownItem [attr.data-parent-name]="'state'">
+                                                    {{data.state_name}}
+                                                </button>
+                                            </div>
+            
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown
+                                            [ngClass]=" disabledfield ? 'disabledfield' : ''">
+                                            <i class="fa-solid fa-angle-down downicon" (click)="cnClick()"></i>
+                                        </div>                            
+                                    </div>
+                                </div> -->
+
+                                <div class="col-12 col-md-4 mt-4 mt-md-3 px-0 pr-3">
+                                    <div class="col-12 px-0">
+                                        <label for="Crop Group" class="search_txt">District</label>
+                                    </div>
+                                    <div class="col-12  mt-0 px-0">
+                                        <div ngbDropdown class="d-inline-block w-100 "
+                            
+                                        >
+                                            <button class="btn takeplacholder w-100 crop toggle-button"
+                                                 id="district" ngbDropdownToggle
+                                                style="text-align: left;">{{selected_district && (selected_district.length>30) ? (selected_district.substring(0,30)+'...'):selected_district? selected_district :'Select District'}}</button>
+            
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="district" aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4"  formControlName="district_text" >
+                                                <button class="dropdown-item" *ngFor="let data of districtList"
+                                                    (click)="district_select(data)" #dropdownItem [attr.data-parent-name]="'district'">
+                                                    {{data && data.district_name ? data.district_name :''}}
+                                                    <!-- <input type="hidden" formControlName="crop_code"> -->
+                                                </button>
+                                                <!-- <button class="dropdown-item"(click)="cropName('Juice')">Juice</button>
+                                              <button class="dropdown-item" (click)="cropName('Juice')">SugarCane</button> -->
+                                            </div>
+            
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown
+                                           >
+                                            <i class="fa-solid fa-angle-down downicon" (click)="cdClick()"></i>
+                                        </div>
+                                        <!-- <select class="form-select form-control" aria-label="Default select example"
+                                            formControlName="district_id">
+                                            <option value="" disabled>Select District</option>
+                                            <option *ngFor="let district  of districtList" value="{{district && district['m_district.district_code'] ?  district['m_district.district_code'] :''}}">
+                                                {{district && district['m_district.district_name'] ?  district['m_district.district_name'] :''}}</option>
+                                        </select> -->
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="col-12 col-md-4 mt-4 mt-md-3 px-0 pr-3">
+                                    <div class="col-12 px-0">
+                                        <label for="Crop Group" class="search_txt">Name of the SPA</label>
+                                    </div>
+
+                                    <div class="col-12 mt-0 px-0">
+                                        <div ngbDropdown class="d-inline-block w-100 "
+                            
+                                        >
+                                            <button class="btn takeplacholder w-100 crop toggle-button"
+                                                [ngClass]=" disabledfieldAgency  ? 'disabledfield' : ''" id="agency" ngbDropdownToggle
+                                                style="text-align: left;">{{selected_agency && (selected_agency.length>30) ? (selected_agency.substring(0,30)+'...'):selected_agency? selected_agency :'Select Name of the SPA'}}</button>
+            
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="agency" aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4"  formControlName="agency_text" >
+                                                <button class="dropdown-item" *ngFor="let data of resultAgencyData"
+                                                    (click)="agency_select(data)" #dropdownItem [attr.data-parent-name]="'agency'">
+                                                    {{data && data.agency_name ? data.agency_name :''}}
+                                                    <!-- <input type="hidden" formControlName="crop_code"> -->
+                                                </button>
+                                                <!-- <button class="dropdown-item"(click)="cropName('Juice')">Juice</button>
+                                              <button class="dropdown-item" (click)="cropName('Juice')">SugarCane</button> -->
+                                            </div>
+            
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown
+                                            [ngClass]=" disabledfieldAgency ? 'disabledfield' : ''">
+                                            <i class="fa-solid fa-angle-down downicon" (click)="caClick()"></i>
+                                        </div>
+                                        <!-- <select class="form-select form-control" aria-label="Default select example"
+                                            formControlName="agency_id">
+                                            <option value="" selected>Select Agency Name</option>
+                                            <option *ngFor="let data of resultAgencyData" value="{{data.id}}">
+                                                {{data.agency_name}}</option>
+
+                                        </select> -->
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                                <img src="assets/images/16.svg" alt="" srcset="">
+
+                            </div> -->
+                        </div>
+                        
+
+                        <div class="col-12 pl-0 mt-3 pt-2 pt-md-0 buttons-phone">
+                            <button
+                                class="form-button search d-inline-flex justify-content-center verticle-content-middle mb-0"
+                                style="cursor: pointer" (click)="onSubmit(ngForm.value)">Search</button>
+                            <button
+                                class="clear-form-button ml-3 d-inline-flex justify-content-center verticle-content-middle mb-0 mt-3 mt-md-2"
+                                (click)="clear()">Clear</button>
+                        </div>
+                        <div class="col-12 px-0 pr-3">
+                            <hr class="separator mb-0">
+                        </div>
+
+                    </form>
+
+
+                    <!--  -->
+
+                    <!-- <app-indent-breeder-seed-allocation-search></app-indent-breeder-seed-allocation-search> -->
+                    <!-- <app-indent-breeder-seed-allocation-search [isByNodalAgency]="true"></app-indent-breeder-seed-allocation-search> -->
+                </div>
+
+                <div class="col-12 px-4 mt-2 py-1 d-flex justify-content-end buttons-phone-add"
+                    style="padding-right: 2rem!important;">
+                    <button class="form-button d-flex justify-content-center verticle-content-middle"
+                        style="width: 100px !important;background-color: #963814;"
+                        routerLink="/add-seed-producing-agency-spa-indentor">Add</button>
+                </div>
+                <div class="col-12 px-4">
+                    <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+                    <div class="list-wrapper px-4 py-3" style="margin-top: -4px;">
+                        <div class="row d-none d-md-flex data-row-header">
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">S/N</div>
+                            <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Contact Person Name
+                            </div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Contact Person Designation
+                            </div> -->
+                            <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle">Name of the SPA
+                            </div>
+                            <!-- <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle">Short Name
+                            </div> -->
+                            <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle">SPA Code
+                            <!-- </div>
+                            <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle">Spa Code -->
+                            </div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle pl-3">Address</div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle pl-3">District</div>
+
+                            <div class="col-6 col-md-2 py-2 d-flex verticle-content-middle pl-lg-5">State
+                            </div>
+
+                            <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Category
+                            </div> -->
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle pl-4">Mobile Number
+                            </div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle pl-4">Status</div>
+
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle justify-content-center">
+                                Action
+                            </div>
+                        </div>
+                        <div class="row data-row"
+                            *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index">
+                            <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
+                                    <span>{{ (filterPaginateSearch.itemListCurrentPage - 1) *
+                                        filterPaginateSearch.itemListPageSize + dataIndex + 1}}.</span>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-1  py-2 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Agency Name:</b>&nbsp;</label>
+                                    <span style="cursor: pointer; word-break: break-word; word-break: break-word;"
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="{{data.agency_name}}">{{(data && data.agency_name
+                                        &&
+                                        (data.agency_name.length > 30) ? ((data.agency_name.substring(0, 30)|uppercase) +
+                                        "..."):data && data.agency_name? (data.agency_name|uppercase):'NA')}}</span>
+                                </div>
+                            </div>
+                            <!-- <div class="col-6 col-md-1  py-2 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Short Name:</b>&nbsp;</label>
+                                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data.short_name}}">{{(data && data.short_name
+                                        ? (data.short_name |uppercase)
+                                        :'Na')}}</span>
+                                        <label class="d-md-none"><b>SPA Code:</b>&nbsp;</label>
+                                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data.short_name}}">{{(data && data.spa_code
+                                        ? (data.spa_code |uppercase)
+                                        :'NA')}}</span>
+                                </div>
+                            </div> -->
+                            <div class="col-6 col-md-1  py-2 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Spa code :</b>&nbsp;</label>
+                                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{(data && data.user 
+                                            && data.user.spa_code
+                                        ? (data.user.spa_code |uppercase)
+                                        :'NA')}}">{{(data && data.user 
+                                            && data.user.spa_code
+                                        ? (data.user.spa_code |uppercase)
+                                        :'NA')}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle pl-3">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Address:</b>&nbsp;</label>
+                                    <span style="text-transform: capitalize;cursor: pointer" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data && data.address ? data.address :''}}">
+                                        {{(data && data.address && (data.address.length > 30) ?
+                                        (((data.address).substring(0, 30)|uppercase) + "..." ):data && data.address ? (data.address|uppercase) :'NA')}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1  py-2 d-flex verticle-content-middle pl-3">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>District:</b>&nbsp;</label>
+                                    <span style="cursor: pointer; word-break: break-word; word-break: break-word;"
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="{{data && data.m_district && data.m_district.district_name ? data.m_district.district_name:'NA'}}">{{(data && data.m_district &&
+                                        data.m_district.district_name
+                                        &&
+                                        (data.m_district.district_name.length > 30) ? ((data.m_district.district_name.substring(0,
+                                        30)|uppercase) +
+                                        "..."):data && data.m_district && (data.m_district.district_name|uppercase)? data.m_district.district_name:'NA')}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2  py-2 d-flex verticle-content-middle pl-lg-5" >
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>State:</b>&nbsp;</label>
+                                    <span style="cursor: pointer; word-break: break-word; word-break: break-word;"
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="{{data && data.m_state && data.m_state.state_name ? data.m_state.state_name :'NA'}}">{{(data && data.m_state &&
+                                        data.m_state.state_name
+                                        &&
+                                        (data.m_state.state_name.length > 30) ? ((data.m_state.state_name.substring(0,
+                                        30)|uppercase) +
+                                        "..."):data && data.m_state && data.m_state.state_name? (data.m_state.state_name|uppercase):'NA')}}</span>
+                                </div>
+                            </div>
+
+                            <!-- <div class="col-6 col-md-2  py-3 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none">fertilizer_dosage:&nbsp;</label>
+                                    <span 
+                                    style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{data.m_category_of_oragnization}}">{{(data && data.m_category_of_oragnization && (data.m_category_of_oragnization.category_name.length > 30) ? (data.m_category_of_oragnization.category_name.substring(0, 30) + "..."):data.m_category_of_oragnization.category_name)}}</span>
+                                </div>
+                            </div>  -->
+                            
+                            <div class="col-6 col-md-2  py-2 d-flex verticle-content-middle pl-4">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Mobile Number:</b>&nbsp;</label>
+                                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data.mobile_number}}">{{ data.mobile_number
+                                        }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1  py-2 d-flex verticle-content-middle pl-4">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Status:</b>&nbsp;</label>
+                                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data &&
+                                            (data.is_active==1)?'ACTIVE':'INACTIVE'}}">{{data &&
+                                        (data.is_active==1)?'ACTIVE':'INACTIVE'}}</span>
+                                </div>
+                            </div>
+
+
+
+                            <div
+                                class="col-12 col-md-2   py-2  d-flex verticle-content-middle justify-content-md-center phone_view_btn">
+                                <div class=" list-action-buttons-wrapper w-fit-content phone_view_action_btn">
+
+                                    <button class="list-action-buttons "
+                                        [routerLink]="['/add-seed-producing-agency-spa-indentor/view', data.id]">
+                                        <img src="assets/images/view.svg">
+                                    </button>
+                                    <button class="list-action-buttons "
+                                        [routerLink]="['/add-seed-producing-agency-spa-indentor/edit', data.id]">
+                                        <img src="assets/images/edit.svg">
+                                    </button>
+                                    <button class="list-action-buttons " (click)="delete(data.id, data.agency_name)">
+                                        <img src="assets/images/delete.svg">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 px-4 px-md-3 py-1 pb-4">
+                    <app-pagination-ui></app-pagination-ui>
+                </div>
+            </div>
+            <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+                class="px-2 py-3 w-100" style="height: 50px;">
+                <!-- <hr _ngcontent-jwr-c108="" class="separator mx-0 mt-1"> -->
+                <div class="d-flex verticle-content-middle justify-content-center w-100">
+                    No Data Found.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

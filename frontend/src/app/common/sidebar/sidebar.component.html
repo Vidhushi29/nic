@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="row" >
+        <div class="col-2 pl-3 pt-4 pb-3">
+            <div class="border-radious">
+                <img src="assets/images/{{ enabledRoleMenu.icon }}" style="border-radius: 50%; height: 35px;width: 44px;"
+                
+                class="seed-division-icon">
+            </div>
+        </div>
+        <div class="col-10 pl-4 pt-4 d-flex verticle-content-middle pb-3">
+            <span *ngIf="enabledRoleMenu.name =='Nodal Officer(HICAR)'" class="seed-division-text">Nodal Officer(Horticulture)</span>
+            <span *ngIf="enabledRoleMenu.name =='Nodal Officer(ICAR)'" class="seed-division-text">Nodal Officer(Agriculture)</span>
+            <span *ngIf="enabledRoleMenu.name !='Nodal Officer(ICAR)' && enabledRoleMenu.name !='Nodal Officer(HICAR)'" class="seed-division-text">{{enabledRoleMenu.name}}</span>
+            <!-- <span *ngIf="enabledRoleMenu.name !='Nodal Officer(ICAR)' && enabledRoleMenu.name !='Nodal Officer(HICAR)'" class="seed-division-text">{{userName}}</span> -->
+        </div>
+        <div class="col-12 hr-line"></div>
+        <div class="col-12" >
+            <app-menu-ui [menuList]="enabledRoleMenu.menus"></app-menu-ui>
+        </div>
+    </div>
+</div>

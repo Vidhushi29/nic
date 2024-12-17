@@ -1,0 +1,136 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <div class="row">
+
+                <div class="col-12 px-4 mt-2">
+                    <div class="row">
+                        <div class="col-12 pl-4 heading_notofied">
+                            Seed Testing Results
+                        </div>
+                        <div class="col-12 pt-2 pb-3 pl-2 pr-0 search_text">
+                            <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="searchFormGroup"
+                                [isLabelControlParallel]="false">
+                            </app-dynamic-fields>
+                        </div>
+                        <div class="col-12 px-4 mt-2 buttons-phone">
+                            <button
+                                class="form-button search d-inline-flex justify-content-center verticle-content-middle mb-3 mr-0"
+                                (click)="search()">Search</button>
+                            <button
+                                class="clear-form-button ml-0 d-inline-flex justify-content-center verticle-content-middle mb-3 mr-0 ml-3"
+                                (click)="clear()">Clear</button>
+                        </div>
+                        <div class="col-12 px-4">
+                            <hr class="separator m-0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 px-4 pt-3 d-flex justify-content-end buttons-phone-add"
+                    style="padding-right: 2rem!important;">
+                    <button class="form-button d-flex justify-content-center verticle-content-middle"
+                        style="width: 100px !important; background-color: #963814;"
+                        routerLink="/seed-testing-labortary-breeder-form">Add</button>
+                </div>
+                <div class="col-12 px-4">
+                    <div class="list-wrapper px-4 py-3">
+                        <div class="row d-none d-md-flex data-row-header">
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">S/N</div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Year of Indent</div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Season</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Crop Name</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Variety Name</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">LOT Number</div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Report Status</div>
+
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle justify-content-center">
+                                Action
+                            </div>
+                        </div>
+                        <div class="row data-row" *ngFor="let data of testingList; let dataIndex = index">
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
+                                    <span>{{ dataIndex + 1}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Year of Indent:</b>&nbsp;</label>
+                                    <span title="{{data.year_of_indent ? (data.year_of_indent + '-' + ((data.year_of_indent -
+                                    2000) + 1)) : 'NA'}}">{{ data.year_of_indent ? (data.year_of_indent + '-' + ((data.year_of_indent -
+                                        2000) + 1)) : 'NA'}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none" class="d-md-none"><b>Season:</b>&nbsp;</label>
+                                    <span title="{{data && data.m_season && data.m_season.season  ? data.m_season.season :''}}">{{ data && data.m_season && data.m_season.season || NaN }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Crop Name:</b>&nbsp;</label>
+                                    <span title="{{data && data.m_crop && data.m_crop.crop_name ? data.m_crop.crop_name:''}}">{{ data  && data.m_crop && data.m_crop.crop_name &&
+                                        (data.m_crop.crop_name.length>30) ?
+                                        (data.m_crop.crop_name.substring(0,30))+'...' :data && data.m_crop && data.m_crop.crop_name ?data.m_crop.crop_name:'NA'
+                                        }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Variety Name:</b>&nbsp;</label>
+                                    <span title=" {{ data.m_crop_variety.variety_name || NaN }}">
+                                         {{data && data.m_crop_variety &&data.m_crop_variety.variety_name  && (data.m_crop_variety.variety_name.length>30)
+                                            ? (data.m_crop_variety.variety_name.substring(0,30))+'...':data && data.m_crop_variety && data.m_crop_variety.variety_name ? data.m_crop_variety.variety_name :''}}
+                                        </span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>LOT Number:</b>&nbsp;</label>
+                                    <span title="{{data && data.lot_number_creation && data.lot_number_creation.lot_number ? data.lot_number_creation.lot_number:''}}">
+                                        {{ data && data.lot_number_creation && data.lot_number_creation.lot_number  && (data.lot_number_creation.lot_number.length>30) 
+                                            ? (data.lot_number_creation.lot_number.substring(0,30))+'...':data && data.lot_number_creation && data.lot_number_creation.lot_number ? data.lot_number_creation.lot_number:'NA'
+                                         }}&nbsp;</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Report Status:</b>&nbsp;</label>
+                                    <span>{{ data.is_report_pass ? 'Pass' : 'Fail'}}</span>
+                                </div>
+                            </div>
+                            <div
+                                class="col-12 col-md-2 py-1 d-flex verticle-content-middle justify-content-center phone_view_btn">
+                                <div class="list-action-buttons-wrapper w-fit-content phone_view_action_btn">
+                                    <button class="list-action-buttons" title="view"
+                                        [routerLink]="['/seed-testing-labortary-breeder-form/view', data.id]">
+                                        <img src="assets/images/view.svg">
+                                    </button>
+                                    <button class="list-action-buttons" title="edit"
+                                        [routerLink]="['/seed-testing-labortary-breeder-form/edit', data.id]">
+                                        <img src="assets/images/edit.svg">
+                                    </button>
+                                    <button class="list-action-buttons" (click)="delete(data)" title="delete">
+                                        <img src="assets/images/delete.svg">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="testingList.length < 1" class="px-2 py-3 w-100" style="height: 50px;">
+                        <!-- <hr _ngcontent-jwr-c108="" class="separator mx-0 mt-1"> -->
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            No data found.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 px-4 py-1 pb-4">
+                    <app-pagination-ui></app-pagination-ui>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

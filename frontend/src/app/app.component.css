@@ -1,0 +1,40 @@
+* {
+    overflow: hidden;
+}
+
+.sidebar-wrapper {
+    background-color: #EDE3D7;
+}
+
+.collaps-btn {
+    overflow: hidden;
+    /* z-index: 5; */
+}
+
+.toggle-sidebar {
+    position: fixed;
+}
+
+
+
+@media screen and (min-device-width: 279px) and (max-device-width: 768px) {
+    .content-wrapper {
+        margin-top: 25%;
+    }
+
+    /* .main-logo {
+        padding-left: 80px;
+        padding-top: 15px;
+        padding-right: 40px;
+        padding-bottom: 30px;
+        width: 85%;
+        height: 85%;
+    }
+    .heder-hide-first{
+        display: none;
+    }
+    .heder-hide-second{
+        display:contents;
+    } */
+
+}

@@ -1,0 +1,108 @@
+<!-- <p>breeder-seed-inventory works!</p> -->
+<div class="main-inventory">
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12 title-inventory pl-2 pb-3 pt-0">
+            Unfreeze Indents
+        <form [formGroup]="ngForm">
+
+            <!-- first card ui  -->
+
+                    <div class="col-12 col-md-12 col-lg-12">
+                        <div class="row card-inventory form-group pb-2">
+        
+                            <!-- start sectio 1  -->
+                            <div class="col-12 col-md-10 col-lg-10 pt-4">
+                                <div class="row">
+                                    <!-- year of indent -->
+                                    <div class="col-12 col-md-3 col-lg-3 col-sm-12">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label for="year" class="left-heading required">Select Year</label>
+                                                <!-- {{dataOfUnfreeze}} -->
+                                            </div>
+                                            <div class="col-12">
+                                                <select class=" form-control input-inventory" formControlName="year">
+                                                    <option value="">Select Year</option>
+                                                    <option *ngFor="let data of yearOfIndent" [value]=" data && data.year ? data.year:''">{{ data && data.year ? getFinancialYear(data.year):'' }}</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="col-12 col-md-3 col-lg-3 col-sm-12"> 
+                                            <div class="row"> 
+                                                      <div class="col-12"> 
+                                                                <label class="left-heading required">Season</label> 
+                                                      </div> 
+                                                      <div class="col-12"> 
+                                                                <select class=" form-control input-inventory" formControlName="season"> 
+                                                                          <option value="">Select Season</option>
+                                                                          <option *ngFor="let data of seasonlist " value="{{data && data.value ? data.value :''}}" > {{data && data.value && (data.value=='K')? 'Kharif' :'Rabi'}}</option> 
+                                                                </select> 
+                                                      </div>
+                                                    </div> 
+                                                </div>
+        
+                                    <!-- season  -->
+
+                                    <div class="col-12 col-md-3 col-lg-3 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label class="left-heading required">Crop Name</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <!-- <select class=" form-control input-inventory" formControlName="crop_name" >
+                                                        <option value="">Please Select Crop</option>
+                                                        <option  *ngFor="let data of cropName" value = "{{data.crop_code}}">{{data && data.display_text ? data.display_text :''}}</option>
+                                                    </select> -->
+                                                    <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="cropName" formControlName="crop_name"
+                                                       [placeholder]="'Select Crop Name'">
+                                                    </ng-multiselect-dropdown>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-3 col-lg-3 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label class="left-heading required">State</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <!-- <select class=" form-control input-inventory" formControlName="state">
+                                                        <option value="">Please Select State</option>
+                                                        <option  *ngFor="let data of stateList">{{data && data.display_text ? data.display_text :''}}</option>
+                                                    </select> -->
+                                                    <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="stateList" formControlName="state"
+                                                    [placeholder]="'Select State'" class="dropdown"></ng-multiselect-dropdown>
+
+                                                </div>
+                                            </div>
+                                        </div>
+        
+                                       
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-sm-12 col-xl-2 pt-5 px-2">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-2 mt-2">
+                                        <!-- form-button btn-inventory search d-inline-flex justify-content-center verticle-content-middle mb-3 -->
+                                        <button
+                                            class="form-button1 btn-inventory search d-inline-flex justify-content-center verticle-content-middle" (click)="unfreeze();">Unfreeze</button>
+                                        <!-- (click)="search()" -->
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+            <!--  Second Card ui -->
+            <!-- third card ui  -->
+           
+        </form>
+    </div>
+</div>
+</div>
+
+
+

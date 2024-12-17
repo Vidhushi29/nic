@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-12 px-4">
+        <span class="heading_notofied">Nucleus Seed Availability</span>
+    </div>
+    <div class="col-12 pt-2 pb-3 pl-2 pr-1 search_txt">
+        <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="searchFormGroup" [isLabelControlParallel]="false">
+        </app-dynamic-fields>
+    </div>
+
+    <div class="col-12 mt-2 pl-3 buttons-phone">
+        <button class="form-button search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-2"
+            (click)="search()">Search</button>
+        <button class="clear-form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+            (click)="clear()">Clear</button>
+    </div>
+    <div class="col-12 px-4">
+        <hr class="separator m-0">
+    </div>
+</div>

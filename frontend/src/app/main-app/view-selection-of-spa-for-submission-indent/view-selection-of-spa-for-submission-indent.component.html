@@ -1,0 +1,170 @@
+<div class="pt-3 pb-3 px-4">
+    <form [formGroup]="ngForm" (ngSubmit)="checkcropname()">
+
+
+        <div class=" card">
+            <div class="col-12 heading mt-3 pb-3 pl-3 ">
+                {{title}}
+
+            </div>
+            <!-- form-row -->
+            <div class="row form-group pl-2">
+                <div class="col-12 pt-3 pr-2">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12  col-lg-2 pl-4">
+                            <label for="" class="left-heading">Name of SPA</label>
+                        </div>
+                        <div
+                            class="col-md-12 col-sm-11 d-flex pl-sm-3 pl-lg-0 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4">
+                            <div ngbDropdown class="d-inline-block w-100 ">
+                                <select formControlName="group_code" class="form-control"
+                                    [ngClass]="disabledfield ? 'form-crop':''">
+                                    <option value="">Select Crop Group</option>
+                                    <option value="{{data.group_code}}" *ngFor="let data of croupGroupList">
+                                        {{data.group_name}}</option>
+                                </select>
+                                <!-- <button class="btn takeplacholder w-100 crop toggle-button" [ngClass]=" disabledfield ? 'disabledfield' : ''" id="crop_group" ngbDropdownToggle style="text-align: left;">{{selectCrop  ? selectCrop: "Select Croup Group"}}</button>
+                          
+                            <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group"  aria-labelledby="sortMenu">
+                              <button class="dropdown-item" (click)="cropGroup(data)" *ngFor="let data of croupGroupList " >{{data && data.group_name ? data.group_name :" Select Croup Group"}}</button>
+
+                            </div> -->
+                                <div class="group_code errorMessage "
+                                    *ngIf="submitted || ngForm.controls['group_code'].invalid && (ngForm.controls['group_code'].dirty || ngForm.controls['group_code'].touched)">
+                                    <span *ngIf=" ngForm.controls['group_code'].errors?.['required']">
+                                        Please Select Crop Group.<br>
+                                    </span>
+                                </div>
+
+                            </div>
+                            <!-- <div class="pl-0 toggle-button" ngbDropdown >
+                            <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                        </div> -->
+
+
+                        </div>
+
+                    </div>
+                    <!-- </div> -->
+
+                </div>
+                <div class="col-12 pt-3 pr-2">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12  col-lg-2 pl-4 ">
+                            <label for="" class="left-heading">Address</label>
+                        </div>
+                        <div
+                            class="col-md-12 col-sm-11 d-flex  pl-sm-3 pl-lg-0 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4">
+                            <div ngbDropdown class="d-inline-block w-100 ">
+                                <select class="form-control" formControlName="season"
+                                    [ngClass]="disabledfield ? 'form-crop':''">
+                                    <option value="">Select Season</option>
+                                    <option *ngFor="let data of seasonList" value="{{data.season_code}}">{{data.season}}
+                                    </option>
+                                </select>
+                                <!-- <button [ngClass]=" disabledfield ? 'disabledfield' : ''" class="btn takeplacholder w-100 crop toggle-button" id="season" ngbDropdownToggle style="text-align: left;">{{seasontype ? seasontype : 'Select Season'}}</button>
+                            
+                            <div class="dropdown-menu w-100" ngbDropdownMenu="season" aria-labelledby="sortMenu">
+                                <button class="dropdown-item"  (click)="season(data)" *ngFor="let data of seasonList ">{{data.season}}</button>
+                                
+                                
+                            </div> -->
+                                <div class="season errorMessage "
+                                    *ngIf="submitted || ngForm.controls['season'].invalid && (ngForm.controls['season'].dirty || ngForm.controls['season'].touched)">
+                                    <span *ngIf=" ngForm.controls['season'].errors?.['required']">
+                                        Please Select Season.<br>
+                                    </span>
+                                </div>
+
+                            </div>
+                            <!-- <div class="pl-0 toggle-button" ngbDropdown >
+                            <i class="fa-solid fa-angle-down downicon"  (click)="SeasonClick()"></i>
+                        </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 pt-3 pr-2">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12  col-lg-2 pl-4 ">
+                            <label for="" class="left-heading">Name & Designation of Contact Person</label>
+                        </div>
+                        <div
+                            class="col-md-12 col-sm-11 pl-sm-3 pl-lg-0 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4">
+                            <input type="text" class="form-control" [ngClass]=" disabledfield ? 'disabledfield' : ''"
+                                formControlName="crop_code" placeholder="">
+                            <div class="crop_code errorMessage "
+                                *ngIf="submitted || ngForm.controls['crop_code'].invalid && (ngForm.controls['crop_code'].dirty || ngForm.controls['crop_code'].touched)">
+                                <span *ngIf=" ngForm.controls['crop_code'].errors?.['required']">
+                                    Please Enter Crop Code.<br>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- (blur)="onBlurCropName($event)" -->
+                <div class="col-12 pt-3 pr-2">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12  col-lg-2 pl-4 ">
+                            <label for="" class="left-heading">Email/Mobile Number of the Contact Person</label>
+                        </div>
+                        <div
+                            class="col-md-12 col-sm-11 pl-sm-3 pl-lg-0 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4">
+                            <input type="text" class="form-control" [ngClass]=" disabledfield ? 'disabledfield' : ''"
+                                formControlName="crop_name" placeholder="Enter Crop Name"  (paste)="onPaste($event)"                                        
+                                (keypress)="checkAlpha($event);" (keypress)="checkLength($event,50)" minlength="3"
+                                maxlength="50">
+                            <div class="crop_name errorMessage "
+                                *ngIf="submitted || ngForm.controls['crop_name'].invalid && (ngForm.controls['crop_name'].dirty || ngForm.controls['crop_name'].touched)">
+                                <span *ngIf=" ngForm.controls['crop_name'].errors?.['required']">
+                                    Please Enter Crop Name. <br>
+                                </span>
+                                <span *ngIf=" ngForm.controls['crop_name'].errors?.['pattern']">
+                                    Please Enter Valid Crop Name. <br>
+                                </span>
+                            </div>
+                            <div *ngIf="cropNameError">
+                                <span class="text-danger">{{cropNameError}}.</span>
+                            </div>
+                            <!-- <div *ngIf="cropNameShowErrMsg">
+                                <span class="text-danger pt-1 pb-1">{{cropNameErrMsg}}</span>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Button -->
+                <div class="col-md-12 pb-3 mt-4 sub_updt_cancel_btn " *ngIf="!isEdit">
+
+                    <div class="resp_btn" [hidden]="!submitHide">
+                        <!-- <button class="form-button d-inline-flex justify-content-center verticle-content-middle mb-3"  (click)="enrollFormSave()">Submit</button> -->
+                        <button
+                            class="form-button submit_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Submit</button>
+                    </div>
+
+                    <div class="resp_btn" [ngClass]="{'': !disabledfield }">
+                        <button routerLink="/selection-of-spa-for-submission-indent"
+                            class="form-button cancel_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Cancel</button>
+                    </div>
+
+
+                </div>
+
+                <div class="col-12 pb-3 mt-4 sub_updt_cancel_btn">
+
+                    <div class="resp_btn" *ngIf="isEdit">
+                        <button
+                            class="form-button update_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                            type="submit">Update</button>
+                    </div>
+                    <div class="resp_btn" *ngIf="cancelbtn">
+                        <button
+                            class="form-button ml-2 cancel_btn d-inline-flex justify-content-center verticle-content-middle mb-3"
+                            routerLink="/selection-of-spa-for-submission-indent">Cancel</button>
+                    </div>
+
+                </div>
+                <!--button-->
+
+            </div>
+        </div>
+
+    </form>

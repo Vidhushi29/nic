@@ -1,0 +1,190 @@
+ 
+<form [formGroup]="ngForm" class="pt-2"> 
+    <div class="main-inventory my-4 w-90  pt-2">
+        <div class="row  mx-3">
+            <span class="title-inventory pt-3 ">
+                Generate Sample Slip for Testing 
+            </span> 
+                <!-- first card ui  --> 
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12   pt-2 pr-0 formargin">
+                        <div class="row card-inventory form-group "> 
+                            <!-- start sectio 1  -->
+                                <div class="col-12 col-md-10 col-lg-10 col-sm-11  pt-1 pl-4 formargin">
+                                    <div class="row">
+                                        <!-- year of indent -->
+                                        <div class="col-12 col-md-4 col-lg-4 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                    <label for="year" class="label-inventory required"> Year of Indent</label>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                    <select class=" form-control input-inventory" formControlName="year">
+                                                        <option value="">Select Year</option>
+                                                        <option  *ngFor="let data of yearOfIndent" value="{{data && data.value ? data.value :''}}">{{data && data.year ? data.year :''}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 ">
+                                            <div class="row"> 
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">   
+                                                    <label for="year" class="label-inventory required">Season</label> 
+                                                </div> 
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <select class=" form-control input-inventory" formControlName="season"> 
+                                                        <option value="">Select Season</option>
+                                                        <option *ngFor="let data of seasonlist " value="{{data && data.season ? data.season :''}}" > {{data && data.season ? data.season :''}}</option> 
+                                                    </select> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <label for="year" class="label-inventory required">Crop</label>
+                                                </div> 
+                                                <div class="col-md-12 px-2">
+                                                    <div ngbDropdown class="d-inline-block w-100 ">
+                                                        <button class="btn takeplacholder w-100 crop toggle-button input-inventory form-control" id="crop_group" ngbDropdownToggle style="text-align: left;">
+                                                            {{selectCrop && (selectCrop.length>30) ? (selectCrop.substring(0,30)+'...'):selectCrop? selectCrop :'Select Crop '}}
+                                                        </button> 
+                                                    <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group" aria-labelledby="sortMenu"> 
+                                                        <input type="text" class="form-control input-inventory px-4" formControlName="crop_text"
+                                                            (click)="cropdatatext()" placeholder="Select Crop"> 
+                                                        <button class="dropdown-item " *ngFor="let data of cropName"
+                                                            (click)="cropNameValue(data)" #dropdownItem [attr.data-parent-name]="'crop_group'">
+                                                            {{data && data.crop_name ? data.crop_name :''}} 
+                                                        </button> 
+                                                    </div> 
+                                                    </div>
+                                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                                    </div>
+                                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                                        <img src="assets/images/16.svg" alt="" srcset=""> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="col-lg-2  col-md-2 col-sm-12 col-12 pt-4 mt-2 pr-4 formargin">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <button  class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div> 
+        <!--  Second Card ui --> 
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12   pt-3 pr-0">
+                <div class="row card-inventory form-group pb-2">
+                    <div class="col-12 ">
+                        <div class="col-12 col-md-12 col-lg-12  ">
+                            <div class="col-12 col-md-10 col-lg-10 col-sm-12 pt-1">
+                                <div class="row">
+                                    <!-- Variety-->
+                                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-sm-6 col-xl-4">
+                                            <div class="row">
+                                                <div class="col-12 pl-0">
+                                                    <label for="year" class="label-inventory required">Variety</label>
+                                                </div>
+                                                <div class="col-12 pb-1 pl-0 ">
+                                                    <ng-multiselect-dropdown  [placeholder]="'Select Variety'"
+                                                        [settings]="dropdownSettings" [data]="dropdownList1"
+                                                        [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
+                                                        (onSelectAll)="onSelectAll($event)">
+                                                    </ng-multiselect-dropdown>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                </div>
+                            </div>
+                            <div class="col=12 col-md-2 col-lg-2"> 
+                            </div>
+                        <div class="row data-row px-0 ">
+                            <table class="table border-top-0 table-responsive col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pl-0 pr-0 m-0 ">
+                                <thead class=" w-100  ">
+                                    <tr class="data-row-header ">
+                                        <th scope="col-6" class="col-md-1 py-2 text-center text-white bor verticle-content-middle heading" > S.No </th>
+                                        <th scope="col-6" class="col-md-1 py-2 text-start text-white  verticle-content-middle heading">Variety</th> 
+                                        <th scope="col-6" class="col-md-2 py-2  text-start text-white   heading">Lot Details </th>
+                                        <th scope="col-6" class="col-md-2 py-2 text-start text-white    heading">Storage Details</th>
+                                        <th scope="col-6" class="col-md-2 py-2 text-start text-white   heading">Processing Details</th>
+                                        <th scope="col-6" class="col-md-2 py-2 ml-0 text-center text-white  verticle-content-middle heading">Generate Sample No. & Unique Code</th>
+                                        <th scope="col-6" class="col-md-2 py-2 text-center text-white  verticle-content-middle heading">Sample No.</th>
+                                        <th scope="col-12" class="col-md-2 py-2 ml-0 pl-2 text-white bor1 text-center verticle-content-middle heading">Unique Code</th>
+                                    </tr> 
+                                </thead>
+                                <tbody class="border-top-0 col-md-1   text-white text-center  verticle-content-middle data-row "> 
+                                    <tr>
+                                        <td scope="col-6" class="col-md-1   py-2"><p class="pl-3">1.</p></td>
+                                        <td scope="col" class="col-md-1 py-2"><b class="font-weight-bold">DW-147</b></td> 
+                                        <td scope="col-6" class="col-md-2 py-2">
+                                            <p>Lot No:<b class="font-weight-bold"> SEP23-0001-001-2(i)</b></p> 
+                                            <p>Class of Seed:<b class="font-weight-bold"> Breeder I</b></p>  
+                                        </td>
+                                        <td scope="col-6" class="col-md-2 py-2">
+                                            <p>Godown No:<b class="font-weight-bold"> 1</b></p> 
+                                            <p>Stack No:<b class="font-weight-bold"> R24-25/PS-2</b></p>  
+                                        </td>
+                                        <td scope="col-6" class="col-md-2 px-0 py-2">
+                                            <p>No. of Bags(Bag size):<b class="font-weight-bold">  100 (50kg)</b></p> 
+                                            <p>Total Processed Qty(Qt):<b class="font-weight-bold"> 50</b></p> 
+                                        </td>
+                                        <td scope="col-6" class="col-md-2 py-2">
+                                            <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12 px-0">
+                                                <button class="form-button botton1 search d-inline-flex justify-content-center verticle-content-middle btn-inventory">
+                                                    For STL
+                                                </button>  
+                                                <button class="form-button  botton1 search d-inline-flex mt-2 justify-content-center verticle-content-middle btn-inventory">
+                                                    For Grow Out Test
+                                                </button>
+                                            </div>
+                                        </td> 
+                                        <td scope="col-6" class="col-md-2 py-2 text-center">N/A <br> <br> N/A </td>
+                                        <td scope="col" class="col-md-2 py-2  pl-2">N/A<br> <br> N/A </td>
+                                    </tr> 
+                                </tbody>
+                                <tbody class="border-top-0 col-md-1 py-2 text-white text-center  verticle-content-middle  data-row "> 
+                                    <tr>
+                                        <td scope="col-6" class="col-md-1   py-2"><p class="pl-3">2.</p></td>
+                                        <td scope="col" class="col-md-1 py-3"><b class="font-weight-bold">DW-148</b></td> 
+                                        <td scope="col-6" class="col-md-2 py-2">
+                                            <p>Lot No:<b class="font-weight-bold"> SEP23-0001-001-2(i)</b></p> 
+                                            <p>Class of Seed:<b class="font-weight-bold"> Breeder I</b></p>  
+                                        </td>
+                                        <td scope="col-6" class="col-md-2 py-2">
+                                            <p>Godown No:<b class="font-weight-bold"> 1</b></p> 
+                                            <p>Stack No:<b class="font-weight-bold"> R24-25/PS-2</b></p>  
+                                        </td>
+                                        <td scope="col-6" class="col-md-2 px-0 py-2">
+                                            <p>No. of Bags(Bag size):<b class="font-weight-bold"> 80 (40kg)</b></p> 
+                                            <p>Total Processed Qty(Qt):<b class="font-weight-bold"> 32</b></p> 
+                                        </td>
+                                        <td scope="col-6" class="col-md-2 py-2">
+                                            <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12 px-0">
+                                                <button class="form-button botton2 search d-inline-flex justify-content-center verticle-content-middle btn-inventory"> 
+                                                    For STL
+                                                </button>  
+                                                <button class="form-button  botton2 search d-inline-flex mt-2 justify-content-center verticle-content-middle btn-inventory"> 
+                                                    For Grow Out Test
+                                                </button>
+                                            </div>
+                                        </td> 
+                                        <td scope="col-6" class="col-md-2 py-2 text-center">1 <br> <br> 1 </td>
+                                        <td scope="col-6" class="col-md-2 py-2 pl-2">87ASJ123  <br> <br> ab45K89b</td>
+                                    </tr> 
+                                </tbody> 
+                            </table> 
+                        </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>     
+        </div>       
+    </div>  
+</form> 
+      
+

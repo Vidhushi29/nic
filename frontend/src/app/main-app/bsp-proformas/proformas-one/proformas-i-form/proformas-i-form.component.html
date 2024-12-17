@@ -1,0 +1,126 @@
+<form [formGroup]="formSuperGroup" (ngSubmit)="submitForm(filterPaginateSearch.itemList)">
+    <div class="row my-4 w-100 mx-0 form-child">
+        <div class="col-12 d-flex justify-content-center verticle-content-middle">
+            <div class="main-content-form-wrapper px-0 py-2">
+                <div class="row">
+                    <div class="col-12 px-4 mt-2 ml-2">
+                        <span class="page-type-1-title">
+                            BSP Proforma I (Allocation of Breeder Seed Production of National/State Varieties)
+                        </span>
+                    </div>
+                    <div class="col-12 mb-2 pr-3 pr-md-4 pl-4">
+                        <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="IstPartFormGroup" [isView]="isView">
+                        </app-dynamic-fields>
+                    </div>
+
+                    <div *ngIf="dataRow" class="col-12 mt-2 mx-2 dataRow">
+                        <p class="mb-0">Total Varieties : <span class="ml-2"> {{prdData.length}}, </span> </p>
+                        <p class="mt-0">Total Indent Quantity : <span class="ml-2"> {{totalIndentQuantity | number :
+                                '1.2-2'}} </span> </p>
+                    </div>
+
+                    <div class="col-12 px-4 mb-2">
+                        <hr class="separator m-0 mx-2 width">
+                    </div>
+                    <div class="col-md-4 px-4 py-2 col-10"
+                        *ngIf="!isEdit && !isView && filterPaginateSearch.itemListTotalPage > 0">
+                        <div class="form-nodal-input-custom-placeholder d-flex verticle-content-middle mx-2"
+                            [ngClass]="formGroupControls['search'].value ? 'hide' : ''">
+                            <span style="font: normal Poppins 15px/23px;">Search Here</span>
+                            <i class="fa fa-search nodal-search-icon"></i>
+                        </div>
+                        <input class="form-nodal-input mx-2 w-100" formControlName="search">
+                    </div>
+                    <div class="col-12 px-4" *ngIf="filterPaginateSearch.initialized && filterPaginateSearch.itemList">
+                        <div *ngFor="let eachIIndPartFormArray of filterPaginateSearch.itemList; let varietyIndexInAccordion=index"
+                            class="col-accordion m-2"
+                            [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? '' : 'hide'">
+                            <div (click)="activateVarietyIndexInAccordion(varietyIndexInAccordion)">
+                                <label class="va-l">
+                                    {{ eachIIndPartFormArray.name }}
+                                </label>
+                                <i class="fas accordion-dropdown"
+                                    [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? 'fa-chevron-up' : 'fa-chevron-down'"
+                                    (click)="activateVarietyIndexInAccordion(varietyIndexInAccordion)"></i>
+                            </div>
+                            <div
+                                *ngFor="let subFormArray of eachIIndPartFormArray.formGroupAndFieldList; let subFormIndex = index">
+                                <hr *ngIf="subFormIndex > 0" class="separator my-0 mx-3">
+                                <app-dynamic-fields [id]="subFormArray.dynamicControllerId"
+                                    [fieldsList]="subFormArray.arrayfieldsIIndPartList"
+                                    [formGroup]="subFormArray.formGroup" [isView]="isView"
+                                    [isLabelControlParallel]="false"></app-dynamic-fields>
+                                <div
+                                    *ngFor="let supsubFormArray of subFormArray.productionCenters; let subFormIndexI = index">
+                                    <hr *ngIf="subFormIndexI > 0" class="separator-1 my-0 mx-3">
+                                    <app-dynamic-fields [id]="supsubFormArray.dynamicControllerId"
+                                        [fieldsList]="supsubFormArray.arrayfieldsIIndPartList"
+                                        [formGroup]="supsubFormArray.formGroup" [isView]="isView"
+                                        [isLabelControlParallel]="false"></app-dynamic-fields>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&
+                    (!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+                            class="px-2 py-3 w-100" style="height: 50px;">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data found.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row reverse-col-in-row-till-lg">
+                            <div *ngIf="!isView" class=" px-3 pb-md-5 sub_updt_cancel_btn"
+                                [ngClass]="filterPaginateSearch.itemListTotalPage < 2 ? 'col-12 sub_updt_cancel_btn' : 'col-12 col-xl-6'">
+                                <div class="resp_btn">
+                                    <button
+                                        *ngIf="filterPaginateSearch.initialized
+                                        && filterPaginateSearch.itemListTotalPage > 1
+                                        && filterPaginateSearch.itemListCurrentPage != filterPaginateSearch.itemListTotalPage"
+                                        class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3 mr-1"
+                                        (click)="saveAndNavigate()">
+                                        Save And Next
+                                    </button>
+                                </div>
+                                <div class="resp_btn">
+                                    <button type="submit" [disabled]="disableBtn == true"
+                                        [ngClass]="disableBtn  ? 'disabledbtn' : 'disabledbtn2'"
+                                        *ngIf="filterPaginateSearch.initialized
+                                        && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                        class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                        {{buttonText}}
+                                    </button>
+                                </div>
+                                <div class="resp_btn">
+                                    <button
+                                        class="form-button cancel_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        [routerLink]="['/breeder/bsp-proformas/proformas-1s']">Cancel</button>
+                                </div>
+                                <div class="resp_btn">
+                                    <a href="javascript:void(0)" *ngIf="(!isView || (isEdit && isDraft)) && filterPaginateSearch.initialized
+                        && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                        class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        (click)="saveAsDraft()">Save as
+                                        Draft</a>
+                                </div>
+                            </div>
+                            <div class="col-12 col-xl-6 px-4 pb-md-5 d-flex justify-content-end py-2 py-xl-0">
+                                <app-pagination-ui></app-pagination-ui>
+                            </div>
+                        </div>
+                        <div class="row reverse-col-in-row-till-lg">
+                            <div *ngIf="isView" class="px-3 pb-md-5 sub_updt_cancel_btn">
+                                <div class="resp_btn">
+                                    <button
+                                        class="form-button cancel_btn ml-3 d-flex justify-content-center verticle-content-middle mb-3"
+                                        routerLink="/breeder/bsp-proformas/proformas-1s">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

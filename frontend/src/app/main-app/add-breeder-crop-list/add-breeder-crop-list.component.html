@@ -1,0 +1,263 @@
+<form [formGroup]="ngForm">
+
+    <div class="row my-4 w-100 mx-0">
+        <div class="col-12 d-flex justify-content-center verticle-content-middle">
+            <div class="main-content-form-wrapper px-0 py-2">
+                <div class="row">
+                    <div class="col-12 px-4 mt-2">
+                        <div class="row">
+                            <div class="col-12 pl-4 pb-2 pb-md-3" style="font: normal Poppins 600 20px/30px ;
+                                letter-spacing: 0px; font-weight: bold;
+  font-size: 20px;
+                                color: #1C1C1C;">
+                                Assign Crop/Variety
+                            </div>
+                            <div class="col-md-4 pl-2 pt-0 pr-2 py-2 py-md-0 pr-md-0">
+                                <div class="col-12">
+                                    <label for="Crop Group" class="left-heading">Year of Indent</label>
+                                </div>
+                                <div class="col-12 pr-md-0">
+                                    <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="year_of_indent">
+                                        <option value="">Select Year of Indent</option>
+                                        <option *ngFor="let data of yearofIndent" value="{{data.year}}">
+                                            {{ data&& data.year ? getFinancialYear(data.year) : 'NA'}}</option>
+                                    </select>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-2 pt-0 pr-2 py-2 py-md-0 pr-md-0 pl-md-0">
+                                <div class="col-12">
+                                    <label for="Crop Group" class="left-heading">Season</label>
+                                </div>
+                                <div class="col-12 pr-md-0">
+                                    <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="season">
+                                        <option value="">Select Season</option>
+                                        <option *ngFor="let data of seasonList" value="{{data.season}}">
+                                            {{data && data.season ?
+                                            (data.season.trim()==='O') ? "Others" :
+                                            (data.season.trim()==='R') ? "Rabi" : (data.season.trim()==='K') ? "Kharif"
+                                            :
+                                            (data.season.trim()==='S') ? "Summer" :"NA" :'NA'}}</option>
+
+                                    </select>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- </form> -->
+                            <div class="col-md-4 pl-2 pt-0 pr-2 py-2 py-md-0 pl-md-0">
+                                <div class="col-12">
+                                    <label for="Crop Group" class="left-heading">Crop Name</label>
+                                </div>
+                                <div class="col-12">
+                                    <div ngbDropdown class="d-inline-block w-100 "
+                                    [ngClass]=" disabledfieldcropName ? 'disabledfield' : ''"
+                                        >
+                                            <button class="btn takeplacholder w-100 crop toggle-button"
+                                                id="crop_name" ngbDropdownToggle
+                                                style="text-align: left;">{{crop_names && (crop_names.length>30) ? (crop_names.substring(0,30)+'...'):crop_names? crop_names :'Select Crop
+                                                Name'}}</button>
+            
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="crop_name" aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4"  formControlName="crop_name_text" >
+                                                <button class="dropdown-item" *ngFor="let data of crop_name_list"
+                                                    (click)="cropNames(data)" #dropdownItem [attr.data-parent-name]="'crop_name'">
+                                                    {{data && data['m_crop.crop_name'] ? data['m_crop.crop_name'] :''}}
+                                                    <!-- <input type="hidden" formControlName="crop_code"> -->
+                                                </button>
+                                               
+                                            </div>
+            
+                                        </div>
+                                        <!-- [ngClass]=" disabledfieldcropName ? 'disabledfield' : ''" -->
+                                        <div class="pl-0 toggle-button" ngbDropdown
+                                        [ngClass]=" disabledfieldcropName ? 'disabledfield' : ''" >
+                                            <i class="fa-solid fa-angle-down downicon" (click)="cnClick()"></i>
+                                        </div>
+                                    <!-- <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="crop_name">
+                                        <option value="">Select Crop Name</option>
+                                        <option *ngFor="let data of crop_name_list"
+                                            value="{{data && data['m_crop.crop_code'] ? data['m_crop.crop_code'] :''}}">
+                                            {{data && data['m_crop.crop_name'] ? data['m_crop.crop_name'] :''}}
+                                        </option>
+
+                                    </select> -->
+
+
+                                </div>
+                                <div class="pl-0 toggle-button" ngbDropdown>
+                                    <img src="assets/images/16.svg" alt="" srcset="">
+                                    <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-0 pl-3 buttons-phone">
+                                <button
+                                    class="form-button search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-2"
+                                    (click)="search()">Search</button>
+                                <button
+                                    class="clear-form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="clear()">Clear</button>
+                            </div>
+                            <div class="col-12 px-4">
+                                <hr class="separator m-0">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 px-4 mt-3 d-flex justify-content-end buttons-phone-add"
+                        style="padding-right: 2rem!important;">
+                        <button class="form-button d-flex justify-content-center verticle-content-middle"
+                            style="width: 100px !important;background-color: #963814;"
+                            routerLink="/add-breeder-crop">Add</button>
+                    </div>
+                    <div class="col-12 px-4">
+                        <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+                        <div class="list-wrapper px-4 py-3">
+                            <div class="row d-none d-md-flex data-row-header">
+                                <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">S/N</div>
+                                <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Year of Indent</div>
+                                <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Season</div>
+                                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Crop Name</div>
+                                <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle">Variety Name</div>
+                                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Breeder Production
+                                    Centre
+                                    Name</div>
+
+                                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle justify-content-center">
+                                    Action
+                                </div>
+                            </div>
+                            <div class="row data-row"
+                                *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index">
+                                <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                    <div class="w-fit-content">
+                                        <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
+                                        <span>{{ (filterPaginateSearch.itemListCurrentPage - 1) *
+                                            filterPaginateSearch.itemListPageSize + dataIndex + 1}}.</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                    <div class="w-fit-content">
+                                        <label class="d-md-none"><b>Year of Indent</b>&nbsp;</label>
+                                        <span title=" {{ data && data.breeder_crops_year ?data.breeder_crops_year:'NA'}}-
+                                        {{ data
+                                            && data.breeder_crops_year ? ((data.breeder_crops_year-2000)+1) : ''}}">
+                                            <!-- {{data && data.breeder_crops_year ? data.breeder_crops_year : 'NA' }} -->
+                                            {{ data && data.breeder_crops_year ?data.breeder_crops_year:"NA"}}-{{ data
+                                            && data.breeder_crops_year ? ((data.breeder_crops_year-2000)+1) : ""}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                    <div class="w-fit-content">
+                                        <label class="d-md-none"><b>Season:</b>&nbsp;</label>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="{{data && data.breeder_crops_season}}">{{ data && data.breeder_crops_season ?
+                                            ((data.breeder_crops_season == 'K' ) ? 'Kharif' :'Rabi'  ): data
+                                            && data.m_crop && data.m_crop.m_season && data.m_crop.m_season.season ?
+                                            data.m_crop.m_season.season :"NA"}}</span>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                    <div class="w-fit-content">
+                                        <label class="d-md-none">Season:&nbsp;</label>
+                                       
+                                        <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                        data-placement="bottom" title="hii">{{data && data.breeder_crops_season ?
+                                        (data.breeder_crops_season.trim()==='O') ? "Others" :
+                                        (data.breeder_crops_season.trim()==='R') ? "Rabi" : (data.breeder_crops_season.trim()==='K') ? "Kharif" :
+                                        (data.breeder_crops_season.trim()==='S') ? "Summer" :"NA" :'NA'}}</span>
+                                    </div>
+                                </div> -->
+                                <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                    <div class="w-fit-content">
+                                        <label class="d-md-none"><b>Crop Name:</b>&nbsp;</label>
+                                        <span title="{{ data && data.m_crop_crop_name ? data.m_crop_crop_name :''}}">
+                                            {{(data && data.m_crop_crop_name ?((data && data.m_crop_crop_name &&
+                                            data.m_crop_crop_name.length > 30) ?
+                                            (data.m_crop_crop_name.substring(0, 30) + "...") :
+                                            data.m_crop_crop_name):'NA')}}
+                                        </span>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-6 col-md-3 py-1 d-flex verticle-content-middle">
+                                    <div class="w-fit-content">
+                                        <label class="d-md-none"><b>Variety Name:</b>&nbsp;</label>
+                                        <span title="{{data && data.variety_name && data.variety_name ? data.variety_name :'' }}">
+                                            {{(data && data.variety_name ?((data.variety_name.length > 30) ?
+                                            (data.variety_name.substring(0, 30) + "...") : (data.variety_name)):'NA')}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                    <div class="w-fit-content">
+                                        <label class="d-md-none"><b>Breeder Production Centre Name:</b>&nbsp;</label>
+
+                                        <span style="text-transform: capitalize; cursor: pointer;" data-toggle="tooltip"
+                                            data-placement="bottom" title="{{data && data.full_name ? data.full_name  :''}}">
+                                            {{(data && data.user_name && (data.user_name.length >
+                                            30) ? (data.user_name.substring(0, 30) +
+                                            "..."):(data && data.user_name ? data.user_name :'NA'))}}
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                                <div
+                                    class="col-12 col-md-2 py-1 d-flex verticle-content-middle justify-content-md-center phone_view_btn">
+                                    <div class="list-action-buttons-wrapper w-fit-content phone_view_action_btn">
+
+                                        <button class="list-action-buttons"
+                                            [routerLink]="['/add-breeder-crop/view/', data.breeder_crop_id]">
+                                            <img src="assets/images/view.svg">
+                                        </button>
+                                        <!-- *ngIf="data && data.is_active  && data.is_active==1" -->
+                                        <!-- [hidden]="data && data.is_active  && data.is_active==1" -->
+                                        <!-- [hidden]="data && data.is_active  && data.is_active==1" -->
+                                        <button   class="list-action-buttons"
+                                        
+                                            [routerLink]="['/add-breeder-crop/edit/', data.breeder_crop_id]">
+                                            <img src="assets/images/edit.svg">
+                                        </button>
+
+
+                                        <button  class="list-action-buttons"
+                                            (click)="delete(data.breeder_crop_id, data.m_crop_crop_name)">
+                                            <img src="assets/images/delete.svg">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&
+                (!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)" class="px-2 py-2 w-100">
+                        <!-- <hr _ngcontent-jwr-c108="" class="separator mx-0 mt-1"> -->
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            No Data found.
+                        </div>
+                    </div>
+                    <div class="col-12 px-4 py-3 pb-5">
+                        <app-pagination-ui></app-pagination-ui>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</form>

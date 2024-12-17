@@ -1,0 +1,544 @@
+<div *ngIf="dataload" class="pt-3 pb-3 px-4">
+    <form [formGroup]="ngForm" (ngSubmit)="submitForm(ngForm)">
+        <div class="card">
+            <div class="col-12 heading mt-3">
+                Seed Testing Result
+            </div>
+            <div class="row form-group pl-2">
+                <div class="col-12 pt-3 pr-4">
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-12 pl-lg-4 pr-4 pr-md-2 pl-4 pl-md-0">
+                            <label for="" class="left-heading">Reference Number</label><br>
+                            <input type="text" class="form-control" placeholder="Enter Reference Number"
+                                formControlName="reference_number" (keypress)="checkLength($event,50)">
+                            <div class="reference_number errorMessage"
+                                *ngIf="submitted|| ngForm.controls['reference_number'].invalid && ngForm.controls['reference_number'].dirty || ngForm.controls['reference_number'].touched">
+                                <span *ngIf="ngForm.controls['reference_number'].errors?.['required']">
+                                    Reference Number is Required.
+                                </span>
+                                <span *ngIf="ngForm.controls['reference_number'].errors?.['pattern']">Please Enter a
+                                    Valid
+                                    Reference Number.</span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-sm-12 px-lg-2 py-3 py-lg-0 pr-4 pr-md-3 pl-4 pl-md-0">
+                            <label for="" class="left-heading"> Date</label><br>
+                            <!-- <input type="date" name="begin" class="form-control" formControlName="date"> -->
+                            <input (keydown)="preventKeyPress($event)" 
+                                class="form-control input-format input-border not_date "
+                                formControlName="date" angular-mydatepicker [options]="myDpOptions1"
+                                #dp3="angular-mydatepicker" (dateChanged)="onDateChanged($event)"
+                                (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth" 
+                                id="date" placeholder="DD-MM-YYYY" />
+                            <div class="date errorMessage"
+                                *ngIf="submitted || ngForm.controls['date'].invalid && (ngForm.controls['date'].dirty || ngForm.controls['date'].touched)">
+                                <span *ngIf="ngForm.controls['date'].errors?.['required']">
+                                    Date is Required.
+                                </span>
+
+                                <span *ngIf="ngForm.controls['date'].errors?.['pattern']">
+                                    Please Select Valid Date.
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-4 col-sm-12 pl-lg-2 pr-lg-4 pr-4 pr-md-3 pl-4 pl-md-0">
+                            <label for="" class="left-heading">Report Recieving Date</label><br>
+                            <!-- <input type="date" class="form-control" formControlName="report_recieving_date"
+                                (keypress)="checkLength($event,50)" [min]="minDate"
+                                (change)="onChangeReportRecievingDate(ngForm.value.report_recieving_date)"> -->
+
+                            <input (keydown)="preventKeyPress($event)"
+                                class="form-control input-format input-border not_date "
+                                formControlName="report_recieving_date" angular-mydatepicker [options]="myDpOptionsreportrecieving"
+                                #dp4="angular-mydatepicker"
+                                (change)="onChangeReportRecievingDate(ngForm.value.report_recieving_date)"
+                                [min]="minDate" (click)="dp4.toggleCalendar()" [defaultMonth]="defaultMonth" id="date"
+                                placeholder="DD-MM-YYYY" />
+                            <div class="report_recieving_date errorMessage"
+                                *ngIf="submitted || ngForm.controls['report_recieving_date'].invalid && ngForm.controls['report_recieving_date'].dirty || ngForm.controls['report_recieving_date'].touched">
+                                <span *ngIf="ngForm.controls['report_recieving_date'].errors?.['required']">
+                                    Report Recieving Date is Required</span>
+                                <span *ngIf="ngForm.controls['report_recieving_date'].errors?.['pattern']">
+                                    Please select valid Report Recieving Date.</span>
+
+                            </div>
+
+                            <div class="report_recieving_date errorMessage" *ngIf="showDefaultError">
+                                <span>
+                                    Please Select Valid Report Recieving Date.</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-12 pt-3 pr-4">
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-12 pl-lg-4 pr-4 pr-md-2 pl-4 pl-md-0">
+                            <label for="" class="left-heading">Seed Testing Laboratory</label> <br>
+                            <select class="form-select form-control" aria-label="Default select example"
+                                formControlName="seed_test_lab_id">
+                                <option value="" hidden>Select Seed Testing Laboratory</option>
+                                <option *ngFor="let data of seedTestingLabData" value="{{data.id}}">
+                                    {{data.lab_name}}</option>
+                            </select>
+                            <div class="seed_test_lab_id errorMessage"
+                                *ngIf="submitted || ngForm.controls['seed_test_lab_id'].invalid && ngForm.controls['seed_test_lab_id'].dirty || ngForm.controls['seed_test_lab_id'].touched">
+                                <span *ngIf="ngForm.controls['seed_test_lab_id'].errors?.['required']">
+                                    Seed Testing Laboratory is Required.
+                                </span>
+
+                                <span *ngIf="ngForm.controls['seed_test_lab_id'].errors?.['pattern']">
+                                    Please select valid Seed Testing Laboratory.
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-4 col-sm-12 px-lg-2 py-3 py-lg-0 pr-4 pr-md-3 pl-4 pl-md-0">
+                            <label for="" class="left-heading">Year of Indent </label><br>
+                            <select class="form-select form-control" aria-label="Default select example"
+                                formControlName="year_of_indent"
+                                (change)="onChangeYearOfIndent(ngForm.value.year_of_indent)">
+                                <option value="" >Select Year of Indent</option>
+                                <option *ngFor="let year of yearOfIndent" value="{{year.year}}">
+                                    {{year.year}}-{{(year.year + 1) - 2000}}</option>
+                            </select>
+                            <div class="year_of_indent errorMessage"
+                                *ngIf="submitted || ngForm.controls['year_of_indent'].invalid && ngForm.controls['year_of_indent'].dirty || ngForm.controls['year_of_indent'].touched">
+                                <span *ngIf="ngForm.controls['year_of_indent'].errors?.['required']">Year of Indent is
+                                    Required.</span>
+                                <span *ngIf="ngForm.controls['year_of_indent'].errors?.['pattern']">Please Select Valid
+                                    Year of Indent.</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 pl-lg-2 pr-lg-4 pr-4 pr-md-3 pl-4 pl-md-0">
+                            <label for="" class="left-heading">Season</label><br>
+                            <select class="form-select form-control" aria-label="Default select example"
+                                formControlName="season" (change)="onChangeSeason(ngForm.value.season)">
+                                <option value="" disabled>Select Season</option>
+                                <option *ngFor="let data of season_list" value="{{data.season_code}}">
+                                    {{data.season_name}}</option>
+                            </select>
+                            <div class="season errorMessage"
+                                *ngIf="submitted || ngForm.controls['season'].invalid && ngForm.controls['season'].dirty || ngForm.controls['season'].touched">
+                                <span *ngIf="ngForm.controls['season'].errors?.['required']">Season is Required.</span>
+                                <span *ngIf="ngForm.controls['season'].errors?.['pattern']">Please Select a Valid
+                                    Season.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-12 pt-3 pr-4">
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-12 pl-lg-4 pr-4 pr-md-2 pl-4 pl-md-0">
+                            <label for="" class="left-heading">Crop Name</label><br>
+                            <select class="form-select form-control" aria-label="Default select example"
+                                formControlName="crop_code" (change)="onChangeCrop(ngForm.value.crop_code)">
+                                <option value="" disabled>Select Crop Name</option>
+                                <option *ngFor="let data of crop_name_list" value="{{data.crop_code}}">
+                                    {{data.crop_name}}</option>
+                            </select>
+                            <div class="crop_code errorMessage"
+                                *ngIf="submitted || ngForm.controls['crop_code'].invalid && ngForm.controls['crop_code'].dirty || ngForm.controls['crop_code'].touched">
+                                <span *ngIf="ngForm.controls['crop_code'].errors?.['required']">Crop Name is
+                                    Required.</span>
+                                <span *ngIf="ngForm.controls['crop_code'].errors?.['pattern']">Please Select a Valid
+                                    Crop Name.</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 px-lg-2 py-3 py-lg-0 pr-4 pr-md-3 pl-4 pl-md-0">
+                            <label for="" class="left-heading">Variety Name</label><br>
+                            <select class="form-select form-control" aria-label="Default select example"
+                                formControlName="variety_id" (change)="onChangeVariety(ngForm.value)">
+                                <option value="" disabled>Select Variety Name</option>
+                                <option *ngFor="let data of cropVarietyData" value="{{data.variety_id}}">
+                                    {{data['m_crop_variety.variety_name']}}</option>
+                            </select>
+                            <div class="variety_id errorMessage"
+                                *ngIf="submitted || ngForm.controls['variety_id'].invalid && ngForm.controls['variety_id'].dirty || ngForm.controls['variety_id'].touched">
+                                <span *ngIf="ngForm.controls['variety_id'].errors?.['required']">Variety Name is
+                                    Required</span>
+                                <span *ngIf="ngForm.controls['variety_id'].errors?.['pattern']">Please select a valid
+                                    Variety Name</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 pl-lg-2 pr-lg-4 pr-4 pr-md-3 pl-4 pl-md-0">
+                            <label for="" class="left-heading">LOT Number</label><br>
+                            <select class="form-select form-control" aria-label="Default select example"
+                                formControlName="lot_number">
+                                <option value="" >Select LOT Number</option>
+                                <option *ngFor="let data of lotNumberData" value="{{data.id}}">
+                                    {{data.lot_number}}</option>
+                            </select>
+                            <div class="lot_number errorMessage"
+                                *ngIf="submitted || ngForm.controls['lot_number'].invalid && ngForm.controls['lot_number'].dirty || ngForm.controls['lot_number'].touched">
+                                <span *ngIf="ngForm.controls['lot_number'].errors?.['required']">LOT Number is
+                                    Required.</span>
+                                <span *ngIf="ngForm.controls['lot_number'].errors?.['pattern']">Please Select Valid
+                                    LOT Number.</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-12 px-4 pt-3 pb-3">
+                    <hr class="separator m-0 mx-0 width">
+                </div>
+                <div class="col-12 pt-4 px-4" style="background: #F5F5F5 0% 0% no-repeat padding-box;
+                border: 1px solid #979797;">
+                    <div class="row ">
+                        <div class="col-12 col-md-4 pl-0 pl-2">
+                            <div class="col-12">
+                                <label for="Actual Quantity of Breeder Seed Produced" class="left-heading">LOT
+                                    Size</label>
+                            </div>
+                            <div class="col-12">
+                                <input type="text" class="form-control" placeholder="Enter LOT Size"
+                                    formControlName="quantity_of_seed_produced" (keypress)="isNumberKey($event)"
+                                    style="background: #EFEFEF 0% 0% no-repeat padding-box;opacity:1;">
+
+                            </div>
+
+                        </div>
+                        <!-- <div class="col-12 col-md-4 pl-0">
+                            <div class="col-12">
+                                <label for="Crop Group" class="left-heading">LOT Number</label>
+                            </div>
+                            <div class="col-12">
+
+                                <input type="text" class="form-control" placeholder="Enter LOT Number"
+                                    formControlName="lot_number" (keypress)="checkLength($event,50)"
+                                    style="background: #EFEFEF 0% 0% no-repeat padding-box;opacity:1;">
+
+                            </div>
+
+                        </div> -->
+                        <div class="col-12 col-md-4 pl-2">
+                            <div class="col-12">
+                                <label for="Crop Group" class="left-heading">Sample Number</label>
+                            </div>
+                            <div class="col-12">
+                                <input type="text" class="form-control" placeholder="Enter Sample Number"
+                                    formControlName="sample_number" (keypress)="checkLength($event,50)"
+                                    style="background: #FFFFFF 0% 0% no-repeat padding-box;opacity:40">
+
+                                <div class="errorMessage"
+                                    *ngIf="submitted || ngForm.controls['sample_number'].invalid && ngForm.controls['sample_number'].dirty || ngForm.controls['sample_number'].touched">
+                                    <span *ngIf="ngForm.controls['sample_number'].errors?.['required']">Sample Number is
+                                        Required.</span>
+                                    <span *ngIf="ngForm.controls['sample_number'].errors?.['pattern']">Please Enter
+                                        Valid
+                                        Sample Number.</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                        <div class="col-12 pl-4 pt-3 pb-2">
+                            <span class="left-headings"><b>% of Different Seeding Classes</b></span>
+                        </div>
+                        <div class="col-12 col-md-4 pl-0 pl-2 pb-2">
+                            <div class="col-12">
+                                <label for="seed_class_normal" class="left-heading">Normal</label>
+                            </div>
+                            <div class="col-12">
+                                <input type="number" class="form-control" placeholder="Enter Normal"
+                                    formControlName="seed_class_normal" (keypress)="isNumberKey($event)"
+                                    style="background: #FFFFFF 0% 0% no-repeat padding-box;opacity:40">
+                                <div class="errorMessage"
+                                    *ngIf="submitted || ngForm.controls['seed_class_normal'].invalid && ngForm.controls['seed_class_normal'].dirty || ngForm.controls['seed_class_normal'].touched">
+                                    <span *ngIf="ngForm.controls['seed_class_normal'].errors?.['required']">Seed Class
+                                        Normal is
+                                        Required.</span>
+                                    <span *ngIf="ngForm.controls['seed_class_normal'].errors?.['pattern']">Please Enter
+                                        Valid Seed Class Normal.</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class=" col-12 col-md-4 pl-0 pl-2 pb-2">
+                            <div class="col-12">
+                                <label for="seed_class_abnormal" class="left-heading">Abnormal</label>
+                            </div>
+                            <div class="col-12">
+                                <input type="number" class="form-control" placeholder="Enter Abnormal"
+                                    formControlName="seed_class_abnormal" (keypress)="isNumberKey($event)"
+                                    style="background: #FFFFFF 0% 0% no-repeat padding-box;opacity:40">
+                                <div class="errorMessage"
+                                    *ngIf="submitted || ngForm.controls['seed_class_abnormal'].invalid && ngForm.controls['seed_class_abnormal'].dirty || ngForm.controls['seed_class_abnormal'].touched">
+                                    <span *ngIf="ngForm.controls['seed_class_abnormal'].errors?.['required']">Seed Class
+                                        Abnormal is
+                                        Required.</span>
+                                    <span *ngIf="ngForm.controls['seed_class_abnormal'].errors?.['pattern']">Please
+                                        Enter
+                                        Valid Seed Class Abnormal.</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-12 col-md-4 pl-0 pl-2">
+                            <div class="col-12">
+                                <label for="seed_class_hard" class="left-heading">Hard</label>
+                            </div>
+                            <div class="col-12">
+                                <input type="number" class="form-control" placeholder="Enter Hard"
+                                    formControlName="seed_class_hard" (keypress)="isNumberKey($event)"
+                                    style="background: #FFFFFF 0% 0% no-repeat padding-box;opacity:40">
+                                <div class="errorMessage"
+                                    *ngIf="submitted || ngForm.controls['seed_class_hard'].invalid && ngForm.controls['seed_class_hard'].dirty || ngForm.controls['seed_class_hard'].touched">
+                                    <span *ngIf="ngForm.controls['seed_class_hard'].errors?.['required']">Seed Class
+                                        Hard is
+                                        Required.</span>
+                                    <span *ngIf="ngForm.controls['seed_class_hard'].errors?.['pattern']">Please Enter
+                                        Valid Seed Class Hard.</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-md-4 pl-0 pl-2  pb-2">
+                            <div class="col-12">
+                                <label for="fresh_ungerminated" class="left-heading">Fresh Ungerminated</label>
+                            </div>
+                            <div class="col-12">
+                                <input type="number" class="form-control" placeholder="Enter Fresh Ungerminated"
+                                    formControlName="fresh_ungerminated" (keypress)="isNumberKey($event)"
+                                    style="background: #FFFFFF 0% 0% no-repeat padding-box;opacity:40">
+                                <div class="errorMessage"
+                                    *ngIf="submitted || ngForm.controls['fresh_ungerminated'].invalid && ngForm.controls['fresh_ungerminated'].dirty || ngForm.controls['fresh_ungerminated'].touched">
+                                    <span *ngIf="ngForm.controls['fresh_ungerminated'].errors?.['required']">Fresh
+                                        Ungerminated is
+                                        Required</span>
+                                    <span *ngIf="ngForm.controls['fresh_ungerminated'].errors?.['pattern']">Please enter
+                                        valid Fresh Ungerminated</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-md-4 pl-0 pl-2">
+                            <div class="col-12">
+                                <label for="dead" class="left-heading">Dead</label>
+                            </div>
+                            <div class="col-12">
+                                <input type="number" class="form-control" placeholder="Enter Dead" formControlName="dead"
+                                    (keypress)="isNumberKey($event)"
+                                    style="background: #FFFFFF 0% 0% no-repeat padding-box;opacity:40">
+                                <div class="errorMessage"
+                                    *ngIf="submitted || ngForm.controls['dead'].invalid && ngForm.controls['dead'].dirty || ngForm.controls['dead'].touched">
+                                    <span *ngIf="ngForm.controls['dead'].errors?.['required']">Seed Class Dead is
+                                        Required.</span>
+                                    <span *ngIf="ngForm.controls['dead'].errors?.['pattern']">Please Enter
+                                        Valid Seed Class Dead.</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-md-4 pl-0 pl-2">
+
+
+                        </div>
+                        <div class="col-12 pl-4 pb-2">
+                            <span class="left-headings"><b>Physical Purity (%)</b></span>
+                        </div>
+                        <div class="col-12 col-md-4 pl-0 pl-2 ">
+                            <div class="col-12">
+                                <label for="pure_seed" class="left-heading">Pure Seed</label>
+                            </div>
+                            <div class="col-12">
+                                <input type="number" class="form-control" placeholder="Enter Pure Seed"
+                                    formControlName="pure_seed" (keypress)="isNumberKey($event)"
+                                    style="background: #FFFFFF 0% 0% no-repeat padding-box;opacity:40">
+                                <div class="errorMessage"
+                                    *ngIf="submitted || ngForm.controls['pure_seed'].invalid && ngForm.controls['pure_seed'].dirty || ngForm.controls['pure_seed'].touched">
+                                    <span *ngIf="ngForm.controls['pure_seed'].errors?.['required']">Pure Seed is
+                                        Required.</span>
+                                    <span *ngIf="ngForm.controls['pure_seed'].errors?.['pattern']">Please Enter
+                                        Valid Pure Seed.</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-12 col-md-4 pl-0 pl-2">
+                            <div class="col-12">
+                                <label for="other_crop_seed" class="left-heading">Other Crop Seed</label>
+                            </div>
+                            <div class="col-12">
+                                <input type="number" class="form-control" placeholder="Enter Other Crop Seed"
+                                    formControlName="other_crop_seed" (keypress)="isNumberKey($event)"
+                                    style="background: #FFFFFF 0% 0% no-repeat padding-box;opacity:40">
+                                <div class="errorMessage"
+                                    *ngIf="submitted || ngForm.controls['other_crop_seed'].invalid && ngForm.controls['other_crop_seed'].dirty || ngForm.controls['other_crop_seed'].touched">
+                                    <span *ngIf="ngForm.controls['other_crop_seed'].errors?.['required']">Other Crop
+                                        Seed is
+                                        Required.</span>
+                                    <span *ngIf="ngForm.controls['other_crop_seed'].errors?.['pattern']">Please Enter
+                                        Valid Other Crop Seed.</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-md-4 pl-0 pl-2">
+                            <div class="col-12">
+                                <label for="weed_seed" class="left-heading">Weed Seed</label>
+                            </div>
+                            <div class="col-12">
+                                <input type="number" class="form-control" placeholder="Enter Weed Seed"
+                                    formControlName="weed_seed" (keypress)="isNumberKey($event)"
+                                    style="background: #FFFFFF 0% 0% no-repeat padding-box;opacity:40">
+                                <div class="errorMessage"
+                                    *ngIf="submitted || ngForm.controls['weed_seed'].invalid && ngForm.controls['weed_seed'].dirty || ngForm.controls['weed_seed'].touched">
+                                    <span *ngIf="ngForm.controls['weed_seed'].errors?.['required']">Weed Seed is
+                                        Required.</span>
+                                    <span *ngIf="ngForm.controls['weed_seed'].errors?.['pattern']">Please Enter
+                                        Valid Weed Seed.</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-12 col-md-4 pl-0 pl-2 pb-3 pt-2">
+                            <div class="col-12">
+                                <label for="inert_matter" class="left-heading">Inert Matter</label>
+                            </div>
+                            <div class="col-12">
+                                <input type="number" class="form-control" placeholder="Enter Inert Matter"
+                                    formControlName="inert_matter" (keypress)="isNumberKey($event)"
+                                    style="background: #FFFFFF 0% 0% no-repeat padding-box;opacity:40">
+                                <div class="errorMessage"
+                                    *ngIf="submitted || ngForm.controls['inert_matter'].invalid && ngForm.controls['inert_matter'].dirty || ngForm.controls['inert_matter'].touched">
+                                    <span *ngIf="ngForm.controls['inert_matter'].errors?.['required']">Inert Matter is
+                                        Required.</span>
+                                    <span *ngIf="ngForm.controls['inert_matter'].errors?.['pattern']">Please Enter
+                                        Valid Inert Matter.</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 pl-4">
+                            <label for="moisture" class="left-heading">Moisture (%)</label>
+                        </div>
+                        <div class="col-12 col-md-4 pl-0 pl-2 pb-3 pt-2">
+
+                            <div class="col-12">
+                                <input type="number" class="form-control" placeholder="Enter Moisture (%)"
+                                    formControlName="moisture" (keypress)="isNumberKey($event)"
+                                    style="background: #FFFFFF 0% 0% no-repeat padding-box;opacity:40">
+                                <div class="errorMessage"
+                                    *ngIf="submitted || ngForm.controls['moisture'].invalid && ngForm.controls['moisture'].dirty || ngForm.controls['moisture'].touched">
+                                    <span *ngIf="ngForm.controls['moisture'].errors?.['required']">Moisture is
+                                        Required.</span>
+                                    <span *ngIf="ngForm.controls['moisture'].errors?.['pattern']">Please Enter
+                                        Valid
+                                        Moisture.</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-12 pl-4">
+                            <label for="Report Status" class="left-heading">Report Status</label>
+                        </div>
+                        <div class="col-12 col-md-4 pl-0 pl-2 pb-3 pt-2">
+                            <div class="col-12">
+                                <select class="form-select form-control" aria-label="Default select example"
+                                    formControlName="is_report_pass">
+                                    <option value="" disabled>Select Report Status</option>
+                                    <option value="true">Pass</option>
+                                    <option value="false">Fail</option>
+                                </select>
+
+                                <div class="errorMessage"
+                                    *ngIf="submitted || ngForm.controls['is_report_pass'].invalid && ngForm.controls['is_report_pass'].dirty || ngForm.controls['is_report_pass'].touched">
+                                    <span *ngIf="ngForm.controls['is_report_pass'].errors?.['required']">Report Status
+                                        is
+                                        Required.</span>
+                                    <span *ngIf="ngForm.controls['is_report_pass'].errors?.['pattern']">Please Select
+                                        Report Status.</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div class="" style="width: 100%; text-align: left;">
+                    <div class="col-md-12 pb-3 mt-4 sub_updt_cancel_btn pl-3" *ngIf="createMode">
+                        <div class="resp_btn">
+                            <button type="submit"
+                                class="form-button submit_btn d-inline-flex justify-content-center verticle-content-middle mb-3 ml-2"
+                                role="button">
+                                <span class="px-1"
+                                    style="font: normal Poppins 16px/25px ;letter-spacing: 0px;color: #FFFFFF;opacity: 1;">
+                                    Submit
+                                </span>
+
+                            </button>
+                        </div>
+
+                        <div class="resp_btn">
+
+                            <button type="reset"
+                                class="form-button cancel_btn d-inline-flex justify-content-center verticle-content-middle mb-3 ml-2"
+                                role="button" routerLink="/seed-testing-labortary-breeder-list">
+                                <span class="px-1"
+                                    style="font: normal Poppins 16px/25px ;letter-spacing: 0px;color: #FFFFFF;opacity: 1;">
+                                    Cancel
+                                </span>
+
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row pl-3" style="width: 100%; text-align: left;">
+                    <div *ngIf="viewMode || editMode" class="col-md-12 pb-3 mt-4 sub_updt_cancel_btn pl-3">
+                        <div class="resp_btn2">
+                            <button *ngIf="editMode" type="button" (click)="updateForm(ngForm)"
+                                class="form-button update_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                role="button">
+                                <span class="px-1"
+                                    style="font: normal Poppins 16px/25px ;letter-spacing: 0px;color: #FFFFFF;opacity: 1;">
+                                    Update
+                                </span>
+
+                            </button>
+                        </div>
+                        <div class="resp_btn2">
+                            <button type="button"
+                                class="form-button cancel_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                role="button" routerLink="/seed-testing-labortary-breeder-list">
+                                <span class="px-1"
+                                    style="cursor: pointer; font: normal Poppins 16px/25px;letter-spacing: 0px;color: #FFFFFF;opacity: 1;">
+                                    Cancel
+                                </span>
+
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div><br><br>
+
+    </form>

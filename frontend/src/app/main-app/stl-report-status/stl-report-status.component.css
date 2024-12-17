@@ -1,0 +1,134 @@
+:root {
+    --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
+}
+
+@supports (font-variation-settings: normal) {
+    :root {
+        font-family: 'Inter var', sans-serif;
+    }
+}
+ 
+  
+.main-inventory {
+    background-color: #FFFFFF;
+    border: 1px #D2D2D2;
+    border-radius: 10px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    height: auto;
+    margin: 1%;
+    padding-left: 1.25%;
+    padding-right: 1.5%;
+    padding-bottom: 1%;
+    margin-left: 15px;
+    letter-spacing: 0px;
+    color: #000000;
+}
+
+.card-inventory {
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    background: #B64B1D0D;
+}
+
+hr.new2 {
+    border-top: 2px dashed #000000;
+}
+.btn-discarded {
+    background-color: grey !important;
+    color: #000000;
+    cursor: not-allowed;
+    border-radius: 5px;
+    height: 37px;
+  }
+  .btn-proceeded {
+    background-color: grey !important;
+    color: #000000;
+    cursor: not-allowed;
+    border-radius: 5px;
+    height: 37px;
+  }
+.border {
+    padding: 1%;
+    border: 2px solid #000000;
+}
+
+.btn-inventory1 {
+    border-radius: 5px;
+    color: white;
+    border: none;
+    height: 37px;
+    outline: none;
+    background: #B64B1D;
+}
+.btn-inventory2 {
+    font-size: 14px; /* Adjust font size as needed */
+    padding: 10px 20px; /* Adjust padding to fit text */
+    width: auto; /* Ensure width adjusts to content */
+    height: auto; /* Ensure height adjusts to content */
+    text-align: center; /* Center the text */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.table {
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+
+}
+
+.data-row-header {
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+    color: #FFFFFF;
+    letter-spacing: 0px;
+    background: #B64B1D 0% 0% no-repeat padding-box;
+    /* margin: 0.2%; */
+}
+
+.data-row-header1 {
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+    /* color: #FFFFFF; */
+    letter-spacing: 0px;
+    /* background: #B64B1D 0% 0% no-repeat padding-box; */
+}
+.data-row * {
+    font-size: 13px !important;
+}
+
+.data-row {
+    border: 1px solid #dcdcdc;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    background-color: #FFFFFF;
+    margin: 0.2%;
+    margin-bottom: none !important;
+}
+
+.div-heading {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background: #B64B1D 0% 0% no-repeat padding-box;
+}
+
+.description-div {
+    background: #ffe7b6de 0% 0% no-repeat padding-box;
+}
+
+.table-left-header {
+    border-top-left-radius: 15px;
+    /* border-top-right-radius: 15px; */
+}
+
+.table-right-header {
+    /* border-top-left-radius: 15px; */
+    border-top-right-radius: 15px;
+}
+.disabled-btn {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    pointer-events: none; /* Prevent any action */
+    opacity: 0.6;
+  }

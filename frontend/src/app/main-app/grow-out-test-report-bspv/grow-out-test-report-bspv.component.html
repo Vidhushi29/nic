@@ -1,0 +1,244 @@
+<form [formGroup]="ngForm" class="pt-2">
+    <div class="main-inventory my-2 w-90 pt-2">
+        <span class="title-inventory pt-3">
+            Grow Out Test Report (BSP V(a))
+        </span>
+        <div class="col-12 pb-2 pt-2 pr-0">
+            <div class="row card-inventory form-group formargin">
+
+                <!-- Section 1 -->
+                <div class="col-12 col-md-10 pt-1 pl-4 formargin">
+                    <div class="row">
+
+                        <!-- Year of Indent -->
+                        <div class="col-xl-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="year" class="label-inventory required">Year of Indent</label>
+                                </div>
+                                <div class="col-12">
+                                    <select formControlName="year"
+                                        [ngClass]="(is_update || showAddMoreInthisVariety) ? 'form-control input-inventory disableField' : 'form-control input-inventory'">
+                                        <option value="">Select Year of Indent</option>
+                                        <option *ngFor="let data of yearOfIndent" value="{{data && data.year ? data.year :''}}">
+                                            {{data && data.year ? data.year :''}}-{{data && data.year ?
+                                            (data.year-2000)+1 :''}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Season -->
+                        <div class="col-xl-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="season" class="label-inventory required">Season</label>
+                                </div>
+                                <div class="col-12">
+                                    <select formControlName="season"
+                                        [ngClass]="(is_update || showAddMoreInthisVariety) ? 'form-control input-inventory disableField' : 'form-control input-inventory'">
+                                        <option value="">Select Season</option>
+                                        <option *ngFor="let data of seasonlist" [value]="data?.season">
+                                            {{data.season_name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Crop -->
+                        <div class="col-xl-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="crop_group" class="label-inventory required">Crop</label>
+                                </div>
+                                <div class="col-12">
+                                    <div ngbDropdown class="d-inline-block w-100">
+                                        <button
+                                            [disabled]="!ngForm.controls['year'].value || !ngForm.controls['season'].value"
+                                            class="btn takeplacholder w-100 crop toggle-button input-inventory form-control"
+                                            id="crop_group" ngbDropdownToggle>
+                                            {{ selectCrop && (selectCrop.length > 30) ? (selectCrop.substring(0, 30) +
+                                            '...') : selectCrop || 'Select Crop' }}
+                                        </button>
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group">
+                                            <input type="text" class="form-control px-4" formControlName="crop_text"
+                                                (click)="cropdatatext()">
+                                            <button class="dropdown-item" *ngFor="let data of cropName"
+                                                (click)="cropNameValue(data)">
+                                                {{ data?.crop_name || '' }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="toggle-button" ngbDropdown>
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                    </div>
+                                    <div class="toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Search Button -->
+                <div class="col-lg-2 col-md-2 col-sm-12 pt-4 mt-1 pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12">
+                            <button
+                                class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1"
+                                (click)="toggleSearch()">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-12 pt-3" *ngIf="searchClicked">
+            <div class="row card-inventory form-group  pl-0">
+                <div class="col-12">
+                    <div class="col-12 pt-1 pb-1">
+
+                        <!-- Variety Selection -->
+                        <div class="row align-items-center">
+                            <!-- Consignment Dropdown -->
+                            <div class="col-xl-1 col-sm-12">
+                                <label>Filter By : </label>
+
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <select class="form-control w-100" formControlName="varietyvalue" (change)="onVarietyChange($event)">
+                                    <option value="">Please Variety</option>
+                                    <option *ngFor="let data of varietyArray"
+                                        value="{{data && data.variety_code ? data.variety_code:(data && data.variety_name?data.variety_name:'')}}">
+                                        {{
+                                        data &&
+                                        data.variety_name ? data.variety_name:''}}</option>
+
+                                </select>
+                            </div>
+                            <hr>
+
+
+
+                        </div>
+
+
+                    </div>
+                    <hr>
+
+                    <div class="row data-row p-0">
+                        <table
+                            class="table border-top-0   col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12 pl-0 pr-0 m-0 ">
+                            <thead class=" w-100 pl-0 table-bordered">
+                                <tr class="data-row-header">
+
+                                    <th scope="col" class="py-2 text-white verticle-content-middle heading datalist">
+                                        S.No.</th>
+                                    <th scope="col"
+                                        class="col-md-1 py-2 text-white verticle-content-middle heading datalist">
+                                        Variety</th>
+                                    <th scope="col"
+                                        class="col-md-3 py-2 text-white verticle-content-middle heading datalist">
+                                        Lot Details</th>
+                                    <th scope="col" style="text-align:left!important"
+                                        class="col-md-3 py-2 text-white verticle-content-middle heading datalist">
+                                        Sample Details</th>
+                                    <th scope="col" style="text-align:left!important"
+                                        class="col-md-3 py-2 text-white verticle-content-middle heading datalist">
+                                        Other Details</th>
+                                    <!-- after final submition show in this section -->
+                                    <th scope="col" style="text-align:left!important"
+                                        class="col-md-3 py-2 text-white verticle-content-middle heading datalist">
+                                        Test Report Summary</th>
+                                    <th scope="col" style="min-width:8em;"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading datalist">
+                                        Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-bordered">
+                            <tbody class="table-bordered">
+                                <ng-container *ngFor="let report of reports">
+                                    <tr>
+                                        <!-- SNo -->
+                                        <td>{{ report.id }}</td>
+
+                                        <!-- Variety Section -->
+                                        <td>
+                                            <b>{{ report.variety.name }}<br>
+                                            Parental Line: {{ report.variety.parentalLine }}</b>
+                                        </td>
+
+                                        <!-- Lot Details Section -->
+                                        <td>
+                                            Lot No: <b>{{ report.lotDetails.lotNo }}</b><br>
+                                            Class Of Seed: <b>{{ report.lotDetails.classOfSeed }}</b><br>
+                                            Godown No: {{ report.lotDetails.godownNo }}<br>
+                                            Stack No: <b>{{ report.lotDetails.stackNo }}</b><br>
+                                            No Of Bags: <b>{{ report.lotDetails.noOfBags }}</b>
+                                        </td>
+
+                                        <!-- Sample Details Section -->
+                                        <td>
+                                            Unique Code: <b>{{ report.sampleDetails.uniqueCode }}</b><br>
+                                            Sample No: <b>{{ report.sampleDetails.sampleNo }}</b><br>
+                                            Testing Centre: <b>{{ report.sampleDetails.testingCentre }}</b><br>
+                                            Test No: <b>{{ report.sampleDetails.testCentre }}</b><br>
+                                            Consignment No: <b>{{ report.sampleDetails.consignmentNo }}</b>
+                                        </td>
+
+                                        <!-- Other Details Section -->
+                                        <td>
+                                            <!-- Area under variety (Ha): <b>{{ report.otherDetails.areaUnderVariety }}</b><br> -->
+                                            <!-- No. of samples taken: <b>{{ report.otherDetails.noOfSamples }}</b><br> -->
+                                            Date of BSP I: <b>{{ report.otherDetails.dateOfBspI }}</b><br>
+                                            Date of BSP III: <b>{{ report.otherDetails.dateOfBspIII }}</b>
+                                        </td>
+
+                                        <!-- Test Report Summary -->
+                                        <td>
+                                            Total Plants Observed: <b>{{ report.totalPlantsObserved }}</b><br>
+                                            Total Self Plants: <b>{{ report.totalSelfPlants }}</b><br>
+                                            Total OffType Plants: <b>{{ report.totalOffTypePlants }}</b><br>
+                                            Total True Plants: <b>{{ report.totalTruePlants }}</b><br>
+                                            Genetic Purity %: <b>{{ report.geneticPurity }}</b>
+                                        </td>
+
+                                        <!-- Action Button -->
+                                        <td>
+                                            <button
+                                                class="w-100 py-3s text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                                Download Report
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                </ng-container>
+
+                            </tbody>
+
+
+                            <tbody>
+                                <!-- <tr>
+                                        <td colspan="8" style="text-align: center;">No Data Found</td>
+                                    </tr> -->
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</form>

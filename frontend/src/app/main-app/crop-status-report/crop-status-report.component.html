@@ -1,0 +1,194 @@
+<form [formGroup]="ngForm" class="pt-2">
+  <div class="main-inventory my-4 w-90  pt-2 " >
+    <span class="title-inventory1 pt-3 pl-2">
+      Crop Status Report
+    </span>
+    <!-- first card ui -->
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 pb-2 pt-2 pr-0"  >
+      <div class="row  card-inventory form-group formargin">
+        <!-- start sectio 1 -->
+        <div class="col-12 col-md-10 col-lg-10 col-sm-12 pt-1 pl-4 formargin">
+          <div class="row">
+            <!-- year of indent -->
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4 col-sm-12">
+              <div class="row">
+                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                  <label for="year" class="label-inventory required">Year of Indent</label>
+                </div>
+                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                  <select class=" form-control input-inventory" formControlName="year">
+                    <option value="">Select Year</option>
+                    <option *ngFor="let data of yearOfIndent" value="{{data && data.year ? data.year :''}}">
+                      {{data && data.year ? data.year :''}}-{{data && data.year ?
+                      (data.year-2000)+1 :''}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!-- season -->
+            <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+              <div class="row">
+                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                  <label for="year" class="label-inventory required">Season</label>
+                </div>
+                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                  <select class=" form-control input-inventory" formControlName="season">
+                    <option value="">Please Select Season</option>
+                    <option *ngFor="let data of seasonlist" value="{{data.season__code}}">{{data && data.season_name ?
+                      data.season_name:''}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!-- crop Type-->
+            <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+              <div class="row">
+                <div class="col-12">
+                  <label for="crop_type" class="label-inventory">Crop Type</label>
+                </div>
+                <div class="col-12">
+                  <select class="form-control input-inventory" formControlName="crop_type"
+                    (change)="onCropTypeChange()">
+                    <option value="">Select Crop Type</option>
+                    <option *ngFor="let type of cropTypes" [value]="type">{{ type | titlecase }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="col-lg-2 expa col-md-2 col-sm-12 col-12 pt-4 mt-2 pr-4 formargin">
+          <div class="row">
+            <div class="col-12 col-md-12 col-lg-12  ">
+              <button
+                class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3"
+                (click)="toggleSearch()">
+                Search
+              </button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--  excel download -->
+    <div class="col-12 mt-2 " *ngIf="searchClicked">
+      <div class="d-flex justify-content-end">
+        <button 
+          class="btn btn-outline-success d-flex align-items-center px-3 py-2"
+          (click)="exportexcel()">
+          <img src="assets/icons/excel.jpg" alt="Excel" width="20px" class="mr-2"> 
+          <span>Download as Excel</span>
+        </button>
+      </div>
+    </div> 
+
+    <!--  Second Card ui -->
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12  pt-3 pr-0 " *ngIf="searchClicked">
+      <div class="row card-inventory form-group pb-2 pl-2"  id="excel-table">
+        <!-- <div class="col-12 "> -->
+        <div class="col-12 col-md-12 col-lg-12 ">
+          <div class="row data-row pt-2 " *ngIf="searchClicked">
+             
+            <table class="table table-bordered ble-responsive">
+              <thead class="w-100 pl-0 table-bordered">
+                <tr class="col-12 col-md-12 col-lg-12 label-inventory "> 
+                    <td   class="col-md-1  " >Year :{{ngForm.controls['year'].value ||
+                      'NA'}}-{{(ngForm.controls['year'].value-2000)+1 || 'NA'}}</td>
+                    <td  class="col-md-1">Season  :{{(!ngForm.controls['season'].value?'NA':
+                      ngForm.controls['season'].value &&
+                      ngForm.controls['season'].value=='R'
+                      ?'Rabi' : ngForm.controls['season'].value=='K'? 'Kharif' :'Other')
+                      ||
+                      'NA'}}</td>
+                      <td class="col-md-1"></td><td class="col-md-1"></td>
+                      <td class="col-md-2">
+                        Crop_Type: {{
+                          !ngForm.controls['crop_type'].value 
+                            ? 'NA'
+                            : ngForm.controls['crop_type'].value === 'agriculture'
+                              ? 'Agriculture'
+                              : ngForm.controls['crop_type'].value === 'horticulture'
+                                ? 'Horticulture'
+                                : ngForm.controls['crop_type'].value
+                        }}
+                      </td> 
+                   
+                </tr> 
+                <tr class="data-row-header">
+                  <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading">S.No.</th>
+                  <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading">Crop Name</th>
+                  <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading">No. of Varieties</th>
+                  <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading">Indent Quantity</th>
+                  <th scope="col" class="col-md-2 py-2 text-white verticle-content-middle heading">PD/PC Name</th>
+                  <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading">Assigned to PD/PC
+                    Crop Status</th>
+                  <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading">BSP 1 Status</th>
+                  <th scope="col" class="col-md-2 py-2 text-white verticle-content-middle heading">Name of BSPCs</th>
+                  <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading">BSP 2 Status</th>
+                  <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading">BSP 3 Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngIf="allData && allData.length > 0; else noDataTemplate">
+                  <ng-container *ngFor="let data of allData; let i = index">
+                    <ng-container *ngFor="let bspc of data.bspc_status; let bspcIndex = index">
+                      <tr>
+                        <td class="col-md-1 py-2 verticle-content-middle" *ngIf="bspcIndex==0"
+                          [attr.rowspan]="data.bspc_status.length">{{ i + 1 }}</td>
+                        <td class="col-md-1 py-2 verticle-content-middle" *ngIf="bspcIndex==0"
+                          [attr.rowspan]="data.bspc_status.length">{{ data.crop_name }}</td>
+                        <td class="col-md-1 py-2 verticle-content-middle" *ngIf="bspcIndex==0"
+                          [attr.rowspan]="data.bspc_status.length">{{ data.number_of_varieties }}</td>
+                        <td class="col-md-1 py-2 verticle-content-middle" *ngIf="bspcIndex==0"
+                          [attr.rowspan]="data.bspc_status.length">{{ data.total_indent_quantity | number: '1.2-2' }} {{ data.Unit
+                          }}</td>
+                        <td class="col-md-2 py-2 verticle-content-middle" *ngIf="bspcIndex==0"
+                          [attr.rowspan]="data.bspc_status.length">{{ data.pdpc_name }}</td>
+                        <td class="col-md-1 py-2 verticle-content-middle" *ngIf="bspcIndex==0"
+                          [attr.rowspan]="data.bspc_status.length">{{ data.assigned_to_pdpc_crop_status }}</td>
+                        <td class="col-md-1 py-2 verticle-content-middle" *ngIf="bspcIndex==0"
+                          [attr.rowspan]="data.bspc_status.length" [ngClass]="{ 'text-green': data.bsp_1_status === 'Completed',
+                          'text-yellow': data.bsp_1_status === 'Working',
+                          'text-red': data.bsp_1_status === 'Pending'
+                        }">{{ data.bsp_1_status }}</td>
+
+                        <td class="col-md-1 py-2 verticle-content-middle">
+                          {{ bspc.bspc_name }}
+                        </td>
+                        <td class="col-md-1 py-2 verticle-content-middle" [ngClass]="{ 'text-green': bspc.bsp_2_status === 'Completed',
+                        'text-yellow': bspc.bsp_2_status === 'Working',
+                        'text-red': bspc.bsp_2_status === 'Pending' }">
+                          {{ bspc.bsp_2_status }}
+                        </td>
+                        <td class="col-md-1 py-2 verticle-content-middle" [ngClass]="{ 'text-green': bspc.bsp_3_status === 'Completed',
+                        'text-yellow': bspc.bsp_3_status === 'Working',
+                        'text-red': bspc.bsp_3_status === 'Pending' }">
+                          {{ bspc.bsp_3_status }}
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+                <!-- Template for when no data is available -->
+                <ng-template #noDataTemplate>
+                  <tr>
+                    <td colspan="10" class="text-center py-2">
+                      <b class="font-weight-bold text-center verticle-content-middle">No Data Found</b>
+                    </td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</form>

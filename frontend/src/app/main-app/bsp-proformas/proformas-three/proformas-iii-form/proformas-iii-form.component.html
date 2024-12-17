@@ -1,0 +1,719 @@
+<div class="container-fluid" *ngIf="!memberModal; else memberModalDiv">
+    <div class="row my-4 w-100 mx-0 form-child" *ngIf="!this.isView">
+        <div class="col-12 justify-content-center verticle-content-middle">
+            <!-- <div class="row mx-auto member-row px-0 py-2">
+                <div class="col-12 px-4">
+                    <div class="list-wrapper px-4 py-3">
+                        <div class=" row d-none d-md-flex data-row-header" style="background: #b74b27;">
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">S/N</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Name</div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Designation</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Phone</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Address</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle justify-content-center">
+                                Action
+                            </div>
+                        </div>
+                        <div class="row data-row"
+                            *ngFor="let data of teamMembers; let dataIndex=index">
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
+                                    <span>{{ dataIndex + 1}}.</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Name:</b>&nbsp;</label>
+                                    <span title="{{ data&& data.year ? getFinancialYear(data.year) : 'NA'}}">{{ data&& data.name ? data.name : 'NA'}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Designation:</b></label>
+                                    <span title="{{data && data.m_season && data.m_season.season ? data.m_season.season :
+                                        'N/A'}}">{{ data && data.designation && data.m_season.season ? data.m_season.season :
+                                        "N/A"
+                                        }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Phone:</b>&nbsp;q</label>
+                                    <span title="{{data && data.m_crop && data.m_crop.crop_name? data.m_crop.crop_name : 'N/A'}}">
+                                        {{ data&& data.phone ? data.phone : 'NA'}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b><Address></Address>:</b>&nbsp;</label>
+                                    <span title="{{data && data.m_crop_variety && data.m_crop_variety.variety_name ?
+                                        data.m_crop_variety.variety_name : 'N/A'}}">{{ data && data.m_crop_variety && data.m_crop_variety.variety_name &&
+                                            (data.m_crop_variety.variety_name.length>30) ?(data.m_crop_variety.variety_name.substring(0,30))+'...'
+                                       : data &&  data.m_crop_variety &&  data.m_crop_variety.variety_name ?  data.m_crop_variety.variety_name : "N/A"}}&nbsp;</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>:</b>&nbsp;</label>
+                                    <span data-toggle="tooltip" data-placement="bottom"
+                                        title="{{data && data.monitor_report  ? data.monitor_report:'NA'}}">{{
+                                        data && data.monitor_report && (data.monitor_report.length>30)
+                                        
+                                        ? (data.monitor_report.substring(0,30))+'...':data && data.monitor_report ? data.monitor_report:  "NA" }}</span>
+                                </div>
+                            </div>
+                            <div
+                                class="col-12 col-md-2 py-1 d-flex verticle-content-middle justify-content-md-center phone_view_btn">
+                                <div class="list-action-buttons-wrapper w-fit-content phone_view_action_btn">
+                                    <button class="list-action-buttons" 
+                                    (click)="editMember(data, dataIndex)">
+                                        <img src="assets/images/edit.svg">
+                                    </button>
+                                    <button class="list-action-buttons"
+                                        (click)="deleteMember(data.id, dataIndex)">
+                                        <img src="assets/images/delete.svg">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&
+                                (!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+                        class="px-2 py-3 w-100" style="height: 50px;">
+                        <hr _ngcontent-jwr-c108="" class="separator mx-0 mt-1">
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            No Data Found.
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <br />
+            <!-- <div class="row mx-auto member-row px-0 py-2" *ngFor="let member of teamMembers; let i=index">
+                <div class="col-12 my-auto py-auto">
+                    <div class="row pt-2">
+                        <div class="col">
+                            <span class="page-type-1-title ml-2">
+                                Member {{i+1}}
+                            </span>
+                        </div>
+                        <div class="col pl-auto" style="text-align: right;" *ngIf="!this.isView">
+                            <button class="deleteMember" title="Delete Member"
+                                (click)="deleteMember(member.id, i)">Delete</button>
+                            <button class="ml-2 editMember" title="Edit Member"
+                                (click)="editMember(member, i)">Edit</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-2 px-2">
+                        <div class="col-12 mb-1" style="display: inline-flex;">
+                            <div class="labelColumn">
+                                <span>Name :</span>
+                            </div>
+                            <div class="dataColumn">
+                                <span>{{member.name}}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-1" style="display: inline-flex;">
+                            <div class="labelColumn">
+                                <span>Designation :</span>
+                            </div>
+                            <div class="dataColumn">
+                                <span>{{member.designation}} </span>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-1" style="display: inline-flex;">
+                            <div class="labelColumn">
+                                <span>Mobile No. :</span>
+                            </div>
+                            <div class="dataColumn">
+                                <span>{{member.mobile_number}}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-1" style="display: inline-flex;">
+                            <div class="labelColumn">
+                                <span>Institute Name :</span>
+                            </div>
+                            <div class="dataColumn">
+                                <span>{{member.institute_name}}</span>
+                            </div>
+                        </div>
+                        <div class="col-12" style="display: inline-flex;">
+                            <div class="labelColumn">
+                                <span>Address :</span>
+                            </div>
+                            <div class="dataColumn">
+                                <span>{{member.address}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <form *ngIf="dataload" [formGroup]="formSuperGroup" (ngSubmit)="submitForm(formSuperGroup.value)">
+        <div class="row my-4 w-100 mx-0 form-child">
+            <div class="col-12 d-flex justify-content-center verticle-content-middle">
+                <div class="row mx-auto member-row px-0 py-2">
+                    <div class="col-12 px-2 mt-2">
+                        <span class="page-type-1-title ml-2">
+                            BSP Proforma III (Inspection Report of the Monitoring Team of National/State Varieties)
+                        </span>
+                        <span class="heading_notofied"
+                            *ngIf="freezTimeLineData && freezTimeLineData[0] &&  freezTimeLineData[0].end_date ? freezTimeLineData[0].end_date:false"
+                            style="font-size: 18px;color: red;float: right;">(Submission date: {{freezTimeLineData
+                            && freezTimeLineData[0] && freezTimeLineData[0].start_date ?
+                            (freezTimeLineData[0].start_date | date: 'dd/MM/yyyy'):''}} - {{freezTimeLineData
+                            && freezTimeLineData[0] && freezTimeLineData[0].end_date ?
+                            (freezTimeLineData[0].end_date | date: 'dd/MM/yyyy'):''}})</span>
+                    </div>
+                    <div class="col-12 mx-0 mb-2 pl-2 pl-md-1  pr-0 mt-2">
+                        <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="IstPartFormGroup" [isView]="isView">
+                        </app-dynamic-fields>
+                    </div>
+                    <div class="row mx-auto member-row-1 px-0 px-md-0 py-2">
+                        <div class="">
+                            <span class="page-type-1-title add-mem">
+                                Details of Monitoring Team
+                                <span class="required-asterisk ">*</span>
+                            </span>
+                        </div>
+                        <div class="col" *ngIf="!this.isView">
+                            <span
+                                class="ml-auto px-5 btn form-button add_member_bsp_forms_btn d-flex verticle-content-middle"
+                                style="width: max-content;" (click)="openModal()">Add Member</span>
+                        </div>
+                    </div>
+                    <div *ngIf="dataRow" class="col-12 mt-2 mx-0 pl-1 dataRow">
+                        <p class="mb-0">Total Varieties : <span class="ml-2"> {{prdData.length}}, </span> </p>
+                        <p class="mt-0">Total Allocated Quantity : <span class="ml-2"> {{totalIndentQuantity | number :
+                                '1.2-2'}} </span> </p>
+                    </div>
+
+                    <div class="col-12 px-2 mb-2">
+                        <hr class="separator m-0 mx-2 width">
+                    </div>
+                    <div class="col-md-4 px-2 py-2 col-10"
+                        *ngIf="!isEdit && !isView && filterPaginateSearch.itemListTotalPage > 0">
+                        <div class="form-nodal-input-custom-placeholder d-flex verticle-content-middle mx-2"
+                            [ngClass]="formGroupControls['search'].value ? 'hide' : ''">
+                            <span>Search Here</span>
+                            <i class="fa fa-search nodal-search-icon"></i>
+                        </div>
+                        <input class="form-nodal-input mx-2 w-100" formControlName="search">
+                    </div>
+                    <div class="col-12 px-2" *ngIf="filterPaginateSearch.initialized">
+                        <div *ngFor="let eachIIndPartFormArray of filterPaginateSearch.itemList; let varietyIndexInAccordion=index"
+                            class="col-accordion m-2"
+                            [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? '' : 'hide'">
+                            <div (click)="activateVarietyIndexInAccordion(varietyIndexInAccordion)">
+                                <label class="va-l">
+                                    {{ eachIIndPartFormArray.name }}
+                                </label>
+                                <i class="fas accordion-dropdown"
+                                    [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                            </div>
+                            <app-dynamic-fields [fieldsList]="eachIIndPartFormArray.arrayfieldsIIndPartList"
+                                [formGroup]="eachIIndPartFormArray.formGroup" [isView]="isView" [isEdit]="isEdit"
+                                [isLabelControlParallel]="false"></app-dynamic-fields>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row reverse-col-in-row-till-lg">
+                            <div *ngIf="!isView" class=" px-0 pb-md-5 sub_updt_cancel_btn"
+                                [ngClass]="filterPaginateSearch.itemListTotalPage < 2 ? 'col-12 sub_updt_cancel_btn' : 'col-12 col-xl-6'">
+                                <!-- <button
+                                    *ngIf="filterPaginateSearch.initialized 
+                                            && filterPaginateSearch.itemListTotalPage > 1 
+                                            && filterPaginateSearch.itemListCurrentPage != filterPaginateSearch.itemListTotalPage"
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="saveAndNavigate()">
+                                    Save And Next
+                                </button> -->
+                                <div class="resp_btn">
+                                    <button type="submit"
+                                        *ngIf="filterPaginateSearch.initialized 
+                                            && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage && (freezeTimeLine==true)"
+                                        class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                        {{buttonText}}
+                                    </button>
+                                </div>
+                                <div class="resp_btn">
+                                    <button
+                                        class="form-button cancel_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        [routerLink]="['/breeder/bsp-proformas/proformas-3s']">Cancel</button>
+                                </div>
+                                <div class="resp_btn">
+                                    <a href="javascript:void(0)"
+                                        *ngIf="(!isView || (isEdit && isDraft)) && filterPaginateSearch.initialized 
+                                    && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                        class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        (click)="saveAsDraft()">Save as
+                                        Draft</a>
+                                </div>
+                            </div>
+                            <div class="col-12 col-xl-6 px-4 pb-md-5 d-flex justify-content-end py-2 py-xl-0">
+                                <app-pagination-ui></app-pagination-ui>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row reverse-col-in-row-till-lg">
+                            <div *ngIf="isView" class="col-12 px-0 sub_updt_cancel_btn">
+                                <div class="resp_btn">
+                                    <button
+                                        class="form-button cancel_btn ml-3 d-flex justify-content-center verticle-content-middle mb-3"
+                                        [routerLink]="['/breeder/bsp-proformas/proformas-3s']">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </div>
+        </div>
+        <div class="row my-4 w-100 mx-0 form-child">
+            <div class="col-md-12 justify-content-center verticle-content-middle">
+                <div class="row mx-auto member-row px-0 py-2">
+                    <div class="col-md-8 col-sm-12 col-lg-7 pl-0">
+                        <div class="col my-auto py-auto">
+                            <span class="page-type-1-title ml-0 md-ml-2" style="font-size: 19px;">
+                                Upload Team Member's Report (pdf Only/Maximum file size is 2 Mb)
+                                <span class="required-asterisk ">*</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-sm-12 col-lg-3 sub_updt_cancel_btn">
+                        <div class="col custom_file_upload_bsp_3 resp_btn my-auto py-auto">
+                            <div class="" style="float: right;">
+                                <img src="assets/images/pdf.png" style="margin-right: 10px;" width="30" *ngIf="downloadUrl"
+                                    class="preview" (click)="showPdf(pdfModal, downloadUrl)">
+                                <!-- <a style="margin-right: 10px;" class="" download="attachment" *ngIf="downloadUrl" target="_blank" href={{pdfSrc}} >
+                                    <img style="max-width: 40px; max-height: 40px;" src="assets/images/download.png" />
+                                </a> -->
+                                <!-- <img *ngIf="documentType=='pdf' || documentType=='PDF';else photo"
+                                    src="assets/images/pdf.png" width="30" class="preview"
+                                    (click)="showPdf(pdfModal, downloadUrl)"> -->
+                                <!-- <ng-template #photo>
+                                    <img width="30" src="assets/images/image_icon.png" class="preview"
+                                        (click)="showImage(imgModal, downloadUrl)">
+                                </ng-template>&nbsp; -->
+                                <label class="custom-file-upload upload_btn_bsp_forms ml-3 ml-lg-3 " *ngIf="!isView">
+                                    <input style="display: none;" type="file" accept="application/pdf"
+                                        formControlName="" autocomplete="off"
+                                        class="dynamic-input w-100 html-dynamic-control"
+                                        (change)="onFileChange($event)">
+                                    <i class="fa fa-cloud-upload"></i> Upload
+                                </label>
+                            </div>
+                            <span>{{downloadUrl}}</span>
+                        </div>
+                        <!-- </div>
+                    <div class="col-md-2 col-sm-12"> -->
+
+                    </div>
+                    <div class="col-md-2 col-sm-12 col-lg-2 sub_updt_cancel_btn">
+                        <div class="col custom_file_upload_bsp_3 pl-0 pl-md-0 ml-0 ml-md-0">
+                            <div class="" style="float: right;">
+                                <label class="custom-file-upload upload_btn_bsp_forms" *ngIf="!isView">
+                                    <input style="display: none;" type="button" formControlName=""
+                                        class="dynamic-input w-100 html-dynamic-control" (click)="download()">
+                                    Download
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- <div class="row my-4 w-100 mx-0 form-child">
+        <div class="col-12 justify-content-center verticle-content-middle">
+            <div class="row mx-auto member-row px-0 py-2">
+                <div class="col my-auto py-auto">
+                    <span class="page-type-1-title ml-2">
+                        Details of Monitoring Team
+                        <span class="required-asterisk ">*</span>
+                    </span>
+                </div>
+                <div class="col" *ngIf="!this.isView">
+                    <span class="ml-auto px-5 btn form-button add_member_bsp_forms_btn d-flex verticle-content-middle"
+                        style="width: max-content;" (click)="openModal()">Add Member</span>
+                </div>
+            </div>
+            <br />
+            <div class="row mx-auto member-row px-0 py-2" *ngFor="let member of teamMembers; let i=index">
+                <div class="col-12 my-auto py-auto">
+                    <div class="row pt-2">
+                        <div class="col">
+                            <span class="page-type-1-title ml-2">
+                                Member {{i+1}}
+                            </span>
+                        </div>
+                        <div class="col pl-auto" style="text-align: right;" *ngIf="!this.isView">
+                            <button class="deleteMember" title="Delete Member"
+                                (click)="deleteMember(member.id, i)">Delete</button>
+                            <button class="ml-2 editMember" title="Edit Member"
+                                (click)="editMember(member, i)">Edit</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-2 px-2">
+                        <div class="col-12 mb-1" style="display: inline-flex;">
+                            <div class="labelColumn">
+                                <span>Name :</span>
+                            </div>
+                            <div class="dataColumn">
+                                <span>{{member.name}}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-1" style="display: inline-flex;">
+                            <div class="labelColumn">
+                                <span>Designation :</span>
+                            </div>
+                            <div class="dataColumn">
+                                <span>{{member.designation}} </span>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-1" style="display: inline-flex;">
+                            <div class="labelColumn">
+                                <span>Mobile No. :</span>
+                            </div>
+                            <div class="dataColumn">
+                                <span>{{member.mobile_number}}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-1" style="display: inline-flex;">
+                            <div class="labelColumn">
+                                <span>Institute Name :</span>
+                            </div>
+                            <div class="dataColumn">
+                                <span>{{member.institute_name}}</span>
+                            </div>
+                        </div>
+                        <div class="col-12" style="display: inline-flex;">
+                            <div class="labelColumn">
+                                <span>Address :</span>
+                            </div>
+                            <div class="dataColumn">
+                                <span>{{member.address}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+<ng-template #memberModalDiv>
+    <div class="container-fluid">
+
+        <form [formGroup]="ngForm">
+            <div class="row my-4 w-100 mx-0 form-child">
+                <div class="col-12 px-md-5 px-sm-3 px-0">
+                    <div class="row mx-auto member-row p-3">
+                        <div class="col-12" style="border-bottom: 1px solid black;">
+                            <span class="page-type-1-title ml-2">
+                                Details of Monitoring Team
+                            </span>
+                        </div>
+
+                        <div class="col-12 my-3">
+                            <label>Name <sup style="color: red;">*</sup></label>
+                            <input type="text" onkeydown="return  /^[a-zA-Z\s]+$/.test(event.key)" class="form-control"
+                                placeholder="Enter Name" maxlength="25" formControlName="name">
+                            <div class="name errorMessage"
+                                *ngIf="ngForm.controls['name'].invalid && ngForm.controls['name'].dirty || ngForm.controls['name'].touched">
+                                <span *ngIf="ngForm.controls['name'].errors?.['required']"> Please Enter Name.</span>
+                                <span *ngIf="ngForm.controls['name'].errors?.['pattern']">Please Enter
+                                    Valid Name.</span>
+                            </div>
+                        </div>
+
+                        <div class="col-12 my-3">
+                            <label>Designation <sup style="color: red;">*</sup></label>
+                            <select class="form-control" placeholder="Enter Designation" formControlName="designation">
+                                <option *ngFor="let designation of designationList" [ngValue]="designation">
+                                    {{ designation.name }}
+                                </option>
+                            </select>
+                            <div class="designation errorMessage"
+                                *ngIf="ngForm.controls['designation'].invalid && ngForm.controls['designation'].dirty || ngForm.controls['designation'].touched">
+                                <span *ngIf="ngForm.controls['designation'].errors?.['required']"> Please Enter
+                                    Designation.</span>
+                                <span *ngIf="ngForm.controls['designation'].errors?.['pattern']">Please Enter
+                                    Valid Designation.</span>
+                            </div>
+                        </div>
+
+                        <div class="col-12 my-3">
+                            <label>Mobile Number <sup style="color: red;">*</sup></label>
+                            <input type="number" minlength="10" maxlength="10" class="form-control" (paste)="onPasteNumber($event,'mobile_number','10')"
+                                (keypress)="checkLength($event,10)" placeholder="Enter Mobile Number"
+                                formControlName="mobile_number" pattern="[0-9]{10}">
+                            <div class="mobile_number errorMessage"
+                                *ngIf="ngForm.controls['mobile_number'].invalid && ngForm.controls['mobile_number'].dirty || ngForm.controls['mobile_number'].touched">
+                                <span *ngIf="ngForm.controls['mobile_number'].errors?.['required']"> Please Enter Mobile
+                                    Number.</span>
+                                <span *ngIf="ngForm.controls['mobile_number'].errors?.['pattern']">Please Enter
+                                    Valid Mobile Number.</span>
+                            </div>
+                        </div>
+
+                        <div class="col-12 my-3">
+                            <label>Institute Name <sup style="color: red;">*</sup></label>
+                            <select class="form-control" placeholder="Enter Institute Name"
+                                formControlName="institute_name">
+                                <option *ngFor="let institute of institutes" [ngValue]="institute">
+                                    {{ institute.name }}
+                                </option>
+                            </select>
+                            <div class="institute_name errorMessage"
+                                *ngIf="ngForm.controls['institute_name'].invalid && ngForm.controls['institute_name'].dirty || ngForm.controls['institute_name'].touched">
+                                <span *ngIf="ngForm.controls['institute_name'].errors?.['required']"> Please Enter
+                                    Institute Name.</span>
+                                <span *ngIf="ngForm.controls['institute_name'].errors?.['pattern']">Please Enter
+                                    Valid Institute Name.</span>
+                            </div>
+                        </div>
+
+                        <div class="col-12 my-3">
+                            <label>Address <sup style="color: red;">*</sup></label>
+                            <input type="text" class="form-control" maxlength="100" placeholder="Enter Address"
+                                formControlName="address">
+                            <div class="address errorMessage"
+                                *ngIf="ngForm.controls['address'].invalid && ngForm.controls['address'].dirty || ngForm.controls['address'].touched">
+                                <span *ngIf="ngForm.controls['address'].errors?.['required']"> Please Enter
+                                    Address.</span>
+                                <span *ngIf="ngForm.controls['address'].errors?.['pattern']">Please Enter
+                                    Valid Address.</span>
+                            </div>
+                        </div>
+
+                        <div class="col-12 my-3" style="display: inline-flex;">
+                            <button class="px-5 btn form-button d-flex verticle-content-middle" *ngIf="!isMemberEdit"
+                                style="width: max-content;" (click)="onSubmitMemberForm(ngForm)">Add</button>
+                            <button class="px-5 btn form-button d-flex verticle-content-middle" *ngIf="isMemberEdit"
+                                style="width: max-content;" (click)="updateMemberForm(ngForm)">Update</button>
+                            <button type="reset" class="ml-2 px-5 btn form-button d-flex verticle-content-middle"
+                                style="width: max-content;" (click)="closeModal()">Cancel</button>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #pdfModal>
+    <div class="modal-body p-4">
+        <button type="button" class="close modal-cross pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">×</span>
+        </button>
+        <div>
+            <div class="font-size-20 font-weight-bold pb-3">Document Preview
+                <a style="margin-left: 450px;" class="" download="attachment" target="_blank" href={{pdfSrc}}>
+                    <img style="max-width: 40px; max-height: 40px;" src="assets/images/download.png" />
+                </a>
+            </div>
+            <div class="theme mt-1 py-1">
+                <!-- <pdf-viewer [src]="pdfSrc" [render-text]="true" style="display: block;"></pdf-viewer> -->
+                <pdf-viewer [src]="pdfSrc" [render-text]="true" [original-size]="false"
+                    style="width: 95%; height: 500px"></pdf-viewer>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #imgModal>
+    <div class="modal-body preview_modal p-4">
+        <button type="button" class="close modal-cross pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">×</span>
+        </button>
+        <div class="">
+            <!-- <div class="font-size-20 font-weight-bold pb-3">Document Preview</div> -->
+            <div class="font-size-20 font-weight-bold pb-3"> Document Preview
+                <a style="margin-left: 450px;" class="" download="attachment" target="_blank" href={{imgSrc}}>
+                    <img style="max-width: 40px; max-height: 40px;" src="assets/images/download.png" />
+                </a>
+            </div>
+            <div class="theme mt-1  py-1">
+                <img [src]="imgSrc" class="img-fluid">
+            </div>
+
+        </div>
+    </div>
+</ng-template>
+
+<!-- style="display:none" -->
+
+
+<div class="row mt-4 w-100 mx-0 h-100" style="display:none">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <div class="col-12 pl-lg-3">
+                <h3>Report </h3>
+            </div>
+            <div class="row data-row mx-lg-5" id="content">
+                <div class="col-12 text-center pt-4">
+                    <span style="font-weight: 900;">{{userName}}
+                    </span>
+                </div>
+                <div class="col-12 text-center">
+                    <span style="font-weight: 900;">PROFORMA NO. BSP-3</span>
+                </div>
+                <div class="col-12 text-center">
+                    <span style="text-decoration: underline;font-weight: 600;">INSPECTION REPORT OF THE MONITORING
+                        TEAM</span>
+                </div>
+                <div class="col-12 px-4" *ngFor="let pdfRow of pdfDataRow;">
+                    <div class="row pt-4">
+                        <div class="col-8 ml-lg-1" style="white-space: nowrap;">
+                            <span>Date of Monitoring: &nbsp;</span><span>{{todayDates}}</span>
+
+                        </div>
+                        <div class="col-lg-11 d-flex float-right position-absolute justify-content-end ml-4">
+                            <span>Year of Indent: &nbsp;</span><span>{{seasonName}},{{cropYear}}</span>
+                            <br>
+                            <br>
+                            <br>
+                            <div class="col-lg-11 pt-3 d-flex float-right position-absolute justify-content-end ">
+                                <span>Crop: &nbsp;</span><span>{{crop_nameinreport}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+                    <div class="list-wrapper px-4 " id="tableContent">
+                        <div class="row  d-md-flex ">
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle table-bordered">Sr.No.</div>
+
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle table-bordered">Variety Line
+                            </div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle table-bordered">Area under
+                                Variety</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle table-bordered">Date of BSP-1
+                            </div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle table-bordered">
+                                Date of BSP-2
+                            </div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle table-bordered">Report of the
+                                Monitoring team</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle table-bordered">No.of samples
+                                to be taken out for grow out test</div>
+                            <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Mobile No.</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Address</div> -->
+
+                        </div>
+                        <div class="row data-row" *ngFor="let data of pdfRow.data; let index = index">
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle  table-bordered">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
+                                    <span>{{index + 1}}.</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-2 d-flex verticle-content-middle table-bordered">
+                                <div class="w-fit-content ">
+                                    <label class="d-md-none"><b>State:</b>&nbsp;</label>
+                                    <!-- <span>{{ data.contact_person_name? data.contact_person_name :''}}</span> -->
+                                    <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom">{{data
+                                        && data.variety_name ||'NA' }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle table-bordered">
+                                <div class="w-fit-content ">
+                                    <label class="d-md-none"><b>District:</b>&nbsp;</label>
+                                    <!-- <span>{{ data.contact_person_name? data.contact_person_name :''}}</span> -->
+                                    <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom">{{data
+                                        && data.field_loaction ||'NA' }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle table-bordered">
+                                <div class="w-fit-content ">
+                                    <label class="d-md-none"><b>Name:</b>&nbsp;</label>
+                                    <!-- <span>{{ data.contact_person_name? data.contact_person_name :''}}</span> -->
+                                    <span style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom">{{data
+                                        && data.bsp1_date ||'NA' }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle table-bordered">
+                                <div class="w-fit-content ">
+                                    <label class="d-md-none"><b>Short Name:</b>&nbsp;</label>
+                                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                        data-placement="bottom">{{data && data.bsp2_date ||'NA' }}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle table-bordered">
+                                <div class="w-fit-content ">
+                                    <label class="d-md-none"><b>Category:</b>&nbsp;</label>
+                                    <span>{{data && data.monitoring_report ||'NA' }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle table-bordered">
+                                <div class="w-fit-content ">
+                                    <label class="d-md-none"><b>Category:</b>&nbsp;</label>
+                                    <span>------</span>
+                                </div>
+                            </div>
+
+                            <div>
+
+                            </div>
+                        </div>
+                        <table class="table-responsive">
+                            <td class="pl-0">
+                                <span style="white-space: nowrap;">Members of the Monitoring Team</span>
+                            </td>
+
+
+                        </table>
+                        <div class="row pl-0">
+                            <div *ngFor="let data of pdfRow.member_data_name; let index = index"
+                                class="col-3 pl-0 pt-5 mt-3">
+                                <div>
+                                    {{data || 'NA'}}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- <div class="row pt-5"  id="tableContent" >
+                    <div class="col-12 pl-4">
+                        <span>Distribution : :</span>
+                    </div>
+                    <div class="col-12 pl-4">
+                        <span>1. ADG (Seeds), ICAR, Krishi Bhawan, New Delhi - 110 001</span>
+                    </div>
+                    <div class="col-12 pl-4">
+                        <span>2. Dy. Commisioner (Seeds), Deptt. of Agri. & Coop., Ministry of Agriculture, 2" Floor Hall, Shastri Bhawan, New Delhi - 110 001</span>
+                    </div>
+                    <div class="col-12 pl-4">
+                        <span>3. Project Coordinator (Pigeonpea), Indian Institute of Pulses Research, Kanpur-208 024 (UP)</span>
+                    </div>
+                    <div class="col-12 pl-4">
+                        <span>4. Director, Indian Institute of Seed Science, Post bag No. 11, Village Kushmaur, P.O. Kaithauli, Mau- 275 101 (UP)</span>
+                    </div>
+                    <div class="col-12 pl-4">
+                        <span>5. Dr. R S Raje, Principal Scientist, Pulses Research Laboratory, Genetics Division, IARI, New Delhi-12</span>
+                    </div>
+                    <div class="col-12 pl-4">
+                        <span>6. Chief Seed Certification Officer, HSSCA, 461 A, Model Town, Karnal-132 001</span>
+                    </div>
+                    <div class="col-12 pl-4">
+                        <span>7. Area Manager, National Seeds Corporation Ltd., Plot No. 425-26, Sector-3 Extn. Industrial Area, Karnal - 132 001</span>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>

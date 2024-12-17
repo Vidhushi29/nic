@@ -1,0 +1,358 @@
+<div class="row my-4 w-100 mx-0">
+  <div class="col-12 d-flex justify-content-center verticle-content-middle">
+    <div class="main-content-form-wrapper px-0 py-2">
+      <div class="row">
+        <div class="w-100">
+          <form [formGroup]="ngForm">
+            <div class="col-12 px-4 mt-2">
+              <div class="row">
+                <div class="col-md-12 col-sm-12 pl-4 pb-2">
+                  <span class="heading_notofied">BSP V (b)-Lifting of Breeder Seed</span>
+                </div>
+                <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0">
+                  <div class="col-md-12">
+                    <label for="frm_year_of_indent" class="search_txt">Year of Indent <sup style="color:red;font-size: 18px;">*</sup></label>
+                  </div>
+                  <div class="col-12 pr-md-0">
+                    <select class="form-select form-control" aria-label="Default select example" formControlName="year"
+                      id="frm_year_of_indent">
+                      <option value="">Select Year of Indent</option>
+                      <option *ngFor="let data of yearOfIndent" value="{{data.year}}">{{data && data.year ?
+                        data.year:''}}-{{(data.year-2000)+1}}</option>
+                    </select>
+                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                      <img src="assets/images/16.svg" alt="" srcset="">
+                    </div> -->
+                  </div>
+                </div>
+                <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0 pl-md-0">
+                  <div class="col-md-12">
+                    <label for="frm_breeder" class="search_txt">Season <sup style="color:red;font-size: 18px;">*</sup></label>
+                  </div>
+                  <div class="col-12 pr-md-0">
+                    <select class="form-select form-control" aria-label="Default select example"
+                      formControlName="season" id="frm_season">
+                      <option value="">Select Season</option>
+                      <option *ngFor="let data of seasonData" value="{{data.season_code}}" >{{data.season_name}}</option>
+                    </select>
+                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                      <img src="assets/images/16.svg" alt="" srcset="">
+                    </div> -->
+                  </div>
+                </div>
+                <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pl-md-0">
+                  <div class="col-md-12">
+                    <label for="frm_crop_name" class="search_txt">Crop Type <sup style="color:red;font-size: 18px;">*</sup></label>
+                  </div>
+                  <div class="col-12">
+                    <select class="form-select form-control" aria-label="Default select example"
+                      formControlName="crop_type" id="frm_crop_name">
+                      <option value="">Select Crop Type</option>
+                      <option *ngFor="let data of cropTypeData" value="{{data.crop_type}}">{{data.crop_type_name}}
+                      </option>
+                    </select>
+                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                      <img src="assets/images/16.svg" alt="" srcset="">
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0">
+                  <div class="col-md-12">
+                    <label for="frm_bspc" class="search_txt">PD/PC</label>
+                  </div>
+                  <div class="col-12 pr-md-0">
+                    <select class="form-select form-control" aria-label="Default select example"
+                      formControlName="breeder" id="frm_bspc">
+                      <option value="">Select PD/PC</option>
+                      <option *ngFor="let data of breederListData" value="{{data.breeder_id}}">{{data.breeder_name}}
+                      </option>
+                    </select>
+                    <div class="pl-0 toggle-button" ngbDropdown>
+                      <img src="assets/images/16.svg" alt="" srcset="">
+                    </div>
+                  </div>
+                </div> -->
+                <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0 ">
+                  <div class="col-md-12">
+                    <label for="frm_crop_name" class="search_txt">Crop Name</label>
+                  </div>
+                  <div class="col-12 pr-md-0">
+
+                    <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="cropNameList" formControlName="crop"
+                    [placeholder]="'Select Crop Name'">
+                  </ng-multiselect-dropdown>
+
+
+                    <!-- <select class="form-select form-control" aria-label="Default select example" formControlName="crop"
+                      (ngModelChange)="getVarietyNameList($event)" id="frm_crop_name">
+                      <option value="">Select Crop Name</option>
+                      <option *ngFor="let data of cropNameList" value="{{data.crop_code}}">{{data.crop_name}}</option>
+                    </select> -->
+                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                      <img src="assets/images/16.svg" alt="" srcset="">
+                    </div> -->
+                  </div>
+                </div>
+                <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0 pl-md-0">
+                  <div class="col-md-12">
+                    <label for="frm_variety_name" class="search_txt">Variety Name</label>
+                  </div>
+                  <div class="col-12 pr-md-0">
+
+                    <ng-multiselect-dropdown [settings]="dropdownSettings1" [data]="varietyNameList"
+                    formControlName="variety" [placeholder]="'Select Variety Name'">
+                  </ng-multiselect-dropdown>
+
+
+                    <!-- <select class="form-select form-control" aria-label="Default select example"
+                      formControlName="variety" id="frm_variety_name">
+                      <option value="">Select Variety Name</option>
+                      <option *ngFor="let data of varietyNameList" value="{{data.variety_id}}">{{data.variety_name}}
+                      </option>
+                    </select> -->
+                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                      <img src="assets/images/16.svg" alt="" srcset="">
+                    </div> -->
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div _ngcontent-cvx-c131="" class="col-12 pt-4  search-cancle-button buttons-phone">
+                  <button _ngcontent-cvx-c131=""
+                    class="form-button   search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-1"
+                    (click)="submit()"> Search </button>
+                  <button _ngcontent-cvx-c131="" (click)="clear()"
+                    class="clear-form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                    Clear</button>
+
+                  <div class="dropdown float-right export_dropdown">
+                    <button (click)="myFunction()"
+                      class="form-button  search ml-1 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-1"
+                      style="font-size: 87%;">Export To &nbsp;<i class="fa fa-angle-down" aria-hidden="true">
+                      </i></button>
+                    <div id="myDropdown" class="dropdown-content">
+                      <a (click)="download()"> <img src="assets\icons\pdf-icon.png" alt="" width="20px" height="20px">
+                        PDF</a>
+                      <a (click)="exportexcel()"> <img src="assets\icons\excel.jpg" alt="" width="20px" alt="">
+                        Excel</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div _ngcontent-cvx-c131="" class="col-12 px-4">
+                  <hr _ngcontent-cvx-c131="" class="separator m-0">
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-12 px-4">
+          
+          <div class="list-wrapper px-4 py-3" id="excel-table">
+            <div class="row d-none d-md-flex data-row-header extra-header">
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+              </div>
+              <div class="col-6 col-md-8 py-3 d-flex justify-content-center"><span>BSP V (b)-Lifting of
+                  Breeder Seed</span>
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+              </div>
+            </div>
+            <br>
+            <div class="row d-none d-md-flex data-row-header">
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Year of Indent :
+                {{year?year:'NA'}}-{{year?(year-2000)+1:'NA'}}
+              </div>
+              <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Season :
+                {{season?season:'NA'}}
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Crop Type :
+                {{CropType?CropType:'NA'}}
+              </div>
+              <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Unit :
+                {{unitValue?unitValue:'NA'}}
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Crop :
+                {{ngForm.controls['crop'].value?getCropNameLitst(ngForm.controls['crop'].value):'NA'}}
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Variety :
+                {{ngForm.controls['variety'].value?getVarietyfrommlist(ngForm.controls['variety'].value):'NA'}}
+              </div>
+
+              <div class="col-6 col-md-2 py-3 d-flex justify-content-end">As on Date: {{todayData
+                | date:"dd-MM-YYYY"}}
+              </div>
+            </div>
+            <div class="middle_line"></div>
+            <div class="row data-row">
+              <table class="table table-bordered table-responsive" >
+                <thead>
+                  <tr class="data-row-header">
+
+                    <th scope="col" class="col-md-1 py-3">S/N</th>
+                    <th scope="col" class="col-md-1 py-3">Crop</th>
+                    <th scope="col" class="col-md-1 py-3">Variety</th>
+                    <th scope="col" class="col-md-2 py-3">Total Indented Quantity</th>
+                    <th scope="col" class="col-md-2 py-3">BSPCs Assigned for Production</th>
+                    <th scope="col" class="col-md-2 py-3">Total Production of Breeder Seed</th>
+                    <th scope="col" class="col-md-2 py-3">Total Allocation for Lifting</th>
+                    <th scope="col" class="col-md-2 py-3">Total Lifted</th>
+                    <th scope="col" class="col-md-2 py-3">Total
+                      Un-Lifted</th>
+                    <th scope="col" class="col-md-2 py-3">Breeder Seed Balance</th>
+                  </tr>
+                </thead>
+                <!-- <tbody *ngFor="let data of data1; let dataIndex=index"> -->
+                <tbody>
+                  <ng-container *ngFor="let cropData of data1;let cropIndex = index">
+                    <ng-container *ngFor="let varietyData of cropData.variety;let index = index">
+                      <ng-container *ngFor="let bspcData of varietyData.bspc;let bspcIndex = index">
+                        <tr>
+                          <td *ngIf="index===0 && bspcIndex===0" [attr.rowspan]="cropData.varietyCount">{{ cropIndex+1}}
+                          </td>
+                          <td *ngIf="index===0 && bspcIndex===0" [attr.rowspan]="cropData.varietyCount">
+                            {{cropData.crop_name}}</td>
+                            <!-- [attr.rowspan]="cropData.varietyCount" -->
+                          <td *ngIf=" bspcIndex===0" [attr.rowspan]="varietyData.bspcCount">
+                            {{varietyData && varietyData.variety_name ? varietyData.variety_name :"NA"}}</td>
+                            <!-- [attr.rowspan]="cropData.varietyCount" -->
+                            <td *ngIf="bspcIndex===0" [attr.rowspan]="varietyData.bspcCount" >
+                            {{varietyData && varietyData.indent_qnt ? varietyData.indent_qnt :0}}</td>
+
+                          <td>{{bspcData && bspcData.bspc_name ? bspcData.bspc_name :0}}</td>
+                          <td>{{bspcData && bspcData.productionData ? (bspcData.productionData | number:'1.2-2'):0}}</td>
+                          <td>{{bspcData && bspcData.allocated_for_lifting ? (bspcData.allocated_for_lifting | number:'1.2-2' ):0}}</td>
+
+                          <td>{{bspcData && bspcData.total_lifted ? (bspcData.total_lifted | number:'1.2-2'):0}}</td>
+                          <td>{{bspcData && bspcData.allocated_for_lifting && bspcData.total_lifted? (parseFloat(bspcData.allocated_for_lifting) - parseFloat(bspcData.total_lifted)| number:'1.2-2' ):0}}</td>
+                          <td>{{bspcData && bspcData.diff  ? (bspcData.diff | number:'1.2-2'):''}}</td>
+                        </tr>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 px-4 d-none">
+          
+          <div class="list-wrapper px-4 py-3" id="excel-table-data">
+            <div class="row d-none d-md-flex data-row-header extra-header">
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+              </div>
+              <!-- <div class="col-6 col-md-8 py-3 d-flex justify-content-center"><span>BSP V (b)-Lifting of
+                Breeder Seed</span>
+              </div> -->
+              
+            </div>
+              <tr>
+   
+                <td>
+                  BSP V (b)-Lifting of
+                    Breeder Seed
+                </td>
+              </tr>
+            <br>
+            <tr>
+              <td>Year of Indent</td>
+              <td>Season</td>
+              <td>Crop Type</td>
+              <td>Unit</td>
+              <td>Crop</td>
+              <td>Variety</td>
+            </tr>
+            <tr>
+              <td>
+                {{year?year:'NA'}}-{{year?(year-2000)+1:'NA'}}
+              </td>
+              <td>
+                {{season?season:'NA'}}
+              </td>
+              <td>
+                 {{CropType?CropType:'NA'}}
+              </td>
+              <td>
+                {{unitValue?unitValue:'NA'}}
+              </td>
+              <td>
+                {{ngForm.controls['crop'].value?getCropNameLitstSecond(ngForm.controls['crop'].value):'NA'}}
+              </td>
+              <td>
+                {{ngForm.controls['variety'].value?getVarietyfrommlist(ngForm.controls['variety'].value):'NA'}}
+              </td>
+
+            </tr>
+           
+            <div class="middle_line"></div>
+            <div class="row data-row">
+              <table class="table table-bordered table-responsive" >
+                <thead>
+                  <tr class="data-row-header">
+
+                    <th scope="col" class="col-md-1 py-3">S/N</th>
+                    <th scope="col" class="col-md-1 py-3">Crop</th>
+                    <th scope="col" class="col-md-1 py-3">Variety</th>
+                    <th scope="col" class="col-md-2 py-3">Total Indented Quantity</th>
+                    <th scope="col" class="col-md-2 py-3">BSPCs Assigned for Production</th>
+                    <!-- <th scope="col" class="col-md-2 py-3">Total Allocation for Lifting</th> -->
+                    <th scope="col" class="col-md-2 py-3">Total Production of Breeder Seed</th>
+                    <th scope="col" class="col-md-2 py-3">Total Allocation for Lifting</th>
+                    <th scope="col" class="col-md-2 py-3">Total Lifted</th>
+                    <th scope="col" class="col-md-2 py-3">Total
+                      Un-Lifted</th>
+                    <th scope="col" class="col-md-2 py-3">Breeder Seed Balance</th>
+                  </tr>
+                </thead>
+                <!-- <tbody *ngFor="let data of data1; let dataIndex=index"> -->
+                <tbody>
+                  <ng-container *ngFor="let cropData of data1;let cropIndex = index">
+                    <ng-container *ngFor="let varietyData of cropData.variety;let index = index">
+                      <ng-container *ngFor="let bspcData of varietyData.bspc;let bspcIndex = index">
+                        <tr>
+                          <td *ngIf="index===0 && bspcIndex===0" [attr.rowspan]="cropData.varietyCount">{{ cropIndex+1}}
+                          </td>
+                          <td *ngIf="index===0 && bspcIndex===0" [attr.rowspan]="cropData.varietyCount">
+                            {{cropData.crop_name}}</td>
+                            <!-- [attr.rowspan]="cropData.varietyCount" -->
+                          <td *ngIf=" bspcIndex===0" [attr.rowspan]="varietyData.bspcCount">
+                            {{varietyData && varietyData.variety_name ? varietyData.variety_name :"NA"}}</td>
+                            <!-- [attr.rowspan]="cropData.varietyCount" -->
+                            <td *ngIf="bspcIndex===0" [attr.rowspan]="varietyData.bspcCount" >
+                            {{varietyData && varietyData.indent_qnt ? varietyData.indent_qnt :0}}</td>
+
+                          <td>{{bspcData && bspcData.bspc_name ? bspcData.bspc_name :0}}</td>
+                          <td>{{bspcData && bspcData.productionData ? (bspcData.productionData | number:'1.2-2'):0}}</td>
+                          <td>{{bspcData && bspcData.allocated_for_lifting ? (bspcData.allocated_for_lifting | number:'1.2-2' ):0}}</td>
+
+                          <td>{{bspcData && bspcData.total_lifted ? (bspcData.total_lifted | number:'1.2-2'):0}}</td>
+                          <td>{{bspcData && bspcData.allocated_for_lifting && bspcData.total_lifted? (parseFloat(bspcData.allocated_for_lifting) - parseFloat(bspcData.total_lifted)| number:'1.2-2' ):0}}</td>
+                          <td>{{bspcData && bspcData.diff  ? (bspcData.diff | number:'1.2-2'):''}}</td>
+                        </tr>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 px-3   py-3">
+          <app-pagination-ui></app-pagination-ui>
+          <!-- <div _ngcontent-col-c109="" class="w-fit-content pr-2 d-block d-lg-inline-flex"><button _ngcontent-col-c109="" class="prev-paginate page-numbers d-inline-flex justify-content-center verticle-content-middle mx-2"><i _ngcontent-col-c109="" class="fal fa-less-than"></i></button><div _ngcontent-col-c109="" class="page-number-wrapper d-inline-flex py-2 py-lg-0"><button _ngcontent-col-c109="" class="page-numbers mx-2 active" ng-reflect-ng-class="active"> 1 </button><button _ngcontent-col-c109="" class="page-numbers mx-2" ng-reflect-ng-class=""> 2 </button>
+             </div><div _ngcontent-col-c109="" class="enter-page-wrapper d-inline-flex mx-2"><input _ngcontent-col-c109="" placeholder="Enter Page No." formcontrolname="enterPage" class="px-2 ng-untouched ng-pristine ng-valid" ng-reflect-name="enterPage" ng-reflect-ng-class=""><button _ngcontent-col-c109="" class="page-numbers active">Go</button></div></div> -->
+        </div>
+        <div
+          *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+          class="px-2 py-3 w-100" style="height: 50px;">
+          <div class="d-flex verticle-content-middle justify-content-center w-100">
+            No Data Found.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

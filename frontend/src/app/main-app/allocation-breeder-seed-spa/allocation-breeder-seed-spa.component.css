@@ -1,0 +1,514 @@
+/* .form-child {
+    height: 82vh;
+    overflow-y: auto;
+} */
+.form-nodal-input {
+    background: transparent;
+}
+
+.form-nodal-input,
+.form-nodal-input:active,
+.form-nodal-input:focus {
+    border: 1px solid #979797 !important;
+    outline: none ! important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+}
+
+.form-nodal-input-custom-placeholder {
+    margin-top: 0px;
+    margin-bottom: -39px;
+}
+
+.va-l {
+    background: #fff;
+    font-weight: 700;
+    padding: 0.8rem !important;
+    box-shadow: 1px 1px 4px #33333369;
+}
+
+.form-nodal-input-custom-placeholder,
+.form-nodal-input,
+.form-nodal-input:active,
+.form-nodal-input:focus {
+    padding-left: 0.75rem !important;
+    font: normal Poppins 15px/23px;
+    letter-spacing: 0px;
+    color: rgb(0 0 0 / 70%);
+    height: 38px !important;
+}
+
+.form-nodal-input-custom-placeholder.hide+.form-nodal-input:not([disabled]),
+.form-nodal-input:not([disabled]):active,
+.form-nodal-input:not([disabled]):focus {
+    background: #FFFFFF 0% 0% no-repeat padding-box !important;
+}
+
+.form-nodal-input-custom-placeholder.hide span {
+    display: none !important;
+}
+
+.form-nodal-input-custom-placeholder.disabled {
+    background: #F1F1F1 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+}
+
+.nodal-search-icon {
+    color: #707070;
+    font-size: 18px;
+    position: absolute;
+    right: 25px;
+    top: 16px;
+}
+
+.col-accordion {
+    background: #F5F5F5 0% 0% no-repeat padding-box;
+    border: 1px solid #979797;
+    border-radius: 5px;
+    max-height: fit-content;
+    -webkit-transition: max-height 1s ease;
+    -moz-transition: max-height 1s ease;
+    transition: max-height 1s ease;
+}
+
+.col-accordion.hide {
+    overflow: hidden;
+    max-height: 55px;
+}
+
+.accordion-dropdown {
+    position: absolute;
+    right: 45px;
+    margin-top: 20px;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+}
+
+thead {
+    background: #B64B1D;
+    color: #fff;
+}
+
+label.bold-label {
+    font-weight: 500;
+    color: #353330;
+    font-family: system-ui;
+}
+
+.text-center {
+    justify-content: center;
+    text-align: center;
+}
+
+.disabled {
+    background: #e7e4e0 0% 0% no-repeat padding-box !important;
+}
+
+.m-p-0 {
+    margin: 0;
+    padding: 0;
+}
+
+.qty-txt {
+    width: 110px;
+    padding: 6px;
+    text-align: center;
+    border: 1px solid #e4dede;
+    border-radius: 5px;
+}
+
+.allocation-label {
+    background: #b74b27;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    width: -webkit-fill-available;
+    text-align: center;
+}
+
+.bspcName,
+td {
+    min-width: 100px;
+    max-width: auto;
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+}
+
+.indenterName {
+    min-width: 150px;
+}
+
+.indentorQuantity {
+    min-width: 150px;
+}
+
+.allocationQuantity {
+    min-width: 150px;
+}
+
+@media (min-width:1165px) and (max-width: 1295px) {
+    .form-child {
+        zoom: 0.8;
+    }
+}
+
+.submitButtons {
+    text-align: left;
+    font: normal Poppins 16px/25px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    background: #B64B1D 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+    outline: none !important;
+    border: none !important;
+    width: auto;
+    height: 46px;
+    cursor: pointer;
+    padding: 0 30px;
+}
+
+.disabled {
+    background: #7c7c7c 0% 0% no-repeat padding-box !important;
+
+}
+
+::ng-deep .yearofIndent-wrapper .ngb-dropdown-disabled .dropdown-toggle,
+::ng-deep .season-wrapper .ngb-dropdown-disabled .dropdown-toggle,
+::ng-deep .variety-wrapper .ngb-dropdown-disabled .dropdown-toggle,
+::ng-deep .cropName-wrapper .ngb-dropdown-disabled .dropdown-toggle {
+    background: rgb(245 245 245 / 70%) 0% 0% no-repeat padding-box !important;
+}
+
+::ng-deep .field-title-wrapper {
+    /* height: 70px; */
+    align-items: start;
+    font-size: 14px;
+}
+
+::ng-deep .dynamic-input-custom-placeholder {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+::ng-deep .main-content-form-wrapper {
+    min-height: 0px !important;
+}
+
+::ng-deep .field_text_select {
+    padding-right: 0.5rem !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>div>.dropdown-btn {
+    padding: 6px 10px !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>.dropdown-list {
+    padding: 0 !important;
+    position: unset !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>div>.dropdown-btn>span {
+    max-width: 100% !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>div>.dropdown-btn>.selected-item-container>.selected-item {
+    margin-right: 4px !important;
+    margin-bottom: 0 !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>div>.dropdown-btn>.selected-item-container>.selected-item {
+    border: none !important;
+    outline: none !important;
+    background: none !important;
+    background-color: none !important;
+    color: black !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>div>.dropdown-btn>.selected-item-container>.selected-item>a {
+    display: none !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>.dropdown-list>.item1>li>input {
+    padding: 0 10px !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>.dropdown-list>.item2>li {
+    padding: 10px 20px !important;
+}
+
+
+
+/* .form-nodal-input {
+    background: transparent;
+}
+
+.form-nodal-input,
+.form-nodal-input:active,
+.form-nodal-input:focus {
+    border: 1px solid #979797 !important;
+    outline: none ! important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+}
+
+.form-nodal-input-custom-placeholder {
+    margin-top: 0px;
+    margin-bottom: -39px;
+}
+
+.va-l {
+    background: #fff;
+    font-weight: 700;
+    padding: 0.8rem !important;
+    box-shadow: 1px 1px 4px #33333369;
+}
+
+.form-nodal-input-custom-placeholder,
+.form-nodal-input,
+.form-nodal-input:active,
+.form-nodal-input:focus {
+    padding-left: 0.75rem !important;
+    font: normal Poppins 15px/23px;
+    letter-spacing: 0px;
+    color: rgb(0 0 0 / 70%);
+    height: 38px !important;
+}
+
+.form-nodal-input-custom-placeholder.hide+.form-nodal-input:not([disabled]),
+.form-nodal-input:not([disabled]):active,
+.form-nodal-input:not([disabled]):focus {
+    background: #FFFFFF 0% 0% no-repeat padding-box !important;
+}
+
+.form-nodal-input-custom-placeholder.hide span {
+    display: none !important;
+}
+
+.form-nodal-input-custom-placeholder.disabled {
+    background: #F1F1F1 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+}
+
+.nodal-search-icon {
+    color: #707070;
+    font-size: 18px;
+    position: absolute;
+    right: 25px;
+    top: 16px;
+}
+
+.col-accordion {
+    background: #F5F5F5 0% 0% no-repeat padding-box;
+    border: 1px solid #979797;
+    border-radius: 5px;
+    max-height: fit-content;
+    -webkit-transition: max-height 1s ease;
+    -moz-transition: max-height 1s ease;
+    transition: max-height 1s ease;
+}
+
+.col-accordion.hide {
+    overflow: hidden;
+    max-height: 55px;
+}
+
+.accordion-dropdown {
+    position: absolute;
+    right: 45px;
+    margin-top: 20px;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+}
+
+thead {
+    background: #dc8b3a;
+    color: #fff;
+}
+
+label.bold-label {
+    font-weight: 500;
+    color: #353330;
+    font-family: system-ui;
+}
+
+.text-center {
+    justify-content: center;
+    text-align: center;
+}
+
+.disabled {
+    background: #e7e4e0 0% 0% no-repeat padding-box !important;
+}
+
+.m-p-0 {
+    margin: 0;
+    padding: 0;
+}
+
+.qty-txt {
+    width: 110px;
+    padding: 6px;
+    text-align: center;
+    border: 1px solid #e4dede;
+    border-radius: 5px;
+}
+
+.allocation-label {
+    background: #b74b27;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    width: -webkit-fill-available;
+    text-align: center;
+}
+
+.bspcName,
+td {
+    max-width: auto;
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+}
+
+.indenterName {
+}
+
+.indentorQuantity {
+}
+
+.allocationQuantity {
+}
+
+@media (min-width:1165px) and (max-width: 1295px) {
+    .form-child {
+        zoom: 0.8;
+    }
+}
+
+.submitButtons {
+    text-align: left;
+    font: normal Poppins 16px/25px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    background: #E97E15 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+    outline: none !important;
+    border: none !important;
+    width: auto;
+    height: 46px;
+    cursor: pointer;
+    padding: 0 30px;
+}
+
+.disabled {
+    background: #7c7c7c 0% 0% no-repeat padding-box !important;
+
+}
+
+::ng-deep .yearofIndent-wrapper .ngb-dropdown-disabled .dropdown-toggle,
+::ng-deep .season-wrapper .ngb-dropdown-disabled .dropdown-toggle,
+::ng-deep .variety-wrapper .ngb-dropdown-disabled .dropdown-toggle,
+::ng-deep .cropName-wrapper .ngb-dropdown-disabled .dropdown-toggle {
+    background: rgb(245 245 245 / 70%) 0% 0% no-repeat padding-box !important;
+}
+
+::ng-deep .field-title-wrapper {
+    align-items: start;
+    font-size: 14px;
+}
+
+::ng-deep .dynamic-input-custom-placeholder {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+::ng-deep .main-content-form-wrapper {
+}
+
+::ng-deep .field_text_select {
+    padding-right: 0.5rem !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>div>.dropdown-btn {
+    padding: 6px 10px !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>.dropdown-list {
+    padding: 0 !important;
+    position: unset !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>div>.dropdown-btn>span {
+    max-width: 100% !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>div>.dropdown-btn>.selected-item-container>.selected-item {
+    margin-right: 4px !important;
+    margin-bottom: 0 !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>div>.dropdown-btn>.selected-item-container>.selected-item {
+    border: none !important;
+    outline: none !important;
+    background: none !important;
+    background-color: none !important;
+    color: black !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>div>.dropdown-btn>.selected-item-container>.selected-item>a {
+    display: none !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>.dropdown-list>.item1>li>input {
+    padding: 0 10px !important;
+}
+
+::ng-deep .seed-division-variety>.multiselect-dropdown>.dropdown-list>.item2>li {
+    padding: 10px 20px !important;
+} */
+
+@media screen and (max-width: 500px) {
+    .btn-aling{
+        margin-left: 80px !important;
+    }
+    
+}
+.form-buttons,
+.form-buttons:focus,
+.form-buttons:active {
+  text-align: left;
+  font: normal Poppins 16px/25px;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  background: #B64B1D 0% 0% no-repeat padding-box;
+  /* box-shadow: 0px 3px 0px #CB6706; */
+  border-radius: 5px;
+  outline: none !important;
+  border: none !important;
+  width: 102px !important;
+  height: 45px !important;
+  cursor: pointer;
+}
+.form_submit_btn,
+.form_submit_btn:focus,
+.form_submit_btn:active {
+  text-align: left;
+  font: normal Poppins 16px/25px;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  background: #B64B1D 0% 0% no-repeat padding-box;
+  /* box-shadow: 0px 3px 0px #CB6706; */
+  border-radius: 5px;
+  outline: none !important;
+  border: none !important;
+  width: 100px;
+  height: 46px;
+  cursor: pointer;
+}
+.disabled-btn {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    pointer-events: none; /* Prevent any action */
+    opacity: 0.6;
+  }

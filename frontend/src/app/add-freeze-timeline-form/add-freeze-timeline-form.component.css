@@ -1,0 +1,115 @@
+.data-row-header {
+     background: #E97E15 0% 0% no-repeat padding-box;
+ }
+ 
+ .data-row-header * {
+     font: normal Poppins 600 15px/19px;
+     font-weight: 500;
+     letter-spacing: 0px;
+     color: #FFFFFF;
+ }
+ 
+ .data-row {
+     border: 1px solid #B2C7D7;
+     border-top: none !important;
+ }
+ 
+ .data-row * {
+     font: normal Poppins 15px/18px;
+     letter-spacing: 0px;
+     color: #000000;
+ }
+ 
+ .heading_notofied {
+     font: normal Poppins;
+     font-weight: bold;
+     font-size: 20px;
+     letter-spacing: 0px;
+     text-align: left;
+     opacity: 1;
+ }
+ 
+ .search_text {
+     text-align: left;
+     font: normal Poppins 16px/25px;
+     letter-spacing: 0px;
+     color:  #2329ff;
+     font-weight: 600;
+     margin-top: 10px;
+     opacity: 1;
+ 
+ }
+ 
+  /* .dropdown-menus{ max-height:250px; overflow:auto; } */
+  /* .selBox{
+     width: 470px !important;
+     height: 40px !important;
+    }
+    select option{
+     color: red!important;
+     height: 1px !important;
+ } */
+ 
+ .dropdown-menus {
+     max-height: 10px!important;
+     overflow-y: auto!important;
+ }
+ .wrapper::-webkit-scrollbar-track-piece:end {
+     background: transparent;
+     margin-bottom: 10px; 
+ }
+ 
+ 
+ 
+ /* .kapil{ */
+    /* padding-top: 2%; */
+    /* padding-right: 33%; */
+    /* padding-left: 14px; */
+ /* } */
+
+ .search_text::after {
+
+    color: red;
+    content: '*';
+    text-align: center;
+
+}
+ .disablefield{
+    pointer-events: none;
+    background-color: #eaeaea;
+ }
+ /* .date::-webkit-calendar-picker-indicator {
+    color: rgba(211, 41, 41, 0);
+    opacity: 1; */
+    /* display: block; */
+    /* ../../../../../assets/images/Layer 93.svg */
+    /* background: url("../../../assets/images/Layer 93.svg") no-repeat; */
+    /* width: 20px;
+    height: 20px;
+    border-width: thin;
+    cursor: pointer; */
+/* } */
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: rgba(0, 0, 0, 0);
+    opacity: 1;
+    display: block;
+    background: url("../../assets/images/Layer 93.svg") no-repeat;
+    width: 20px;
+    height: 20px;
+    border-width: thin;
+}
+
+
+
+.not_date{
+    height: 20px;
+    /* border-width: thin; */
+    cursor: pointer;
+    background: #FFFFFF url("../../assets/images/Layer 93.svg")no-repeat padding-box 95%;
+    padding-right: 18px;
+    border: 1px solid #ccc;
+}
+.for-downicon-remove{
+    -webkit-appearance: none !important;
+}

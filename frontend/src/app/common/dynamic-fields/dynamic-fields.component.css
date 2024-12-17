@@ -1,0 +1,560 @@
+.dynamic-input {
+    background: transparent;
+}
+
+.view-only-field,
+.dynamic-input,
+.dynamic-input:active,
+.dynamic-input:focus {
+    border: 1px solid #979797 !important;
+    outline: none ! important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+    min-height: 40px;
+}
+
+.dynamic-input-custom-placeholder {
+    margin-top: 0px;
+    margin-bottom: -39px;
+}
+
+.selected_option{
+    width: auto !important;
+    float: left !important;
+    background: #dc8b3a !important;
+    padding: 5px !important;
+    color: white !important;
+    margin: 2px !important;
+}
+
+.custom-file-upload {
+
+    display: inline-block;
+    padding: 12px 12px;
+    cursor: pointer;
+    width: 190px;
+    border-radius: 4px;
+    background: #dc8b3a;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+
+.dynamic-input-custom-placeholder,
+.dynamic-input,
+.dynamic-input:active,
+.dynamic-input:focus {
+    padding-left: 0.75rem !important;
+    font: normal Poppins 15px/23px;
+    letter-spacing: 0px;
+    color: rgb(0 0 0 / 70%);
+    height: 38px !important;
+    
+}
+
+.h-150 {
+    min-height: 150px !important;
+}
+
+.dynamic-input-custom-placeholder.hide+.dynamic-input:not([disabled]),
+.dynamic-input:not([disabled]):active,
+.dynamic-input:not([disabled]):focus {
+    background: #FFFFFF 0% 0% no-repeat padding-box !important;
+}
+
+.dynamic-input-custom-placeholder.hide span {
+    display: none !important;
+}
+
+.dynamic-input-custom-placeholder.disabled,
+.html-dynamic-control.disabled {
+    background: #F1F1F1 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+}
+
+.single-radio-label-wrapper input[type="radio"] {
+    background: #E97E15 0% 0% no-repeat padding-box;
+    display: none;
+}
+
+.single-radio-label-wrapper input[type="radio"]+label {
+    font: normal Poppins 500 15px/23px;
+    letter-spacing: 0px;
+    color: rgb(0, 0, 0, 0.7);
+    font-size: 14px;
+}
+
+.single-radio-label-wrapper input[type="radio"]+label div {
+    cursor: pointer;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.single-radio-label-wrapper input[type="radio"]+label div.radio-border {
+    margin: -1px 4px 0 0;
+    width: 25px;
+    height: 25px;
+    border: 2px solid #4C4C4C;
+}
+
+.single-radio-label-wrapper input[type="radio"]+label div.radio-checked {
+    width: 15px;
+    height: 15px;
+}
+
+.single-radio-label-wrapper input[type="radio"]:checked+label div.radio-border {
+    border-color: #E97E15 !important;
+}
+
+.single-radio-label-wrapper input[type="radio"]:checked+label div.radio-checked {
+    background-color: #E97E15 !important;
+}
+
+.single-radio-label-wrapper input[type="radio"]:checked+label {
+    color: #1C1C1C !important;
+}
+
+.single-radio-label-wrapper input[type="radio"]+label div,
+.single-radio-label-wrapper input[type="radio"]:checked+label div {
+    -webkit-transition: background-color 0.4s ease;
+    -o-transition: background-color 0.4s ease;
+    -moz-transition: background-color 0.4s ease;
+    transition: background-color 0.4s ease;
+}
+
+.dynamic-dropdown button.toggle-button,
+.dynamic-dropdown button.toggle-button:focus,
+.dynamic-dropdown button.toggle-button:active {
+    height: 38px !important;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #979797 !important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+
+    font: normal Poppins 15px/23px !important;
+    letter-spacing: 0px !important;
+    color: rgb(0, 0, 0, 0.7) !important;
+    text-align: left;
+}
+
+.dynamic-dropdown .dropdown-toggle::after {
+    display: none !important;
+}
+
+.dynamic-dropdown .dropdown-toggle i {
+    float: right !important;
+    color: #707070 !important;
+}
+
+.dynamic-dropdown .dropdown-menu.show {
+    transform: translate(0px, 50px) !important;
+    width: calc(100%);
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #979797;
+    border-radius: 5px;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.dynamic-dropdown .dropdown-menu button {
+    background: white !important;
+}
+
+.dynamic-dropdown .dropdown-menu button,
+.dynamic-dropdown .dropdown-menu button:focus,
+.dynamic-dropdown .dropdown-menu button:active {
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
+    font: normal Poppins 15px/23px !important;
+    letter-spacing: 0px;
+    color: #000000 !important;
+    cursor: pointer;
+}
+
+.dynamic-dropdown .dropdown-menu button:hover,
+.dynamic-dropdown .dropdown-menu button:focus,
+.dynamic-dropdown .dropdown-menu button:active {
+    background: #F1F1F1 0% 0% no-repeat padding-box !important;
+}
+
+.html-control-suffix-text {
+    font: normal Poppins 15px/23px;
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 0.7 !important;
+}
+
+.disabled {
+    pointer-events: none;
+    /* opacity: 1; */
+    background-color: #FFFFFF;
+}
+
+
+
+.left-heading {
+    text-align: left;
+    letter-spacing: 0px;
+    color: #2329ff;
+    opacity: 1;
+    font-weight: 600;
+}
+
+.labelClass {
+    text-align: left;
+    letter-spacing: 0px;
+    color: #2329ff;
+    opacity: 1;
+    font-weight: 600;
+    /* white-space: nowrap; */
+}
+
+.labelSeasonClass {
+    text-align: left;
+    letter-spacing: 0px;
+    color: #2329ff;
+    opacity: 1;
+    font-weight: 600;
+    /* white-space: nowrap; */
+  
+}
+.html-control-suffix-indentor-text {
+    font: normal Poppins 15px/23px;
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 0.7 !important;
+}
+/* @media screen and (min-width: 1200px) {
+    .labelClass {
+        text-align: left;
+        letter-spacing: 0px;
+        color: #2329ff;
+        opacity: 1;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    
+    .labelSeasonClass {
+        text-align: left;
+        letter-spacing: 0px;
+        color: #2329ff;
+        opacity: 1;
+        font-weight: 600;
+        white-space: nowrap;
+        margin-left: 4em;
+    }
+    #grid_label_id {
+        margin-left: 4em;
+    }
+
+    #grid_label_crop_name {
+        margin-left: 8em;
+    }
+
+    #grid_label_year_id {
+        margin-left: 6em;
+    }
+
+    #grid_label_season_id {
+        margin-left: 8em;
+    }
+
+   
+
+    
+} */
+
+/* @media screen and (min-device-width: 1201px) and (max-device-width: 1600px) { 
+    .indentQuantity-wrapper {
+        margin-left: 12em;
+        margin-top: -3em;
+
+    }
+
+    .varietyNotificationYear-wrapper {
+        margin-left: 8em;
+        margin-top: -5em;
+    }
+    .html-control-suffix-indentor-text {
+        font: normal Poppins 15px/23px;
+        letter-spacing: 0px;
+        color: #000000;
+        opacity: 0.7 !important;
+        margin-left: 7em;
+    }
+    .unitKgQ-wrapper{
+        margin-left: -2em;
+    }
+    .yearOfIndentdropdownClass{
+        margin-top: 0!important;
+        margin-left: 4em!important;
+    }
+    .seasondropdownClass{
+        margin-top: 0!important;
+        margin-left: 8em!important;
+    }
+    .cropdropdownClass{
+        margin-top: 0!important;
+        margin-left: 4em!important;
+    }
+    .cropNamedropdownClass,.cropVareitydropdownClass{
+        margin-top: 0!important;
+        margin-left: 8em!important;
+    }
+    .indentity_name_qty{
+        margin-left: -3em;
+    }
+} */
+
+/* @media screen and (min-device-width: 1601px) and (max-device-width: 2000px) { 
+    .indentQuantity-wrapper {
+        margin-left: 13em;
+        margin-top: -3em;
+
+    }
+
+    .varietyNotificationYear-wrapper {
+        margin-left: 9em;
+        margin-top: -5em;
+    }
+    .html-control-suffix-indentor-text {
+        font: normal Poppins 15px/23px;
+        letter-spacing: 0px;
+        color: #000000;
+        opacity: 0.7 !important;
+        margin-left: 9em;
+    }
+    .unitKgQ-wrapper{
+        margin-left: -4em;
+    }
+    .yearOfIndentdropdownClass{
+        margin-top: 0!important;
+        margin-left: 4em!important;
+    }
+    .seasondropdownClass{
+        margin-top: 0!important;
+        margin-left: 8em!important;
+    }
+    .cropdropdownClass,.cropTypedropdownClass{
+        margin-top: 0!important;
+        margin-left: 4em!important;
+    }
+    .cropNamedropdownClass,.cropVareitydropdownClass{
+        margin-top: 0!important;
+        margin-left: 8em!important;
+    }
+} */
+
+/* @media screen and (min-device-width: 2001px) and (max-device-width: 2800px) { 
+    .indentQuantity-wrapper {
+        margin-left: 14em;
+        margin-top: -3em;
+
+    }
+
+    .varietyNotificationYear-wrapper {
+        margin-left: 10em;
+        margin-top: -5em;
+    }
+    .html-control-suffix-indentor-text {
+        font: normal Poppins 15px/23px;
+        letter-spacing: 0px;
+        color: #000000;
+        opacity: 0.7 !important;
+        margin-left: 11em;
+    }
+    .unitKgQ-wrapper{
+        margin-left: -4em;
+    }
+    .yearOfIndentdropdownClass{
+        margin-top: 0!important;
+        margin-left: 4em!important;
+    }
+    .seasondropdownClass{
+        margin-top: 0!important;
+        margin-left: 8em!important;
+    }
+   
+    .cropdropdownClass,.cropTypedropdownClass{
+        margin-top: 0!important;
+        margin-left: 4em!important;
+    }
+    .cropNamedropdownClass,.cropVareitydropdownClass{
+        margin-top: 0!important;
+        margin-left: 8em!important;
+    }
+} */
+
+/* @media screen and (min-device-width: 2801px)  and (max-device-width: 2900px)  { 
+    .indentQuantity-wrapper {
+        margin-left: 14em;
+        margin-top: -3em;
+
+    }
+
+    .varietyNotificationYear-wrapper {
+        margin-left: 10em;
+        margin-top: -3em;
+    }
+    .html-control-suffix-indentor-text {
+        font: normal Poppins 15px/23px;
+        letter-spacing: 0px;
+        color: #000000;
+        opacity: 0.7 !important;
+        margin-left: 12em;
+    }
+    .unitKgQ-wrapper{
+        margin-left: -8em;
+    }
+    .yearOfIndentdropdownClass{
+        margin-top: 0!important;
+        margin-left: 4em!important;
+    }
+    .seasondropdownClass{
+        margin-top: 0!important;
+        margin-left: 8em!important;
+    }
+    .cropdropdownClass,.cropTypedropdownClass{
+        margin-top: 0!important;
+        margin-left: 4em!important;
+    }
+    .cropNamedropdownClass,.cropVareitydropdownClass{
+        margin-top: 0!important;
+        margin-left: 8em!important;
+    }
+    
+} */
+/* @media screen and (min-device-width: 2901px)    { 
+    .indentQuantity-wrapper {
+        margin-left: 18em;
+        margin-top: -3em;
+
+    }
+
+    .varietyNotificationYear-wrapper {
+        margin-left: 14em;
+        margin-top: -3em;
+    }
+    .html-control-suffix-indentor-text {
+        font: normal Poppins 15px/23px;
+        letter-spacing: 0px;
+        color: #000000;
+        opacity: 0.7 !important;
+        margin-left: 15em;
+    }
+    .unitKgQ-wrapper{
+        margin-left: -8em;
+    }
+    .yearOfIndentdropdownClass{
+        margin-top: 0!important;
+        margin-left: 4em!important;
+    }
+    .seasondropdownClass{
+        margin-top: 0!important;
+        margin-left: 8em!important;
+    }
+    .cropdropdownClass,.cropTypedropdownClass{
+        margin-top: 0!important;
+        margin-left: 4em!important;
+    }
+    .cropNamedropdownClass,.cropVareitydropdownClass{
+        margin-top: 0!important;
+        margin-left: 8em!important;
+    }
+} */
+
+
+@media screen and (min-device-width: 1100px) { 
+    .selectdropdown{
+        height: 38px !important;
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        border: 1px solid #979797 !important;
+        border-radius: 5px !important;
+        box-shadow: none !important;
+    
+        font: normal Poppins 15px/23px !important;
+        letter-spacing: 0px !important;
+        color: rgb(0, 0, 0, 0.7) !important;
+        text-transform: capitalize !important;
+        text-align: left;
+        min-width: 17em;
+    }
+    .gridIndentInput{
+        /* background: #F1F1F1 0% 0% no-repeat padding-box !important; */
+        min-width: 18em;
+        border: 1px solid #979797 !important;
+        outline: none ! important;
+        border-radius: 5px !important;
+        box-shadow: none !important;
+        min-height: 40px;
+        padding-left: 0.75rem !important;
+        font: normal Poppins 15px/23px;
+        letter-spacing: 0px;
+        color: rgb(0 0 0 / 70%);
+      
+    }
+}
+.date_of_reference {
+    /* background: url("../../../assets/images/Layer 93.svg") no-repeat right 7px 7px; */
+    /* background-position: right center; */
+    /* width: 20px; */
+    height: 20px;
+    /* border-width: thin; */
+    cursor: pointer;
+    background: #FFFFFF url("../../../assets/images/Layer 93.svg")no-repeat padding-box 95%;
+    padding-right: 18px;
+    border: 1px solid #ccc;
+}
+.dateInput{
+    height: 20px;
+    /* border-width: thin; */
+    cursor: pointer;
+    background: #FFFFFF url("../../../assets/images/Layer 93.svg")no-repeat padding-box 95%;
+    padding-right: 18px;
+    border: 1px solid #ccc;
+    padding-left: 0.75rem !important;
+    font: normal Poppins 15px/23px;
+    letter-spacing: 0px;
+    color: rgb(0 0 0 / 70%);
+    height: 38px !important;
+    border: 1px solid #979797 !important;
+    outline: none ! important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+    min-height: 40px;
+}
+#expected_inspection_period_from{
+    height: 20px;
+    /* border-width: thin; */
+    cursor: pointer;
+    background: #FFFFFF url("../../../assets/images/Layer 93.svg")no-repeat padding-box 95%;
+    padding-right: 18px;
+    border: 1px solid #ccc;
+}
+.bold-label {
+    font-weight: 500;
+    color: #353330;
+    font-family: system-ui;
+}
+
+
+.bsp-4-text
+{
+    margin-left: -45px;
+}
+.bsp-4-text-property
+{
+    color: red; 
+    font-size: 20px;
+}
+@media only screen and (max-width: 500px) {
+    .bsp-4-text
+    {
+        margin-left: 0px;
+    }
+
+}

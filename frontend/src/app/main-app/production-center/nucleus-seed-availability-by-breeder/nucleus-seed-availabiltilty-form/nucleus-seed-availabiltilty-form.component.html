@@ -1,0 +1,327 @@
+<form [hidden]="hideView" [formGroup]="formSuperGroup">
+    <!-- (ngSubmit)="submitForm(formSuperGroup.value)" -->
+    <div class="row my-4 w-100 mx-0 form-child">
+        <div class="col-12 d-flex justify-content-center verticle-content-middle">
+            <div class="main-content-form-wrapper px-0 py-2">
+                <div class="row">
+                    <div class="col-12 px-4 py-3 ml-2">
+                        <span class="page-type-1-title">
+                            {{title}} Nucleus Seed Availability With BSPC
+                        </span>
+                    </div>
+                    <div class="col-12 mx-2 mb-2 pr-4">
+                        <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="IstPartFormGroup" [isView]="isView"
+                        [isEdit]="isEdit">
+                        </app-dynamic-fields>
+                    </div>
+                    <div class="col-12 px-4 py-2">
+                        <hr class="separator my-0 mx-2">
+                    </div>
+                    <!-- && filterPaginateSearch.itemListTotalPage > 0 -->
+                    <div class="col-md-4 px-4 py-2 col-10"
+                        *ngIf="!isEdit && !isView ">
+                        <div class="form-nodal-input-custom-placeholder d-flex verticle-content-middle mx-2"
+                            [ngClass]="formGroupControls['search'].value ? 'hide' : ''">
+                            <span>Search Here</span>
+                            <i class="fa fa-search nodal-search-icon"></i>
+                        </div>
+                        <input class="form-nodal-input mx-2 w-100" formControlName="search">
+                    </div>
+                    <div class="col-12 px-4" *ngIf="filterPaginateSearch.initialized">
+                        <div *ngFor="let eachIIndPartFormArray of filterPaginateSearch.itemList; let varietyIndexInAccordion=index"
+                            class="col-accordion m-2"
+                            [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? '' : 'hide'">
+                            <div (click)="activateVarietyIndexInAccordion(varietyIndexInAccordion)">
+                                <label class="px-3 py-2 mx-0 mt-2 mb-0 va-l">
+                                    {{ eachIIndPartFormArray.name }}
+                                </label>
+                                <i class="fas accordion-dropdown"
+                                    [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                            </div>
+                            <app-dynamic-fields [id]="eachIIndPartFormArray.varietyId"
+                                [fieldsList]="eachIIndPartFormArray.arrayfieldsIIndPartList"
+                                [formGroup]="eachIIndPartFormArray.formGroup" [isLabelControlParallel]="false"
+                                [item]="cropType">
+                            </app-dynamic-fields>
+                        </div>
+                        <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&
+                        (!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+                            class="px-2 py-3 w-100" style="height: 50px;">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data found.
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div *ngIf="!isView" class=" px-4 pb-md-5 mt-2 sub_updt_cancel_btn "
+                        [ngClass]="filterPaginateSearch.itemListTotalPage < 2 ? 'col-12' : 'col-12 col-xl-4'">
+                        <div class="resp_btn">
+                            <button
+                                *ngIf="filterPaginateSearch.initialized 
+                                        && filterPaginateSearch.itemListTotalPage > 1 
+                                        && filterPaginateSearch.itemListCurrentPage != filterPaginateSearch.itemListTotalPage"
+                                class="form-button submit_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="saveAndNavigate()">
+                                Save And Next
+                            </button>
+                        </div>
+                        <!-- (click)="submit()" -->
+                        <div class="resp_btn">
+                            <button type="button" (click)="submitForm(formSuperGroup.value)"
+                                *ngIf="filterPaginateSearch.initialized 
+                                        && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                class="form-button submit_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                {{btn_name}}
+                            </button>
+                        </div>
+                        <div class="resp_btn">
+                            <button type="button"
+                                class="form-button cancel_btn ml-3 ml-md-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                routerLink="/nucleus-seed-availability-by-breeder">Cancel</button>
+                            <!-- <button *ngIf="(!isEdit || (isEdit && isDraft)) && filterPaginateSearch.initialized 
+                        && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="saveAsDraft()">Save as
+                                    Draft</button> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-8 px-4 pb-md-5 mt-2 d-flex justify-content-end py-2 py-xl-0">
+                        <app-pagination-ui></app-pagination-ui>
+                    </div>
+
+
+                    <div *ngIf="isView" class="col-12 px-4 sub_updt_cancel_btn">
+                        <div class="resp_btn">
+                            <button type="button"
+                                class="form-button cancel_btn ml-2 d-flex justify-content-center verticle-content-middle mb-3"
+                                [routerLink]="['/nucleus-seed-availability-by-breeder']">Cancel</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!--start for edit and view form only [hidden]="!hideView" -->
+<div [hidden]="!hideView" class="main-div mt-4 ml-4 mr-4 ">
+
+    <form [formGroup]="ngForm">
+        <div class="col-12 pt-0">
+            <div class="col-12 px-0 py-3">
+                <span class="page-type-1-title">
+                    <span [hidden]="isEdit || isView">Add</span><span [hidden]="!isEdit">Update</span><span
+                        [hidden]="!isView"></span>&nbsp;Nucleus Seed Availability With BSPC
+                </span>
+            </div>
+            <div class="row px-3">
+                <div class="col-12 col-md-12">
+                    <div class="row">
+                        <!-- <div class="col-12">
+                            <div class="row">
+                                <div class="col-12 col-md-2 pl-0">
+                                    <label for="Crop Group" class="search_txt">Breeder Production Centre Name
+                                    </label>
+                                </div>
+                                <div class="col-12 col-md-10">
+                                    <input type="text" class="form-input form-control" plcaceholder="Select Crop Group"
+                                        formControlName="breader_production_name">
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <!-- <div class="col-12 pt-2">
+                            <div class="row">
+                                <div class="col-12 col-md-2 pl-0">
+                                    <label for="Crop Group" class="search_txt">Contact Officer's Details
+                                    </label>
+                                </div>
+                                <div class="col-12 col-md-10">
+                                    <input type="text" class="form-input form-control" plcaceholder="Select Crop Group"
+                                        formControlName="Contact_Officer_Address_and_Designation">
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="col-12 pt-2">
+                            <div class="row">
+                                <div class="col-12 col-md-2 pl-0">
+                                    <label for="Crop Group" class="search_txt">Year of Indent
+                                    </label>
+                                </div>
+                                <div class="col-12 col-md-10 col-sm-12 pr-0 pl-0">
+                                    <!-- <sel type="text" class="form-input form-control" plcaceholder="Select Crop Group"
+                                        formControlName="yearofIndent"> -->
+                                    <select name="" id="" class="form-select form-control"
+                                        aria-label="Default select example" formControlName="yearofIndent">
+                                        <!-- <option value=""></option> -->
+                                        <option *ngFor="let data of yearOfIndent" value="{{data.value}}">{{data.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 pt-2">
+                            <div class="row">
+                                <div class="col-12 col-md-2 pl-0">
+                                    <label for="Crop Group" class="search_txt">Season
+                                    </label>
+                                </div>
+                                <div class="col-12 col-md-10 col-sm-12 pr-0 pl-0">
+                                    <input type="text" class="form-input form-control" plcaceholder=""
+                                        formControlName="season">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 pt-2 pb-2">
+                            <div class="row">
+                                <div class="col-12 col-md-2 pl-0">
+                                    <label for="Crop Group" class="search_txt">Crop Name
+                                    </label>
+                                </div>
+                                <div class="col-12 col-md-10 col-sm-12 pr-0 pl-0">
+                                    <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="cropName">
+                                        <option value="">Select Crop Name </option>
+                                        <option *ngFor="let data of cropNameData" value="{{data.crop_code}}">
+                                            {{data.crop_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-12 col-sm-12 pr-0 pl-0">
+                    <hr class="separator mx-0 mt-1">
+                </div>
+
+                <div class="col-12 col-md-12 pb-4 ">
+                    <div class="row form-div">
+                        <div class="col-12 col-md-12 pl-0 pt-0">
+                            <label class="px-3 py-2 mx-0 mt-2 mb-0 va-l">
+                                {{verietyName}}
+                            </label>
+                        </div>
+                        <!-- Crop Name -->
+                        <div class="col-12 col-md-4 pl-0 pt-3">
+                            <div class="col-12">
+                                <!-- <label for="Crop Group" class="search_txt">Quantity of Necleus Seed <b>({{cropType}})</b></label> -->
+                                <label for="Crop Group" class="search_txt">Quantity of Nucleus Seed
+                                    <b>({{cropType}})</b></label>
+
+                            </div>
+                            <div class="col-12 pt-4">
+                                <input type="number" class="form-input form-control"
+                                    plcaceholder="Quantity of Necleus Seedddd (Kg)"
+                                    formControlName="quantity_of_nucleus_seed">
+                            </div>
+                        </div>
+
+                        <!-- nucleus_breader -->
+                        <div class="col-12 col-md-4 pl-0 pt-3">
+                            <div class="col-12">
+                                <label for="Crop Group" class="search_txt"> Reference No. of MoA/Authorization in Case
+                                    Variety is not the Centre Taking up BSP</label>
+                            </div>
+                            <div class="col-12">
+                                <input type="text" (keypress)="checkLength($event,50)" max="500" min="1"
+                                    class="form-input form-control"
+                                    plcaceholder="Reference No. of MoA/Authorization in Case Variety is not the Centre Taking up BSP "
+                                    formControlName="reference_no">
+                            </div>
+                            <!-- <div class="pl-3" *ngIf="NumError">
+                                <span style="color:red; font-size: medium;">{{NumError}}</span>
+                            </div> -->
+                        </div>
+
+                        <!-- breader_to_foundation_1 -->
+                        <div class="col-12 col-md-4 pl-0 pt-3">
+                            <div class="col-12">
+                                <label for="Crop Group" class="search_txt"> Date of Reference No. of MoA/Authorization in
+                                    Case Variety is not the Centre Taking up BSP</label>
+                            </div>
+                            <div class="col-12">
+                                <!-- <input type="date" class="form-input form-control" plcaceholder="yfgygwfygwafyg"
+                                    formControlName="date_of_reference"> -->
+                                    <input (keydown)="preventKeyPress($event)" 
+                                class="form-control input-format input-border not_date "
+                                formControlName="date_of_reference" angular-mydatepicker [options]="myDpOptions"
+                                #dp3="angular-mydatepicker" (dateChanged)="onDateChanged($event)"
+                                (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth" (name)="parsedDate"
+                                id="date" placeholder="DD-MM-YYYY" />
+                            </div>
+                        </div>
+
+                        <!-- foundation_1_to_foundation_2 -->
+                        <div class="col-12 col-md-4 pl-0 pt-3 pb-4">
+                            <div class="col-12">
+                                <label for="Crop Group" class="search_txt"> No. of Reference order, Cash Memo/BNSIV
+                                    Proof of Procuring Nucleus Seed from the Source</label>
+                            </div>
+                            <div class="col-12">
+                                <input type="text" class="form-input form-control"
+                                    placeholder="No. of Referencefice order, Cash Memo/BNSIV Proof of Procuring Nucleus Seed from the Source"
+                                    aria-label="No. of Referencefice order, Cash Memo/BNSIV Proof of Procuring Nucleus Seed from the Source"
+                                    formControlName="reference_no_of_office">
+                                    
+                            </div>
+                        </div>
+
+                        <!-- foundation_2_to_certified -->
+                        <div class="col-12 col-md-4 pl-0 pt-3 pb-4">
+                            <div class="col-12">
+                                <label for="Crop Group" class="search_txt"> Date of Office Order, Cash Memo/BNSIV Proof
+                                    of Procuring Nucleus Seed from the Source</label>
+                            </div>
+                            <div class="col-12">
+                                <!-- <input type="date" class="form-input form-control" plcaceholder=""
+                                    formControlName="date_of_office_order"> -->
+                                    <input (keydown)="preventKeyPress($event)" 
+                                    class="form-control input-format input-border not_date "
+                                    formControlName="date_of_office_order" angular-mydatepicker [options]="myDpOptions"
+                                    #dp4="angular-mydatepicker" (dateChanged)="onDateChanged($event)"
+                                    (click)="dp4.toggleCalendar()" [defaultMonth]="defaultMonth" (name)="parsedDate"
+                                    id="date" placeholder="DD-MM-YYYY" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+    <div class="col-12 pb-3 sub_updt_cancel_btn" [hidden]="isView">
+        <div class="resp_btn2">
+            <button (click)="onUpdate()"
+                class="form-button update_btn search d-inline-flex justify-content-center verticle-content-middle mb-1">
+                Update
+            </button>
+        </div>
+        <div class="resp_btn pl-3">
+            <button
+                class="clear-form-button cancel_btn ml-0 d-inline-flex justify-content-center verticle-content-middle mb-1"
+                routerLink="/nucleus-seed-availability-by-breeder">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <div class="col-12 pb-3  sub_updt_cancel_btn" [hidden]="!isView">
+        <div class="resp_btn2">
+            <button
+                class="form-button cancel_btn  search d-inline-flex justify-content-center verticle-content-middle mb-1"
+                routerLink="/nucleus-seed-availability-by-breeder">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+
+</div>
+<!-- finish for edit and view form only -->

@@ -1,0 +1,828 @@
+<div class="row my-4 w-100 mx-0">
+  <div class="col-12 d-flex justify-content-center verticle-content-middle">
+    <div class="main-content-form-wrapper px-0 py-2">
+      <div class="row">
+        <div class="w-100">
+          <form [formGroup]="ngForm">
+            <div class="col-12 px-4 mt-2">
+              <div class="row">
+                <div class="col-md-12 pl-4 pb-2">
+                  <span class="heading_notofied">Crop Wise Status of Lifting/Non-Lifting/Supply Position</span>
+
+                </div>
+
+                <div class="col-md-4 pl-0 mt-0 mt-md-2 pl-2 pr-2 py-2 py-md-0 pr-md-0">
+                  <div class="col-md-12">
+                    <label for="Crop Name" class="search_txt">Year of Indent <sup
+                        style="color:red;font-size:18px;">*</sup></label>
+                  </div>
+                  <div class="col-12 pr-md-0">
+                    <select class="form-select form-control" aria-label="Default select example" formControlName="year">
+                      <option value="">Select Year of Indent</option>
+                      <option *ngFor="let data of yearOfIndent" value="{{ data.year }}">
+                        {{ data.year }} -
+                        {{ data.year + 1 - 2000 }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4 pl-0 mt-0 mt-md-2 pl-2 pr-2 py-2 py-md-0 pr-md-0 pl-md-0">
+                  <div class="col-md-12">
+                    <label for="Crop Name" class="search_txt">Season <sup
+                        style="color:red;font-size:18px;">*</sup></label>
+                  </div>
+                  <div class="col-12 pr-md-0">
+                    <select class="form-select form-control" aria-label="Default select example"
+                      formControlName="season_value">
+                      <option value="">Select Season</option>
+                      <option *ngFor="let data of seasonData" value="{{ data['season'] }}">
+                        {{
+                        data && data["season"] == "K"
+                        ? "Kharif"
+                        : data["season"] == "R" ?"Rabi":'Other'
+                        }}
+                      </option>
+                    </select>
+                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                        <img src="assets/images/16.svg" alt="" srcset="" />
+                      </div> -->
+                  </div>
+                </div>
+                <div class="col-md-4 pl-0 mt-0 mt-md-2 pl-2 pr-2 py-2 py-md-0 pl-md-0"
+                  *ngIf="ngForm.controls['unitKgQ'].value == 2">
+                  <div class="col-md-12">
+                    <label for="Crop Name" class="search_txt">BSPC</label>
+                  </div>
+                  <div class="col-12">
+                    <select class="form-select form-control" aria-label="Default select example"
+                      formControlName="variety">
+                      <option value="">Select BSPC</option>
+                      <option *ngFor="let data of bspcVarietData" value="{{ data['m_crop_variety.id'] }}">
+                        {{
+                        data && data["m_crop_variety.variety_name"]
+                        ? data["m_crop_variety.variety_name"]
+                        : ""
+                        }}
+                      </option>
+                    </select>
+                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                      <img src="assets/images/16.svg" alt="" srcset="" />
+                    </div> -->
+                  </div>
+                </div>
+
+                <div class="col-md-4 pl-2 mt-2 pr-2 py-2 py-md-4 pr-md-0 margin-top"
+                  *ngIf="ngForm.controls['unitKgQ'].value == 2">
+                  <div class="col-md-12">
+                    <label for="Crop Name" class="search_txt">Crop Type <sup
+                        style="color:red;font-size:18px;">*</sup></label>
+                  </div>
+                  <div class="col-12 pr-md-0">
+                    <select class="form-select form-control" aria-label="Default select example"
+                      formControlName="crop_type">
+                      <option value="">Select Crop Type</option>
+                      <option *ngFor="let data of nucleusCropType"
+                        value="{{ data && data.crop_type ? data.crop_type :'' }}">
+                        {{
+                        data && data.crop_type
+                        ? data.crop_type
+                        : ""
+                        }}
+                      </option>
+                    </select>
+                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                        <img src="assets/images/16.svg" alt="" srcset="" />
+                      </div> -->
+                  </div>
+                </div>
+
+
+
+                <div class="col-md-4 pl-0 mt-0 mt-md-2 pl-2 pr-2 py-2 py-md-0 pl-md-0"
+                  *ngIf="ngForm.controls['unitKgQ'].value == 1">
+                  <div class="col-md-12">
+                    <label for="Crop Name" class="search_txt">Crop Type <sup
+                        style="color:red;font-size:18px;">*</sup></label>
+                  </div>
+                  <div class="col-12">
+                    <select class="form-select form-control" aria-label="Default select example"
+                      formControlName="crop_type">
+                      <option value="">Select Crop Type</option>
+                      <option *ngFor="let data of nucleusCropType"
+                        value="{{ data && data.crop_type ? data.crop_type :'' }}">
+                        {{
+                        data && data.crop_type
+                        ? (data.crop_type == "agriculture"?"Agriculture":"Horiticultue")
+                        : ""
+                        }}
+                      </option>
+                    </select>
+                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                        <img src="assets/images/16.svg" alt="" srcset="" />
+                      </div> -->
+                  </div>
+                </div>
+                <div class="col-md-4 pl-2 mt-2 pr-2 py-2 py-md-4 pr-md-0 margin-top"
+                  *ngIf="ngForm.controls['unitKgQ'].value == 1">
+
+                  <div class="col-md-12">
+                    <label for="Crop Name" class="search_txt">Crop Name</label>
+                  </div>
+                  <div class="col-12 pr-md-0">
+                    <!-- <select
+                      class="form-select form-control"
+                      aria-label="Default select example"
+                      formControlName="crop_name"
+                    >
+                      <option value="">Select Crop Name </option>
+                      <option
+                        *ngFor="let data of cropDataList"
+                        value="{{
+                          data && data.crop_code
+                            ? data.crop_code
+                            : ''
+                        }}"
+                      >
+                        {{
+                          data && data.crop_name
+                            ? data.crop_name
+                            : ""
+                        }}
+                      </option>
+                    </select> -->
+                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                      <img src="assets/images/16.svg" alt="" srcset="" />
+                    </div> -->
+                    <!-- [disabled]="cropdropdownHidden" -->
+                    <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="cropDataList"
+                      formControlName="crop_name" [placeholder]="'Select Crop Name'">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-md-4 pl-0 mt-0 mt-md-0 pl-2 pr-2 pr-md-0 py-2 py-md-4 pl-md-0 margin-top"
+                  *ngIf="ngForm.controls['unitKgQ'].value == 1">
+
+                  <div class="col-md-12">
+                    <label for="Crop Name" class="search_txt">Variety Name</label>
+                  </div>
+                  <div class="col-12 pr-md-0">
+                    <!-- <select class="form-select form-control" aria-label="Default select example"
+                      formControlName="variety_id">
+                      <option value="">Select Variety Name</option>
+                      <option *ngFor="let data of varietyDataList" value="{{
+                        data && data.id
+                          ? data.id
+                          : ''
+                      }}">
+                        {{
+                        data && data['m_crop_variety.variety_name']
+                        ? data['m_crop_variety.variety_name']
+                        : ""
+                        }}
+                      </option>
+                    </select> -->
+                    <!-- [disabled]="varietydropdownHidden" -->
+                    <ng-multiselect-dropdown [settings]="dropdownSettings1" [data]="varietyDataList"
+                      formControlName="variety_id" [placeholder]="'Select Variety Name'">
+                    </ng-multiselect-dropdown>
+                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                    <img src="assets/images/16.svg" alt="" srcset="" />
+                  </div> -->
+                  </div>
+                </div>
+
+                <div class="col-md-4 pl-2 mt-2 pl-md-0 pr-2 py-2 py-md-4 pr-md-0 margin-top"
+                  *ngIf="ngForm.controls['unitKgQ'].value == 2">
+                  <div class="col-md-12">
+                    <label for="Crop Name" class="search_txt">Crop Name</label>
+                  </div>
+                  <div class="col-12 pr-md-0">
+                    <select class="form-select form-control" aria-label="Default select example" formControlName="crop">
+                      <option value="">Select Crop Name</option>
+                      <option *ngFor="let data of nucleusCropData" value="{{ data['m_crop.crop_code'] }}">
+                        {{
+                        data && data["m_crop.crop_name"]
+                        ? data["m_crop.crop_name"]
+                        : ""
+                        }}
+                      </option>
+                    </select>
+                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                        <img src="assets/images/16.svg" alt="" srcset="" />
+                      </div> -->
+                  </div>
+                </div>
+
+
+                <div _ngcontent-cvx-c131="" class="col-12 mt-4 mt-md-0 buttons-phone">
+                  <button _ngcontent-cvx-c131=""
+                    class="form-button search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-2"
+                    (click)="submit()">
+                    Search
+                  </button>
+                  <button _ngcontent-cvx-c131="" (click)="clear()"
+                    class="clear-form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                    Clear
+                  </button>
+
+                  <div class="dropdown float-right export_dropdown">
+                    <button (click)="myFunction()"
+                      class="form-button search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-2"
+                      style="font-size: 87%">
+                      Export To &nbsp;<i class="fa fa-angle-down" aria-hidden="true">
+                      </i>
+                    </button>
+                    <div id="myDropdown" class="dropdown-content">
+                      <a (click)="download()">
+                        <img src="assets\icons\pdf-icon.png" alt="" width="20px" height="20px" />
+                        PDF</a>
+                      <a (click)="exportexcel()">
+                        <img src="assets\icons\excel.jpg" alt="" width="20px" alt="" />
+                        Excel</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div _ngcontent-cvx-c131="" class="col-12 px-4">
+                  <hr _ngcontent-cvx-c131="" class="separator m-0" />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- <table id="excel-table" style="display: none;">
+            <thead>
+              <tr>
+                <th scope="col" class="col-md-1 py-3">S/N</th>
+                <th scope="col" class="col-md-3 py-3">Variety</th>
+                <th scope="col" class="col-md-3 py-3">Year of Release</th>
+                <th scope="col" class="col-md-3 py-3">Indent Agency</th>
+                <th scope="col" class="col-md-3 py-3">Indent Quantity</th>
+                <th scope="col" class="col-md-3 py-3">Name of Contact Officer</th>
+                <th scope="col" class="col-md-3 py-3">Designation of the officer</th>
+                <th scope="col" class="col-md-3 py-3">Available Nucleus Seed</th>
+                <th scope="col" class="col-md-3 py-3">Targeted Quantity of Breeder
+                  Seed</th>
+                <th scope="col" class="col-md-3 py-3">Member of Monitoring Team</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let data of exportdata; let dataIndex=index">
+              <tr>
+                <td>
+                  <span>{{ dataIndex + 1 }}.</span>
+                </td>
+                <td>
+                  <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom"
+                    title="{{ data.variety_name ? data.variety_name : '' }}">{{
+                    data["variety_name"] ? data["variety_name"] : "NA"
+                    }}</span>
+                </td>
+                <td>
+                  <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom"
+                    title="{{ data.year ? data.year : '' }}">{{ data["year"] ?
+                    data["year"] : "NA" }}</span>
+                </td>
+                <td>
+                  <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom"
+                    title="{{ data.agency_name ? data.agency_name : '' }}">{{
+                    data["agency_name"] ? data["agency_name"] : "NA"
+                    }}</span>
+                </td>
+                <td>
+                  <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip" data-placement="bottom"
+                    title="{{
+                    data.indent_quantity ? data.indent_quantity : ''
+                    }}">{{
+                    data["indent_quantity"]
+                    ? data["indent_quantity"]
+                    : "NA"
+                    }}</span>
+                </td>
+                <td>
+                  <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip" data-placement="bottom"
+                    title="{{
+                    data.contact_person_name
+                    ? data.contact_person_name
+                    : ''
+                    }}">{{
+                    data["contact_person_name"]
+                    ? data["contact_person_name"]
+                    : "NA"
+                    }}</span>
+                </td>
+                <td>
+                  <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip" data-placement="bottom"
+                    title="{{
+                    data.contact_person_designation
+                    ? data.contact_person_designation
+                    : ''
+                    }}">{{
+                    data["contact_person_designation"]
+                    ? data["contact_person_designation"]
+                    : "NA"
+                    }}</span>
+                </td>
+                <td>
+                  <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip" data-placement="bottom"
+                    title="{{
+                    data.available_nucleus_seeds
+                    ? data.available_nucleus_seeds
+                    : ''
+                    }}">{{
+                    data["available_nucleus_seeds"]
+                    ? data["available_nucleus_seeds"]
+                    : "NA"
+                    }}</span>
+                </td>
+                <td>
+                  <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip" data-placement="bottom"
+                    title="{{ data.target ? data.target :
+                    '' }}">{{ data['bsp1_production_centers.target']
+                    ?
+                    data['bsp1_production_centers.target']
+                    : "NA" }}</span>
+                </td>
+                <td>
+                  <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip" data-placement="bottom"
+                    title="{{ data.members ? data.members
+                    : 0 }}">{{ data['bsp1_production_centers.members'] ?
+                    data['bsp1_production_centers.members'] : 0 }}</span>
+                </td>
+  
+              </tr>
+            </tbody>
+          </table> -->
+        <!-- table for exel Download end -->
+
+        <div class="col-12 px-4" id="excel-tables" *ngIf="ngForm.controls['unitKgQ'].value == 1">
+          <div class="list-wrapper px-4 py-3">
+            <div class="row d-none d-md-flex data-row-header extra-header">
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle"></div>
+              <div class="col-6 col-md-8 py-3 d-flex justify-content-center">
+                <span>Crop Wise Status of Lifting/Non-Lifting/Supply Position</span>
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle"></div>
+            </div>
+            <br />
+            <div class="row d-none d-md-flex data-row-header">
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                Year of Indent : {{submitted && this.ngForm.controls['year'].value ? this.ngForm.controls['year'].value
+                : "NA" }}-{{(this.ngForm.controls['year'].value-2000)+1}}
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                Season :{{submitted && this.ngForm.controls['season_value'].value ?
+                (this.ngForm.controls['season_value'].value=="R"?"Rabi":"Kharif") : "NA" }}
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                Crop Type : {{submitted && this.ngForm.controls['season_value'].value &&
+                this.ngForm.controls['season_value'].value ?
+                (this.ngForm.controls['season_value'].value=="agriculture"?"Agriculture":"Horticulture") : "NA" }}
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                Crop Name : {{cropNameValue ? cropNameValue : "NA" }}
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                Variety Name : {{varietyName ? varietyName : "NA" }}
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex justify-content-end">
+                As on Date: {{ todayData | date : "dd-MM-YYYY" }}
+              </div>
+            </div>
+            <div class="middle_line"></div>
+            <div class="row data-row" id="excel-table" *ngIf="submitted">
+              <table style="display: none;">
+                <thead>
+                  <tr>
+                    <th colspan="6">Crop Wise Status of Lifting/Non-Lifting/Supply Position</th>
+                  </tr>
+                  <tr>
+                    <th>Year of Indent</th>
+                    <th>Season</th>
+                    <th>Crop Type</th>
+                    <th>Crop Name</th>
+                    <th>Variety Name</th>
+                    <th>As on Date</th>
+                  </tr>
+                  <tr>
+                    <td>{{submitted && this.ngForm.controls['year'].value ? this.ngForm.controls['year'].value
+                      : "NA" }}-{{(this.ngForm.controls['year'].value-2000)+1}}</td>
+                    <td>{{submitted && this.ngForm.controls['season_value'].value ?
+                      (this.ngForm.controls['season_value'].value=="R"?"Rabi":"Kharif") : "NA" }}</td>
+                    <td>{{submitted && this.ngForm.controls['season_value'].value &&
+                      this.ngForm.controls['season_value'].value ?
+                      (this.ngForm.controls['season_value'].value=="agriculture"?"Agriculture":"Horticulture") : "NA" }}
+                    </td>
+                    <td>{{cropNameValue ? cropNameValue : "NA" }}</td>
+                    <td>{{varietyName ? varietyName : "NA" }} </td>
+                    <td>{{ todayData | date : "dd-MM-YYYY" }} </td>
+                  </tr>
+                  <tr>
+                    <th></th>
+                  </tr>
+                </thead>
+              </table>
+              <table class="table table-bordered table-responsive">
+                <thead>
+
+                  <tr class="data-row-header">
+                    <th scope="col" class="col-md-1 py-3">Crop</th>
+                    <th scope="col" class="col-md-1 py-3">Variety</th>
+                    <th scope="col" class="col-md-1 py-3">Total Indented
+                      Quantity</th>
+                    <th scope="col" class="col-md-1 py-3">Total Availability of Breeder Seed</th>
+                    <th scope="col" class="col-md-1 py-3">Indentor Name</th>
+                    <th scope="col" class="col-md-2 py-3">Agencies To Whom B/S Supplied</th>
+                    <th scope="col" class="col-md-2 py-3">Quantity Allocated for Lifting</th>
+                    <th scope="col" class="col-md-2 py-3">Total Quantity Allocated for Lifting</th>
+                    <th scope="col" class="col-md-2 py-3">Quantity Lifted</th>
+                    <!-- <th scope="col" class="col-md-2 py-3" *ngIf="ngForm.controls['unitKgQ'].value == 2"> Reason for Short/Excess Supply</th> -->
+                    <th scope="col" class="col-md-1 py-3">Breeder Seed Balance</th>
+
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let data of dummyData; let cropIndex = index">
+                    <ng-container *ngFor="let varietyData of data.variety; let varietyIndex = index">
+                      <ng-container *ngFor="let spaData of varietyData.spas; let spaIndex = index">
+                        <ng-container *ngFor="let indentorData of spaData.indentor; let indentorIndex = index">
+                          <tr>
+                            <td *ngIf="spaIndex === 0 && varietyIndex === 0 && indentorIndex==0"
+                              [attr.rowspan]="data.inentorCount">{{ data && data.crop_name ?data.crop_name:'Na' }}</td>
+                            <td *ngIf="spaIndex === 0 && indentorIndex==0"
+                              [attr.rowspan]="varietyData.indentortotalLength">{{varietyData &&
+                              varietyData.variety_name? varietyData.variety_name : 'NA' }}</td>
+                            <td *ngIf="spaIndex === 0 && indentorIndex==0"
+                              [attr.rowspan]="varietyData.indentortotalLength">
+
+                              {{varietyData && varietyData.totalIndentQty? varietyData.totalIndentQty : '0' }}</td>
+                            <td *ngIf="spaIndex === 0 && indentorIndex==0"
+                              [attr.rowspan]="varietyData.indentortotalLength">
+                              {{varietyData&& varietyData.totalAvalibilitydData? varietyData.totalAvalibilitydData : '0'
+                              }}</td>
+                            <td *ngIf="indentorIndex == 0 " [attr.rowspan]="spaData.indentorLength">
+                              {{spaData && spaData.agency_name ? spaData.agency_name : 'NA'}}</td>
+                            <td>{{indentorData && indentorData.name ? indentorData.name : 'NA'}}</td>
+                            <td>{{indentorData && indentorData.allocatedQty ? indentorData.allocatedQty : '0'}}</td>
+                            <td *ngIf="indentorIndex == 0 " [attr.rowspan]="spaData.indentorLength">{{spaData &&
+                              spaData.totalAllocated ? spaData.totalAllocated : '0'}}</td>
+                            <td>{{indentorData && indentorData.liftedqty ? indentorData.liftedqty : '0'}}</td>
+                            <td>{{indentorData && indentorData.balance ? indentorData.balance : '0'}}</td>
+
+                          </tr>
+                        </ng-container>
+                      </ng-container>
+                    </ng-container>
+                    <!-- <tr>
+                                <td colspan="5"><b>Crop Wise Total</b></td>
+                                <td><b>{{ data.crop_total_indent }}</b></td>
+                            </tr> -->
+                  </ng-container>
+                </tbody>
+
+              </table>
+
+
+              <ng-template #noVarietyData>
+                <div style="text-align: center; width: 100%;">
+                  <p class="my-2 mx-auto">No Data Found</p>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+        <!-- {{dummyData | json}} -->
+
+
+        <div class="col-12 px-4" id="excel-tables" *ngIf="ngForm.controls['unitKgQ'].value == 2">
+          <div class="list-wrapper px-4 py-3">
+            <div class="row d-none d-md-flex data-row-header extra-header">
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle"></div>
+              <div class="col-6 col-md-8 py-3 d-flex justify-content-center">
+                <span>BSPC Wise Status of Lifting/Non-Lifting/Supply Position</span>
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle"></div>
+            </div>
+            <br />
+            <div class="row d-none d-md-flex data-row-header">
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                Year of Indent : {{ year ? year : "NA" }}
+              </div>
+              <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">
+                Season : {{ breeder ? breeder : "NA" }}
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                Crop Type : {{ crop ? crop : "NA" }}
+              </div>
+              <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">
+                <!-- PD/PC : {{ variety ? variety : "NA" }}s -->
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                <!-- Crop Name : {{ bspc ? bspc : "NA" }} -->
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
+                Variety Name : {{ bspc ? bspc : "NA" }}
+              </div>
+              <div class="col-6 col-md-2 py-3 d-flex justify-content-end">
+                As on Date: {{ todayData | date : "dd-MM-YYYY" }}
+              </div>
+            </div>
+            <div class="middle_line"></div>
+            <div class="row data-row" *ngIf="ngForm.controls['unitKgQ'].value == 2">
+              <table class="table table-bordered table-responsive" id="excel-table">
+                <thead class="text-center">
+                  <tr class="data-row-header">
+                    <th scope="col" class="col-md-1 py-3">BSPC</th>
+                    <th scope="col" class="col-md-1 py-3">Crop Name</th>
+                    <th scope="col" class="col-md-1 py-3">Variety</th>
+                    <th scope="col" class="col-md-1 py-3">Total Indented
+                      Quantity</th>
+                    <th scope="col" class="col-md-1 py-3">Total Availability of Breeder Seed</th>
+                    <th scope="col" class="col-md-2 py-3">Agencies To Whom B/S Supplied</th>
+                    <th scope="col" class="col-md-2 py-3">Quantity Allocated for Lifting</th>
+                    <th scope="col" class="col-md-2 py-3">Quantity Lifted</th>
+                    <th scope="col" class="col-md-2 py-3" *ngIf="ngForm.controls['unitKgQ'].value == 2"> Reason for
+                      Short/Excess Supply</th>
+                    <th scope="col" class="col-md-1 py-3">Breeder Seed Balance</th>
+
+                </thead>
+                <tbody>
+                  <tr>
+                    <!-- <td rowspan="3"><span>{{ dataIndex + 1 }}.</span></td> -->
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="middle" title=""></span><br>
+                      <span></span><br><br>
+                      <span class="text-center">BSPC1</span><br>
+                      <span></span>
+                    </td>
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="middle" title=""></span><br>
+                      <span></span><br><br>
+                      <span class="text-center">C1</span><br>
+                      <span></span>
+                    </td>
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="middle" title=""></span><br>
+                      <span></span><br><br>
+                      <span class="text-center">V1</span><br>
+                      <span></span>
+                    </td>
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom" title=""></span><br>
+                      <span></span><br><br>
+                      <span>150</span><br>
+                      <span></span>
+                    </td>
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title=""></span><br>
+                      <span></span><br><br>
+                      <span>285</span><br>
+                      <span></span>
+                    </td>
+                    <td class="text-center"><span><b>UP</b></span><br>
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title="">SPA 1</span><br>
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title="">SPA 2</span><br>
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title="">SPA 3</span>
+                    </td>
+                    <td class="text-center"><span><b>60</b></span><br>
+                      <span>20</span><br>
+                      <span>28</span><br>
+                      <span>12</span>
+                    </td>
+                    <td class="text-center"><span><b>50</b></span><br>
+                      <span>20</span><br>
+                      <span>18</span><br>
+                      <span>12</span>
+                    </td>
+                    <td class="text-center"><span></span>
+
+                    </td>
+                    <td class="text-center"><span></span>
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom"
+                        title=""><b>MP</b></span><br>
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom" title="">SPA
+                        1</span><br>
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom" title="">SPA 2</span>
+                    </td>
+                    <td class="text-center">
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title=""><b>20</b></span><br>
+                      <span>12</span><br>
+                      <span>8</span>
+                    </td>
+                    <!-- <td ><span>Re-monitoring after 15 days</span></td> -->
+                    <td class="text-center"><span><b>18</b></span><br>
+                      <span>12</span><br>
+                      <span>6</span>
+
+                    </td>
+
+                    <td class="text-center"><span></span>
+
+                    </td>
+                    <td class="text-center"><span></span>
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <!-- <td rowspan="3"><span>{{ dataIndex + 1 }}.</span></td> -->
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="middle" title=""></span><br>
+                      <span></span><br><br>
+                      <span class="text-center">BSPC2</span><br>
+                      <span></span>
+                    </td>
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="middle" title=""></span><br>
+                      <span></span><br><br>
+                      <span class="text-center">C2</span><br>
+                      <span></span>
+                    </td>
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="middle" title=""></span><br>
+                      <span></span><br><br>
+                      <span class="text-center">V2</span><br>
+                      <span></span>
+                    </td>
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom" title=""></span><br>
+                      <span></span><br><br>
+                      <span>150</span><br>
+                      <span></span>
+                    </td>
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title=""></span><br>
+                      <span></span><br><br>
+                      <span>285</span><br>
+                      <span></span>
+                    </td>
+                    <td class="text-center"><span><b>UP</b></span><br>
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title="">SPA 1</span><br>
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title="">SPA 2</span><br>
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title="">SPA 3</span>
+                    </td>
+                    <td class="text-center"><span><b>60</b></span><br>
+                      <span>20</span><br>
+                      <span>28</span><br>
+                      <span>12</span>
+                    </td>
+                    <td class="text-center"><span><b>50</b></span><br>
+                      <span>20</span><br>
+                      <span>18</span><br>
+                      <span>12</span>
+                    </td>
+                    <td class="text-center"><span></span>
+
+                    </td>
+                    <td class="text-center"><span></span>
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom"
+                        title=""><b>MP</b></span><br>
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom" title="">SPA
+                        1</span><br>
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom" title="">SPA 2</span>
+                    </td>
+                    <td class="text-center">
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title=""><b>20</b></span><br>
+                      <span>12</span><br>
+                      <span>8</span>
+                    </td>
+                    <!-- <td ><span>Re-monitoring after 15 days</span></td> -->
+                    <td class="text-center"><span><b>18</b></span><br>
+                      <span>12</span><br>
+                      <span>6</span>
+
+                    </td>
+
+                    <td class="text-center"><span></span>
+
+                    </td>
+                    <td class="text-center"><span></span>
+
+                    </td>
+                  </tr>
+
+
+
+                  <tr>
+                    <!-- <td rowspan="3"><span>{{ dataIndex + 1 }}.</span></td> -->
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="middle" title=""></span><br>
+                      <span></span><br><br>
+                      <span class="text-center">BSPC3</span><br>
+                      <span></span>
+                    </td>
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="middle" title=""></span><br>
+                      <span></span><br><br>
+                      <span class="text-center">C2</span><br>
+                      <span></span>
+                    </td>
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="middle" title=""></span><br>
+                      <span></span><br><br>
+                      <span class="text-center">V2</span><br>
+                      <span></span>
+                    </td>
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom" title=""></span><br>
+                      <span></span><br><br>
+                      <span>150</span><br>
+                      <span></span>
+                    </td>
+                    <td rowspan="2" class="text-center">
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title=""></span><br>
+                      <span></span><br><br>
+                      <span>285</span><br>
+                      <span></span>
+                    </td>
+                    <td class="text-center"><span><b>UP</b></span><br>
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title="">SPA 1</span><br>
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title="">SPA 2</span><br>
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title="">SPA 3</span>
+                    </td>
+                    <td class="text-center"><span><b>60</b></span><br>
+                      <span>20</span><br>
+                      <span>28</span><br>
+                      <span>12</span>
+                    </td>
+                    <td class="text-center"><span><b>50</b></span><br>
+                      <span>20</span><br>
+                      <span>18</span><br>
+                      <span>12</span>
+                    </td>
+                    <td class="text-center"><span></span>
+
+                    </td>
+                    <td class="text-center"><span></span>
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom"
+                        title=""><b>MP</b></span><br>
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom" title="">SPA
+                        1</span><br>
+                      <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom" title="">SPA 2</span>
+                    </td>
+                    <td class="text-center">
+                      <span style="cursor: pointer; word-break: break-word" data-toggle="tooltip"
+                        data-placement="bottom" title=""><b>20</b></span><br>
+                      <span>12</span><br>
+                      <span>8</span>
+                    </td>
+                    <!-- <td ><span>Re-monitoring after 15 days</span></td> -->
+                    <td class="text-center"><span><b>18</b></span><br>
+                      <span>12</span><br>
+                      <span>6</span>
+
+                    </td>
+
+                    <td class="text-center"><span></span>
+
+                    </td>
+                    <td class="text-center"><span></span>
+
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-12 px-4 py-1 pb-4">
+            <app-pagination-ui></app-pagination-ui>
+          </div> -->
+        <div *ngIf="data1 && data1.length <1" class="px-2 py-3 w-100" style="height: 50px">
+          <div class="d-flex verticle-content-middle justify-content-center
+              w-100">
+            No Data Found.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,191 @@
+<div id="yourPdfContentId">
+
+  <div class="px-3" *ngFor="let data of allData" id="page-break">
+    <div class="container col-md-12 col-lg-12 col-xl-12 mt-5" >
+      <div class="col-md-12 col-lg-12 col-xl-12">
+        <div class="row">
+          <div class="icon-container col-md-6 col-lg-6 col-xl-6">
+            <img src="/assets/images/left-icar-logo.png" alt="" style="width: 100px" />
+          </div>
+          <div class="col-md-3 col-lg-3 col-xl-3">
+            <!-- <h5 class="color">भा.क्र.अनु.प - भारतीय बीज विज्ञान संस्थान, मऊ</h5> -->
+            <!-- <h5 class="color">ICAR-Indian Institude of seed Science, Mau</h5> -->
+            <h5 class="color"> {{data && data.agencyDetails && data.agencyDetails.agency_name ?
+              data.agencyDetails.agency_name : '--'}}</h5>
+            <p class="d-flex justify-content-center">
+              {{data && data.agencyDetails && data.agencyDetails.address ? data.agencyDetails.address : '--'}}
+            </p>
+          </div>
+          <div class="icon-container col-md-3 col-lg-3 col-xl-3 d-flex justify-content-end"></div>
+          <div class="icon-container col-md-1 col-lg-1 col-xl-1 ml-5 d-flex justify-content-end">
+            <img
+              src="{{ data && data.agencyDetails && data.agencyDetails.image_url ? (data.agencyDetails.image_url) : '/assets/images/no_logo.png' }}"
+              style="width: 100px" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12 mt-5">
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+          <div class="col-md-12 d-flex justify-content-center mt-5">
+            <div class="row">
+              <span class="underline-text"><strong>PROFORMA-BSP III</strong></span>
+            </div>
+          </div>
+          <div class="col-md-12 d-flex justify-content-center">
+            <div class="row">
+              <span class="underline-text"><strong>Inspection Report of the Monitoring Team</strong></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-1 col-lg-1 col-xl-1 d-flex justify-content-center">
+          <qrcode [qrdata]="baseUrl+ 'inspection-report/'+ encryptedData"
+          [allowEmptyString]="true"
+            [ariaLabel]="'QR Code image with the following content...'" [cssClass]="'top'"
+            [colorDark]="'#000000ff'" [colorLight]="'#FFFFFF'" [elementType]="'canvas'"
+            [errorCorrectionLevel]="'M'" [imageSrc]="" [imageHeight]="80" [imageWidth]="80"
+            [margin]="2" [scale]="1" [title]="'A custom title attribute'" [width]="140">
+            </qrcode>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12 mt-4 px-4">
+      <div class="row">
+        <div class="col-md-7 col-lg-7 col-xl-7">
+          <span><b>Name of Production Center:</b>&nbsp;{{data && data.agencyDetails && data.agencyDetails.agency_name ?
+            data.agencyDetails.agency_name : '--'}}</span>
+          <br />
+          <span><b>Date of Monitoring:</b>&nbsp;{{formatedDate(data && data.monitoringTeam &&
+            data.monitoringTeam.created_at ? data.monitoringTeam.created_at: '')}}</span>
+        </div>
+        <div class="col-md-5 col-lg-5 col-xl-5 text-end">
+          <span class=""><b>Year of Indent:</b>&nbsp;<b>{{getFormattedSeason(data && data.season ? data.season
+            :'')}}</b>,&nbsp;{{data && data.year ? data.year + '-' + (data.year + 1).toString().slice(-2) : '--'}}
+          </span>
+          <br />
+          <span class=""><b>Crop:</b>&nbsp;{{data && data.m_crop && data.m_crop.crop_name ? data.m_crop.crop_name :
+            '--'}}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="mt-1 px-4">
+      <div class="col-md-12 col-lg-12 col-xl-12">
+        <div class="row">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Variety <span *ngIf = "data && data.variety_line_code"> (Parental Line)</span></th>
+                  <th scope="col">Address</th>
+                  <th scope="col">Area (Ha)</th>
+                  <th scope="col">Date of Sowing</th>
+                  <th scope="col">Expected Harvest Date</th>
+                  <th scope="col">Expected Production(Qt.)</th>
+                  <th scope="col">Date of BSP I</th>
+                  <th scope="col">Date of BSP II</th>
+                  <th scope="col">Area Inspected (Ha)</th>
+                  <th scope="col">Crop Condition</th>
+                  <th scope="col">Report of Monitoring Team</th>
+                  <th scope="col">Reason for Dissatisfaction</th>
+                  <th scope="col">Estimated Date of Harvesting</th>
+                  <th scope="col">Estimated Production (Qt.)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <span> {{ data && data.m_crop_variety && data.m_crop_variety.variety_name ?
+                    data.m_crop_variety.variety_name : "NA" }}
+                   </span>
+                    <span *ngIf = "data && data.variety_line_code">
+                      ({{data && data.m_variety_lines[0] && data.m_variety_lines[0].line_variety_name ?
+                        data.m_variety_lines[0].line_variety_name : 'NA'}})
+                   </span>
+                  </td>
+                  <td>
+                    {{
+                    (data && data.bspProforma2?.address ? data.bspProforma2.address + ', ' : '') +
+                    (data && data.bspProforma2.m_district.district_name ? data.bspProforma2.m_district.district_name + ', ' :
+                    '')+
+                    (data && data.bspProforma2.m_state?.state_name ? data.bspProforma2.m_state.state_name : '')
+                    }}
+                  </td>
+
+                  <!-- <td>
+                  <ng-container *ngIf="data && data.length > 0">
+                    <div *ngFor="let item of data">
+                      {{ item.bspProforma2?.address ? item.bspProforma2.address + ', ' : '' }}
+                      {{ item.bspProforma2?.m_state?.state_name ? item.bspProforma2.m_state.state_name + ', ' : '' }}
+                      {{ item.bspProforma2?.m_district?.district_name ? item.bspProforma2.m_district.district_name : '' }}
+                    </div>
+                  </ng-container>
+                </td> -->
+                  <td>{{ data && data.bspProforma2.area_shown ? data.bspProforma2.area_shown : "NA" }}</td>
+                  <td> {{formatedDate(data && data.bspProforma2 && data.bspProforma2.date_of_showing ?
+                    data.bspProforma2.date_of_showing : '')}} </td>
+                  <td>{{formatDateRange(data.bspProforma2.expected_harvest_from,
+                    data.bspProforma2.expected_harvest_to)}}</td>
+                  <td>{{ data && data.bspProforma2.expected_production ? data.bspProforma2.expected_production : "NA" }}
+                  </td>
+                  <td>{{formatedDate(data && data.bspProforma2 && data.bspProforma2.bsp_proforma_1_bspc &&
+                    data.bspProforma2.bsp_proforma_1_bspc.bsp_proforma_1 &&
+                    data.bspProforma2.bsp_proforma_1_bspc.bsp_proforma_1.created_at ?
+                    data.bspProforma2.bsp_proforma_1_bspc.bsp_proforma_1.created_at : '')}} </td>
+                  <td>{{formatedDate(data && data.bspProforma2 && data.bspProforma2.created_at ?
+                    data.bspProforma2.created_at : '')}} </td>
+                  <td>{{ data && data.inspected_area ? data.inspected_area : "NA" }}</td>
+                  <td>{{ data && data.crop_condition ? data.crop_condition : "NA" }}</td>
+                  <td>{{ data && data.report ? data.report : "NA" }} </td>
+                  <td>{{ data && data.comment && data.comment.comment ? data.comment.comment : "NA" }}</td>
+                  <td>{{formatedDate(data && data.date_of_harvesting ? data.date_of_harvesting :'')}}</td>
+                  <td>{{data && data.estimated_production? data.estimated_production : "NA" }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 mt-5" *ngIf="data && data.monitoringTeam && data.monitoringTeam">
+      <div class="row">   
+        <div class="col-md-1"></div> 
+        <ng-container *ngFor="let memberDetails of data.monitoringTeam; let i = index">
+          <div class="col-md-1" *ngIf="i % 5 === 0 && i > 0"></div>
+          <div class="col-md-1" *ngIf="i % 5 === 0 && i > 0"></div>
+
+          <div class="col-md-2">
+            <div class="col-md-12 col-lg-12 col-xl-12 mb-5">
+              <span class="d-flex justify-content-center">-SD-</span>
+              <p class="d-flex justify-content-center mb-0">({{memberDetails && memberDetails.monitoringMember && memberDetails.monitoringMember.name ? memberDetails.monitoringMember.name
+                : ''}})</p>
+              <p class="d-flex justify-content-center mb-0">{{memberDetails && memberDetails.monitoringMember && memberDetails.monitoringMember.m_designation &&
+                memberDetails.monitoringMember.m_designation.name ? memberDetails.monitoringMember.m_designation.name : ''}}</p>
+              <p class="d-flex justify-content-center mb-0">{{memberDetails && memberDetails.monitoringMember && memberDetails.monitoringMember.m_district &&
+                memberDetails.monitoringMember.m_district.district_name ? memberDetails.monitoringMember.m_district.district_name : ''}},{{memberDetails
+                && memberDetails.monitoringMember && memberDetails.monitoringMember.m_state && memberDetails.monitoringMember.m_state.state_name ? memberDetails.monitoringMember.m_state.state_name : ''}}
+              </p>
+            </div>
+          </div>
+          </ng-container>
+        <div class="col-md-1"></div>    
+    </div>
+    
+
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 d-flex justify-content-center">
+            <!-- <p style="padding-bottom: 59px;">THIS IS A DIGITAL COPY. SIGNATURE IS NOT REQUIRED.</p> -->
+            <p >THIS IS A DIGITAL COPY. SIGNATURE IS NOT REQUIRED.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>

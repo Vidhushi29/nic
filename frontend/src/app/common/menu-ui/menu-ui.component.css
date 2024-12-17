@@ -1,0 +1,153 @@
+.menu a {
+    font: normal Poppins 16px/25px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    /* color: rgb(28 28 28 / 60%); */
+    color: #963814;
+    text-decoration: none;
+
+}
+
+.parent-menu-hyperlink-active,
+.submenu-hyperlink.active {
+    color: #963814 !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+}
+
+.seed-division-subicon {
+    width: 30px;
+    height: 30px;
+}
+
+
+/* dropdown */
+/* Fixed sidenav, full height */
+.sidenav {
+    /* height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0; */
+    /* background-color: #111; */
+    /* overflow-x: hidden;
+    padding-top: 20px; */
+}
+
+/* Style the sidenav links and the dropdown button */
+.sidenav a {
+    padding: 6px 8px 6px 0px;
+    /* padding-left: 109px;
+    margin-top: -26px; */
+    text-decoration: none;
+    /* font-size: 20px; */
+    /* color: #818181; */
+    display: block;
+    border: none !important;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
+
+.dropdown-btn {
+    /* padding: 6px 8px 6px 16px; */
+    /* padding-left: -80px; */
+    /* margin-left: -22px; */
+    /* margin-top: -26px; */
+    text-decoration: none;
+    /* font-size: 20px; */
+    color: #963814;
+    /* display: block; */
+    border: none !important;
+    background: none;
+    /* width: 100%; */
+    /* text-align: left; */
+    cursor: pointer;
+    outline: none;
+    animation-direction: alternate-reverse;
+}
+
+/* Main content */
+.main {
+    /* margin-left: 200px; Same as the width of the sidenav */
+    /* font-size: 20px; Increased text to enable scrolling */
+    /* padding: 0px 10px; */
+}
+
+.dropdown_icon {
+    /* background-image: url('src/assets/images/indentor_Path_222.svg'); */
+
+}
+
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+    display: none;
+    /* background-color: #262626; */
+    /* padding-left: 8px; */
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+    /* margin-top: -20px; */
+    /* float: right; */
+    /* padding-right: 8px; */
+}
+.menu-wrapper{
+    max-height: 80vh;
+    overflow-y:auto;
+    /* height: 70vh; */
+}
+.submenuUi {}
+
+/* Some media queries for responsiveness */
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+/* scrooll bar css start*/
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+    
+    /* border-radius: 15px; */
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+/* scrooll bar css finish*/
+
+
+.submenu-hyperlink{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.submenus-container{
+    padding-left: 16px;
+    padding-right: 8px;
+}
+.disablefield{
+    pointer-events: none;
+}

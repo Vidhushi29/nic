@@ -1,0 +1,198 @@
+<div class="row my-4 w-100 mx-0 d-none">
+    <div class="col-12 d-flex justify-content-center">
+        <div class="px-0 py-2" style="width: 100%;">
+            <div class="container print-section">
+                <div class="row justify-content-center">
+                    <div class="card-container">
+                        <div class="card shadow border tagCard mt-4">
+                            <div class="card-body d-flex flex-column align-items-center">
+                                <!-- Header Section -->
+                                <div class="row mb-3 align-items-center" style="width: 100%;">
+                                    <div class="col-3">
+                                        <img src="../../assets/images/left-icar-logo.png" class="left-logo-img"
+                                            style="width: 80px; height: auto;">
+                                    </div>
+                                    <div class="col-9 text-center">
+                                        <span class="title font-weight-bold mb-2" style="font-size: 18px;">
+                                            {{ allData[0].seed_tag_detail.user.agency_detail.agency_name }}
+                                        </span>
+                                        <p class="address-title mb-2">
+                                            <b>{{ allData[0].seed_tag_detail.user.agency_detail.m_district.district_name
+                                                }},
+                                                {{ allData[0].seed_tag_detail.user.agency_detail.m_state.state_name
+                                                }}</b>
+                                        </p>
+                                        <!-- Divider Section -->
+                                        <div class="d-flex justify-content-center align-items-center mt-2 mb-3">
+                                            <img src="../../assets/images/card-divider.png" class="divider-image"
+                                                style="max-width: 50%; height: auto;">
+                                        </div>
+                                        <p class="class-of mb-0">Class of Seed: Breeder Seed</p>
+                                    </div>
+                                </div>
+                                <!-- Divider -->
+                                <hr style="width: 100%; border: 1px solid #ccc;">
+
+                                <!-- Fields Section -->
+                                <div class="row mb-3 align-items-center" style="width: 100%;">
+                                    <!-- Left Column -->
+                                    <div class="col-6 mr-2">
+                                        <div class="field-row mb-2 d-flex justify-content-between">
+                                            <span class="input-heading">Crop:</span>
+                                            <span class="input-field"><b>{{ allData[0].seed_tag_detail.m_crop.crop_name
+                                                    }}</b></span>
+                                        </div>
+                                        <div class="field-row mb-2 d-flex justify-content-between">
+                                            <span class="input-heading">Variety:</span>
+                                            <span class="input-field"><b>{{
+                                                    allData[0].seed_tag_detail.m_crop_variety.variety_name }}</b></span>
+                                        </div>
+                                        <div class="field-row mb-2 d-flex justify-content-between">
+                                            <span class="input-heading">Parental<br> Line:</span>
+                                            <span class="input-field"><b>{{
+                                                    allData[0]?.seed_tag_detail?.m_variety_line?.line_variety_name ||
+                                                    'NA' }}</b></span>
+                                        </div>
+                                        <div class="field-row mb-2 d-flex justify-content-between">
+                                            <span class="input-heading">Lot<br> No.:</span>
+                                            <span class="input-field"><b>{{ allData[0].seed_tag_detail.lot_no
+                                                    }}</b></span>
+                                        </div>
+                                        <div class="field-row mb-2 d-flex justify-content-between">
+                                            <span class="input-heading">Tag No.:</span>
+                                            <span class="input-field"><b>{{ allData[0].tag_no }}</b></span>
+                                        </div>
+                                    </div>
+                                    <!-- Right Column -->
+                                    <div class="col-6 ml-2">
+                                        <div class="field-row mb-2 d-flex justify-content-between">
+                                            <span class="input-heading">Date of Test:</span>
+                                            <span class="input-field"><b>{{ allData[0].seed_tag_detail.date_of_test
+                                                    }}</b></span>
+                                        </div>
+                                        <div class="field-row mb-2 d-flex justify-content-between">
+                                            <span class="input-heading">Bag Weight (Kg):</span>
+                                            <span class="input-field"><b>{{ allData[0].bag_size }}</b></span>
+                                        </div>
+                                        <div class="field-row mb-2 d-flex justify-content-between">
+                                            <span class="input-heading">Inert<br> Seed (%):</span>
+                                            <span class="input-field"><b>{{ allData[0].seed_tag_detail.inert_matter
+                                                    }}</b></span>
+                                        </div>
+                                        <div class="field-row mb-2 d-flex justify-content-between">
+                                            <span class="input-heading">Pure<br> Seed (%):</span>
+                                            <span class="input-field"><b>{{ allData[0].seed_tag_detail.pure_seed
+                                                    }}</b></span>
+                                        </div>
+                                        <div class="field-row mb-2 d-flex justify-content-between">
+                                            <span class="input-heading">Germination (%):</span>
+                                            <span class="input-field"><b>{{ allData[0].seed_tag_detail.germination
+                                                    }}</b></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Divider -->
+                                <hr style="width: 100%; border: 1px solid #ccc;">
+
+                                <!-- Footer Section -->
+                                <div class="row" style="width: 100%;">
+                                    <div class="col-lg-6 field-row">
+                                        <span class="input-heading">This tag is system generated <br>and does not
+                                            require any signature.</span>
+                                    </div>
+                                    <div class="col-lg-6 d-flex justify-content-end flex-column align-items-end">
+                                        <span class="input-heading">(-SD-)</span>
+                                        <span class="input-heading">{{
+                                            allData[0].seed_tag_detail.user.agency_detail.contact_person_name }}</span>
+                                        <span class="input-heading">{{
+                                            allData[0].seed_tag_detail.user.agency_detail.m_designation.name }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="main-body">
+    <div class="tag-container">
+        <div class="tag-header">
+            <div class="left-header" style="padding:10px">
+                <img src="../../assets/images/left-icar-logo.png" class="left-logo-img"
+                    style="width: 80px; height: auto;">
+            </div>
+            <div class="right-header">
+                <h2><b>{{ allData[0].seed_tag_detail.user.agency_detail.agency_name }}</b> <br><b>{{
+                    allData[0].seed_tag_detail.user.agency_detail.m_district.district_name }},
+                    {{ allData[0].seed_tag_detail.user.agency_detail.m_state.state_name }}</b></h2>
+                <h3>Class of Seed : Breeder Seed</h3>
+            </div>
+            <div class="qr-code">
+                <!-- <img src="qr-code.png" alt="QR Code"> -->
+            </div>
+        </div>
+
+        <div class="tag-content">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-7">
+                        <!-- <div class="col-12"> -->
+                        <!-- style="z-index: 1;" -->
+                        <div class="row">
+                            <div class="col-12">
+                                <span>Crop:&nbsp;&nbsp;<b>{{ allData[0].seed_tag_detail.m_crop.crop_name}}</b></span>
+                            </div>
+                            <div class="col-12">
+                                <span>Variety:&nbsp;&nbsp;<b>{{ allData[0].seed_tag_detail.m_crop_variety.variety_name }}</b></span>
+                            </div>
+                            <div class="col-12">
+                                <span>Parental Line:&nbsp;&nbsp;<b>{{allData[0]?.seed_tag_detail?.m_variety_line?.line_variety_name ||'NA'}}</b>
+                                </span>
+                            </div>
+                            <div class="col-12">
+                                <span>Lot No:&nbsp;&nbsp;<b>{{ allData[0].seed_tag_detail.lot_no }}</b></span>
+                            </div>
+                            <div class="col-12">
+                                <span>Tag No:&nbsp;&nbsp;<b>{{ allData[0].tag_no }}</b></span>
+                            </div>
+                            <div class="col-12">
+                                <span>Bag Weight (Kg):&nbsp;&nbsp;<b>{{ allData[0].bag_size }}</b></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="row">
+                            <div class="col-12">
+                                <span>Date of Test:&nbsp;&nbsp;<b>{{ allData[0].seed_tag_detail.stl_report_status.date_of_test }} </b></span>
+                            </div>
+
+                            <div class="col-12">
+                                <span>Pure Seed(%):&nbsp;&nbsp;<b>{{allData[0].seed_tag_detail.pure_seed}}</b></span>
+                            </div>
+                            <div class="col-12">
+                                <span>Inert Seed(%):&nbsp;&nbsp;<b>{{
+                                        allData[0].seed_tag_detail.inert_matter}}</b></span>
+                            </div>
+                            <div class="col-12">
+                                <span>Germination(%): &nbsp;&nbsp;<b>{{ allData[0].seed_tag_detail.stl_report_status.normal_seeding }}</b></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-note">
+                This tag is system generated and does not require any signature.
+            </div>
+
+            <div class="signature">
+                <span><b>{{ allData[0].seed_tag_detail.user.agency_detail.contact_person_name }}</b></span> <br>
+                <span><b>{{ allData[0].seed_tag_detail.user.agency_detail.m_designation.name }}</b></span>
+            </div>
+        </div>
+    </div>
+
+</div>

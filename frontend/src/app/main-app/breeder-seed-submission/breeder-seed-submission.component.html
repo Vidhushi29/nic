@@ -1,0 +1,273 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <form [formGroup]="formGroup">
+                <div class="row">
+                    <div class="col-md-12 px-4 py-2 ml-2 pb-0 pb-md-4">
+                        <span class="heading_notofied">{{title}}</span>
+                    </div>
+                    <div class="col-12 pt-0 mx-0 pr-4 ml-1 ml-md-2">
+                        <div class="row">
+                            <div class=" col-sm-12 col-md-2 pl-4 mt-4 mt-md-0">
+                                <label for="" class="left-heading">Year of Indent</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 pr-4 pl-4">
+                                <select class="form-control" formControlName="yearofIndent">
+                                    <option value="">Select Year of Indent</option>
+                                    <option *ngFor="let year of yearofIndent" value="{{year.value}}">{{year.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class=" col-sm-12 col-md-2 pl-4 mt-4 mt-md-0">
+                                <label for="" class="left-heading">Season</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 pr-4 pl-4">
+                                <select class="form-control" formControlName="season">
+                                    <option value="">Select Season</option>
+                                    <option value="K">Kharif</option>
+                                    <option value="R">Rabi</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-0 mt-md-4">
+                            <div class=" col-sm-12 col-md-2 pl-4 mt-4 mt-md-0">
+                                <label class="left-heading" for="">Crop Group</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 pr-4 pl-4">
+                                <div ngbDropdown class="d-inline-block w-100 ">
+                                    <button class="btn takeplacholder w-100 crop toggle-button"
+                                    [ngClass]=" isView ? 'disabledfield' : ''"
+                                        id="group_code" ngbDropdownToggle
+                                        style="text-align: left;font-weight:400;">{{selected_group &&
+                                        (selected_group.length>30) ? (selected_group.substring(0,30)+'...'):selected_group?
+                                        selected_group :'Select Crop Group'}}</button>
+    
+                                    <div class="dropdown-menu w-100" ngbDropdownMenu="group_code"
+                                        aria-labelledby="sortMenu">
+                                        <input type="text" class="form-control px-4" formControlName="group_text">
+                                        <button class="dropdown-item" *ngFor="let data of cropGroupData"
+                                            (click)="group_select(data)" #dropdownItem
+                                            [attr.data-parent-name]="'group_code'">
+                                            {{data.group_name}}
+                                            <!-- <input type="hidden" formControlName="crop_code"> -->
+                                        </button>
+    
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown
+                                    [ngClass]=" isView ? 'disabledfield' : ''">
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                    </div>                                     
+                                </div>
+
+                            </div>
+                            <div class="col-sm-12 col-md-2 pl-4 mt-4 mt-md-0">
+                                <label class="left-heading" for="">Crop Name</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 pr-4 pl-4">
+                                <div ngbDropdown class="d-inline-block w-100 "
+                            
+                                >
+                                    <button class="btn takeplacholder w-100 crop toggle-button"
+                                    [ngClass]=" isView ? 'disabledfield' : ''"
+                                        id="crop_name" ngbDropdownToggle
+                                        style="text-align: left;">{{crop_names && (crop_names.length>30) ? (crop_names.substring(0,30)+'...'):crop_names? crop_names :'Select Crop
+                                        Name'}}</button>
+    
+                                    <div class="dropdown-menu w-100" ngbDropdownMenu="crop_name" aria-labelledby="sortMenu">
+                                        <input type="text" class="form-control px-4"  formControlName="crop_name_text" >
+                                        <button class="dropdown-item" *ngFor="let data of cropDataList"
+                                            (click)="cropName(data)" #dropdownItem [attr.data-parent-name]="'cropName'">
+                                            {{data.crop_name}}
+                                            <input type="hidden" >
+                                        </button>
+                                    </div>
+    
+                                </div>
+                                <div class="pl-0 toggle-button" ngbDropdown
+                                [ngClass]=" isView ? 'disabledfield' : ''"  >
+                                    <i class="fa-solid fa-angle-down downicon" (click)="cnClick()"></i>
+                                </div>
+                                <!-- <select class="form-control" formControlName="cropName">
+                                    <option value="">Select Crop Name</option>
+                                    <option *ngFor="let data of cropDataList" value="{{data.crop_code}}">
+                                        {{data.crop_name}}</option>
+                                </select> -->
+                            </div>
+                        </div>
+                        <div class="row mt-0 mt-md-4">
+                            <!-- <div class=" col-sm-12 col-md-2 pl-4 mt-4 mt-md-0">
+                                <label class="left-heading" for="">Crop Type</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 pr-4 pl-4">
+                                <select class="form-control" formControlName="cropType">
+                                    <option value="">Select Crop Type</option>
+                                    <option value="agriculture">Agriculture</option>
+                                    <option value="horticulture">Horticulture</option>
+                                </select>
+                            </div> -->
+                            <div class=" col-sm-12 col-md-2 pl-4 mt-4 mt-md-0">
+                                <label class="left-heading" for="">Unit (Kg/Qt)</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 pr-4 pl-4">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <input type="radio"
+                                                    [ngStyle]="{'pointer-events': disabledRadio ? 'none':''}"
+                                                    class="radio-button" formControlName="unitKgQ" value="kilogram">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="">Kilogram</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <input type="radio"
+                                                    [ngStyle]="{'pointer-events': disabledRadio ? 'none':''}"
+                                                    class="radio-button" formControlName="unitKgQ" value="quintal">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="">Quintal</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="table-responsive mt-3">
+                            <table class="table bordered" formArrayName="variety_items" style="width: 98% !important">
+                                <thead>
+                                    <tr>
+                                        <th class="left-heading">Variety Name</th>
+                                        <th class="left-heading">Variety Notification Year </th>
+                                        <th class="left-heading">Indent Quantity</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let ele of getItems(formGroup); let i = index" [formGroupName]="i">
+                                        <td style="width: 30%;">
+                                            <div ngbDropdown class="d-inline-block w-25 "style="text-align: left;position:absolute"
+                            
+                                            >
+                                          
+                                                <button class="btn takeplacholder w-100 crop toggle-button "
+                                                [ngClass]=" isView ? 'disabledfield' : ''"
+                                                    [id]="'variety_name' + i" ngbDropdownToggle
+                                                    style="text-align: left;poisition:absolute">
+                                                    {{formGroup.controls['variety_items']['controls'][i].controls['varietyName'].value && formGroup.controls['variety_items']['controls'][i].controls['varietyName'].value.variety_name
+                                                && (formGroup.controls['variety_items']['controls'][i].controls['varietyName'].value.variety_name.length>20)?
+                                                (formGroup.controls['variety_items']['controls'][i].controls['varietyName'].value.variety_name.substring(0,20)+'...'):
+                                                (formGroup.controls['variety_items']['controls'][i].controls['varietyName'].value) && (formGroup.controls['variety_items']['controls'][i].controls['varietyName'].value.variety_name)?
+                                                (formGroup.controls['variety_items']['controls'][i].controls['varietyName'].value.variety_name)
+                                                :varietyNames? varietyNames: 'Select Variety Name'}}
+                                                    </button>
+                
+                                                <div class="dropdown-menu w-100" ngbDropdownMenu="variety_name" aria-labelledby="sortMenu">
+                                                    <input type="text" class="form-control px-4"  formControlName="variety_name_text" (change)="filterVarietyName($event,i)">
+                                                    <button class="dropdown-item" *ngFor="let data of verietyArray"
+                                                    
+                                                        (click)="VarieyName(data,i,$event)" #dropdownItem [attr.data-parent-name]="'cropName'">
+                                                        {{data && data.variety_name ? data.variety_name :'' }}
+                                                        <input type="hidden" >
+                                                    </button>
+                                                </div>
+                
+                                                <div class="pl-0 toggle-button" ngbDropdown
+                                                    >
+                                                    <i class="fa-solid fa-angle-down downicon" (click)="cvClick(i)"></i>
+                                                </div>
+                                            </div>
+                                            <!-- <select class="form-control breeder_seed_sub_sel_box"
+                                                formControlName="varietyName" (change)="getYear(i,$event)">
+                                                <option value="">Select Variety Name</option>
+                                                <ng-container *ngFor="let data of verietyArray">
+                                                    <option [disabled]="data.is_selected"
+                                                        value="{{data && data.id ? data.id :''}}">
+                                                        {{data && data.variety_name ? data.variety_name :'' }}</option>
+                                                </ng-container>
+                                            </select> -->
+                                        </td>
+                                        <td style="width: 30%;">
+                                            <input type="text" class="form-control breeder_seed_sub_sel_box"
+                                                formControlName="varietyNotificationYear"
+                                                placeholder="Variety Notification Year" value="{{varietyYears}}"
+                                                readonly>
+                                        </td>
+                                        <td style="width: 30%;">
+                                            <input type="number" class="form-control breeder_seed_sub_sel_box"
+                                                formControlName="indentQuantity" placeholder="Indent Quantity"
+                                                id="{{'indentQuantity' + i}}"
+                                                (paste)="onPasteNumber($event,'indentQuantity'+i,'8');"
+                                                
+                                                (keydown)="checkValue($event);checkDecimal($event);"
+                                                 
+                                                 >
+                                                 <!-- checkNumber($event); -->
+                                                 <!-- (keydown)="
+                                                 checkLength($event, 8)" -->
+                                        </td>
+                                        <td>
+                                            <button *ngIf="(i==0) && (!isEdit) && (!isView)"
+                                                class="btn btn-success btn-sm" (click)="addMore(i)">Add More</button>
+                                            <button *ngIf="(i>0)" class="btn btn-danger btn-sm"
+                                                (click)="remove(i)">Remove</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup" [isView]="isView">
+                        </app-dynamic-fields> -->
+                        <!-- <app-dynamic-fields *ngFor="let eachSubFieldsList of subFieldsList" [fieldsList]="eachSubFieldsList"
+                                            [formGroup]="formGroup" [isView]="isView">
+                        </app-dynamic-fields> -->
+                        <!--  -->
+                        <!-- <button class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="addMore()">Add More</button> -->
+                    </div>
+                    <div *ngIf="isEdit" class="col-md-12 pb-3 mt-4 sub_updt_cancel_btn ">
+                        <div class="resp_btn pl-2">
+                            <button
+                                class="form-button update_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="submit()">Update</button>
+                        </div>
+                        <div class="resp_btn pl-2">
+                            <button
+                                class="form-button ml-2 cancel_btn d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                routerLink="/add-crop-notified-list"
+                                [routerLink]="['/indent-breeder-seed-allocation-list']"
+                                style="background-color: #E97E15; color:white ">Cancel</button>
+                        </div>
+                    </div>
+                    <div *ngIf="!isView && !isEdit" class="col-md-12 pb-3 mt-4 sub_updt_cancel_btn ">
+                        <div class="resp_btn pl-2">
+                            <button
+                                class="form-button submit_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="submit()">Submit</button>
+                        </div>
+                        <div class="resp_btn pl-2">
+                            <button
+                                class="form-button cancel_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                [routerLink]="['/indent-breeder-seed-allocation-list']"
+                                style="background-color: #E97E15; color:white ">Cancel</button>
+                        </div>
+                    </div>
+                    <div *ngIf="isView" class="col-md-12 pb-3 mt-4 sub_updt_cancel_btn ">
+                        <div class="resp_btn pl-2">
+                            <button
+                                class="form-button update_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                [routerLink]="['/indent-breeder-seed-allocation-list']">Cancel</button>
+                        </div>
+                    </div>
+                </div><br><br>
+            </form>
+        </div>
+    </div>
+</div>

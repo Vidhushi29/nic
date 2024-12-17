@@ -1,0 +1,98 @@
+<!-- <p>breeder-seed-inventory works!</p> -->
+<div class="main-inventory">
+    <div class="row">
+        <div class="col-12  col-md-12 col-lg-12 title-inventory pl-1 pb-3 pt-1">
+            BSP Proforma I (Allotment For Breeder Seed Production of National/State Varieties)
+        </div>
+        <div class="col-12 col-md-12 col-lg-12 title-inventory pl-0 pb-3 pt-1 px-3">
+            <form [formGroup]="ngForm">
+                <!-- first ui  -->
+                <div class="row card-inventory form-group">
+                    <!-- <div class="col-12 col-md-12 col-lg-12"> -->
+                    <!-- start section 2 -->
+                    <!-- <div class="row"> -->
+                    <div class="col-12 col-md-12 col-lg-12 pt-3 px-2">
+                        <div class="list-wrapper">
+                            <div class="row d-none d-md-flex data-row-header">
+                                <div class="col-12 col-md-4 col-lg-4 py-3 d-flex verticle-content-middle">
+                                    Production
+                                    Centre</div>
+                                <div class="col-12 col-md-4 py-3 col-lg-4 d-flex verticle-content-middle">
+                                    Assign Team</div>
+                                <div class="col-12 col-md-4 py-3 col-lg-4 d-flex verticle-content-middle">
+                                    Team Member Details</div>
+                                <!-- <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle">Variety Code</div> -->
+                            </div>
+                            <div formArrayName="bspc_team">
+                                <div *ngFor="let employee of bspc_team.controls; let i=index">
+                                    <div [formGroupName]="i" class="row data-row">
+                                        <div class="col-12 col-md-4 col-lg-4 py-2 d-flex verticle-content-middle">
+                                            <div class="w-fit-content">
+                                                <label class="d-md-none" class="d-md-none"><b>Production
+                                                        Centre</b>&nbsp;</label>
+                                                <span>
+                                                    {{ngForm.controls['bspc_team']['controls'][i].controls['production_center'].value}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-4 py-2 col-lg-4 d-flex verticle-content-middle">
+                                            <div class="w-fit-content">
+                                                <label class="d-md-none"><b>Assign Team:</b>&nbsp;</label>
+                                                <select type="text" class="form-control" style="width: 20em;"
+                                                    (change)="teamMemberDetails($event,i)" formControlName="team">
+                                                    <option value="">Please Select Team</option>
+                                                    <!-- ngForm.controls['bspc_team']['controls'][i].controls['team_array'].value -->
+                                                    <option 
+                                                        *ngFor="let data of this.ngForm.controls['bspc_team']['controls'][i].controls['team_array'].value"
+                                                        value="{{data.id}}">
+                                                        {{data.team_name}}</option>
+                                                </select>
+                                                <!-- bspcTeamSecond -->
+                                                <!-- {{data && data.total_target ? data.total_target : ''}} -->
+                                                <!-- </span> -->
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-4 py-2 col-lg-4 d-flex verticle-content-middle">
+                                            <div class="w-fit-content">
+                                                <label class="d-md-none"><b>Team Member Details:</b>&nbsp;</label>
+                                                <span>
+                                                    <span
+                                                        *ngFor="let data of ngForm.controls['bspc_team']['controls'][i].controls['team_member_details'].value; let i=index;"><span style="font-weight: bold;">{{i+1}}.&nbsp;</span>{{data.desingnation_name}},&nbsp;{{data.agency_type}},&nbsp;{{data.district_name}},&nbsp;{{data.state_name}}<br></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="(bspsDataArray && bspsDataArray.length < 1)" class="px-2 py-3 w-100"
+                            style="height: 50px;">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data Found.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- </div> -->
+
+                    <!-- button section -->
+                    <div class="col-12 pt-3 pb-2 pl-0 buttons-phone">
+                        <button
+                            class="clear-form-button btn-inventory ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                            (click)="redirect()">Back</button>
+                        <button
+                            class="clear-form-button btn-inventory ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                            (click)="finalSubmit()">Submit</button>
+                    </div>
+                    <!-- </div> -->
+                </div>
+
+                <!-- </div> -->
+            </form>
+        </div>
+
+    </div>
+</div>

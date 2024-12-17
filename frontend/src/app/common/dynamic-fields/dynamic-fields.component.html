@@ -1,0 +1,534 @@
+<form [formGroup]="formGroup">
+    <div class="row mx-1 aloc_breeder_padding">
+        <div *ngFor="let eachField of fieldsList;let i = index;"
+            class="{{eachField.gridColClass ? eachField.gridColClass : 'col-12' }}">
+            <div class="row">
+                <div class=" my-2 d-flex verticle-content-middle field-title-wrapper field_title pl-2 "
+                    [ngClass]="eachField.gridlabelClass ? 'col-12 col-md-4 col-lg-4':  isLabelControlParallel ? 'col-12 col-md-4 col-lg-2' : 'col-12 py-0' ">
+                    <label class="m-0 left-heading"
+                        *ngIf="((eachField.fieldName != 'Quantity of Nucleus Seed') && (eachField.formControlName != 'add_production_center') && (eachField.formControlName != 'remove_production_center'))">
+                        {{ eachField.fieldName }}
+                        <span *ngIf="!isView && checkValidations(eachField, 'required')"
+                            class="required-asterisk ">*</span>
+                    </label>
+
+                    <!-- //Quantity of Nucleus Seed  -->
+                    <label class="m-0 left-heading" *ngIf="(eachField.fieldName == 'Quantity of Nucleus Seed')">
+                        <!-- {{ eachField.fieldName}}&nbsp;<b>({{item}})</b> -->
+                        {{ eachField.fieldName}}&nbsp;<b>({{item}})</b>
+                        <span *ngIf="!isView && checkValidations(eachField, 'required')"
+                            class="required-asterisk "></span>
+                    </label>
+
+                </div>
+                <div [ngClass]="eachField.griddropDownClass=='yearOfIndentdropdownClass' || eachField.griddropDownClass=='unitKgQ'|| eachField.griddropDownClass=='cropdropdownClass' || eachField.griddropDownClass=='cropTypedropdownClass' || eachField.griddropDownClass=='variety_notification_year'   ? 'col-12 col-md-8 col-lg-7 py-1 pl-0' : eachField.griddropDownClass=='seasondropdownClass'|| eachField.griddropDownClass=='cropNamedropdownClass' || eachField.griddropDownClass=='cropVareitydropdownClass' || eachField.griddropDownClass=='grid_indent_qty'  ? 'col-12 col-md-8 col-lg-8 py-1 pl-0'  : isLabelControlParallel ? 'col-12 col-md-8 col-lg-10 py-1 pl-2' : 'col-12 py-0 pl-2'"
+                    class="{{ eachField.formControlName }}-wrapper field_text_select">
+                    <div *ngIf="isView && (eachField.fieldType != 'multiselect' && eachField.fieldType != 'file' && eachField.fieldType != 'button' && eachField.fieldType != 'select-dropdown')"
+                        class="view-only-field px-3 py-2">
+                        {{ getViewData(formGroupControls[eachField.formControlName].value) }}
+                    </div>
+                    <div *ngIf="!isView && ((eachField.fieldType == 'input' || eachField.fieldType == 'number') && eachField.fieldName != 'Quantity of Nucleus Seed')"
+                        class="dynamic-input-custom-placeholder d-flex verticle-content-middle
+                        {{ formGroupControls[eachField.formControlName].disabled ? 'disabled' : ' bg-white' }}"
+                        [ngClass]="formGroupControls[eachField.formControlName].value ? 'hide' : ''">
+                        <span>{{ eachField.fieldName }}</span>
+                    </div>
+                    <input
+                        *ngIf="!isView && (eachField.fieldType == 'input') && ((eachField.formControlName == 'carry_over_seed_quantity') ||(eachField.formControlName == 'breeder_seed_produced_actual_quantity') || (eachField.formControlName == 'sown_area') || (eachField.formControlName == 'expected_production') || (eachField.formControlName == 'carry_over_seed_previous_year_germination') || (eachField.formControlName == 'carry_over_seed_current_year_germination') || (eachField.formControlName == 'breeder_seed_quantity') || (eachField.formControlName == 'available_quantity') || (eachField.formControlName == 'latitude') || (eachField.formControlName == 'longitude') || (eachField.formControlName == 'quantity_of_nucleus_seed') || (eachField.formControlName == 'amount'))"
+                        formControlName="{{eachField.formControlName}}" autocomplete="off" (keyup)="onKeyPress($event)"
+                        (keypress)="isNumberKey($event, eachField.formControlName)"
+                        class="dynamic-input w-100 html-dynamic-control" id="{{ eachField.formControlName + id }}">
+
+                    <input
+                        *ngIf="!isView && ((eachField.fieldType == 'input') && ((eachField.formControlName != 'carry_over_seed_quantity')&&(eachField.formControlName != 'breeder_seed_produced_actual_quantity') && (eachField.formControlName != 'sown_area') && (eachField.formControlName != 'expected_production') && (eachField.formControlName != 'carry_over_seed_previous_year_germination') && (eachField.formControlName != 'carry_over_seed_current_year_germination') && (eachField.formControlName != 'quantity_of_nucleus_seed') &&(eachField.formControlName != 'breeder_seed_quantity') && (eachField.formControlName != 'available_quantity') && (eachField.formControlName != 'latitude') && (eachField.formControlName != 'longitude')  && (eachField.formControlName != 'amount')))"
+                        formControlName="{{eachField.formControlName}}" autocomplete="off"
+                        (keypress)="checkLength($event,50, eachField.formControlName)"
+                        class="dynamic-input w-100 html-dynamic-control" id="{{ eachField.formControlName + id }}">
+
+                    <div *ngIf="!isView && (eachField.fieldType == 'file')">
+
+
+
+                        <label class="custom-file-upload custom-file-upload_bsp4">
+                            <input style="display: none;" type="file" *ngIf="!isView && (eachField.fieldType == 'file')"
+                                accept="application/pdf, image/gif, image/jpeg"
+                                formControlName="{{eachField.formControlName}}" autocomplete="off"
+                                (keypress)="checkLength($event,50)" class="dynamic-input w-100 html-dynamic-control"
+                                id="{{ eachField.formControlName + id }}" (change)="onFileChange($event)">
+                            <i class="fa fa-cloud-upload"></i> {{eachField.formControlName}}
+                        </label>
+                        {{this.fileName}}
+                    </div>
+                    <div *ngIf="(isView || isEdit) && (eachField.fieldType == 'file')">
+                        <label class="custom-file-download" *ngIf="formGroupControls[eachField.formControlName].value">
+                            <a style="margin-right: 20px;" class="" download="attachment" target="_blank"
+                                (click)="downloadFile($event, formGroupControls[eachField.formControlName].value)">
+                                <img style="max-width: 40px; max-height: 40px;"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Download-Icon.png" />
+                            </a>
+                        </label>
+                        <img src="assets/images/pdf.png" width="30" class="preview"
+                            (click)="showPdf(pdfModal, imgModal ,formGroupControls[eachField.formControlName].value)">
+                        <!-- <img src="assets/images/pdf.png" width="30" class="preview" (click)="showPdf(pdfModal,item_url)">  -->
+                        <!-- <img width="30" [src]="image_url" class="preview" (click)="showImage(imgModal,image_url)"> -->
+                    </div>
+                    <input
+                        *ngIf="!isView && ((eachField.fieldType == 'number') && ((eachField.formControlName != 'nucleus_breader') && (eachField.formControlName != 'breader_to_foundation_1') && (eachField.formControlName != 'foundation_1_to_foundation_2') && (eachField.formControlName != 'foundation_2_to_certified') ))"
+                        formControlName="{{eachField.formControlName}}" autocomplete="off"
+                        (keypress)="checkLength($event,4)" max="500" min="1"
+                        [ngClass]="eachField.griddropDownClass=='grid_indent_qty' ? 'gridIndentInput':'dynamic-input w-100 html-dynamic-control'"
+                        class="dynamic-input w-100 html-dynamic-control" id="{{ eachField.formControlName + id }}">
+
+                    <!-- <textarea
+                        *ngIf="!isView && ((eachField.fieldType == 'textarea') && (eachField.formControlName == 'lable_number'))"
+                        formControlName="{{eachField.formControlName}}" autocomplete="off"
+                        (keypress)="checkLength($event,3);checkNumber($event);" max="500" min="1"
+                        class="dynamic-input w-100 html-dynamic-control" id="{{ eachField.formControlName + id }}"></textarea> -->
+
+                    <input
+                        *ngIf="!isView && ((eachField.fieldType == 'number') && (eachField.formControlName == 'nucleus_breader'|| eachField.formControlName == 'breader_to_foundation_1' || eachField.formControlName == 'foundation_1_to_foundation_2'|| eachField.formControlName == 'foundation_2_to_certified'))"
+                        formControlName="{{eachField.formControlName}}" autocomplete="off"
+                        (paste)="onPasteNumber($event,eachField.formControlName,'3')"
+                        (keypress)="checkLength($event,3);checkNumber($event);" max="500" min="1"
+                        class="dynamic-input w-100 html-dynamic-control" id="{{ eachField.formControlName + id }}">
+
+
+                    <!-- nucleus seed availability -->
+                    <input
+                        *ngIf="!isView && ((eachField.fieldType == 'date') && (eachField.formControlName == 'date_of_reference' || eachField.formControlName == 'date_of_office_order'))"
+                        data-date-format="DD MMMM YYYY" formControlName="{{eachField.formControlName}}"
+                        autocomplete="off" [min]="minDate" class="form-control input-format input-border "
+                        formControlName="{{eachField.formControlName}}" angular-mydatepicker [options]="myDpOptions"
+                        #dp3="angular-mydatepicker" (dateChanged)="onDateChanged($event)" autocomplete="off"
+                        (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth" (keydown)="preventKeyPress($event)"
+                        (change)="onChangeDate($event, eachField.formControlName)"
+                        class=" w-100 html-dynamic-control dateInput" [id]="eachField.formControlName"
+                        placeholder="DD-MM-YYYY" />
+
+
+                    <input *ngIf="!isView && ((eachField.fieldType == 'date') && (eachField.formControlName != 'date_of_office_order' && eachField.formControlName != 'date_of_reference' && eachField.formControlName != 'expected_inspection_period_from' && eachField.formControlName != 'expected_inspection_period_to' 
+                        && eachField.formControlName != 'sowing_date' && eachField.formControlName != 'expected_harvest_from'
+                        && eachField.formControlName != 'expected_harvest_to' 
+                         && eachField.formControlName != 'availability_expected_date' && eachField.formControlName != 'date_of_inspection'
+                     
+                         && eachField.formControlName!='carry_over_breeder_seed_year' && eachField.formControlName!='harvest_date'
+                        ))" data-date-format="DD MMMM YYYY" formControlName="{{eachField.formControlName}}"
+                        autocomplete="off" [min]="minDate" class="form-control input-format input-border not_date "
+                        formControlName="{{eachField.formControlName}}" angular-mydatepicker [options]="myDpOptions"
+                        #dp3="angular-mydatepicker" (dateChanged)="onDateChanged($event)" autocomplete="off"
+                        (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth" (keydown)="preventKeyPress($event)"
+                        (change)="onChangeDate($event, eachField.formControlName)"
+                        class=" w-100 html-dynamic-control dateInput" [id]="eachField.formControlName"
+                        placeholder="DD-MM-YYYY" />
+
+                    <input
+                        *ngIf="!isView && ((eachField.fieldType == 'date') && (eachField.formControlName == 'harvest_date'))"
+                        data-date-format="DD MMMM YYYY" formControlName="{{eachField.formControlName}}"
+                        autocomplete="off" class="form-control input-format input-border not_date "
+                        formControlName="{{eachField.formControlName}}" angular-mydatepicker [options]="bsp4"
+                        #dp3="angular-mydatepicker" (dateChanged)="onDateChanged($event)" autocomplete="off"
+                        (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth" (keydown)="preventKeyPress($event)"
+                        (change)="onChangeDate($event, eachField.formControlName)"
+                        class=" w-100 html-dynamic-control dateInput" [id]="eachField.formControlName"
+                        placeholder="DD-MM-YYYY" />
+
+                    <!-- for year of prouction bsp4 -->
+                    <input *ngIf="!isView && ((eachField.fieldType == 'date') && (eachField.formControlName != 'date_of_office_order' && eachField.formControlName != 'date_of_reference' && eachField.formControlName != 'expected_inspection_period_from' && eachField.formControlName != 'expected_inspection_period_to' 
+                        && eachField.formControlName != 'sowing_date' && eachField.formControlName != 'expected_harvest_from'
+                        && eachField.formControlName != 'expected_harvest_to' 
+                         && eachField.formControlName != 'availability_expected_date' && eachField.formControlName != 'date_of_inspection'
+                     
+                         && eachField.formControlName=='carry_over_breeder_seed_year'
+                        ))" data-date-format="DD MMMM YYYY" formControlName="{{eachField.formControlName}}"
+                        autocomplete="off" [min]="minDate" class="form-control input-format input-border not_date "
+                        formControlName="{{eachField.formControlName}}" angular-mydatepicker [options]="bsp4"
+                        #dp3="angular-mydatepicker" (dateChanged)="onDateChanged($event)" autocomplete="off"
+                        (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth" (keydown)="preventKeyPress($event)"
+                        (change)="onChangeDate($event, eachField.formControlName)"
+                        class=" w-100 html-dynamic-control dateInput" [id]="eachField.formControlName"
+                        placeholder="DD-MM-YYYY" />
+
+                    <!-- date of inspection -->
+                    <input
+                        *ngIf="!isView && ((eachField.fieldType == 'date') && (eachField.formControlName != 'date_of_office_order' && eachField.formControlName != 'date_of_reference' && eachField.formControlName != 'expected_inspection_period_from' && eachField.formControlName != 'expected_inspection_period_to' 
+                        && eachField.formControlName != 'sowing_date' && eachField.formControlName != 'expected_harvest_from'
+                        && eachField.formControlName != 'expected_harvest_to'  
+                         && eachField.formControlName != 'availability_expected_date' && eachField.formControlName == 'date_of_inspection'))"
+                        data-date-format="DD MMMM YYYY" formControlName="{{eachField.formControlName}}"
+                        autocomplete="off" [min]="minDate" class="form-control input-format input-border not_date "
+                        formControlName="{{eachField.formControlName}}" angular-mydatepicker [options]="myDpOption1"
+                        #dp3="angular-mydatepicker" (dateChanged)="onDateChanged($event)" autocomplete="off"
+                        (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth" (keydown)="preventKeyPress($event)"
+                        (change)="onChangeDate($event, eachField.formControlName)"
+                        class=" w-100 html-dynamic-control dateInput" [id]="eachField.formControlName"
+                        placeholder="DD-MM-YYYY" />
+
+                    <input *ngIf="!isView && ((eachField.fieldType == 'date') && eachField.formControlName == 'sowing_date') 
+                        && !isView"
+                        data-date-format="DD MMMM YYYY" formControlName="{{eachField.formControlName}}"
+                        autocomplete="off" [min]="minDate" class="form-control input-format input-border not_date "
+                        formControlName="{{eachField.formControlName}}" angular-mydatepicker [options]="myDpOptionSowing"
+                        #dp3="angular-mydatepicker" (dateChanged)="onDateChanged($event)" autocomplete="off"
+                        (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth"
+                        (ngModelChange)="onChangeAvailabilityDate($event, eachField.formControlName)"
+                        (change)="onChangeDate($event, eachField.formControlName)" (keydown)="preventKeyPress($event)"
+                        class=" w-100 html-dynamic-control dateInput" [id]="eachField.formControlName"
+                        placeholder="DD-MM-YYYY" />
+                    <input *ngIf="!isView && ((eachField.fieldType == 'date') &&   eachField.formControlName == 'availability_expected_date') 
+                        && !isView"
+                        data-date-format="DD MMMM YYYY" formControlName="{{eachField.formControlName}}"
+                        autocomplete="off" [min]="minDate" class="form-control input-format input-border not_date "
+                        formControlName="{{eachField.formControlName}}" angular-mydatepicker [options]="myDpOption1"
+                        #dp3="angular-mydatepicker" (dateChanged)="onDateChanged($event)" autocomplete="off"
+                        (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth"
+                        (ngModelChange)="onChangeAvailabilityDate($event, eachField.formControlName)"
+                        (change)="onChangeDate($event, eachField.formControlName)" (keydown)="preventKeyPress($event)"
+                        class=" w-100 html-dynamic-control dateInput" [id]="eachField.formControlName"
+                        placeholder="DD-MM-YYYY" />
+                    <!-- for expected_harvest_to -->
+
+                    <input
+                        *ngIf="!isView && ((eachField.fieldType == 'date') && eachField.formControlName != 'date_of_office_order' && eachField.formControlName != 'expected_inspection_period_from'
+                                              && eachField.formControlName != 'expected_inspection_period_to'  && eachField.formControlName != 'sowing_date' && eachField.formControlName != 'expected_harvest_to' && eachField.formControlName =='expected_harvest_from')"
+                        data-date-format="DD MMMM YYYY" formControlName="{{eachField.formControlName}}"
+                        autocomplete="off" class="form-control input-format input-border not_date "
+                        formControlName="{{eachField.formControlName}}" angular-mydatepicker [options]="myDpOption1"
+                        #dp3="angular-mydatepicker" (dateChanged)="onChangeDate($event, eachField.formControlName)"
+                        autocomplete="off" (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth"
+                        (keydown)="preventKeyPress($event)" (ngModelChange)="updateCalcs()"
+                        class=" w-100 html-dynamic-control dateInput" [id]="eachField.formControlName"
+                        placeholder="DD-MM-YYYY" />
+
+
+                    <!--  -->
+                    <input *ngIf="!isView && ((eachField.fieldType == 'date')
+                                   && eachField.formControlName != 'date_of_office_order' && eachField.formControlName != 'expected_inspection_period_from'
+                                   && eachField.formControlName != 'expected_inspection_period_to'  && eachField.formControlName != 'sowing_date'
+                                    && eachField.formControlName == 'expected_harvest_to') "
+                        data-date-format="DD MMMM YYYY" formControlName="{{eachField.formControlName}}"
+                        autocomplete="off" class="form-control input-format input-border not_date "
+                        [options]="myDpOptionexpected_harvest_to" formControlName="{{eachField.formControlName}}"
+                        angular-mydatepicker #dp3="angular-mydatepicker" (keydown)="preventKeyPress($event)"
+                        (dateChanged)="onChangeDates($event, eachField.formControlName)" autocomplete="off"
+                        (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth" (ngModelChange)="updateCalcs()"
+                        class=" w-100 html-dynamic-control dateInput" [id]="eachField.formControlName"
+                        placeholder="DD-MM-YYYY" />
+
+                    <!-- period -->
+
+                    <input *ngIf="!isView && ((eachField.fieldType == 'date')
+                                   && eachField.formControlName != 'date_of_office_order' 
+                                   && eachField.formControlName != 'expected_inspection_period_to'  
+                                   && eachField.formControlName != 'sowing_date'
+                                    && eachField.formControlName != 'expected_harvest_to'  
+                                    && eachField.formControlName != 'expected_harvest_to'
+                                    && eachField.formControlName != 'availability_expected_date'   
+                                    && eachField.formControlName!='carry_over_breeder_seed_year'
+                                    && eachField.formControlName!='harvest_date'
+                                    && eachField.formControlName == 'expected_inspection_period_from'
+                                 
+                                   ) " data-date-format="DD MMMM YYYY" formControlName="{{eachField.formControlName}}"
+                        autocomplete="off" class="form-control input-format input-border not_date "
+                        [options]="myDpOption1" formControlName="{{eachField.formControlName}}" angular-mydatepicker
+                        #dp3="angular-mydatepicker"
+                        (dateChanged)="onChangeDatesofPeriodFrom($event, eachField.formControlName)" autocomplete="off"
+                        (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth" (ngModelChange)="updateCalcs()"
+                        [min]="minDatse" class=" w-100 html-dynamic-control dateInput"
+                        (keydown)="preventKeyPress($event)" [id]="eachField.formControlName" placeholder="DD-MM-YYYY" />
+                    <!-- period -->
+
+                    <input *ngIf="!isView && ((eachField.fieldType == 'date')
+                        && eachField.formControlName != 'date_of_office_order' 
+                        && eachField.formControlName != 'sowing_date'
+                         && eachField.formControlName != 'expected_harvest_to'  
+                         && eachField.formControlName != 'expected_harvest_to'
+                         && eachField.formControlName != 'availability_expected_date'
+                         && eachField.formControlName == 'expected_inspection_period_to'
+                         
+                         ) " data-date-format="DD MMMM YYYY" formControlName="{{eachField.formControlName}}"
+                        autocomplete="off" class="form-control input-format input-border not_date "
+                        [options]="expected_inspection_period_to" formControlName="{{eachField.formControlName}}"
+                        angular-mydatepicker #dp3="angular-mydatepicker" (keydown)="preventKeyPress($event)"
+                        (dateChanged)="onChangeDatesofPeriod($event, eachField.formControlName)" autocomplete="off"
+                        (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth" (ngModelChange)="updateCalcs()"
+                        class=" w-100 html-dynamic-control dateInput" [id]="eachField.formControlName"
+                        placeholder="DD-MM-YYYY" />
+
+                    <!-- <div *ngIf="validHarvestDate && eachField.formControlName=='expected_harvest_to'" class="error" >
+                            {{validHarvestDate}}
+                        </div>  -->
+                    <!-- field type date -->
+                    <!-- <input
+                        *ngIf="!isView && ((eachField.fieldType == 'date') && (eachField.formControlName == 'date_of_office_order' || eachField.formControlName == 'date_of_reference'))"
+                        type="date" data-date-format="DD-MMMM-YYYY" formControlName="{{eachField.formControlName}}"
+                        autocomplete="off" (keydown)="checkAplha($event)"
+                        class="dynamic-input w-100 html-dynamic-control dateInput" [id]="eachField.formControlName"
+                        (change)="onChangeDate($event, eachField.formControlName)"> -->
+
+                    <!-- <input *ngIf="!isView && ((eachField.fieldType == 'date') && (eachField.formControlName == 'expected_harvest_to'))"
+                         (keydown)="preventKeyPress($event)"
+                                   
+                                    class="form-control input-format input-border not_date "
+                                    formControlName="{{eachField.formControlName}}" angular-mydatepicker 
+                                    #dp3="angular-mydatepicker" (dateChanged)="onDateChanged($event)" autocomplete="off"
+                                    (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth" 
+                                    [min]="(eachField.formControlName == 'expected_harvest_to') ? (minDate | date:'yyyy-MM-dd') : '1970-01-01' "
+                                    class="dynamic-input w-100 html-dynamic-control dateInput" [id]="eachField.formControlName" 
+                                    id="date_of_test" placeholder="DD-MM-YYYY" /> -->
+                    <!-- [ngClass]=" disabledfield ? 'disabledfield' : ''" -->
+                    <!-- <input *ngIf="!isView && eachField.fieldType == 'date'" type="date" data-date-format="DD MMMM YYYY"
+                    formControlName="{{eachField.formControlName}}" autocomplete="off" (keydown)="checkAplha($event)"
+                    [min]="(eachField.formControlName != 'carry_over_breeder_seed_year') ? (minDate | date:'yyyy-MM-dd') : '1970-01-01' " class="dynamic-input w-100 html-dynamic-control dateInput"
+                    [id]="eachField.formControlName" (change)="onChangeDate($event, eachField.formControlName)"> -->
+
+                    <div *ngIf="!isView && eachField.fieldType == 'radio'
+                    && eachField.fieldDataList
+                    && eachField.fieldDataList.length > 0" class="radio-wrapper">
+                        <div *ngFor="let eachSelectItem of eachField.fieldDataList; let ibegType = index"
+                            class="d-inline-flex single-radio-label-wrapper mr-3 "
+                            [ngClass]="formGroupControls[eachField.formControlName].status=='DISABLED' ? 'disabled' : 'html-dynamic-control'">
+                            <input formControlName="{{eachField.formControlName}}" type="radio"
+                                [value]="eachSelectItem">
+                            <label class="radio-label d-inline-flex"
+                                (click)="patchRadioValue(eachField.formControlName, eachSelectItem)">
+                                <div class="radio-border d-inline-flex justify-content-center verticle-content-middle">
+                                    <div class="radio-checked"></div>
+                                </div>
+                                {{ eachSelectItem.name }}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!isView && eachField.fieldType == 'select'   && !eachField.inputSearch" ngbDropdown
+                        [ngClass]="formGroupControls[eachField.formControlName].status == 'DISABLED' ? 'ngb-dropdown-disabled' : ''"
+                        class="dynamic-dropdown html-dynamic-control" placement="bottom"
+                        (openChange)="dropdownToggled($event, id + '-' + eachField.id)"
+                        (keydown)="keyPressesonDropdown($event, id + '-' + eachField.id)">
+                        <button type="button"
+                            [ngClass]="eachField.griddropDownClass=='seasondropdownClass' || eachField.griddropDownClass=='cropNamedropdownClass'  || eachField.griddropDownClass=='cropVareitydropdownClass' ? 'selectdropdown btn btn-outline-primary w-100': 'btn btn-outline-primary w-100 toggle-button'"
+                            id="{{eachField.gridlabelId ? eachField.gridlabelId : 'dropdownBasic1'}}" ngbDropdownToggle>
+                           
+                            {{ formGroupControls[eachField.formControlName].value
+                            &&formGroupControls[eachField.formControlName].value.name &&
+                            (formGroupControls[eachField.formControlName].value.name.length>20)
+                            ?(formGroupControls[eachField.formControlName].value.name.substring(0,20)+'...'):
+                            formGroupControls[eachField.formControlName].value &&
+                            formGroupControls[eachField.formControlName].value.name
+                            ?formGroupControls[eachField.formControlName].value.name
+                            : "Select " + eachField.fieldName }}
+                            <i class="fas fa-chevron-down mt-1"></i>
+                        </button>
+                        <div ngbDropdownMenu="dropdownBasic1"
+                            class="{{eachField.griddropDownClass ? eachField.griddropDownClass :''}}"
+                            *ngIf="eachField.fieldDataList && eachField.fieldDataList.length > 0">
+                            <!-- <input type="text" class="col-12 form-control px-4" > -->
+                            <button *ngFor="let eachSelectItem of eachField.fieldDataList; let ibegType = index"
+                                ngbDropdownItem (click)="patchRadioValue(eachField.formControlName, eachSelectItem)"
+                                #dropdownItem [attr.data-parent-name]="id + '-' + eachField.id">
+                                {{ eachSelectItem && eachSelectItem.name && (eachSelectItem.name.length>30) ?
+                                (eachSelectItem.name.substring(0,30)):eachSelectItem && eachSelectItem.name
+                                ?eachSelectItem.name :'' }}
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngIf="!isView && eachField.fieldType == 'select' && eachField.inputSearch=='crop_group_smr_text'"
+                        ngbDropdown
+                        [ngClass]="formGroupControls[eachField.formControlName].status == 'DISABLED' ? 'ngb-dropdown-disabled' : ''"
+                        class="dynamic-dropdown html-dynamic-control" placement="bottom">
+                        <button type="button"
+                            [ngClass]="eachField.griddropDownClass=='seasondropdownClass' || eachField.griddropDownClass=='cropNamedropdownClass'  || eachField.griddropDownClass=='cropVareitydropdownClass' ? 'selectdropdown btn btn-outline-primary w-100': 'btn btn-outline-primary w-100 toggle-button'"
+                            id="{{eachField.gridlabelId ? eachField.gridlabelId : 'dropdownBasic1'}}" ngbDropdownToggle>
+                            {{ formGroupControls[eachField.formControlName].value
+                            &&formGroupControls[eachField.formControlName].value.name &&
+                            (formGroupControls[eachField.formControlName].value.name.length>20)
+                            ?(formGroupControls[eachField.formControlName].value.name.substring(0,20)+'...'):
+                            formGroupControls[eachField.formControlName].value &&
+                            formGroupControls[eachField.formControlName].value.name
+                            ?formGroupControls[eachField.formControlName].value.name
+                            : "Select " + eachField.fieldName }}
+                            <i class="fas fa-chevron-down mt-1"></i>
+                        </button>
+
+                        <div ngbDropdownMenu="dropdownBasic1"
+                            class="{{eachField.griddropDownClass ? eachField.griddropDownClass :''}}"
+                            *ngIf="eachField.fieldDataList && eachField.fieldDataList.length > 0">
+                            <!-- <button>hii</button> -->
+                            <input type="text" class="form-control px-4" (change)="inputChange($event)"
+                                formControlName="{{eachField.inputSearch}}">
+                            <button *ngFor="let eachSelectItem of eachField.fieldDataList; let ibegType = index"
+                                ngbDropdownItem (click)="patchRadioValue(eachField.formControlName, eachSelectItem)"
+                                #dropdownItem [attr.data-parent-name]="id + '-' + eachField.id">
+                                {{ eachSelectItem && eachSelectItem.name && (eachSelectItem.name.length>30) ?
+                                (eachSelectItem.name.substring(0,30)):eachSelectItem && eachSelectItem.name
+                                ?eachSelectItem.name :'' }}
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div style="float: right;" *ngIf="!isView && ((eachField.fieldType == 'button') && (eachField.formControlName == 'add_production_center'))">
+                         
+                        <div class="row">
+                            <div class="col-md-10 bsp-4-text" *ngIf="(this.routeBSP4)">
+                                <span class="bsp-4-text-property">Add Plant Quantity to Record the Quantity of Breeder Seed Actually Produced</span>
+                            </div>
+                            <div class="col-md-2">
+                                <button style="width: auto; background: #47af7a;" class="form-button btn btn-default"
+                                (click)="patchButtonValue(eachField.formControlName, '0')">{{ eachField.fieldName
+                                }}</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="float: right;"
+                        *ngIf="!isView && ((eachField.fieldType == 'button') && (eachField.formControlName == 'remove_production_center'))">
+                        <button style="width: auto; background: #e71a1a;" class="form-button btn btn-default"
+                            (click)="patchRemoveButtonValue(eachField.formControlName, '0')">{{ eachField.fieldName
+                            }}</button>
+                    </div>
+
+
+                    <ng-multiselect-dropdown #multiSelect
+                        *ngIf="!isView && eachField.fieldType == 'multiselect' && eachField.multiple == true"
+                        formControlName="{{eachField.formControlName}}" [settings]="eachField.dropdownSettings"
+                        [data]="eachField.fieldDataList" [placeholder]="eachField.fieldName"
+                        (keydown)="keyPressedOnMultiDropdown($event)" (onDropDownClose)="ngClearMultiSelectSelection()">
+                    </ng-multiselect-dropdown>
+                    <!-- <select formControlName="{{eachField.formControlName}}"
+                        *ngIf="!isView && eachField.fieldType == 'multiselect' && eachField.multiple == true" multiple
+                        class="dynamic-input w-100 html-dynamic-control h-150">
+                        <option *ngFor="let eachSelectItem of eachField.fieldDataList; let ibegType = index"
+                            value="{{ eachSelectItem.value}}">{{ eachSelectItem.name }}</option>
+                    </select> -->
+
+                    <!-- <select formControlName="{{eachField.formControlName}}" *ngIf="!isView && eachField.fieldType == 'multiselect' && eachField.multiple == true"  multiple class="dynamic-input w-100 html-dynamic-control h-150">
+                        <option *ngFor="let eachSelectItem of eachField.fieldName; let ibegType = index" value="{{ eachSelectItem.value}}">{{ eachSelectItem.name }}</option>
+                    </select> -->
+
+                    <select formControlName="{{eachField.formControlName}}"
+                        *ngIf="isView && eachField.fieldType == 'multiselect' && eachField.multiple == true" multiple
+                        class="dynamic-input w-100 html-dynamic-control h-150 multiselect">
+                        <option class="selected_option"
+                            *ngFor="let eachSelectItem of eachField.fieldDataList; let ibegType = index"
+                            value="{{ eachSelectItem.value}}">{{ eachSelectItem.name }}</option>
+                    </select>
+
+                    <select formControlName="{{eachField.formControlName}}"
+                        *ngIf="eachField.fieldType == 'select-dropdown'" multiple
+                        class="dynamic-input w-100 html-dynamic-control h-150 multiselect">
+                        <option class="selected_option"
+                            *ngFor="let eachSelectItem of eachField.fieldDataList; let ibegType = index"
+                            value="{{ eachSelectItem.value}}">{{ eachSelectItem.name }}</option>
+                    </select>
+
+                    <div class="error-red">
+                        <div *ngIf="showError && formGroupControls[eachField.formControlName].errors
+                                    && formGroupControls[eachField.formControlName].errors != null
+                                    && formGroupControls[eachField.formControlName].errors!['required']" class=" py-2">
+                            Please fill the {{ eachField.fieldName }}.
+                        </div>
+                        <div *ngIf="showError && formGroupControls[eachField.formControlName].errors
+                        && formGroupControls[eachField.formControlName].errors != null
+                        && formGroupControls[eachField.formControlName].errors!['max']" class=" py-2">
+                            Please fill the {{ eachField.fieldName }}.
+                        </div>
+
+
+                    </div>
+                    <div *ngIf="validDateOfAvailability && eachField.formControlName=='availability_expected_date'"
+                        class="error-red">
+                        {{validDateOfAvailability}}
+                    </div>
+                    <div *ngIf="validHarvestFromDate && eachField.formControlName=='expected_harvest_from'"
+                        class="error-red">
+                        {{validHarvestFromDate}}
+                    </div>
+                    <div *ngIf="validHarvestDate && eachField.formControlName=='expected_harvest_to'" class="error-red">
+                        {{validHarvestDate}}
+                    </div>
+                    <div *ngIf="validPeriod && eachField.formControlName=='expected_inspection_period_to'"
+                        class="error-red">
+                        {{validPeriod}}
+                    </div>
+                </div>
+
+
+
+                <!-- suffix data -->
+
+                <div *ngIf="eachField.htmlControlSuffixText"
+                    class="d-none d-md-block col-md-4 col-lg-2 d-flex verticle-content-middle">
+                    <!-- empty space -->
+                </div>
+                <div *ngIf="eachField.htmlControlSuffixText"
+                    class="{{eachField.griddropDownClass =='cropTypedropdownClass' ? 'html-control-suffix-indentor-text pt-2 col-12 col-md-8 col-lg-7 d-flex verticle-content-middle offset-lg-2 pl-lg-0' :'html-control-suffix-text pt-2 col-12 col-md-8 col-lg-10 d-flex verticle-content-middle'}}">
+                    {{ eachField.htmlControlSuffixText }}
+                </div>
+            </div>
+        </div>
+        <div class="bold-label col-4  pl-3" [ngStyle]="{ }" >
+            <span class="pt-0">
+
+                {{allocation}}
+                
+            </span>
+            <span *ngIf="allocationQtyUnit">
+                ({{allocationQtyUnit}}):
+            </span>
+            <span *ngIf="allocaltedQty">
+                {{allocaltedQty}}
+            </span>
+        </div>
+        <div class="bold-label  pl-3" [ngStyle]="{ }" >
+            <span class="pt-0">
+
+                {{totalProductionTitle}}
+                
+            </span>
+            <span *ngIf="totalProductionUnit">
+                ({{totalProductionUnit}}):
+            </span>
+            <span *ngIf="totalProductionQty">
+                {{totalProductionQty}}
+            </span>
+        </div>
+    </div>
+</form>
+<ng-template #imgModal>
+    <div class="modal-body preview_modal p-4">
+        <button type="button" class="close modal-cross pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">×</span>
+        </button>
+        <div class="">
+            <!-- <div class="font-size-20 font-weight-bold pb-3">Document Preview</div> -->
+            <div class="font-size-20 font-weight-bold pb-3"> Document Preview
+                <a style="margin-left: 450px;" class="" download="attachment" target="_blank" href={{imgSrc}}>
+                    <img style="max-width: 40px; max-height: 40px;" src="assets/images/download.png" />
+                </a>
+            </div>
+            <div class="theme mt-1  py-1">
+                <img [src]="imgSrc" class="img-fluid">
+            </div>
+
+        </div>
+    </div>
+</ng-template>
+<ng-template #pdfModal>
+    <div class="modal-body p-4">
+        <button type="button" class="close modal-cross pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">×</span>
+        </button>
+        <div>
+            <div class="font-size-20 font-weight-bold pb-3">Document Preview
+                <a style="margin-left: 450px;" class="" download="attachment" target="_blank" href={{pdfSrc}}>
+                    <img style="max-width: 40px; max-height: 40px;" src="assets/images/download.png" />
+                </a>
+            </div>
+            <div class="theme mt-1 py-1">
+                <!-- <pdf-viewer [src]="pdfSrc" [render-text]="true" style="display: block;"></pdf-viewer> -->
+                <pdf-viewer [src]="pdfSrc" [render-text]="true" [original-size]="false"
+                    style="width: 95%; height: 500px"></pdf-viewer>
+            </div>
+        </div>
+    </div>
+</ng-template>

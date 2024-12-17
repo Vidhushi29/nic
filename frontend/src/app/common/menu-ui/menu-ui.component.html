@@ -1,0 +1,73 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="menu-wrapper " style=" overflow-x: hidden">
+      <div *ngFor="let menu of menuList; let i = index"
+        class="menu {{ menu['active'] || menu['toggled'] ? 'active' : '' }} py-2">
+        <div class="row">
+          <div class="col-2 pl-3">
+            <img src="assets/images/{{ menu.icon }}" class="seed-division-subicon" />
+          </div>
+          <!-- class="parent-menu-hyperlink{{ menu['active'] ? '-active' : '' }}" -->
+          <div class="col-10 d-flex verticle-content-middle" style="overflow-y: scroll; overflow-x: hidden">
+            <div *ngIf="!(menu.subMenus && menu.subMenus.length > 0)" class="py-0">
+              <a routerLink="{{ menu.href }}" 
+              [ngClass]="changePassword ? 'parent-menu-hyperlink' + (menu['active'] ? '-active' : ''):'disablefield'"
+             
+                (click)="activateMenu(menu)">{{ menu.name }}</a>
+            </div>
+            <div *ngIf="menu.subMenus && menu.subMenus.length > 0" class="py-0">
+              <ng-container *ngTemplateOutlet="subMenuTemplate; context:{menu: menu}"></ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #subMenuTemplate let-menu="menu">
+  <div class="sidenav">
+    <button id="dropdownbtn" class="dropdown-btn" (click)="menu['toggled'] = !menu['toggled']">
+
+      <a class="parent-menu-hyperlink{{ menu['active'] || menu['toggled'] ? '-active' : '' }}">{{ menu.name }}
+        <i class="fa fa-caret-down ml-1"></i>
+      </a>
+    </button>
+    <div class="dropdown-container submenus-container" [ngClass]="menu.toggled ? 'd-block active' : 'd-none'">
+      <div *ngFor="let subMenu of menu.subMenus; let subMenuIndex = index">
+        <div *ngIf="!(subMenu.subMenus && subMenu.subMenus.length > 0)">
+          <div *ngIf="subMenu.name != 'Compile Production Report'">
+          <a  routerLink="{{ (subMenu.href) }}" class="submenu-hyperlink d-inline-flex {{ subMenu['active'] ? 'active' : '' }}"
+            (click)="activateMenu(subMenu)">
+            <span class="dropdown_icon mr-2">
+              <img *ngIf="subMenu.icon" src="assets/images/{{ subMenu.icon }}" alt="alt" />
+              <i *ngIf="!subMenu.icon" class="fa fa-circle" aria-hidden="true"></i>
+            </span>
+            <span>
+              {{ subMenu.name }}
+
+            </span>
+          </a>
+          </div>
+          <div *ngIf="subMenu.name == 'Compile Production Report'">
+            <span class="dropdown_icon mr-2">
+              <img *ngIf="subMenu.icon" src="assets/images/{{ subMenu.icon }}" alt="alt" />
+              <i *ngIf="!subMenu.icon" class="fa fa-circle" aria-hidden="true"></i>
+            </span>
+            <a  
+            routerLink="/ms014/nscRo/growerWiseData" routerLinkActive="active"
+             target="_blank" rel="bookmark"> Compile Production Report</a>
+
+          </div>
+            
+        </div>
+
+        <div *ngIf="subMenu.subMenus && subMenu.subMenus.length > 0">
+          <ng-container *ngTemplateOutlet="subMenuTemplate; context:{menu: subMenu}"></ng-container>
+           
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

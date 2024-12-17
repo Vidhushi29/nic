@@ -1,0 +1,481 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+      <div class="main-content-form-wrapper px-0 py-2">
+        <div class="row">
+          <div class="w-100">
+            <form [formGroup]="ngForm">
+              <div class="col-12 px-4 mt-2">
+                <div class="row">
+                  <div class="col-md-12 col-sm-12 pl-4 pb-2">
+                    <span class="heading_notofied">BSP III (Inspection Report of the Monitoring Team)
+                    </span>
+                  </div>
+                  <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0">
+                    <div class="col-md-12">
+                      <label for="frm_year_of_indent" class="search_txt required">Year of Indent <sup style="color: red;font-size: 18px;">*</sup></label>
+                    </div>
+                    <div class="col-12 pr-md-0">
+                      <select class="form-select form-control" aria-label="Default select example" formControlName="year"
+                        id="frm_year_of_indent">
+                        <option value="">Select Year Of Indent</option>
+                        <option *ngFor="let data of yearOfIndent" value="{{data.year}}">{{data && data.year ?
+                          data.year:''}}-{{(data.year-2000)+1}}</option>
+                      </select>
+                      <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                        <img src="assets/images/16.svg" alt="" srcset="">
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0 pl-md-0">
+                    <div class="col-md-12">
+                      <label for="frm_breeder" class="search_txt required">Season<sup style="color: red;font-size: 18px;">*</sup></label>
+                    </div>
+                    <div class="col-12 pr-md-0">
+                      <select class="form-select form-control" aria-label="Default select example"
+                        formControlName="season" id="frm_season">
+                        <option value="">Select Season</option>
+                        <option *ngFor="let data of seasonData" value="{{data.season_code}}">{{data.season_name}}</option>
+                      </select>
+                      <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                        <img src="assets/images/16.svg" alt="" srcset="">
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pl-md-0">
+                    <div class="col-md-12">
+                      <label for="frm_crop_name" class="search_txt required">Crop Type<sup style="color: red;font-size: 18px;">*</sup></label>
+                    </div>
+                    <div class="col-12">
+                      <select class="form-select form-control" aria-label="Default select example"
+                        formControlName="crop_type" id="frm_crop_name">
+                        <option value="">Select Crop Type</option>
+                        <option *ngFor="let data of cropTypeData" value="{{data.crop_type}}">{{data.crop_type_name}}
+                        </option>
+                      </select>
+                      <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                        <img src="assets/images/16.svg" alt="" srcset="">
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <!-- <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0">
+                    <div class="col-md-12">
+                      <label for="frm_bspc" class="search_txt">PD/PC</label>
+                    </div>
+                    <div class="col-12 pr-md-0">
+                      <select class="form-select form-control" aria-label="Default select example"
+                        formControlName="breeder" id="frm_bspc">
+                        <option value="">Select PD/PC</option>
+                        <option *ngFor="let data of breederListData" value="{{data.breeder_id}}">{{data.breeder_name}}
+                        </option>
+                      </select>
+                    </div>
+                  </div> -->
+                  <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0">
+                    <div class="col-md-12">
+                      <label for="frm_crop_name" class="search_txt">Crop</label>
+                    </div>
+                    <div class="col-12 pr-md-0">
+                      <!-- <select class="form-select form-control" aria-label="Default select example" formControlName="crop"
+                        ngModel="{{crop_id}}" (ngModelChange)="getVarietyNameList($event)" id="frm_crop_name">
+                        <option value="">Select Crop</option>
+                        <option *ngFor="let data of cropNameList" value="{{data.crop_code}}">{{data.crop_name}}</option>
+                      </select> -->
+                      <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="cropNameList" formControlName="crop"[disabled]="cropdropdownHidden"
+                        [placeholder]="'Select Crop Name'">
+                      </ng-multiselect-dropdown>
+                      <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                        <img src="assets/images/16.svg" alt="" srcset="">
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="col-md-4 pl-0 mt-4 mt-md-2 pl-2 pr-2 pr-md-0 pl-md-0">
+                    <div class="col-md-12">
+                      <label for="frm_variety_name" class="search_txt">Variety</label>
+                    </div>
+                    <div class="col-12">
+                      <!-- <select class="form-select form-control" aria-label="Default select example"
+                        formControlName="variety" id="frm_variety_name">
+                        <option value="">Select Variety</option>
+                        <option *ngFor="let data of varietyNameList" value="{{data.variety_code}}">{{data.variety_name}}
+                        </option>
+                      </select> -->
+                      <ng-multiselect-dropdown [settings]="dropdownSettings1" [data]="varietyNameList"[disabled]="varietydropdownHidden"
+                        formControlName="variety" [placeholder]="'Select Variety Name'">
+                      </ng-multiselect-dropdown>
+                      <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                        <img src="assets/images/16.svg" alt="" srcset="">
+                      </div> -->
+                    </div>
+                  </div>
+  
+                </div>
+                <div class="row">
+                  <div _ngcontent-cvx-c131="" class="col-12 pt-4  search-cancle-button buttons-phone">
+                    <button _ngcontent-cvx-c131=""
+                      class="form-button   search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-1"
+                      (click)="submit()"> Search </button>
+                    <button _ngcontent-cvx-c131="" (click)="clear()"
+                      class="clear-form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"><i
+                        class="fa fa-refresh" aria-hidden="true"> </i> &nbsp; Clear</button>
+  
+                    <div class="dropdown float-right export_dropdown">
+                      <button (click)="myFunction()"
+                        class="form-button  search ml-1 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-1"
+                        style="font-size: 87%;">Export To &nbsp;<i class="fa fa-angle-down" aria-hidden="true">
+                        </i></button>
+                      <div id="myDropdown" class="dropdown-content">
+                        <a (click)="download()"> <img src="assets\icons\pdf-icon.png" alt="" width="20px" height="20px">
+                          PDF</a>
+                        <a (click)="exportexcel()"> <img src="assets\icons\excel.jpg" alt="" width="20px" alt="">
+                          Excel</a>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div _ngcontent-cvx-c131="" class="col-12 px-4">
+                    <hr _ngcontent-cvx-c131="" class="separator m-0">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div *ngIf="is_search" class="col-12 px-4">
+            <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+            <div class="list-wrapper px-4 py-3">
+              <div class="row d-none d-md-flex data-row-header extra-header">
+                <div class="col-2 col-md-2 py-3 d-flex verticle-content-middle">
+                </div>
+                <div class="col-8 col-md-8 py-3 d-flex justify-content-center"><span>BSP III (Inspection
+                    Report of the Monitoring Team)</span>
+                </div>
+                <div class="col-2 col-md-2 py-3 d-flex verticle-content-middle">
+                </div>
+              </div>
+              <br>
+              <div class="row d-none d-md-flex data-row-header">
+                <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle">Year of Indent :
+                  {{year?year:'NA'}}
+                </div>
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Season :
+                  {{season && (season == 'R')?'Rabi':'Kharif'}}
+                </div>
+                <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle">Crop Type :
+                  {{crop_type && (crop_type == 'A')?'Agriculture':'Horticulture'}}
+                </div>
+                <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">PD/PC :
+                  {{crop?crop:'NA'}}
+                </div> -->
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Unit :
+                  {{crop_type && (crop_type == 'A')?'Quintal ':'Kg'}}
+                </div>
+                <div class="col-6 col-md-2 py-3 d-flex justify-content-end">As on Date: {{todayData
+                  | date:"dd-MM-YYYY"}}
+                </div>
+              </div>
+              <div class="middle_line"></div>
+              <div class="row data-row">
+                <table class="table table-bordered table-responsive">
+                  <thead>
+                    <tr class="data-row-header">
+                      <!-- <th scope="col" class="col-md-1 py-2">S/N</th> -->
+                      <th scope="col" class="col-md-2 py-2">Crop</th>
+                      <th scope="col" class="col-md-2 py-2">Variety</th>
+
+                      <th scope="col" class="col-md-2 py-2">Name of BSPCs Assigned</th>
+                      
+                      <th scope="col" class="col-md-2 py-2">Report Of the Monitory  Team</th>
+                      <!-- <th scope="col" class="col-md-2 py-2">Report Status, If Remonitored</th> -->
+                      <th scope="col" class="col-md-1 py-2">View Monitoring Report</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let data of data1; let dataIndex=index">
+                        <ng-container *ngFor="let varietyData of data.variety; let varietyIndex=index">
+                        <ng-container *ngFor="let bspcData of varietyData.bspc; let bspcIndex=index">
+                          <tr>
+                            <td *ngIf="bspcIndex == 0 && varietyIndex == 0" [attr.rowspan]="data.variety_counts">{{data && data.crop_name ? data.crop_name :''}}</td>
+                            <td *ngIf="bspcIndex == 0 " [attr.rowspan]="varietyData.bspcCount">{{varietyData && varietyData.variety_name ? varietyData.variety_name :''}}</td>
+                            <td >{{bspcData && bspcData.bspc_name ? bspcData.bspc_name :''}}</td>
+                            <td >{{bspcData && bspcData.report_status ? bspcData.report_status :''}}</td>
+                            <button class="list-action-buttons"
+                            (click)="showPdf( pdfModal ,bspcData.view_moniter_report)"
+                            >
+                            <img src="assets/images/view.svg">
+                        </button>
+                            <!-- <td style="border: none;"  title="{{bspcData && bspcData.view_moniter_report}}">
+                                <a href="bspcData && bspcData.view_moniter_report ? bspcData.view_moniter_report"
+                                  target="_blank"><i class='fas fa-file-pdf' style='color: red;font-size: 15px;'></i>
+                                </a>
+                                {{bspcData && bspcData.view_moniter_report ? bspcData.view_moniter_report:'NA'}}
+                                <hr>
+                              </td> -->
+
+                      
+                          </tr>
+                        </ng-container>
+                        </ng-container>
+                      </ng-container>
+                  </tbody>
+                </table>
+  
+                <!-- <table class="table table-bordered table-responsive" id="excel-table">
+                  <thead>
+                    <tr class="data-row-header">
+                      <th scope="col" class="col-md-1 py-2">S/N</th>
+                      <th scope="col" class="col-md-2 py-2">Crop</th>
+                      <th scope="col" class="col-md-2 py-2">Name of BSPCs produced</th>
+                      <th scope="col" class="col-md-2 py-2">Varieties produced by the BSPCs</th>
+                      <th scope="col" class="col-md-2 py-2">Report Status</th>
+                      <th scope="col" class="col-md-2 py-2">Report Status, If Remonitored</th>
+                    </tr>
+                  </thead>
+  
+                  <tbody>
+                    <ng-container *ngFor="let data of data1; let dataIndex=index">
+                      <ng-container *ngFor="let bspcData of data.bspc; let bspcIndex=index">
+                        <tr>
+                          <td *ngIf="bspcIndex == 0" [attr.rowspan]="bspcData.length">{{ dataIndex + 1 }}.</td>
+                          <td *ngIf="bspcIndex == 0" [attr.rowspan]="bspcData.length">{{data && data.crop_name ? data.crop_name :'' }}</td>
+                          <td *ngIf="bspcIndex > 0" [attr.rowspan]="bspcData.length"></td>
+                          <td *ngIf="bspcIndex > 0" [attr.rowspan]="bspcData.length"></td>
+                          <td>{{bspcData && bspcData.name ? bspcData.name : "NA"}}</td>
+                          <td>{{bspcData && bspcData.variety_name ? bspcData.variety_name : "NA"}}</td>
+                          <td>{{bspcData && bspcData.report_status ? bspcData.report_status : "NA"}}</td>
+                          <td>{{bspcData && bspcData.report_status ? bspcData.report_status : "NA"}}</td>
+                        </tr>
+                      </ng-container>
+                    </ng-container>
+                  </tbody>
+                
+                </table> -->
+              </div>
+            </div>
+          </div>
+          <div style="display:none">
+
+              <div  id="excel-table" class="col-12 px-4">
+                <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+                <div class="list-wrapper px-4 py-3">
+                  <div class="row d-none d-md-flex data-row-header extra-header">
+                    <div class="col-2 col-md-2 py-3 d-flex verticle-content-middle">
+                    </div>
+                    <div class="col-8 col-md-8 py-3 d-flex justify-content-center"><span>BSP III (Inspection
+                        Report of the Monitoring Team)</span>
+                    </div>
+                    <div class="col-2 col-md-2 py-3 d-flex verticle-content-middle">
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row d-none d-md-flex data-row-header">
+                    <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle">Year of Indent :
+                      {{year?year:'NA'}}
+                    </div>
+                    <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Season :
+                      {{season && (season == 'R')?'Rabi':'Kharif'}}
+                    </div>
+                    <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle">Crop Type :
+                      {{crop_type && (crop_type == 'A')?'Agriculture':'Horticulture'}}
+                    </div>
+                    <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">PD/PC :
+                      {{crop?crop:'NA'}}
+                    </div> -->
+                    <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Unit :
+                      {{crop_type && (crop_type == 'A')?'Quintal':'Kg'}}
+                    </div>
+                    <div class="col-6 col-md-2 py-3 d-flex justify-content-end">As on Date: {{todayData
+                      | date:"dd-MM-YYYY"}}
+                    </div>
+                  </div>
+                  <div class="middle_line"></div>
+                  <div class="row data-row">
+                    <table class="table table-bordered table-responsive">
+                      <thead>
+                        <tr class="data-row-header">
+                          <!-- <th scope="col" class="col-md-1 py-2">S/N</th> -->
+                          <th scope="col" class="col-md-2 py-2">Crop</th>
+                          <th scope="col" class="col-md-2 py-2">Variety</th>
+    
+                          <th scope="col" class="col-md-2 py-2">Name of BSPCs Assigned</th>
+                          
+                          <th scope="col" class="col-md-2 py-2">Report Of the Monitory  Team</th>
+                          <!-- <th scope="col" class="col-md-2 py-2">Report Status, If Remonitored</th> -->
+                          <th scope="col" class="col-md-1 py-2">View Monitoring Report</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngFor="let data of data1; let dataIndex=index">
+                            <ng-container *ngFor="let varietyData of data.variety; let varietyIndex=index">
+                            <ng-container *ngFor="let bspcData of varietyData.bspc; let bspcIndex=index">
+                              <tr>
+                                <td *ngIf="bspcIndex == 0 && varietyIndex == 0" [attr.rowspan]="data.variety_counts">{{data && data.crop_name ? data.crop_name :''}}</td>
+                                <td *ngIf="bspcIndex == 0 " [attr.rowspan]="varietyData.bspcCount">{{varietyData && varietyData.variety_name ? varietyData.variety_name :''}}</td>
+                                <td >{{bspcData && bspcData.bspc_name ? bspcData.bspc_name :''}}</td>
+                                <td >{{bspcData && bspcData.report_status ? bspcData.report_status :''}}</td>
+                                <button class="list-action-buttons"
+                                (click)="showPdf( pdfModal ,bspcData.view_moniter_report)"
+                                >
+                                <img src="assets/images/view.svg">
+                            </button>
+                                <!-- <td style="border: none;"  title="{{bspcData && bspcData.view_moniter_report}}">
+                                    <a href="bspcData && bspcData.view_moniter_report ? bspcData.view_moniter_report"
+                                      target="_blank"><i class='fas fa-file-pdf' style='color: red;font-size: 15px;'></i>
+                                    </a>
+                                    {{bspcData && bspcData.view_moniter_report ? bspcData.view_moniter_report:'NA'}}
+                                    <hr>
+                                  </td> -->
+    
+                          
+                              </tr>
+                            </ng-container>
+                            </ng-container>
+                          </ng-container>
+                      </tbody>
+                    </table>
+      
+                    
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div style="display: none;">
+            <div id="excel-table-data">
+              <div class="row d-none d-md-flex data-row-header extra-header">
+                <div class="col-2 col-md-2 py-3 d-flex verticle-content-middle">
+                </div>
+                <div class="col-8 col-md-8 py-3 d-flex justify-content-center"><span>BSP III (Inspection
+                    Report of the Monitoring Team)</span>
+                </div>
+                <div class="col-2 col-md-2 py-3 d-flex verticle-content-middle">
+                </div>
+              </div>
+              <!-- <br> -->
+              <div class="row d-none d-md-flex data-row-header">
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Year of Indent :
+                  {{year?year:'NA'}}
+                </div>
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Season :
+                  {{season && (season == 'R')?'Rabi':'Kharif'}}
+                </div>
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Crop Type :
+                  {{crop_type && (crop_type == 'A')?'Agriculture':'Horticulture'}}
+                </div>
+                <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">PD/PC :
+                    {{crop?crop:'NA'}}
+                  </div> -->
+                <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Crop :
+                  {{crop && crop?crop[0].crop_name:'NA'}}
+                </div>
+                <div class="col-6 col-md-2 py-3 d-flex justify-content-end">As on Date: {{todayData
+                  | date:"dd-MM-YYYY"}}
+                </div>
+              </div>
+              <div class="middle_line"></div>
+              <table class="table table-bordered table-responsive">
+                <thead>
+                  <!-- start excel heading -->
+                  <tr>
+                    <th colspan="6">BSP III (Inspection
+                      Report of the Monitoring Team)</th>
+                  </tr>
+                  <tr>
+                    <th>Year of Indent</th>
+                    <th>Season</th>
+                    <th>Crop Type</th>
+                    <th>Crop</th>
+                    <th>As on Date</th>
+                  </tr>
+                  <tr>
+                    <td>{{year ? year :''}}</td>
+                    <td>{{season && (season == 'R')?'Rabi':'Kharif'}}</td>
+                    <td>{{crop_type && (crop_type == 'A')?'Agriculture':'Horticulture'}}</td>
+                    <td>{{crop && crop?crop[0].crop_name:'NA'}}</td>
+                    <td>{{todayData
+                      | date:"dd-MM-YYYY"}}</td>
+                  </tr>
+                  <tr>
+                    <th></th>
+                  </tr>
+                  <!-- end excel heading -->
+                  <tr class="data-row-header">
+                    <th scope="col" class="col-md-1 py-2">S/N</th>
+                    <th scope="col" class="col-md-2 py-2">Crop</th>
+                    <th scope="col" class="col-md-2 py-2">Name of BSPCs Assigned</th>
+                    <th scope="col" class="col-md-2 py-2">Report Of the Monitory Team</th>
+                    <th scope="col" class="col-md-2 py-2">View Monitoring Report</th>
+                    <!-- <th scope="col" class="col-md-2 py-2">Report Status, If Remonitored</th> -->
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <ng-container *ngFor="let data of data1; let dataIndex=index">
+                    <ng-container *ngFor="let varietyData of data.variety; let varietyIndex=index">
+                    <ng-container *ngFor="let bspcData of varietyData.bspc; let bspcIndex=index">
+                      <tr>
+                        <td *ngIf="bspcIndex == 0 && varietyIndex == 0" [attr.rowspan]="data.variety_counts">{{data && data.crop_name ? data.crop_name :''}}</td>
+                        <td *ngIf="bspcIndex == 0 " [attr.rowspan]="varietyData.bspcCount">{{varietyData && varietyData.variety_name ? varietyData.variety_name :''}}</td>
+                        <td >{{bspcData && bspcData.bspc_name ? bspcData.bspc_name :''}}</td>
+                        <td >{{bspcData && bspcData.report_status ? bspcData.report_status :''}}</td>
+                        <button class="list-action-buttons"
+                        (click)="showPdf( pdfModal ,bspcData.view_moniter_report)"
+                        >
+                        <img src="assets/images/view.svg">
+                    </button>
+                        <!-- <td style="border: none;"  title="{{bspcData && bspcData.view_moniter_report}}">
+                            <a href="bspcData && bspcData.view_moniter_report ? bspcData.view_moniter_report"
+                              target="_blank"><i class='fas fa-file-pdf' style='color: red;font-size: 15px;'></i>
+                            </a>
+                            {{bspcData && bspcData.view_moniter_report ? bspcData.view_moniter_report:'NA'}}
+                            <hr>
+                          </td> -->
+
+                  
+                      </tr>
+                    </ng-container>
+                    </ng-container>
+                  </ng-container>
+                </tbody>
+                
+              </table>
+            </div>
+          </div>
+          <div *ngIf="!is_search" class="px-2 py-3 w-100 pt-2">
+            <div class="d-flex verticle-content-middle justify-content-center w-100">
+              {{isSearchMsg}}
+            </div>
+          </div>
+          <div class="col-12 px-3   py-3">
+
+          </div>
+  
+          <div *ngIf="data1 && data1.length <1 && is_search" class="px-2 py-3 w-100" style="height: 50px;">
+            <div class="d-flex verticle-content-middle justify-content-center w-100">
+              No Data Found.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #pdfModal>
+    <div class="modal-body p-4">
+        <button type="button" class="close modal-cross pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">×</span>
+        </button>
+        <div>
+            <!-- href={{pdfSrc}} -->
+            <div class="font-size-20 font-weight-bold pb-3">Document Preview
+                <a style="margin-left: 450px;" class="" download="attachment" target="_blank" >
+                    <img style="max-width: 40px; max-height: 40px;" src="assets/images/download.png" />
+                </a>
+            </div>
+            <div class="theme mt-1 py-1">
+                <!-- [src]="pdfSrc" -->
+                <!-- <pdf-viewer [src]="pdfSrc" [render-text]="true" style="display: block;"></pdf-viewer> -->
+                <pdf-viewer [src]="pdfSrc" [render-text]="true" [original-size]="false"
+                    style="width: 95%; height: 500px"></pdf-viewer>
+            </div>
+        </div>
+    </div>
+</ng-template>

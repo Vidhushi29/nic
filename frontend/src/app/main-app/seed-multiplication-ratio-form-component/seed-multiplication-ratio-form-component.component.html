@@ -1,0 +1,368 @@
+<form [hidden]="hideView" [formGroup]="ngForm">
+    <!-- (ngSubmit)="submitForm(formSuperGroup.value)" -->
+    <div class="row my-4 w-100 mx-0 form-child">
+        <div class="col-12 d-flex justify-content-center verticle-content-middle">
+            <div class="main-content-form-wrapper px-0 py-2">
+                <div class="row">
+                    <div class="col-12 px-4 py-2 ml-0">
+                        <span class="ml-1" style="font: normal Poppins;
+                        font-weight: bold;
+                        font-size: 20px;
+                        letter-spacing: 0px;
+                        text-align: left;
+                        opacity: 1;">
+                            Seed Multiplication Ratio
+                        </span>
+                    </div>
+                    <!-- <div class="col-12 pl-4 pr-3">
+                        <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="IstPartFormGroup" [isView]="isView">
+                        </app-dynamic-fields>
+                    </div> -->
+                    <div class="col-12 pt-3 pr-2">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12  col-lg-2 pl-4">
+                                <label for="" class="left-heading pl-1">Crop Group</label>
+                            </div>
+                            <div
+                                class="col-md-12 col-sm-11 d-flex pl-sm-3 pl-lg-0 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4">
+                                <div ngbDropdown class="d-inline-block w-100 ">
+                                    <button class="btn takeplacholder w-100 crop toggle-button"
+                                         id="group_code" ngbDropdownToggle
+                                        style="text-align: left;font-weight:400;">{{selected_group &&
+                                        (selected_group.length>30) ? (selected_group.substring(0,30)+'...'):selected_group?
+                                        selected_group :'Select Crop Group'}}</button>
+    
+                                    <div class="dropdown-menu w-100" ngbDropdownMenu="group_code"
+                                        aria-labelledby="sortMenu">
+                                        <input type="text" class="form-control px-4" formControlName="group_text">
+                                        <button class="dropdown-item" *ngFor="let data of cropDataa"
+                                            (click)="group_select(data)" #dropdownItem
+                                            [attr.data-parent-name]="'group_code'">
+                                            {{data.name}}
+                                            <!-- <input type="hidden" formControlName="crop_code"> -->
+                                        </button>
+    
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown
+                                       >
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cnClick()"></i>
+                                    </div>
+                                    <!-- <select formControlName="group_code" class="form-control"
+                                        [ngClass]="disabledfield ? 'form-crop':''">
+                                        <option value="">Select Crop Group</option>
+                                        <option value="{{data.group_code}}" *ngFor="let data of croupGroupList">
+                                            {{data.group_name}}</option>
+                                    </select> -->
+                                    <!-- <button class="btn takeplacholder w-100 crop toggle-button" [ngClass]=" disabledfield ? 'disabledfield' : ''" id="crop_group" ngbDropdownToggle style="text-align: left;">{{selectCrop  ? selectCrop: "Select Croup Group"}}</button>
+                              
+                                <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group"  aria-labelledby="sortMenu">
+                                  <button class="dropdown-item" (click)="cropGroup(data)" *ngFor="let data of croupGroupList " >{{data && data.group_name ? data.group_name :" Select Croup Group"}}</button>
+    
+                                </div> -->
+                                    <div class="group_code errorMessage "
+                                        *ngIf="submitted || ngForm.controls['group_code'].invalid && (ngForm.controls['group_code'].dirty || ngForm.controls['group_code'].touched)">
+                                        <span *ngIf=" ngForm.controls['group_code'].errors?.['required']">
+                                            Please Select Crop Group.<br>
+                                        </span>
+                                    </div>
+    
+                                </div>
+                                <!-- <div class="pl-0 toggle-button" ngbDropdown >
+                                <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                            </div> -->
+    
+    
+                            </div>
+    
+                        </div>
+                        <!-- </div> -->
+    
+                    </div>
+                    
+                    <div class="col-12 px-4 py-3">
+                        <hr class="separator my-0 mx-2">
+                    </div>
+                    <div class="col-md-4 px-4 py-2 col-10"
+                        *ngIf="!isEdit && !isView && filterPaginateSearch.itemListTotalPage > 0">
+                        <div class="form-nodal-input-custom-placeholder d-flex verticle-content-middle mx-2"
+                            [ngClass]="ngForm.controls['search'].value ? 'hide' : ''">
+                            <span>Search Here</span>
+                            <i class="fa fa-search nodal-search-icon"></i>
+                        </div>
+                        <input class="form-nodal-input mx-2 w-100" formControlName="search" (ngModelChange)="getCropList($event)">
+                    </div>
+                    <div class="col-12 px-4" *ngIf="filterPaginateSearch.initialized">
+                        <div *ngFor="let eachIIndPartFormArray of filterPaginateSearch.itemList; let varietyIndexInAccordion=index"
+                            class="col-accordion m-2"
+                            [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? '' : 'hide'">
+                            <div (click)="activateVarietyIndexInAccordion(varietyIndexInAccordion)">
+                                <label class="px-3 py-2 mx-0 mt-2 mb-0 va-l">
+                                    {{ eachIIndPartFormArray.name }}
+                                </label>
+                                <i class="fas accordion-dropdown"
+                                    [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                            </div>
+                            <app-dynamic-fields [id]="eachIIndPartFormArray.groupCode"
+                                [fieldsList]="eachIIndPartFormArray.arrayfieldsIIndPartList"
+                                [formGroup]="eachIIndPartFormArray.formGroup" [isLabelControlParallel]="false">
+                            </app-dynamic-fields>
+                        </div>
+                        <!-- <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&
+                        (!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+                            class="px-2 py-3 w-100" style="height: 50px;">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data found.
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="col-12">
+                        <div class="row reverse-col-in-row-till-lg">
+                            <div *ngIf="!isView" class=" px-3 pb-md-5 sub_updt_cancel_btn"
+                                [ngClass]="filterPaginateSearch.itemListTotalPage < 2 ? 'col-12-pr-2' : 'col-12 col-xl-4'">
+                                <div class="resp_btn">
+                                    <button
+                                        *ngIf="filterPaginateSearch.initialized 
+                                        && filterPaginateSearch.itemListTotalPage > 1 
+                                        && filterPaginateSearch.itemListCurrentPage != filterPaginateSearch.itemListTotalPage"
+                                        class="form-button ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        (click)="saveAndNavigate()">
+                                        Save And Next
+                                    </button>
+                                </div>
+                                <!-- (click)="submit()" -->
+                                <div class="resp_btn">
+                                    <button (click)="submitForm(formSuperGroup.value)"
+                                        *ngIf="filterPaginateSearch.initialized 
+                                        && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                        class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                        Save
+                                    </button>
+                                </div>
+                                <div class="resp_btn">
+                                    <button
+                                        class="form-button cancel_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        [routerLink]="['/seed-multiplication-ratio-list']">Cancel</button>
+                                </div>
+                                <!-- <button *ngIf="(!isEdit || (isEdit && isDraft)) && filterPaginateSearch.initialized 
+                        && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="saveAsDraft()">Save as
+                                    Draft</button> -->
+                            </div>
+                            <div class="col-12 col-xl-8 col-sm-12 px-4 pb-md-5 d-flex justify-content-end py-2 py-xl-0">
+                                <app-pagination-ui></app-pagination-ui>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div *ngIf="isView" class="col-12 px-3">
+                        <button class="form-button ml-2 d-flex justify-content-center verticle-content-middle mb-3"
+                            [routerLink]="['/seed-multiplication-ratio-list']">Cancel</button>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!--start for edit and view form only -->
+<div [hidden]="!hideView" class="main-div mt-4 ml-4 mr-4 ">
+
+    <form [formGroup]="ngForm">
+        <div class="col-12 pt-0">
+            <div class="col-12 px-0 py-3">
+                <span class="page-type-1-title ml-2">
+                    <span [hidden]="isEdit || isView">Add</span><span [hidden]="!isEdit">Update</span><span
+                        [hidden]="!isView">View</span>&nbsp;Seed Multiplication Ratio
+                </span>
+            </div>
+            <div class="row px-4 ">
+                <div class="col-12 col-md-12">
+                    <div class="row">
+                        <div class="col-12 col-md-2 pl-0 ">
+                            <label for="Crop Group" class="search_txt">Crop Group</label>
+                        </div>
+                        <div class="col-12 col-md-10 pl-0 pr-0">
+                            <select class="form-select form-control" aria-label="Default select example"
+                                formControlName="crop_group_code">
+                                <option value="">Select Crop Group </option>
+                                <option *ngFor="let data of cropData" value="{{data.group_code}}">
+                                    {{data.group_name}}</option>
+                            </select>
+                            <div class="pl-0 toggle-button" ngbDropdown>
+                                <img src="assets/images/16.svg" alt="" srcset="">
+                                <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-12 px-0">
+                    <hr class="separator mx-0 mt-1">
+                </div>
+
+                <div class="col-12 col-md-12 pb-4 ">
+                    <div class="row form-div">
+
+                        <!-- Crop Name -->
+                        <div class="col-12 col-md-4 pl-0 pt-3">
+                            <div class="col-12">
+                                <label for="Crop Group" class="search_txt">Crop Name</label>
+                            </div>
+                            <div class="col-12 pl-3 pr-0">
+                                <input type="text" class="form-input form-control" plcaceholder=""
+                                    formControlName="crop_name">
+                            </div>
+                        </div>
+
+                        <!-- nucleus_breader -->
+                        <div class="col-12 col-md-4 pl-0 pt-3">
+                            <div class="col-12">
+                                <!-- &nbsp;<span style="color:red;font-size:20px">*</span> -->
+                                <label for="Crop Group" class="search_txt">Nucleus to Breeder </label>
+                            </div>
+                            <div class="col-12 pr-0">
+                                <input type="number" (keypress)="checkNumberswithoutDecimal($event)" (keypress)="checkLength($event,3)"
+                                (paste)="onPasteNumber($event,'nucleus_breader','3')"
+                                    max="500" min="1" class="form-input form-control" plcaceholder=""
+                                    formControlName="nucleus_breader">
+                            </div>
+                            <!-- <div class="nucleus_breader errorMessage"
+                                *ngIf="submitted || ngForm.controls['nucleus_breader'].invalid && (ngForm.controls['nucleus_breader'].dirty || ngForm.controls['nucleus_breader'].touched)">
+                                <span *ngIf=" ngForm.controls['nucleus_breader'].errors?.['minlength']">
+                                    value must be less than or equal to 500. <br>
+                                </span>
+                                <span *ngIf=" ngForm.controls['nucleus_breader'].errors?.['maxlength']">
+                                    value must be less than or equal to 500. <br>
+                                </span>
+                                <span *ngIf=" ngForm.controls['resemblance_to_variety'].errors?.['pattern']">
+                                    Please Enter Valid Resemblance to Variety. <br>
+                                </span>
+                            </div> -->
+                            <div class="pl-3" *ngIf="NumError">
+                                <span style="color:red; font-size: medium;">{{NumError}}</span>
+                            </div>
+                        </div>
+
+                        <!-- breader_to_foundation_1 -->
+                        <div class="col-12 col-md-4 pl-0 pt-3">
+                            <div class="col-12">
+                                <label for="Crop Group" class="search_txt">Breeder to Foundation I</label>
+                            </div>
+                            <div class="col-12 pr-0">
+                                <input type="number" class="form-input form-control" plcaceholder=""
+                                (paste)="onPasteNumber($event,'breader_to_foundation_1','3')"
+                                    formControlName="breader_to_foundation_1" (keypress)="checkNumberswithoutDecimal($event)"
+                                    (keypress)="checkLength($event,3)">
+                            </div>
+                            <div class="pl-3" *ngIf="NumError1">
+                                <span style="color:red; font-size: medium;">{{NumError1}}</span>
+                            </div>
+                        </div>
+
+                        <!-- foundation_1_to_foundation_2 -->
+                        <div class="col-12 col-md-4 pl-0 pt-3 pb-0">
+                            <div class="col-12">
+                                <label for="Crop Group" class="search_txt">Foundation I to Foundation II</label>
+                            </div>
+                            <div class="col-12 pr-0">
+                                <input type="number" class="form-input form-control" plcaceholder=""
+                                (paste)="onPasteNumber($event,'foundation_1_to_foundation_2','3')"
+                                    (keydown)="checkNumberswithoutDecimal($event)" (keypress)="checkLength($event,3)"
+                                    formControlName="foundation_1_to_foundation_2">
+                            </div>
+                            <div class="pl-3" *ngIf="NumError2">
+                                <span style="color:red; font-size: medium;">{{NumError2}}</span>
+                            </div>
+                        </div>
+
+                        <!-- foundation_2_to_certified -->
+                        <div class="col-12 col-md-4 pl-0 pt-3 pb-0">
+                            <div class="col-12">
+                                <label for="Crop Group" class="search_txt">Foundation II to Certified</label>
+                            </div>
+                            <div class="col-12 pr-0">
+                                <input type="number" class="form-input form-control" plcaceholder=""
+                                (paste)="onPasteNumber($event,'foundation_2_to_certified','3')"
+                                    formControlName="foundation_2_to_certified" (keypress)="checkNumberswithoutDecimal($event)"
+                                    (keypress)="checkLength($event,3)">
+                            </div>
+                            <div class="pl-3" *ngIf="NumError3">
+                                <span style="color:red; font-size: medium;">{{NumError3}}</span>
+                            </div>
+                        </div>
+
+                        <!-- start add status -->
+                        <div *ngIf="isEdit || isView" class="col-12 pt-3">
+                            <div class="row">
+                                <div class="col-sm-2 pl-4  pt-2">
+                                    <label for="" class="left-heading">Status <span style="color: red;">*</span></label>
+                                </div>
+                                <div class="col-sm-9 pt-2">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <div class="row">
+                                                <div class="col-1">
+                                                    <label class="switch">
+                                                        <input type="checkbox" (change)="toggleDisplayDiv()"
+                                                            formControlName="status_toggle" checked>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-10">
+                                                    <div class="row">
+                                                        <div class="col-12 status_in_act">
+                                                            <div [hidden]="!isShowDiv">Inactive</div>
+                                                        </div>
+                                                        <div class="col-12 status_in_act">
+                                                            <div [hidden]="isShowDiv">Active</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- add status finish -->
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+
+
+    <div [hidden]="isView" class="col-md-12 pb-3 mt-4 px-1 sub_updt_cancel_btn">
+        <div class="resp_btn">
+            <button (click)="onUpdate()"
+                class="form-button update_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                Update
+            </button>
+        </div>
+        <div class="resp_btn">
+            <button
+                class="form-button ml-3 cancel_btn d-inline-flex justify-content-center verticle-content-middle mb-3"
+                routerLink="/seed-multiplication-ratio-list">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <div class="resp_btn" [hidden]="!isView">
+        <button class="form-button ml-4 cancel_btn d-inline-flex justify-content-center verticle-content-middle mb-3"
+            routerLink="/seed-multiplication-ratio-list">
+            Cancel
+        </button>
+    </div>
+
+
+</div>
+<!-- finish for edit and view form only -->

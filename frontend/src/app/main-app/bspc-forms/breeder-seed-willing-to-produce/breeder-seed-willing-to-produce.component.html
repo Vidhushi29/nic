@@ -1,0 +1,513 @@
+<!-- <p>breeder-seed-inventory works!</p> -->
+<form [formGroup]="ngForm">
+    <div class="main-inventory">
+        <div class="row">
+            <div class="col-12  col-md-12 col-lg-12 title-inventory pl-0 pb-1 pt-1">
+                Willingness to Produce Breeder Seed.
+            </div>
+
+            <!-- first card ui  -->
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="row card-inventory form-group">
+                    <!-- start sectio 1  -->
+                    <div class="col-12 col-md-10 col-lg-10 pt-2">
+                        <div class="row">
+                            <!-- year of indent -->
+                            <div class="col-12 col-md-4 col-lg-4 col-sm-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="year" class="label-inventory required">Year of Indent</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <select class=" form-control input-inventory" formControlName="year">
+                                            <option value="">Please Select Year</option>
+                                            <option *ngFor="let year of inventoryYearData" value="{{year.year}}">{{year
+                                                && year.year}}-{{(year.year-2000)+1}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- season  -->
+                            <div class="col-12 col-md-4 col-lg-4 col-sm-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="year" class="label-inventory required">Season</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <select class=" form-control input-inventory" formControlName="season">
+                                            <option value="">Please Select Season</option>
+                                            <option *ngFor="let data of inventorySeasonData"
+                                                value="{{data.season_code}}">{{data && data.season ? data.season:''}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- crop -->
+                            <div class="col-12 col-md-4 col-lg-4 col-sm-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="year" class="label-inventory required">Crop</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <select class=" form-control input-inventory" formControlName="crop">
+                                            <option value="">Please Select Crop</option>
+                                            <option *ngFor="let data of inventoryCropData" value="{{data.crop_code}}">
+                                                {{data && data.crop_name ? (data.crop_name | uppercase):''}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-2 col-lg-2 pt-2">
+                        <div class="col-12 pt-4">
+                            <button
+                                class="form-button btn-inventory search d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="getPageData()">Search</button>
+                            <!-- (click)="search()" -->
+                        </div>
+                    </div>
+                </div>
+                <div class="row card-inventory form-group">
+                    <div class="col-12 col-md-12 col-lg-12"
+                        *ngIf="isCrop && inventoryVarietyData && inventoryVarietyData.length > 0">
+                        <div class="row">
+                            <div class="col-12 col-md-10 col-lg-10 pt-2">
+                                <div class="row">
+                                    <!-- Variety -->
+                                    <div class="col-12 col-md-4 col-lg-4">
+                                        <!-- <div ngbDropdown class="d-inline-block w-100 ">
+                                            <div class="col-12">
+                                                <label for="year" class="label-inventory required">Variety</label>
+                                            </div>
+                                            <button
+                                                class="btn takeplacholder disableField input-inventory w-100 crop toggle-button"
+                                                id="variety" ngbDropdownToggle style="text-align: left;">{{selectVariety
+                                                &&
+                                                (selectVariety.length>30) ?
+                                                (selectVariety.substring(0,30)+'...'):selectVariety?
+                                                selectVariety :'Select Variety'}}</button>
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="crop"
+                                                aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4"
+                                                    formControlName="vaiety_text">
+                                                <button class="dropdown-item" *ngFor="let item of inventoryVarietyData"
+                                                    (click)="variety(item)" #dropdownItem
+                                                    [attr.data-parent-name]="'variety'">
+                                                    {{item && item.variety_name ? item.variety_name:''}}
+                                                </button>
+                                            </div>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <i class="fa-solid fa-angle-down downicon disableField"
+                                                    (click)="vClick()"></i>
+                                            </div>
+                                        </div> -->
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label for="year" class="label-inventory required">Select Variety</label>
+                                            </div>
+                                            <div class="col-12">
+                                                <select type="text" class=" form-control input-inventory"
+                                                    formControlName="variety">
+                                                    <option value="">Please Select Variety</option>
+                                                    <option *ngFor="let data of inventoryVarietyData" value="{{data && data.variety_code ? data.variety_code:''}}"> {{data && data.variety_name ? data.variety_name :"NA"}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 col-lg-4" *ngIf="showParentData">
+                                        <div ngbDropdown class="d-inline-block w-100 ">
+                                            <div class="col-12">
+                                                <label for="year" class="label-inventory required"> Parental Line</label>
+                                            </div>
+                                            <button
+                                                class="btn takeplacholder disableField input-inventory w-100 crop toggle-button"
+                                                id="parental" ngbDropdownToggle
+                                                style="text-align: left;">{{selectparental
+                                                &&
+                                                (selectparental.length>30) ?
+                                                (selectparental.substring(0,30)+'...'):selectparental?
+                                                selectparental :'Select Parental Line'}}</button>
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="crop"
+                                                aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4"
+                                                    formControlName="parental_text">
+                                                <button class="dropdown-item" *ngFor="let item of parentalList"
+                                                    (click)="parental(item)" #dropdownItem
+                                                    [attr.data-parent-name]="'parental'">
+                                                    {{item && item.line_variety_name ? item.line_variety_name:''}}
+                                                </button>
+                                            </div>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <i class="fa-solid fa-angle-down downicon disableField"
+                                                    (click)="pClick()"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row pl-3"
+                                        *ngIf="showParentData && ngForm.controls['parental_data'].value">
+                                        <div class="col-12 col-md-4 col-lg-4" *ngIf="ngForm.controls['variety'].value ">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12">
+                                                    <label for="year" class="label-inventory">
+                                                        Additional Indent ({{unitValue ?
+                                                        unitValue:''}})</label>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-12">
+                                                    <input type="text" class=" form-control input-inventory"
+                                                        formControlName="direct_avail_qnt">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-4 col-lg-4" *ngIf="ngForm.controls['variety'].value">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12">
+                                                    <label for="year" class="label-inventory">Quantity of
+                                                        Nucleus
+                                                        Seed
+                                                        Available ({{unitValue ? unitValue:''}})</label>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-12">
+                                                    <input type="text" class=" form-control input-inventory"
+                                                        formControlName="nucleus_avail_qnt">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-4 col-lg-4" *ngIf="ngForm.controls['variety'].value ">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12">
+                                                    <label for="year" class="label-inventory">Quantity of
+                                                        Breeder
+                                                        Seed
+                                                        Available ({{unitValue ? unitValue:''}})</label>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-12">
+                                                    <input type="text" class=" form-control input-inventory"
+                                                        formControlName="breeder_avail_qnt">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="row pl-3" *ngIf="!showParentData ">
+
+                                        <div class="col-12 col-md-4 col-lg-4" *ngIf="ngForm.controls['variety'].value ">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12">
+                                                    <label for="year" class="label-inventory">
+                                                        Additional Indent Recieved ({{unitValue ?
+                                                        unitValue:''}})</label>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-12">
+                                                    <input type="text" class=" form-control input-inventory"
+                                                        formControlName="direct_avail_qnt">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4 col-lg-4" *ngIf="ngForm.controls['variety'].value">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12">
+                                                    <label for="year" class="label-inventory">Quantity of
+                                                        Nucleus
+                                                        Seed
+                                                        Available ({{unitValue ? unitValue:''}})</label>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-12">
+                                                    <input type="text" class=" form-control input-inventory"
+                                                        formControlName="nucleus_avail_qnt">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-4 col-lg-4" *ngIf="ngForm.controls['variety'].value ">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12">
+                                                    <label for="year" class="label-inventory ">Quantity of
+                                                        Breeder
+                                                        Seed
+                                                        Available ({{unitValue ? unitValue:''}})</label>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-12">
+                                                    <input type="text" class=" form-control input-inventory"
+                                                        formControlName="breeder_avail_qnt">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-10 col-lg-10 pt-2">
+                                <div class="row">
+                                    <!-- start section 3 -->
+                                    <div class="col-12 col-md-4 col-lg-4" *ngIf="ngForm.controls['variety'].value">
+                                        <div class="row">
+                                            <!-- Willing to Produce ? -->
+                                            <div class="col-12 col-md-6 col-lg-6">
+                                                <label for="year" class="label-inventory ">Willing to Produce ?</label>
+                                                     <div class="row pl-2">
+                                                        <div class="col-md-2 col-sm-6 col-md-2 col-lg-4 mb-2 mb-md-0">
+                                                             <div class="form-check">
+                                                                 <input [ngClass]="(ngForm.controls['breeder_avail_qnt'].value==0 && ngForm.controls['nucleus_avail_qnt'].value==0) ?'radio-disabled':''" class="radio-button form-check-input radio-btn" name="notifiedValue" type="radio" formControlName="is_developed" (change)="notifiedvalue('yes')" id="flexRadioDefault1" value="yes" [checked]="ngForm.controls['is_developed'].value=='yes'">
+                                                                 <label class="form-check-label" for="flexRadioDefault1" [ngClass]="(ngForm.controls['breeder_avail_qnt'].value==0 && ngForm.controls['nucleus_avail_qnt'].value==0) ?'pointer':''">Yes</label>
+                                                             </div>
+                                                         </div>
+                                                         <div class="col-md-2 col-sm-6 col-md-2 col-lg-4">
+                                                             <div class="form-check">
+                                                                 <input class="radio-button form-check-input radio-btn" name="notifiedValue" type="radio" formControlName="is_developed" (change)="notifiedvalue('no')" id="flexRadioDefault2" value="no" [checked]="ngForm.controls['is_developed'].value=='no'">
+                                                                 <label class="form-check-label" for="flexRadioDefault2"> No </label>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                             </div>
+                                             <!-- Production Delay ? -->
+                                             <div class="col-12 col-md-6 col-lg-6" *ngIf="isDeveloped && !is_developed">
+                                                <label for="year" class="label-inventory ">Production Delay ?</label>
+                                                     <div class="row pl-2">
+                                                        <div class="col-md-2 col-sm-6 col-md-2 col-lg-4 mb-2 mb-md-0">
+                                                             <div class="form-check">
+                                                                 <input [ngClass]="(ngForm.controls['breeder_avail_qnt'].value==0 && ngForm.controls['nucleus_avail_qnt'].value==0) ?'radio-disabled':''" class="radio-button form-check-input radio-btn" name="notifiedValue1" type="radio" (change)="productionDelay('yes')" formControlName="is_production_delay" id="flexRadioDefault11" value="yes" [checked]="ngForm.controls['is_production_delay'].value=='yes'">
+                                                                 <label class="form-check-label" for="flexRadioDefault11" [ngClass]="(ngForm.controls['breeder_avail_qnt'].value==0 && ngForm.controls['nucleus_avail_qnt'].value==0) ?'pointer':''">Yes</label>
+                                                             </div>
+                                                         </div>
+                                                         <div class="col-md-2 col-sm-6 col-md-2 col-lg-4">
+                                                             <div class="form-check">
+                                                                 <input class="radio-button form-check-input radio-btn" name="notifiedValue1" type="radio" formControlName="is_production_delay" id="flexRadioDefault22" value="no" [checked]="ngForm.controls['is_production_delay'].value=='no'" (change)="productionDelay('no')">
+                                                                 <label class="form-check-label" for="flexRadioDefault22"> No </label>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                             </div>                    
+                                         </div>
+                                    </div>
+
+                                  <!-- Reason for delay -->
+                                    <div class="col-12 col-md-4 col-lg-4" *ngIf="isProductionDelay">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 ml-lg-2">
+                                                <label for="year" class="label-inventory required">Reason for delay</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 ml-lg-2">
+                                                <select type="text" class=" form-control input-inventory"
+                                                    formControlName="reason_for_delay">
+                                                    <option value="">Please Select Reason</option>
+                                                    <option *ngFor="let data of reasonData" value={{data.comment}}>{{data && data.comment ? data.comment:''}}</option>
+                                                </select>
+                                                <div *ngIf=" submitted || ngForm.controls['reason_for_delay'].invalid && (ngForm.controls['reason_for_delay'].dirty || ngForm.controls['reason_for_delay'].touched)" class="reason_for_delay errorMessage">
+                                                    <span *ngIf="ngForm.controls['reason_for_delay'].errors?.['required']">Please Select Reason For Delay.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Expected date of sowing -->
+                                    <div class="col-12 col-md-4 col-lg-4" *ngIf="isProductionDelay">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 ml-lg-2">
+                                                <label for="" class="left-heading required">Expected date of sowing</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 ml-lg-2">
+                                                <input (keydown)="preventKeyPress($event)"
+                                                    class="form-control input-format input-border not_dates input-inventory"
+                                                    formControlName="expected_date" angular-mydatepicker
+                                                    [options]="myDpOptions" #dp3="angular-mydatepicker"
+                                                    (dateChanged)="onDateChangedStart($event)"
+                                                    (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth"
+                                                    placeholder="DD-MM-YYYY" autocomplete="off"/>
+                                                <!-- Error message for invalid input -->
+                                                <div *ngIf=" submitted || ngForm.controls['expected_date'].invalid && (ngForm.controls['expected_date'].dirty || ngForm.controls['expected_date'].touched)" class="expected_date errorMessage">
+                                                    <span *ngIf="ngForm.controls['expected_date'].errors?.['required']">Please Select Expected Date.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12 col-md-4 col-lg-4" *ngIf="isProductionDelay"></div>
+
+                                    <div class="col-12 col-md-4 col-lg-4 " *ngIf="isDeveloped && !is_developed">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 ml-lg-2">
+                                                <label for="year" class="label-inventory required">{{nculeusSeedText ? nculeusSeedText+' ':''}}Quantity of Nucleus Seed Willing to Use ({{unitValue ? unitValue:''}})</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 ml-lg-2">
+                                                <input type="number" class="form-control input-inventory" (keypress)="checkDecimal($event)" (keypress)="checkLength($event, 10)" formControlName="nucleus_willing_qnt" (change)="checkQntData('nucleus')" placeholder="Enter Quantity">
+                                                <div class="error pt-1"><span>{{errorMsgNucleus?errorMsgNucleus:''}}</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-4 col-lg-4 " *ngIf="isDeveloped && !is_developed">
+                                        <div class="row">
+                                            <div class="col-12 ml-lg-2">
+                                                <label for="year" class="label-inventory required">Quantity of Breeder Seed Willing to Use ({{unitValue ? unitValue:''}})</label>
+                                            </div>
+                                            <div class="col-12 ml-lg-2">
+                                                <input type="number" class=" form-control input-inventory" formControlName="breeder_willing_qnt" (keypress)="checkDecimal($event)" (keypress)="checkLength($event, 10)" (change)="checkQntData('breeder')" placeholder="Enter Quantity">
+                                                 <!-- Error message for invalid input -->
+                                                   <div *ngIf=" submitted || ngForm.controls['breeder_willing_qnt'].invalid && (ngForm.controls['breeder_willing_qnt'].dirty || ngForm.controls['breeder_willing_qnt'].touched)" class="breeder_willing_qnt errorMessage">
+                                                     <span *ngIf="ngForm.controls['breeder_willing_qnt'].errors?.['required']">Please Select Breeder Willing Qnt.</span>
+                                                  </div>
+                                                <div class="error pt-1">
+                                                    <span>{{errorMsgBreeder?errorMsgBreeder:''}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- reason -->
+                                    <div class="col-12 col-md-4 col-lg-4 ml-lg-1" *ngIf="isDeveloped">
+                                        <div class="row" *ngIf="is_developed">
+                                            <div class="col-12">
+                                                <label for="year" class="label-inventory required">Select Reason</label>
+                                            </div>
+                                            <div class="col-12">
+                                                <select class=" form-control input-inventory" formControlName="reason">
+                                                    <option value="">Please Select Reason</option>
+                                                    <option *ngFor="let data of reasonData" value={{data.id}}>{{data && data.comment ? data.comment:''}}</option>
+                                                </select>
+                                               <!-- Error message for invalid input -->
+                                                <div *ngIf=" submitted || ngForm.controls['reason'].invalid && (ngForm.controls['reason'].dirty || ngForm.controls['reason'].touched)" class="reason errorMessage">
+                                                    <span *ngIf="ngForm.controls['reason'].errors?.['required']">Please Select Reason.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- button section -->
+                        <!-- btn-inventory-cancel -->
+                        <div class="col-12 pt-3 pb-1 pl-0 buttons-phone" *ngIf="isDeveloped">
+                            <div class="row">
+                                <div class="col-4">
+                                    <button type="button"
+                                        class="clear-form-button btn-inventory d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        (click)="revertDataCancelation()">Cancel</button>
+                                    <button type="button"
+                                        class="clear-form-button btn-inventory ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        (click)="saveForm()" *ngIf="!is_update">Save</button>
+                                    <button type="button"
+                                        class="clear-form-button btn-inventory ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        (click)="saveForm()" *ngIf="is_update">Update</button>
+                                </div>
+                                <div class="col-7 pl-1">
+                                    <span class="note-text">
+                                        Note: The permission for B/S-B/S production will be provided by the PD/PC at the
+                                        time of finalization of BSP-I via E-mail.
+                                    </span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- second card ui  -->
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="row card-inventory form-group">
+                    <div class="col-12 col-md-12 col-lg-12">
+                        <!--  *ngIf="!isSearch" -->
+                        <div class="col-12 col-md-12 col-lg-12 list-wrapper pt-2" *ngIf="!isSearch">
+                            <div class="row pl-0">
+                                <div class="col-12 col-md-10 col-lg-10 pl-0">
+                                    <div class="col-12 col-md-4 pt-2 pb-2"
+                                        [ngClass]="varietyDisbled ? 'disable_btn' :''">
+                                        <ng-multiselect-dropdown [disabled]="varietyDisbled"
+                                            [settings]="dropdownSettings" [data]="getwillingProducionFilterVarietyData"
+                                            formControlName="variety_filter" [placeholder]="'Please Select Variety '"
+                                            class="containers" [ngClass]="varietyDisbled ? 'disable_btn' :''"
+                                            (onSelect)="getPageData()" (onDeSelect)="getPageData()"
+                                            (onSelectAll)="selcetAll($event)" (onDeSelectAll)="getPageData()">
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row data-row table-responsive">
+                                <table class="table table-bordered ">
+                                    <thead>
+                                        <tr class="data-row-header mt-5">
+                                            <th scope="col" class="col-md-1 py-2 headertext left-radious" style="width: 2em;">S.No.</th>
+                                            <th scope="col" class="col-md-2 py-2 headertext">Crop Variety</th>
+                                            <th scope="col" class="col-md-2 py-2 headertext">Parental Line</th>
+                                            <th scope="col" class="col-md-2 py-2 headertext">Quantity of Nucleus seed Available ({{unitValue}})</th>
+                                            <th scope="col" class="col-md-2 py-2 headertext">Quantity of Breeder Seed Available ({{unitValue}})</th>
+                                            <th scope="col" class="col-md-2 py-2 headertext">Additional Indent Recieved ({{unitValue}})</th>
+                                            <th scope="col" class="col-md-2 py-2 headertext">Willing to Produce (Yes/No)</th>
+                                            <th scope="col" class="col-md-2 py-2 headertext">Production Delay</th>
+                                            <th scope="col" class="col-md-3 py-2 headertext" style="min-width: 8em;">Quantity of Nucleus Seed Willing to Use ({{unitValue}})</th>
+                                            <th scope="col" class="col-md-3 py-2 headertext" style="min-width: 8em;">Quantity of Breeder Seed Willing to Use ({{unitValue}})</th>
+                                            <th scope="col" class="col-md-3 py-2 headertext" style="min-width: 8em;">Reason for Not Willing to Produce</th>
+                                            <th scope="col" class="col-md-2 py-2 headertext right-radious" style="min-width: 8em;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container
+                                            *ngFor="let data of filterPaginateSearch.itemList; let dataIndex = index">
+                                            <ng-container *ngFor="let varietiesData of data.willingproducingList; let varityIndex = index">
+                                                <tr>
+                                                    <td *ngIf="varityIndex === 0" [attr.rowspan]="data.total_count">{{ dataIndex + 1 }}. </td>
+                                                    <td *ngIf=" varityIndex === 0" [attr.rowspan]="data.total_count">{{ data.variety_name ? data.variety_name : 'NA' }} </td>
+                                                    <td> {{varietiesData.line_variety_name ?(varietiesData.line_variety_name ):"NA"}}</td>
+                                                    <td> {{varietiesData.nucleus_seed_available_qnt ? (varietiesData.nucleus_seed_available_qnt | number:'1.2-2'):"0" }}</td>
+                                                    <td> {{varietiesData.seed_qantity ? (varietiesData.seed_qantity | number:'1.2-2'):"0"}} </td>
+                                                    <td> {{varietiesData.direct_quantity ? (varietiesData.direct_quantity | number:'1.2-2'):"0" }} </td>
+                                                    <td> {{varietiesData.willing_to_produce && varietiesData.willing_to_produce ? ((varietiesData.willing_to_produce == 1)?"Yes":"No"):"No"}} </td>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="col-12 col-md-12"><span> <b>Reason:</b>{{varietiesData && varietiesData.reason_for_delay || 'NA'}}</span></div>
+                                                            <div class="col-12 col-md-12"><span> <b>Date of sowing:</b>{{ varietiesData?.expected_date ? (varietiesData.expected_date | date: 'dd/MM/yyyy') : 'NA' }}</span></div>      
+                                                       </div>
+                                                    </td>
+                                                    <td> {{varietiesData.nucleus_seed_to_use ? (varietiesData.nucleus_seed_to_use | number:'1.2-2'):"0" }} </td>
+                                                    <td> {{varietiesData.breeder_seed_to_use ? (varietiesData.breeder_seed_to_use | number:'1.2-2'):"0" }} </td>
+                                                    <td [attr.rowspan]="varietiesData.varity_totalPro_count"> {{varietiesData && varietiesData.comment_id ? getReasonName(varietiesData.comment_id):'N/A'}} </td>
+                                                    <td [attr.rowspan]="varietiesData.varity_totalPro_count">
+                                                        <button class="list-action-buttons" [ngClass]="isSubmit?'action_icon_inactive':'action_icon_active'" [disabled]="isSubmit || is_update" (click)="editFunctinality(varietiesData)"><img src="assets/images/Vector.svg"> </button>
+                                                        <button class="list-action-buttons pl-md-4 pl-lg-4 pl-xl-4 pl-sm-0" [ngClass]="isSubmit?'action_icon_inactive':'action_icon_active'" [disabled]="isSubmit || is_update" (click)="deleteFunctinality(varietiesData.id)"><img src="assets/images/Vector_delete.svg"></button>
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                                <ng-template #noVarietyData>
+                                    <div style="text-align: center; width: 100%;">
+                                        <p class="my-2 mx-auto">No Data Found</p>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-12" *ngIf="(filterPaginateSearch && filterPaginateSearch.itemList.length < 1 && !isSearch)" class="px-2 py-2 w-100" style="height: 50px;">
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            No Data Found.
+                        </div>
+                    </div>
+                    <div *ngIf="!isSearch" class="col-12 px-4 px-md-3 py-1 pb-2 pr-0">
+                        <app-pagination-ui></app-pagination-ui>
+                    </div>
+                    <div *ngIf="(filterPaginateSearch && filterPaginateSearch.itemList && filterPaginateSearch.itemList.length>0) && !isSearch"
+                        class="col-12 pr-0 pt-2">
+                        <div class="row">
+                            <button type="button" class="clear-form-button btn-inventory ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3" [disabled]="isFinalSubmit" (click)="finalSubmit()">Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,280 @@
+<!-- <form [formGroup]="ngForm" > -->
+
+    <div class="row my-4 w-100 mx-0">
+        <div class="col-12 d-flex justify-content-center verticle-content-middle">
+            <div class="main-content-form-wrapper px-0 py-2">
+                <div class="row">
+                    <div class="w-100">
+                        <form [formGroup]="ngForm">
+                            <div class="col-12 px-4 mt-2">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 pl-4 pb-2">
+                                        <span class="heading_notofied"> List of Crops</span>
+                                    </div>
+                                    <div class="col-md-4 pl-2 pr-2
+                                        py-md-0 pr-md-0">
+                                        <div class="col-md-12">
+                                            <label for="" class="left-heading">Crop Group</label>
+                                        </div>
+                                        <div class="col-md-12 pr-md-0">
+                                            <div ngbDropdown class="d-inline-block w-100 "
+                                            (openChange)="dropdownToggled($event, crop_text_check)"
+                                            (keydown)="keyPressesonDropdown($event, crop_text_check)">
+                                                <button class="btn takeplacholder w-100 crop toggle-button" id="crop_group"
+                                                    ngbDropdownToggle style="text-align: left;"> {{selectCrop && (selectCrop.length>30) ?(selectCrop.substring(0,30)+'...'):selectCrop ? selectCrop : 'Select Crop Group'}}</button>
+                                                <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group"
+                                                    aria-labelledby="sortMenu">                                                
+                                          <input type="text" class="form-control px-4"  formControlName="crop_text" (click)="cropdatatext()" >             
+                                                    <button class="dropdown-item" id="cg-dropdown" (click)="cropGroup(data)"
+                                                        *ngFor="let data of response_crop_group" #dropdownItem
+                                                        [attr.data-parent-name]="'cropGroup'">
+                                                        {{data && data.group_name ? data.group_name :croupGroup}}</button>
+                                                </div>
+                                            </div>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <i class="fa-solid fa-angle-down downicon" aria-disabled="true" (click)="cgClick()">
+                                                </i>
+                                            </div>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <img src="assets/images/16.svg" alt="" srcset="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pl-2 pr-2 py-md-0 pr-md-0">
+                                        <div class="col-md-12 px-3 px-md-2">
+                                            <label for="Crop Name" class="left-heading">Crop Name</label>
+                                        </div>
+                                        <div class="col-md-12 pl-md-2">
+                                            
+                                                <div ngbDropdown class="d-inline-block w-100 "
+                                                (openChange)="dropdownToggled($event, crop_name_check)"
+                                                (keydown)="keyPressesonDropdown($event, crop_name_check)">
+                                                    <button class="btn takeplacholder w-100 crop toggle-button" id="crop_name"
+                                                        ngbDropdownToggle style="text-align: left;">{{selectCrop_group && 
+                                                        (selectCrop_group.length>30) ? (selectCrop_group.substring(0,30)+'...'):selectCrop_group? selectCrop_group :'Select Crop Name'}}</button>
+                                                        <div *ngIf="isCropName" class="dropdown-menu w-100" ngbDropdownMenu="crop_group"
+                                                        aria-labelledby="sortMenu">
+                                                        <input type="text" class="form-control px-4" formControlName="name_text" (click)="cropnametext()">
+                                                        <button class="dropdown-item" (click)="crop_name(data)"
+                                                            *ngFor="let data of crop_name_list" #dropdownItem
+                                                            [attr.data-parent-name]="'cropName'">
+                                                            {{data && data.crop_name ? data.crop_name :croupGroup}}</button>
+                                                    </div>
+                                                </div>
+                                                <div class="pl-0 toggle-button" ngbDropdown>
+                                                    <i class="fa-solid fa-angle-down downicon" (click)="cnclick()"></i>
+                                                </div>
+                                                <div class="pl-0 toggle-button" ngbDropdown>
+                                                    <img src="assets/images/16.svg" alt="" srcset="">
+                                                </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div _ngcontent-cvx-c131="" class="col-12 pt-0
+                                        search-cancle-button buttons-phone">
+                                        <button _ngcontent-cvx-c131=""
+                                            class="form-button search ml-2
+                                            d-inline-flex justify-content-center
+                                            verticle-content-middle mb-3 mx-2" (click)="search()"
+                                            > Search </button>
+                                        <button _ngcontent-cvx-c131=""
+                                            (click)="clear()"
+                                            class="clear-form-button ml-2
+                                            d-inline-flex justify-content-center
+                                            verticle-content-middle mb-3">
+                                            Clear
+                                        </button>
+
+                                        <div class="dropdown float-right
+                                            export_dropdown">
+                                            <button (click)="myFunction()"
+                                                class="form-button search ml-1
+                                                d-inline-flex justify-content-center
+                                                verticle-content-middle mb-2 mx-2"
+                                                style="font-size: 87%;">Export To
+                                                &nbsp;<i class="fa fa-angle-down"
+                                                    aria-hidden="true"> </i></button>
+                                            <div id="myDropdown"
+                                                class="dropdown-content">
+                                                <a (click)="download()"> <img
+                                                        src="assets\icons\pdf-icon.png"
+                                                        alt=""
+                                                        width="20px" height="20px">
+                                                    PDF</a>
+                                                <a (click)="exportexcel()"> <img
+                                                        src="assets\icons\excel.jpg"
+                                                        alt=""
+                                                        width="20px" alt=""> Excel</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div _ngcontent-cvx-c131="" class="col-12 px-4">
+                                        <hr _ngcontent-cvx-c131="" class="separator
+                                            m-0">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- table for exel Download start -->
+                    <table id="excel-table" style="display:none">
+                        <thead>
+                            <tr>
+                                <th colspan="5" style="text-align: center;font-weight:600;">LIST OF CROPS</th>
+                            </tr>
+                            <tr>
+                                <th  style="text-align: center;font-weight:600;">Crop Group</th>
+                                <th colspan="5" style="text-align: center;font-weight:600;">Crop Name</th>
+                            </tr>
+                            
+                            <tr>
+                                <th style="text-align: center;font-weight:600;">{{selectCrop}}</th>
+                                <th  style="text-align: center;font-weight:600;">{{selectCrop_group}}</th>
+                            </tr>
+                            <tr>
+                                <th scope="col" class="col-md-0 py-3">S/N</th>
+                                <th scope="col" class="col-md-3 py-3">Crop Group</th>
+                                <th scope="col" class="col-md-3 py-3">Crop Name</th>
+                                <!-- <th scope="col" class="col-md-2 py-3">Crop Code</th> -->
+                                <th scope="col" class="col-md-2 py-3">Season</th>
+                                <th scope="col" class="col-md-2 py-3">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let data of exportdata; let dataIndex=index">
+                            <tr>
+                                <td>{{ dataIndex + 1}}</td>
+                                <td>
+                                    <span style="cursor: pointer; word-break: break-word;"
+                                    title="{{data.m_crop_group.group_name}}"> {{(data && data.m_crop_group &&
+                                    data.m_crop_group.group_name &&
+                                    (data.m_crop_group.group_name.length >
+                                    30) ? (data.m_crop_group.group_name.substring(0, 30) + "..."):data &&
+                                    data.m_crop_group && data.m_crop_group.group_name ? (data.m_crop_group.group_name|uppercase)
+                                    :'NA')}}</span>
+                                </td>
+                                <td>
+                                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom" title="{{data && data.crop_name ? data.crop_name :''}}">{{(data && data.crop_name &&
+                                    (data.crop_name.length >
+                                    30) ? ((data.crop_name.substring(0, 30)|uppercase) + "..."):data && data.crop_name ? data.crop_name :'NA')}}</span>
+                                </td>
+                                <!-- <td>
+                                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                        
+                                    data-placement="bottom" title="{{data.crop_code}}">{{data &&
+                                    data.crop_code?data.crop_code:'NA'}}</span>
+                                </td> -->
+                                <td>
+                                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data && data.season ?                                
+                                            (data.season.trim()==='R') ? 'RABI' : (data.season.trim()==='B') ? 'BOTH': 'KHARIF' 
+                                             :'NA'}}">
+                                        {{data && data.season ?
+                                        
+                                            (data.season.trim()==='R') ? "RABI" : (data.season.trim()==='B') ? 'BOTH': "KHARIF" 
+                                             :'NA'}}</span>
+                                </td>
+                                <td>
+                                    <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                    data-placement="bottom" title="{{data && (data.is_active==1)? 'Active':'Inactive'}}">{{data &&
+                                    (data.is_active==1)?'ACTIVE':'INACTIVE'}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- table for exel Download end -->
+                    <div class="col-12 px-4">
+                        <div class="list-wrapper px-4 py-3">
+                            <div class="row d-md-flex data-row-header extra-header">      
+                                <div class="col-12 col-md-12 py-3 d-flex justify-content-center">List of Crops</div>
+                            </div>
+                            <br>
+                            <div class="row data-row">
+                                <table class="table table-bordered table-responsive">
+                                    <thead>
+                                        <tr class="data-row-header">
+                                            <th scope="col" class="col-md-0 py-3 sn-report">S/N</th>
+                                            <th scope="col" class="col-md-3 py-3">Crop Group</th>
+                                            <th scope="col" class="col-md-2 py-3">Crop Type</th>
+                                            <th scope="col" class="col-md-3 py-3">Crop Name</th>
+                                            <!-- <th scope="col" class="col-md-2 py-3">Crop Code</th> -->
+                                            <th scope="col" class="col-md-2 py-3">Season</th>
+                                            <th scope="col" class="col-md-2 py-3">Status</th>    
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index">
+                                        <tr>
+                                            <td>
+                                                <span title="{{(filterPaginateSearch.itemListCurrentPage - 1) *
+                                                    filterPaginateSearch.itemListPageSize + dataIndex + 1}}">{{ (filterPaginateSearch.itemListCurrentPage - 1) *
+                                                    filterPaginateSearch.itemListPageSize + dataIndex + 1}}.</span>
+                                            </td>
+                                            
+                                            <td>
+                                                <span style="cursor: pointer; word-break: break-word;"
+                                                title="{{data.m_crop_group.group_name}}"> {{(data && data.m_crop_group &&
+                                                data.m_crop_group.group_name &&
+                                                (data.m_crop_group.group_name.length >
+                                                30) ? (data.m_crop_group.group_name.substring(0, 30) + "..."):data &&
+                                                data.m_crop_group && data.m_crop_group.group_name ? data.m_crop_group.group_name
+                                                :'NA')}}</span>
+                                            </td>
+                                            <td>
+                                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                        
+                                                data-placement="bottom" title="{{data.crop_code}}">{{data &&
+                                                data.crop_code && (data.crop_code.substring(0, 1)== "A" ) ? 'Agriculture' : 'Horticulture'   }}</span>
+                                            </td>
+                                            <td>
+                                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="{{data && data.crop_name ? data.crop_name :''}}">{{(data && data.crop_name &&
+                                                (data.crop_name.length >
+                                                30) ? (data.crop_name.substring(0, 30) + "..."):data && data.crop_name ? (data.crop_name | uppercase) :'NA')}}</span>
+                                            </td>
+                                            <!-- <td>
+                                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                        
+                                                data-placement="bottom" title="{{data.crop_code}}">{{data &&
+                                                data.crop_code?data.crop_code:'NA'}}</span>
+                                            </td> -->
+                                            <td>
+                                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title=" {{data && data.season ?                                    
+                                                    (data.season.trim()==='R') ? 'RABI' : (data.season.trim()==='B') ? 'BOTH': 'KHARIF' 
+                                                     :'NA'}}">
+                                                {{data && data.season ?
+                                        
+                                                    (data.season.trim()==='R') ? "RABI" : (data.season.trim()==='B') ? 'BOTH': "KHARIF" 
+                                                     :'NA'}}
+                                            </span>
+                                            </td>
+                                            <td>
+                                                <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="{{data && (data.is_active==1)? 'ACTIVE':'INACTIVE'}}">{{data &&
+                                                (data.is_active==1)?'ACTIVE':'INACTIVE'}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-12 px-4 py-3 pb-5"> -->
+                    <div class="col-12 px-4 px-md-3 py-1 pb-4">
+                        <app-pagination-ui></app-pagination-ui>
+                    </div>
+                </div>
+                <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+                    class="px-2 py-3 w-100" style="height: 50px;">
+                    <div class="d-flex verticle-content-middle justify-content-center w-100">
+                        No Data Found.
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+    <!-- </form> -->

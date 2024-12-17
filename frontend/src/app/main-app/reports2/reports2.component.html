@@ -1,0 +1,312 @@
+<div class="row my-4 w-100 mx-0">
+     <div class="col-12 d-flex justify-content-center verticle-content-middle">
+         <div class="main-content-form-wrapper px-0 py-2">
+             <div class="">
+                 <form [formGroup]="ngForm">
+                     <div class="col-12 px-4 py-3">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <span class="heading_notofied">List of Indenters</span>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <button (click)="myFunction()"
+                                                        class="form-button  search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-3"
+                                                        style="font-size: 87%;">Export To &nbsp;<i class="fa fa-angle-down"
+                                                            aria-hidden="true"> </i>
+                                                </button>
+                                                <div id="myDropdown" class="dropdown-content">
+                                                    <a (click)="download()"> <img src="assets\icons\pdf-icon.png" alt=""
+                                                            width="20px" height="20px"> PDF</a>
+                                                    <a (click)="exportexcel()"> <img src="assets\icons\excel.jpg" alt=""
+                                                            width="20px" alt=""> Excel</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button _ngcontent-cvx-c131=""
+                                                    class=" float-right col-8 mx-3 clear-form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                                    &nbsp;<i class="fa fa-print" aria-hidden="true"
+                                                        style="color:#E97E15; font-size:26px"> </i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <label for="" class="left-heading">State</label>
+                                </div>
+                                <div _ngcontent-cvx-c131="" class="col-md-12">
+                                    <select class="form-control" formControlName="year">
+                                        <option value="">Select State</option>
+                                        <option *ngFor="let data of yearOfIndent" value="{{data.value}}">{{data.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-5"></div>
+                            <div class="col-md-3">
+                                <div class="row pt-3">
+                                    <div class="col-md-4">
+                                        <button _ngcontent-cvx-c131=""
+                                            class="clear-form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                            <i class="fa fa-refresh" aria-hidden="true"> </i> &nbsp;Reset
+                                        </button>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <button _ngcontent-cvx-c131=""
+                                            class="form-button   search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-3"
+                                            (click)="submit()" style="width: 194px !important;"> View Report 
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <!-- <div class="row">
+                             <div class="col-md-4 pl-4 pb-2">
+                                 <span class="heading_notofied">List of Indentors</span>
+                             </div>
+                             <div class="col-md-4 pl-4 pb-2"
+                                 style="font: normal normal 600 20px/30px Poppins; letter-spacing: 0px; color: #1C1C1C;">
+                             </div>
+                             <div class="col-md-4 pl-4 pb-2"
+                                 style="font: normal normal 600 20px/30px Poppins; letter-spacing: 0px; color: #1C1C1C;">
+ 
+                             </div>
+                             <div class="col-md-4 mt-3">
+                                 <div class="col-md-12">
+                                     <label for="" class="left-heading">State</label>
+                                 </div>
+                                 <div _ngcontent-cvx-c131="" class="col-md-12">
+                                     <select class="form-control" formControlName="year">
+                                         <option value="">Select State</option>
+                                         <option *ngFor="let data of yearOfIndent" value="{{data.value}}">{{data.name}}
+                                         </option>
+                                     </select>
+                                 </div>
+                             </div>
+  
+                             <div _ngcontent-cvx-c131="" class="col-4 mt-2">
+                                 <button _ngcontent-cvx-c131=""
+                                     class="form-button   search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-3"
+                                     (click)="submit()"> View Report </button>
+                                      <button _ngcontent-cvx-c131=""
+                                     class="clear-form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                     <i class="fa fa-refresh" aria-hidden="true"> </i> &nbsp;Reset
+                                 </button>
+ 
+                             </div>
+                             <div _ngcontent-cvx-c131="" class="col-8 mt-2">
+                                 <button _ngcontent-cvx-c131=""
+                                     class=" float-right col-8 mx-3 clear-form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                     &nbsp;<i class="fa fa-print" aria-hidden="true"
+                                         style="color:#E97E15; font-size:26px"> </i>
+                                 </button>
+ 
+ 
+                                 <div class="dropdown float-right">
+                                     <button (click)="myFunction()"
+                                         class="form-button  search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-3"
+                                         style="font-size: 87%;">Export To &nbsp;<i class="fa fa-angle-down"
+                                             aria-hidden="true"> </i></button>
+                                     <div id="myDropdown" class="dropdown-content">
+                                         <a (click)="download()"> <img src="assets\icons\pdf-icon.png" alt=""
+                                                 width="20px" height="20px"> PDF</a>
+                                         <a (click)="exportexcel()"> <img src="assets\icons\excel.jpg" alt=""
+                                                 width="20px" alt=""> Excel</a>
+                                     </div>
+                                 </div>
+ 
+                             </div>
+ 
+                             <div _ngcontent-cvx-c131="" class="col-12 px-4">
+                                 <hr _ngcontent-cvx-c131="" class="separator m-0">
+                             </div>
+                         </div> -->
+                     </div>
+                 </form>
+                 <div class="col-12 px-4" id="excel-table">
+                     <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+                     <div class="list-wrapper px-4 py-3">
+                         <div class="row d-none d-md-flex data-row-header extra-header">
+                             <div class="col-6 col-md-4 py-3 d-flex verticle-content-middle">
+                             </div>
+                             <div class="col-6 col-md-4 py-3 d-flex verticle-content-middle">List of Indenters</div>
+                             <div class="col-6 col-md-4 py-3 d-flex verticle-content-middle">
+                             </div>
+                         </div>
+                         <br>
+                         <div >
+                             <div class="row d-none d-md-flex data-row-header">
+                                 <div class="col-6 col-md-9 py-3 d-flex verticle-content-middle">State : {{year}}</div>
+                                 
+                                 <div class="col-6 col-md-3 py-3 d-flex verticle-content-middle">As on Date: {{todayData
+                                     | date:"dd-MM-YYYY"}}</div>
+ 
+                             </div>
+                             <div class="middle_line"></div>
+                             <div class="row d-none d-md-flex data-row-header">
+                                 <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">S/N</div>
+                                 <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Agency Name </div>
+                                 <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Category of Agency </div>
+                                 <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">District </div>
+                                 <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Short Name/ Display Name </div>
+                                 <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Address </div>
+                                 <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Contact Person Name & Disign action </div>
+                                 <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Mobile Number </div>
+                                 <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Email ID </div>
+                                 <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Latitute </div>
+                                 <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Longitute </div>
+
+                             </div>
+                             <div class="row data-row" style="border-color: white;">
+                                 <!-- <table class="table-responsive table-bordered text-center"> -->
+ 
+                                 <table class="table table-bordered border-primary table-responsive text-right">
+                                     <thead style="display:none;">
+                                         <tr style="background-color: #eb9777;">
+                                             <td>Year: {{year}}</td>
+                                             <td>As on Date: {{todayData | date:"dd-MM-YYYY"}}</td>
+                                         </tr>
+                                         <tr>
+                                             <td>S/N</td>
+                                             <td>Agency Name</td>
+                                             <td>Category of Agency</td>
+                                             <td>District</td>
+                                             <td>Short Name/Display Name</td>
+                                             <td>Address</td>
+                                             <td>Contact Person Name & Disign action</td>
+                                             <td>Mobile Number</td>
+                                             <td>Email ID</td>
+                                             <td>Latitute</td>
+                                             <td>Longitute</td>
+                                            </tr>
+                                     </thead>
+                                     <tbody>
+                                         <div >
+                                             <tr class="v1">
+                                
+                                                <td>1.</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                
+                                                 
+                                             </tr>
+                                             <tr class="v1">
+                                
+                                                <td>2.</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                 
+                                             </tr>
+                                             <tr class="v2">
+                                                <td>3.</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                             </tr>
+
+                                             <tr class="v2">
+                                                <td>4.</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                             </tr>
+                                             <tr class="v2">
+                                                <td>5.</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                             </tr>
+                                             <tr class="v2">
+                                                <td>6.</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                                <td>kapil</td>
+                                             </tr>
+                                             
+
+                                         </div>
+                                     </tbody>
+                                 </table>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+ 
+                 <!-- <div class="col-6 px-4 py-3">
+                     <button _ngcontent-cvx-c131=""
+                         class="form-button search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-3"
+                         (click)="freeze()">Freeze </button> -->
+                
+                 <div class="col-6 px-4   py-3">
+                     <app-pagination-ui></app-pagination-ui>
+                     <!-- <div _ngcontent-col-c109="" class="w-fit-content pr-2 d-block d-lg-inline-flex"><button _ngcontent-col-c109="" class="prev-paginate page-numbers d-inline-flex justify-content-center verticle-content-middle mx-2"><i _ngcontent-col-c109="" class="fal fa-less-than"></i></button><div _ngcontent-col-c109="" class="page-number-wrapper d-inline-flex py-2 py-lg-0"><button _ngcontent-col-c109="" class="page-numbers mx-2 active" ng-reflect-ng-class="active"> 1 </button><button _ngcontent-col-c109="" class="page-numbers mx-2" ng-reflect-ng-class=""> 2 </button>
+                     </div><div _ngcontent-col-c109="" class="enter-page-wrapper d-inline-flex mx-2"><input _ngcontent-col-c109="" placeholder="Enter Page No." formcontrolname="enterPage" class="px-2 ng-untouched ng-pristine ng-valid" ng-reflect-name="enterPage" ng-reflect-ng-class=""><button _ngcontent-col-c109="" class="page-numbers active">Go</button></div></div> -->
+                 </div>
+                 <!-- <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+                     class="px-2 py-3 w-100" style="height: 50px;">
+                     <hr _ngcontent-jwr-c108="" class="separator mx-0 mt-1">
+                     <div class="d-flex verticle-content-middle justify-content-center w-100">
+                         No Add Crop found.
+                     </div>
+                 </div> -->
+             </div>
+         </div>
+     </div>
+ </div>

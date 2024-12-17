@@ -1,0 +1,165 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <div class="row">
+                <div class="col-12 px-3 py-2 ml-2">
+                    <div class="row">
+                        <div class="col-12 px-4 pb-1 heading" style="font: normal Poppins; font-weight:bold; font-size: 20px; ;
+                        letter-spacing: 0px;
+                        color: #1C1C1C;">
+
+                            BSP Proforma V (b) (Lifting of Breeder Seed - National/State Varieties)
+                        </div>
+
+                        <div class="col-12 pt-0 pb-1 my-1 pr-4 search_txt">
+                            <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="searchFormGroup"
+                                [isLabelControlParallel]="false">
+                            </app-dynamic-fields>
+                        </div>
+                        <div class="col-12 mt-3 pl-0 buttons-phone">
+                            <button
+                                class="form-button search d-inline-flex justify-content-center verticle-content-middle mb-3 mx-4"
+                                (click)="search()">Search</button>
+                            <button
+                                class="clear-form-button ml-0 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="clear()">Clear</button>
+                        </div>
+                        <div class="col-12 px-4">
+                            <hr class="separator m-0 width">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 px-4 justify-content-end" style="padding-right: .5rem!important;">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <ul class="nav buttons-lifting-draft pro_buttons-lifting-draft" style="float: left;">
+                                <li class="nav-item nav">
+                                    <a class="nav-link" [ngClass]=" isActive ? 'active' : ''" href="javascript:void(0)"
+                                        (click)="getPageData()">BSP Proformas V(b)</a>
+                                </li>
+                                <li class="nav-item nav">
+                                    <a class="nav-link" [ngClass]=" isActive ? '' : 'active'" href="javascript:void(0)"
+                                        (click)="loadDraftBsp()">Draft</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="px-2 mt-2 d-flex justify-content-end buttons-phone-add"
+                                style="padding-right: 1.5rem!important;">
+                                <button class="form-button d-flex justify-content-center verticle-content-middle"
+                                    style="width: 100px !important;background-color: #963814;"
+                                    routerLink="/breeder/bsp-proformas/proformas-5s-b/new">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 px-4">
+                    <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+                    <div class="list-wrapper px-4 py-3">
+                        <div class="row d-none d-md-flex data-row-header">
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">S/N</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Year of Indent</div>
+                            <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Season</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Crop Name</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Variety Name</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">Quantity Of Breeder Seed
+                                Balance</div>
+                            <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle justify-content-center">
+                                Action
+                            </div>
+                        </div>
+                        <div class="row data-row"
+                            *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index">
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
+                                    <span>{{ (filterPaginateSearch.itemListCurrentPage - 1) *
+                                        filterPaginateSearch.itemListPageSize + dataIndex + 1}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Year of Indent:</b>&nbsp;</label>
+                                    <span title="{{data&& data.year ? getFinancialYear(data.year) : 'NA'}}">{{ data&& data.year ? getFinancialYear(data.year) : 'NA'}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Season:</b>&nbsp;</label>
+                                    <span title="{{data && data.m_season && data.m_season.season ? data.m_season.season :
+                                        'N/A'}}">{{ data && data.m_season && data.m_season.season ? data.m_season.season :
+                                        "N/A"
+                                        }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Crop Name:</b>&nbsp;q</label>
+                                    <span title="{{ data && data.m_crop && data.m_crop.crop_name? data.m_crop.crop_name : 'N/A'
+                                }}">
+                                        {{ data && data.m_crop && data.m_crop.crop_name && (data.m_crop.crop_name.length>30)? (data.m_crop.crop_name.substring(0.30))+'...' : 
+                                            data && data.m_crop && data.m_crop.crop_name ? data.m_crop.crop_name:"NA"
+                                                }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Variety Name:</b>&nbsp;</label>
+                                    <span title="{{ data && data.m_crop_variety && data.m_crop_variety.variety_name ?
+                                        data.m_crop_variety.variety_name : 'N/A'}}">
+                                        {{ data && data.m_crop_variety && data.m_crop_variety.variety_name && (data.m_crop_variety.variety_name.length>30)
+                                            ?(data.m_crop_variety.variety_name.substring(0,30))+'...': data &&  data.m_crop_variety &&  data.m_crop_variety.variety_name
+                                            ?  data.m_crop_variety.variety_name
+                                       : "N/A"}}&nbsp;
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Quantity Of Breeder Seed Balance:</b>&nbsp;</label>
+                                    <!-- <span>{{ data.label_number }}</span> -->
+
+                                    <span style="text-transform: capitalize;cursor: pointer;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data && data.breeder_seed_balance ? data.breeder_seed_balance:'0'}}{{data.crop_code.split('')[0] == 'H' ? 'Kg': 'Quintal'}}">
+
+                                        {{data && data.breeder_seed_balance ? data.breeder_seed_balance:"0"}}
+                                        {{data.crop_code.split('')[0] == 'H' ? 'Kg': 'Quintal'}}&nbsp;
+                                    </span>
+                                </div>
+                            </div>
+                            <div
+                                class="col-12 col-md-2 py-1 d-flex verticle-content-middle justify-content-md-center phone_view_btn">
+                                <div class="list-action-buttons-wrapper w-fit-content phone_view_action_btn">
+                                    <button class="list-action-buttons" *ngIf="data.isdraft == '0'"
+                                        [routerLink]="['/breeder/bsp-proformas/proformas-5s-b/view', data.id]">
+                                        <img src="assets/images/view.svg">
+                                    </button>
+                                    <button class="list-action-buttons" *ngIf="data.is_freeze != '1'"
+                                        [routerLink]="['/breeder/bsp-proformas/proformas-5s-b/edit', data.id]">
+                                        <img src="assets/images/edit.svg">
+                                    </button>
+                                    <button class="list-action-buttons" *ngIf="data.is_freeze != '1'"
+                                        (click)="delete(data.id)">
+                                        <img src="assets/images/delete.svg">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&
+                                (!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+                        class="px-2 py-3 w-100" style="height: 50px;">
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            No Data Found.
+                        </div>
+                    </div>
+                    <div class="col-12 px-4 py-3">
+                        <app-pagination-ui></app-pagination-ui>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>

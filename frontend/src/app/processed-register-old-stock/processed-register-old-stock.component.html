@@ -1,0 +1,753 @@
+<div class="main-inventory">
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12 title-inventory pl-2 pb-3 pt-0">
+            Seed Processing Register (old Stock)
+            <form [formGroup]="ngForm">
+                <div class="co-12 px-3">
+                    <div class="row card-inventory">
+                        <!-- first card ui  -->
+                        <div class="col-12 col-md-12 col-lg-11">
+                            <div class="row">
+                                <!-- year of indent -->
+                                <div class="col-12 col-md-12 col-lg col-xl  col-sm-12 ">
+                                    <div class="row">
+                                        <!-- year of indent -->
+                                        <div
+                                            [ngClass]="showparental ?'col-10 col-md-12 col-lg-12 col-sm-12 col-xl-3':'col-10 col-md-12 col-lg-12 col-sm-12 col-xl-4'">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                    <label for="year" class="label-inventory required">BSPC</label>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                    <div ngbDropdown class="d-inline-block w-100 "
+                                                        [ngClass]="showLotPageData ? 'disableField':''">
+                                                        <button class="btn takeplacholder w-100 crop toggle-button"
+                                                            id="crop_group" ngbDropdownToggle style="text-align: left;"
+                                                            [title]="selectBspc ? selectBspc :'Select BSPC'">{{selectBspc
+                                                            &&
+                                                            (selectBspc.length>25) ?
+                                                            (selectBspc.substring(0,25)+'...'):selectBspc?
+                                                            selectBspc :'Select BSPC
+                                                            Group'}}</button>
+
+                                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group"
+                                                            aria-labelledby="sortMenu">
+
+                                                            <input type="text" class="form-control px-4"
+                                                                formControlName="bspc_text">
+
+                                                            <button class="dropdown-item" *ngFor="let item of bspcList"
+                                                                (click)="cropGroup(item)" #dropdownItem
+                                                                [attr.data-parent-name]="'crop_group'">
+                                                                {{item && item.agency_name ? item.agency_name:''}}
+                                                                <!-- <input type="hidden" formControlName="crop_code"> -->
+                                                            </button>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="pl-0 toggle-button" ngbDropdown
+                                                        [ngClass]="disableUpperSection ? 'disableFiel':''">
+                                                        <i class="fa-solid fa-angle-down downicon"
+                                                            (click)="cgClick()"></i>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- season -->
+                                        <div class="col-10 col-md-12 col-lg-12 col-sm-12 col-xl-4">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <label for="year" class="label-inventory required">Crop</label>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <div ngbDropdown class="d-inline-block w-100 "
+                                                        [ngClass]="showLotPageData ? 'disableField':''">
+                                                        <button class="btn takeplacholder w-100 crop toggle-button"
+                                                            id="crop" ngbDropdownToggle style="text-align: left;"
+                                                            [title]="selectCrop ? selectCrop :'Select Crop'">{{selectCrop
+                                                            &&
+                                                            (selectCrop.length>30) ?
+                                                            (selectCrop.substring(0,30)+'...'):selectCrop?
+                                                            selectCrop :'Select Crop
+                                                            '}}</button>
+
+                                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop"
+                                                            aria-labelledby="sortMenu">
+
+                                                            <input type="text" class="form-control px-4"
+                                                                formControlName="crop_text">
+
+                                                            <button class="dropdown-item" *ngFor="let item of cropList"
+                                                                (click)="crop(item)" #dropdownItem
+                                                                [attr.data-parent-name]="'crop'">
+                                                                {{item && item.crop_name ? item.crop_name:''}}
+
+                                                            </button>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="pl-0 toggle-button" ngbDropdown
+                                                        [ngClass]="showLotPageData ? 'disableField':''">
+                                                        <i class="fa-solid fa-angle-down downicon"
+                                                            (click)="cClick()"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- crop -->
+                                        <div
+                                            [ngClass]="showparental ?'col-10 col-md-12 col-lg-12 col-sm-12 col-xl-3':'col-10 col-md-12 col-lg-12 col-sm-12 col-xl-4'">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <label for="year" class="label-inventory required">Variety</label>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <div ngbDropdown class="d-inline-block w-100 "
+                                                        [ngClass]="showLotPageData ? 'disableField':''">
+                                                        <button
+                                                            class="btn takeplacholder w-100 variety_name toggle-button"
+                                                            id="variety_name" ngbDropdownToggle
+                                                            style="text-align: left;"
+                                                            [title]="selectVariety ? selectVariety :'Select Variety'">{{selectVariety
+                                                            && (selectVariety.length>30) ?
+                                                            (selectVariety.substring(0,30)+'...'):selectVariety?
+                                                            selectVariety
+                                                            :'Select Variety
+                                                            '}}</button>
+
+                                                        <div class="dropdown-menu w-100" ngbDropdownMenu="variety_name"
+                                                            aria-labelledby="sortMenu">
+
+                                                            <input type="text" class="form-control px-4"
+                                                                formControlName="variety_text">
+
+                                                            <button class="dropdown-item"
+                                                                *ngFor="let item of varietyList" (click)="variety(item)"
+                                                                #dropdownItem [attr.data-parent-name]="'variety_name'">
+                                                                {{item && item.variety_name ? item.variety_name:''}}
+
+                                                            </button>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                                        <i class="fa-solid fa-angle-down downicon"
+                                                            (click)="vClick()"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="showparental"
+                                            [ngClass]="showparental ?'col-10 col-md-12 col-lg-12 col-sm-12 col-xl-3':'col-10 col-md-12 col-lg-12 col-sm-12 col-xl-4'">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <label for="year" class="label-inventory required">Parental
+                                                        Line</label>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <div ngbDropdown class="d-inline-block w-100 "
+                                                        [ngClass]="showLotPageData ? 'disableField':''">
+                                                        <button class="btn takeplacholder w-100 parental toggle-button"
+                                                            id="parental" ngbDropdownToggle style="text-align: left;"
+                                                            [title]="selectParentalLine ? selectParentalLine :'Select Parental Line'">{{selectParentalLine
+                                                            && (selectParentalLine.length>30) ?
+                                                            ((selectParentalLine.substring(0,30).toUpperCase())+'...'):selectParentalLine?
+                                                            (selectParentalLine.toUpperCase())
+                                                            :'Select Parental Line
+                                                            '}}</button>
+
+                                                        <div class="dropdown-menu w-100" ngbDropdownMenu="parental"
+                                                            aria-labelledby="sortMenu">
+
+                                                            <input type="text" class="form-control px-4"
+                                                                formControlName="parentline_text">
+
+                                                            <button class="dropdown-item"
+                                                                *ngFor="let item of parentalList" (click)="parent(item)"
+                                                                #dropdownItem [attr.data-parent-name]="'parental'">
+                                                                {{item && item.line_variety_name ?
+                                                                (item.line_variety_name.toUpperCase()):''}}
+
+                                                            </button>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                                        <i class="fa-solid fa-angle-down downicon"
+                                                            (click)="pClick()"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <!-- searh button -->
+
+                            </div>
+                        </div>
+                        <!-- (click)="searchData(ngForm.value)" -->
+                        <div class="col-12 col-md-12 col-lg-1 col-xl-1 col-sm-12  pl-lg-0 pt-lg-4 mt-lg-3 pt-2">
+                            <button (click)="searchData(ngForm.value)"
+                                class="form-button btn-inventory search w-100 d-inline-flex justify-content-center verticle-content-middle">Search</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-12 mt-2" *ngIf="showLotPageData">
+                    <div class="row card-inventory form-group">
+                        <div class="col-12 mt-2 pt-2 col-md-12 col-lg-12 float-right" title="download-pdf">
+
+                            <div class="row pb-3">
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <span class="card-title">Lot Details</span><br>
+
+                                            <span class="datalist">Lot No: <b class="font-weight-bold">{{provision_lot ?
+                                                    provision_lot :'NA'}}</b></span><br>
+                                            <span class="datalist">Class of Seed: <b class="font-weight-bold">Breeder
+                                                    &nbsp;{{classofSeedHarvestedData ?
+                                                    toUpperRoman(classofSeedHarvestedData) :''}}</b></span><br>
+                                            <span class="datalist">Lot Quantity ({{unit}}): <b
+                                                    class="font-weight-bold">{{raw_seed_produced ?
+                                                    convertToQty(raw_seed_produced)
+                                                    :'NA'}}</b></span><br>
+                                            <span class="datalist">No of Bags: <b class="font-weight-bold">{{no_of_bags
+                                                    ? no_of_bags :"NA"}}</b></span><br>
+                                            <span class="datalist">Godown No: <b class="font-weight-bold">{{godown_no ?
+                                                    godown_no:'NA'}}</b></span><br>
+                                            <span class="datalist">Stack No: <b class="font-weight-bold">{{stackDatas ?
+                                                    stackDatas :"NA"}}</b></span><br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md" *ngIf="!showLotPageDataSecond">
+                                    <div class="card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <span class="card-title">Processed Seed Details </span><br>
+                                                <div class="col-12" formArrayName="spp">
+                                                    <ng-container *ngFor="let data of spp.controls  let i=index"
+                                                        [formGroupName]="i">
+
+                                                        <div class="row">
+                                                            <div class="col-12 col-md-12 col-lg col-xl  col-sm-12 ">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label for="year" class="left-heading ">
+                                                                            No. of Bags</label>
+                                                                    </div>
+                                                                    <div class="col-12 ">
+                                                                        <input type="text" formControlName="no_of_bags"
+                                                                            class=" form-control input-inventory w-100"
+                                                                            (ngModelChange)="getQuantity(i)">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-12 col-lg col-xl  col-sm-12 ">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label for="year" class="left-heading ">
+                                                                            Bag Size (Kg).</label>
+                                                                    </div>
+                                                                    <div class="col-12 ">
+                                                                        <input type="text" formControlName="bags"
+                                                                            class=" form-control input-inventory w-100"
+                                                                            (ngModelChange)="getQuantity(i)">
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-12 col-lg col-xl  col-sm-12 ">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label for="year" class="left-heading ">
+                                                                            Quantity ({{unit}}).</label>
+                                                                    </div>
+                                                                    <div class="col-12 ">
+                                                                        <input type="text" formControlName="qty"
+                                                                            class="form-control input-inventory w-100 disableField">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-1 pt-4" *ngIf="spp.controls.length!=1 ">
+                                                                <button (click)="remove(i)"
+                                                                    class="list-action-buttons-second">
+                                                                    <img src="assets/images/delete.png">
+                                                                </button>
+
+                                                            </div>
+                                                            <div class="col-xl-1 pt-4 pl-0"
+                                                                *ngIf="spp.controls.length ==i+1 ">
+                                                                <button (click)="addMore(i)"
+                                                                    class="list-action-buttons-second ml-xl-3">
+                                                                    <img src="assets/images/Add.png">
+                                                                </button>
+                                                            </div>
+
+                                                        </div>
+                                                    </ng-container>
+                                                    <div class="row pt-3">
+                                                        <div class="col-12 col-md-12 col-lg col-xl  col-sm-12 ">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label for="year" class="left-heading ">
+                                                                        Total Processed Quantity in ({{unit}})
+                                                                        %.</label>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-12 col-lg col-xl  col-sm-12 ">
+                                                            <div class="row">
+
+                                                                <div class="col-12 ">
+                                                                    <input type="text"
+                                                                        class="form-control input-inventory w-100 disableField"
+                                                                        formControlName="total_breeder_qty"
+                                                                        [value]="ngForm.controls['total_breeder_qty'].value ? ngForm.controls['total_breeder_qty'].value :''">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3" *ngIf="!showLotPageDataSecond">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <span class="card-title">Rejection Details</span><br>
+                                            <div class="col-12 pl-0">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label for="year" class="left-heading ">Undersize in
+                                                                    {{unit}}</label>
+                                                                <span style="font-size:16px"> ({{under_sizepercent ?
+                                                                    under_sizepercent.toFixed(2):''}}%)</span>
+                                                            </div>
+                                                            <div class="col-12 ">
+                                                                <input type="text"
+                                                                    class="form-control input-inventory w-100 "
+                                                                    formControlName="under_size"
+                                                                    (ngModelChange)="getLossQty()">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label for="year" class="left-heading ">Processing Loss
+                                                                    in {{unit}}.(%)</label>
+                                                            </div>
+                                                            <div class="col-12 ">
+                                                                <input type="text"
+                                                                    class="form-control input-inventory w-100 disableField"
+                                                                    formControlName="processing_loss">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label for="year" class="left-heading ">Total Rejected
+                                                                    Qty in {{unit}}. (%)</label>
+                                                            </div>
+                                                            <div class="col-12 ">
+                                                                <input type="text"
+                                                                    class="form-control input-inventory w-100 disableField"
+                                                                    formControlName="total_rejected">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <!-- <div class="row ">
+                        <div class="col-xl-2 ">
+                            <button (click)="cancel()" style="border:1px solid #B64B1D!important; outline:none"
+                                class="btn-inventory-cancel search d-inline-flex justify-content-center verticle-content-middle mb-3">Back</button>
+                        </div>
+                        <div class="col-xl-2 pl-0">
+                            <button (click)="submit()"
+                                class="search w-100 text-white btn-inventorys ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Generate
+                                Tag Numbers</button>
+
+                        </div>
+                    </div> -->
+
+                </div>
+                <div class="col-lg-12 col-sm-12 col-12 pt-3" *ngIf="showLotPageData && !showLotPageDataSecond">
+                    <div class="row data-row table-responsive-sm table-responsive-md stacktable">
+                        <table class="table " formArrayName="stack">
+                            <thead>
+                                <tr class="data-row-header">
+                                    <th scope="col" colspan="12"
+                                        class="col-12 py-2 text-white text-center verticle-content-middle heading datalist">
+                                        Stack Number Composition
+                                    </th>
+                                </tr>
+                            </thead>
+                            <ng-container class="table-bordered"
+                                *ngFor="let ele of stackComposition().controls; let i = index" [formGroupName]="i">
+                                <tr>
+                                    <td class="tableheading">
+                                        <div class="col-12 col-md-2 col-lg-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="year" class="left-heading required">Select Stack</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <select class=" form-control input-inventory"
+                                                        formControlName="stack_com"
+                                                        (ngModelChange)="getStackDataValue2(i)">
+                                                        <option value="" disabled selected>Select Stack</option>
+                                                        <option value="new_stack" *ngIf="!editData">Create new Stack
+                                                        </option>
+                                                        <option *ngFor="let item of bagMarkDataofInvest"
+                                                            value="{{item && item.stack_id ? item.stack_id:''}}">
+                                                            {{item && item.stack_no ? item.stack_no:''}}
+                                                        </option>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+
+                                    <td class="tableheading">
+                                        <div class="col-12 col-md-2 col-lg-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="year" class="left-heading required">Type of Seed</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <select formControlName="type_of_seed"
+                                                        (ngModelChange)="getStackDataValue(i)"
+                                                        [ngClass]="disableField  ? 'form-control input-inventory disableField':'form-control input-inventory '">
+                                                        <option value="" selected disabled>Type of Seed</option>
+                                                        <option *ngFor="let item of typeofSeed"
+                                                            value="{{item && item.id ? item.id :''}}">
+                                                            {{item && item.name ? item.name :''}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td class="tableheading">
+                                        <div class="col-12 col-md-2 col-lg-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="year" class="left-heading required"
+                                                        style="white-space: pre;">Select Bags</label>
+                                                </div>
+                                                <div class="col-12">
+
+                                                    <ng-multiselect-dropdown [settings]="dropdownSettings1"
+                                                        [data]="BagMarka" formControlName="bag_marka"
+                                                        [placeholder]="' Select Bags'">
+                                                    </ng-multiselect-dropdown>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="btnaction tableheading d-flex ">
+                                        <button (click)="remove2(i)" class="list-action-buttons-second pt-4"
+                                            *ngIf="stack.controls.length!=1 ">
+                                            <img src="assets/images/delete.png">
+                                        </button>
+                                        <button (click)="addMore2(i)" *ngIf="stack.controls.length ==i+1"
+                                            class="list-action-buttons-second ml-xl-2 pt-4">
+                                            <img src="assets/images/Add.png">
+                                        </button>
+                                    </td>
+                                    <td class="tableheading">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label class="left-heading ">Stack No.</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="text" class=" form-control input-inventory disableField"
+                                                    formControlName="showstackNo" placeholder="Stack No.">
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <!-- [ngClass]="editData || ngForm.controls['harvestVerify']['controls'][i].controls['stackexist'].value==true ?' disblefield' : 'form-control input-inventory'" -->
+                                    <td class="tableheading">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label class="left-heading ">Godown No.</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="text" class=" form-control input-inventory "
+                                                    formControlName="godown_no" placeholder="Godown No.">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </ng-container>
+                        </table>
+                    </div>
+                    <div class="row pt-3 ">
+                        <div class="col-xl-1 ">
+                            <button (click)="submit()"
+                                class="search w-100 text-white btn-inventorys ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Save</button>
+
+                        </div>
+                        <div class="col-xl-1 ">
+                            <button (click)="cancel()" style="border:1px solid #B64B1D!important; outline:none"
+                                class="search w-100 text-white btn-inventorys ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Cancel</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- third card ui -->
+                <!-- (click)="download()" -->
+                <div class="col-12 pt-3" *ngIf="showGrid">
+                    <div class="col-12 col-md-12 col-lg-9 col-sm-12 pt-3">
+                            <div class="row">
+
+                                <div class="col-12">
+                                    <label for="year" class="label-inventory ">Lot No</label>
+                                </div>
+                                <div class="col-lg-4 col-10">
+                                    <ng-multiselect-dropdown [settings]="dropdownSettings"
+                                        [data]="lotNoList" formControlName="lot_list"
+                                        [placeholder]="' Select Lot No '">
+                                    </ng-multiselect-dropdown>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    <div class="row data-row">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr class="data-row-header">
+                                    <th scope="col"
+                                        class="col-md-1 py-2 text-white verticle-content-middle heading datalist"
+                                        style="white-space:pre;">
+                                        S.No.
+                                    </th>
+                                    <th scope="col"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading datalist ">
+                                        Lot Details
+                                    </th>
+                                    <th scope="col"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading datalist ">
+                                        Storage Details
+                                    </th>
+
+
+                                    <th scope="col"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading datalist ">
+                                        Action
+                                    </th>
+                                    <th scope="col" class="col-md-2 py-2 text-white heading datalist gridspace">
+                                        <span class="d-flex justify-content-left text-white ">
+                                            Processed Quantity
+                                        </span>
+                                        <span class="d-flex justify-content-left text-white ">in {{unit}} (%)</span>
+                                    </th>
+                                    <th scope="col"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading datalist gridspace">
+                                        <span class="d-flex justify-content-left text-white ">
+                                            Rejected Quantity
+                                        </span>
+                                        <span class="d-flex justify-content-left text-white ">in {{unit}}(%)</span>
+
+                                    </th>
+                                    <th scope="col"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading datalist"
+                                        style="min-width:10em">
+                                        Storage Details (Post re-processing)
+                                    </th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody class="table-bordered">
+                                <ng-container *ngFor="let data of tableData; let dataIndex = index">
+                                    <ng-container
+                                        *ngFor="let item of data.seed_class_details; let varietyIndex = index">
+                                        <tr>
+                                            <td *ngIf="varietyIndex==0" [attr.rowspan]="data.seed_class_details.length">
+                                                {{dataIndex+1}}
+                                            </td>
+                                            <td style="text-align:left" *ngIf="varietyIndex==0"
+                                                [attr.rowspan]="data.seed_class_details.length">
+                                                <span>Lot No: <b class="font-weight-bold">
+                                                        {{data && data.lot_number ? data.lot_number :'NA'}}
+                                                    </b></span><br>
+                                                <span>Class of Seed: <b class="font-weight-bold">
+                                                    
+                                                        Breeder {{data && data.stage_field ? toUpperRoman(data.stage_field) :'NA'}}
+                                                    </b></span><br>
+                                                <span>Lot Quantity({{unit}}): <b class="font-weight-bold">
+                                                        {{data && data.quantity_remaining ?
+                                                        convertToQty(data.quantity_remaining) :'NA'}}
+                                                    </b></span><br>
+                                                <span>No of Bags: <b class="font-weight-bold">
+                                                        {{data && data.bag_size ? data.bag_size :'NA'}}
+                                                    </b></span><br>
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span class="datalist"> Godown No: <b class="font-weight-bold">{{item
+                                                        &&
+                                                        item.tag_no ? (item.tag_no.length)
+                                                        :'NA'}}
+
+                                                    </b></span><br>
+                                                <span>Stack No: <b class="font-weight-bold">{{item &&
+                                                        item.godown_no ?
+                                                        item.godown_no :'NA'}}</b></span><br>
+
+                                            </td>
+
+                                            <td>
+                                                <button [disabled]="item.old_stock_lot_id == data.lot_id"
+                                                    (click)="showLotPage(data,item,1,null)"
+                                                    [ngClass]="item.old_stock_lot_id == data.lot_id ? 'form-button-second   generateClass search w-100 d-inline-flex justify-content-center verticle-content-middle':'form-button text-white btn-inventory generateClass search w-100 d-inline-flex justify-content-center verticle-content-middle'">
+                                                    Re-process
+
+                                                </button>
+                                                <br>
+
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span *ngIf=" (item.old_stock_lot_id == data.lot_id)">
+                                                    <b class="font-weight-bold">{{item &&
+                                                        item.total_processed_qty ?
+                                                        item.total_processed_qty :'--'}}
+                                                        ({{item &&
+                                                        item.total_processed_qty ?
+                                                        getUndersize(data.quantity_remaining, item.total_processed_qty)
+                                                        :'--'}} %)
+                                                    </b></span>
+                                                <br>
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span *ngIf="(item.old_stock_lot_id == data.lot_id)">
+                                                    {{item && item.rejected_qty ? (item.rejected_qty| number : '1.2-2') :''}}
+                                                    ({{item &&
+                                                    item.rejected_qty ?
+                                                    getUndersize(data.quantity_remaining, item.rejected_qty) :'--'}} %)
+                                                </span>
+                                                <br>
+                                                <span *ngIf="(item.old_stock_lot_id == data.lot_id)">UnderSize
+                                                    : <b class="font-weight-bold">
+                                                        {{item &&
+                                                        item.undersize ?
+                                                        item.undersize :'--'}}
+                                                        ({{item &&
+                                                        item.undersize ?
+                                                        getUndersize(data.quantity_remaining, item.undersize) :'--'}} %)
+
+                                                    </b></span><br>
+
+                                                <span class="datalist"
+                                                    *ngIf="(item.old_stock_lot_id == data.lot_id)">Processing
+                                                    Loss: <b class="font-weight-bold">
+                                                        {{item &&
+                                                        item.processing_loss ?
+                                                        (item.processing_loss) :'--'}}</b>
+                                                    ({{item &&
+                                                    item.processing_loss ?
+                                                    getUndersize(data.quantity_remaining, item.processing_loss) :'--'}}
+                                                    %)
+                                                </span><br>
+                                            </td>
+                                            <td style="text-align:left">
+                                             
+                                                <span *ngIf="(item.old_stock_lot_id == data.lot_id)">Godown No :
+                                                    <b class="font-weight-bold">
+                                                        {{data &&
+                                                        data.godownNo ?
+                                                        convertToString(data.godownNo) :'--'}}                                                        
+                                                    </b></span><br>
+
+                                                <span class="datalist"
+                                                    *ngIf="(item.old_stock_lot_id == data.lot_id)">
+                                                   Stack No: <b class="font-weight-bold">
+                                                        {{data &&
+                                                        data.stackNo ?
+                                                        convertToString(data.stackNo) :'--'}}</b>                                                   
+                                                </span><br>
+                                                <span class="datalist"
+                                                    *ngIf="(item.old_stock_lot_id == data.lot_id)">
+                                                   No.of Bags: <b class="font-weight-bold">
+                                                        {{data &&
+                                                            data.noOfbags ?
+                                                        convertArrayToRange(data.noOfbags) :'--'}}</b>
+                                                   
+                                                </span><br>
+                                            </td>
+
+
+                                        </tr>
+
+                                    </ng-container>
+                                </ng-container>
+                            </tbody>
+                            <tbody *ngIf="tableData && tableData.length<1 && ngForm.controls['getRadio'].value==1">
+                                <tr>
+                                    <td colspan="8" style="text-align: center;">No Data Found</td>
+                                    <td colspan="4"></td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="dummyData && dummyData.length<1 && ngForm.controls['getRadio'].value==2">
+                                <tr>
+                                    <td colspan="8" style="text-align: center;">No Data Found</td>
+                                    <td colspan="4"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

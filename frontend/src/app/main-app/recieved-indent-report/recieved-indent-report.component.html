@@ -1,0 +1,570 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <div class="row">
+                <form [formGroup]="ngForm" (ngSubmit)="Submit(ngForm)">
+                    <div class="col-12 px-4 mt-2">
+                        <div class="row">
+                            <div class="col-md-12 pl-4 pb-2">
+                                <span class="heading_notofied">Received Indents of Breeder Seed</span>
+                                <span class="heading_notofied"
+                                    *ngIf="freezTimeLineData && freezTimeLineData[0] &&  freezTimeLineData[0].end_date ? freezTimeLineData[0].end_date:false"
+                                    style="font-size: 18px;color: red;float: right;">(Submission Date:
+                                    {{freezTimeLineData
+                                    && freezTimeLineData[0] && freezTimeLineData[0].start_date ?
+                                    (freezTimeLineData[0].start_date | date: 'dd/MM/yyyy'):''}} - {{freezTimeLineData
+                                    && freezTimeLineData[0] && freezTimeLineData[0].end_date ?
+                                    (freezTimeLineData[0].end_date | date: 'dd/MM/yyyy'):''}})</span>
+                            </div>
+                            <!-- <div class="col-md-3 pl-4 pb-2"
+                                style="font: normal normal 600 20px/30px Poppins; letter-spacing: 0px; color: #1C1C1C;">
+                            </div> -->
+                            <!-- <div class="col-md-4 pl-4 pb-2"
+                                style="font: normal normal 600 20px/30px Poppins; letter-spacing: 0px; color: #1C1C1C;">
+                            </div> -->
+                            <div class="col-md-4 col-sm-12 mt-2 pl-2 pr-2 pr-md-0">
+                                <div class="col-md-12">
+                                    <label for="" class="left-heading">Year of Indent</label>
+                                </div>
+                                <!-- [(ngModel)]="defaultYear" -->
+                                <div _ngcontent-cvx-c131="" class="col-md-12 pr-md-0">
+                                    <select class="form-control" formControlName="year">
+                                        <option value="">Select Year of Indent</option>
+                                        <option *ngFor="let data of yearOfIndent" value="{{data.year}}">{{data &&
+                                            data.year ? getFinancialYear(data.year) :''}}
+                                        </option>
+                                    </select>
+                                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+                                    </div> -->
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4  mt-2 pl-2 pr-2 pr-md-0">
+                                <div class="col-12 px-3 px-md-2">
+                                    <label for="Crop Group" class="search_txt">Season</label>
+                                </div>
+                                <div class="col-12 pl-md-2">
+                                    <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="season">
+                                        <option value="" disabled>Select Season</option>
+                                        <option *ngFor="let data of seasonList" value="{{data.season}}">
+                                            {{data && data.season ?
+                                            (data.season.trim()==='O') ? "Others" :
+                                            (data.season.trim()==='R') ? "Rabi" : (data.season.trim()==='K') ? "Kharif"
+                                            :
+                                            (data.season.trim()==='S') ? "Summer" :"NA" :'NA'}}</option>
+                                    </select>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                    </div>
+                                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+                                       
+                                    </div> -->
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4   mt-2 pl-2 pl-md-0 pr-2">
+                                <div class="col-md-12 px-3 px-md-0">
+                                    <label for="Crop Name" class="search_txt">Crop Type</label>
+                                </div>
+                                <div class="col-md-12 pl-md-0">
+                                    <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="crop_type">
+                                        <option value="">Select Crop Type</option>
+                                        <option value="A">Agriculture</option>
+                                        <option value="H">Horticulture</option>
+                                        
+                                    </select>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <!-- <img src="assets/images/16.svg" alt="" srcset=""> -->
+                                        <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                    </div>
+                                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+                                    
+                                    </div> -->
+                                </div>
+                            </div>
+
+                            <div class="col-md-4  mt-2 mt-md-2 pl-2 pr-2 pr-md-0">
+                                <div class="col-md-12">
+                                    <label for="Crop Name" class="search_txt">Crop Name</label>
+                                </div>
+                                <div class="col-md-12 pr-md-0">
+                                    <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="cropName"
+                                    class="containers" formControlName="crop_name" [placeholder]="'Please Select Crop'">
+                                </ng-multiselect-dropdown>
+                                    <!-- <select class="form-select form-control" aria-label="Default select example"
+                                        formControlName="crop_name">
+                                        <option value="" selected>Select Crop Name</option>
+                                        data.crop_code
+                                        <option *ngFor="let data of cropName"
+                                            value="{{ data  && data.crop_code ?data.crop_code :'' }}">{{data &&
+                                            data['m_crop.crop_name'] ? data['m_crop.crop_name']:""}}</option>
+                                    </select> -->
+                                    <!-- <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+
+                                    </div> -->
+                                </div>
+                            </div>
+
+                            <div 
+                                class="col-12 mt-1 pl-0 ml-2 search-cancle-button buttons-phone">
+                                <button  (click)="getFreezTimeLineData();" style="width: 158px!important;"
+                                    class="form-button   search ml-0 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-3"
+                                    id="searchData"> Search </button>
+                                <button type="button"
+                                    class="clear-form-button d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="clear()">
+                                    Clear
+                                </button>
+                               
+
+                             
+                                <div *ngIf="is_search && pageData && pageData.length > 0" class="dropdown float-right export_dropdown" 
+                                    >
+                                    <a (click)="exportToExcelData()"  class=" search ml-1 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-3"> <img src="assets\icons\excel.jpg" alt=""
+                                        width="25px"  alt="">
+                                    </a>
+
+                                    
+                                </div>
+
+                            </div>
+
+
+                            <div _ngcontent-cvx-c131="" class="col-12 px-4">
+                                <hr _ngcontent-cvx-c131="" class="separator m-0">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="col-12 px-4 d-none">
+                    <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+                    <div *ngIf="is_search && pageData && pageData.length > 0" class="list-wrapper px-4 py-3">
+                        <div class="row d-md-flex data-row-header extra-header">
+
+                            <div class="col-12 col-md-12 py-3 text-center">
+                                Received Indents of Breeder Seed
+                            </div>
+                        </div>
+                        <br>
+                        <div><!-- *ngIf="isSearch"-->
+                            <div class="row d-md-flex data-row-header" style="zoom: 0.9;">
+                                <div class="col-2 py-3 d-flex verticle-content-middle">
+                                    Year of Indent : {{selectedYear ? getFinancialYear(selectedYear) :''}}
+                                </div>
+                                <div class="col-2 py-3 d-flex verticle-content-middle">Season :
+                                    {{filterSeason ?
+                                    (filterSeason.trim()==='O') ? "Others" :
+                                    (filterSeason.trim()==='R') ? "Rabi" : (filterSeason.trim()==='K') ? "Kharif"
+                                    :
+                                    (filterSeason.trim()==='S') ? "Summer" :"NA" :'NA'}}
+                                    <!-- {{filterCropGroup?filterCropGroup:''}} -->
+                                </div>
+                                <div class="col-2 py-3 d-flex verticle-content-middle">Crop Group :
+                                    {{filterCropGroup?filterCropGroup:''}}
+                                    <!-- {{(filterCropGroup.length >30) ? (filterCropGroup.substring(0, 30) + "..."):'FORAGE CROPS'}} -->
+                                </div>
+                                <div class="col-2 py-3 d-flex verticle-content-middle">Crop Name :
+                                    {{filterCropName?filterCropName:''}}
+                                    <!-- {{(filterCropName.length >30) ? (filterCropName.substring(0, 30) + "..."):'AFRICAN SARSON'}} -->
+                                </div>
+                                <div class="col-2 py-3 d-flex verticle-content-middle"
+                                    style="padding-left: 2em;white-space: nowrap;">As on Date : {{todayData |
+                                    date:"dd-MM-YYYY"}}</div>
+                                <div class="col-2 py-3 d-flex verticle-content-middle" style="padding-left:3em">
+                                    Unit : {{getUnit()}}
+                                </div>
+                            </div>
+                            <div class="middle_line"></div>
+                            <div class="row  data-row tabledata table-responsive" style="border-color: white;">
+                                <table class="table table-bordered border-primary  text-center"
+                                    style="border-color: white !important;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">S.No</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">Variety</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">Notification Year</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">Parental Line</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle"
+                                                *ngFor="let name of totalIndentor">
+                                                {{name && name['user.agency_detail.short_name'] ?
+                                                name['user.agency_detail.short_name']: ''}}</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let data of pageData; let dataIndex=index">
+                                        <ng-container *ngFor="let item of data.variety; let varietyIndex=index">
+                                            <tr>
+                                                <td *ngIf="varietyIndex==0" [attr.rowspan]="data.totalLength2">
+                                                    {{dataIndex+1}}</td>
+                                                <td title="{{(data.variety_name ? data.variety_name :'NA')}}"
+                                                    *ngIf="varietyIndex==0" [attr.rowspan]="data.totalLength2 ">
+                                                    {{(data && data.variety_name ? data.variety_name :'NA')}}
+                                                </td>
+                                                <td *ngIf="varietyIndex==0 " [attr.rowspan]="data.totalLength2">
+                                                    {{(data && data.not_date ? (data.not_date | date: 'yyyy') :'NA')}}
+                                                </td>
+                                                <td>
+                                                    {{(item && item.line_variety_name ? (item.line_variety_name):'NA')}}
+                                                </td>
+                                                <td *ngFor="let value of item.bspc; let bspcIndex=index">
+                                                    <span *ngIf="item && item.line_variety_code">
+                                                        {{value && value.qty ? ((value.qty | number : '1.2-2')):''}}
+
+                                                    </span>
+                                                    <span *ngIf="item && !item.line_variety_code">
+                                                        {{value && value.indent_quantity ? ((value.indent_quantity | number : '1.2-2')):''}}
+
+                                                    </span>
+                                                    
+                                                </td>
+                                                <td >
+                                                    {{(item && item.total_qty ? (item.total_qty | number :
+                                                    '1.2-2'):'NA')}}
+                                                </td>
+                                             
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                    <tbody style="background:#963814">
+                                        <td class="text-white" colspan="4"
+                                            style="text-align: right;font-size: 14px;padding-right: 3em;">Total</td>
+                                        <td *ngFor="let item of totalRowofIndentor" class="text-white"
+                                            style="font-size: 14px;">
+                                            {{item && item.sum ? formatNumber(item.sum):0}}
+                                        </td>
+                                        <td class="text-white" style="font-size: 14px;">
+                                            {{totalSum ? (totalSum| number :
+                                                '1.2-2') :0}}
+                                        </td>
+                                    </tbody>
+                                    <!-- <tbody *ngFor="let data of pageData; let dataIndex=index">
+                                        <tr>
+                                            <td>{{dataIndex+1}}</td>
+                                            <td title="{{(data.variety_name ? data.variety_name :'NA')}}">
+                                                {{(data && data.variety_name ? data.variety_name :'NA')}}
+                                            </td>
+                                            <td title="{{(data.not_date ? data.not_date :'NA')}}">
+                                                {{(data && data.not_date ? (data.not_date | date: 'yyyy') :'NA')}}
+                                            </td>
+                                            <td title="{{(data.variety_name ? data.variety_name :'NA')}}">
+                                                {{(data && data.variety_name ? data.variety_name :'NA')}}
+                                            </td>
+                                            <td *ngFor="let breeder of data.variety[0].bspc[0].bsp_detail; let nameindex = index">
+                                                {{breeder.qty | number : '1.2-2'}}
+
+                                            </td>
+                                            <td rowspan="0" class="total" style="color:black; font-weight: 700;">
+                                                {{data.total_indent_quantity | number : '1.2-2'}}
+                                            </td>
+                                        </tr>
+                                    </tbody> -->
+                                    <!-- <tbody *ngFor="let data of pageData; let dataIndex=index">
+                                        <tr>
+                                            <td>{{dataIndex+1}}</td>
+                                            <td title="{{(data.variety_name ? data.variety_name :'NA')}}">
+                                                {{(data && data.variety_name ? data.variety_name :'NA')}}
+                                            </td>
+                                            <td title="{{(data.not_date ? data.not_date :'NA')}}">
+                                                {{(data && data.not_date ? (data.not_date | date: 'yyyy') :'NA')}}
+                                            </td>
+                                            <td title="{{(data.variety_name ? data.variety_name :'NA')}}">
+                                                {{(data && data.variety_name ? data.variety_name :'NA')}}
+                                            </td>
+                                            <td *ngFor="let breeder of data.breeder_data; let nameindex = index">
+                                                {{breeder.indent_quantity | number : '1.2-2'}}
+
+                                            </td>
+                                            <td rowspan="0" class="total" style="color:black; font-weight: 700;">
+                                                {{data.total_indent_quantity | number : '1.2-2'}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody style="background:#963814">
+                                        <tr *ngIf="totalIndentorQunatity">
+                                            <td></td>
+                                            <td colspan="2" style="font-weight: 700;color: white;">
+                                                {{totalIndentorQunatity.name}}
+                                            </td>
+                                            <td rowspan="0" style="font-weight: 700;color: white;"
+                                                *ngFor="let data of totalIndentorQunatity.indentor; let nameindex = index">
+                                                {{getFixedData(data.quantity) | number : '1.2-2'}}
+                                            </td>
+                                        </tr>
+                                    </tbody> -->
+                                    <div *ngIf="noOneRemaining">
+                                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                            There is No Record Left to
+                                            Freeze.
+                                        </div>
+
+                                    </div>
+                                </table>
+                            </div>
+                          
+
+
+                        </div>
+                    </div>
+                    <div *ngIf="!is_search && pageData && pageData.length > 0" class="pt-2">
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            {{isSearchMsg}}
+                        </div>
+                    </div>
+                    <div *ngIf="is_search && pageData && pageData.length < 1" class="pt-2">
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            No Data Found
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="is_search && pageData && pageData.length > 0" class="col-4 d-none ">
+                     
+                    <button *ngIf="is_freezeData"
+                        class="form-button search freeze-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-3"
+                        (click)="freeze()">Freeze Data and Send to ICAR/Nodal Agency</button>
+                   
+                        <button *ngIf="!is_freezeData"
+                            class="form-button freeze-grey search freeze-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-3">Freeze
+                            Data and Send to ICAR/Nodal Agency</button>
+                   
+                </div>
+                <div class="row my-4 w-100 mx-0 d-none ">
+
+                    <div class="col-12 d-flex justify-content-center verticle-content-middle"  id="excel-table">
+                        <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+                        <div *ngIf="is_search && pageData && pageData.length > 0"class="main-content-form-wrapper px-4 py-2">
+                            
+                            <div class="row d-md-flex data-row-header extra-header">
+        
+                                <div class="col-12 col-md-12 py-3 text-center">
+                                    Received Indents of Breeder Seed
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row pl-0 data-row-header " >
+                             <div class="col-2 py-3 d-flex verticle-content-middle">
+                                 Year of Indent : {{selectedYear ? getFinancialYear(selectedYear) :''}}
+                             </div>
+                             <div class="col-2 py-3 d-flex verticle-content-middle">Season :
+                                 {{filterSeason ?
+                                 (filterSeason.trim()==='O') ? "Others" :
+                                 (filterSeason.trim()==='R') ? "Rabi" : (filterSeason.trim()==='K') ? "Kharif"
+                                 :
+                                 (filterSeason.trim()==='S') ? "Summer" :"NA" :'NA'}}
+                               
+                             </div>
+                             <div class="col-2 py-3 d-flex verticle-content-middle">Crop Group :
+                                 {{filterCropGroup?filterCropGroup:''}}
+                                
+                             </div>
+                             <div class="col-2 py-3 d-flex verticle-content-middle">Crop Name :
+                                 {{filterCropName?filterCropName:''}}                           
+                             </div>
+                             <div class="col-2 py-3 d-flex verticle-content-middle"
+                                 style="padding-left: 2em;white-space: nowrap;">As on Date : {{todayData |
+                                 date:"dd-MM-YYYY"}}</div>
+                             <div class="col-2 py-3 d-flex verticle-content-middle" style="padding-left:3em">
+                                 Unit : {{getUnit()}}
+                             </div>
+                         </div>  
+                                           
+                            <div class="row  data-row mt-2 table-responsive tabledata" >
+                                <table class="table table-bordered border-primary  text-center"
+                                    style="border-color: white !important;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">S.No</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">Variety</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">Notification Year</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">Parental Line</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle"
+                                                *ngFor="let name of totalIndentor">
+                                                {{name && name['user.agency_detail.short_name'] ?
+                                                name['user.agency_detail.short_name']: ''}}</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let data of pageData; let dataIndex=index">
+                                        <ng-container *ngFor="let item of data.variety; let varietyIndex=index">                                           
+                                            <tr>
+                                                <td *ngIf="varietyIndex==0" [attr.rowspan]="data.totalLength2">
+                                                    {{dataIndex+1}}</td>
+                                                <td title="{{(data.variety_name ? data.variety_name :'NA')}}"
+                                                    *ngIf="varietyIndex==0" [attr.rowspan]="data.totalLength2 ">
+                                                    {{(data && data.variety_name ? data.variety_name :'NA')}}
+                                                </td>
+                                                <td *ngIf="varietyIndex==0 " [attr.rowspan]="data.totalLength2">
+                                                    {{(data && data.not_date ? (data.not_date | date: 'yyyy') :'NA')}}
+                                                </td>
+                                                <td>
+                                                    {{(item && item.line_variety_name ? (item.line_variety_name):'NA')}}
+                                                </td>
+                                                <td *ngFor="let value of item.bspc; let bspcIndex=index">
+                                                    <span *ngIf="item && item.line_variety_code">
+                                                        {{value && value.qty ? ((value.qty | number : '1.2-2')):''}}
+
+                                                    </span>
+                                                    <span *ngIf="item && !item.line_variety_code">
+                                                        {{value && value.indent_quantity ? ((value.indent_quantity | number : '1.2-2')):''}}
+
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    {{(item && item.total_qty ? (item.total_qty | number : '1.2-2'):'NA')}}
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                    <tbody style="background:#963814;border:none">
+                                  <tr>
+                                    <td class="text-white" colspan="4" style="text-align: right;font-size: 14px;padding-right: 3em;">Total</td>
+                                    <td *ngFor="let item of totalRowofIndentor" class="text-white" style="font-size: 14px;">
+                                    {{item && item.sum ? formatNumber(item.sum ):0}}
+                                    </td>
+                                    <td class="text-white" style="font-size: 14px;">
+                                        {{totalSum ? (totalSum | number : '1.2-2') :0}}
+                                    </td>   
+                                  </tr>                                 
+                                    </tbody>
+                                     <div *ngIf="noOneRemaining">
+                                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                            There is No Record Left to
+                                            Freeze.
+                                        </div>
+        
+                            </div>
+                            </table>
+                        </div>
+                            
+                        </div>
+                        <div *ngIf="!is_search && pageData && pageData.length > 0" class="pt-2">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                {{isSearchMsg}}
+                            </div>
+                        </div>
+                        <div *ngIf="is_search && pageData && pageData.length < 1" class="pt-2">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data Found
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-4 w-100 mx-0 d-none"     id="tableToExport" #tableToExport >
+
+                    <div class="col-12 d-flex justify-content-center verticle-content-middle" *ngFor="let val of tableData;let cropIndex=index">
+                        <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+                        <div class="main-content-form-wrapper px-4 py-2">                                                                                                                             
+                            <div class="row  data-row mt-2" >
+                                <table class="table table-bordered border-primary  text-center"
+                                    style="border-color: white !important;">
+                                    <thead>
+                                        <tr >
+                                            <td>Breeder Seed Indent Received for season ({{filterSeason ?
+                                                (filterSeason.trim()==='O') ? "Others" :
+                                                (filterSeason.trim()==='R') ? "Rabi" : (filterSeason.trim()==='K') ? "Kharif"
+                                                :
+                                                (filterSeason.trim()==='S') ? "Summer" :"NA" :'NA'}}) of the year ({{selectedYear ? getFinancialYear(selectedYear) :''}}) </td>
+                                          </tr>
+                                          <tr>
+                                                                                        
+                                            <td  [attr.colspan]="4"> Crop Name :{{val && val.crop_name ? val.crop_name:''}} </td>
+                                           <td [attr.colspan]=" val.indentorName.length"></td>
+                                            <td>Unit: {{getUnit()}}</td>
+                                         </tr>
+                                         
+                                        <tr>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">S.No</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">Variety</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">Notification Year</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">Parental Line</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle"
+                                                *ngFor="let name of val.indentorName">
+                                                {{
+                                                    name ? name :''
+                                                }}</th>
+                                            <th scope="col" class="col-md-2 py-2 tdStyle">Total</th>
+                                        </tr>
+                                    </thead>
+                                    {{val.crop_name}}
+                                    <tbody *ngFor="let data of val.items; let dataIndex=index">
+                                        <ng-container *ngFor="let item of data.variety; let varietyIndex=index"> 
+                                        <tr>
+                                        <td *ngIf="varietyIndex==0" [attr.rowspan]="data.variety.length">
+                                        {{dataIndex+1}}</td>
+                                       
+                                        <td title="{{(data.variety_name ? data.variety_name :'')}}"
+                                        *ngIf="varietyIndex==0" [attr.rowspan]="data.variety.length ">
+                                        {{(data && data.variety_name ? data.variety_name :'')}}
+                                        </td>
+                                        <td *ngIf="varietyIndex==0 " [attr.rowspan]="data.variety.length">
+                                        {{(data && data.not_date ? (data.not_date | date: 'yyyy') :'')}}
+                                        </td>
+                                        <td>
+                                        {{(item && item.line_variety_name ? (item.line_variety_name):'')}}
+                                        </td>
+                                        <td *ngFor="let value of item.bspc; let bspcIndex=index">
+                                            <span *ngIf="item && item.line_variety_code">
+                                                {{value && value.qty ? ((value.qty | number : '1.2-2')):''}}
+
+                                            </span>
+                                            <span *ngIf="item && !item.line_variety_code">
+                                                {{value && value.indent_quantity ? ((value.indent_quantity | number : '1.2-2')):''}}
+
+                                            </span>
+                                        </td>
+                                        <td>
+                                        {{(item && item.total_qty ? (item.total_qty | number : '1.2-2'):'')}}
+                                        </td>
+                                        </tr>
+                                        </ng-container>
+                                        </tbody>
+                                        <tbody style="background:#963814;border:none">
+                                            <tr>
+                                            <td class="text-white" colspan="4" style="text-align: right;font-size: 14px;padding-right: 3em;">Total</td>
+                                            <td *ngFor="let item of val.totalQty" class="text-white" style="font-size: 14px;">
+                                            {{item && item.sum ? formatNumber(item.sum):0}}
+                                            </td>
+                                            <td class="text-white" style="font-size: 14px;">
+                                            {{val && val.totalSumQty ? (val.totalSumQty | number : '1.2-2') :0}}
+                                            </td> 
+                                            </tr> 
+                                            </tbody>
+                                        <tr>
+                                            
+                                        </tr>                                     
+                                  
+                                     <div *ngIf="noOneRemaining">
+                                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                            There is No Record Left to
+                                            Freeze.
+                                        </div>
+        
+                            </div>
+                            </table>
+                        </div>
+                            
+                        </div>
+                        <div *ngIf="!is_search && pageData && pageData.length > 0" class="pt-2">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                {{isSearchMsg}}
+                            </div>
+                        </div>
+                        <div *ngIf="is_search && pageData && pageData.length < 1" class="pt-2">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data Found
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>

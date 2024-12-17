@@ -1,0 +1,165 @@
+
+<div class="pt-3 pb-5 px-4 wrapper">
+<form>
+<ng-container>
+    <div class=" card pb-5 " >
+        <div class="col-12 heading  "  style="margin-top: 1.5rem!important;">
+        
+        </div>
+        <div class="row py-4  mx-5  " style="border: 1px solid burlywood;word-wrap: break-word;"  >
+            <div class="example-container-1 mat-elevation-z0 bg-white  mx-2" >
+                <div class="col-12 pb-3 pt-4">
+                    <div class="row pt-5">
+                        <div class=" col-md-2 d-flex justify-content-end">
+                            <span class=""><img src="../../../assets/images/certificat.png" alt=""
+                                class="img-fluid" height="280px"></span>
+                        </div>
+                        <div class="col-md-8 text-center pl-lg-4 ">
+                            <span class="left-heading  font-weight-bold  " style="font-size: 20px;">{{agenyName ? agenyName :'NA'}}
+                            
+                            </span>
+                            <br>
+                            <span class="left-heading  font-weight-bold  " style="font-size: 20px;">
+                                {{district_name ? district_name:'NA'}} , {{state_name ? state_name:''}}
+                            
+                            </span>
+
+                        </div><br>
+                        <div class=" col-md-2 d-flex justify-content-end  ">
+                            <!-- <qrcode [qrdata]="baseUrl+ 'verification-certificate/'+ decryptedId"
+                            [allowEmptyString]="true"
+                            [ariaLabel]="'QR Code image with the following content...'"
+                            [cssClass]="'top'" [colorDark]="'#000000ff'" [colorLight]="'#FFFFFF'"
+                            [elementType]="'canvas'" [errorCorrectionLevel]="'M'" [imageSrc]=""
+                            [imageHeight]="80" [imageWidth]="80" [margin]="2" [scale]="1"
+                            [title]="'A custom title attribute'" [width]="140">
+                        </qrcode> -->
+                            <!-- <span class=""><img  align="right" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdNCA4htX69fRcs9zXxQNU0LFrqfvYpxTFqw&s" alt=""
+                                class="img-fluid" height="130px"></span> -->
+                        </div> 
+                        <div class="col-12  text-center breeder_cert">
+                            <span class="left-heading  font-weight-bold"  style="font-size: 20px;"> BREEDER SEED CERTIFICATE</span>
+                        </div>
+                    </div>
+                </div>
+                
+            
+                
+
+                <div class="row pt-5 px-3">
+
+                    <div class="col-12 pl-4">
+                        Reference No.<span class=""style="font-weight: 900;"> {{dataToShow && dataToShow.year ? getFinancialYear(dataToShow.year):''}}/{{code ? code:''}}
+                                    </span>
+                    </div>
+                    <div class=" col-md-12 pl-4">
+                        <a class="w-50 btn-1 text-center  text-decoration-none">Date: <span style="font-weight: 900;">
+                            <!-- {{currentDate ? (currentDate | date: 'dd/MM/yyyy') :''}}  -->
+                            {{dataToShow && dataToShow.is_created ? (dataToShow.is_created | date: 'dd/MM/yyyy') :''}}
+                        </span>
+                        </a>
+                    </div>
+
+
+                </div>
+
+
+                <div class="row pt-3 ">
+                    <div class="col-12 pl-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="lable_bold px-3" id="lable_para" style="
+                                text-align: justify;font-size: 16px;text-justify: auto!important;word-wrap: break-word;">It's certified that the
+                                
+
+                            <span
+                                style="font-weight: 900;">{{ dataToShow &&
+                                dataToShow.crop_name ?
+                                dataToShow.crop_name : "N/A"}}
+                            </span>
+                            breeder seed of variety (parental line)                                   
+                            <span style="font-weight: 900;">
+                                {{dataToShow && dataToShow.variety_name ? dataToShow.variety_name : "N/A"}} {{dataToShow && dataToShow.line_variety_name ? dataToShow.line_variety_name :'NA'}}
+                            </span>
+                                was supplied to M/s                                 
+                                <span style="font-weight: 900;">{{dataToShow && dataToShow.spa_agency_name ? dataToShow.spa_agency_name : "N/A"}}</span>
+                                    out of the breeder seed stock raised and produced for 
+                                    <span style="font-weight: 900;">
+                                        {{ dataToShow && dataToShow.season ? (dataToShow.season === 'R' ? 'Rabi' : (dataToShow.season === 'K' ? 'Kharif' : dataToShow.season)) : "N/A"}}
+                                        {{ dataToShow && dataToShow.year ? getFinancialYear(dataToShow.year) : '' }}
+                                      </span>
+                                    under my direct supervision against CR/Bill NO
+                                    <span style="font-weight: 900;">
+                                        {{ dataToShow && dataToShow.lifting_bill_no ? dataToShow.lifting_bill_no : "(N/A)"}}
+                                    </span>
+                                    Dated
+                                    <span style="font-weight: 900;">
+                                        {{dataToShow && dataToShow.is_created ? (dataToShow.is_created | date: 'dd/MM/yyyy') :''}}
+                                        <!-- {{pdfdata && pdfdata.date_of_bill ? (pdfdata.date_of_bill| date: 'dd/MM/yyyy') : "N/A"}}  -->                                    
+                                    </span>.
+                                        The details of bags supplied as follow:
+                                        <br>
+                                <div class="col-8"*ngIf="dataToShow && dataToShow.indentor && dataToShow.indentor.length">
+                                    <div class="row data-row pt-2 ">
+                                        <div class="table-responsive"> 
+                                        <table class="table border-top-0 pt-2 col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12 pl-0 pr-0 m-0 ">
+                                            <thead class=" w-100 pl-0 table-bordered ">
+                                                <tr class="data-row-header">
+                                                    <th scope="col"  class="col-md-1 py-2 text-white verticle-content-middle heading bill">S.No</th>
+                                                    <th scope="col"  class="col-md-2 py-2 text-white text-start verticle-content-middle heading variety">Lot No.</th>
+                                                    <!-- <th scope="col" class="col-md-1 py-2 text-white  verticle-content-middle heading">Plot No.</th>  -->
+                                                    <th scope="col" class="col-md-2 py-2 text-white  verticle-content-middle heading SPA">Inspection Date</th>
+                                                    <th scope="col" class="col-md-2 py-2 text-white  verticle-content-middle heading   details">Tag No.</th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody  class="border-top-0 table-bordered col-md-1 py-2 text-white  verticle-content-middle heading data-row"> 
+                                                <ng-container *ngFor="let data of dataToShow.indentor; let index = index">
+                                                <tr>
+                                                    <td>{{index+1}}</td>
+                                                    <td>{{data && data.lot_no ? data.lot_no :''}}</td>
+                                                    <!-- <td>{{data && data.lot_no ? data.lot_no :''}}</td> -->
+                                                    <td>{{data && data.inspection_date ? (data.inspection_date | date:
+                                                        'dd/MM/yyyy') :'NA'}}</td>
+                                                    <td>
+                                                        {{data && data.tagsNo ? converttoArray(data.tagsNo) :''}}
+                                                    </td>
+
+                                                </tr>
+                                                </ng-container>
+                                            </tbody>
+                                            
+                                        </table>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>                    
+                </div>                
+                <div class="row pt-5">
+                    <div class="col-12 pl-4">
+                        <div class="row">
+                            <div class="col-12 col-md-6 col-lg-6 col-sm-12">
+                                <label for="" class="lable_bold">
+                                    &nbsp;&nbsp;&nbsp; <i>THIS IS A DIGITAL COPY SIGNATURE IS NOT REQUIRED</i>                                    
+                                </label>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-6 col-sm-12">
+                                <label for="" class="lable_bold d-flex justify-content-end ">
+                                        <p class="mr-4" >{{contact_person_name ? contact_person_name:'NA'}} <br>{{designation_name ? designation_name :'NA'}}</p> 
+                                    
+                                </label>
+                            </div>
+                            <div class="col-1">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+</ng-container>
+</form>
+

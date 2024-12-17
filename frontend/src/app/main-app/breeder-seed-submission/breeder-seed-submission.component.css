@@ -1,0 +1,35 @@
+::ng-deep .aloc_breeder_padding {
+    padding-left: 5px;
+}
+.in_sel_box{
+    margin-left: -2em !important;
+}
+table tr th td{
+    border:none;
+}
+
+.left-heading {
+    text-align: left;
+    font: normal Poppins;
+    letter-spacing: 0px;
+    color:  #2329ff;
+
+    opacity: 1;
+    font-weight: 600;
+}
+.left-heading::after {
+    color: red;
+    content: '*';
+}
+
+.radio-button {
+    width: 25px;
+    height: 25px;
+}
+input[type='radio']{
+    accent-color: #d7720f;
+}
+.disabledfield {
+    background-color: #e9ecef;
+    pointer-events: none;
+}

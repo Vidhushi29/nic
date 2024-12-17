@@ -1,0 +1,464 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <div class="row">
+                <div class="w-100">
+                    <form [formGroup]="ngForm">
+                        <div class="col-12 px-3 mt-2">
+
+                            <div class="col-md-12 col-sm-12 pl-3 pb-0">
+                                <span class="heading_notofied">Selection of SPAs for Submission of Indent</span>
+                            </div>
+
+
+                            <div class="col-12 mt-3">
+                                <div class="row ">
+                                    <div class="col-12 col-md-3 pr-3 pr-md-0 py-2 py-md-0 mt-3 mt-md-0">
+                                        <div class="col-12 px-0">
+                                            <label for="Crop Group" class="search_txt">State</label>
+                                        </div>
+                                        <div class="col-12  mt-0 px-0">
+                                            <div ngbDropdown class="d-inline-block w-100 "
+                                                [ngClass]="type=='state'? 'disabledfield' : ''">
+                                                <button class="btn takeplacholder w-100 crop toggle-button" id="state"
+                                                    ngbDropdownToggle
+                                                    style="text-align: left;font-weight:400;">{{selected_state &&
+                                                    (selected_state.length>20) ?
+                                                    (selected_state.substring(0,20)+'...'):selected_state?
+                                                    selected_state :'Select State'}}</button>
+
+                                                <div class="dropdown-menu w-100" ngbDropdownMenu="state"
+                                                    aria-labelledby="sortMenu">
+                                                    <input type="text" class="form-control px-4"
+                                                        formControlName="state_text">
+                                                    <button class="dropdown-item" *ngFor="let data of stateList"
+                                                        (click)="state_select(data);" #dropdownItem
+                                                        [attr.data-parent-name]="'state'">
+                                                        {{data && data.state_name ? data.state_name:""}}
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                            <div class="pl-0 toggle-button" ngbDropdown
+                                                [ngClass]="type=='state'  ? 'disabledfield' : ''">
+                                                <i class="fa-solid fa-angle-down downicon" (click)="cnClick()"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3 pl-0 pr-0 py-2
+                                        py-md-0 mt-3 mt-md-0">
+                                        <div class="col-12">
+                                            <label for="Crop Group" class="search_txt">Allowed to Raise Indent</label>
+                                        </div>
+                                        <div class="col-12 pr-md-0">
+                                            <select class="form-select form-control" aria-label="Default select example"
+                                                formControlName="status">
+                                                <option value="" disabled>Select
+                                                </option>
+                                                <option value="Active">Yes</option>
+                                                <option value="Inactive">No</option>
+                                            </select>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-3 pl-0 pr-0 py-2
+                                            py-md-0 mt-3 mt-md-0">
+                                        <div class="col-12">
+                                            <label for="District" class="search_txt">District</label>
+                                        </div>
+                                        <div class="col-12 pr-md-0">
+                                            <div ngbDropdown class="d-inline-block w-100 ">
+                                                <button class="btn takeplacholder w-100 crop toggle-button" id="state"
+                                                    ngbDropdownToggle
+                                                    style="text-align: left;font-weight:400;">{{selected_district &&
+                                                    (selected_district.length>30) ?
+                                                    (selected_district.substring(0,30)+'...'):selected_district?
+                                                    selected_district :'Select District'}}</button>
+
+                                                <div class="dropdown-menu w-100" ngbDropdownMenu="state"
+                                                    aria-labelledby="sortMenu">
+                                                    <input type="text" class="form-control px-4"
+                                                        formControlName="district_text">
+                                                    <ng-container *ngIf="enableDistrict">
+
+                                                        <button class="dropdown-item"
+                                                            *ngFor="let districtName of distData"
+                                                            (click)="district_select(districtName)" #dropdownItem
+                                                            [attr.data-parent-name]="'state'">
+                                                            {{districtName && districtName.districtName ?
+                                                            districtName.districtName :''}}
+                                                        </button>
+                                                    </ng-container>
+                                                </div>
+
+                                            </div>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <i class="fa-solid fa-angle-down downicon" (click)="cnClick()"></i>
+                                            </div>
+                                            <!-- <select class="form-select form-control"
+                                                    aria-label="Default select example"
+                                                    formControlName="district">
+                                                    <option value="" disabled>Select District</option>
+                                                    <option *ngFor="let districtName of distData" value="{{districtName.districtName}}">
+                                                        {{districtName.districtName}}</option>
+                                                        
+                                                </select>
+                                                <div class="pl-0 toggle-button"
+                                                    ngbDropdown>
+                                                </div> -->
+                                        </div>
+
+                                    </div>
+                                    <div class="col-12 col-md-3 pl-0 pr-0 py-2
+                                        py-md-0 mt-3 mt-md-0">
+                                        <div class="col-12">
+                                            <label for="District" class="search_txt">Name of SPA</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <div ngbDropdown class="d-inline-block w-100 ">
+                                                <button class="btn takeplacholder w-100 crop toggle-button" id="spa"
+                                                    ngbDropdownToggle
+                                                    style="text-align: left;font-weight:400;">{{selected_name_of_spa &&
+                                                    (selected_name_of_spa.length>15) ?
+                                                    (selected_name_of_spa.substring(0,15)+'...'):selected_name_of_spa?
+                                                    selected_name_of_spa :'Select Name of SPA'}}</button>
+
+                                                <div class="dropdown-menu w-100" ngbDropdownMenu="spa"
+                                                    aria-labelledby="sortMenu" *ngIf="enableSpaname">
+                                                    <input type="text" class="form-control px-4"
+                                                        formControlName="spa_name_text">
+                                                    <button class="dropdown-item" *ngFor="let data of selectspaData"
+                                                        (click)="spa_select(data)" #dropdownItem
+                                                        [attr.data-parent-name]="'spa'">
+                                                        {{data.spaName? data.spaName:'NA'}}
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <i class="fa-solid fa-angle-down downicon"
+                                                    (click)="cnamespaClick()"></i>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <!-- <div class="col-12 col-md-4 pl-0 pr-0 py-2
+                                            py-md-0 mt-3 mt-md-0">
+                                            <div class="col-12">
+                                                <label for="Crop Group"
+                                                    class="search_txt">Name of SPA</label>
+                                            </div>
+                                            <div class="col-12">
+                                                <select class="form-select form-control"
+                                                    aria-label="Default select example"
+                                                    formControlName="spa">
+                                                    <option value="" disabled>Select
+                                                        Name of SPAs</option>
+                                                    <option *ngFor="let data of
+                                                    selectspaData"
+                                                        value="{{data.spaName}}">
+                                                        {{data.spaName? data.spaName:'NA'}}</option>
+                                                </select>
+                                                <div class="pl-0 toggle-button"
+                                                    ngbDropdown>
+                                                </div>
+
+                                            </div>
+                                        </div> -->
+
+
+                                </div>
+                            </div>
+                            <div class="col-12 mt-3 pl-3 buttons-phone">
+                                <button type="submit" class="form-button search d-inline-flex
+                                        justify-content-center verticle-content-middle" (click)="search()">
+                                    Search
+                                </button>
+                                <button class="clear-form-button ml-3 mt-3 mt-md-2
+                                        d-inline-flex justify-content-center
+                                        verticle-content-middle" (click)="clear()">
+                                    Clear
+                                </button>
+
+                                <div class="dropdown float-right export_dropdown">
+                                    <button type="button" (click)="myFunction()" class="form-button search ml-1 mt-3 mt-md-2
+                                            d-inline-flex justify-content-center
+                                            verticle-content-middle mb-2 mx-0" style="font-size: 87%;">Export To
+                                        &nbsp;<i class="fa fa-angle-down" aria-hidden="true"> </i></button>
+                                    <div id="myDropdown" class="dropdown-content">
+                                        <a (click)="download()"> <img src="assets\icons\pdf-icon.png" alt=""
+                                                width="20px" height="20px"> PDF</a>
+                                        <a (click)="exportexcel()"> <img src="assets\icons\excel.jpg" alt=""
+                                                width="20px" alt=""> Excel</a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div _ngcontent-cvx-c131="" class="col-12 px-3 mt-3">
+                                <hr _ngcontent-cvx-c131="" class="separator m-0">
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-12 px-4">
+                    <div *ngIf="(onboard && onboard.onboard == 0 && (currentUser.username != 'ind-nsc'))"
+                        class="col-12 px-4 mt-2 py-1 d-flex justify-content-end buttons-phone-add"
+                        style="padding-right: 2rem!important;">
+                        <!-- <button class="form-button d-flex justify-content-center verticle-content-middle"
+                            style="width: 100px !important;background-color: #963814;"
+                            routerLink="/add-seed-producing-agency-spa-indentor/addSpa/{{state_code}}">Add</button> -->
+                    </div>
+                    <div class="col-12 px-4">
+                        <div class="list-wrapper px-4 py-3">
+                            <div class="row d-md-flex data-row-header extra-header">
+                                <div class="col-12 col-md-12 py-3 d-flex justify-content-center">
+                                    List of Added SPA
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row data-row">
+                                <table class="table table-bordered table-responsive" id="excel-table">
+                                    <thead>
+                                        <tr class="data-row-header">
+                                            <th scope="col" class="col-md-0 sn-report ">S/N</th>
+                                            <th scope="col" class="col-md-2">Name of SPA</th>
+                                            <th scope="col" class="col-md-2" *ngIf="(currentUser.username == 'ind-nsc')">Ro Circle Name</th>
+                                            <th scope="col" class="col-md-1">SPA Code</th>
+                                            <th scope="col" class="col-md-1"  *ngIf="(currentUser.username == 'ind-nsc')">State</th>
+                                            <th scope="col" class="col-md-1">District </th>
+                                            <th scope="col" class="col-md-1">Block Name</th>
+                                            <th scope="col" class="col-md-2">Name & Designation of Contact Person</th>
+                                            <th scope="col" class="col-md-1">Mobile</th>
+                                            <th scope="col" class="col-md-2">Email</th>
+                                            <th scope="col" class="col-md-1">&nbsp;Status&nbsp;&nbsp;</th>
+                                            <!-- <th scope="col" class="col-md-1"
+                                                *ngIf="(type=='state'&& submitted &&  ngForm.controls['status'].value) || (currentUser.username !='ind-nsc')  ">
+                                                Action</th>
+                                            <th scope="col" class="col-md-1"
+                                                *ngIf="type=='central'&& submitted &&  ngForm.controls['state_id'].value || (currentUser.username !='ind-nsc') ">
+                                                Action</th> -->
+                                            <!-- <th scope="col" class="col-md-1">S/N</th>
+                                        <th scope="col" class="col-md-3">Name of SPA</th>
+                                        <th scope="col" class="col-md-2">Block Name</th>
+                                        <th scope="col" class="col-md-2">District Name</th>
+                                        <th scope="col" class="col-md-2">SPA Code</th>
+                                        <th scope="col" class="col-md-2">Status</th>
+                                        <th scope="col" class="col-md-2">Action</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="spaData && spaData.length > 0; ">
+                                        <tr *ngFor="let data of  spaData; let dataIndex=index">
+                                            <td class="col-md-1">
+                                                <span>{{dataIndex+1}}</span>
+                                            </td>
+                                            <td class="col-md-3">
+                                                <span style="cursor: pointer;" data-toggle="tooltip"
+                                                    data-placement="bottom">
+                                                    {{data && (data.spaName|uppercase) || 'NA'}}
+                                                </span>
+                                            </td>
+                                            <td class="col-md-3" *ngIf="(currentUser.username == 'ind-nsc')">
+                                                <span style="cursor: pointer;" data-toggle="tooltip"
+                                                    data-placement="bottom">
+                                                    {{data && (data.roCircleName|uppercase) || 'NA'}}
+                                                </span>
+                                            </td>
+                                           
+                                            
+                                            <td class="col-md-2">
+                                                <span style="cursor: pointer; word-break: break-word;"
+                                                    data-toggle="tooltip" data-placement="bottom">{{data &&
+                                                    data.spaCode || 'NA'
+                                                    }}</span>
+                                            </td>
+                                            <td class="col-md-3" *ngIf="(currentUser.username == 'ind-nsc')">
+                                                <span style="cursor: pointer;" data-toggle="tooltip"
+                                                    data-placement="bottom">
+                                                    {{data && (data.stateName|uppercase) || 'NA'}}
+                                                </span>
+                                            </td>
+                                            <td class="col-md-2">
+                                                <span style="cursor: pointer;" data-toggle="tooltip"
+                                                    data-placement="bottom">{{data &&
+                                                    ( data.districtName && data.districtName |uppercase) || 'NA'}}</span>
+                                            </td>
+                                            <td class="col-md-2">
+                                                <span style="cursor: pointer;" data-toggle="tooltip"
+                                                    data-placement="bottom">{{data &&
+                                                    (data.blockName && data.blockName|uppercase) || 'NA'}}</span>
+                                            </td>
+                                            <td class="col-md-2">
+                                                <span style="cursor: pointer;" data-toggle="tooltip"
+                                                    data-placement="bottom">{{data &&
+                                                    (data.ownerName && data.ownerName|uppercase) || 'NA'}}</span>
+                                            </td>
+                                            <td class="col-md-2">
+                                                <span style="cursor: pointer;" data-toggle="tooltip"
+                                                    data-placement="bottom">{{data &&
+                                                    data.ownerPhoneNumber || 'NA'}}</span>
+                                            </td>
+                                            <td class="col-md-2">
+                                                <span style="cursor: pointer;" data-toggle="tooltip"
+                                                    data-placement="bottom">{{data &&
+                                                    (data.Email && data.Email|uppercase) || 'NA'}}</span>
+                                            </td>
+                                            <td class="col-md-2">
+                                                <span style="cursor: pointer; word-break: break-word;"
+                                                    data-toggle="tooltip" data-placement="bottom">{{data &&
+                                                    data.indentor==true ? 'Allowed' : 'Not
+                                                    Allowed'}}</span>
+                                            </td>
+                                            <!-- *ngIf="data && data.indentor==false" -->
+
+                                            <!-- <td class="col-md-2"
+                                                *ngIf="(type=='state'&& submitted &&  ngForm.controls['status'].value) || (currentUser.username !='ind-nsc') ">
+                                                <button class="list-action-buttons">
+                                                    <img src="{{data && data.indentor==true ? 'assets/images/inactive.png' :'assets/images/correct.png'}}"
+                                                        class="correct-action-btn" (click)="checkIndentor(data && data.indentor==true ? 'Allowed' : 'Not Allowed',data.spaCode)
+                                                  ">
+                                                </button> -->
+                                                <!-- setAsIndentor -->
+                                                <!-- *ngIf="data && data.indentor==true" -->
+                                                <!-- <button class="list-action-buttons" *ngIf="data && data.indentor==true" >
+                                                <img src="assets/images/inactive.png" class="correct-action-btn"
+                                                    (click)="removeIndentor(data.spaCode)">
+                                            </button> -->
+                                            <!-- </td> -->
+                                            <!-- <td class="col-md-2"
+                                                *ngIf="type=='central'&& submitted &&  ngForm.controls['state_id'].value && !addEnabledBtn">
+                                                <button class="list-action-buttons">
+                                                    <img src="{{data && data.indentor==true ? 'assets/images/inactive.png' :'assets/images/correct.png'}}"
+                                                        class="correct-action-btn" (click)="checkIndentor(data && data.indentor==true ? 'Allowed' : 'Not Allowed',data.spaCode)
+                                                  ">
+                                                </button>
+
+                                            </td> -->
+<!-- 
+                                            <td
+                                                *ngIf="type=='central'&& submitted &&  ngForm.controls['state_id'].value && addEnabledBtn"> -->
+                                                <!-- <div class="col-12">
+                                                    <div class="row">
+                                                        <div class="col-sm-9 pt-2">
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <div class="row">
+                                                                        <div class="col-1">
+                                                                            <label class="switch">
+                                                                                <input type="checkbox"
+                                                                                    (change)="toggleDisplayDiv(data && data.indentor==true ? 'Allowed' : 'Not Allowed',data.spaCode)"
+                                                                                    formControlName="status_toggle">
+                                                                                <span class="slider round"></span>
+                                                                            </label>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+
+                                                <!-- <button class="list-action-buttons">
+                                                    <img src="{{data && data.indentor==true ? 'assets/images/inactive.png' :'assets/images/correct.png'}}"
+                                                        class="correct-action-btn" (click)="checkIndentor(data && data.indentor==true ? 'Allowed' : 'Not Allowed',data.spaCode)
+                                                  ">
+                                                </button>
+                                            </td> -->
+
+
+
+
+
+
+
+
+
+                                            <!-- <td class="col-md-1">
+                                            <span>{{dataIndex+1}}</span>
+                                        </td>
+                                        <td class="col-md-3">
+                                            <span style="cursor: pointer;" data-toggle="tooltip"
+                                                data-placement="bottom">
+                                                {{data && data.spaName || 'NA'}}
+                                            </span>
+                                        </td>
+                                        <td class="col-md-2">
+                                            <span style="cursor: pointer;" data-toggle="tooltip"
+                                                data-placement="bottom">{{data &&
+                                                data.blockName || 'NA'}}</span>
+                                        </td>
+                                        <td class="col-md-2">
+                                            <span style="cursor: pointer;" data-toggle="tooltip"
+                                                data-placement="bottom">{{data &&
+                                                data.districtName || 'NA'}}</span>
+                                        </td>
+                                        <td class="col-md-2">
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom">{{data &&
+                                                data.spaCode || 'NA'
+                                                }}</span>
+                                        </td>
+                                        <td class="col-md-2">
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom">{{data && data.status || 'NA'}}</span>
+                                        </td>
+                                        <td class="col-md-2">
+                                            <button class="list-action-buttons">
+                                                <img src="assets/images/correct.png" class="correct-action-btn"
+                                                    (click)="setAsIndentor(data.spaCode)">
+                                            </button>
+                                            <button class="list-action-buttons">
+                                                <img src="assets/images/inactive.png" class="correct-action-btn"
+                                                    (click)="removeIndentor(data.spaCode)">
+                                            </button>
+                                        </td> -->
+
+
+                                        </tr>
+
+                                    </tbody>
+
+                                    <tbody *ngIf="!spaData || spaData.length < 1;">
+
+                                        <tr>
+                                            <!-- <td colspan="2"></td> -->
+
+                                            <td class="text-center " colspan="10">
+
+                                                <p><b>No Data Found</b></p>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                       
+                    </div> 
+                    
+                    <div class="col-12 px-5   py-3">
+                            <app-pagination-ui></app-pagination-ui>
+                        </div>
+
+                    <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+                        class="px-2 py-3 w-100" style="height: 50px;">
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            No Data Found.
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+    </div>

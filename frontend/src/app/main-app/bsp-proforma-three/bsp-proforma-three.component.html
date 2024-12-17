@@ -1,0 +1,184 @@
+<!-- <p>breeder-seed-inventory works!</p> -->
+<div class="main-inventory">
+          <div class="row">
+              <div class="col-12 col-md-12 col-lg-12 title-inventory pl-2 pb-3 pt-0">
+                  BSP Proforma III (Inspection Report of the Monitoring Team of National/State Varities)
+              <form [formGroup]="ngForm">
+      
+                  <!-- first card ui  -->
+      
+                          <div class="col-12 col-md-12 col-lg-12">
+                              <div class="row card-inventory form-group">
+              
+                                  <!-- start sectio 1  -->
+                                  <div class="col-12 col-md-10 col-lg-10 pt-4">
+                                      <div class="row">
+                                          <!-- year of indent -->
+                                          <div class="col-12 col-md-4 col-lg-4 col-sm-12">
+                                              <div class="row">
+                                                  <div class="col-12">
+                                                      <label for="year" class="label-inventory required">Year of Indent</label>
+                                                  </div>
+                                                  <div class="col-12">
+                                                      <select class=" form-control input-inventory" formControlName="year">
+                                                          <option value="">Please Select Year</option>
+                                                          <option  *ngFor="let data of yearOfIndent" value="{{data && data.value ? data.value :''}}">{{data && data.year ? data.year :''}}</option>
+      
+                                                      </select>
+                                                  </div>
+                                              </div>
+                                          </div>
+              
+                                          <!-- season  -->
+                                          <div class="col-12 col-md-4 col-lg-4 col-sm-12">
+                                              <div class="row">
+                                                  <div class="col-12">
+                                                      <label for="year" class="label-inventory required">Season</label>
+                                                  </div>
+                                                  <div class="col-12">
+                                                      <select class=" form-control input-inventory" formControlName="season">
+                                                          <option value="">Please Select Season</option>
+                                                          <option  *ngFor="let data of seasonlist" value="{{data && data.season_code ? data.season_code :'' }}">{{data && data.season ? data.season :'' }}</option>
+      
+                                                      </select>
+                                                  </div>
+                                              </div>
+                                          </div>
+              
+                                          <!-- crop -->
+                                          <div class="col-12 col-md-4 col-lg-4 col-sm-12">
+                                              <div class="row">
+                                                  <div class="col-12">
+                                                      <label for="year" class="label-inventory required">Crop Name</label>
+                                                  </div>
+                                                  <div class="col-12">
+                                                      <select class=" form-control input-inventory" formControlName="crop">
+                                                          <option value="">Please Select Crop Name</option>
+                                                          <option *ngFor="let data of cropList " value="{{data && data.crop_code ? data.crop_code :''}}" > {{data && data.crop_name ? data.crop_name :''}}</option>                                           
+      
+                                                      </select>
+                                                  </div>
+                                              </div>
+                                          </div>
+              
+                                      </div>
+                                  </div>
+              
+                                  <div class="col-md-2 col-lg-2 col-sm-12 col-xl-2 pt-1 px-2">
+                                      <div class="row">
+                                          <div class="col-12 col-md-12 col-lg-12">
+                                              <p><span style="color:transparent;">.</span></p>
+                                          </div>
+                                          <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-2 mt-2">
+                                              <!-- form-button btn-inventory search d-inline-flex justify-content-center verticle-content-middle mb-3 -->
+                                              <button
+                                                  class="form-button btn-inventory search d-inline-flex justify-content-center verticle-content-middle download-btn" style="font-size: 16px;">Download Consolidated Report</button>
+                                              <!-- (click)="search()" -->
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-12 col-md-10 col-lg-10 pt-1">
+                                      <div class="row">
+                                          <div class="col-12 col-md-4 co-lg-4 col-sm-12">
+                                              <div class="row">
+                                                  <div class="col-12 col-md-5 col-lg-5 col-sm-12 nowrap">
+                                                      <label class="label-inventory-v2 ">Total Varieties:&nbsp;3</label>
+                                                  </div>
+                                                  <div class="col-12 col-md-7 col-lg-7  col-sm-12 nowrap">
+                                                      <label class="label-inventory-v2">Total Indent Quantity:&nbsp;350.00</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>    
+                              </div>
+              
+                          </div>
+      
+                  <!--  Second Card ui -->
+                 
+      
+      
+                  <!-- third card ui  -->
+                  <div class="col-12 pt-0">
+                      <div class="row card-inventory form-group">
+                              <div class="col-md-3 pt-3 pb-3">
+                                        <select type="text" class="form-control input-inventory">
+                                            <option value="">Please Select Variety</option>
+                                            <option *ngFor="let data of Variety" value="{{data && data.id ? data.id :''}}" >{{data && data.variety_name ? data.variety_name :''}}</option>
+                                         
+                                        </select>
+                                    </div>                                  
+                         <div class="col-12 pt-1">
+                          <div class="row data-row">
+                              <table class="table border-top-0 table-responsive">
+                                  <thead>
+                                      <tr class="data-row-header">
+                                          <th scope="col" class="col-md-1 py-2 text-white  verticle-content-middle heading">Crop</th>
+                                          <th scope="col" class="col-md-1 py-2 text-white  verticle-content-middle heading">Varity</th>
+                                          <th scope="col" class="col-md-1 py-2 text-white  verticle-content-middle heading">Location</th>
+                                          <th scope="col" class="col-md-1 py-2 text-white  verticle-content-middle heading">Area Sown</th>
+                                          <th scope="col" class="col-md-1 py-2 text-white  verticle-content-middle heading">Inspected Area</th>
+                                          <th scope="col" class="col-md-1 py-2 text-white  verticle-content-middle heading">Expected Production (QT)</th>
+                                          <th scope="col" class="col-md-1 py-2 text-white  verticle-content-middle heading">Estimated Production</th>
+                                          <th scope="col" class="col-md-1 py-2 text-white  verticle-content-middle heading">Crop Condition</th>
+                                          <th scope="col" class="col-md-1 py-2 text-white  verticle-content-middle heading">Tentative Date of Harvesting</th>
+                                          <th scope="col" class="col-md-2 py-2 text-white  verticle-content-middle heading">Report of Monitoring Team</th>
+                                          <th scope="col" class="col-md-3 py-2 text-white  verticle-content-middle heading">Reason for Unsatisfactory</th>
+                                          <th scope="col" class="col-md-2 py-2 text-white  verticle-content-middle heading">Monitoring Team</th>
+                                          <th scope="col" class="col-md-2 py-2 text-white  verticle-content-middle heading">status</th>
+                                          <th scope="col" class="col-md-2 py-2 text-white  verticle-content-middle heading">Download</th>
+                                      </tr> 
+                                  </thead>
+                                  <tbody class="border-top-0">
+                                      <ng-container *ngFor="let data of tableData; let dataIndex = index">
+                                          <!-- <ng-container *ngFor="let varietiesData of data.bsp2Arr; let varityIndex = index"> -->
+                                             
+              
+                                                  <tr class="" >
+                                                      <td class="border-top border-right fw-400">{{data && data.crop ? data.crop :'NA'}} </td>
+                                                      <td class="border-top border-right fw-400" >{{data && data.Variety ? data.Variety :'NA'}} </td>
+                                                      <td class="border-right border-top fw-400">{{data && data.location ? data.location :'NA'}} </td>
+                                                      <td class="border-top border-right fw-400">{{data && data.area_sown ? data.area_sown :'NA'}} </td>
+                                                      <td class="border-top border-right fw-400" >{{data && data.Inspected_area ? data.Inspected_area :'NA'}} </td>
+                                                      <td class="border-top border-right fw-400">{{data && data.expected_production ? data.expected_production:'NA'}} </td>
+                                                      <td class="border-top border-right fw-400">{{data && data.estimated_production ? data.estimated_production :'NA'}} </td>
+                                                      <td class="border-top border-right fw-400">{{data && data.crop_condition ? data.crop_condition :'NA'}} </td>
+                                                      <td class="border-top border-right fw-400">{{data && data.tentative_date_harvesting ? data.tentative_date_harvesting  :'NA'}} </td>
+                                                      <td class="border-top border-right fw-400">{{data && data.report_monitoring_team ? data.report_monitoring_team :'NA'}} </td>
+                                                      <td class="border-top border-right fw-400">{{data && data.reason_for_unsatisfactory ? data.reason_for_unsatisfactory :'NA'}} </td>
+                                                      <td class="border-top border-right fw-400">{{data && data.monitoring_team ? data.monitoring_team :'NA'}} </td>
+                                                      <td class="border-top border-right fw-400">{{data && data.status ? data.status :'NA'}} </td>
+                                                      <td class="border-top border-right fw-400">{{data && data.download ? data.download :'NA'}} </td>
+                                                  </tr>
+                                          <!-- </ng-container> -->
+                                      </ng-container>               
+                                  </tbody>
+                              </table>
+      
+                              <ng-template #noVarietyData>
+                                  <div style="text-align: center; width: 100%;">
+                                      <p class="my-2 mx-auto">No Data Found</p>
+                                  </div>
+                              </ng-template>
+                          </div>
+                         </div>
+                         <div class="col-2 px-0 px-md-3 py-1 pb-4 pr-0 ">
+                                          
+                          <!-- <div class="col-12 pt-4 pl-0">
+                              <button 
+                              [disabled]="true"
+                                  class="form-button btn-inventory search d-inline-flex justify-content-center verticle-content-middle mb-3">Submit</button>
+                          </div> -->
+                      </div>
+                      <div class="col-12 px-4 px-md-0 py-1 pb-4 pr-0">
+                          <app-pagination-ui></app-pagination-ui>
+                      </div>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+      </div>
+      
+      

@@ -1,0 +1,372 @@
+<div class="pt-3 pb-3 px-4">
+    <!-- (ngSubmit)="submitForm(ngForm)" -->
+    <form [formGroup]="ngForm">
+        <div class="card">
+            <div class="col-12 heading_notofied mt-3">
+                Generation of Breeder Seed Certificate
+            </div>
+            <div class="row form-group pl-2">
+                <div class="col-12 pt-3 pr-1">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12  col-lg-2 pl-4">
+
+                            <label for="" class="left-heading">Year of Indent </label>
+                        </div>
+                        <div
+                            class="col-md-12 col-sm-11 pl-sm-3 pl-lg-0 ml-lg-2 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4 ">
+                            <select class="form-select form-control" aria-label="Default select example"
+                                formControlName="selectedYear"
+                                (change)="getIndentorDatathruYear(ngForm.value.selectedYear)">
+                                <option value="" disabled>Select Year of Indent</option>
+                                <option *ngFor="let year of yearOfIndent" value="{{year.value}}">
+                                    {{year.name}}</option>
+                            </select>
+                            <div class="selectedYear errorMessage"
+                                *ngIf="ngForm.controls['selectedYear'].invalid && ngForm.controls['selectedYear'].dirty || ngForm.controls['selectedYear'].touched">
+                                <span *ngIf="ngForm.controls['selectedYear'].errors?.['required']"></span>
+                                <span *ngIf="ngForm.controls['selectedYear'].errors?.['pattern']">Please Select Valid
+                                    Year.</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-12 pt-3 pr-1">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12  col-lg-2 pl-4">
+
+                            <label for="" class="left-heading">Crop Name</label>
+                        </div>
+                        <div
+                            class="col-md-12 col-sm-11 pl-sm-3 pl-lg-0 ml-lg-2 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4 ">
+                            <select class="form-select form-control" aria-label="Default select example"
+                                formControlName="crop_code" (change)="getCropVarietyData(ngForm.value)">
+                                <option value="" disabled>Select Crop Name</option>
+                                <option *ngFor="let data of crop_name_list" value="{{data.crop_code}}">
+                                    {{data.crop_name}}</option>
+                            </select>
+                            <div class="crop_code errorMessage"
+                                *ngIf="ngForm.controls['crop_code'].invalid && ngForm.controls['crop_code'].dirty || ngForm.controls['crop_code'].touched">
+                                <span *ngIf="ngForm.controls['crop_code'].errors?.['required']"></span>
+                                <span *ngIf="ngForm.controls['crop_code'].errors?.['pattern']">Please Select Valid Crop
+                                    Name.</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-12 pt-3 pr-1">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12  col-lg-2 pl-4">
+
+                            <label for="" class="left-heading">Variety Name</label>
+                        </div>
+                        <div
+                            class="col-md-12 col-sm-11 pl-sm-3 pl-lg-0 ml-lg-2 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4 ">
+                            <select class="form-select form-control" aria-label="Default select example"
+                                formControlName="variety_id" (change)="loadIndentor(ngForm.value)">
+                                <option value="" disabled>Select Variety Name</option>
+                                <option *ngFor="let data of cropVarietyData" value="{{data.id}}">
+                                    {{data.variety_name}}</option>
+                            </select>
+                            <div class="variety_id errorMessage"
+                                *ngIf="ngForm.controls['variety_id'].invalid && ngForm.controls['variety_id'].dirty || ngForm.controls['variety_id'].touched">
+                                <span *ngIf="ngForm.controls['variety_id'].errors?.['required']"></span>
+                                <span *ngIf="ngForm.controls['variety_id'].errors?.['pattern']">Please Select Valid
+                                    Variety Name.</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-12 pt-3 pr-1">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12  col-lg-2 pl-4">
+                            <label for="" class="left-heading">Name of Indenter</label>
+                        </div>
+                        <div
+                            class="col-md-12 col-sm-11 pl-sm-3 pl-lg-0 ml-lg-2 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4 ">
+                            <select class="form-select form-control" aria-label="Default select example"
+                                formControlName="indentOfBreederSeedId" (change)="getAllDetail(ngForm.value)">
+                                <option value="" disabled>Select Name of Indenter</option>
+                                <option *ngFor="let data of indentorsList" value="{{data.id}}">
+                                    {{data.name}}</option>
+                            </select>
+                            <div class="indentOfBreederSeedId errorMessage"
+                                *ngIf="ngForm.controls['indentOfBreederSeedId'].invalid && ngForm.controls['indentOfBreederSeedId'].dirty || ngForm.controls['indentOfBreederSeedId'].touched">
+                                <span *ngIf="ngForm.controls['indentOfBreederSeedId'].errors?.['required']">Please
+                                    Select Name
+                                    of Indenter.</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-12 px-4 pt-3 pb-3">
+                    <hr class="separator m-0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mr-5 pr-5 ">
+                    <div class="row ml-3" style="background: #F5F5F5 0% 0% no-repeat padding-box;
+                    border: 1px solid #979797;">
+                        <div class="col-9">
+                            <div class="row">
+                                <div class="col-12 col-md-6 pl-0 pl-2 pb-3 pt-2">
+                                    <div class="col-12">
+                                        <label for="Pure Seed(%)" class="left-heading">Date</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control" placeholder="Autogenerated"
+                                            formControlName="Date" (keypress)="checkLength($event,50)"
+                                            style="background: #EFEFEF 0% 0% no-repeat padding-box;opacity:1;">
+                                        <!-- <input (keydown)="preventKeyPress($event)"
+                                            class="form-control input-format input-border not_date "
+                                            formControlName="Date" angular-mydatepicker [options]="myDpOptions"
+                                            #dp3="angular-mydatepicker" (dateChanged)="onDateChanged($event)"
+                                            (click)="dp3.toggleCalendar()" [defaultMonth]="defaultMonth"
+                                            (name)="parsedDate" id="date_introduction" placeholder="DD/MM/YYYY"
+                                            style="background: #EFEFEF 0% 0% no-repeat padding-box;opacity:40" /> -->
+
+
+                                        <!-- <input type="date" class="form-control" formControlName="Date"
+                                            (keypress)="checkLength($event,50)"
+                                            style="background: #FFFFFF 0% 0% no-repeat padding-box;opacity:40"  > -->
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 pl-0 pl-2 pb-3 pt-2">
+                                    <div class="col-12">
+                                        <label for="Inert Matter" class="left-headings">Season</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control" placeholder="Autogenerated"
+                                            formControlName="season" (keypress)="checkLength($event,50)"
+                                            style="background: #EFEFEF 0% 0% no-repeat padding-box;opacity:1;">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 pl-0 pl-2 pb-3">
+                                    <div class="col-12">
+                                        <label for="Total Production" class="left-headings">Net Weight
+                                            ({{unit}})</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control" placeholder="Autogenerated"
+                                            formControlName="netWeight" (keypress)="checkLength($event,50)"
+                                            style="background: #EFEFEF 0% 0% no-repeat padding-box;opacity:1;">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 pl-0 pl-2 pb-3">
+                                    <div class="col-12">
+                                        <label for="Quantity for which the labels is to be generated"
+                                            class="left-headings">Year of Production</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control" placeholder="Autogenerated"
+                                            formControlName="yearOfProduction" (keypress)="checkLength($event,50)"
+                                            style="background: #EFEFEF 0% 0% no-repeat padding-box;opacity:1;">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 pl-0 pl-2 pb-3">
+                                    <div class="col-12">
+                                        <label for="Date of Test" class="left-heading">Bill Number</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control" placeholder="Autogenerated"
+                                            formControlName="billNumber" (keypress)="checkLength($event,50)"
+                                            style="background: #EFEFEF 0% 0% no-repeat padding-box;opacity:40">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 pl-0 pl-2 pb-3">
+                                    <div class="col-12">
+                                        <label for="Net Weight" class="left-heading">Date of Bill</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control" placeholder="Autogenerated"
+                                            formControlName="date_of_bill" (keypress)="checkLength($event,50)"
+                                            style="background: #EFEFEF 0% 0% no-repeat padding-box;opacity:1;">
+                                        <!-- <input (keydown)="preventKeyPress($event)"
+                                            [ngClass]=" disabledfield ? 'disabledfield' : ''"
+                                            class="form-control input-format input-border not_date "
+                                            formControlName="date_of_bill" angular-mydatepicker [options]="myDpOptions"
+                                            #dp4="angular-mydatepicker" (dateChanged)="onDateChanged($event)"
+                                            (click)="dp4.toggleCalendar()" [defaultMonth]="defaultMonth"
+                                            (name)="parsedDate" id="date_of_bill" placeholder="DD/MM/YYYY"
+                                            style="background: #EFEFEF 0% 0% no-repeat padding-box;opacity:40" /> -->
+
+                                        <!-- <input type="date" class="form-control" formControlName="date_of_bill"
+                                            (keypress)="checkLength($event,50)"
+                                            style="background: #FFFFFF 0% 0% no-repeat padding-box;opacity:40"> -->
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 pl-0 pl-2 pb-3">
+                                    <div class="col-12">
+                                        <label for="Generated label Numbers" class="left-headings">Date of
+                                            Inspection</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control" placeholder="Autogenerated"
+                                            formControlName="date_of_inspection" (keypress)="checkLength($event,50)"
+                                            style="background: #EFEFEF 0% 0% no-repeat padding-box;opacity:1;">
+                                        <!-- <input (keydown)="preventKeyPress($event)"
+                                            class="form-control input-format input-border not_date "
+                                            formControlName="date_of_inspection" angular-mydatepicker
+                                            [options]="myDpOptions" #dp5="angular-mydatepicker"
+                                            (dateChanged)="onDateChanged($event)" (click)="dp5.toggleCalendar()"
+                                            [defaultMonth]="defaultMonth" (name)="parsedDate" id="date_introduction"
+                                            placeholder="DD/MM/YYYY"
+                                            style="background: #EFEFEF 0% 0% no-repeat padding-box;opacity:40" /> -->
+
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6 pl-0 pl-2 pb-3">
+                                    <div class="col-12">
+                                        <label for="Valid Upto" class="left-headings">Left Over Amount
+                                            ({{unit}})</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control" formControlName="leftOverAmount"
+                                            (keypress)="checkLength($event,50)" placeholder="Left Over Amount"
+                                            style="background: #EFEFEF 0% 0% no-repeat padding-box;opacity:1;">
+
+                                    </div>
+                                </div>
+
+                                <!-- <div class="col-12 col-md-6 pl-0 pl-2 pb-3">
+                                    <div class="col-12">
+                                        <label for="Number of bags for which the label is to be generated"
+                                            class="left-headings"></label>
+                                    </div>
+                                    <div class="col-12 col-sm-12">
+                                        <div class="row">
+
+                                            <div class="col-7 col-md-6 col-sm-6 pl-3 " (click)="uploadImage()">
+                                                <div class=" py-1 text-center pt-1" role="button">
+                                                    <button
+                                                        class="form-button d-flex justify-content-center verticle-content-middle"
+                                                        style="width: 100px !important; background-color: #CB6706;">Upload</button>
+
+                                                    <span class="left-headings">Upload Bill - {{fileName || "No file
+                                                        uploaded yet."}}
+                                                        <p style=" white-space: nowrap !important;">
+                                                            (Pdf Form Only)
+                                                            <span style="color: red;">*</span> 
+                                                        </p>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pl-5 pt-3">
+                                                <span (click)="viewUploadedDoc(filePreviewModal)" style="text-align: left;
+                                                text-decoration: underline;
+                                                font: normal normal normal 16px/25px Poppins;
+                                                letter-spacing: 0px;
+                                                color: #0287C2; 
+                                                opacity: 1;cursor: pointer;">
+                                                    View
+                                                </span>
+                                            </div>
+                                            <input type="file" id="fileInput" #fileInput (change)="onSelect($event)"
+                                                formControlName="upload" style="display: none;">
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-12 col-md-12 pl-0 pl-2 pb-3 pt-2 pr-1">
+                                    <div class="col-12">
+                                        <label for="Germination(%)" class="left-heading">Label Number</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <div>{{labelNames}}</div>
+                                        <ng-multiselect-dropdown style="display: none;" #multiSelect
+                                            formControlName="labelArray" [disabled]="true" [settings]="dropdownSettings"
+                                            [data]="lablesData" [placeholder]="'Select Label..'"
+                                            (keydown)="keyPressedOnMultiDropdown($event)"
+                                            (onDropDownClose)="ngClearMultiSelectSelection()">
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row pl-4 sub_updt_cancel_btn " style="width: 100%; text-align: right;">
+                    <div class="col pt-3 pb-3 resp_btn2" *ngIf="isAlreadyPresent">
+                        <button type="submit" (click)="onSubmit()"
+                            class="form-button submit_btn d-inline-flex justify-content-center verticle-content-middle mb-3 px-1 ml-2">Generated</button>
+                    </div>
+                    <div class="col pt-3 pb-3 resp_btn" *ngIf="isPreview">
+                        <button
+                            class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                        (click)="navigate()">View Certificate</button>
+                        <!-- routerLink="/production-center/generation-of-breeder-certificate/view/{{indentorDetails.id}}">View
+                        Certificate</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Button -->
+<!-- <div class="col-12 pb-3 pb-3 mt-4 ml-3 " *ngIf="!isEdit">
+    <div class="row">
+        <div class=" " [hidden]="!submitHide">
+            <button class="form-button d-inline-flex justify-content-center verticle-content-middle mb-3"  (click)="enrollFormSave()">Submit</button> 
+            <button (click)="onSubmit()"type="submit"
+                class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Submit</button>
+        </div>
+
+         <div class=" " [ngClass]="{'': !disabledfield }">
+            <button routerLink="/add-crop-list"
+                class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">Cancel</button>
+        </div> 
+    </div>
+</div> -->
+
+<!-- <div class="col-12 pb-3 pb-3 mt-4 ml-2">
+    <div class="row">
+        <div class=" " *ngIf="isEdit">
+            <button class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+            (click)="onSubmit()" type="submit">Update</button>
+        </div>
+        <div class=" " *ngIf="cancelbtn">
+            <button class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                routerLink="/add-crop-list">Cancel</button> 
+        </div>
+    </div>
+</div> -->
+<!--button-->
+<ng-template #filePreviewModal>
+    <!-- -->
+
+    <form>
+        <button type="button" class="close modal-cross pull-right" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">×</span>
+        </button>
+        <div class="modal-body p-4">
+
+            <div>
+
+                <pdf-viewer [src]="url_upload" [rotation]="0" [original-size]="false" [show-all]="true"
+                    [fit-to-page]="true" [zoom]="0.9" [zoom-scale]="'page-width'" [stick-to-page]="true"
+                    [render-text]="true" [external-link-target]="'blank'" [autoresize]="false" [show-borders]="false"
+                    style="width: 100%; height: 480px;"></pdf-viewer>
+            </div>
+        </div>
+
+    </form>
+
+</ng-template>

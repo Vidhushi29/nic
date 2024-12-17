@@ -1,0 +1,228 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <form [formGroup]="formGroup">
+                <div class="row">
+                    <div class="col-md-12 px-4 py-2 ml-2 pb-0 pb-md-4">
+                        <span class="heading_notofied">Add SPA Lifting</span>
+                    </div>
+                    <div class="col-12 pt-0 mx-0 pr-4 ml-1 ml-md-2">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-3 pr-4 pl-4 pl-md-3 mt-4 mt-md-0">
+                                <select class="form-control" formControlName="yearofIndent">
+                                    <option value="">Select Year of Indent</option>
+                                    <option *ngFor="let year of yearofIndent" value="{{year.value}}">{{year.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-md-3 pr-4 pl-4 mt-4 mt-md-0">
+                                <select class="form-control" formControlName="season">
+                                    <option value="">Select Season</option>
+                                    <option value="Kharif">Kharif</option>
+                                    <option value="Rabi">Rabi</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-12 col-md-3 pr-4 pl-4 mt-4 mt-md-0">
+                                <select class="form-control" formControlName="state_code">
+                                    <option value="" selected disabled hidden>Select State</option>
+                                    <option *ngFor="let data of stateData" [value]="data.state_code">{{data.state_name}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-12 col-md-3 pr-4 pl-4 mt-4 mt-md-0">
+                                <select class="form-control" formControlName="spa_name">
+                                    <option value="" selected disabled hidden>Select SPA</option>
+                                    <option *ngFor="let data of spaData" [value]="data['user.spa_code']">
+                                        {{data['user.name']}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mt-0 mt-md-4">
+
+
+                        </div>
+
+                        <div class="table-responsive mt-3">
+                            <table class="table bordered" formArrayName="variety_items" style="width: 98% !important">
+                                <thead>
+                                    <tr>
+                                        <th class="left-heading">Crop Name</th>
+                                        <th class="left-heading">Variety </th>
+                                        <th class="left-heading">Lot Number</th>
+                                        <th class="left-heading">Bag Size</th>
+                                        <th class="left-heading">Tag/Range</th>
+                                        <th class="left-heading">Unit Kg/Quintal</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let ele of getItems(formGroup); let i = index" [formGroupName]="i">
+                                        <td style="width: 20%;" class="pl-0">
+                                            <div class="col-md-12 col-md-12 px-2">
+                                                <div ngbDropdown class="d-inline-block w-100 ">
+                                                    <button class="btn takeplacholder w-100 crop toggle-button"
+                                                        [ngClass]=" isView ? 'disabledfield' : ''" id="crop_code"
+                                                        ngbDropdownToggle style="text-align: left;">
+                                                        {{formGroup.controls['variety_items']['controls'][i].controls['crop_code']
+                                                        &&
+                                                        formGroup.controls['variety_items']['controls'][i].controls['crop_code'].value
+                                                        &&
+                                                        formGroup.controls['variety_items']['controls'][i].controls['crop_code'].value.crop_name
+                                                        &&
+                                                        (formGroup.controls['variety_items']['controls'][i].controls['crop_code'].value.crop_name.length>20)?
+                                                        (formGroup.controls['variety_items']['controls'][i].controls['crop_code'].value.crop_name.substring(0,20)+'...'):
+                                                        (formGroup.controls['variety_items']['controls'][i].controls['crop_code'].value)
+                                                        &&
+                                                        (formGroup.controls['variety_items']['controls'][i].controls['crop_code'].value.crop_name)?
+                                                        (formGroup.controls['variety_items']['controls'][i].controls['crop_code'].value.crop_name)
+                                                        :varietyNames? varietyNames: 'Select Crop Name'}}
+                                                    </button>
+
+                                                    <div class="dropdown-menu w-100" ngbDropdownMenu="crop_code"
+                                                        aria-labelledby="sortMenu">
+                                                        <!-- <input type="text" class="form-control px-4"
+                                                            formControlName="crop_code"> -->
+                                                        <button class="dropdown-item" *ngFor="let data of cropData"
+                                                            (click)="cropName(data,i)" #dropdownItem
+                                                            [attr.data-parent-name]="'crop_code'">
+                                                            {{data.crop_name}}
+                                                            <input type="hidden">
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                        <td style="width: 20%;" class="pl-0">
+
+                                            <div ngbDropdown class="d-inline-block w-100 ">
+                                                <button class="btn takeplacholder w-100 crop toggle-button"
+                                                    id="variety_id" ngbDropdownToggle
+                                                    style="text-align: left;">{{formGroup.controls['variety_items']['controls'][i].controls['variety_id'].value
+                                                    &&
+                                                    formGroup.controls['variety_items']['controls'][i].controls['variety_id'].value.variety_name
+                                                    &&
+                                                    (formGroup.controls['variety_items']['controls'][i].controls['variety_id'].value.variety_name.length>20)?
+                                                    (formGroup.controls['variety_items']['controls'][i].controls['variety_id'].value.variety_name.substring(0,20)+'...'):
+                                                    (formGroup.controls['variety_items']['controls'][i].controls['variety_id'].value)
+                                                    &&
+                                                    (formGroup.controls['variety_items']['controls'][i].controls['variety_id'].value.variety_name)?
+                                                    (formGroup.controls['variety_items']['controls'][i].controls['variety_id'].value.variety_name)
+                                                    :varietyNames? varietyNames: 'Select Variety Name'}}</button>
+
+                                                <div class="dropdown-menu w-100" ngbDropdownMenu="variety_id"
+                                                    aria-labelledby="sortMenu">
+                                                    <!-- <input type="text" class="form-control px-4"
+                                                        formControlName="variety_id"
+                                                        (change)="filterVarietyName($event,i)"> -->
+                                                    <button class="dropdown-item" *ngFor="let data of varietyData"
+                                                        (click)="VarieyName(data,i,$event)" #dropdownItem
+                                                        [attr.data-parent-name]="'variety_id'">
+                                                        {{data && data.variety_name ? data.variety_name :'' }}
+                                                        <input type="hidden">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <i class="fa-solid fa-angle-down downicon" (click)="cnclick()"></i>
+                                            </div>
+                                            <div class="pl-0 toggle-button" ngbDropdown>
+                                                <img src="assets/images/16.svg" alt="" srcset="">
+                                            </div>
+                                        </td>
+                                        <td style="width: 20%;" class="pl-2">
+                                            <input type="text" class="form-control" formControlName="lot_number"
+                                                placeholder="Lot Number" id="{{'indentQuantity' + i}}"
+                                                (paste)="onPasteNumber($event,'indentQuantity'+i,'8');">
+                                            <!-- checkNumber($event); -->
+                                            <!-- (keydown)="
+                                                  checkLength($event, 8)" -->
+                                        </td>
+                                        
+                                        <td style="width: 20%;" class="pl-2">
+                                            <input type="number" class="form-control" formControlName="bag_size"
+                                                placeholder="Bag Size" id="{{'indentQuantity' + i}}"
+                                                (paste)="onPasteNumber($event,'indentQuantity'+i,'8');"
+                                                (keydown)="checkValue($event);checkDecimal($event);">
+                                            <!-- checkNumber($event); -->
+                                            <!-- (keydown)="
+                                                  checkLength($event, 8)" -->
+                                        </td>
+                                        <td style="width: 20%;" class="pl-2">
+                                            <input type="text" class="form-control breeder_seed_sub_sel_box"
+                                                formControlName="tag_range" placeholder="Tag/Range"
+                                                id="{{'indentQuantity' + i}}"
+                                                (paste)="onPasteNumber($event,'indentQuantity'+i,'8');">
+                                            <!-- checkNumber($event); -->
+                                            <!-- (keydown)="
+                                                  checkLength($event, 8)" -->
+                                        </td>
+                                        <td style="width: 20%;" class="pl-2">
+                                            <input type="text" class="form-control breeder_seed_sub_sel_box"
+                                                formControlName="unitkgQ" placeholder="Enter Unit"
+                                                id="{{'indentQuantity' + i}}"
+                                                style="pointer-events: none;"
+                                                (paste)="onPasteNumber($event,'indentQuantity'+i,'8');">
+                                            <!-- checkNumber($event); -->
+                                            <!-- (keydown)="
+                                                  checkLength($event, 8)" -->
+                                        </td>
+                                        <td>
+                                            <button *ngIf="(i==0) && (!isEdit) && (!isView)"
+                                                class="btn btn-success btn-sm" (click)="addMore(i)">Add More</button>
+                                            <button *ngIf="(i>0)" class="btn btn-danger btn-sm"
+                                                (click)="remove(i)">Remove</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div *ngIf="isEdit" class="col-md-12 pb-3 mt-4 sub_updt_cancel_btn ">
+                        <div class="resp_btn pl-2">
+                            <button
+                                class="form-button update_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="submit()">Update</button>
+                        </div>
+                        <div class="resp_btn pl-2">
+                            <button
+                                class="form-button ml-2 cancel_btn d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                routerLink="/add-crop-notified-list"
+                                [routerLink]="['/spa-lifting-list']"
+                                style="background-color: #E97E15; color:white ">Cancel</button>
+                        </div>
+                    </div>
+                    <div *ngIf="!isView && !isEdit" class="col-md-12 pb-3 mt-4 sub_updt_cancel_btn ">
+                        <div class="resp_btn pl-2">
+                            <button
+                                class="form-button submit_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="submit()">Sold</button>
+                        </div>
+                        <div class="resp_btn pl-2">
+                            <button
+                                class="form-button cancel_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                [routerLink]="['/spa-lifting-list']"
+                                style="background-color: #E97E15; color:white ">Cancel</button>
+                        </div>
+                    </div>
+                    <div *ngIf="isView" class="col-md-12 pb-3 mt-4 sub_updt_cancel_btn ">
+                        <div class="resp_btn pl-2">
+                            <button
+                                class="form-button update_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                [routerLink]="['/spa-lifting-list']">Cancel</button>
+                        </div>
+                    </div>
+                </div><br><br>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,428 @@
+.wrapper {
+    overflow: hidden;
+
+}
+
+.header-top-line {
+    width: 100%;
+    background: #B64B1D 0% 0% no-repeat padding-box;
+    opacity: 1;
+}
+.custom-badge {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+.main-logo {
+    /* padding-left: 25px;
+    padding-top: 15px;
+    padding-right: 20px;
+    width: 90%;
+    height: 90%; */
+    margin-top: 12%;
+    margin-left: 5%;
+    width: 100%;
+    height: 50%;
+    /* zoom: 0.3; */
+}
+
+.logo-bg {
+    /* width:300px; */
+}
+
+.header-highlighted-text {
+    font: normal Poppins 16px/25px;
+    letter-spacing: 0px;
+    color: #E08A35;
+    height: 23px;
+}
+
+.header-highlighted-value {
+    font: normal Poppins 16px/25px;
+    letter-spacing: 0px;
+    color: #707070;
+    height: 23px;
+}
+
+.indian-gov-logo {
+    /* width: 116px; */
+    height: 79px;
+}
+
+.harghar-tiranga-logo {
+    /* width: 46px; */
+    height: 79px;
+}
+
+.header-row-wrapper {
+    display: flex;
+    /* height: calc(100% - var(--headerTopLine)); */
+}
+
+.header-left-side-container {
+    /* width: 299px; */
+    display: flex;
+    background: #963814 0% 0% no-repeat padding-box;
+    opacity: 1;
+}
+
+.header-right-side-top-container {
+    height: 55px;
+    /* width: 1000px; */
+    background: #B64B1D 0% 0% no-repeat padding-box;
+    opacity: 1;
+}
+
+.header-right-side-bottom-container {
+    height: 55px;
+    clip-path: polygon(0 0, 100% 1%, 100% 100%, 10% 99%);
+    background: #DC8B3A 0% 0% no-repeat padding-box;
+    /* border:10px solid #963814; */
+    opacity: 1;
+}
+
+.header-right-side-section-1 {
+    border-right: 1px solid #FFFFFF;
+    text-align: left;
+    font: normal Poppins 16px/20px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    opacity: 1
+}
+
+.header-right-side-section-2 {
+    text-align: left;
+    font: normal Poppins 16px/20px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.top-right-side-header-title {
+    text-align: left;
+    font: normal Poppins 16px/25px;
+
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.user-logo {
+    width: 35px;
+    height: 35px;
+    color: #FFFFFF 0% 0% no-repeat padding-box;
+    opacity: 1;
+}
+
+.header-right-side-bottom-container1 {
+    background: #110703 0% 0% no-repeat padding-box;
+    clip-path: polygon(0 0, 100% 1%, 100% 100%, 10% 99%);
+}
+
+.header-hr-line {
+    color: #110703;
+}
+
+.border-radious-line {
+    background: #e94200 0% 0% no-repeat padding-box;
+    height: 20px;
+}
+
+.menu-icon-logo {}
+
+.user-text {
+    text-align: left;
+    font: normal Poppins 16px/20px;
+    letter-spacing: 0px;
+    color: #B64B1D;
+    opacity: 1;
+}
+
+.clip-path-header {
+    background-color: #FFFFFF;
+    /* clip-path: polygon(0% 0%, 84% 0, 100% 19%, 100% 100%, 0% 100%); */
+}
+
+.heder-hide-second {
+    display: none;
+}
+
+@media screen and (min-device-width: 279px) and (max-device-width: 768px) {
+    .main-logo {
+        /* padding-left: 80px;
+        padding-top: 15px;
+        padding-right: 40px;
+        padding-bottom: 30px;
+        width: 85%;
+        height: 85%;
+         */
+        padding-left: 0px !important;
+        padding-top: 0px !important;
+        padding-right: 0px !important;
+        padding-bottom: 0px !important;
+        width: 69% !important;
+        height: 80% !important;
+        margin-bottom: 49px;
+        margin-left: 60px !important;
+        margin-top: 24px !important;
+    }
+
+    .heder-hide-first {
+        display: none;
+    }
+
+    .heder-hide-second {
+        display: contents;
+    }
+}
+
+@media screen and (max-device-width: 279px) and (max-device-width: 768px) {}
+
+
+
+
+/* New Css */
+
+
+/* @media only screen and (max-width: 600px) {
+    #header-left-side-container {
+        flex: 0 0 12.8%;
+    }
+} */
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .example {
+        background: green;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    #header-left-side-container {
+        flex: 1 0 29%;
+        max-width: 329px;
+    }
+
+    #header-right-side-container {
+        flex: 1 0 64%;
+        max-width: 67%;
+    }
+
+    .main-logo {
+        margin-left: 15%;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    #header-left-side-container {
+        flex: 1 0 27%;
+        max-width: 329px;
+    }
+
+    .main-logo {
+        margin-left: 15%;
+    }
+
+    #header-right-side-container {
+        flex: 1 0 63%;
+        max-width: 75%;
+    }
+
+    .main-logo {
+        margin-left: 15%;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    #header-left-side-container {
+        flex: 1 0 27%;
+        max-width: 329px;
+
+    }
+
+    #header-right-side-container {
+        flex: 1 0 65%;
+        max-width: 88%;
+    }
+
+    .main-logo {
+        margin-left: 15%;
+    }
+}
+
+.card100 {
+    position: fixed;
+    right: -20px;
+    top: 30px;
+    padding: 20px;
+}
+
+.card100 ul {
+    list-style: none;
+    background: #edeaea;
+    padding: 20px 25px;
+    border-radius: 5px;
+    box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+    line-height: 10px;
+
+}
+
+.card100 ul li a {
+    text-decoration: none;
+    color: rgb(119, 118, 120);
+    cursor: pointer;
+}
+
+.card100 ul li :hover {
+    color: rgb(50, 2, 241);
+    ;
+}
+
+  
+  .moving-textss {
+    position: relative;
+
+    overflow: hidden; /* Hides any overflow if text exceeds container width */
+    /* animation: moveRightToLeft 30s  linear infinite; */
+    /* animation: moveRightToLeft 15s infinite; */
+    /* animation-fill-mode: forwards; */
+    background: red;
+    color: white;
+    /* text-align: center; */
+    border-radius: 5px;
+    /* white-space: nowrap; */
+  }
+.header{
+    background: #DC8B3A 0% 0% no-repeat padding-box;
+    min-height: 55px;
+}
+.header-left-side-container{
+    z-index: 100!important;
+}
+@keyframes moveRightToLeft {
+    0% { transform: translateX(100%);
+        white-space: nowrap; /* Prevents the text from wrapping */
+        overflow: hidden; /* Hides any text that overflows the container */
+        text-overflow: ellipsis;
+        width: 85em;
+    }
+    60% {
+         transform: translateX(-100%); 
+         white-space: nowrap; /* Prevents the text from wrapping */
+        overflow: hidden; /* Hides any text that overflows the container */
+        text-overflow: ellipsis;
+        width: 85em;
+    
+    }
+    100% { transform: translateX(-100%); 
+        white-space: nowrap; /* Prevents the text from wrapping */
+        overflow: hidden; /* Hides any text that overflows the container */
+        text-overflow: ellipsis;
+        width: 85em;
+    }
+  }
+  
+  .moving-text-container {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .moving-text {
+    /* white-space: nowrap; */
+    animation: moveRightToLeft 30s  linear infinite; 
+    background: red;
+    color: yellow;
+    font:bold;
+    font-size: 16px;
+    border-radius: 5px;
+    /* animation: moveRightToLeft 10s linear infinite; */
+    display: inline-block; /* Ensure span takes the minimum necessary width */
+    
+  }
+  
+  .moving-text::after {
+    content: "";
+    display: inline-block;
+    width: 40%; /* Line break after 40% */
+  }
+ 
+/* moving */
+
+ 
+
+div.transparent_div{
+    width:100%;
+    height:40px;
+    /* bottom:0; */
+    /* background:red; */
+    position:absolute;  
+    /* background: red; */
+    bottom: 9px;
+    height: 40px;
+    /* top: 50%; */
+    /* bottom: 50%; */
+}
+.text_wrapper{
+    /* background: red; */
+}
+.main_div{
+    
+}
+div.text_wrapper{    
+    /* height:30px; */
+    /* bottom:0; */
+    /* top: 50%; */
+    /* bottom: 50%; */
+    /* background: red!important; */
+    z-index:10;
+    header:25px;
+    font-weight:600;
+    font: bold;
+    white-space: nowrap;
+    font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif; 
+    color:white;
+    font-size:16px;
+    vertical-align: middle;
+    font-size: 16px;
+    /* -webkit-transition: all 0.3s ease-in-out;
+                -moz-transition: all 0.3s ease-in-out;
+                -o-transition: all 0.3s ease-in-out;
+                -ms-transition: all 0.3s ease-in-out; */
+    position:absolute;
+    -webkit-animation: anim 1.5s infinite;
+    animation: anim 30s infinite;
+    -webkit-animation-timing-function: linear; 
+    
+    animation-timing-function: linear;
+    animation: anim 30s  linear infinite; 
+}
+
+@-webkit-keyframes anim {
+     from {
+         left: -100%;         
+     }
+     to {
+         left:100%;
+     }
+}
+
+@keyframes anim {
+   /* from {
+         left: -100%;
+     }
+     to {
+         left:100%;
+     } */
+     0% { transform: translateX(100%); }
+     50% { transform: translateX(-50%); }
+     60% { transform: translateX(-50%); }
+     100% { transform: translateX(-100%); }
+}
+.disableEdit{
+    pointer-events: none;
+}

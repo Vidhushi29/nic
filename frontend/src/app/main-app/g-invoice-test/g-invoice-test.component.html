@@ -1,0 +1,230 @@
+<form [formGroup]="ngForm" class="pt-2">
+    <div class="main-inventory my-4 w-90  pt-2" id="yourPdfContentId">
+        <div class="col-12 ">
+            <div class="row">   
+                <div class="col-12 col-md-4 col-lg-4 pl-1 col-sm-12  verticle-content-middle">
+                    <img src="assets/images/logo-here.png" />
+                </div> 
+                <div class="col-12 col-md-4 col-lg-4  col-sm-12 verticle-content-middle">
+                    <p class="title-inventory pt-5" >{{indenterinvoiceData && indenterinvoiceData.indenter_name}}</p>
+                    <p class="title-inventory1"><b>{{indenterinvoiceData && indenterinvoiceData.district_name}}, {{indenterinvoiceData && indenterinvoiceData.state_name}}</b> </p>
+                </div> 
+                <div class="col-12 col-md-4 col-lg-4 pr-1 col-sm-12 verticle-content-middle">
+                    <qrcode 
+                    [qrdata]="baseUrl+ 'generate-invoice-qr/'+ encryptedData" 
+                    [allowEmptyString]="true"
+                    [ariaLabel]="'QR Code image with the following content...'"
+                    [cssClass]="'top'" [colorDark]="'#000000ff'"
+                    [colorLight]="'#FFFFFF'" [elementType]="'canvas'"
+                    [errorCorrectionLevel]="'M'" [imageSrc]="" [imageHeight]="80"
+                    [imageWidth]="80" [margin]="2" [scale]="1"
+                    [title]="'A custom title attribute'" [width]="140"
+                    >
+                </qrcode>
+                    <!-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdNCA4htX69fRcs9zXxQNU0LFrqfvYpxTFqw&s"> -->
+                </div>  
+
+                </div>
+            </div>
+            <hr class="custom-line ">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  pt-3 pr-0">
+                <div class="row card-inventory form-group pb-2 pl-0">
+                    <div class="col-12 ">
+                        <div class="row">   
+                            <div class="col-12 col-md-6 col-lg-6 pl-1 col-sm-12   ">
+                                <p class=" "> Invoice No:&nbsp; 123abABC321</p>  
+                                <p class=" "><i class="buy">Buyer Details:</i> </p>  
+                                <p class=" ">SPA Name:&nbsp;<b class="font-weight-bold" [innerText]="spainvoiceData && spainvoiceData.spa_name"> </b> </p> 
+                                <p class=" ">SPA Address:&nbsp;<b class="font-weight-bold" [innerText]="spainvoiceData && spainvoiceData.spa_address"> </b> </p>  
+                                <p class=" ">SPA Contact No:&nbsp;<b class="font-weight-bold" [innerText]="spainvoiceData && spainvoiceData.spa_contact"> </b> </p>  
+                            </div> 
+                            <div class="col-12 col-md-6 col-lg-6 pl-1 col-sm-12   ">
+                                <p class=" ">Date:&nbsp;<b class="font-weight-bold" [innerText]="spainvoiceData && spainvoiceData.date"> </b>  </p>  
+                                <p class=" "><i class="buy">Seller Details:</i> </p>  
+                                <p class=" ">BSPC Name:&nbsp;<b class="font-weight-bold" [innerText]="indenterinvoiceData && indenterinvoiceData.indenter_name"> </b> </p> 
+                                <p class=" ">BSPC Address:&nbsp;<b class="font-weight-bold" [innerText]="indenterinvoiceData && indenterinvoiceData.indenter_address"> </b> </p>  
+                                <p class=" ">BSPC Contact No:&nbsp;<b class="font-weight-bold" [innerText]="indenterinvoiceData && indenterinvoiceData.contact_person_mobile"> </b> </p>   
+                            </div>    
+                        </div> 
+                    </div>
+                        <div class="row data-row p-0 ">
+                          
+                            <table class="table border-top-0 pt-2 col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12 pl-0 pr-0 m-0 ">
+                                <thead class=" w-100 pl-0 table-bordered">
+                                    <tr class="data-row-header">
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white verticle-content-middle heading bill">S.No
+                                        </th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white text-start verticle-content-middle heading variety">
+                                            Crop</th>
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white  verticle-content-middle heading">Variety
+                                        </th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading SPA">Class
+                                        </th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading seed">Bag
+                                            Weight(Kg)</th>
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white  verticle-content-middle heading bill">No.
+                                            Of Bags</th>
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white  verticle-content-middle heading SPA">Per
+                                            Unit Price(INR)</th>
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white  verticle-content-middle heading">Total
+                                            Price(INR)</th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="border-top-0 table-bordered col-md-1 py-2 text-white  verticle-content-middle heading data-row">
+                                    <ng-container *ngFor="let spa of spaDetails; let spaIndex = index">
+                                        <!-- ng-container to iterate over bag_details of each spa -->
+                                        <ng-container *ngFor="let bag of spa.bag_details; let bagIndex = index">
+                                    <tr>
+                                        <td scope="col" class="col-md-1 py-2" *ngIf="spaIndex === 0 && bagIndex === 0 " [attr.rowspan]="spa.spa__row_count">
+                                            <p class="verticle-content-middle">{{ spaIndex + 1 }}</p>
+                                        </td>
+                                        <td scope="col" class="col-md-1 py-2 verticle-content-middle" *ngIf="spaIndex === 0 && bagIndex === 0 " [attr.rowspan]="spa.spa__row_count">{{spa.crop_name}}</td>
+                                        <td scope="col" class="col-md-1 py-2 verticle-content-middle" *ngIf="spaIndex === 0 && bagIndex === 0 " [attr.rowspan]="spa.spa__row_count">{{spa.variety_name}}</td>
+                                        <td scope="col" class="col-md-2 py-2 verticle-content-middle" *ngIf="spaIndex === 0 && bagIndex === 0 " [attr.rowspan]="spa.spa__row_count">Breeder I</td>
+                                        <td scope="col" class="col-md-2 py-2 verticle-content-middle" *ngIf="spaIndex === 0">{{bag.bag_size}}</td>
+                                        <td scope="col" class="col-md-2 py-2 verticle-content-middle" *ngIf="spaIndex === 0">{{bag.number_of_bag}}</td>
+                                        <td scope="col" class="col-md-2 py-2 verticle-content-middle" *ngIf="spaIndex === 0">{{bag.bag_price}}</td>
+                                        <td scope="col" class="col-md-2 py-2 verticle-content-middle" *ngIf="spaIndex === 0">{{bag.number_of_bag * bag.bag_price }}</td>
+                                    </tr>
+                                    </ng-container>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                            <div class="col-12 w-100 d-flex justify-content-between mr-0">
+                                <!-- <p class=" text-white data-row-header1 "><span class="price1 text-white"> </span> <b
+                                        class="text-white price">Grand
+                                        Total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{grandTotal}}&nbsp;&nbsp;</b> </p> -->
+                                <p class=" text-white data-row-header1 "><span class="price1 text-white"> </span> <b
+                                    class="text-white price">Grand
+                                    Total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{spainvoiceData && spainvoiceData.grand_total}}&nbsp;&nbsp;</b> 
+                                </p>
+                            </div>
+                            <div class="col-12 pt-2">
+                                <div class="row">   
+                                    <div class="col-12 col-md-6 col-lg-6   col-sm-12 "> </div> 
+                                       <div class="col-12 col-md-6 col-lg-6   col-sm-12">  
+                                        <div class="col-12 col-md-11 col-lg-11    col-sm-12 ">   
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <!-- <div class="d-flex justify-content-between ">
+                                                <p class="">MoU Charges:</p>
+                                                <b class="font-weight-bold">
+                                                    {{ spainvoiceData?.mou_charges ? '₹' + spainvoiceData.mou_charges : 'N/A' }}
+                                                </b>
+                                            </div> -->
+                                            <div *ngIf="spainvoiceData?.mou_charges !== null && spainvoiceData.mou_charges !== 0" class="d-flex justify-content-between">
+                                                <p class="">MoU Charges:</p>
+                                                <b class="font-weight-bold">
+                                                    {{ '₹' + spainvoiceData.mou_charges }}
+                                                </b>
+                                            </div>
+
+                                            <div *ngIf="spainvoiceData?.licence_total_amount !== null && spainvoiceData.licence_total_amount !== 0" class="d-flex justify-content-between">
+                                                <p class="">Licence Fee:</p>
+                                                <b class="font-weight-bold">
+                                                    {{ '₹' + spainvoiceData.licence_total_amount }}
+                                                </b>
+                                            </div>
+
+                                            <div *ngIf="spainvoiceData?.ppv_amount !== null && spainvoiceData.ppv_amount !== 0" class="d-flex justify-content-between">
+                                                <p class="">PPV Fee:</p>
+                                                <b class="font-weight-bold">
+                                                    {{ '₹' + spainvoiceData.ppv_amount }}
+                                                </b>
+                                            </div>
+
+                                            <div *ngIf="spainvoiceData?.royality_amount !== null && spainvoiceData.royality_amount !== 0" class="d-flex justify-content-between">
+                                                <p class="">Royality:</p>
+                                                <b class="font-weight-bold">
+                                                    {{ '₹' + spainvoiceData.royality_amount }}
+                                                </b>
+                                            </div>
+
+                                            <div *ngIf="gst" class="d-flex justify-content-between">
+                                                <p class="">GST (Total):</p>
+                                                <b class="font-weight-bold">
+                                                    {{ gst ? '₹' + gst : 'N/A' }}
+                                                </b>
+                                            </div>
+                                            
+                                            <!-- <div class="d-flex justify-content-between  ">
+                                                <p class="">GST (Total): </p>
+                                                <b class="font-weight-bold">
+                                                    {{ gst ? '₹' + gst : 'N/A' }}
+                                                </b>
+                                            </div>  -->
+                                            
+                                            <!-- <div class="d-flex justify-content-between   ">
+                                                <p class="">CGST:</p>
+                                                <b class="font-weight-bold" [innerText]="'₹' +  (spainvoiceData && spainvoiceData.cgst)"></b>
+                                            </div>
+                                            <div class="d-flex justify-content-between  ">
+                                                <p class="">SGST:</p>
+                                                <b class="font-weight-bold" [innerText]="'₹' +  (spainvoiceData && spainvoiceData.sgst)"></b>
+                                            </div>  -->
+                                            <hr class="custom-line w-100">
+                                            <div class="d-flex justify-content-between  ">
+                                                <p style="color: #B64B1D;">Total Payable Amount:</p>
+                                                <!-- <b style="color: #B64B1D;" class="font-weight-bold" [innerText]="'₹' + ((spainvoiceData && spainvoiceData.mou_charges) + (spainvoiceData && spainvoiceData.cgst) + (spainvoiceData && spainvoiceData.sgst) + grandTotal)"></b>                                            </div>  -->
+                                                <b style="color: #B64B1D;" class="font-weight-bold" [innerText]="'₹' + (spainvoiceData && spainvoiceData.total_payble_amount)"></b>                                            
+                                            </div> 
+
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12   col-md-12 col-sm-12 col-12 button23 " style="padding-top: -20px;">
+            <div class="row">
+                <div class="col-lg-3 expa col-md-3 col-sm-12 col-12   pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12  ">
+                            <button routerLink="/generate-invoice"
+                                class="w-100 py-2  text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 expa col-md-3 col-sm-12 col-12   pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12  ">
+                            <button (click)="downloadPDF()"
+                                class="w-100 py-2   text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-lg-3 expa col-md-3 col-sm-12 col-12   pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12  ">
+                            <button (click)="printPage()"
+                                class="w-100 py-2   text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                Print
+                            </button>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="col-lg-3 expa col-md-3 col-sm-12 col-12 pt-4 mt-2 pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12  ">
+
+                        </div>
+                    </div>
+                </div>
+            </div> 
+    </div>
+</form>

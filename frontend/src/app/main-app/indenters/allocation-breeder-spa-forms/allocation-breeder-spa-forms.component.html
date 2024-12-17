@@ -1,0 +1,428 @@
+<form [formGroup]="formSuperGroup" (ngSubmit)="submitForm(formSuperGroup.value)">
+	<div class="row my-4 w-100 mx-0 form-child">
+		<div class="col-12 px-md-3 px-sm-3 px-0">
+			<div class="row mx-auto main-content-form-wrapper px-0 py-2">
+				<div class="col-12 px-0 py-2" style="  letter-spacing: 0px;color: #000000 !important;">
+					<div class="col-12 pl-2 px-3"
+						style=" font-style: normal Poppins; font-weight: bold;font-size : 20px">
+						Allocation of Breeder Seed to SPAs for Lifting
+					</div>
+				</div>
+				<div class="col-12 mt-2 pr-0 p-1">
+					<app-dynamic-fields [fieldsList]="fieldsList" [isLabelControlParallel]="false"
+						[formGroup]="IstPartFormGroup" [isView]="isView"
+						
+						
+						></app-dynamic-fields>
+				</div>
+				<div class="col-12  pr-0 pl-4 pl-md-0 ml-3 ml-md-0">
+					<div class="row mx-1 aloc_breeder_padding mt-4 ml-4 ml-md-0">
+						<div class="resp_btn" *ngIf="!isView">
+							<a href="javascript:void(0)" (click)="search()"
+								class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3">
+								Search
+							</a>
+						</div>
+						<div class="resp_btn" *ngIf="!isView">
+							<a href="javascript:void(0)"
+								class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3 mr-1"
+								(click)="clear()">
+								Clear
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-12  pr-0 pl-2" style="margin-top: -2em;">
+					<div class="row mx-1 aloc_breeder_padding mt-4 p-2">
+						<div class="col-4 px-2">
+							<label class="bold-label ">Total Number of Variety :
+								{{verietyListDetails.totalNumberOfVariety ?
+								verietyListDetails.totalNumberOfVariety : 'N/A' }}
+							</label>
+						</div>
+						<div class="col-4 px-2">
+							<label class="bold-label">Total Indenting Quantity ({{
+								searhedData && IstPartFormGroupControls['cropName'].value &&
+								IstPartFormGroupControls['cropName'].value.value ?
+								getQuantityMeasure(IstPartFormGroupControls['cropName'].value.value):''}}
+								): {{verietyListDetails.totalIndentQuantity ?
+								verietyListDetails.totalIndentQuantity : 'N/A' }}
+
+							</label>
+						</div>
+						<div class="col-4 px-2">
+							<label class="bold-label">
+
+								Total Allocation ( {{
+								searhedData && IstPartFormGroupControls['cropName'].value &&
+								IstPartFormGroupControls['cropName'].value.value ?
+								getQuantityMeasure(IstPartFormGroupControls['cropName'].value.value):''}}
+								) : {{verietyListDetails.totalAllocationQuantity ?
+								verietyListDetails.totalAllocationQuantity : 'N/A' }}
+
+							</label>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="col-12 mt-2 pr-3 pl-3">
+					<app-dynamic-fields [fieldsList]="verietyfieldsList" [isLabelControlParallel]="false"
+						[formGroup]="IstPartFormGroup" [isView]="isView"
+						[allocation]="'Total Indenting Quantity'"
+						[allocationQtyUnit]="(IstPartFormGroupControls['variety'].value
+						&& searhedData &&
+					   IstPartFormGroupControls['cropName'].value &&
+					   IstPartFormGroupControls['cropName'].value.value ?
+					   getQuantityMeasure(IstPartFormGroupControls['cropName'].value.value):'')					
+						"
+						[allocaltedQty]="selectedVerietyDetail.totalIndentQuantity ?
+						getQuantityOfSeedProduced(selectedVerietyDetail.totalIndentQuantity)
+						: '' "
+						[totalProductionTitle]="'Total Production'"
+						[totalProductionUnit]="IstPartFormGroupControls['variety'].value &&
+						searhedData && IstPartFormGroupControls['cropName'].value &&
+						IstPartFormGroupControls['cropName'].value.value ?
+						getQuantityMeasure(IstPartFormGroupControls['cropName'].value.value):''"
+						[totalProductionQty]="selectedVerietyDetail.totalAllocationQuantity ?
+						getQuantityOfSeedProduced(selectedVerietyDetail.totalAllocationQuantity) : 'N/A'"
+						></app-dynamic-fields>
+				</div>
+
+				<div class="col-12 mt-2 pr-0 pl-2" style="display: none;">
+					<div class="row mx-1 aloc_breeder_padding mt-3">
+						<div class="col-4 px-2">
+							<label class="bold-label">Total Indenting Quantity
+								({{IstPartFormGroupControls["variety"].value && searhedData &&
+								IstPartFormGroupControls['cropName'].value &&
+								IstPartFormGroupControls['cropName'].value.value ?
+								getQuantityMeasure(IstPartFormGroupControls['cropName'].value.value):''}}):
+								{{selectedVerietyDetail.totalIndentQuantity ?
+								getQuantityOfSeedProduced(selectedVerietyDetail.totalIndentQuantity) : 'N/A' }}
+							</label>
+						</div>
+						<div class="col-4 px-2">
+							<label class="bold-label">Total Allocation ({{IstPartFormGroupControls["variety"].value &&
+								searhedData && IstPartFormGroupControls['cropName'].value &&
+								IstPartFormGroupControls['cropName'].value.value ?
+								getQuantityMeasure(IstPartFormGroupControls['cropName'].value.value):''}}) :
+								{{selectedVerietyDetail.totalAllocationQuantity ?
+									getQuantityOfSeedProduced(selectedVerietyDetail.totalAllocationQuantity) : 'N/A' }}
+
+
+							</label>
+						</div>
+					</div>
+				</div>
+
+
+
+
+				<!-- <div class="col-12 pt-3 pt-md-4 pl-0 pl-md-1 buttons-phone">
+					<label class=" ml-3 allocation-label">Status Of Allocation of Breeder Seeds</label>
+				</div> -->
+				<div class="col-12 mt-2 pr-3 pl-3">
+					<div class="row mx-0 aloc_breeder_padding">
+						<table class="table">
+							<!-- <thead class="thead">
+								<tr *ngIf="!showAdded">
+									<td scope="col">Name of BSPCs</td>
+									<td scope="col"
+										*ngFor="let data of selectedVerietyDetail.productionCenters; let dataIndex=index">
+										{{data.user.name}}
+									</td>
+								</tr>
+								<tr *ngIf="showAdded">
+									<td scope="col">Name of BSPCs</td>
+									<td scope="col"
+										*ngFor="let data of mergeArr; let dataIndex=index">
+										{{data.user.name}}
+									</td>
+								</tr>
+							</thead> -->
+							<thead class="thead">
+								<tr>
+									<td scope="col" style="font-weight: 600;">Name of BSPCs</td>
+									<td scope="col" style="font-weight: 600;"
+										*ngFor="let data of selectedVerietyDetail.productionCenters; let dataIndex=index">
+										{{data.user.name}}</td>
+								</tr>
+							</thead>
+							<!-- <tbody *ngIf="!showAdded">
+								<tr>
+									<th scope="row">Quantity Allocated ({{IstPartFormGroupControls["variety"].value &&
+										quantityUnit ? quantityUnit :''}})</th>
+									<th scope="col"
+										*ngFor="let data of selectedVerietyDetail.productionCenters; let dataIndex=index">
+										{{data.alloc}}
+									</th>
+								</tr>
+								<tr>
+									<th scope="row">Quantity Left ({{IstPartFormGroupControls["variety"].value &&
+										quantityUnit ? quantityUnit :''}})</th>
+									<th scope="col"
+										*ngFor="let data of selectedVerietyDetail.productionCenters; let dataIndex=index">
+										{{data && (data.quantityLeft<0)?0:(data.quantityLeft>0)?data.quantityLeft : 0}}
+
+									</th>
+								</tr>
+							</tbody>
+
+							<tbody *ngIf="showAdded">
+								<tr>
+									<th scope="row">Quantity Allocated ({{IstPartFormGroupControls["variety"].value &&
+										quantityUnit ? quantityUnit :''}})</th>
+									<th scope="col" *ngFor="let data of mergeArr; let dataIndex=index">
+										{{data.alloc}}
+									</th>
+								</tr>
+								<tr>
+									<th scope="row">Quantity Left ({{IstPartFormGroupControls["variety"].value &&
+										quantityUnit ? quantityUnit :''}})</th>
+									<th scope="col" *ngFor="let data of mergeArr; let dataIndex=index">
+										{{data && data.productionCenter&& data.productionCenter &&
+										data.productionCenter.qty &&
+										((data.alloc-data.productionCenter.qty)<0)?0:((data.alloc-data.productionCenter.qty)>0)?(data.alloc-data.productionCenter.qty):''
+
+											}}
+
+									</th>
+								</tr>
+							</tbody> -->
+
+							<tbody>
+								<tr>
+									<th scope="row">Quantity Allocated By Seed Divison ({{IstPartFormGroupControls["variety"].value &&
+										quantityUnit ? quantityUnit :''}}) </th>
+									<th scope="col"
+										*ngFor="let data of selectedVerietyDetail.productionCenters; let dataIndex=index">
+										{{getQuantityOfSeedProduced(data.qty)}} </th>
+
+									<!-- ({{getQuantityMeasure(selectedVerietyDetail.crop_code)}}) -->
+								</tr>
+								<tr>
+									<th scope="row">Quantity Allocated to SPA
+										({{IstPartFormGroupControls["variety"].value && quantityUnit ? quantityUnit
+										:''}}) </th>
+									<th scope="col"
+										*ngFor="let data of selectedVerietyDetail.productionCenters; let dataIndex=index">
+										{{getQuantityOfSeedProduced(data.quantityAllocated)}} </th>
+								</tr>
+								<tr>
+									<th scope="row">Quantity Left ({{IstPartFormGroupControls["variety"].value &&
+										quantityUnit ? quantityUnit :''}}) </th>
+									<th scope="col"
+										*ngFor="let data of selectedVerietyDetail.productionCenters; let dataIndex=index">
+										{{data && data.quantityProduced && data.quantityAllocated &&
+										((data.qty - data.quantityAllocated) < 0) ? 0 : 
+										getQuantityOfSeedProduced(data.qty - data.quantityAllocated)}}</th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<!-- <div class="col-12 pt-3 pt-md-4 pl-0 pl-md-1 buttons-phone">
+					<label class=" ml-3 allocation-label">Allocation of Breeder Seed to SPAs for Lifting</label>
+				</div> -->
+
+				<div class="col-12 mt-2 pr-4 pl-2 ml-1">
+					<div class="row mx-1 aloc_breeder_padding table-responsive">
+						<table class="table">
+							<thead class="thead">
+								<tr>
+									<th scope="col" class="text-center">Name of SPAs</th>
+									<th scope="col" class="text-center">Indented Quantity</th>
+									<th scope="col" class="text-center">Allocation for Lifting</th>
+									<th scope="col" class="text-center">Allocated Quantity</th>
+									<th scope="col" class="text-center">Quantity left for Allocation</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let indentor of selectedVerietyDetail.indentors; let dataIndex=index">
+									<th scope="row" class="text-center">{{indentor.user.name}}</th>
+									<td class="text-center">{{getQuantityOfSeedProduced(indentor.indent_quantity) || 0}}
+										({{getQuantityMeasure(selectedVerietyDetail.crop_code)}})</td>
+									<td class="text-center m-p-0">
+										<table class="table table-bordered">
+											<tbody>
+												<tr
+													*ngFor="let production of indentor.productions; let productionIndex=index">
+													<td>{{production.productionCenter.text || 'N/A'}}</td>
+													<td>
+
+														<div
+															*ngIf="editableQuantity && (editIndex == productionIndex) && (editProdId == production.id) && (rowIndex == dataIndex); else viewMode">
+															<input class="qty-txt" *ngIf="editableQuantity" type="text"
+																(keypress)="isNumberKey($event)" step="0.01"
+																(keyup)="qtyChanged($event, production, indentor, productionIndex)"
+																[(value)]="production.qty">({{getQuantityMeasure(selectedVerietyDetail.crop_code)}})
+														</div>
+
+														<ng-template #viewMode>
+															<div style="width: 100%;">
+																<span>{{getQuantityOfSeedProduced(production.qty) || 0}}</span>
+															</div>
+														</ng-template>
+
+
+													</td>
+
+													<td *ngIf="!isView">
+
+														<div
+															*ngIf="editableQuantity && (editIndex == productionIndex) && (editProdId == production.id) && (rowIndex == dataIndex); else viewModeButtons">
+															<a href="javascript:void(0)" class="list-action-buttons"
+																(click)="saveQuantity(production, indentor, productionIndex)">
+																<img src="assets/images/correct.png"
+																	style="border-radius: 5px !important;">
+															</a>&nbsp;&nbsp;
+															<a href="javascript:void(0)" (click)="cancelEdit()"
+																class="list-action-buttons">
+																<img src="assets/images/inactive.png"
+																	style="border-radius: 5px !important;">
+
+															</a>
+														</div>
+
+														<ng-template #viewModeButtons>
+															<div *ngIf="editbuttonsView">
+																<a href="javascript:void(0)" class="list-action-buttons"
+																	(click)="editQuantity(production, productionIndex, dataIndex)">
+																	<img src="assets/images/edit.svg">
+																</a>&nbsp;&nbsp;
+																<a href="javascript:void(0)"
+																	(click)="removeQuantity(productionIndex, indentor, production)"
+																	class="list-action-buttons">
+																	<img src="assets/images/delete.svg">
+																</a>
+
+															</div>
+														</ng-template>
+													</td>
+												</tr>
+												<tr *ngIf="!isView">
+													<td>
+														<ng-multiselect-dropdown #productionSelect
+															[placeholder]="'Select Production Center'"
+															[settings]="dropdownSettings"
+															(onSelect)="onItemSelect($event)"
+															[data]="indentor.production_center_list"></ng-multiselect-dropdown>
+													</td>
+													<td><input type="text" (keypress)="isNumberKey($event)"
+															class="form-control" id="quantity" placeholder="Quantity"
+															#qtyInput></td>
+													<td><button type="button"
+															(click)="addQuantity(indentor, productionSelect, qtyInput,selectedVerietyDetail)"
+															class="btn btn-primary">Add</button></td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+									<td class="text-center">{{getQuantityOfSeedProduced(getQuantity(indentor))}}
+										({{getQuantityMeasure(selectedVerietyDetail.crop_code)}})</td>
+									<td class="text-center">{{getQuantityOfSeedProduced(getLeftQuantity(indentor))}}
+										({{getQuantityMeasure(selectedVerietyDetail.crop_code)}})</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="col-12 pl-2">
+					<div class="row reverse-col-in-row-till-lg">
+						<div class=" px-2 pb-md-5 sub_updt_cancel_btn"
+							[ngClass]="filterPaginateSearch.itemListTotalPage < 2 ? 'col-12 sub_updt_cancel_btn' : 'col-12 col-xl-6'">
+							<div class="resp_btn" *ngIf="!isView">
+								<button type="submit"
+									class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3">
+									{{buttonText}}
+								</button>
+							</div>
+							<div class="resp_btn" *ngIf="!isView">
+								<a href="javascript:void(0)"
+									class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3 mr-1"
+									(click)="save(selectedVerietyDetail)">
+									Save
+								</a>
+							</div>
+							<div class="resp_btn">
+								<button
+									class="form-button cancel_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+									[routerLink]="['/indenters/allocation-of-breeder-seed-to-spa-for-liftings']">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 mt-2 pr-4 pl-2 ml-1">
+					<div class="row mx-1 aloc_breeder_padding table-responsive">
+						<table class="table table-bordered">
+							<thead class="thead">
+								<tr>
+									<th scope="col" class="text-center">Variety Name</th>
+									<th scope="col" class="text-center">Name of indenters</th>
+									<th scope="col" class="text-center">Indented Quantity</th>
+									<th scope="col" class="pl-0">Name of BSPC</th>
+									<th scope="col" class="pl-0">Allocated for Lifting</th>
+									<th scope="col" class="text-center">Allocated Quantity</th>
+									<th scope="col" class="">Quantity left for Allocation</th>
+								</tr>
+							</thead>
+							
+							<tbody>
+							<ng-container *ngFor="let data of finalDataToBeSaved">
+							<ng-container *ngFor="let bspcData of data.indentors let indenqtyindex =index">
+							<ng-container *ngFor="let productionData of  bspcData.productions let dataindex =index">	
+								<tr>
+
+													
+								<td *ngIf="dataindex==0" [attr.rowspan]="data.totalProduction" title="{{data && data.veriety_id && data.veriety_id ? data.veriety_id :''}}"
+								style="width:10em">
+								{{productionData.length}}
+								{{ isView ? VarietyName :data && data.veriety_id ? getVarietyName(data.veriety_id) :'' }}
+						
+							</td>	
+							<td *ngIf="dataindex==0" [attr.rowspan]="data.totalProduction">																																				
+								{{bspcData && bspcData.user && bspcData.user.name ? bspcData.user.name :''}}
+																				
+					     </td>	
+						
+						 <td  [attr.rowspan]="data.totalProduction" *ngIf="dataindex==0"title="{{bspcData && bspcData.indent_quantity  ? bspcData.indent_quantity :''}}"					 
+						>
+						 {{bspcData && bspcData.indent_quantity && bspcData.indent_quantity ?
+						 bspcData.indent_quantity :''}}
+					 </td>
+					 <td title="{{productionData && productionData.productionCenter  ? productionData.productionCenter :''}}"						
+									style="width:10em">
+									{{productionData && productionData.productionCenter && productionData.productionCenter &&
+										productionData.productionCenter.text ? productionData.productionCenter.text :''}}
+									
+								</td>
+								<td>
+									{{productionData && productionData.productionCenter && productionData.productionCenter &&
+										productionData.productionCenter.qty ? productionData.productionCenter.qty :''}}
+										<!-- <hr> -->
+								</td>
+								<td *ngIf="dataindex==0" [attr.rowspan]="data.totalProduction">
+									{{bspcData && bspcData.allocated_quantity && bspcData.allocated_quantity ?
+										bspcData.allocated_quantity :''}}
+								</td>
+								<td *ngIf="dataindex==0" [attr.rowspan]="data.totalProduction">
+									{{bspcData && bspcData.quantity_left_for_allocation &&
+										bspcData.quantity_left_for_allocation ?
+										bspcData.quantity_left_for_allocation :''}}
+								</td>
+					</tr>	
+									</ng-container>	
+								</ng-container>	
+								</ng-container>
+									</tbody>
+						</table>
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

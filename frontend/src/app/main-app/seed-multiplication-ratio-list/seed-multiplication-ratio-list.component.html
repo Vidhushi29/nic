@@ -1,0 +1,268 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-0">
+            <div class="row">
+                <div class="col-12 px-2 mt-0">
+
+                    <div class="col-12 pl-4 pb-3 px-4 pt-3"
+                        style="font: normal Poppins; font-weight: bold;font-size : 20px; letter-spacing: 0px;color: #000000;">
+                        Seed Multiplication Ratio
+                    </div>
+
+
+                    <div [hidden]="true">
+                        <app-maximum-lot-size-search></app-maximum-lot-size-search>
+                    </div>
+                    <form [formGroup]="ngForm">
+                        <div class="col-12 pt-0 pl-3">
+                            <div class="row ">
+                                <div class="col-md-4 mt-0 pr-md-0 ">
+                                    <div class="col-md-12 px-2">
+                                        <label for="Crop Group" class="search_text">Crop Group</label>
+                                    </div>
+                                    <div class="col-md-12 px-2 pr-md-0">
+                                    
+                                            <div ngbDropdown class="d-inline-block w-100"
+                                            >
+            
+                                            <button class="btn takeplacholder w-100 crop toggle-button"
+                                            id="crop_group" ngbDropdownToggle
+                                            style="text-align: left;" aria-disabled="true">
+                                          
+                                                {{crop_groups &&  (crop_groups.length>30) ? (crop_groups.substring(0,30)+'...'):crop_groups?crop_groups :'Select Crop Group'}}
+                                            </button>
+            
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group"
+                                                aria-labelledby="sortMenu">
+                                               
+
+                                                <input type="text" class="form-control px-4"  formControlName="crop_text" >
+                                                <button class="dropdown-item" *ngFor="let data of cropData " 
+                                                value="{{data.crop_group_code}}" (click)="cropGroup(data)" #dropdownItem
+                                                [attr.data-parent-name]="'cropGroup'">
+                                                    {{data.group_name}}
+                                                </button>
+                                            </div>
+            
+            
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown
+                                            id="crop_group">
+                                            <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                        </div> 
+                                        <!-- <select class="form-select form-control" aria-label="Default select example"
+                                            formControlName="group_id">
+                                            <option value="" disabled>Select Group </option>
+                                            <option *ngFor="let data of cropData" value="{{data.group_code}}">
+                                                {{data.group_name}}</option>
+                                        </select> -->
+
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+                                        <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                    </div>
+
+                                </div>
+
+                                <div class="col-12 col-md-4 pl-0 mt-0 pr-md-0 pl-md-0">
+                                    <div class="col-12 ml-2 pl-md-2">
+                                        <label for="Crop Group" class="search_text">Crop Name</label>
+                                    </div>
+                                    <div class="col-12 ml-2 ml-md-0">
+                                        <div ngbDropdown class="d-inline-block w-100 "
+                            
+                                        >
+                                            <button class="btn takeplacholder w-100 crop toggle-button"
+                                                [ngClass]=" disabledfieldcropName  ? 'disabledfield' : ''" id="crop_name" ngbDropdownToggle
+                                                style="text-align: left;">{{crop_names && (crop_names.length>30) ? (crop_names.substring(0,30)+'...'):crop_names? crop_names :'Select Crop
+                                                Name'}}</button>
+            
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="crop_name" aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4"  formControlName="crop_name_text" >
+                                                <button class="dropdown-item" *ngFor="let data of cropName"
+                                                    (click)="cropNames(data)" #dropdownItem [attr.data-parent-name]="'crop_name'">
+                                                    {{data && data.m_crop && data.m_crop.crop_name ? data.m_crop.crop_name
+                                                        :''}}
+                                                    <!-- <input type="hidden" formControlName="crop_code"> -->
+                                                </button>
+                                               
+                                            </div>
+            
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown
+                                            [ngClass]=" disabledfieldcropName ? 'disabledfield' : ''">
+                                            <i class="fa-solid fa-angle-down downicon" (click)="cnClick()"></i>
+                                        </div>
+                                        <!-- <select class="form-select form-control" aria-label="Default select example"
+                                            formControlName="crop_name">
+                                            <option value="" disabled>Select Crop Name</option>
+                                            <option *ngFor="let data of cropName"
+                                                value="{{data && data.m_crop && data.m_crop.crop_code ? data.m_crop.crop_code : ''}}">
+                                                {{data && data.m_crop && data.m_crop.crop_name ? data.m_crop.crop_name
+                                                :''}}</option>
+                                        </select> -->
+
+
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+                                        <!-- <i class="fa-solid fa-angle-down downicon"></i> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 ml-2 pl-3 mt-0 mt-md-0 buttons-phone">
+                            <button
+                                class="form-button search mr-3 d-inline-flex justify-content-center verticle-content-middle mb-0"
+                                (click)="onSubmit(ngForm.value)">
+                                Search
+                            </button>
+                            <button
+                                class="clear-form-button btn-clr ml-0 mr-4 d-inline-flex justify-content-center verticle-content-middle mt-3 mt-md-0"
+                                id="btn-clr" (click)="clear();">
+                                Clear
+                            </button>
+                        </div>
+
+                    </form>
+                    <div class="col-12 px-4">
+                        <hr class="separator ">
+                    </div>
+                </div>
+                <div class="col-12 px-2 d-flex justify-content-end buttons-phone-add"
+                    style="padding-right: 2rem!important;">
+                    <button class="form-button d-flex justify-content-center verticle-content-middle"
+                        style="width: 100px !important;background-color: #963814;"
+                        routerLink="/seed-multiplication-ratio/submission">Add</button>
+                </div>
+                <div class="col-12 px-4">
+                    <div class="list-wrapper px-4 py-3">
+                        <div class="row d-none d-md-flex data-row-header">
+                            <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle">S/N</div>
+                            <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle">Crop Name</div>
+                            <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle">Nucleus to Breeder</div>
+                            <div class="col-6 col-md-2 py-2 d-flex verticle-content-middle">Breeder to Foundation I
+                            </div>
+                            <div class="col-6 col-md-2 py-2 d-flex verticle-content-middle">Foundation I to Foundation II
+                            </div>
+                            <div class="col-6 col-md-2 py-2 d-flex verticle-content-middle">Foundation II to Certified
+                            </div>
+                            <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle pl-lg-4">Status</div>
+
+                            <div class="col-6 col-md-2 py-2 d-flex verticle-content-middle justify-content-center">
+                                Action
+                            </div>
+                        </div>
+                        <div class="row data-row"
+                            *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index">
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
+                                    <span>{{ (filterPaginateSearch.itemListCurrentPage - 1) *
+                                        filterPaginateSearch.itemListPageSize + dataIndex + 1}}.</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Crop Name:</b>&nbsp;</label>
+                                    <!-- <span>{{ data.crop_name }}</span> -->
+                                    <span style="text-transform: capitalize;" class="pr-4" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data && data.crop_name ? data.crop_name:''}}">
+                                        {{(data && data.crop_name ? (data.crop_name.length > 30) ?
+                                        ((data.crop_name.substring(0, 30)|uppercase) + "..."):(data.crop_name ?
+                                        (data.crop_name|uppercase):'NA'):'NA')}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Necleus To Breeder:</b>&nbsp;</label>
+                                    <span style="text-transform: capitalize;cursor: pointer;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data && data.nucleus_to_breeder ? data.nucleus_to_breeder:''}}">
+                                        {{(data && data.nucleus_to_breeder ? (data.nucleus_to_breeder.length > 30) ?
+                                        (data.nucleus_to_breeder.substring(0, 30) + "..."):(data.nucleus_to_breeder ?
+                                        data.nucleus_to_breeder :'NA'):'NA')}}
+                                    </span>
+                                    <!-- <span>{{ data.nucleus_to_breeder }}</span> -->
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Breeder To Foundation 1:</b>&nbsp;</label>
+                                    <span style="text-transform: capitalize;cursor: pointer;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data && data.breeder_to_foundation ? data.breeder_to_foundation:''}}">
+                                        {{(data && data.breeder_to_foundation && (data.breeder_to_foundation.length >
+                                        30) ? (data.breeder_to_foundation.substring(0, 30) +
+                                        "..."):(data && data.breeder_to_foundation? data.breeder_to_foundation:"NA"))}}
+                                    </span>
+                                    <!-- <span>{{ data && data.breeder_to_foundation ? data.breeder_to_foundation:'NA' }}</span> -->
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Foundation 1 to Foundation 2:</b></label>
+                                    <span style="text-transform: capitalize;cursor: pointer;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data && data.foundation_1_to_2 ? data.foundation_1_to_2:''}}">{{data &&
+                                        data.foundation_1_to_2 ? data.foundation_1_to_2 :'NA'}}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none" style="text-transform: capitalize;cursor: pointer;"
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="{{data && data.foundation_2_to_cert ? data.foundation_2_to_cert:''}}"><b>Foundation 2 To Certified:</b></label>
+                                    <span>{{ data && data.foundation_2_to_cert ? data.foundation_2_to_cert:'NA' }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle pl-lg-4">
+                                <div class="w-fit-content">
+                                    <label class="d-md-none"><b>Status:</b></label>
+                                    <span style="text-transform: capitalize;cursor: pointer;" data-toggle="tooltip"
+                                        data-placement="bottom" title="{{data &&
+                                            (data.is_active==1)?'ACTIVE':'INACTIVE'}}">{{data &&
+                                        (data.is_active==1)?'ACTIVE':'INACTIVE'}}</span>
+                                </div>
+                            </div>
+
+                            <div
+                                class="col-12 col-md-2   py-1  d-flex verticle-content-middle justify-content-md-center phone_view_btn">
+                                <div class=" list-action-buttons-wrapper w-fit-content phone_view_action_btn">
+
+                                    <button class="list-action-buttons "
+                                        [routerLink]="['/seed-multiplication-ratio/view', data.id]">
+                                        <img src="assets/images/view.svg">
+                                    </button>
+
+                                    <button class="list-action-buttons "
+                                    *ngIf="data && data.m_crop && data.m_crop.is_active && data.m_crop.is_active==1 "
+                                        [routerLink]="['/seed-multiplication-ratio/edit', data.id]">
+                                        <img src="assets/images/edit.svg">
+                                    </button>
+
+                                    <button class="list-action-buttons " (click)="delete(data.id)">
+                                        <img src="assets/images/delete.svg">
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div [hidden]="countData!=0" class="px-2 py-3 w-100" style="height: 50px;">
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data Found.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-12 px-4 px-md-3 py-1 pb-4">
+                    <app-pagination-ui></app-pagination-ui>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

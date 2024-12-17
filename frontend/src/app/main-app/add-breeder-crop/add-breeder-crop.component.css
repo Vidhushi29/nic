@@ -1,0 +1,140 @@
+.heading {
+    font: normal Poppins;
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: 0px;
+    text-align: left;
+    opacity: 1;
+}
+
+.card {
+    overflow: hidden;
+}
+
+.disabledfield {
+    background-color: #e9ecef;
+    pointer-events: none;
+    display: block;
+}
+
+.card {
+    min-height: 500px;
+}
+.takeplacholder1 {
+    text-align: left;
+    font: normal Poppins 16px/25px;
+    letter-spacing: 0px;
+    color: #000000;
+    text-transform: capitalize;
+    opacity: 1;
+    box-shadow: none;
+  }
+
+  .cursor{
+    cursor: pointer;
+  }
+/* input[type='radio'] {
+    -webkit-appearance:none;
+    width: 17px;
+height: 17px;
+    border:1px solid darkgray;
+    border-radius:50%;
+    outline:none;
+}
+
+input[type='radio']:before {
+    content:'';
+    display:block;
+    width:60%;
+    height:60%;
+    margin: 20% auto;    
+    border-radius:50%;    
+}
+input[type='radio']:checked:before {
+    background:orange;
+    border: 1px solid orange;
+} */
+.left-heading {
+    text-align: left;
+    font: normal Poppins 600 15px/23px;
+    letter-spacing: 0px;
+    color:  #2329ff;
+    font-weight: 600;
+    opacity: 1;
+}
+
+.radio-button {
+    width: 25px;
+    height: 25px;
+}
+
+
+input[type='radio'] {
+    -webkit-appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    outline: none;
+    border: 1px solid gray;
+}
+
+input[type='radio']:before {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 60%;
+    margin: 20% auto;
+    border-radius: 50%;
+}
+
+input[type="radio"]:checked:before {
+    background: #E97E15;
+
+}
+
+input[type="radio"]:checked {
+    border-color: #E97E15;
+}
+
+option:first {
+    color: #999;
+}
+
+.role {
+    margin-right: 80px;
+    margin-left: 20px;
+    font-weight: normal;
+}
+
+.checkbox label {
+    margin-bottom: 20px !important;
+}
+
+.roles {
+    margin-bottom: 40px;
+}
+.left-heading::after {
+
+    color: red;
+    content: '*';
+
+}
+.disable-crop {
+    pointer-events: none;
+}
+
+
+.downicon-alignment{
+    right: 8px !important;
+}
+
+@media  screen and (max-width: 500px) {
+.downicon-alignment{
+    right: 16px !important;
+}    
+}
+
+.for-downicon-remove{
+    -webkit-appearance: none;
+}
+

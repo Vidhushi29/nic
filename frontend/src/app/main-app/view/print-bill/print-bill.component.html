@@ -1,0 +1,251 @@
+<form [formGroup]="ngForm" class="pt-2">
+    <div class="main-inventory my-4 w-90  pt-2">
+        <span class="title-inventory pt-3 ">
+            View/Print Bill
+        </span>
+        <!-- first card ui -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12  pt-2 pr-0">
+            <div class="row  card-inventory form-group formargin">
+                <!-- start sectio 1 -->
+                <div class="col-12 col-md-10 col-lg-10 col-sm-12 pt-1 pl-4 formargin">
+                    <div class="row">
+                        <!-- year of indent -->
+                        <div class="col-12 col-md-4 col-lg-4 col-xl-4 col-sm-12">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Year of Indent</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="year">
+                                        <option value="">Select Year</option>
+                                        <option *ngFor="let data of yearOfIndent"
+                                            value="{{data && data.year ? data.year :''}}">
+                                            {{data && data.year ? getFinancialYear(data.year) :''}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- season -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Season</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="season">
+                                        <option value="">Select Season</option>
+                                        <option *ngFor="let data of seasonlist "
+                                            value="{{data && data.season ? data.season :''}}"> {{data &&
+                                                data.season && (data.season=='K') ? 'Kharif' :(data.season=='R')
+                                                ?'Rabi':'' }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Crop</label>
+                                </div>
+                                <div class="col-md-12 px-2">
+                                    <div ngbDropdown class="d-inline-block w-100 ">
+                                        <button
+                                            class="btn takeplacholder w-100 crop toggle-button input-inventory form-control"
+                                            id="crop_group" ngbDropdownToggle style="text-align: left;">{{selectCrop &&
+                                            (selectCrop.length>30) ? (selectCrop.substring(0,30)+'...'):selectCrop?
+                                            selectCrop :'Select Crop '}}
+                                        </button>
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group"
+                                            aria-labelledby="sortMenu">
+                                            <input type="text" class="form-control px-4" formControlName="crop_text">
+                                            <button class="dropdown-item" *ngFor="let data of cropName"
+                                                (click)="cropNameValue(data)" #dropdownItem
+                                                [attr.data-parent-name]="'crop_group'">
+                                                {{data && data.crop_name ? data.crop_name :''}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 expa col-md-2 col-sm-12 col-12 pt-4 mt-2 pr-4 formargin">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 ">
+                            <button
+                                class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1"
+                                (click)="onSearchClick()">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- </div> -->
+                <!-- </div> -->
+
+                <!-- </div> -->
+                <!-- </div> -->
+
+            </div>
+            <div class="row  pb-2 pl-0 pt-4" *ngIf="dataToDisplay && dataToDisplay.length>0">
+                <div class="col-12 card-inventory form-group ">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 ">
+                            <div class="col-12 col-md-12 col-lg-12 col-sm-12 formargin pt-1 pb-1">
+                                <div class="row">
+                                    <div class="col-12 col-md-1 col-lg-1 col-xl-1 col-sm-12">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                <label class="filter1">Filter by:</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-2 col-lg-2 col-xl-2 col-sm-12">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                <ng-multiselect-dropdown [placeholder]="'Variety'"
+                                                formControlName="variety_code"
+                                                    [settings]="dropdownSettings" [data]="dropdownLists"
+                                                    (onSelect)="onItemSelect($event)"
+                                                    (onSelectAll)="onSelectAll($event)">
+                                                </ng-multiselect-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-2 col-lg-2 col-xl-2 col-sm-12">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <ng-multiselect-dropdown [placeholder]="'Indentor'"
+                                                formControlName="indentor"
+                                                    [settings]="dropdownSettings" [data]="dropdownList2"
+                                                    (onSelect)="onItemSelect($event)"
+                                                    (onSelectAll)="onSelectAll($event)">
+                                                </ng-multiselect-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-2 col-lg-2 col-xl-2 col-sm-12">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <ng-multiselect-dropdown [placeholder]="'SPA'"
+                                                formControlName="spa"
+                                                    [settings]="dropdownSettings" [data]="dropdownList3"
+                                                    (onSelect)="onItemSelect($event)"
+                                                    (onSelectAll)="onSelectAll($event)">
+                                                </ng-multiselect-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-2 col-lg-2 col-xl-2 col-sm-12">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <select class=" form-control input-inventory" formControlName="bill">
+                                                    <option value="">Bill No. </option>
+                                                    <option *ngFor="let data of BillNo "
+                                                        value="{{data && data.id ? data.id :''}}"> {{data &&
+                                                        data.Bill ?
+                                                        data.Bill :''}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row data-row pt-2 ">
+                        <table
+                            class="table border-top-0 pt-2 col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12 pl-0 pr-0 m-0 table-bordered">
+                            <thead class=" w-100 pl-0 ">
+                                <tr class="data-row-header">
+                                    <th scope="col"
+                                        class="col-md-1 py-2 text-white verticle-content-middle heading bill">S.No</th>
+                                    <th scope="col"
+                                        class="col-md-2 py-2 text-white text-start verticle-content-middle heading variety">
+                                        Variety</th>
+                                    <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading">
+                                        Indenter</th>
+                                    <th scope="col"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading SPA">SPA</th>
+                                    <th scope="col"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading seed">Details of
+                                        Breeder Seed lifted</th>
+                                    <th scope="col"
+                                        class="col-md-1 py-2 text-white verticle-content-middle heading bill">Bill
+                                        Amount (INR)</th>
+                                    <th scope="col"
+                                        class="col-md-1 py-2 text-white verticle-content-middle heading SPA">Bill No.
+                                    </th>
+                                    <th scope="col" class="col-md-1 py-2 text-white verticle-content-middle heading">
+                                        Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let data of dataToDisplay; let dataIndex = index">
+                                    <ng-container *ngFor="let item of data.indentor; let varietyIndex = index">
+                                        <ng-container *ngFor="let val of item.spa; let spaIndex = index">
+                                            <tr>
+                                                <td *ngIf="varietyIndex==0 &&  spaIndex==0"
+                                                    [attr.rowspan]="data.spaData.length">{{dataIndex +1}}</td>
+                                                <td *ngIf="varietyIndex==0 &&  spaIndex==0"
+                                                    [attr.rowspan]="data.spaData.length">{{data && data.variety_name ?
+                                                    data.variety_name :'' }}</td>
+                                                <td *ngIf="spaIndex==0" [attr.rowspan]="item.spa.length">{{item &&
+                                                    item.agency_name ? item.agency_name :'' }}</td>
+                                                <td>{{val && val.spa_agency_name ? val.spa_agency_name :'' }}</td>
+                                                <td>
+                                                    <p >Total No of Bags (Bag Size):</p>
+                                                        <b class="font-weight-bold">                                                        
+                                                        {{val && val.spas ? val.spas.length :'NA'}}
+                                                            ( {{val &&
+                                                                val.bag_weight ? val.bag_weight :''}} Kg)</b><br>
+                                                    <span>Total Quantity: <b class="font-weight-bold">
+                                                      
+                                                    {{ (val && val.spas && val.bag_weight) ? val.spas.length * val.bag_weight : 'NA' }} Kg
+                                                        
+                                                            </b></span><br>
+                                                    <span>Reason for excess/short supply: <b
+                                                            class="font-weight-bold">{{val && val.reason_id ? val.reason_id :'' }}</b></span><br>
+                                                       
+                                                </td>
+                                                <td>
+                                                    {{val && val.total_price ? (val.total_price | number : '1.2-2') :''}}
+                                                </td>
+                                                <td>
+                                                    {{val && val.lifting_bill_no ? val.lifting_bill_no :''}}
+
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1"
+                                                        (click)="openBillReceiptDialog(data.id,data)">
+                                                        View Bill
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--  Second Card ui -->
+
+    </div>
+
+</form>

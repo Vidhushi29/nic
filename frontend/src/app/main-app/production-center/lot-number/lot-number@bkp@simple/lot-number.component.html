@@ -1,0 +1,138 @@
+<form [formGroup]="formSuperGroup" (ngSubmit)="submitForm(formSuperGroup.value)">
+    <!-- (ngSubmit)="submitForm(formSuperGroup.value)" -->
+    <div class="row my-4 w-100 mx-0 form-child">
+        <div class="col-12 d-flex justify-content-center verticle-content-middle">
+            <div class="container main-content-form-wrapper px-0 py-2">
+                <div class="row">
+                    <div class="col-12 px-4 py-3">
+                        <span class="page-type-1-title ml-2">
+                            {{title}} Nucleus Seed Availability by Breeder
+                        </span>
+                    </div>
+                    <div class="col-12 ">
+                        <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="IstPartFormGroup" [isView]="isView">
+                        </app-dynamic-fields> -->
+                        <div class="col-12 pt-3">
+                            <div class="row">
+                                <div class="col-sm-3 pl-4  pt-1">
+                                    <label for="" class="left-heading">Year</label>
+                                </div>
+                                <div class="col-sm-9 pr-5">
+                                    <select class="form-select form-control" formControlName="year"
+                                        aria-label="Default select example">
+                                        <option value="" disabled>Select Year</option>
+                                        <option *ngFor="let year of yearOfIndent" value="{{year.value}}">{{year.name}}
+                                        </option>
+                                    </select>
+                                    <div class="year errorMessage">
+                                        <!--[ngClass]="{'invalid': submitted && ngForm.controls['year'].errors }"
+                                            *ngIf="submitted   "
+                                            <span [hidden]="ngForm.controls['year'].value!=0">
+                                            Please Select Year <br>
+                                        </span> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 pt-3">
+                            <div class="row">
+                                <div class="col-sm-3 pl-4  pt-1">
+                                    <label for="" class="left-heading">Crop Name</label>
+                                </div>
+                                <div class="col-sm-9 pr-5">
+                                    <select class="form-select form-control" formControlName="crop_code"
+                                        aria-label="Default select example">
+                                        <option value="" disabled>Select Crop Name</option>
+                                        <option *ngFor="let data of cropName" value="{{data.crop_code}}">
+                                            {{data.crop_name? data.crop_name:'NA'}}</option>
+                                    </select>
+                                    <div class="crop_name errorMessage">
+                                        <!--[ngClass]="{'invalid': submitted && ngForm.controls['crop_name'].errors }"
+                                            *ngIf="submitted   "
+                                            <span [hidden]="ngForm.controls['crop_name'].value!=0">
+                                            Please Select Crop Name <br>
+                                        </span> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 px-4 py-2">
+                        <hr class="separator my-0 mx-2">
+                    </div>
+                    <div class="col-md-4 px-4 py-2 col-10"
+                        *ngIf="!isEdit && !isView && filterPaginateSearch.itemListTotalPage > 0">
+                        <div class="form-nodal-input-custom-placeholder d-flex verticle-content-middle mx-2"
+                            [ngClass]="formGroupControls['search'].value ? 'hide' : ''">
+                            <span>Search Here</span>
+                            <i class="fa fa-search nodal-search-icon"></i>
+                        </div>
+                        <input class="form-nodal-input mx-2 w-100" formControlName="search">
+                    </div>
+                    <div class="col-12 px-4" *ngIf="filterPaginateSearch.initialized">
+                        <div *ngFor="let eachIIndPartFormArray of filterPaginateSearch.itemList; let varietyIndexInAccordion=index"
+                            class="col-accordion m-2"
+                            [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? '' : 'hide'">
+                            <div (click)="activateVarietyIndexInAccordion(varietyIndexInAccordion)">
+                                <label class="px-3 py-2 mx-0 mt-2 mb-0">
+                                    {{ eachIIndPartFormArray.name }}
+                                </label>
+                                <i class="fas accordion-dropdown"
+                                    [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                            </div>
+                            <app-dynamic-fields [id]="eachIIndPartFormArray.varietyId"
+                                [fieldsList]="eachIIndPartFormArray.arrayfieldsIIndPartList"
+                                [formGroup]="eachIIndPartFormArray.formGroup" [isLabelControlParallel]="false">
+                            </app-dynamic-fields>
+                        </div>
+                        <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&
+                        (!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+                            class="px-2 py-3 w-100" style="height: 50px;">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data found.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row reverse-col-in-row-till-lg">
+                            <div *ngIf="!isView" class=" px-4 pb-md-5"
+                                [ngClass]="filterPaginateSearch.itemListTotalPage < 2 ? 'col-12' : 'col-12 col-xl-6'">
+                                <button
+                                    *ngIf="filterPaginateSearch.initialized 
+                                        && filterPaginateSearch.itemListTotalPage > 1 
+                                        && filterPaginateSearch.itemListCurrentPage != filterPaginateSearch.itemListTotalPage"
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="saveAndNavigate()">
+                                    Save And Next
+                                </button>
+                                <!-- (click)="submit()" -->
+                                <button type="submit"
+                                    *ngIf="filterPaginateSearch.initialized 
+                                        && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                    {{btn_name}}
+                                </button>
+                                <button
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    [routerLink]="['/nucleus-seed-availability-by-breeder']">Cancel</button>
+                                <button *ngIf="(!isEdit || (isEdit && isDraft)) && filterPaginateSearch.initialized 
+                        && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="saveAsDraft()">Save as
+                                    Draft</button>
+                            </div>
+                            <div class="col-12 col-xl-6 px-4 pb-md-5 d-flex justify-content-end py-2 py-xl-0">
+                                <app-pagination-ui></app-pagination-ui>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="isView" class="col-12 px-4">
+                        <button class="form-button ml-2 d-flex justify-content-center verticle-content-middle mb-3"
+                            [routerLink]="['/nucleus-seed-availability-by-breeder']">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

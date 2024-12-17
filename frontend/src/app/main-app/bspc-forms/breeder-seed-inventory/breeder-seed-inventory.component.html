@@ -1,0 +1,515 @@
+<!-- <p>breeder-seed-inventory works!</p> -->
+<form [formGroup]="ngForm">
+    <div class="main-inventory row my-4 w-90 py-1">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-0 pt-1 pb-2">
+                Add Nucleus/Breeder Seed Inventory
+            </div>
+
+            <!-- first card ui  -->
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row card-inventory form-group">
+                    <!-- start sectio 1  -->
+                    <div class="col-md-10 col-lg-10 col-sm-12 col-xl-10 pt-1">
+                        <div class="row">
+                            <!-- year of indent -->
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-4 col-sm-6">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                        <label for="year" class="label-inventory required">Year</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                        <select class=" form-control input-inventory" formControlName="year">
+                                            <option value="">Please Select Year</option>
+                                            <option *ngFor="let year of inventoryYearData" value="{{year.year}}">{{year
+                                                && year.year}}-{{(year.year-2000)+1}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- season  -->
+                            <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label for="year" class="label-inventory required">Season</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <select class=" form-control input-inventory" formControlName="season">
+                                            <option value="">Please Select Season</option>
+                                            <option *ngFor="let data of inventorySeasonData"
+                                                value="{{data.season_code}}">{{data && data.season ? data.season:''}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- crop -->
+                            <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label for="year" class="label-inventory required">Crop</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <select class=" form-control input-inventory" formControlName="crop">
+                                            <option value="">Please Select Crop</option>
+                                            <option *ngFor="let data of inventoryCropData" value="{{data.crop_code}}">
+                                                {{data && data.crop_name ? data.crop_name:''}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-lg-2 col-sm-12 col-xl-2">
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                <p><span style="color:transparent;">.</span></p>
+                            </div>
+                            <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-2">
+                                <!-- form-button btn-inventory search d-inline-flex justify-content-center verticle-content-middle mb-3 -->
+                                <button
+                                    class="form-button btn-inventory search2 d-inline-flex justify-content-center verticle-content-middle"
+                                    (click)="getPageData()">Search</button>
+                                <!-- (click)="search()" -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- seprater line -->
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                        <hr class="dotted">
+                    </div>
+
+                    <!-- end sectio 1  -->
+                    <!-- *ngIf="isCrop" -->
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="row">
+                            <!-- start section 2 -->
+                            <div class="pt-1" class="col-12 col-md-10 col-lg-10 col-xl-10">
+                                <div class="row">
+                                    <!-- Variety -->
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12">
+                                                <label for="year" class="label-inventory ">Select Variety</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12">
+                                                <select type="text" class=" form-control input-inventory"
+                                                    formControlName="variety">
+                                                    <option value="">Please Select Variety</option>
+                                                    <option *ngFor="let data of inventoryVarietyData"
+                                                        value="{{data.variety_id}}">{{data && data.variety_name ?
+                                                        data.variety_name :""}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- *ngIf="isDeveloped" -->
+                                    <!-- Variety Developed By  -->
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4" *ngIf="isDeveloped">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="year" class="label-inventory ">Variety Developed By
+                                                    BSPC</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="row px-2 pt-1">
+                                                    <div class="col-sm-3 col-md-2 col-lg-4 mb-2 mb-md-0 col-xl-4">
+                                                        <div class="form-check">
+                                                            <input class="radio-button form-check-input radio-btn"
+                                                                name="notifiedValue" type="radio"
+                                                                formControlName="is_developed"
+                                                                (change)="notifiedvalue('yes')" id="flexRadioDefault1"
+                                                                value="non-notified" checked>
+                                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                                Yes
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <!-- [(ngModel)]="notifiedValue" -->
+                                                    <!-- checked -->
+                                                    <div class="col-md-2 col-sm-3 col-md-2 col-lg-4 col-xl-4">
+                                                        <div class="form-check">
+                                                            <input class="radio-button form-check-input radio-btn"
+                                                                name="notifiedValue" type="radio"
+                                                                formControlName="is_developed"
+                                                                (change)="notifiedvalue('no')" id="flexRadioDefault2">
+                                                            <label class="form-check-label" for="flexRadioDefault2">
+                                                                No
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- crop -->
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4" *ngIf="isDeveloped">
+                                        <div class="row" *ngIf="is_developed">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="year" class="label-inventory ">Select Season</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <select class=" form-control input-inventory" formControlName="reason">
+                                                    <option value="">Please Select Reason</option>
+                                                    <option value="a">a</option>
+                                                    <option value="b">b</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- finish section 2 -->
+
+                            <!-- start section 3 -->
+                            <div class="col-12 col-md-10 col-lg-10 col-xl-10 pt-1" *ngIf="isDeveloped">
+                                <div class="row">
+                                    <!-- year of indent -->
+                                    <div class="col-12 col-md-4 col-lg-4 col-xl-4 col-sm-6" *ngIf="isDeveloped">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="year" class="label-inventory ">Quantity of Nucleus Seed
+                                                    Available</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="text" class=" form-control input-inventory"
+                                                    formControlName="nucleus_avail_qnt" placeholder="Enter Quantity">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4" *ngIf="isDeveloped">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="year" class="label-inventory ">Quantity of Breeder Seed
+                                                    Available</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="text" class=" form-control input-inventory"
+                                                    formControlName="breeder_avail_qnt" placeholder="Enter Here">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- Date of Reference No. in MoA -->
+                                    <div *ngIf="isDeveloped" class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4">
+                                        <div class="row" *ngIf="is_developed">
+                                            <!-- *ngIf="is_developed" -->
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="year" class="label-inventory ">
+                                                    Date of Reference No. in MoA
+                                                </label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="date" class=" form-control input-inventory"
+                                                    formControlName="date_of_moa">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- finish section 3 -->
+
+                            <!-- start section 4 -->
+                            <div *ngIf="isDeveloped" class="col-12 col-md-10 col-lg-10 pt-1 col-xl-10">
+                                <div class="row">
+                                    <!-- year of indent -->
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4" *ngIf="is_developed">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="year" class="label-inventory ">Reference No. Office Order,
+                                                    Cash Memo</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input class=" form-control input-inventory"
+                                                    formControlName="refrence_no_memo">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Authorization  -->
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4" *ngIf="is_developed">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="year" class="label-inventory ">Reference No. MoA
+                                                    Authorization</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="text" class="form-control input-inventory"
+                                                    formControlName="refrence_no_auth">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- season  -->
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4" *ngIf="is_developed">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="year" class="label-inventory ">Date of Office Order, Cash
+                                                    Memo</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="date" class=" form-control input-inventory"
+                                                    formControlName="date_of_memo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- finish section 4 -->
+
+                            <!-- button section -->
+                            <div *ngIf="isDeveloped"
+                                class="col-12 col-md-10 col-lg-10 pt-2 pb-2 buttons-phone col-xl-10">
+                                <!-- <div class="row pl-2"> -->
+                                <!-- <div class="col-12 col-sm-12"> -->
+                                <button
+                                    class="btn-inventory-cancel search d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="revertDataCancelation()" style="border: 2px solid #B64B1D;">Cancel</button>
+                                <!-- </div> -->
+                                <!-- <div class="col-12 col-sm-12"> -->
+                                <button
+                                    class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="saveForm()" *ngIf="!is_update">Save</button>
+                                <!-- </div> -->
+                                <!-- <div class="col-12 col-sm-12"> -->
+                                <button
+                                    class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="updateForm()" *ngIf="is_update">Update</button>
+                                <!-- </div> -->
+                                <!-- </div> -->
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- second card ui  -->
+            <div class="col-12 col-md-12 col-lg-12 pt-1 col-xl-12">
+                <div class="row card-inventory form-group">
+                    <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12">
+                        <div class="row pl-0">
+                            <div class="col-12 col-md-10 col-lg-10 pl-0 col-xl-10">
+                                <div class="col-12 col-md-4 col-lg-4 col-sm-12 pt-1 pb-3 col-xl-4"
+                                    [ngClass]="varietyDisbled ? 'disable_btn' :''">
+                                    <ng-multiselect-dropdown [disabled]="varietyDisbled" [settings]="dropdownSettings"
+                                        [data]="varietyList" formControlName="variety_filter"
+                                        [placeholder]="'Please Select Variety '" class="containers"
+                                        [ngClass]="varietyDisbled ? 'disable_btn' :''">
+                                    </ng-multiselect-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-wrapper">
+                            <div class="row d-none d-md-flex data-row-header">
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex verticle-content-middle">
+                                    Crop Variety</div>
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex verticle-content-middle">
+                                    Variety Developed
+                                    by BSPC (Yes/No)</div>
+                                <div
+                                    class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex verticle-content-middle">
+                                    Registration No./
+                                    Document MOA
+                                </div>
+                                <div
+                                    class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex verticle-content-middle">
+                                    Registration
+                                    No./Department
+                                    MOA</div>
+                                <!-- <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle">Variety Code</div> -->
+
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex verticle-content-middle">
+                                    Date of
+                                    Registration
+                                </div>
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex verticle-content-middle pl-lg-4">
+                                    Reference
+                                    No./Document
+                                    Office Order</div>
+
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex verticle-content-middle pl-lg-4">
+                                    Reference
+                                    Date of Office
+                                    Order</div>
+
+                                <div
+                                    class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex verticle-content-middle pl-lg-4">
+                                    Date of Office
+                                    Order</div>
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex verticle-content-middle justify-content-center">
+                                    Action
+                                </div>
+                            </div>
+                            <div *ngIf="!isSearch">
+                                <div *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index"
+                                    class="row data-row">
+                                    <div
+                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex verticle-content-middle">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none" class="d-md-none"><b>Crop Variety</b>&nbsp;</label>
+                                            <span>
+                                                <!-- {{data.variety_name}}
+                                             {{ filterPaginateSearch.itemList[0]}} -->
+                                                {{data && data.variety_name ? data.variety_name : ""}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-2 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex verticle-content-middle">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none"><b>Variety Developed
+                                                    by BSPC (Yes/No):</b>&nbsp;</label>
+
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                abv
+
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-1 d-flex verticle-content-middle">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none"><b>Registration No./
+                                                    Document MOA:</b>&nbsp;</label>
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                abc
+
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-1 d-flex verticle-content-middle">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none"><b>Registration
+                                                    No./Department
+                                                    MOA:</b>&nbsp;</label>
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                abc
+
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex verticle-content-middle">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none"><b>Date of
+                                                    Registration:</b>&nbsp;</label>
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                abc
+
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex verticle-content-middle">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none"><b>Reference
+                                                    No./Document
+                                                    Office Order:</b>&nbsp;</label>
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                abc
+
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex verticle-content-middle">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none"><b> Reference
+                                                    Date of Office
+                                                    Order:</b>&nbsp;</label>
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                abc
+
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-1 d-flex verticle-content-middle">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none"><b>Date of Office
+                                                    Order:</b>&nbsp;</label>
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                abc
+
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex verticle-content-middle justify-content-md-center phone_view_btn">
+                                        <div class="list-action-buttons-wrapper w-fit-content phone_view_action_btn pl-md-3 pl-lg-3 pl-xl-3 pl-sm-0">
+                                            <button class="list-action-buttons pl-md-4 pl-lg-4 pl-xl-4 pl-sm-0" style="cursor: pointer;"
+                                                (click)="editFunctinality(data)">
+                                                <img src="assets/images/edit.svg">
+                                            </button>
+                                            <button class="list-action-buttons pl-md-4 pl-lg-4 pl-xl-4 pl-sm-0" style="cursor: pointer;">
+                                                <img src="assets/images/delete.svg">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList) || filterPaginateSearch.itemList.length < 1 || isSearch)"
+                            class="px-2 py-3 w-100" style="height: 50px;">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data Found.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!isSearch" class="col-12 col-md-12 col-lg-12 px-4 px-md-3 py-1 pb-4 pr-0">
+                        <app-pagination-ui></app-pagination-ui>
+                    </div>
+
+                    <div *ngIf="!isSearch" class="col-12 col-md-12 col-lg-12 pt-1">
+                        <div class="row">
+                            <!-- <div class="col-12 col-md-10 col-lg-10 col-xl-10">
+                                <p>ldlld</p>
+                            </div> -->
+                            <div class="col-12 col-md-1 col-lg-1 col-xl-1 pt-sm-4">
+                                <button [disabled]="true"
+                                    class="search form-button btn-inventory search3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="finalSubmit()">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>

@@ -1,0 +1,49 @@
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <div class="col-12 pl-lg-3">
+                <h3>Report </h3>
+            </div>
+            <div class="row">
+                <div class="col-12 px-lg-4" id="content"  #content>
+                    <table class="table table-bordered py-3" *ngFor="let data of tableArray">
+                        <thead>
+                          <tr>
+                            
+                            <th scope="col">Serial No.</th>
+                            <th scope="col">Variety Line</th>
+                            <th scope="col">Area under Variety</th>
+                            <th scope="col">field Location</th>
+                            <th scope="col">Date of Bsp-1</th>
+                            <th scope="col">Date of Bsp-2</th>
+                            <th scope="col">Report of team</th>
+                          </tr>
+                          <span class="break-page"></span>
+                        </thead>
+                        <tbody id="tableContent">
+                          <tr *ngFor="let item of data; let index =index" >
+                            <th scope="row">{{index + 1}}</th>
+                            <td>{{item && item.variety_name ? item.variety_name :'N/A'}}</td>
+                            <td>{{item && item.area_under_variety ? item.area_under_variety:'N/A'}}</td>
+                            <td>{{item && item.field_location ? item.field_location:'N/A'}}</td>
+                            <td>{{item && item.report_for_monitoring_team ? item.report_for_monitoring_team :'N/A'}}</td>
+                            <td>{{item && item.no_of_samples ? item.no_of_samples :'N/A'}}</td>
+                            <td>{{item && item.authority  ? item.authority :'N/A'}}</td>
+                           
+                          </tr>
+                         
+                        </tbody>
+                      </table>
+                      
+
+                </div>
+            </div>
+            <div class="col-3 pt-3  ">
+
+                <button class="form-button d-inline-flex justify-content-center verticle-content-middle mb-3 "
+                (click)="downloads()"  >Download</button>
+
+            </div>
+        </div>
+    </div>
+</div>

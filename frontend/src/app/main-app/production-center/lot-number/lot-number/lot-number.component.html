@@ -1,0 +1,159 @@
+<form *ngIf="dataload" [formGroup]="formSuperGroup" (ngSubmit)="submitForm(formSuperGroup.value)">
+    <!-- (ngSubmit)="submitForm(formSuperGroup.value)" -->
+    <div class="row my-4 w-100 mx-0 form-child">
+        <div class="col-12 d-flex justify-content-center verticle-content-middle">
+            <div class="main-content-form-wrapper px-3 mt-1">
+                <div class="row">
+                    <div class="col-12 px-3 mt-3">
+                        <span class="page-type-1-title">
+                            {{title}} LOT Number
+                        </span>
+                    </div>
+                    <div class="col-12 pl-1 mt-2 pr-0">
+                        <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="IstPartFormGroup" [isView]="isView">
+                        </app-dynamic-fields>
+                        <!-- <div class="col-12 pt-3" >
+                            <div class="row">
+                                <div class="col-sm-2 pl-4  pt-1">
+                                    <label for="" class="left-heading">Actual Quantity of Breeder Seed Produced</label>
+                                </div>
+                                <div class="col-sm-10 pr-5">
+                                    <input type="text" class="form-control" value="{{seedProduced}}" disabled>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 pt-3" >
+                            <div class="row">
+                                <div class="col-sm-2 pl-4  pt-1">
+                                    <label for="" class="left-heading">Lot Number</label>
+                                </div>
+                                <div class="col-sm-10 pr-5">
+                                    <input type="text" class="form-control" value="{{lotNumber}}" disabled>
+                                    
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="col-12 px-3 py-2">
+                        <hr class="separator my-0 mx-1">
+                    </div>
+                    <div class="col-md-4 px-2 py-2 col-10"
+                        *ngIf="!isEdit && !isView && filterPaginateSearch.itemListTotalPage > 0">
+                        <div class="form-nodal-input-custom-placeholder d-flex verticle-content-middle mx-2"
+                            [ngClass]="formGroupControls['search'].value ? 'hide' : ''">
+                            <span>Search Here</span>
+                            <i class="fa fa-search nodal-search-icon"></i>
+                        </div>
+                        <input class="form-nodal-input mx-2 w-100" formControlName="search">
+                    </div>
+                    <div class="col-12 px-2" *ngIf="filterPaginateSearch.initialized">
+                        <div *ngFor="let eachIIndPartFormArray of filterPaginateSearch.itemList; let varietyIndexInAccordion=index"
+                            class="col-accordion m-2"
+                            [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? '' : 'hide'">
+                            <div (click)="activateVarietyIndexInAccordion(varietyIndexInAccordion)">
+                                <label class="px-3 py-2 mx-0 mt-2 mb-0 va-l">
+                                    {{ eachIIndPartFormArray.name }}
+                                </label>
+                                <i class="fas accordion-dropdown"
+                                    [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                            </div>
+                            <app-dynamic-fields [id]="eachIIndPartFormArray.varietyId"
+                                [fieldsList]="eachIIndPartFormArray.arrayfieldsIIndPartList"
+                                [formGroup]="eachIIndPartFormArray.formGroup" [isLabelControlParallel]="false">
+                            </app-dynamic-fields>
+                            <div class="table-responsive m-2" style="width:98% !important">
+                                <table class="table table-bordered" *ngIf="!isView">
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>LOT Number</th>
+                                    </tr>
+                                    <!-- generatedLotNumber -->
+                                    <tr *ngFor="let lotNo of eachIIndPartFormArray.varietyLotNumber; let i=index;">
+                                        <td>{{i+1}}</td>
+                                        <td>{{lotNo?lotNo:''}}</td>
+                                    </tr>
+                                </table>
+                                <table class="table table-bordered" *ngIf="isView">
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>LOT Number</th>
+                                        <th>LOT Size</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>{{lotNoInView?lotNoInView:''}}</td>
+                                        <td>{{lotSize}}</td>
+                                    </tr>
+                                </table>
+                                <!-- <div class="row float-right mr-5">
+                                    <div class="col-md-2">
+                                        <div class="btn-group float-right">
+                                            <button type="button" class="btn btn-outline-primary" *ngFor="let pageNo of list;" (click)="getLotList(allLotNumbers,10,pageNo)">{{pageNo}}</button>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+
+                        </div>
+                        <div *ngIf="filterPaginateSearch && filterPaginateSearch.initialized &&
+                        (!filterPaginateSearch.itemList || filterPaginateSearch.itemList.length < 1)"
+                            class="px-2 py-3 w-100" style="height: 50px;">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data found.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- style="padding-top:5%" -->
+                    <div class="col-12 px-2">
+                        <div class="row reverse-col-in-row-till-lg">
+                            <div *ngIf="!isView" class=" px-2 pb-md-5 sub_updt_cancel_btn"
+                                [ngClass]="filterPaginateSearch.itemListTotalPage < 2 ? 'col-12 sub_updt_cancel_btn ' : 'col-12 col-xl-6'">
+                                <div class="resp_btn">
+                                    <button
+                                        *ngIf="filterPaginateSearch.initialized 
+                                        && filterPaginateSearch.itemListTotalPage > 1 
+                                        && filterPaginateSearch.itemListCurrentPage != filterPaginateSearch.itemListTotalPage"
+                                        class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        (click)="saveAndNavigate()">
+                                        Save And Next
+                                    </button>
+                                </div>
+                                <div class="resp_btn">
+                                    <!-- (click)="submit()" -->
+                                    <button type="submit"
+                                        *ngIf="filterPaginateSearch.initialized 
+                                        && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                        class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                        {{btn_name}}
+                                    </button>
+                                </div>
+                                <div class="resp_btn">
+                                    <button
+                                        class="form-button cancel_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        [routerLink]="['/lot-number-list']">Cancel</button>
+                                    <!-- <button *ngIf="(!isEdit || (isEdit && isDraft)) && filterPaginateSearch.initialized 
+                        && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                    class="form-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="saveAsDraft()">Save as
+                                    Draft</button> -->
+                                </div>
+                            </div>
+                            <div class="col-12 col-xl-6 px-4 pb-md-5 d-flex justify-content-end py-2 py-xl-0">
+                                <app-pagination-ui></app-pagination-ui>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="isView" class="col-12">
+                        <div class="resp_btn">
+                            <button
+                                class="form-button cancel_btn ml-3 ml-sm-0 d-flex justify-content-center verticle-content-middle mb-3"
+                                [routerLink]="['/lot-number-list']">Cancel</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

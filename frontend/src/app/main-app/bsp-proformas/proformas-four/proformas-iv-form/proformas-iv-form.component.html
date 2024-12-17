@@ -1,0 +1,183 @@
+<form *ngIf="dataload" [formGroup]="formSuperGroup" (ngSubmit)="submitForm(formSuperGroup.value)">
+    <div class="row my-4 w-100 mx-0 form-child">
+        <div class="col-12 d-flex justify-content-center verticle-content-middle">
+            <div class="main-content-form-wrapper px-3 mt-1">
+                <div class="row">
+                    <div class="col-12 px-2 mt-2">
+                        <span class="page-type-1-title ml-2">
+                            BSP Proforma IV (Breeder Seed Actually Produced - National/State Varieties)
+                        </span>
+                    </div>
+                    <div class="col-12 mb-2 pl-2 pr-0 mt-2">
+                        <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="IstPartFormGroup" [isView]="isView">
+                        </app-dynamic-fields>
+                    </div>
+
+                    <div *ngIf="dataRow" class="col-12 mt-2 mx-2 mx-md-0 pl-0 pl-md-1 dataRow">
+                        <p class="mb-0">Total Varieties : <span class="ml-2"> {{prdData.length}}, </span>
+                        </p>
+                        <p class="mt-0">Total Allocated Quantity : <span class="ml-2"> {{totalIndentQuantity | number :
+                                '1.2-2'}}
+                            </span> </p>
+                    </div>
+
+                    <div class="col-12 px-3 mb-2">
+                        <hr class="separator m-0">
+                    </div>
+                    <div class="col-md-4 px-2 py-2 col-10"
+                        *ngIf="!isEdit && !isView && filterPaginateSearch.itemListTotalPage > 0">
+                        <div class="form-nodal-input-custom-placeholder d-flex verticle-content-middle mx-2"
+                            [ngClass]="formGroupControls['search'].value ? 'hide' : ''">
+                            <span>Search Here</span>
+                            <i class="fa fa-search nodal-search-icon"></i>
+                        </div>
+                        <input class="form-nodal-input mx-2 w-100" formControlName="search">
+                    </div>
+                    <div class="col-12 px-2" *ngIf="filterPaginateSearch.initialized">
+                        <div *ngFor="let eachIIndPartFormArray of filterPaginateSearch.itemList; let varietyIndexInAccordion=index"
+                            class="col-accordion m-2"
+                            [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? '' : 'hide'">
+                            <div>
+                                <div (click)="activateVarietyIndexInAccordion(varietyIndexInAccordion)">
+                                    <label class="va-l">
+                                        {{ eachIIndPartFormArray.name }}
+                                    </label>
+
+                                    <i class="fas accordion-dropdown"
+                                        [ngClass]="activeVarietyIndexInAccordion==varietyIndexInAccordion ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                </div>
+
+                                <app-dynamic-fields [fieldsList]="eachIIndPartFormArray.arrayfieldsIIndPartList"
+                                    [formGroup]="eachIIndPartFormArray.formGroup" [isView]="isView" [isEdit]="isEdit"
+                                    [isLabelControlParallel]="false"></app-dynamic-fields>
+
+                            </div>
+                            <hr>
+                            <div *ngIf="addedPlantData && addedPlantData.length > 0">
+                                <div *ngFor="let plant of addedPlantData; let i = index" class="col-12">
+                                    <div *ngIf="plant.variety_id == eachIIndPartFormArray.variety_id"
+                                        class="row plant-card p-2 m-2">
+                                        <div class="col-xl-4 col-12">
+                                            <label>Plant Name</label> <br>
+                                            <label class="plant-lable">{{get_plant_name(plant)}}</label>
+                                            <!-- <select id="plant_id" placeholder="Plant Name">
+                                                <option *ngFor="let data of plantData"
+                                                    [selected]="plant.plant_id == data.id" [value]="data.id" disabled
+                                                    hidden>{{data &&
+                                                    data.plant_name}}
+                                                </option>
+                                            </select> -->
+                                        </div>
+                                        <div class="col-xl-4 col-12">
+                                            <label>Quantity</label> <br>
+                                            <input type="text" [value]="plant.quantity" disabled>
+                                        </div>
+                                        <div *ngIf="!isView" class="col-xl-4 col-12 plant-edit-buttons">
+                                            <button class="btn mt-auto" type="button"
+                                                (click)="onEditPlantData(eachIIndPartFormArray.formGroup, eachIIndPartFormArray, plant)">Edit</button>
+                                            <button class="btn mt-auto ml-2" type="button"
+                                                (click)="onRemovePlantData(eachIIndPartFormArray.formGroup, eachIIndPartFormArray, i)">Remove</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 px-2">
+                        <div class="row reverse-col-in-row-till-lg">
+                            <div *ngIf="!isView" class=" px-2 pb-md-5 sub_updt_cancel_btn"
+                                [ngClass]="filterPaginateSearch.itemListTotalPage < 2 ? 'col-12 sub_updt_cancel_btn' : 'col-12 col-xl-6'">
+                                <!-- <button
+                                                *ngIf="filterPaginateSearch.initialized 
+                                                    && filterPaginateSearch.itemListTotalPage > 1 
+                                                    && filterPaginateSearch.itemListCurrentPage != filterPaginateSearch.itemListTotalPage"
+                                                class="form-button ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                                (click)="saveAndNavigate()">
+                                                Save And Next
+                                            </button> -->
+                                <div class="resp_btn">
+                                    <button type="submit"
+                                        *ngIf="filterPaginateSearch.initialized 
+                                                    && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                        class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3">
+                                        {{buttonText}}
+                                    </button>
+                                </div>
+                                <div class="resp_btn">
+                                    <button
+                                        class="form-button cancel_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        [routerLink]="['/breeder/bsp-proformas/proformas-4s']">Cancel</button>
+                                </div>
+                                <div class="resp_btn">
+                                    <a href="javascript:void(0)"
+                                        *ngIf="(!isView || (isEdit && isDraft)) && filterPaginateSearch.initialized 
+                                                && filterPaginateSearch.itemListCurrentPage == filterPaginateSearch.itemListTotalPage"
+                                        class="form-button submit_btn ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        (click)="saveAsDraft()">Save as
+                                        Draft</a>
+                                </div>
+                            </div>
+                            <div class="col-12 col-xl-6 px-4 pb-md-5 d-flex justify-content-end py-2 py-xl-0">
+                                <app-pagination-ui></app-pagination-ui>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="isView" class="col-12 px-2 sub_updt_cancel_btn">
+                        <div class="resp_btn">
+                            <button
+                                class="form-button cancel_btn ml-3 ml-md-2 d-flex justify-content-center verticle-content-middle mb-3"
+                                routerLink="/breeder/bsp-proformas/proformas-4s">Cancel</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content container-fluid m-2">
+            <div class="row header py-3">
+                <div class="col">
+                    <p class="title my-auto">Add Plant Quantity</p>
+                </div>
+
+            </div>
+
+            <form class="plant-form" [formGroup]="plantForm" (ngSubmit)="onSubmitPlantQuantity(plantForm)">
+                <div class="row my-3">
+                    <div class="col">
+                        <span class="labels">Select Plant <sup>*</sup></span><br>
+                        <select formControlName="plant_id" id="plant_id" placeholder="Plant Name">
+                            <option value="" selected disabled>Select Plant Name</option>
+                            <option *ngFor="let plant of plantData" [value]="plant.id">{{plant && plant.plant_name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col">
+                        <span class="labels">Enter Quantity <sup>*</sup></span><br>
+                        <input type="number" formControlName="quantity" id="quantity" placeholder="Enter Quantity"
+                            (keypress)="isEnterQuantity($event)">
+
+                    </div>
+                </div>
+                <div class="row my-4">
+                    <div class="col footer">
+                        <button class="btn btn-light" type="reset" (click)="closePopup()">Cancel</button>
+                        <button class="btn btn-light ml-2" type="submit" [disabled]="!plantForm.valid">Add
+                            Quantity</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

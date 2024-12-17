@@ -1,0 +1,38 @@
+<form [formGroup]="formGroup">
+    <div class="d-flex verticle-content-middle justify-content-end" *ngIf="filterPaginateSearch.itemListTotalPage > 1">
+        <div class="w-fit-content pr-2 d-block d-lg-inline-flex">
+            <button class="prev-paginate page-numbers d-inline-flex justify-content-center verticle-content-middle mx-2" (click)="filterPaginateSearch.navigate('previous', 1)"
+                >
+                <i class="fas fa-angle-double-left"></i>
+            </button>
+            <button class="prev-paginate page-numbers d-inline-flex justify-content-center verticle-content-middle mx-2"
+                (click)="filterPaginateSearch.navigate('previous')"
+                [disabled]="filterPaginateSearch.itemListPrevBtnDisable">
+                <i class="fal fa-less-than"></i>
+            </button>
+            <div class="page-number-wrapper d-inline-flex py-2 py-lg-0">
+                <button class="page-numbers mx-2" *ngFor="let eachPageNumber of filterPaginateSearch.paginationArray"
+                    [ngClass]="eachPageNumber == filterPaginateSearch.itemListCurrentPage ? 'active' : ''"
+                    (click)="filterPaginateSearch.navigate('previous', eachPageNumber)">
+                    {{ eachPageNumber }}
+                </button>
+            </div>
+            <button class="next-paginate page-numbers d-inline-flex justify-content-center verticle-content-middle mx-2"
+                (click)="filterPaginateSearch.navigate('next')"
+                [disabled]="filterPaginateSearch.itemListNextBtnDisable">
+                <i class="fal fa-greater-than"></i>
+            </button>
+            <button class="next-paginate page-numbers d-inline-flex justify-content-center verticle-content-middle mx-2" (click)="filterPaginateSearch.navigate('next', totalPage)"
+                >
+                <i class="fas fa-angle-double-right"></i>
+            </button>
+            <div class="enter-page-wrapper d-inline-flex mx-2">
+                <input placeholder="Enter Page No." formControlName="enterPage" class="px-2"
+                    [ngClass]="formGroupControls['enterPage'].value ? 'active' : ''" (keypress)="checkNumber($event)">
+                <button class="page-numbers active"
+                [disabled]="!this.formGroupControls['enterPage'].value"
+                    (click)="paginate()">Go</button>
+            </div>
+        </div>
+    </div>
+</form>

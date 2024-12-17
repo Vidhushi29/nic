@@ -1,0 +1,811 @@
+<div class="container-fluid d-none">
+    <div class="row justify-content-center row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 ">
+        <!-- Second Number total crops-->
+        <div class="col mt-4 ">
+            <div class="card cropCard">
+                <div class="col-12">
+                    <span class="card-title">Total No. of Crops</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7 ">
+                        <span class="noOfcrop mx-2">{{itemCount && itemCount[0] && itemCount[0].total_crops
+                            ?itemCount[0].total_crops:0}}</span>
+                    </div>
+                    <div class="col-4  text-center">
+                        <div class="row justify-content-end">
+                            <div class="myDiv01">
+                                <img src="../../../assets/images/cropCard.svg" alt="" srcset=""
+                                    class=" cropCard_image01 pl-0 " style="opacity: 1;">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Number total varieties-->
+        <div class="col mt-4">
+            <div class="card notified_varities">
+                <div class="col-12">
+                    <span class="card_notified_title">Total No. of Varieties</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7 ">
+                        <!-- 176 -->
+                        <span class="noOfVarieties mx-2">{{itemCount && itemCount[1] &&
+                            itemCount[1].total_variety?itemCount[1].total_variety:0}}</span>
+                    </div>
+                    <div class="col-4  text-center">
+                        <div class="row justify-content-end">
+
+                            <div class="myDiv02">
+                                <img src="../../../assets/images/bell.svg" alt="" srcset=""
+                                    class=" cropCard_image01 pl-0 " style="opacity: 1;">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- THird Number total certificates-->
+        <div class="col mt-4">
+            <div class="card card_of_indentors">
+                <div class="col-12">
+                    <span class="card-title-Indentors">Total No. of Certificates</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7">
+                        <!-- 176 -->
+                        <span class="noOfIndentor mx-2">{{itemCount && itemCount[2] && itemCount[2].total_certificate
+                            ?itemCount[2].total_certificate:0}}</span>
+                    </div>
+                    <div class="col-4  text-center indentorrow">
+                        <div class="row justify-content-end">
+                            <div class="myDiv03">
+                                <img src="../../../assets/images/indent_2.svg" alt="" srcset=""
+                                    class=" cropCard_image01 pl-0 " style="opacity: 1;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- fourth total spp-->
+        <div class="col mt-4">
+            <div class="card ICARCard">
+                <div class="col-12">
+                    <span class="card-title-Icar">Total No. of SPP</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7 ">
+                        <!-- 176 -->
+                        <span class="noOfIcar mx-2">{{itemCount && itemCount[3] && itemCount[3].total_spp
+                            ?itemCount[3].total_spp:0}}</span>
+                    </div>
+                    <div class="col-4  text-center">
+                        <div class="row justify-content-end">
+                            <div class="myDiv04">
+                                <img src="../../../assets/images/layer1.svg" alt="" srcset=""
+                                    class=" cropCard_image01 pl-0 " style="opacity: 1;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="col-12" style="margin-top: -0.5%;">
+            <div class="col-12 pl-0 pr-0 pt-3 table-responsive">
+                <table class="table" style="zoom: 0.79;">
+                    <thead
+                        style="background: #E97E15 0% 0% no-repeat padding-box;
+                border-radius: 10px 10px 0px 0px;opacity: 1;text-align: left;font: normal Poppins 400 16px/20px ;letter-spacing: 0px;color: #FFFFFF;opacity: 1;">
+                        <tr>
+                            <th>Year Of Indent</th>
+                            <th>Season</th>
+
+                            <th>Indent
+                                <br>
+                                Crop/Variety/Quantity(Qt)
+                            </th>
+                            <th>Assign to PD/PC
+                                <br>
+                                Crop/Variety/Quantity(Qt)
+                            </th>
+                            <th>Production
+                                <br>
+                                Crop/Variety/Quantity(Qt)
+                            </th>
+                            <th>Allocation
+                                <br>
+                                Crop/Variety/Quantity(Qt)
+                            </th>
+                            <th>Lifting
+                                <br>
+                                Crop/Variety/Quantity(Qt)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="2" class="pl-3 pt-3">{{dashboardData && dashboardData[0] ?
+                                dashboardData[0].year : 'NA'}}</td>
+                            <td class="pl-3 pt-3">
+                                {{dashboardData && dashboardData[0] && dashboardData[0].season == 'K'
+                                ? 'Kharif' : 'Rabi'}}
+                            </td>
+                            <td>
+                                <div class="col-12 pl-1 pt-3">
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].indented_crop : '0'}}/
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].indented_variety : '0'}}/
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].indented_quantity : '0'}}
+                                </div>
+                                <div id="row-0-col-1" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].assigned_pdpc_crop : '0'}}/
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].assigned_pdpc_variety :
+                                    '0'}}/
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].assigned_pdpc_quantity :
+                                    '0'}}
+                                </div>
+                                <div id="row-0-col-2" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].produced_crop : '0'}}/
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].produced_variety : '0'}}/
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].produced_quantity : '0'}}
+                                </div>
+                                <div id="row-0-col-3" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].allocation_crop : '0'}}/
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].allocation_variety : '0'}}/
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].allocation_quantity : '0'}}
+                                </div>
+                                <div id="row-0-col-4" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].lifted_crop : '0'}}/
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].lifted_variety : '0'}}/
+                                    {{dashboardData && dashboardData[0] ? dashboardData[0].lifted_quantity : '0'}}
+                                </div>
+                                <div id="row-0-col-5" style="margin-top: -1em;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pl-3 pt-3">
+                                {{dashboardData && dashboardData[1] &&dashboardData[1].season == 'K' ? 'Kharif' :
+                                'Rabi'}}
+                            </td>
+                            <td>
+                                <div class="col-12 pl-1 pt-3">
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].indented_crop : '0'}}/
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].indented_variety : '0'}}/
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].indented_quantity : '0'}}
+                                </div>
+                                <div id="row-1-col-1" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].assigned_pdpc_crop : '0'}}/
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].assigned_pdpc_variety :
+                                    '0'}}/
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].assigned_pdpc_quantity :
+                                    '0'}}
+                                </div>
+                                <div id="row-1-col-2" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].produced_crop : '0'}}/
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].produced_variety : '0'}}/
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].produced_quantity : '0'}}
+                                </div>
+                                <div id="row-1-col-3" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].allocation_crop : '0'}}/
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].allocation_variety : '0'}}/
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].allocation_quantity : '0'}}
+                                </div>
+                                <div id="row-1-col-4" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].lifted_crop : '0'}}/
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].lifted_variety : '0'}}/
+                                    {{dashboardData && dashboardData[1] ? dashboardData[1].lifted_quantity : '0'}}
+                                </div>
+                                <div id="row-1-col-5" style="margin-top: -1em;"></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowspan="2" class="pl-3 pt-3">{{dashboardData && dashboardData[2] ?
+                                dashboardData[2].year : 'NA'}}</td>
+                            <td class="pl-3 pt-3">{{dashboardData && dashboardData[2] && dashboardData[2].season == 'K'
+                                ? 'Kharif' : 'Rabi'}}</td>
+                            <td>
+                                <div class="col-12 pl-1 pt-3">
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].indented_crop : '0'}}/
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].indented_variety : '0'}}/
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].indented_quantity : '0'}}
+                                </div>
+                                <div id="row-2-col-1" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].assigned_pdpc_crop : '0'}}/
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].assigned_pdpc_variety :
+                                    '0'}}/
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].assigned_pdpc_quantity :
+                                    '0'}}
+                                </div>
+                                <div id="row-2-col-2" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].produced_crop : '0'}}/
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].produced_variety : '0'}}/
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].produced_quantity : '0'}}
+                                </div>
+                                <div id="row-2-col-3" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].allocation_crop : '0'}}/
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].allocation_variety : '0'}}/
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].allocation_quantity : '0'}}
+                                </div>
+                                <div id="row-2-col-4" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].lifted_crop : '0'}}/
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].lifted_variety : '0'}}/
+                                    {{dashboardData && dashboardData[2] ? dashboardData[2].lifted_quantity : '0'}}
+                                </div>
+                                <div id="row-2-col-5" style="margin-top: -1em;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pl-3 pt-3">{{dashboardData && dashboardData[3] && dashboardData[3].season == 'K'
+                                ? 'Kharif' : 'Rabi'}}</td>
+                            <td>
+                                <div class="col-12 pl-1 pt-3">{{dashboardData && dashboardData[3] ?
+                                    dashboardData[3].indented_crop : '0'}}/
+                                    {{dashboardData && dashboardData[3] ? dashboardData[3].indented_variety : '0'}}/
+                                    {{dashboardData && dashboardData[3] ? dashboardData[3].indented_quantity : '0'}}
+                                </div>
+                                <div id="row-3-col-1" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[3] ? dashboardData[3].assigned_pdpc_crop : '0'}}/
+                                    {{dashboardData && dashboardData[3] ? dashboardData[3].assigned_pdpc_variety :
+                                    '0'}}/
+                                    {{dashboardData && dashboardData[3] ? dashboardData[3].assigned_pdpc_quantity :
+                                    '0'}}
+                                </div>
+                                <div id="row-3-col-2" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[3] ? dashboardData[3].produced_crop : '0'}}/
+                                    {{dashboardData && dashboardData[3] ? dashboardData[3].produced_variety : '0'}}/
+                                    {{dashboardData && dashboardData[3] ? dashboardData[3].produced_quantity : '0'}}
+                                </div>
+                                <div id="row-3-col-3" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[3] ? dashboardData[3].allocation_crop : '0'}}/
+                                    {{dashboardData && dashboardData[3] ? dashboardData[3].allocation_variety : '0'}}/
+                                    {{dashboardData && dashboardData[3] ? dashboardData[3].allocation_quantity : '0'}}
+                                </div>
+                                <div id="row-3-col-4" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[3] ? dashboardData[3].lifted_crop : '0'}}/
+                                    {{dashboardData && dashboardData[3] ? dashboardData[3].lifted_variety : '0'}}/
+                                    {{dashboardData && dashboardData[3] ? dashboardData[3].lifted_quantity : '0'}}
+                                </div>
+                                <div id="row-3-col-5" style="margin-top: -1em;"></div>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td rowspan="2" class="pl-3 pt-3">{{dashboardData && dashboardData[4] ?
+                                dashboardData[4].year : 'NA'}}</td>
+                            <td class="pl-3 pt-3">{{dashboardData && dashboardData[4] && dashboardData[4].season == 'K'
+                                ? 'Kharif' : 'Rabi'}}</td>
+                            <td>
+                                <div class="col-12 pl-1 pt-3">
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].indented_crop : '0'}}/
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].indented_variety : '0'}}/
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].indented_quantity : '0'}}
+                                </div>
+                                <div id="row-4-col-1" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].assigned_pdpc_crop : '0'}}/
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].assigned_pdpc_variety :
+                                    '0'}}/
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].assigned_pdpc_quantity :
+                                    '0'}}
+                                </div>
+                                <div id="row-4-col-2" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].produced_crop : '0'}}/
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].produced_variety : '0'}}/
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].produced_quantity : '0'}}
+                                </div>
+                                <div id="row-4-col-3" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].allocation_crop : '0'}}/
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].allocation_variety : '0'}}/
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].allocation_quantity : '0'}}
+                                </div>
+                                <div id="row-4-col-4" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].lifted_crop : '0'}}/
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].lifted_variety : '0'}}/
+                                    {{dashboardData && dashboardData[4] ? dashboardData[4].lifted_quantity : '0'}}
+                                </div>
+                                <div id="row-4-col-5" style="margin-top: -1em;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pl-3 pt-3">{{dashboardData && dashboardData[5] && dashboardData[5].season == 'K'
+                                ? 'Kharif' : 'Rabi'}}</td>
+                            <td>
+                                <div class="col-12 pl-1 pt-3">
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].indented_crop : '0'}}/
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].indented_variety : '0'}}/
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].indented_quantity : '0'}}
+                                </div>
+                                <div id="row-5-col-1" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].assigned_pdpc_crop : '0'}}/
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].assigned_pdpc_variety :
+                                    '0'}}/
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].assigned_pdpc_quantity :
+                                    '0'}}
+                                </div>
+                                <div id="row-5-col-2" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].produced_crop : '0'}}/
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].produced_variety : '0'}}/
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].produced_quantity : '0'}}
+                                </div>
+                                <div id="row-5-col-3" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].allocation_crop : '0'}}/
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].allocation_variety : '0'}}/
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].allocation_quantity : '0'}}
+
+                                </div>
+                                <div id="row-5-col-4" style="margin-top: -1em;"></div>
+                            </td>
+                            <td>
+                                <div class="pl-1 pt-3">
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].lifted_crop : '0'}}/
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].lifted_variety : '0'}}/
+                                    {{dashboardData && dashboardData[5] ? dashboardData[5].lifted_quantity : '0'}}
+                                </div>
+                                <div id="row-5-col-5" style="margin-top: -1em;"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> -->
+
+
+        <div class="col-12 pt-3">
+            <div class="card">
+                <form [formGroup]="ngForm">
+                    <div class="row px-1 no-gutters py-0 ">
+                        <!--  Year of indent -->
+                        <div class="col-lg-3 col-sm-12 mt-3">
+                            <div class="col-12">
+                                <span for="" class="left-heading required"> Crop Type</span>
+                            </div>
+                            <div class="col-lg col-sm-12 py-2">
+                                <select id="cars" class="form-control" formControlName="crop_type">
+                                    <option value="A" [selected]="cropTypeLoginWise =='A'">Agriculture</option>
+                                    <option value="H" [selected]="cropTypeLoginWise =='H'">Horticulture</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mt-3 ">
+                            <div class="col-12 ">
+                                <span for="" class="left-heading required">Year of Indent</span>
+                            </div>
+                            <div class="col-lg col-sm-12 py-2">
+                                <select id="cars" class="form-control" formControlName="year_of_indent">
+                                    <option value="" selected>Select Year of Indent</option>
+                                    <option *ngFor="let year of yearOfIndent" value="{{year.year}}">
+                                        {{year.year}}-{{(year.year+1)-2000}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!--  Season -->
+                        <div class="col-lg-3 col-sm-12 mt-3">
+                            <div class="col-12">
+                                <span for="" class="left-heading required">Season</span>
+                            </div>
+                            <div class="col-lg col-sm-12 py-2">
+                                <select id="cars" class="form-control" formControlName="season">
+                                    <option value="">Select Season</option>
+                                    <option *ngFor="let data of seasonList" value="{{data.season_code}}">{{data.season}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--  crop Type -->
+
+                        <div class="col-lg-3 col-sm-12 mt-4 pr-3 pl-2">
+                            <div class="col-12">
+                                <span for="" class="left-heading required"> Crop Name</span>
+                            </div>
+                            <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="cropDataList"
+                            formControlName="crop_name" [placeholder]="'Select Crop Name'">
+                                <!-- (keydown)="keyPressedOnMultiDropdown($event)"
+                                (onDropDownClose)="ngClearMultiSelectSelection()" -->
+                            </ng-multiselect-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-3 ml-1 buttons-phone dash_buttons-phone pb-3">
+
+                        <button (click)="onSubmit(ngForm.value);getChartIndentData(null);"
+                            class="form-button search d-inline-flex justify-content-center verticle-content-middle mr-2">
+                            <span class="">Search</span>
+                        </button>
+                        <button (click)="clear()"
+                            class="clear-form-button ml-3 mt-2 d-inline-flex justify-content-center verticle-content-middle mr-2">
+                            <span class="">Clear</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--start card 2 ui-->
+    <div class="row justify-content-center row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 d-none">
+        <div class="col-3 mt-4 ">
+            <div class="card cropCard">
+                <div class="row pl-2 ">
+
+                    <div class="col-8 ">
+                        <span class="card-title">Total Allotment
+                        </span>
+                    </div>
+                    <div class="col-4 float-right pl-3">
+                        <span class="card-title" style="font-weight: 600">
+
+                            <!-- C-{{RecievedIndentDataQantity && RecievedIndentDataQantity[0] && RecievedIndentDataQantity[0].total_allocation ?
+                            (RecievedIndentDataQantity[0].total_allocation):0}} -->
+                        </span>
+                    </div>
+                </div>
+
+                <div class="row pt-4 pl-2 ">
+
+
+                    <div class="col-8 ">
+                        <span class="card-title" style="font-weight: 600">
+                            Q-{{RecievedIndentDataQantity && RecievedIndentDataQantity[0] && RecievedIndentDataQantity[0].total_allocation ?
+                                (RecievedIndentDataQantity[0].total_allocation | number:'1.2-2' ):0}}
+
+                        </span><span class="card-title" style="font-weight: 600">{{unit}}
+                        </span>
+                    </div>
+                    <div class="col-4 float-right pl-3">
+                        <span class="card-title" style="white-space: nowrap;font-weight: 600">
+
+                            <!-- V-{{RecievedIndentDataQantity && RecievedIndentDataQantity[2] && RecievedIndentDataQantity[2].total_lifting ?
+                            (RecievedIndentDataQantity[2].total_lifting):0}} -->
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Second Number a-->
+        <div class="col-3 mt-4">
+            <div class="card card_production">
+                <div class="row  ">
+
+                    <div class="col-7 pl-4">
+                        <!-- 176 -->
+                        <span class="card-title-production" style="white-space: nowrap;">Total Production: </span>
+
+                    </div>
+                    <div class="col-5">
+                        <!-- 176 -->
+                        <span class="card-title-production" style="font-weight:600">
+                            <!-- C-{{freezeDataQantity &&
+                            freezeDataQantity.total_crop ? (freezeDataQantity.total_crop) : 0 }} -->
+                        </span>
+
+                    </div>
+                </div>
+                <div class="row pt-4 pl-2 ">
+
+                    <div class="col-7 ">
+                        <!-- 176 -->
+                        <span class="title">
+                            <span class="card-title-production" style="font-weight:600">Q-{{RecievedIndentDataQantity && RecievedIndentDataQantity[1] && RecievedIndentDataQantity[1].total_production ?
+                                (RecievedIndentDataQantity[1].total_production | number:'1.2-2' ) :0}}</span><span style="font-weight:600"
+                                class="mx-1 card-title-production">{{unit}}</span>
+                        </span>
+                    </div>
+                    <div class="col-5">
+                        <span style="font-weight:600" class="card-title-production">
+                            <!-- V-{{freezeDataQantity && freezeDataQantity.total_variety ? (freezeDataQantity.total_variety
+                            ) : 0 }} -->
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <!-- Second Number b-->
+        
+        <!-- THird Number -->
+        <div class="col mt-4">
+            <div class="card card_of_indentors">
+                <div class="col-12">
+                    <span class="card-title-Indentors">Total Lifting:</span>
+                </div>
+                <div class="row pt-4 pl-3 ">
+
+                    <div class="col-7">
+                        <!-- 176 -->
+                        <span class="title">
+                            <span class="total_qty">Q-{{RecievedIndentDataQantity && RecievedIndentDataQantity[3] && RecievedIndentDataQantity[3].total_lifting_second ?
+                                (RecievedIndentDataQantity[3].total_lifting_second | number:'1.2-2'):0}}</span><span class="mx-1 total_qty">{{unit}}</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- fourth -->
+        <div class="col mt-4">
+            <div class="card ICARCard">
+                <div class="col-12">
+                    <span class="card-title-Icar">Total UnLifting:</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7 ">
+                        <span class="title">
+                            <span class="card-title-Icar" style="font-weight:600">Q-{{RecievedIndentDataQantity && RecievedIndentDataQantity[4] && RecievedIndentDataQantity[4].total_unlifting ?
+                                (RecievedIndentDataQantity[4].total_unlifting | number:'1.2-2'):0}}</span><span style="font-weight:600"
+                                class="mx-1 card-title-Icar">{{unit}}</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- start graph ui -->
+        <!-- <div class="row pt-3"> -->
+
+        <!--Chart Start -->
+        <!-- First chart -->
+        <div class="col-12 pb-4 pt-3 " [ngClass]="totalIndentCard ? 'd-block' : 'd-none'">
+            <div class="card " style=" border-radius: 10px 10px 0px 0px;">
+                <div class="col-12" style="background: #E97E15 0% 0% no-repeat padding-box;
+             opacity: 1;">
+                    <div class="row pb-2 pt-2 chart_heading1">
+                        <div class="col-md-3 chart_item1">
+                            <span class="chart_title">{{graphtitle}} Wise Total Indents and Lifting</span>
+                        </div>
+                        <div class="col-md-1 chart_item1" *ngIf="isYear">
+                            <span class="chart_title">Year: {{year}}-{{(year-2000)+1}}</span>
+                        </div>
+                        <div class="col-md-1 chart_item1" *ngIf="isSeason">
+                            <span class="chart_title">Season: {{(season=='K')?'Kharif':'Rabi'}}</span>
+                        </div>
+                        <div class="col-md-3 chart_item1" *ngIf="isCropName">
+                            <span class="chart_title">Crop Name: {{ this.ngForm.controls['crop_name'].value ? getCropNamefrommlist(this.ngForm.controls['crop_name'].value):''}}</span>
+                        </div>
+
+                        
+                        <div class="col-md-2 chart_item1">
+                            <span class="chart_title"> As on Date: {{todayDateintoDDMMYYY}}</span>
+                        </div>
+                        
+                        <div class="col-md-2 chart_item1" *ngIf="isSeason">
+                            <span class="chart_title">Unit: {{ngForm.controls['crop_type'].value ? getUNit(ngForm.controls['crop_type'].value):''}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 pt-2">
+                    <div class="row   pl-3 chart_icon_items1">
+                        <div class="square ">
+                        </div>
+                        <div class="col-lg-2 col-12 pl-1 chart_icon_items1">
+                            <span>Allotted Quantity</span>
+                        </div>
+                        <div class=" square_breeder_seed ">
+                        </div>
+                        <div class="col-lg-2 col-12 pl-1 chart_icon_items1">
+                            <span>Production Quantity</span>
+                        </div>
+                        <div class="square_breeder_seed_left ">
+                        </div>
+                        <div class="col-lg-2 col-12 pl-1 chart_icon_items1">
+                            <span style="white-space: nowrap;"> Lifted Quantity</span>
+                        </div>
+                        <div class=" square_breeder_seed_lifting ">
+
+                        </div>
+                        <div class="col-lg-2 col-12 pl-1 chart_icon_items1">
+                            <span style="white-space: nowrap;">UnLifted Quantity</span>
+                        </div>
+                        <div class="col-lg-2 col-12 ">
+                            <form [formGroup]="ngForm">
+                                <div class="col-lg col-sm-12 py-1">
+                                    <select id="cars" [(ngModel)]="cropFilterData" class="form-control"
+                                        formControlName="crop_name_graph"
+                                        (change)="graphShowHiddenFunctionality($event)">
+                                        <option value="all_crop">All Crop</option>
+                                        <!-- <ng-container *ngFor="let data of graphFilterCrop;"> -->
+                                        <option *ngFor="let val of graphFilterCrop" value="{{val && val.crop_code}}">
+                                            {{val &&
+                                            val.crop_name}}
+                                        </option>
+                                        <!-- </ng-container> -->
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- graph implemented -->
+                <div [hidden]="showVariety" id="container">
+
+                </div>
+                <div [hidden]="!showVariety" id="variety-container">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 pb-4">
+            <div class="card " style=" border-radius: 10px 10px 0px 0px;">
+                <div class="col-12" style="background: #E97E15 0% 0% no-repeat padding-box;
+            
+             opacity: 1;">
+                    <div class="row pb-2 pt-2 chart_heading2">
+                        <div class="col-md-3 chart_item2">
+                            <span class="chart_title">Indentor Wise Total Indents and Lifting</span>
+                        </div>
+                        <div class="col-md-1 chart_item2 pl-0" *ngIf="isYear">
+                            <span class="chart_title">Year: {{year}}-{{(year-2000)+1}}</span>
+                        </div>
+                        <div class="col-md-1 chart_item2 pl-0" *ngIf="isSeason">
+                            <span class="chart_title">Season: {{(season=='K')?'Kharif':'Rabi'}}</span>
+                        </div>
+                        <div class="col-md-3 chart_item1 pl-0" *ngIf="isCropName">
+                            <span class="chart_title">Crop Name: {{ this.ngForm.controls['crop_name'].value ? getCropNamefrommlist(this.ngForm.controls['crop_name'].value):''}}</span>
+                        </div>
+                        
+                        <div class="col-md-2 chart_item2">
+                            <span class="chart_title"> As on Date: {{todayDateintoDDMMYYY}}</span>
+                        </div>
+                        <div class="col-md-1 chart_item1" *ngIf="isCropName">
+                            <span class="chart_title">Unit: {{ngForm.controls['crop_type'].value ? getUNit(ngForm.controls['crop_type'].value):''}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 pt-2">
+                    <div class="row   pl-3 chart_icon_items2">
+                        <div class=" square ">
+
+                        </div>
+                        
+                        <div class="col-lg-3 col-12 pl-2 chart_text_items2">
+                            <span style="white-space: nowrap;">Indent Quantity</span>
+                        </div>
+                        <div class=" square_breeder_seed_left ">
+
+                        </div>
+                        <div class="col-lg-2 col-12 pl-2 chart_text_items2">
+                            <span>Allocated Quantity</span>
+                        </div>
+                       
+                        <div class=" square_breeder_seed_lifting ">
+
+                        </div>
+                        <div class="col-lg-3 col-12 pl-2 chart_text_items2">
+                            <span style="white-space: nowrap;">Lifted Quantity</span>
+                        </div>
+                        <div class="col-lg-3 col-12 chart_text_items2">
+                            <form [formGroup]="ngForm">
+                                <div class="col-lg col-sm-12 py-1">
+                                    <select id="cars" [(ngModel)]="indenterCropFilterData" class="form-control"
+                                        formControlName="variety_name_graph"
+                                        (change)="graphShowHiddenFunctionality($event)">
+                                        <option value="all_crop">All Indenters</option>
+                                        <!-- <ng-container *ngFor="let data of graphFilterCrop;"> -->
+                                        <option *ngFor="let val of graphFilterUsers" value="{{val && val.user_id}}">
+                                            {{val &&
+                                            val.name}}
+                                        </option>
+                                        <!-- </ng-container> -->
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- graph implemented -->
+                <div [hidden]="showIndenterVariety" id="containers">
+
+                </div>
+
+                <div [hidden]="!showIndenterVariety" id="crop-containers">
+
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="container">
+
+            <div class="main-inventory row w-90 ">
+                <!-- <div class="card w-100 h-100"> -->
+                <div class="centered-text card h-100 w-100 px-2 d-flex justify-content-center">
+                    <div class="card ">
+        
+        
+                        <h4>
+                            We will be live soon!
+                        </h4>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+        </div>

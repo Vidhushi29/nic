@@ -1,0 +1,40 @@
+.span-1 {
+    font: normal Poppins 16px/25px;
+    letter-spacing: 0px;
+    color: #B64B1D;
+}
+
+.footer-text {
+
+    font: normal Poppins 16px/25px;
+    letter-spacing: 0px;
+    opacity: 1;
+}
+
+.footer-main {
+    /* position: absolute; */
+    position: fixed;
+    z-index: 4;
+    vertical-align: middle;
+    width: 100%;
+    background-color: #ffff;
+    height: 60px;
+    bottom: 0;
+    /* top: 20px; */
+    /* margin-top: 100px; */
+}
+
+@media screen and (min-device-width: 279px) and (max-device-width: 768px) {
+    .footer-main {
+        position: relative;
+        z-index: 4;
+        vertical-align: middle;
+        width: 100%;
+        background-color: #ffff;
+        height: 60px;
+        /* bottom: 0; */
+        top: 20px;
+        /* margin-top: 100px; */
+    }
+
+}

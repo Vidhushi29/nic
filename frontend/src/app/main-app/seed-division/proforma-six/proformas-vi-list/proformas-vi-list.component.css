@@ -1,0 +1,77 @@
+.data-row-header {
+    background: #E97E15 0% 0% no-repeat padding-box;
+}
+
+/* .data-row-header * {
+    font: normal normal 600 15px/19px Poppins;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+} */
+
+.data-row {
+    border: 1px solid #B2C7D7;
+    border-top: none !important;
+}
+
+/* .data-row * {
+    font: normal normal bold 15px/18px Lato;
+    letter-spacing: 0px;
+    color: #000000;
+} */
+
+.active{
+    background: #e97f38;
+    color: white !important;
+    font-weight: 900;
+}
+
+.nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    border: 1px solid #e97f38;
+    margin: 4px 10px;
+    min-width: 180px;
+    color: black;
+    border-radius: 4px;
+    text-align: center;
+}
+
+span {
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+}
+
+::ng-deep .field_title {
+
+    margin-left: -0px;
+    margin-right: -40px;
+    justify-content: space-between;
+}
+
+::ng-deep .field_text_select {
+    /* background-color: red; */
+    padding-right: 0.5rem!important;
+
+}
+
+::ng-deep .search_txt {
+    /* background: rgba(116, 44, 44, 0.7) 0% 0% no-repeat padding-box !important; */
+    padding-right: 2rem!important;
+    margin-left: 4px !important;
+
+}
+
+::ng-deep.yearofIndent-wrapper {
+    /* background: rgba(40, 34, 34, 0.7) 0% 0% no-repeat padding-box !important; */
+    padding-right: 0.5rem!important;
+
+}
+
+@media screen and(max-width: 575px) {
+    .field_text_select{
+        padding-right: 0px !important;
+    }
+    
+}
+

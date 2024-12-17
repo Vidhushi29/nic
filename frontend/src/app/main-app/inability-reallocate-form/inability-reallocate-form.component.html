@@ -1,0 +1,884 @@
+<form [formGroup]="ngForm">
+    <div class="main-inventory mt-2">
+        <span class="title-inventory pt-3 mb-1 mb-3 pl-3">
+            Inability to Fulfil Breeder Seed Requirement (Optional Form)
+        </span>
+        <!--section 1  filter-->
+        <div class="col-12 col-md-12 col-lg-12 title-inventory pl-2   pt-0 mt-2">
+            <div class="col-12 px-3">
+                <div class="row card-inventory">
+                    <!-- first card ui  -->
+                    <div class="col-12 col-md-12 col-lg-11">
+                        <div class="row">
+                            <!-- year of indent -->
+                            <div class="col-12 col-md-4 col-lg col-xl  col-sm-12 mb-1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="year" class="left-heading required">Year of
+                                            Indent</label>
+                                    </div>
+                                    <div class="col-12 ">
+                                        <select class=" form-control input-inventory w-100 " formControlName="year"
+                                            [ngClass]=" is_update ? 'disableButton' : ''">
+                                            <option value="">Select Year</option>
+                                            <option *ngFor="let year of yearData" value="{{year.year}}">
+                                                {{ year.year }}-{{ ((year.year % 100) + 1) < 10 ? '0' : '' }}{{
+                                                    (year.year % 100) + 1 }} </option>
+                                        </select>
+                                        <div class=" errorMessage"
+                                            *ngIf="submitted || ngForm.controls['year'].invalid && (ngForm.controls['year'].dirty || ngForm.controls['year'].touched)">
+                                            <span *ngIf=" ngForm.controls['year'].errors?.['required']">
+                                                Please Select Year.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Season  -->
+                            <div class="col-12 col-md-4 col-lg col-xl col-sm-12 mb-1">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-0">
+                                        <label for="season" class="left-heading required">Season</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-0">
+                                        <div ngbDropdown class="d-inline-block w-100" *ngIf="is_update"
+                                            [ngClass]="is_update ? 'disableButton' : ''">
+                                            <button class="btn takeplacholder w-100 crop toggle-button input-inventory"
+                                                [disabled]="!ngForm.controls['season'].value" id="crop"
+                                                [title]="selectCrop ? selectCrop :''" ngbDropdownToggle
+                                                style="text-align: left;">
+                                                {{ ngForm.controls['season'].value ? (ngForm.controls['season'].value
+                                                =='R'?'Rabi':'Kharif') : 'Select Season' }}
+                                            </button>
+                                        </div>
+                                        <select class=" form-control input-inventory" formControlName="season"
+                                            [ngClass]=" is_update ? 'disableButton' : ''" *ngIf="!is_update">
+                                            <option value="">Please Select Season</option>
+                                            <option *ngFor="let data of seasonlist" [value]="data.season">
+                                                {{data && data.season && data.season=='K' ? 'Kharif':
+                                                'Rabi'}}</option>
+
+                                        </select>
+                                        <div class=" errorMessage"
+                                            *ngIf="submitted || ngForm.controls['season'].invalid && (ngForm.controls['season'].dirty || ngForm.controls['season'].touched)">
+                                            <span *ngIf=" ngForm.controls['season'].errors?.['required']">
+                                                Please Select Season.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- crop -->
+                            <div class="col-12 col-md-4 col-lg col-xl col-sm-12  mb-1">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-0">
+                                        <label for="year" class="left-heading required">Crop</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-0">
+                                        <div ngbDropdown class="d-inline-block w-100"
+                                            [ngClass]="!ngForm.controls['season'].value || is_update ? 'disableButton' : ''">
+                                            <button class="btn takeplacholder w-100 crop toggle-button input-inventory"
+                                                [disabled]="!ngForm.controls['season'].value" id="crop"
+                                                [title]="selectCrop ? selectCrop :''" ngbDropdownToggle
+                                                style="text-align: left;">
+                                                {{ selectCrop && (selectCrop.length > 30) ?
+                                                (selectCrop.substring(0,23)
+                                                + '...') : selectCrop ? selectCrop : 'Select Crop' }}
+                                            </button>
+
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="crop"
+                                                aria-labelledby="sortMenu">
+                                                <input type="text" class="form-control px-4" formControlName="crop_text"
+                                                    placeholder="Search Crop">
+                                                <button class="dropdown-item" *ngFor="let item of cropData"
+                                                    (click)="crop(item)" #dropdownItem [attr.data-parent-name]="'crop'">
+                                                    {{ item && item.crop_name ? item.crop_name : '' }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown
+                                            [ngClass]="!ngForm.controls['season'].value || is_update ? 'disableButton' : ''">
+                                            <i class="fa-solid fa-angle-down downicon" (click)="cClick()"></i>
+                                        </div>
+                                        <div class=" errorMessage"
+                                            *ngIf="submitted || ngForm.controls['crop'].invalid && (ngForm.controls['crop'].dirty || ngForm.controls['crop'].touched)">
+                                            <span *ngIf="ngForm.controls['crop'].errors?.['required']">
+                                                Please Select Crop Name.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-1 col-xl-1 col-sm-12  pl-lg-0 pt-lg-4 mt-lg-3 mb-2">
+                        <button (click)="searchData(ngForm.value)"
+                            class="form-button btn-inventory search w-100 d-inline-flex justify-content-center verticle-content-middle">
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--section 2  -->
+        <div class="col-12 col-md-12 col-lg-12  pl-2   pt-0 mt-2" *ngIf="isInability">
+            <div class="col-12 px-3  ">
+                <div class="row  card-inventory pl-3 pb-1">
+                    <!-- first card ui  -->
+                    <div class="col-12 col-md-12 col-lg-12">
+                        <div class="row">
+                            <!-- Select Variety  -->
+                            <div class="w-100 col-md-7 col-lg-7 col-xl-7 col-sm-12 ">
+                                <div class="row">
+                                    <!-- Select Variety  -->
+                                    <div class="w-100 col-12 col-md-6 col-lg-6 col-xl-6 col-sm-12 ">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12 pl-0">
+                                                <label for="variety" class="left-heading required">Variety</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12 pl-0">
+                                                <div ngbDropdown class="d-inline-block w-100"
+                                                    [ngClass]="!ngForm.controls['crop'].value || is_update ? 'disableButton' : ''">
+                                                    <button [title]="selectVariety ? selectVariety :''"
+                                                        class="btn takeplacholder w-100 variety_name toggle-button input-inventory"
+                                                        id="variety_name" [disabled]="!ngForm.controls['crop'].value"
+                                                        ngbDropdownToggle style="text-align: left;">
+                                                        {{ selectVariety && (selectVariety.length > 15) ?
+                                                        (selectVariety.substring(0,15) + '...') : selectVariety ?
+                                                        selectVariety
+                                                        : 'Select Variety' }}
+                                                    </button>
+
+                                                    <div class="dropdown-menu w-100 pl-0" ngbDropdownMenu="variety_name"
+                                                        aria-labelledby="sortMenu">
+                                                        <input type="text" class="form-control px-4"
+                                                            formControlName="variety_text" placeholder="Search Variety">
+                                                        <button class="dropdown-item" *ngFor="let item of varietyData"
+                                                            (click)="variety(item)" #dropdownItem
+                                                            [attr.data-parent-name]="'variety_name'">
+                                                            {{ item && item.variety_name ? item.variety_name : '' }}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="pl-0 toggle-button" ngbDropdown
+                                                    [ngClass]="!ngForm.controls['crop'].value || editData ? 'disableButton' : ''">
+                                                    <i class="fa-solid fa-angle-down downicon" (click)="vClick()"></i>
+                                                </div>
+                                                <div class="errorMessage"
+                                                    *ngIf="submitted || ngForm.controls['variety'].invalid && (ngForm.controls['variety'].dirty || ngForm.controls['variety'].touched)">
+                                                    <span *ngIf="ngForm.controls['variety'].errors?.['required']">
+                                                        Please Select Variety.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- parantel line -->
+                                    <!-- *ngIf=isParentalLine -->
+                                    <div class=" w-100 col-12 col-md-6 col-lg-6 col-xl-6 col-sm-12 ">
+                                        <div class="row">
+                                            <div class="col-12 pl-0">
+                                                <label for="plot" class="left-heading required">Parental
+                                                    Line</label>
+                                            </div>
+                                            <div class="col-12 pl-0">
+                                                <div ngbDropdown class="disableButton d-inline-block w-100">
+                                                    <button [title]="selectParentalLine ? selectParentalLine :''"
+                                                        class="btn takeplacholder w-100 variety_name toggle-button input-inventory"
+                                                        id="parentalline" ngbDropdownToggle style="text-align: left;"
+                                                        [disabled]="true">
+                                                        {{ selectParentalLine && (selectParentalLine.length > 15) ?
+                                                        (selectParentalLine.substring(0,15) + '...') :
+                                                        selectParentalLine ? selectParentalLine
+                                                        : 'Select Parental Line' }}
+                                                    </button>
+
+                                                    <div class="dropdown-menu w-100 pl-0" ngbDropdownMenu="parentalline"
+                                                        aria-labelledby="sortMenu">
+                                                        <input type="text" class="form-control px-4"
+                                                            formControlName="parental_line_text"
+                                                            placeholder="Search Parental Line" [disabled]="true">
+                                                        <button class="dropdown-item"
+                                                            *ngFor="let item of parentalDataList"
+                                                            (click)="selectParentalData(item)" #dropdownItem
+                                                            [attr.data-parent-name]="'parentalline'" [disabled]="true">
+                                                            {{ item && item.line_variety_name ?
+                                                            item.line_variety_name : '' }}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="pl-0 toggle-button " ngbDropdown>
+                                                    <i class="fa-solid fa-angle-down downicon" (click)="pClick()"></i>
+                                                </div>
+                                                <!-- <select class=" form-control input-inventory" formControlName="parental_line">
+                                                                <option value="">Select Parental Line</option>
+                                                                <option *ngFor="let data of parentalDataList"
+                                                                    value="{{data && data.variety_line_code ? data.variety_line_code :''}}">{{data && data.line_variety_name
+                                                                    ? data.line_variety_name :''}}</option>
+                                                            </select> -->
+                                                <div class=" errorMessage"
+                                                    *ngIf="submitted || ngForm.controls['parental_line'].invalid && (ngForm.controls['parental_line'].dirty || ngForm.controls['parental_line'].touched)">
+                                                    <span
+                                                        *ngIf=" ngForm.controls['parental_line'].errors?.['required']">
+                                                        Please Select Parental Line.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-12 col-md-3 col-lg col-xl col-sm-12  pl-lg-0 pt-lg-4 mt-lg-3">
+                                        <button (click)="searchData(ngForm.value)"
+                                            class="form-button btn-inventory search w-100 d-inline-flex justify-content-center verticle-content-middle">Search</button>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <!-- d-none -->
+                            <div class="w-100 col-12 col-md-5 col-lg-5 col-xl-5 col-sm-12"
+                                *ngIf="isVarietyDetailsVisible">
+                                <div class="row d-none">
+                                    <div class="w-100 col-md-3 col-lg-3">
+                                        <b>Target Qty (National)</b>: {{response && response.total_quantity_national ?
+                                        response.total_quantity_national:0}}
+                                    </div>
+                                    <div class=" w-100 col-12 col-md-3 col-lg-3">
+                                        <b>Target Qty (Additional)</b>: {{response && response.total_quantity_direct ?
+                                        response.total_quantity_direct:0}}
+
+                                    </div>
+                                    <div class="w-100 col-12 col-md-3 col-lg-3">
+                                        <b>Total Target Qty</b>: {{response && response.total_targeted_quantity ?
+                                        response.total_targeted_quantity:0}}
+                                    </div>
+                                    <div class="w-100 col-12 col-md-3 col-lg-3">
+                                        <b>Unit</b>: {{unit}}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- </div>
+                    </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-12 col-lg-12   pl-2 pb-3 pt-0">
+
+            <!-- ------------------------------- INABILITY DATA --------------------------------------------------- -->
+            <div class="col-12 col-md-12 col-lg-12 pt-1 col-xl-12 pt-2" *ngIf="isVarietyClick">
+                <div class="row card-inventory form-group">
+                    <div class=" card-inventory col-12 col-md-12 col-lg-12 pt-1 col-xl-12 pt-2 pb-2  ">
+                        <div class="row d-md-flex card-monitoring  data-row-header">
+                            <div class="col-6 col-md-3 py-2 d-flex verticle-content-middle">Plot
+                                No.</div>
+                            <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">Report
+                            </div>
+                            <div class="col-6 col-md-2 py-2 d-flex verticle-content-middle">Expected Production Qty.
+                                ({{unit}})
+                                <!-- ({{unitValue ?
+                                unitValue:''}}) -->
+                            </div>
+                            <div class="col-6 col-md-2 py-2 d-flex verticle-content-middle">Estimated Production Qty.
+                                ({{unit}})
+                                <!-- ({{unitValue ?
+                                unitValue:''}}) -->
+                            </div>
+                            <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle  justify-content-center">Crop
+                                Failure</div>
+                            <div class="col-6 col-md-2 py-2 d-flex verticle-content-middle justify-content-center">
+                                Deficit qty. ({{unit}})
+                                <!-- Quantity ({{unitValue ?
+                                unitValue:''}}) -->
+                            </div>
+                            <!-- <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle">Variety Code</div> -->
+                        </div>
+                        <div formArrayName="bspc">
+                            <div *ngFor="let employee of bspc.controls; let i=index">
+                                <div [formGroupName]="i" class="row data-row2 px-3">
+                                    <div class="col-6 col-md-3 py-2   verticle-content-middle border-line">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none text-center">
+                                                <b>Plot No.</b>&nbsp;
+                                            </label>
+                                            <span>
+                                                <!-- {{data.variety_name}}
+                                                 {{ filterPaginateSearch.itemList[0]}} -->
+                                                <!-- <input type="text" class="table-input"
+                                                        formControlName="production_center" value=""
+                                                        [attr.disabled]="true"> -->
+
+                                                {{ngForm.controls['bspc']['controls'][i].controls['plot_no'].value}}
+                                                <!-- {{data && data.production_center ? data.production_center : ''}} -->
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-2 py-2  verticle-content-middle border-line">
+                                        <div class=" w-fit-content">
+                                            <label class="d-md-none text-center"><b>Report</b>&nbsp;</label>
+                                            <span>
+                                                {{ngForm.controls['bspc']['controls'][i].controls['reports'].value}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-6 col-md-2 py-2 d-flex justify-content-center align-items-center verticle-content-middle border-line">
+                                        <div class="w-100 d-flex justify-content-center">
+                                            <label class="d-md-none text-center"><b>Expected Production Qty.
+                                                    ({{unit}})</b>&nbsp;</label>
+                                            <span>
+                                                {{ngForm.controls['bspc']['controls'][i].controls['expected_production'].value
+                                                }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="col-6 col-md-2 py-2 d-flex justify-content-center align-items-center verticle-content-middle border-line">
+                                        <div class="w-100 d-flex justify-content-center">
+                                            <label class="d-md-none"><b>Estimated Production Qty.({{unit}})
+                                                </b>&nbsp;</label>
+
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                {{ngForm.controls['bspc']['controls'][i].controls['estimated_production'].value}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-6 col-md-1 py-2 d-flex justify-content-center align-items-center verticle-content-middle border-line">
+                                        <div class="w-fit-content form-group text-center">
+                                            <label class="d-md-none"><b>Crop Failure:</b>&nbsp;</label>
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                <label class="custom-checkbox-container">
+                                                    <input type="checkbox" formControlName="crop_failure"
+                                                        (change)="dificitQntUpdate($event,i)" value="" />
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-6 col-md-2 py-1 d-flex justify-content-center align-items-center verticle-content-middle border-line">
+                                        <div class="w-fit-content form-group text-center">
+                                            <label class="d-md-none"><b>Dificit Qty. ({{unit}})
+                                                </b>&nbsp;</label>
+                                            {{ngForm.controls['bspc']['controls'][i].controls['dificit_qnt'].value}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-12   pl-3 pb-2 pt-0" *ngIf="isVarietyClick">
+                <div class="co-12  ">
+                    <div class="row card-inventory">
+                        <div class="col-md-10   mb-1 mt-2 text-right" style="float: right; ">
+                            <b class=" mb-1 mt-2 text-right">Total Deficit ({{unit}})</b>
+                        </div>
+                        <div class="col-md-2   mb-1 mt-2 text-center justify-content-center"
+                            style="  border-radius: 5px;">
+                            <input class="form-control text-center" type="number" formControlName="total_dificit"
+                                value="" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- -------------------------------- FINISH INABILITY-------------------------------------------------- -->
+
+
+            <!-- ----------------- REALLOCATE ---------------------------------------- -->
+            <div class="col-12 col-md-12 col-lg-12 pt-1 col-xl-12 pt-2" *ngIf="isVarietyClick">
+                <div class="row card-inventory form-group">
+                    <div class="col-xl-12 pb-1 pl-2">
+                        <div class="row">
+                            <div>
+                                <label for="year" class="label-inventorys team_name mt-4 ml-4">Reallocate</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 px-3" formArrayName="reallocate">
+                        <div class="row cg form-group  ">
+                            <ng-container *ngFor="let ele of reallocate.controls; let i = index">
+                                <div [formGroupName]="i" class="col-xl-11 col-lg-11 col-md-11 col-12 pt-3 ">
+                                    <div class="row ">
+                                        <!-- bspc dropdown name -->
+                                        <div class="col-12 col-md-2 col-lg-2 col-xl-2 col-sm-6 ">
+                                            <div class="row pb-2">
+                                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                    <label for="year" class="label-inventorys required">BSPC</label>
+                                                </div>
+                                                <!-- -12 col-md-12 col-lg-12 col-lg-12 col-xl-12 -->
+                                                <!-- <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12"> -->
+                                                <!-- availableBSPCsconcat(getSelectedBSPC(i)) -->
+                                                <!-- getFilteredOptions(i)?getFilteredOptions(i) -->
+                                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                    <select class="form-control" (change)="bspcDetails($event,i,null)"
+                                                        formControlName="bspc_id">
+                                                        <option value="">Please Select</option>
+                                                        <option *ngFor="let bspc of getFilteredOptions(i)"
+                                                            [value]="bspc.bspc_id">
+                                                            {{ bspc.name }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                    <div ngbDropdown class="d-inline-block w-100">
+                                                        <button
+                                                            class="btn form-control takeplacholder w-100 crop toggle-button input-inventory" title="this.ngForm.controls['reallocate']['controls'][i].controls['bspc_id'].value.name ?this.ngForm.controls['reallocate']['controls'][i].controls['bspc_id'].value.name:''"
+                                                            ngbDropdownToggle style="text-align: left;" id="Bspclist">
+                                                            {{ this.ngForm.controls['reallocate']['controls'][i].controls['bspc_id'].value ? this.ngForm.controls['reallocate']['controls'][i].controls['bspc_id'].value.name :'Please Select'}}
+                                                            {{ selectBspc && (selectBspc.length > 30) ?
+                                                            (selectBspc.substring(0, 23) + '...') : selectBspc ?
+                                                            selectBspc : 'Select BSPC' }}
+                                                        </button>
+
+                                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop"
+                                                            aria-labelledby="Bspclist">
+                                                            <input type="text" class="form-control px-4"
+                                                                placeholder="Search BSPC" ()="filterBspcName($event,i)">
+                                                            (change)="bspcDetails($event, i, null)"
+                                                            <button class="dropdown-item"
+                                                                *ngFor="let bspc of getFilteredOptions(i)"
+                                                                (click)="bspcDetailsData($event,i,bspc);bspcDetails(null,i,bspc.bspc_id)">
+                                                                {{ bspc.name }}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                                        <i class="fa-solid fa-angle-down downicon"
+                                                            (click)="cClick1()"></i>
+                                                    </div>
+                                                </div> -->
+                                                <!-- <input type="text" class="form-control"
+                                                            formControlName="bspc_name" minlength="3" maxlength="50"
+                                                            placeholder="Enter Name"> -->
+                                                <!-- <div class="errorMsg"
+                                                            *ngIf="submitted || (ngForm.controls['reallocate']['controls'][i].controls['name'].touched)">
+                                                         
+                                                            <span class="text-danger pt-1"
+                                                                *ngIf="ngForm.controls['reallocate']['controls'][i].controls['name'].invalid">Accept
+                                                                min 3 and max 50 character</span>
+                                                        </div> -->
+                                                <!-- </div> -->
+
+                                            </div>
+
+                                        </div>
+
+                                        <!-- quantity of nucleus seed availability -->
+                                        <div class="col-12 col-md-3 col-lg-3 col-xl-3 col-sm-6">
+                                            <div class="row pb-2">
+                                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                    <label for="year" class="label-inventorys">Quantity of
+                                                        nucleus seed availability ({{unit}})</label>
+                                                </div>
+                                                <!-- -12 col-md-12 col-lg-12 col-lg-12 col-xl-12 -->
+                                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                    <input type="text" class="form-control disableButton"
+                                                        formControlName="nucleus_seed_available" placeholder="">
+                                                    <!-- <div class="errorMsg"
+                                                            *ngIf="submitted || (ngForm.controls['reallocate']['controls'][i].controls['name'].touched)">
+                                                           
+                                                            <span class="text-danger pt-1"
+                                                                *ngIf="ngForm.controls['reallocate']['controls'][i].controls['name'].invalid">Accept
+                                                                min 3 and max 50 character</span>
+                                                        </div> -->
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <!-- quantity of breeder seed availability -->
+                                        <div class="col-12 col-md-3 col-lg-3 col-xl-3 col-sm-6">
+                                            <div class="row pb-2">
+                                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                    <label for="year" class="label-inventorys">Quantity of
+                                                        breeder seed availability ({{unit}})</label>
+                                                </div>
+                                                <!-- -12 col-md-12 col-lg-12 col-lg-12 col-xl-12 -->
+                                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                    <input type="text" class="form-control disableButton"
+                                                        formControlName="breeder_seed_available" placeholder="">
+                                                    <!-- <div class="errorMsg"
+                                                            *ngIf="submitted || (ngForm.controls['reallocate']['controls'][i].controls['name'].touched)">
+                                                            <span class="text-danger pt-1"
+                                                                    *ngIf="ngForm.controls['bsp1Arr']['controls'][i].controls['name'].value.length>50">Accept
+                                                                    max 50 character</span>
+                                                            <span class="text-danger pt-1"
+                                                                *ngIf="ngForm.controls['reallocate']['controls'][i].controls['name'].invalid">Accept
+                                                                min 3 and max 50 character</span>
+                                                        </div> -->
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Permission for B/S to BS -->
+                                        <div class="col-12 col-md-2 col-lg-2 col-xl-2 col-sm-6">
+                                            <div class="row pb-2">
+                                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                    <label for="year" class="label-inventorys">Permission
+                                                        for B/S - B/S</label>
+                                                </div>
+                                                <div
+                                                    class="col-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-center align-items-center">
+                                                    <span style="cursor: pointer; word-break: break-word;"
+                                                        data-toggle="tooltip" data-placement="bottom" title="">
+                                                        <label class="custom-checkbox-container">
+                                                            <!-- Enlarged and styled checkbox -->
+                                                            <input type="checkbox"
+                                                                formControlName="bs_to_bs_permission">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Assign target -->
+                                        <div class="col-12 col-md-2 col-lg-2 col-xl-2 col-sm-6">
+                                            <div class="row pb-2">
+                                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                    <label for="year" class="label-inventorys required">Assign
+                                                        target Qty. ({{unit}})</label>
+                                                </div>
+                                                <!-- -12 col-md-12 col-lg-12 col-lg-12 col-xl-12 -->
+                                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                                    <input type="text" class="form-control"
+                                                        formControlName="assign_target" placeholder="Enter Name">
+                                                    <!-- <div class="errorMsg"
+                                                            *ngIf="submitted || (ngForm.controls['reallocate']['controls'][i].controls['name'].touched)">
+                                                            <span class="text-danger pt-1"
+                                                                    *ngIf="ngForm.controls['bsp1Arr']['controls'][i].controls['name'].value.length>50">Accept
+                                                                    max 50 character</span>
+                                                            <span class="text-danger pt-1"
+                                                                *ngIf="ngForm.controls['reallocate']['controls'][i].controls['name'].invalid">Accept
+                                                                min 3 and max 50 character</span>
+                                                        </div> -->
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- *ngIf="reallocate.controls.length==i+1" -->
+                                <div class="col-xl-1 col-lg-1 pl-md-0 pl-xl-3 mt-lg-4 col-md-1 pt-3 col-12">
+                                    <button *ngIf="ngForm.controls['total_dificit'].value >= assignTargetValues"
+                                        class="list-action-buttons-second    " style="cursor: pointer;"
+                                        (click)="addMore(i,'bspc_remove',ngForm.controls['reallocate']['controls'][i].controls['bspc_id'].value);getFilteredOptions(i)">
+                                        <img src="assets/images/Add.png">
+                                    </button>
+                                    <button *ngIf="reallocate.controls.length!=1 "
+                                        class="list-action-buttons-second ml-lg-3 mt-md-2 " style="cursor: pointer;"
+                                        (click)="remove(i)">
+                                        <img src="assets/images/delete.png">
+                                    </button>
+                                </div>
+                            </ng-container>
+
+
+                            <div class="col-12 pt-3 pb-2 buttons-phone">
+                                <div class="row">
+                                    <div class="col-xl-2 col-md-6 col-12">
+                                        <button style="border: 2px solid #B64B1D;" (click)="cancelData()"
+                                            class=" search btn-inventory-cancel w-100    d-inline-flex justify-content-center verticle-content-middle mb-3">Cancel</button>
+                                    </div>
+                                    <div class="col-xl-2 pl-lg-0 col-md-6 col-12">
+                                        <button (click)="saveData()"
+                                            class="w-100   text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3">{{is_update
+                                            ? 'Update':'Save'}}</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="px-2 py-3 w-100" style="height: 50px;">
+                    <div class="d-flex verticle-content-middle justify-content-center w-100">
+                        No Data Found.
+                    </div>
+                </div> -->
+            </div>
+            <!-- ----------------- FINISH REALLOCATE --------------------------------- -->
+
+        </div>
+        <!-- *ngIf="isInability" -->
+        <!--section 3  -->
+        <div class="col-12 col-md-12 col-lg-12 title-inventory pb-3 pt-0" *ngIf="isInabilityTable">
+            <!--  Second Card ui -->
+            <div class="col-12 mt-2">
+                <div class="row card-inventory form-group">
+                    <div *ngIf="tableData && tableData.length>0"
+                        class="col-12 mt-2 pt-2 col-md-12 col-lg-12 float-right d-none" title="download-pdf">
+                        <button (click)="download()" class="float-right"
+                            style="outline: none;background: none;border:none"><i class="fas fa-file-pdf"
+                                style="font-size:30px;color:red"></i></button>
+                    </div>
+                    <div class="col-12 pt-3">
+                        <div class="row data-row">
+                            <table class="table table-responsive">
+                                <thead>
+                                    <tr class="data-row-header">
+                                        <th scope="col"
+                                            class="py-2 text-white verticle-content-middle heading datalist">S.No.</th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white verticle-content-middle heading datalist">
+                                            Variety</th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white verticle-content-middle heading datalist">
+                                            Total Deficit ({{unit}})</th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white verticle-content-middle heading datalist">
+                                            Reallocated to<br>(Bspc Name)</th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white verticle-content-middle heading datalist">
+                                            Assigned Target ({{unit}})</th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white verticle-content-middle heading datalist">BS
+                                            to BS Permission</th>
+                                        <th scope="col" style="min-width:8em;"
+                                            class="col-md-1 py-2 text-white verticle-content-middle heading datalist">
+                                            Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-bordered">
+                                    <ng-container *ngFor="let data of tableData; let dataIndex=index">
+                                        <tr *ngFor="let bspc of data.bspc_reallocate_data; let bspcIndex=index">
+                                            <!-- S.No. -->
+                                            <td class="datalist" *ngIf="bspcIndex == 0"
+                                                [attr.rowspan]="data.bspc_reallocate_data.length">{{dataIndex + 1}}</td>
+
+                                            <!-- Variety -->
+                                            <td class="datalist" *ngIf="bspcIndex == 0"
+                                                [attr.rowspan]="data.bspc_reallocate_data.length">{{ data.variety_name ?
+                                                data.variety_name:'NA'
+                                                }} <br>
+                                                <span *ngIf="data && data.variety_line_name">Parental Line:{{
+                                                    data.variety_line_name ? data.variety_line_name:'NA'
+                                                    }}</span>
+                                            </td>
+
+                                            <!-- Total Deficit -->
+                                            <td class="datalist" *ngIf="bspcIndex == 0"
+                                                [attr.rowspan]="data.bspc_reallocate_data.length">{{ data.total_dificit
+                                                }}</td>
+
+                                            <!-- Bspc Name -->
+                                            <td>{{ bspc && bspc['user.agency_detail.agency_name'] || 'N/A' }}</td>
+
+                                            <!-- Allocation -->
+                                            <td>{{ bspc.target_qunatity || 'N/A' }}</td>
+
+                                            <!-- BS to BS Permission -->
+                                            <td>{{ bspc.isPermission ? 'Yes' : 'N/A' }}</td>
+
+                                            <!-- Actions -->
+                                            <td class="datalist" *ngIf="bspcIndex == 0"
+                                                [attr.rowspan]="data.bspc_reallocate_data.length">
+                                                <div
+                                                    class="list-action-buttons-wrapper w-fit-content phone_view_action_btn">
+                                                    <button class="list-action-buttons"
+                                                        [ngClass]="(is_update || data.is_freezed) ? 'disableButton':''"
+                                                        style="cursor: pointer;" (click)="editDataForm(data)">
+                                                        <img src="assets/images/Vector.svg">
+                                                    </button>
+                                                    <button class="list-action-buttons" style="cursor: pointer;"
+                                                        [ngClass]="(is_update || data.is_freezed) ? 'disableButton':''"
+                                                        (click)="delete(data.id)">
+                                                        <img src="assets/images/Vector_delete.svg">
+                                                    </button>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                                <tbody *ngIf="tableData && tableData.length < 1">
+                                    <tr>
+                                        <td colspan="8" style="text-align: center;">No Data Found</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row my-4 w-100 mx-0   d-none">
+                <div class="col-12 d-flex justify-content-center verticle-content-middle" id="pdf-tables">
+                    <!-- <app-dynamic-fields [fieldsList]="fieldsList" [formGroup]="formGroup"></app-dynamic-fields> -->
+                    <div *ngIf="showGrid && tableData && tableData.length > 0"
+                        class="main-content-form-wrapper px-4 py-2">
+                        <br>
+                        <div class="row pl-0 data-row-header " style="margin: 0 1em;">
+                            <div class="col-3 py-3 d-flex verticle-content-middle">
+                                Year of Indent : {{ngForm.controls['year'].value}}-{{
+                                ((ngForm.controls['year'].value % 100) + 1) < 10 ? '0' : '' }}{{
+                                    (ngForm.controls['year'].value % 100) + 1 }} </div>
+                                    <div class="col-3 py-3 d-flex verticle-content-middle">Season :
+                                        {{ngForm.controls['season'].value ?
+                                        (ngForm.controls['season'].value.trim()==='O') ? "Others" :
+                                        (ngForm.controls['season'].value.trim()==='R') ? "Rabi" :
+                                        (ngForm.controls['season'].value.trim()==='K') ? "Kharif"
+                                        :
+                                        (ngForm.controls['season'].value.trim()==='S') ? "Summer" :"NA" :'NA'}}
+
+                                    </div>
+
+                                    <div class="col-3 py-3 d-flex verticle-content-middle">Crop Name :
+                                        {{selectCrop?selectCrop:''}}
+                                    </div>
+                                    <div class="col-3 float-right justify-content-end py-3 d-flex verticle-content-middle"
+                                        style="padding-left: 2em;white-space: nowrap;">As on Date : {{todayDate |
+                                        date:"dd-MM-YYYY"}}</div>
+                            </div>
+
+                            <div class="col-12 pt-3">
+                                <div class="row data-row">
+                                    <table class="table table-responsive">
+                                        <thead>
+                                            <tr class="data-row-header">
+                                                <th scope="col"
+                                                    class=" py-2 text-white  verticle-content-middle heading datalist"
+                                                    style="white-space:pre">
+                                                    S.No.
+                                                </th>
+                                                <th scope="col"
+                                                    class="col-md-2 py-2 text-white  verticle-content-middle heading datalist">
+                                                    Variety
+                                                </th>
+                                                <th scope="col"
+                                                    class="col-md-2 py-2 text-white  verticle-content-middle heading datalist">
+                                                    Seed Produced
+                                                </th>
+                                                <th scope="col"
+                                                    class="col-md-2 py-2 text-white  verticle-content-middle heading datalist">
+                                                    Land Details
+                                                </th>
+                                                <th scope="col"
+                                                    class="col-md-2 py-2 text-white  verticle-content-middle heading datalist ">
+                                                    Actual Harvest Date
+                                                </th>
+                                                <th scope="col"
+                                                    class="col-md-2 py-2 text-white  verticle-content-middle heading datalist">
+                                                    Raw Seed Produced ({{unit}})
+                                                </th>
+                                                <th scope="col"
+                                                    class="col-md-2 py-2 text-white  verticle-content-middle heading datalist">
+                                                    Number of Bags
+                                                </th>
+                                                <th scope="col"
+                                                    class="col-md-1 py-2 text-white  verticle-content-middle heading datalist"
+                                                    style="min-width: 8em;">
+                                                    Bag Marka
+                                                </th>
+                                                <th scope="col"
+                                                    class="col-md-2 py-2 text-white  verticle-content-middle heading datalist"
+                                                    style="min-width: 8em;">
+                                                    Seed Processing Plant
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody class="table-bordered">
+                                            <ng-container *ngFor="let data of tableData; let dataIndex=index">
+                                                <ng-container *ngFor="let item of data.plotDetails; let plotIndex=index"
+                                                    class="row data-row">
+                                                    <tr>
+                                                        <td class="datalist" *ngIf="plotIndex==0"
+                                                            [attr.rowspan]="data.totalPlot">
+                                                            {{dataIndex +1}}
+                                                        </td>
+                                                        <td class="datalist" *ngIf="plotIndex==0"
+                                                            [attr.rowspan]="data.totalPlot">{{
+                                                            data && data.variety_name &&
+                                                            (data.variety_name.length>30)?
+                                                            (data.variety_name.substring(0,30)+'...') :data &&
+                                                            data.variety_name ? data.variety_name :'NA'
+                                                            }} <br>
+                                                            <span>Parental Line: <b
+                                                                    style="font-weight: bold !important;">{{ data &&
+                                                                    data.line_variety_name ? data.line_variety_name
+                                                                    : 'NA'}}</b></span>
+                                                        </td>
+                                                        <td>
+                                                            {{item && item.class_of_seed_harvested ?
+                                                            item.class_of_seed_harvested : item &&
+                                                            item.seed_class_id
+                                                            ?getBreederData(item.seed_class_id,item.stage_id):'NA'}}
+                                                            <!-- Breeder Seed I -->
+                                                        </td>
+                                                        <td style="font-weight: 500">
+                                                            <span>Plot Code: <b style="font-weight: bold !important;">{{
+                                                                    item &&
+                                                                    item.plot_code ? item.plot_code :
+                                                                    'NA'}}</b></span><br>
+                                                            <span>Address: <b style="font-weight: bold !important;">
+                                                                    {{item &&
+                                                                    item.address ? item.address : 'NA'}}
+                                                                </b></span><br>
+                                                            <span>District: <b style="font-weight: bold !important;">
+                                                                    {{item &&
+                                                                    item.district_name ? item.district_name : 'NA'}}
+                                                                </b></span><br>
+                                                            <span>State: <b style="font-weight: bold !important;">
+                                                                    {{item &&
+                                                                    item.state_name ? item.state_name : 'NA'}}
+                                                                </b></span><br>
+                                                        </td>
+                                                        <td>
+                                                            {{item && item.actual_harvest_date ?
+                                                            (item.actual_harvest_date
+                                                            |date:'dd/MM/YYYY') :'NA'}}
+                                                        </td>
+                                                        <td>
+                                                            {{item && item.raw_seed_produced ?
+                                                            item.raw_seed_produced :'NA'}}
+                                                        </td>
+                                                        <td>
+                                                            {{item && item.no_of_bags ? item.no_of_bags :'NA'}}
+                                                        </td>
+                                                        <td class="datalist">
+                                                            {{item && item.bag_marka ? item.bag_marka : ""}}
+                                                        </td>
+                                                        <td class="datalist">
+
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+                                            </ng-container>
+                                        </tbody>
+                                        <tbody *ngIf="tableData && tableData.length<1">
+                                            <tr>
+                                                <td colspan="8" style="text-align: center;">No Data Found</td>
+                                                <td colspan="4"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </div> -->
+</form>

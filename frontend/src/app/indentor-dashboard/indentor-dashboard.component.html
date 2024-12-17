@@ -1,0 +1,368 @@
+<div class="container-fluid d-none">
+    <div class="pt-2">
+        <div class="card">
+            <div class="col-12 pt-3">
+                <form [formGroup]="ngForm">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12 mt-md-0 mt-3">
+                            <label for="" class="left-heading required">Crop Type</label>
+                            <select formControlName="crop_type" class="form-control">
+                                <option value="">Select Crop Type</option>
+                                <option value="A" selected>Agriculture</option>
+                                <option value="H">Horticulture</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-12 mt-md-0 mt-3">
+                            <label for="" class="left-heading required">Year of Indent</label>
+                            <select formControlName="year_of_indent" class="form-control">
+                                <option value="" selected>Select Year of Indent</option>
+                                <option *ngFor="let year of yearOfIndent" value="{{year.year}}">
+                                    {{year.year}}-{{(year.year+1)-2000}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-12 mt-md-0 mt-3">
+                            <label for="" class="left-heading required">Season</label>
+                            <select formControlName="season" class="form-control crop_input" style="min-width: 10em;">
+                                <option value="">Select Season</option>
+                                <option *ngFor="let data of seasonList;" value="{{data && data.season_code}}">{{data
+                                    && data.season}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-12 mt-md-0 mt-3">
+                            <label for="" class="left-heading">Crop Name</label>
+                            <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="distinctCrop"
+                                [(ngModel)]="crop_name" formControlName="crop_name" [placeholder]="'Select Crop Name'">
+                                <!-- (keydown)="keyPressedOnMultiDropdown($event)"
+                            (onDropDownClose)="ngClearMultiSelectSelection()" -->
+                            </ng-multiselect-dropdown>
+                            <!-- <select formControlName="crop_name" class="form-control crop_input"
+                                style="min-width: 10em;">
+                                <option value="">Select Crop Name</option>
+                                <option value="all_crop">All Crop</option>
+                                <option value="cumulative">Cumulative</option>
+                                <ng-container *ngFor="let data of distinctCrop;">
+                                    <option *ngFor="let val of data" value="{{val && val.crop_code}}">{{val &&
+                                        val.crop_name}}
+                                    </option>
+                                </ng-container>
+                            </select> -->
+                        </div>
+                        <!-- <div class="col-lg-2 col-md-12 py-3 pl-0 ">
+                                <div class="col-lg-12 col-12">
+                                    <span class="card_title">Variety</span>
+                                </div>
+                                <div class="col-lg col-sm-12">
+                                    <select formControlName="variety" class="form-control variety">
+                                        <option value="">Select Variety</option>
+                                        <option *ngFor="let data of variety" value="{{data && data.m_crop_variety && data.m_crop_variety.id}}">{{data && data.m_crop_variety && data.m_crop_variety.variety_name}}</option>
+                                    </select>
+                                </div>
+                            </div> -->
+                    </div>
+                    <div class="col-12 mt-3 pl-lg-0 pl-2 buttons-phone dash_buttons-phone pb-3">
+
+                        <button (click)="onSubmit(ngForm.value)"
+                            class="form-button search d-inline-flex justify-content-center verticle-content-middle">
+                            <span class="">Search</span>
+                        </button>
+                        <button (click)="clear(ngForm.value)"
+                            class="clear-form-button ml-3 mt-2 d-inline-flex justify-content-center verticle-content-middle">
+                            <span class="">Clear</span>
+                        </button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mt-4 ">
+            <div class="card cropCard">
+                <div class="col-12">
+                    <span class="card-title">Total No. of Crops</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7 ">
+                        <span class="noOfcrop mx-2">{{count?count.crop_code:0}}</span>
+                    </div>
+                    <div class="col-4  text-center">
+                        <div class="row justify-content-end">
+                            <div class="myDiv01">
+                                <img src="../../../assets/images/cropCard.svg" alt="" srcset=""
+                                    class=" cropCard_image01 pl-0 " style="opacity: 1;" style="margin-top:-5em;">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Second Number -->
+        <div class="col mt-4">
+            <div class="card notified_varities">
+                <div class="col-12">
+                    <span class="card_notified_title">Total No. of Notified Varieties</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7 ">
+                        <!-- 176 -->
+                        <span class="noOfVarieties mx-2">{{count?count.variety_id:0}}</span>
+                    </div>
+                    <div class="col-4  text-center">
+                        <div class="row justify-content-end">
+
+                            <div class="myDiv02">
+                                <img src="../../../assets/images/bell.svg" alt="" srcset=""
+                                    class=" cropCard_image01 pl-0 " style="opacity: 1;" style="margin-top:-5em;">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- third -->
+        <div class="col mt-4">
+            <div class="card card_of_indentors">
+                <div class="col-12">
+                    <span class="card-title-Indentors">Total Indent Quantity</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7">
+                        <!-- 176 -->
+                        <span class="noOfIndentor mx-2">{{count?(count.indent_quantity | number:'1.2-2'):0}}</span>
+                        <span class="mx-1">{{unit}}</span>
+                    </div>
+                    <div class="col-4  text-center indentorrow">
+                        <div class="row justify-content-end ">
+                            <div class="myDiv03">
+                                <img src="../../../assets/images/indent_2.svg" alt="" srcset=""
+                                    class=" cropCard_image01 pl-0 " style="opacity: 1;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- fouth -->
+        <div class="col mt-4">
+            <div class="card ICARCard">
+                <div class="col-12">
+                    <span class="card-title-Icar">Total Lifted</span>
+                </div>
+                <div class="row pt-4 px-1 ">
+
+                    <div class="col-7 ">
+                        <!-- 176 -->
+                        <span class="total_qty">
+                            {{totalLifted && totalLifted[0] &&
+                            totalLifted[0].lifting_quantity?(totalLifted[0].lifting_quantity | number:'1.2-2'):0}}
+                        </span>
+                        <span>
+
+                            {{unit}}
+                        </span>
+                    </div>
+                    <div class="col-4 text-center">
+                        <div class="row justify-content-end">
+
+                            <div class="myDiv04">
+                                <img src="../../../assets/images/layer1.svg" alt="" srcset=""
+                                    class=" cropCard_image01 pl-0 " style="opacity: 1;" style="margin-top:-5em">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <div class="row pt-3 pl-1 no-gutters inden_dash_no-gutters">
+        <div class="col-lg-2">
+            <span class="title">Total Crops:
+                <span class="total_qty">{{count?count.crop_code:0}}</span>
+            </span>
+        </div>
+        <div class="col-lg-2">
+            <span class="title">Total Varieties:
+                <span class="total_qty">{{count?count.variety_id:0}}</span>
+            </span>
+        </div>
+        <div class="col-lg-3">
+            <span class="title">Total Indent Quantity:
+                <span class="total_qty">{{count?(count.indent_quantity | number:'1.2-2'):0}}</span><span
+                    class="mx-1">{{unit}}</span></span>
+        </div>
+        <div class="col-lg-3">
+            <span class="title">Total Lifted:
+                <span class="total_qty">
+                    {{totalLifted && totalLifted[0] &&
+                    totalLifted[0].lifting_quantity?(totalLifted[0].lifting_quantity | number:'1.2-2'):0}}
+                </span>
+                {{unit}}</span>
+        </div>
+    </div> -->
+
+    <div class="col-12 pb-4 pt-3 pl-0 px-0 ">
+        <div class="col-12 pl-0 pr-0 pt-3 table-responsive">
+            <table class="table">
+                <thead
+                    style="background: #E97E15 0% 0% no-repeat padding-box;
+                    border-radius: 10px 10px 0px 0px;opacity: 1;text-align: left;font: normal Poppins 400 16px/20px;letter-spacing: 0px;color: #FFFFFF;opacity: 1;">
+                    <tr>
+                        <th>Indent Year</th>
+                        <th>Season</th>
+                        <th>Crop Name</th>
+                        <th>Variety</th>
+                        <th>Status of Indent</th>
+                        <th>Status of Allotment</th>
+                        <th>Status of Lifting</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let data of indentData">
+                    <tr *ngIf="chooseYearCrop">
+                        <td>{{data.year}}-{{(data.year+1)-2000}}</td>
+                        <td>{{data && data.season && (data.season == 'K')?'Kharif':(data.season == 'R')?'Rabi':'All
+                            Season'}}</td>
+                        <td>{{data && data.m_crop && data.m_crop.crop_name?data.m_crop.crop_name:'All Crop'}}</td>
+                        <td>{{data && data.m_crop_variety &&
+                            data.m_crop_variety.variety_name?data.m_crop_variety.variety_name:'All Variety'}}</td>
+                        <td>Completed</td>
+                        <td>{{data && data.bsp_1 && data.bsp_1?'Completed':'Pending'}}</td>
+                        <td>{{data && data.bsp_5_b && data.bsp_5_b?'Completed':'Pending'}}</td>
+                    </tr>
+                </tbody>
+                <ng-container *ngFor="let data of indentYear">
+                    <ng-container *ngFor="let val of data.season">
+                        <tr *ngIf="allCombileData">
+                            <td>{{data.year}}-{{(data.year+1)-2000}}</td>
+                            <td>{{val && (val == 'K')?'Kharif':(val == 'R')?'Rabi':''}}</td>
+                            <td>All Indent Crops</td>
+                            <td>All Indent Variety</td>
+                            <td>Completed</td>
+                            <td>{{isBsp1Completed}}</td>
+                            <td>{{isBsp5Completed}}</td>
+                        </tr>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngFor="let data of indentYear">
+                    <ng-container *ngFor="let val of data.season">
+                        <ng-container *ngFor="let cropVal of data.crop_name">
+                            <tr *ngIf="chooseOnlyYear">
+                                <td>{{data.year}}-{{(data.year+1)-2000}}</td>
+                                <td>{{val && (val == 'K')?'Kharif':(val == 'R')?'Rabi':''}}</td>
+                                <td>{{cropVal && cropVal?cropVal:''}}</td>
+                                <td>All Indent Variety</td>
+                                <td>Completed</td>
+                                <td>{{isBsp1Completed}}</td>
+                                <td>{{isBsp5Completed}}</td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+                <tr *ngIf="notFound">
+                    <td colspan="8">
+                        <h4 class="text-danger text-center">No Data Found</h4>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="card" style=" border-radius: 10px 10px 0px 0px;">
+            <div class="col-12" style="background: #E97E15 0% 0% no-repeat padding-box; opacity: 1;">
+                <div class="row pb-2 pt-2 chart_heading1">
+                    <div class="col-md-3 chart_item1">
+                        <span class="chart_title" style="font-weight: 600;">Indent Quantity and Lifting</span>
+                    </div>
+                    <div class="col-md-2 chart_item1" *ngIf="isYear">
+                        <span class="chart_title">Year: </span>
+                        <span *ngIf="year" class="text-white">
+                            {{year}}-{{(year-2000)+1}}
+                        </span>
+                    </div>
+                    <div class="col-md-2 chart_item1" *ngIf="isSeason">
+                        <span class="chart_title">Season: {{(season == 'K')?'Kharif':(season ==
+                            'R')?'Rabi':''}}</span>
+                    </div>
+                    <div class="col-md-2 chart_item1" *ngIf="isCropName">
+                        <span class="chart_title">Crop Name:
+                            {{(ngForm.controls['crop_name'].value)?getCropName(ngForm.controls['crop_name'].value):''}}</span>
+                    </div>
+                    <div class="col-md-2 chart_item1">
+                        <span class="chart_title"> As on Date: {{newtodayDate}}</span>
+                    </div>
+                    <div class="col-md-1 chart_item1">
+                        <span class="chart_title"> Unit: {{units}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 pt-2">
+                <div class="row pl-3 chart_icon_items1">
+                    <div class=" square "></div>
+                    <div class="col-lg-2 col-12 pl-0 chart_text_items1">
+                        <span class="pl-2">Indent Quantity</span>
+                    </div>
+                    <div class=" square_breeder_seed "></div>
+                    <div class="col-lg-3 col-12 pl-0 chart_text_items1">
+                        <span class="pl-2" style="white-space: nowrap;">Breeder Seed Allocated for Lifting</span>
+                    </div>
+                    <div class=" square_breeder_seed_left "></div>
+                    <div class="col-lg-2 col-12 pl-0 chart_text_items1">
+                        <span class="pl-2" style="white-space: nowrap;">Breeder Seed Lifting</span>
+                    </div>
+                    <div class="col-lg-2 col-12 pl-0 chart_text_items1"></div>
+                    <!-- <div class="col-lg-2 col-md-12 chart_text_items1"> -->
+                        <div class="col-lg-2 col-12 ">
+                            <form [formGroup]="ngForm">
+                                <div class="col-lg col-sm-12 py-1">
+                                    <select id="cars" [(ngModel)]="cropFilterData" class="form-control"
+                                        formControlName="crop_name_graph"
+                                        (change)="graphShowHiddenFunctionality($event)">
+                                        <option value="all_crop">All Crops</option>
+                                        <!-- <ng-container *ngFor="let data of graphFilterCrop;"> -->
+                                        <option *ngFor="let val of graphFilterCrop" value="{{val && val.crop_code}}">
+                                            {{val &&
+                                            val.crop_name ? val.crop_name :''}}
+                                        </option>
+                                        <!-- </ng-container> -->
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+            <div [hidden]="showVariety" id="container">
+
+            </div>
+            <div [hidden]="!showVariety" id="variety-container">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-inventory row my-4 w-90 py-1">
+
+<div class="container">
+<div class="row align-items-center vh-100">
+<div class="col-12 mx-auto">
+<div >
+<div class="card-body d-flex flex-column align-items-center">
+<h2> Will be live soon!</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>

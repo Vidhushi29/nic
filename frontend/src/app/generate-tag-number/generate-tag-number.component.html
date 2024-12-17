@@ -1,0 +1,1230 @@
+<div class="main-inventory">
+    <div class="row">
+        <!-- dropdown.component.html -->
+
+
+        <div class="col-12 col-md-12 col-lg-12 title-inventory pl-2 pb-3 pt-0">
+            Generating Tag Number for Packing of Lots
+
+
+            <form [formGroup]="ngForm">
+                <div class="co-12 px-3">
+                    <div class="row card-inventory">
+                        <!-- first card ui  -->
+                        <div class="col-12 col-md-12 col-lg-11">
+                            <div class="row">
+                                <!-- year of indent -->
+                                <div class="col-12 col-md-12 col-lg col-xl  col-sm-12 ">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="year" class="left-heading required">Year of
+                                                Indent</label>
+                                        </div>
+                                        <div class="col-12 ">
+                                            <select class=" form-control input-inventory w-100 " formControlName="year"
+                                                [ngClass]=" editData ? 'disableButton' : ''">
+                                                <option value="">Select Year</option>
+                                                <option *ngFor="let year of yearData"
+                                                    value="{{year && year.value ? year.value :''}}">
+                                                    {{ year.value }}-{{ ((year.value % 100) + 1) < 10 ? '0' : '' }}{{
+                                                        (year.value % 100) + 1 }} </option>
+                                            </select>
+                                            <div class=" errorMessage"
+                                                *ngIf="submitted || ngForm.controls['year'].invalid && (ngForm.controls['year'].dirty || ngForm.controls['year'].touched)">
+                                                <span *ngIf=" ngForm.controls['year'].errors?.['required']">
+                                                    Please Select Year.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Season  -->
+                                <div class="col-12 col-md-12 col-lg col-xl col-sm-12 ">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-lg-0">
+                                            <label for="season" class="left-heading required">Season</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-lg-0">
+                                            <select class=" form-control input-inventory" formControlName="season"
+                                                [ngClass]=" editData ? 'disableButton' : ''">
+                                                <option value="">Please Select Season</option>
+                                                <option *ngFor="let data of seasonlist"
+                                                    [value]="data && data.value && data.value ? data.value :''">
+                                                    {{data && data.value && data.value=='K' ? 'Kharif':
+                                                    'Rabi'}}</option>
+
+                                            </select>
+                                            <div class=" errorMessage"
+                                                *ngIf="submitted || ngForm.controls['season'].invalid && (ngForm.controls['season'].dirty || ngForm.controls['season'].touched)">
+                                                <span *ngIf=" ngForm.controls['season'].errors?.['required']">
+                                                    Please Select Season.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- crop -->
+                                <div class="col-12 col-md-12 col-lg col-xl col-sm-12 ">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-lg-0">
+                                            <label for="year" class="left-heading required">Crop</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-lg-0">
+                                            <div ngbDropdown class="d-inline-block w-100"
+                                                [ngClass]="!ngForm.controls['season'].value || editData ? 'disableButton' : ''">
+                                                <button
+                                                    class="btn takeplacholder w-100 crop toggle-button input-inventory"
+                                                    [disabled]="!ngForm.controls['season'].value" id="crop"
+                                                    [title]="selectCrop ? selectCrop :''" ngbDropdownToggle
+                                                    style="text-align: left;">
+                                                    {{ selectCrop && (selectCrop.length > 30) ?
+                                                    (selectCrop.substring(0,23)
+                                                    + '...') : selectCrop ? selectCrop : 'Select Crop' }}
+                                                </button>
+
+                                                <div class="dropdown-menu w-100" ngbDropdownMenu="crop"
+                                                    aria-labelledby="sortMenu">
+                                                    <input type="text" class="form-control px-4"
+                                                        formControlName="crop_text" placeholder="Search Crop">
+                                                    <button class="dropdown-item" *ngFor="let item of cropData"
+                                                        (click)="crop(item)" #dropdownItem
+                                                        [attr.data-parent-name]="'crop'">
+                                                        {{ item && item.crop_name ? item.crop_name : '' }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="pl-0 toggle-button" ngbDropdown
+                                                [ngClass]="!ngForm.controls['season'].value || editData ? 'disableButton' : ''">
+                                                <i class="fa-solid fa-angle-down downicon" (click)="cClick()"></i>
+                                            </div>
+                                            <div class=" errorMessage"
+                                                *ngIf="submitted || ngForm.controls['crop'].invalid && (ngForm.controls['crop'].dirty || ngForm.controls['crop'].touched)">
+                                                <span *ngIf="ngForm.controls['crop'].errors?.['required']">
+                                                    Please Select Crop Name.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <!-- searh button -->
+
+                            </div>
+                        </div>
+                        <!-- (click)="searchData(ngForm.value)" -->
+                        <div class="col-12 col-md-12 col-lg-1 col-xl-1 col-sm-12  pl-lg-0 pt-lg-4 mt-lg-3 pt-2">
+                            <button (click)="searchData()"
+                                class="form-button btn-inventory search w-100 d-inline-flex justify-content-center verticle-content-middle">Search</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-12 mt-2" *ngIf="showLotPageData">
+                    <div class="row card-inventory form-group">
+                        <div class="col-12 mt-2 pt-2 col-md-12 col-lg-12 float-right">
+
+                            <div class="row pb-3">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <span class="card-title">Lot Details</span><br>
+
+                                            <span class="datalist">Variety: <b class="font-weight-bold">{{gridData &&
+                                                    gridData.variety_name ? gridData.variety_name:'NA' }}</b></span><br>
+                                            <span class="datalist">Parental Line: <b class="font-weight-bold">{{gridData
+                                                    &&
+                                                    gridData.line_variety_name ? gridData.line_variety_name:'NA'
+                                                    }}</b></span><br>
+                                            <span class="datalist">Lot No: <b class="font-weight-bold">{{lotData &&
+                                                    lotData.lot_no ? lotData.lot_no:lotData && lotData.lot_no_stl ?
+                                                    lotData.lot_no_stl:'NA' }}</b></span><br>
+                                            <span class="datalist">Class of Seed: <b class="font-weight-bold">{{lotData
+                                                    && lotData.class_of_seed ?
+                                                    lotData.class_of_seed:'NA' }}</b></span><br>
+                                            <span class="datalist"
+                                                *ngIf="lotData  && lotData.action && lotData.action==1">Lot Quantity
+                                                ({{unit}}): <b class="font-weight-bold">{{lotData &&
+                                                    lotData.total_processed_qty ? lotData.total_processed_qty:'NA'
+                                                    }}</b></span><br
+                                                *ngIf="lotData &&lotData.action && lotData.action==1">
+                                            <span class="datalist" *ngIf="lotData && lotData.action==2">Lot Quantity
+                                                ({{unit}}): <b class="font-weight-bold">{{lotData &&
+                                                    lotData.total_recover_qty ? lotData.total_recover_qty:'NA'
+                                                    }}</b></span><br *ngIf="lotData && lotData.action==2">
+                                            <span class="datalist" *ngIf="lotData && lotData.action==3">Lot Quantity
+                                                ({{unit}}): <b class="font-weight-bold">{{lotData &&
+                                                    lotData.lot_qty ? lotData.lot_qty:'NA'
+                                                    }}</b></span><br *ngIf="lotData && lotData.action==3">
+                                            <span class="datalist"
+                                                *ngIf="lotData &&lotData.action && lotData.action==1">No of Bags: <b
+                                                    class="font-weight-bold">{{lotData &&
+                                                    lotData.totalBags ? (lotData.totalBags):'NA' }}</b></span><br
+                                                *ngIf="lotData &&lotData.action && lotData.action==1">
+                                            <span class="datalist"
+                                                *ngIf="lotData && lotData.action && (lotData.action==2||lotData.action==3)">No
+                                                of Bags: <b class="font-weight-bold">{{lotData &&
+                                                    lotData.no_of_bags_register ? (lotData.no_of_bags_register):'NA'
+                                                    }}</b></span><br
+                                                *ngIf="lotData && lotData.action && (lotData.action==2||lotData.action==3)">
+
+                                            <span class="datalist" *ngIf="lotData && lotData.action==1">Godown No: <b
+                                                    class="font-weight-bold">
+                                                    {{lotData &&
+                                                    lotData.godownNoStack ?
+                                                    (convertToString(lotData.godownNoStack)?convertToString(lotData.godownNoStack):'NA')
+                                                    :'NA'}}
+                                                </b></span><br *ngIf="lotData && lotData.action==1">
+                                            <span class="datalist"
+                                                *ngIf="lotData && lotData.action && (lotData.action==2||lotData.action==3)">Godown
+                                                No: <b class="font-weight-bold">
+                                                    {{lotData &&
+                                                    lotData.godown_no_register ?
+                                                    (lotData.godown_no_register) :''}}
+                                                </b></span><br
+                                                *ngIf="lotData && lotData.action && (lotData.action==2||lotData.action==3)">
+                                            <span class="datalist"
+                                                *ngIf="lotData &&lotData.action && lotData.action==1">Stack No: <b
+                                                    class="font-weight-bold">{{lotData &&
+                                                    lotData.stack_no_stack ?convertToString(lotData.stack_no_stack):'NA'
+                                                    }}</b></span><br
+                                                *ngIf="lotData &&lotData.action && lotData.action==1">
+                                            <span class="datalist"
+                                                *ngIf="lotData && lotData.action && (lotData.action==2||lotData.action==3)">Stack
+                                                No: <b class="font-weight-bold">{{lotData &&
+                                                    lotData.stack_no_register ? lotData.stack_no_register:'NA'
+                                                    }}</b></span><br
+                                                *ngIf="lotData && lotData.action && (lotData.action==2||lotData.action==3)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <span class="card-title">Seed Testing Details</span><br>
+                                                <span class="datalist">Pure Seed (%): <b
+                                                        class="font-weight-bold">{{lotData && lotData.pure_seed ?
+                                                        lotData.pure_seed:'NA'}}</b></span><br>
+                                                <span class="datalist">Inert Matter (%): <b
+                                                        class="font-weight-bold">{{lotData && lotData.inert_matter ?
+                                                        lotData.inert_matter:'NA'}}</b></span><br>
+                                                <span class="datalist">Germination (%): <b
+                                                        class="font-weight-bold">{{lotData && lotData.germination ?
+                                                        lotData.germination:'NA'}}</b></span><br>
+                                                <span class="datalist">Date of Test:
+                                                    <b class="font-weight-bold">
+                                                        {{ lotData && lotData.date_of_test ?
+                                                        formatDate(lotData.date_of_test) : 'NA' }}
+                                                    </b>
+                                                </span><br>
+
+                                                <span class="datalist">Valid upto: <b class="font-weight-bold">{{lotData
+                                                        && lotData.date_of_test ?
+                                                        getDateAfter9Months(lotData.date_of_test):''}}</b></span><br>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <span class="card-title">Details for generating Tags</span><br>
+                                            <span class="tableheading">Total No. of Tags to be generated: {{lotData &&
+                                                lotData.totalBags? lotData.totalBags:0}}</span>
+                                            <div class="row pt-2">
+                                                <div class="col">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered tabledata">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th class="tableheading">No. of Bags</th>
+                                                                    <th class="tableheading">Bag Weight (kg)</th>
+                                                                    <th class="tableheading">Quantity ({{unit}})</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let data of lotData.process_details">
+                                                                    <td>{{data && data.no_of_bags_processed ?
+                                                                        (data.no_of_bags_processed) :''}} </td>
+                                                                    <td>{{data && data.bag_size_processed ?
+                                                                        data.bag_size_processed :''}} </td>
+                                                                    <td>{{data && data.qty_procecessed ?
+                                                                        data.qty_procecessed :''}} </td>
+
+                                                                </tr>
+
+                                                                <!-- More rows here -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="row ">
+                        <div class="col-xl-2  col-lg-2 col-md-4 col-sm-12 col-12">
+                            <button (click)="cancel()" style="border:1px solid #B64B1D!important; outline:none"
+                                class="btn-inventory-cancel search d-inline-flex justify-content-center verticle-content-middle mb-3 w-100">Back</button>
+                        </div>
+                        <div class="col-xl-2  col-lg-2 col-md-4 col-sm-12 col-12 pl-md-0 pt-lg-0 pt-sm-2">
+                            <button (click)="submit()"
+                                class=" search w-100 text-white btn-inventorys ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                style="white-space:pre;">Generate Tag Numbers</button>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-12 mt-2" *ngIf="showBagDetails">
+                    <!-- *ngIf="prtintAllTag" -->
+                    <div class="row card-inventory form-group">
+                        <div class="col-12 mt-2 pt-2 col-md-12 col-lg-12 float-right ">
+                            <table class="table " formArrayName="bspc">
+                                <thead>
+                                    <tr class="data-row-header">
+
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white  verticle-content-middle heading datalist">
+                                            No. of Bags
+                                        </th>
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white  verticle-content-middle heading datalist">
+                                            Bag Size (Kg)
+                                        </th>
+                                        <th scope="col"
+                                            class="col-md-2 py-2 text-white  verticle-content-middle heading datalist">
+                                            Tag Number
+                                        </th>
+                                        <th scope="col"
+                                            class="col-md py-2 text-white  verticle-content-middle heading datalist ">
+                                            Choose Tag Number For Printing
+                                        </th>
+                                        <th scope="col"
+                                            class="col-md-1 py-2 text-white  verticle-content-middle heading datalist">
+                                            Action
+                                        </th>
+
+
+                                    </tr>
+                                </thead>
+
+                                <tbody class="table-bordered">
+                                    <ng-container *ngFor="let data of bspc.controls; let i=index">
+                                        <tr [formGroupName]="i">
+                                            <td class="datalist pt-2">
+                                                {{
+                                                ngForm.controls['bspc']['controls'][i].controls['no_of_bags'] &&
+                                                ngForm.controls['bspc']['controls'][i].controls['no_of_bags'].value
+                                                ?
+                                                ngForm.controls['bspc']['controls'][i].controls['no_of_bags'].value
+                                                :''}}
+                                            </td>
+                                            <td class="datalist pt-2">
+                                                {{
+                                                ngForm.controls['bspc']['controls'][i].controls['bag_size'] &&
+                                                ngForm.controls['bspc']['controls'][i].controls['bag_size'].value
+                                                ?
+                                                ngForm.controls['bspc']['controls'][i].controls['bag_size'].value
+                                                :''}}
+                                            </td>
+                                            <td class="datalist pt-2">
+                                                {{
+                                                ngForm.controls['bspc']['controls'][i].controls['tag_number'] &&
+                                                ngForm.controls['bspc']['controls'][i].controls['tag_number'].value
+                                                ?
+                                                ngForm.controls['bspc']['controls'][i].controls['tag_number'].value
+                                                :''}}
+                                            </td>
+                                            <td class="pt-3">
+                                                <div class="row">
+                                                    <div class="col-xl-3 col-6">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                [name]="'exampleRadios' + i" id="exampleRadio1"
+                                                                value="1" (change)="changeRadio('1',i)"
+                                                                [checked]="ngForm.controls['bspc']['controls'][i].controls['select_tag_range'].value==1">
+                                                            <label class="form-check-label" for="exampleRadio1"
+                                                                style="white-space: pre;"> Enter Tag Range</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xl-3 col-6 ">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                [name]="'exampleRadios' + i" id="exampleRadio3"
+                                                                value="2" (change)="changeRadio('2',i)"
+                                                                [checked]="ngForm.controls['bspc']['controls'][i].controls['select_tag_range'].value==2">
+                                                            <label class="form-check-label" for="exampleRadio3">Select
+                                                                Tags
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <!-- [data]="ngForm.controls['bspc']['controls'][i]['controls'].tag_no.tag_noList" -->
+                                                    <div class="col-xl-6 col-12"
+                                                        *ngIf="ngForm.controls['bspc']['controls'][i].controls['select_tag_range'].value==1">
+                                                        <input type="text" class="form-control w-100"
+                                                            formControlName="tag_range" placeholder="Example: 1-40">
+                                                    </div>
+                                                    <div class="col-xl-6 col-12"
+                                                        *ngIf="ngForm.controls['bspc']['controls'][i].controls['select_tag_range'].value==2">
+                                                        <ng-multiselect-dropdown [settings]="dropdownSettings"
+                                                            [data]="ngForm.controls['bspc']['controls'][i].controls['tagArray'].value"
+                                                            formControlName="tag_range"
+                                                            [placeholder]="' Select Tag No '">
+                                                        </ng-multiselect-dropdown>
+                                                    </div>
+
+                                                </div>
+                                                <div class=" col-12">
+
+
+                                                </div>
+                                            </td>
+                                            <td>
+
+                                                <div class="container mt-3">
+
+                                                    <div class="row mt-2">
+                                                        <div class="col-12 d-flex">
+                                                            <div class="icon-center">
+                                                                <!-- <button class="btn btn-primary" (click)="openModal()">Open modal</button> -->
+                                                                <!-- dropdown.component.html -->
+                                                                <div class="dropdown">
+
+                                                                    <div class="dropdown-menu dropdown-menu-right"
+                                                                        aria-labelledby="dropdownMenuButton">
+                                                                        <a class="dropdown-item"
+                                                                            style="color: gray;">Previously Printed</a>
+                                                                        <a class="dropdown-item"
+                                                                            *ngFor="let data of previousLot">
+                                                                            {{data && data.tag_no ? data.tag_no :'NA'}}
+                                                                        </a>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <span class="info-icon pt-4" type="button"
+                                                                    id="dropdownMenuButton" data-toggle="dropdown"
+                                                                    aria-haspopup="true" aria-expanded="false"
+                                                                    style="cursor: pointer;"
+                                                                    (click)="showAlert(i)">&#9432;</span>
+                                                            </div>
+                                                            <div class="button-container ml-2">
+                                                                <button class="btn btn-custom"
+                                                                    (click)="previewTag(i)">Preview</button>
+                                                                <button class="btn btn-custom"
+                                                                    (click)="printTag(i)">Print</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+
+                                    </ng-container>
+                                </tbody>
+                                <tbody *ngIf="tableData && tableData.length<1">
+                                    <tr>
+                                        <td colspan="8" style="text-align: center;">No Data Found</td>
+                                        <td colspan="4"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+
+
+                    </div>
+                    <div class="row ">
+                        <div class="col-xl-2  col-lg-2 col-md-4 col-sm-12 col-12">
+                            <button (click)="cancel()" style="border:1px solid #B64B1D!important; outline:none"
+                                class="btn-inventory-cancel search d-inline-flex justify-content-center verticle-content-middle mb-3 w-100">Cancel</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- third card ui -->
+                <!-- (click)="download()" -->
+
+                <div class="col-12 mt-2" *ngIf="showGrid">
+                    <div class=" card-inventory row">
+                        <div *ngIf="tableData && tableData.length>0"
+                            class="col-12 mt-2 pt-2 col-md-12 col-lg-12 float-right">
+                            <div class="row pb-2">
+                                <div class="col-lg-10 col-md-10 col-12">
+                                    <div class="row ">
+
+                                        <div class="col-xl-1 col-lg-2 col-2">
+                                            <div class="filtertext">Filter By:</div>
+                                        </div>
+                                        <div class="col-xl-4 col-md-4 col-6 pl-0">
+                                            <ng-multiselect-dropdown [settings]="dropdownSettings2" [data]="varietyData"
+                                                formControlName="variety" [placeholder]="' Select Variety  '">
+                                            </ng-multiselect-dropdown>
+
+                                        </div>
+                                        <div class="col-xl-4 col-md-4 col-4 pl-0">
+                                            <ng-multiselect-dropdown [settings]="dropdownSettings2"
+                                                [data]="lotDataValue" formControlName="lot_no"
+                                                [placeholder]="' Select Lot No  '">
+                                            </ng-multiselect-dropdown>
+                                            <!-- <select class=" form-control input-inventory w-100 "
+                                                formControlName="lot_no">
+                                                <option value="">Select Lot</option>
+                                                <option *ngFor="let item of lotData"
+                                                    value="{{item && item.id  ? item.id :''}}}">
+                                                    {{item && item.lot_name ? item.lot_name :''}}
+                                                </option>
+                                            </select> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-4  pl-md-0 ">
+                                    <button (click)="demoData()"
+                                        class="form-button btn-inventory search w-100 d-inline-flex justify-content-center verticle-content-middle print_tag"
+                                        style="white-space: pre;">Test
+                                        Print</button>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+        <div class="col-12 " *ngIf="showGrid">
+            <div class=" card-inventory " *ngIf="tableData && tableData.length>0">
+
+                <div class="col-12 ">
+                    <div class="row data-row">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr class="data-row-header">
+                                    <th scope="col"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading datalist">
+                                        S.No.
+                                    </th>
+                                    <th scope="col" style="min-width: 8em;"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading datalist">
+                                        Variety
+                                    </th>
+                                    <th scope="col" style="min-width: 10em;"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading datalist">
+                                        Lot Details
+                                    </th>
+                                    <th scope="col"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading datalist ">
+                                        Storage Details
+                                    </th>
+                                    <th scope="col"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading datalist">
+                                        Action
+                                    </th>
+                                    <th scope="col"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading datalist">
+                                        No. of Bags
+                                    </th>
+                                    <th scope="col"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading datalist"
+                                        style="min-width: 8em;">
+                                        Bag Size (Kg)
+
+                                    </th>
+                                    <th scope="col"
+                                        class="col-md-2 py-2 text-white verticle-content-middle heading datalist"
+                                        style="min-width: 12em;">
+                                        Generated Tag Numbers
+
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-bordered">
+                                <ng-container *ngFor="let data of tableData; let i=index">
+                                    <ng-container *ngFor="let item of data.lot_details; let dataIndex=index">
+                                        <tr>
+                                            <td *ngIf="dataIndex==0" class="pt-2"
+                                                [attr.rowspan]="data.lot_details.length">
+                                                {{i +1}}
+                                            </td>
+                                            <td *ngIf="dataIndex==0" class="pt-2"
+                                                [attr.rowspan]="data.lot_details.length">
+                                                {{data && data.variety_name ? data.variety_name :'NA'}}<br>
+                                                <span>Parental Line: <b class="font-weight-bold">{{item &&
+                                                        item.line_variety_name
+                                                        ?
+                                                        item.line_variety_name :'NA'}}</b></span><br>
+                                            </td>
+
+                                            <td style="text-align:left" class="pt-2">
+                                                <span>Lot No: <b class="font-weight-bold">{{item && item.lot_no
+                                                        ?
+                                                        item.lot_no :''}}</b></span><br>
+
+                                                <span class="datalist"
+                                                    *ngIf="item && item.action  && item.action==1">Lot Quantity
+                                                    ({{unit}}): <b class="font-weight-bold">
+                                                        {{ item && item.total_processed_qty ?
+                                                        item.total_processed_qty:'NA'
+                                                        }}
+                                                    </b></span><br>
+                                                <span class="datalist"
+                                                    *ngIf="item && item.action  && item.action==2">Lot Quantity
+                                                    ({{unit}}): <b class="font-weight-bold">
+                                                        {{ item && item.total_recover_qty ?
+                                                        item.total_recover_qty:'NA' }}
+                                                    </b></span><br>
+                                                <span class="datalist"
+                                                    *ngIf="item && item.action  && item.action==3">Lot Quantity
+                                                    ({{unit}}): <b class="font-weight-bold">
+                                                        {{ item && item.lot_qty ? item.lot_qty:'NA' }}
+                                                    </b></span>
+                                                <span class="datalist"
+                                                    *ngIf="item && item.action  && item.action==1">Total No. of
+                                                    Bags: <b class="font-weight-bold">{{item &&
+                                                        item.totalBags ? (item.totalBags)
+                                                        :'NA'}}</b></span><br>
+                                                <span class="datalist"
+                                                    *ngIf="item && item.action  && (item.action==2||item.action==3)">Total
+                                                    No. of Bags: <b class="font-weight-bold">{{item &&
+                                                        item.no_of_bags_register ? (item.no_of_bags_register)
+                                                        :'NA'}}</b></span><br>
+                                            </td>
+                                            <td style="text-align:left" class="pt-2">
+                                                <span *ngIf="item && item.action  && item.action==1">Godown No:
+                                                    <b class="font-weight-bold">{{item &&
+                                                        item.godownNoStack ?
+                                                        (convertToString(item.godownNoStack)?convertToString(item.godownNoStack):'NA')
+                                                        :'NA'}}</b></span><br>
+                                                <span
+                                                    *ngIf="item && item.action  && (item.action==2||item.action==3 )">Godown
+                                                    No: <b class="font-weight-bold">{{item &&
+                                                        item.godown_no_register ?
+                                                        (item.godown_no_register) :'NA'}}</b></span><br>
+
+                                                <span class="datalist"
+                                                    *ngIf="item && item.action  && item.action==1">Stack No: <b
+                                                        class="font-weight-bold">{{item &&
+                                                        item.stack_no_stack ? convertToString(item.stack_no_stack)
+                                                        :'NA'}}</b></span><br>
+                                                <span class="datalist"
+                                                    *ngIf="item && item.action  && (item.action==2||item.action==3 )">Stack
+                                                    No: <b class="font-weight-bold">{{item &&
+                                                        item.stack_no_register ?(item.stack_no_register)
+                                                        :'NA'}}</b></span><br>
+                                            </td>
+                                            <td class="pt-2">
+                                                <!-- disabled="prtintAllTag" -->
+                                                <!-- [ngClass]=" item && item.is_status && (item.is_status==1) ? 'disableButton form-button search w-100 d-inline-flex justify-content-center verticle-content-middle' : 'form-button text-white btn-inventory generateClass search w-100 d-inline-flex justify-content-center verticle-content-middle'"e -->
+                                                <button (click)="showLotPage(data,item)"
+                                                    [ngClass]=" item && item.is_status && (item.is_status==1) ? 'disableButton form-button search w-100 d-inline-flex justify-content-center verticle-content-middle' : 'form-button text-white btn-inventory generateClass search w-100 d-inline-flex justify-content-center verticle-content-middle'"
+                                                    style="white-space:pre;">
+                                                    Generate Tag Numbers</button>
+                                                <br>
+                                                <!-- disabled="prtintAllTag" -->
+                                        
+                                                
+                                                <button (click)="download(data,item)"
+                                                    [ngClass]=" (item && !item.is_status)|| (item && item.rangeData && item.rangeData.length<1) ? ' disableButtonprint form-button search  d-inline-flex justify-content-center verticle-content-middle mt-2 btn-inventory' : 'form-button text-white btn-inventory generateClass mt-2 search w-100 d-inline-flex justify-content-center verticle-content-middle'"
+                                                    style="white-space:pre;">
+                                                    Print Tags</button>
+                                            </td>
+                                            <td class="pt-2">
+                                        <tr *ngFor="let items of item.seed_tag_range;let indexes = index">
+                                            <td style="border: none;" [ngClass]="(indexes>0)?'pt-3':''">
+                                                {{items && items.no_of_bags_tag_details ?
+                                                items.no_of_bags_tag_details :'NA'}}
+                                            </td>
+                                        </tr>
+                                        </td>
+                                        <td class="pt-2">
+                                            <tr *ngFor="let items of item.seed_tag_range;let indexes = index">
+
+                                                <td style="border: none;" [ngClass]="(indexes>0)?'pt-3':''">
+
+                                                    {{items && items.bag_weight_tag_details ?
+                                                    items.bag_weight_tag_details :'NA'}}
+                                                </td>
+                                            </tr>
+
+                                        </td>
+                                        <td class="pt-2">
+                                            <tr *ngFor="let items of item.seed_tag_range;let indexes = index">
+
+                                                <td style="border: none;" [ngClass]="(indexes>0)?'pt-2':''">
+
+                                                    {{items && items.tag_range ? items.tag_range :'NA'}}
+                                                </td>
+                                            </tr>
+
+                                        </td>
+
+                                        </tr>
+
+
+                                    </ng-container>
+                                </ng-container>
+                            </tbody>
+                            <tbody *ngIf="tableData && tableData.length<1">
+                                <tr>
+                                    <td colspan="8" style="text-align: center;">No Data Found</td>
+                                    <td colspan="4"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="row my-4 w-100 mx-0  d-none  ">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle" id="pdf-tables">
+        <div class=" px-0 py-2" style="width: 100%;">
+            <div class="container print-section " *ngFor="let item of carddata; let index= index" [id]="item.pageId">
+                <div class="row align-items-center ">
+                    <div class="col-6 mx-auto">
+                        <div class="card shadow border tagCard mt-4">
+                            <div class="card-body d-flex flex-column align-items-center ">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-12 float-right pl-0">
+                                            <div class="left-logo mt-2">
+                                                <p> <img src="../../assets/images/left-icar-logo.png"
+                                                        class="left-logo-img"> </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 col-sm-12 ">
+                                            <div class="heading mt-2">
+                                                <span align="center" class="title">{{agency_name ?
+                                                    agency_name
+                                                    :'NA'}}</span>
+                                                <p class="address-title">{{district_name ? district_name
+                                                    :'NA'}},&nbsp;{{state_name ? state_name:'NA'}}</p>
+                                                <p class="divider"><img src="../../assets/images/card-divider.png"
+                                                        class="diveder-image"></p>
+                                                <p class="class-of">Class of Seed : Breeder Seed</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 float-right pl-0 d-flex justify-content-end">
+                                            <div class="left-logo mt-2" style="float: right;">
+
+                                                <!-- <qrcode [qrdata]="baseUrl+ 'generate-card/'+ encryptedData"
+                                                [allowEmptyString]="true"
+                                                [ariaLabel]="'QR Code image with the following content...'"
+                                                [cssClass]="'top'" [colorDark]="'#000000ff'" [colorLight]="'#fed16c'"
+                                                [elementType]="'canvas'" [errorCorrectionLevel]="'M'" [imageSrc]=""
+                                                [imageHeight]="80" [imageWidth]="80" [margin]="2" [scale]="1"
+                                                [title]="'A custom title attribute'" [width]="140">
+                                              </qrcode> -->
+
+                                                <qrcode [qrdata]="baseUrl+ 'tag-number-verification?tagNo=' + item.tags"
+                                                    [allowEmptyString]="true"
+                                                    [ariaLabel]="'QR Code image with the following content...'"
+                                                    [cssClass]="'top'" [colorDark]="'#000000ff'"
+                                                    [colorLight]="'#fed16c'" [elementType]="'canvas'"
+                                                    [errorCorrectionLevel]="'M'" [imageSrc]="" [imageHeight]="80"
+                                                    [imageWidth]="80" [margin]="2" [scale]="1"
+                                                    [title]="'A custom title attribute'" [width]="140">
+                                                </qrcode>
+
+                                                <!-- <qrcode
+                                                [qrdata]="baseUrl+ 'generate-card/'+ encryptedData"
+                                                 [allowEmptyString]="true"
+                                                    [ariaLabel]="'QR Code image with the following content...'"
+                                                    [cssClass]="'qrcod'" [colorDark]="'#000000ff'"
+                                                    [colorLight]="'#fed16c'" [elementType]="'canvas'"
+                                                    [errorCorrectionLevel]="'M'" [imageSrc]="" [imageHeight]="60"
+                                                    [imageWidth]="60" [margin]="2" [scale]="1"
+                                                    [title]="'A custom title attribute'" [width]="60">
+                                                </qrcode> -->
+                                                <!-- <p> <img src="../../assets/images/left-icar-logo.png" class="left-logo-img"> </p> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Crop</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5 ">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text" value="{{selectCrop ? selectCrop :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading" style="white-space: nowrap;">Date of
+                                                        Test:</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.date_of_test ? item.date_of_test :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading"
+                                                        style="white-space: nowrap;">Variety</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text"
+                                                        value="{{item && item.variety_name ? item.variety_name :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading" style="white-space: nowrap;">Pure
+                                                        Seed(%):</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.pure_seed ? item.pure_seed :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Parental
+                                                        <br> Line</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text"
+                                                        value="{{item && item.line_variety_name ? item.line_variety_name :'NA'}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading" style="white-space: nowrap;">Inert
+                                                        Seed(%):</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.inert_matter ? item.inert_matter :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Lot
+                                                        No.</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text" value="{{item && item.lot_no ? item.lot_no :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading"
+                                                        style="white-space: nowrap;">Germination(%):</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.germination ? item.germination :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Tag
+                                                        No.</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input *ngIf="previewTagtext" class="first "
+                                                        style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em; color: transparent;text-shadow: 0 0 8px #000;;"
+                                                        type="text" value="{{item && item.tags ? item.tags :''}}">
+                                                    <input *ngIf="!previewTagtext" class="first " style="width: 147px; 
+                                                height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text" value="{{item && item.tags ? item.tags :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Bag
+                                                        Weight<br> (Kg).</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text"
+                                                        value="{{item && item.bag_weight ? item.bag_weight :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <span class="input-heading"
+                                                style="white-space: nowrap;margin-left: -1em; font-size: 14px; font-style: italic; ">This
+                                                tag is system generated and does required any signature.</span>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12 pl-0 d-flex justify-content-end">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <!-- <span class="input-heading" style="white-space: nowrap;margin-left: -1em;">This tag is system generated and does required any signature.</span> -->
+                                                </div>
+                                                <div class="col-md-12 " style="margin-left: -3em;margin-top:-4em">
+                                                    <span class="input-heading"
+                                                        style="white-space: nowrap;display: flex;justify-content:end;">
+                                                        (-SD-)
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-12 ">
+                                                    <span class="input-heading"
+                                                        style="white-space: nowrap;display: flex;justify-content:end;margin-top:-2em">
+                                                        {{contactPersonName ? contactPersonName:'NA'}}
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-12 ">
+                                                    <span class="input-heading"
+                                                        style="white-space: nowrap;display: flex;justify-content:end;margin-top:-1em">
+                                                        {{designation_name ? designation_name:'NA'}}
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row my-4 w-100 mx-0  d-none">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle" id="demo">
+        <div class=" px-0 py-2" style="width: 100%;">
+            <div class="container print-section " *ngFor="let item of cardDatadetails; let index= index"
+                [id]="item.pageId">
+                <div class="row align-items-center ">
+                    <div class="col-6 mx-auto">
+                        <div class="card shadow border tagCard mt-4">
+                            <div class="card-body d-flex flex-column align-items-center ">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-12 float-right pl-0">
+                                            <div class="left-logo mt-2">
+                                                <p> <img src="../../assets/images/left-icar-logo.png"
+                                                        class="left-logo-img"> </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 col-sm-12 ">
+                                            <div class="heading mt-2">
+                                                <span align="center" class="title">{{agency_name ?
+                                                    agency_name
+                                                    :'NA'}}</span>
+                                                <p class="address-title">{{district_name ? district_name
+                                                    :'NA'}}, {{state_name ? state_name:'NA'}}</p>
+                                                <p class="divider"><img src="../../assets/images/card-divider.png"
+                                                        class="diveder-image"></p>
+                                                <p class="class-of">Class of Seed : Breeder Seed</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 float-right pl-0 d-flex justify-content-end">
+                                            <div class="left-logo mt-2" style="float: right;">
+                                                <qrcode [allowEmptyString]="true"
+                                                    [ariaLabel]="'QR Code image with the following content...'"
+                                                    [cssClass]="'qrcod'" [colorDark]="'#000000ff'"
+                                                    [colorLight]="'#fed16c'" [elementType]="'canvas'"
+                                                    [errorCorrectionLevel]="'M'" [imageSrc]="" [imageHeight]="80"
+                                                    [imageWidth]="80" [margin]="2" [scale]="1"
+                                                    [title]="'A custom title attribute'" [width]="90">
+                                                </qrcode>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Crop</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5 ">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text" value="{{selectCrop ? selectCrop :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading" style="white-space: nowrap;">Date of
+                                                        Test:</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.date_of_test ? item.date_of_test :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading"
+                                                        style="white-space: nowrap;">Variety</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text"
+                                                        value="{{item && item.variety_name ? item.variety_name :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading" style="white-space: nowrap;">Pure
+                                                        Seed(%):</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.pure_seed ? item.pure_seed :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Parental
+                                                        <br> Line</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text"
+                                                        value="{{item && item.line_variety_name ? item.line_variety_name :'NA'}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading" style="white-space: nowrap;">Inert
+                                                        Seed(%):</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.inert_matter ? item.inert_matter :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Lot
+                                                        No.</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text" value="{{item && item.lot_no ? item.lot_no :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-12 ">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3">
+                                                    <span class="input-heading"
+                                                        style="white-space: nowrap;">Germination(%):</span>
+                                                </div>
+                                                <div class="col-md-6 ml-5 ">
+                                                    <input type="text" class="second"
+                                                        value="{{item && item.germination ? item.germination :''}}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Tag
+                                                        No.</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input *ngIf="previewTagtext" class="first "
+                                                        style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;filter: blur(3px);" type="text"
+                                                        value="X/XX/XX/XXXX">
+                                                    <input *ngIf="!previewTagtext" class="first " style="width: 147px; 
+                                                height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text" value="X/XX/XX/XXXX">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-6 col-sm-12 pl-0">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                    <span class="input-heading" style="white-space: nowrap;">Bag
+                                                        Weight<br> (Kg).</span>
+                                                </div>
+                                                <div class="col-md-9 pl-5">
+                                                    <input class="first" style="width: 147px; 
+                                            height: 22px;font-size: 13px;margin-left: -1em;margin-top: -1em;"
+                                                        type="text"
+                                                        value="{{item && item.bag_weight ? item.bag_weight :''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <span class="input-heading"
+                                                style="white-space: nowrap;margin-left: -1em;  font-size: 14px; font-style: italic; ">This
+                                                tag is system generated and does required any signature.</span>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12 pl-0 d-flex justify-content-end">
+                                            <div class="row pt-2">
+                                                <div class="col-md-3  ">
+                                                </div>
+                                                <div class="col-md-12 " style="margin-left: -3em;margin-top:-4em">
+                                                    <span class="input-heading"
+                                                        style="white-space: nowrap;display: flex;justify-content:end;">
+                                                        (-SD-)
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-12 ">
+                                                    <span class="input-heading"
+                                                        style="white-space: nowrap;display: flex;justify-content:end;margin-top:-2em">
+                                                        {{contactPersonName ? contactPersonName:'NA'}}
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-12 ">
+                                                    <span class="input-heading"
+                                                        style="white-space: nowrap;display: flex;justify-content:end;margin-top:-1em">
+                                                        {{designation_name ? designation_name:'NA'}}
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- <button type="button" class="btn btn-primary me-2" (click)="show(child['modal'])">
+    open child modal
+    </button> -->
+
+
+<!-- </div> -->

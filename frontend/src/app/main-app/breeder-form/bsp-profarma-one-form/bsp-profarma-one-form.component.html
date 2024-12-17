@@ -1,0 +1,1415 @@
+<!-- <p>breeder-seed-inventory works!</p> -->
+<!-- ,{{team && team['district_name'] ? team['district_name']:''}},{{team && team['state_name'] ? team['state_name']:''}}/ -->
+
+<div class="main-inventory">
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12 title-inventory pl-2 pb-3 pt-0">
+            <span class="ml-3">
+                Allotment of Breeder Seed Production Targets (BSP I)
+            </span>
+            <form [formGroup]="ngForm">
+                <!-- radio btn filter -->
+                 <!-- <br> -->
+                <!-- <div class="col-12">
+                    <div class="row px-2 pt-1">
+                        <div class="col-lg-8 col-md-12 col-12">
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2 col-md-2 col-lg-4 mb-2 mb-md-0">
+                                    <div class="form-check">
+                                        [checked]="ngForm.controls['willing_to_produce'].value=='yes'"
+                                        <input class="radio-button form-check-input radio-btn" name="notifiedValue"
+                                            type="radio" (change)="productionTypeValue('NORMAL')" id="flexRadioDefault1"
+                                            value="non-notified" checked>
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Normal Varieties
+                                        </label>
+                                    </div>
+                                </div>
+                                [(ngModel)]="notifiedValue"
+                                checked
+                                [checked]="ngForm.controls['willing_to_produce'].value=='no' && ngForm.controls['variety'].value"
+                                <div class="col-md-2 col-sm-2 col-md-2 col-lg-4 pl-lg-5 pl-md-5 pl-sm-2 ">
+                                    <div class="form-check">
+                                        <input class="radio-button form-check-input radio-btn" name="notifiedValue"
+                                            type="radio" (change)="productionTypeValue('DELAY')" id="flexRadioDefault2">
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                            Delayed Varieties
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-md-2 col-lg-4 pl-lg-5 pl-md-5 pl-sm-2 ">
+                                    <div class="form-check">
+                                        <input class="radio-button form-check-input radio-btn" name="notifiedValue"
+                                            type="radio" (change)="productionTypeValue('REALLOCATION')" id="flexRadioDefault2">
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                            Reallocated Varieties
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- first card ui  -->
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="row card-inventory form-group">
+                        <!-- start sectio 1  -->
+                        <div class="col-12 col-md-10 col-lg-10 pt-2">
+                            <div class="row">
+                                <!-- year of indent -->
+                                <div class="col-12 col-md-4 col-lg-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="year" class="label-inventory required">Year of Indent</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <select class="form-control input-inventory" formControlName="year">
+                                                <option value="">Please Select Year</option>
+                                                <option *ngFor="let year of inventoryYearData" value="{{year.year}}">
+                                                    {{year
+                                                    && year.year}}-{{(year.year-2000)+1}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- season  -->
+                                <div class="col-12 col-md-4 col-lg-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="year" class="label-inventory required">Season</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <select class=" form-control input-inventory" formControlName="season">
+                                                <option value="">Please Select Season</option>
+                                                <option *ngFor="let data of inventorySeasonData"
+                                                    value="{{data.season__code}}">{{data && data.season_name ?
+                                                    data.season_name:''}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- crop -->
+                                <div class="col-12 col-md-4 col-lg-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="year" class="label-inventory required">Crop</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <select class="form-control input-inventory" formControlName="crop">
+                                                <option value="">Please Select Crop</option>
+                                                <option *ngFor="let data of inventoryCropData"
+                                                    value="{{data.crop_code}}">
+                                                    {{data && data.crop_name ? data.crop_name:''}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-lg-2 col-sm-12 col-xl-2 px-3">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12">
+                                    <p><span style="color:transparent;">.</span></p>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-2  pr-md-3">
+                                    <!-- form-button btn-inventory search d-inline-flex justify-content-center verticle-content-middle mb-3 -->
+                                    <button id="isSubmitBtn"
+                                        class="form-button btn-inventory search d-inline-flex justify-content-center verticle-content-middle"
+                                        (click)="getPageData(null,null,null)">Search</button>
+                                    <!-- (click)="search()" -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-12 col-md-10 col-lg-10 pt-1">
+                            <div class="row">
+                                <div class="col-12 col-md-4 co-lg-4 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12 col-md-5 col-lg-5 col-sm-12 nowrap">
+                                            <label class="label-inventory-v2 ">Total Varieties:&nbsp;3</label>
+                                        </div>
+                                        <div class="col-12 col-md-7 col-lg-7  col-sm-12 nowrap">
+                                            <label class="label-inventory-v2">Total Indent Quantity:&nbsp;350.00</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <!-- seprater line -->
+                        <!-- <div class="col-12 col-md-12 col-lg-12">
+                            <hr class="dotted">
+                        </div> -->
+
+                        <!-- end sectio 1  -->
+
+                    </div>
+
+                </div>
+
+                <!-- second ui  -->
+                <div class="col-12 col-md-12 col-lg-12"
+                    *ngIf="isCrop && !(inventoryVarietyData && inventoryVarietyData.length <1)">
+                    <div class="row card-inventory form-group">
+                        <div class="col-12 col-md-12 col-lg-12">
+                            <!-- start section 2 -->
+                            <!-- [ngClass]="is_developed?'col-10':'col-10'" -->
+                            <div class="row">
+
+                                <div class="col-12 col-md-10 col-lg-10 pt-1">
+                                    <div class="row">
+                                        <!-- Variety -->
+                                        <div class="col-12 col-md-4 col-lg-4">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="year" class="label-inventory ">Select Variety</label>
+                                                </div>
+                                                <div class="col-12" *ngIf="!is_update">
+                                                    <select type="text"
+                                                        class=" form-control input-inventory multiselect-item-checkbox"
+                                                        formControlName="variety">
+                                                        <option value="">Please Select Variety</option>
+                                                        <option *ngFor="let data of inventoryVarietyData"
+                                                            value="{{data.variety_code}}">{{data && data.variety_name ?
+                                                            data.variety_name :""}}</option>
+                                                    </select>
+                                                </div>
+
+                                                <div ngbDropdown class="col pl-0 pl-3" *ngIf="is_update">
+                                                    <i class="fa-solid fa-angle-down downicon"></i>
+                                                    <button class="btn takeplacholder w-100 crop toggle-button"
+                                                        [disabled]="is_update" [ngClass]="is_update?'disabled-drp':''"
+                                                        ngbDropdownToggle style="text-align: left;">
+                                                        {{varietyName ? varietyName:''}}
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5 col-12" *ngIf="isPrentalLine">
+                                            <div class="row pl-3">
+                                                <label for="year" class="label-inventory required">Select Parental
+                                                    Line</label>
+                                            </div>
+                                            <div class="col pl-0 " *ngIf="!is_update">
+                                                <select class="form-control varietySelect"
+                                                    formControlName="variety_line">
+                                                    <option value="">Please Select Parental Line</option>
+                                                    <option *ngFor="let variety of parentalLineVariety"
+                                                        value="{{variety && variety.line_variety_code ? variety.line_variety_code :'' }}">
+                                                        {{variety &&
+                                                        variety.line_variety_name ?
+                                                        variety.line_variety_name :'' }}</option>
+                                                </select>
+                                            </div>
+                                            <div ngbDropdown class="col pl-0 " *ngIf="is_update">
+                                                <i class="fa-solid fa-angle-down downicon"></i>
+                                                <button class="btn takeplacholder w-100 crop toggle-button"
+                                                    [disabled]="is_update" [ngClass]="is_update?'disabled-drp':''"
+                                                    ngbDropdownToggle style="text-align: left;">
+                                                    {{varietyNameLine ? varietyNameLine:''}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- lineselect -->
+                                        <div class="col-xl-12 col-lg-12 col-12 pt-1 fw-bold ml-3">
+                                            <div class="row " *ngIf="ngForm.controls['variety'].value">
+                                                <div class="col-xl-auto col-lg-auto col-12 pl-xl-0 ">
+                                                    <span>Year of Notification: </span>
+                                                    <span>{{this.cropBasicDetails && this.cropBasicDetails[0] &&
+                                                        this.cropBasicDetails[0].m_crop_variety &&
+                                                        this.cropBasicDetails[0].m_crop_variety['not_date'] ?
+                                                        (this.cropBasicDetails[0].m_crop_variety['not_date'] |
+                                                        date:"yyyy" ):''}}</span>
+                                                </div>
+                                                <div class="col-xl-auto col-lg-auto col-12 pl-xl-2"
+                                                    style="color:red;font-weight: bolder;">
+                                                    <span>Indent Quantity ({{unitValue ? unitValue:''}}):</span>
+                                                    <!-- <span >{{this.cropBasicDetails ? 
+                                                        sumIndentQnt(this.cropBasicDetails)
+                                                        :''}}
+                                                    </span> -->
+                                                    <span *ngIf="!(cropBasicDetails && cropBasicDetails.quantity)">
+                                                        <!-- quantity -->
+                                                        {{cropBasicDetails && (cropBasicDetails.length>0) ?
+                                                        (cropBasicDetails | sum:'indent_quantity' |
+                                                        number:'1.2-2'):''}}</span>
+                                                    <span
+                                                        *ngIf="!(cropBasicDetails && cropBasicDetails.indent_quantity)">
+                                                        <!-- quantity -->
+                                                        {{cropBasicDetails && (cropBasicDetails.length>0) ?
+                                                        (cropBasicDetails | sum:'quantity' | number:'1.2-2'):''}}</span>
+                                                </div>
+                                                <div
+                                                    class="col-xl-12 col-md-12 col-lg-12 col-12 pl-xl-0 pt-lg-1 pt-xl-0">
+                                                    <span>Indent Received ({{unitValue ? unitValue:''}}): </span>
+                                                    <!-- <span>MH (100),NSC (10), RJ (20)</span> -->
+                                                    <!-- <span *ngFor="let data of cropBasicDetails">{{data && data.user &&
+                                                        data.user.agency_detail &&
+                                                        data.user.agency_detail.m_state &&
+                                                        data.user.agency_detail.m_state.state_short_name ?
+                                                        data.user.agency_detail.m_state.state_short_name :''}}
+                                                        ({{data && data.indent_quantity ?
+                                                        (data.indent_quantity | number:'1.2-2') :''}})</span>,&nbsp; -->
+
+                                                    <ng-container
+                                                        *ngFor="let data of cropBasicDetails; let last = last">
+                                                        <span *ngIf="!data.quantity">
+                                                            {{ data && data.user && data.user.agency_detail &&
+                                                            data.user.agency_detail.m_state &&
+                                                            data.user.agency_detail.m_state.state_short_name ?
+                                                            data.user.agency_detail.m_state.state_short_name : '' }}
+                                                            ({{ data && data.indent_quantity ? (data.indent_quantity |
+                                                            number:'1.2-2') :
+                                                            '' }})
+                                                        </span>
+                                                        <span *ngIf=" data.quantity">
+                                                            {{ data && data.user && data.user.agency_detail &&
+                                                            data.user.agency_detail.m_state &&
+                                                            data.user.agency_detail.m_state.state_short_name ?
+                                                            data.user.agency_detail.m_state.state_short_name : '' }}
+                                                            ({{ data && data.quantity ? (data.quantity | number:'1.2-2')
+                                                            :
+                                                            '' }})
+                                                        </span>
+                                                        <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                                                    </ng-container>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 pt-3" *ngIf="isVariety">
+                                    <!--<div class="list-wrapper">-->
+                                    <div class="row d-none d-md-flex data-row-header"
+                                        style="margin-left: 1px;margin-right: 1px;">
+                                        <div class="col-6 col-md-2 py-2 d-flex verticle-content-middle">Production
+                                            Centre</div>
+                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">Willingness
+                                        </div>
+                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">Reason</div>
+                                        <div class="col-6 col-md-2 py-1 d-flex verticle-content-middle">Production Delay</div>
+                                        <div class="col-6 col-md-2 py-2 d-flex verticle-content-middle">Nucleus Seed
+                                            Available ({{unitValue ?
+                                            unitValue:''}})</div>
+                                        <div class="col-6 col-md-2 py-2 d-flex verticle-content-middle">Breeder Seed
+                                            Available ({{unitValue ?
+                                            unitValue:''}})
+                                        </div>
+                                        <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle">B/S - B/S
+                                            Production Permitted </div>
+                                        <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle">Target
+                                            Quantity ({{unitValue ?
+                                            unitValue:''}})</div>
+                                        <!-- <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle">Variety Code</div> -->
+                                    </div>
+                                    <div formArrayName="bspc">
+                                        <div *ngFor="let employee of bspc.controls; let i=index">
+                                            <div [formGroupName]="i" class="row data-row2 px-3">
+                                                <div
+                                                    class="col-6 col-md-2 py-2 d-flex verticle-content-middle border-line border-left">
+                                                    <div class="w-fit-content">
+                                                        <label class="d-md-none" class="d-md-none"><b>Production
+                                                                Centre</b>&nbsp;</label>
+                                                        <span>
+                                                            <!-- {{data.variety_name}}
+                                                             {{ filterPaginateSearch.itemList[0]}} -->
+                                                            <!-- <input type="text" class="table-input"
+                                                                    formControlName="production_center" value=""
+                                                                    [attr.disabled]="true"> -->
+                                                            {{ngForm.controls['bspc']['controls'][i].controls['production_center'].value}}
+                                                            <!-- {{data && data.production_center ? data.production_center : ''}} -->
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="col-6 col-md-1 py-2 d-flex verticle-content-middle border-line">
+                                                    <div class="w-fit-content">
+                                                        <label class="d-md-none" class="d-md-none"><b>Willing to
+                                                                Produce</b>&nbsp;</label>
+                                                        <span>
+                                                            <!-- {{data.variety_name}}
+                                                             {{ filterPaginateSearch.itemList[0]}} -->
+                                                            <!-- <input type="text" class="table-input"
+                                                                    formControlName="production_center" value=""
+                                                                    [attr.disabled]="true"> -->
+                                                            {{ngForm.controls['bspc']['controls'][i].controls['willing_to_produce'].value
+                                                            ?
+                                                            (ngForm.controls['bspc']['controls'][i].controls['willing_to_produce'].value==1?"Yes":"No"):"NA"}}
+                                                            <!-- {{data && data.production_center ? data.production_center : ''}} -->
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="col-6 col-md-1 py-2 d-flex verticle-content-middle border-line">
+                                                    <div class="w-fit-content">
+                                                        <label class="d-md-none"
+                                                            class="d-md-none"><b>Reason</b>&nbsp;</label>
+                                                        <span
+                                                            *ngIf="ngForm.controls['bspc']['controls'][i].controls['willing_to_produce'].value==0">
+                                                            {{ngForm.controls['bspc']['controls'][i].controls['reason'].value
+                                                            ?
+                                                            getReasonName(ngForm.controls['bspc']['controls'][i].controls['reason'].value):"NA"}}
+                                                        </span>
+                                                        <span
+                                                            *ngIf="ngForm.controls['bspc']['controls'][i].controls['willing_to_produce'].value==1">
+                                                            NA
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                class="col-6 col-md-2 py-2 d-flex verticle-content-middle border-line">
+                                                <div class="w-fit-content">
+                                                    <label class="d-md-none"
+                                                        class="d-md-none"><b>Production Delay</b>&nbsp;</label>
+                                                    <span
+                                                        >
+                                                        <b>Reason:</b>{{ngForm.controls['bspc']['controls'][i].controls['reason_for_delay'].value
+                                                        ?
+                                                        ngForm.controls['bspc']['controls'][i].controls['reason_for_delay'].value:"NA"}}
+                                                    </span> <br>
+                                                    <!-- <span>
+                                                        <b>Date of Sowing:</b>{{ngForm.controls['bspc']['controls'][i].controls['expected_date'].value
+                                                        ?
+                                                        (ngForm.controls['bspc']['controls'][i].controls['expected_date'].value | date:'YYYY-MM-DD'):"NA"}}
+                                                    </span> -->
+                                                    <span>
+                                                        <b>Date of Sowing:</b> 
+                                                        {{ getFormattedDate(ngForm.controls['bspc']['controls'][i].controls['expected_date'].value) }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                                <div
+                                                    class="col-6 col-md-2 py-2 d-flex verticle-content-middle border-line">
+                                                    <div class="w-fit-content">
+                                                        <label class="d-md-none"><b>Nucleus Seed Available
+                                                                ({{unitValue ? unitValue:''}}):</b>&nbsp;</label>
+
+                                                        <span style="cursor: pointer; word-break: break-word;"
+                                                            data-toggle="tooltip" data-placement="bottom" title="">
+                                                            <input type="text" class="table-input"
+                                                                formControlName="nucleus_seed_available" value=""
+                                                                [attr.disabled]="true">
+                                                            <!-- {{data && data.nucleus_seed_available ?
+                                                                    data.nucleus_seed_available :''}} -->
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="col-6 col-md-2 py-2 d-flex verticle-content-middle border-line">
+                                                    <div class="w-fit-content">
+                                                        <label class="d-md-none"><b>Breeder Seed Available
+                                                                ({{unitValue? unitValue:''}}):</b>&nbsp;</label>
+                                                        <span style="cursor: pointer; word-break: break-word;"
+                                                            data-toggle="tooltip" data-placement="bottom" title="">
+                                                            <input type="text" class="table-input"
+                                                                formControlName="breeder_seed_available" value=""
+                                                                [attr.disabled]="true">
+                                                            <!-- {{data && data.breeder_seed_available ?
+                                                                    data.breeder_seed_available : ''}} -->
+                                                        </span>
+
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="col-6 col-md-1 py-2 d-flex verticle-content-middle border-line">
+                                                    <div class="w-fit-content form-group ">
+                                                        <label class="d-md-none"><b>B/S - B/S
+                                                                Production Permitted:</b>&nbsp;</label>
+                                                        <span style="cursor: pointer; word-break: break-word;"
+                                                            data-toggle="tooltip" data-placement="bottom" title="">
+                                                            <!-- <input type="checkbox" class=""
+                                                                formControlName="isPermission" value=""> -->
+                                                            <label class="checkbox-container"
+                                                                style="border-color:2px solid red;">
+                                                                <input type="checkbox" formControlName="isPermission"
+                                                                    (change)="validateField($event,i)" value="" />
+                                                                <span class="check"></span>
+                                                            </label>
+                                                            <!-- <input type="checkbox" id="myCheckbox" formControlName="isPermission" value=""> -->
+                                                            <!-- {{data && data.total_target ? data.total_target : ''}} -->
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="col-6 col-md-1 py-2 d-flex verticle-content-middle border-line border-right">
+                                                    <div class="w-fit-content form-group ">
+                                                        <label class="d-md-none"><b>Target Quantity ({{unitValue ?
+                                                                unitValue:''}}):</b>&nbsp;</label>
+                                                        <span style="cursor: pointer; word-break: break-word;"
+                                                            data-toggle="tooltip" data-placement="bottom" title="">
+                                                            <input type="number" class="form-control target-input-field"
+                                                                (keypress)="checkDecimal($event)"
+                                                                (keypress)="checkLength($event,10)"
+                                                                [ngClass]="(ngForm.controls['bspc']['controls'][i].controls['willing_to_produce'].value==0)?'disableFiel':''"
+                                                                formControlName="target_qunatity" value="">
+                                                            <!-- {{data && data.total_target ? data.total_target : ''}} -->
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!--</div>-->
+                                    <div *ngIf="(bspsDataArray && bspsDataArray.length < 1)" class="px-2 py-3 w-100"
+                                        style="height: 50px;">
+                                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                            No Data Found.
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- button section -->
+                            <div class="col-12 pt-3 pb-2 pl-0 buttons-phone" *ngIf="isVariety">
+                                <button
+                                    class="btn-inventory-cancel search d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="revertDataCancelation()" style="border: 2px solid #B64B1D;">Cancel</button>
+                                <button
+                                    class="clear-form-button btn-inventory ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="saveForm()" *ngIf="!is_update">Save</button>
+                                <button
+                                    class="clear-form-button btn-inventory ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="saveForm()" *ngIf="is_update">Update</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- style="display: none;" -->
+                <!-- third card ui  -->
+                <!-- id="pdf-report" -->
+                <!-- #pdfreport  -->
+                <div class="col-12 col-md-12 col-lg-12 pt-0">
+                    <div class="row card-inventory form-group">
+                        <div style="display: none;">
+                            <div style="margin-top: 40px;margin-left: 40px;margin-right: 40px;margin-bottom: 60px;">
+                                <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="10"
+                                                style="width:1061.5pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+
+                                                <p style="margin-top:21pt; margin-bottom:0pt; text-align:center;" s
+                                                    class="heading_notofied1">
+                                                    {{userName ? userName:'NA'}}</p>
+                                                <p
+                                                    style="margin-top:-40px; margin-bottom:0pt; text-align:left;z-index:3;position: absolute;">
+                                                    <img src="{{'/assets/images/no_logo.png'}}"
+                                                        style="width: 140px;height: 140px;">
+                                                </p>
+                                                <p
+                                                    style="margin-top:-52px; margin-bottom:0pt; text-align:right;z-index:3;">
+                                                    <!-- <img src="{{'/assets/images/no_logo.png'}}" style="width:100px"> -->
+                                                    <qrcode
+                                                        [qrdata]="baseUrl+ 'breeder-bsp-profarma-one-qr/'+ encryptedData"
+                                                        [allowEmptyString]="true"
+                                                        [ariaLabel]="'QR Code image with the following content...'"
+                                                        [cssClass]="'top'" [colorDark]="'#000000ff'"
+                                                        [colorLight]="'#FFFFFF'" [elementType]="'canvas'"
+                                                        [errorCorrectionLevel]="'M'" [imageSrc]="" [imageHeight]="80"
+                                                        [imageWidth]="80" [margin]="2" [scale]="1"
+                                                        [title]="'A custom title attribute'" [width]="140">
+                                                    </qrcode>
+                                                </p>
+                                                <p style="margin-top:-67pt; margin-bottom:0pt; text-align:center;"
+                                                    class="heading_notofied1">
+                                                    ({{pdpcAdrress ? pdpcAdrress :'NA'}})</p>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="10"
+                                                style="width:1061.5pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+
+                                                <p style="margin-top:3pt; margin-bottom:6pt; text-align:center; "
+                                                    class="heading_notofied1">
+                                                    BSP-I</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="10"
+                                                style="width:1061.5pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                                <p style="margin-top:0pt; margin-bottom:0pt; text-align:center;"
+                                                    class="heading_notofied1">
+                                                    &ldquo;ALLOTMENT OF BREEDER SEED PRODUCTION
+                                                    TARGETS&rdquo;
+                                                </p>
+
+                                                <p
+                                                    style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:11pt;">
+                                                    <strong>&nbsp;</strong>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4"
+                                                style="width:346.6pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                                <p style="margin-top:12pt; margin-bottom:18pt;"
+                                                    class="heading_notofied1">
+                                                    Indent Year:
+                                                    {{this.ngForm.controls['year'].value}}-{{(this.ngForm.controls['year'].value-2000)+1}}
+                                                </p>
+                                            </td>
+                                            <td colspan="3"
+                                                style="width:346.65pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                                <p style="margin-top:12pt; margin-bottom:18pt;text-align:center;"
+                                                    class="heading_notofied1">
+                                                    Production
+                                                    Year:
+                                                    {{this.ngForm.controls['year'].value-1}}-{{(this.ngForm.controls['year'].value-2000)}}
+
+                                                </p>
+                                            </td>
+                                            <td colspan="3"
+                                                style="width:346.65pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                                <p style="margin-top:12pt; margin-bottom:18pt;text-align:right;"
+                                                    class="heading_notofied1">
+                                                    Date:&nbsp; {{currentDate ? (currentDate |
+                                                    date:'dd-MM-yyyy'):''}}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4"
+                                                style="width:346.6pt;  border-bottom-width:0.75pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                                <p style="margin-top:12pt; margin-bottom:18pt;"
+                                                    class="heading_notofied1">
+                                                    Season: {{this.ngForm.controls['season'].value ?
+                                                    (this.ngForm.controls['season'].value
+                                                    =='K'?'Kharif':'Rabi'):'NA'}}
+                                                </p>
+                                            </td>
+                                            <td colspan="3"
+                                                style="width:346.6pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                                <p style="margin-top:12pt; margin-bottom:18pt;text-align:center;"
+                                                    class="heading_notofied1">
+                                                    Season: {{this.ngForm.controls['season'].value ?
+                                                    (this.ngForm.controls['season'].value
+                                                    =='K'?'Kharif':'Rabi'):'NA'}}
+                                                </p>
+                                            </td>
+                                            <td colspan="3"
+                                                style="width:346.65pt; border-bottom-width:0.75pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                                <p style="margin-top:12pt; margin-bottom:18pt;text-align:right;"
+                                                    class="heading_notofied1">
+                                                    Reference
+                                                    No: &nbsp;{{filterPaginateSearch && filterPaginateSearch.itemList &&
+                                                    filterPaginateSearch.itemList[0] &&
+                                                    filterPaginateSearch.itemList[0].ref_no ?
+                                                    filterPaginateSearch.itemList[0].ref_no:''}}
+                                                    <!-- BSP-I/{{(this.ngForm.controls['year'].value-2000)}}-{{(this.ngForm.controls['year'].value-2000)+1}}/{{this.ngForm.controls['season'].value
+                                                    ?
+                                                    this.ngForm.controls['season'].value:'NA'}}/{{rportStatusData &&
+                                                    rportStatusData.running_number ?
+                                                    (rportStatusData.running_number+1):1}} -->
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr style="border-bottom-style:solid; border-bottom-width:0.75pt;">
+                                            <td style="padding-right:5.4pt; padding-left:5.4pt; vertical-align:top;">
+                                                <p style="margin-top:12pt; margin-bottom:18pt;"
+                                                    class="heading_notofied1">
+                                                    Crop Name: {{this.ngForm.controls['crop'].value ?
+                                                    getCropName(this.ngForm.controls['crop'].value):'NA'}}
+                                                </p>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-bordered" style="text-align: center;">
+                                    <thead class="">
+                                        <tr class="data-row-headers">
+                                            <th>S.NO.</th>
+                                            <th class="" style="white-space:nowrap;">Variety <br> Name</th>
+                                            <th class="" style="white-space:nowrap;">Notification <br> Year</th>
+                                            <th style="white-space:nowrap;">Parental <br> Line</th>
+                                            <th style="white-space:nowrap;">Parental <br> Indented
+                                                Qty.({{unitValue?unitValue:""}})</th>
+                                            <th style="white-space:nowrap;">Total Indented <br>
+                                                Quantity({{unitValue?unitValue:""}})</th>
+                                            <th style="white-space:nowrap;">Details of <br>BSPC</th>
+                                            <th style="white-space:nowrap;">Target Quantity ({{unitValue ?
+                                                unitValue:''}})</th>
+                                            <!-- *ngIf="isFinalSubmit" -->
+                                            <th *ngIf="isPdfDisbaled" style="white-space:nowrap;">Monitoring Team</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="data-row table-bordered" *ngIf="!isSearch">
+                                        <ng-container *ngFor="let data of filterPaginateSearch.itemList;let i=index">
+                                            <ng-container
+                                                *ngFor="let parentalData of data.variety_line;let parentalIndex = index">
+                                                <ng-container
+                                                    *ngFor="let bspcData of parentalData.bspc;let bspcIndex = index">
+                                                    <tr>
+                                                        <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                            [attr.rowspan]="data.count"
+                                                            style="border-left: none !important;">
+                                                            {{i+1}}</td>
+                                                        <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                            [attr.rowspan]="data.count"
+                                                            style="border-left: none !important;">
+                                                            {{data.variety_name}}</td>
+                                                        <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                            [attr.rowspan]="data.count"
+                                                            style="border-left: none !important;">
+                                                            {{parentalData && parentalData.not_date ?
+                                                            (parentalData.not_date | date:'yyyy'):'NA' }}</td>
+
+                                                        <td *ngIf="bspcIndex==0" [attr.rowspan]="parentalData.count"
+                                                            style="border-left: none !important;">
+                                                            {{parentalData && parentalData.line_variety_name ?
+                                                            parentalData.line_variety_name:"NA"}}
+                                                        </td>
+                                                        <td *ngIf="bspcIndex==0" [attr.rowspan]="parentalData.count"
+                                                            style="border-left: none !important;">
+                                                            {{parentalData && parentalData.indent_qnt ?
+                                                            (parentalData.indent_qnt | number:'1.2-3'):"NA"}}
+                                                        </td>
+                                                        <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                            [attr.rowspan]="data.count">
+                                                            {{data && data.indent_qnt ? (data.indent_qnt |
+                                                            number:'1.2-3'):0}}</td>
+                                                        <td *ngIf="isPdfDisbaled">{{bspcData && bspcData.bspc_name ?
+                                                            bspcData.bspc_name:"NA"}},&nbsp;{{bspcData &&
+                                                            bspcData.district_code ?
+                                                            getDistrictName(bspcData.district_code,bspcData.state_code):"NA"}},&nbsp;{{bspcData
+                                                            && bspcData.state_code ?
+                                                            getStateName(bspcData.state_code):"NA"}}
+                                                        </td>
+                                                        <td>
+                                                            {{bspcData && bspcData.target_quantity ?
+                                                            (bspcData.target_quantity | number:'1.2-3'):0}}</td>
+                                                        <!-- *ngIf="isFinalSubmit" -->
+                                                        <td style="text-align:left"><span
+                                                                *ngFor="let team of getTeamMemberPdf(bspcData.team_id); let i = index">{{i+1}}.{{team
+                                                                && team.agency_type ? team.agency_type:''}},{{team &&
+                                                                team['desingnation_name'] ?
+                                                                team['desingnation_name']:''}}<br></span>
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+                                            </ng-container>
+
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+
+                                <!-- <p style="margin-top:0pt; margin-bottom:8pt;">&nbsp;</p>
+                                <p style="margin-top:0pt; margin-bottom:8pt;">&nbsp;</p> -->
+                                <!-- <p style="margin-top:0pt; margin-left:900.1pt; margin-bottom:0pt; text-align:center; line-height:108%;"
+                                    class="heading_notofied">
+                                    -SD-
+                                </p> -->
+                                <p
+                                    style="margin-top:0pt; margin-left:900.1pt; margin-bottom:0pt; text-align:center; line-height:108%; font-size:16pt;">
+                                    <strong>({{profileData && profileData.contact_person_name ?
+                                        profileData.contact_person_name:'NA' }})</strong>
+                                </p>
+                                <p
+                                    style="margin-top:0pt; margin-left:900.1pt; margin-bottom:0pt; text-align:center; line-height:108%; font-size:16pt;">
+                                    <strong>{{pdpcDesignation ? pdpcDesignation:'NA'}}</strong>
+                                </p>
+                                <!-- <p
+                                    style="margin-top:0pt; margin-left:900.1pt; margin-bottom:0pt; text-align:center; line-height:108%; font-size:16pt;">
+                                    <strong>&nbsp;</strong>
+                                </p> -->
+                                <p
+                                    style="margin-top:0pt; margin-left:900.1pt; margin-bottom:0pt; text-align:center; line-height:108%; font-size:16pt;">
+                                    <strong>&nbsp;</strong>
+                                </p>
+                                <p style="margin-top:0pt; margin-bottom:0pt; line-height:108%; font-size:14pt;">*Note:
+                                    This
+                                    is an electronically generated report and does not require signature.</p>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-12 col-lg-12" *ngIf="!isSearch">
+                            <!-- *ngIf="(filterPaginateSearch && filterPaginateSearch.itemList && filterPaginateSearch.itemList.length>0)||!isSearch" -->
+                            <div class="row pl-0">
+                                <div class="col-10 col-md-10 col-lg-10 pl-0">
+                                    <div class="col-12 col-md-4 pt-3 pb-3" *ngIf="!isPdfDisbaled"
+                                        [ngClass]="varietyDisbled ? 'disable_btn' :''">
+                                        <ng-multiselect-dropdown [disabled]="varietyDisbled"
+                                            [settings]="dropdownSettings" [data]="varietyFilterList"
+                                            formControlName="variety_filter" [placeholder]="'Please Select Variety '"
+                                            class="containers" [ngClass]="varietyDisbled ? 'disable_btn' :''"
+                                            (onSelect)="getPageData(null,null,null)"
+                                            (onDeSelect)="getPageData(null,null,null)" (onSelectAll)="selcetAll($event)"
+                                            (onDeSelectAll)="getPageData(null,null,null)">
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="col-2 col-md-2 col-lg-2 pt-3" title="download-pdf" *ngIf="isPdfDisbaled">
+                                    <button (click)="generatePdf(null);"
+                                        [ngClass]="(filterPaginateSearch.itemList && filterPaginateSearch.itemList.length < 1 && !isSearch && isPdfDisbaled)?'disable_btn':''"
+                                        [disabled]="(filterPaginateSearch.itemList && filterPaginateSearch.itemList.length < 1 && !isSearch) && isPdfDisbaled"
+                                        style="outline: none;background: none;border:none;float: right;"><i
+                                            class="fas fa-file-pdf" style="font-size:30px;color:red"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="list-wrapper" *ngIf="!isSearch">
+                                <table class="table  bsp-one-table">
+                                    <thead class="data-row-header ">
+                                        <tr class="table-header">
+                                            <th class="table-header-left" style="white-space: nowrap;">S.NO.</th>
+                                            <th style="white-space: nowrap;">Variety <br> Name</th>
+                                            <th class="" style="white-space: nowrap;">Not. <br> Year</th>
+                                            <th style="white-space: nowrap;">Parental <br> Line</th>
+                                            <th style="white-space: nowrap;">Parental <br>Indented <br>
+                                                Qty.({{unitValue?unitValue:""}})</th>
+                                            <th style="white-space: nowrap;">Total <br>Indented <br>
+                                                Quantity({{unitValue?unitValue:""}})</th>
+                                            <th>BSPCs</th>
+                                            <th style="white-space: nowrap;">Production <br> Delay</th>
+                                            <!-- *ngIf="isFinalSubmit" -->
+                                            <th *ngIf="isPdfDisbaled" style="white-space: nowrap;">Team</th>
+                                            <th style="white-space: nowrap;">Nucleus <br>Seed <br> Available
+                                                ({{unitValue ?
+                                                unitValue:''}})</th>
+                                            <th style="white-space: nowrap;">Breeder <br>Seed <br> Available
+                                                ({{unitValue ?
+                                                unitValue:''}})</th>
+                                            <th style="white-space: nowrap;">B/S - B/S <br> Permission
+                                                </th>
+                                            <th style="white-space: nowrap;">Target <br> Quantity ({{unitValue ?
+                                                unitValue:''}})</th>
+                                            <th class="table-header-right"> 
+                                                Action
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="data-row table-bordered" *ngIf="!isSearch">
+                                        <ng-container *ngFor="let data of filterPaginateSearch.itemList;let i=index">
+                                            <ng-container
+                                                *ngFor="let parentalData of data.variety_line;let parentalIndex = index">
+                                                <ng-container
+                                                    *ngFor="let bspcData of parentalData.bspc;let bspcIndex = index">
+                                                    <tr>
+                                                        <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                            [attr.rowspan]="data.count"
+                                                            style="border-left: none !important;">
+                                                            {{i+1}}</td>
+                                                        <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                            [attr.rowspan]="data.count"
+                                                            style="border-left: none !important;">
+                                                            {{data.variety_name}}</td>
+                                                        <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                            [attr.rowspan]="data.count"
+                                                            style="border-left: none !important;">
+                                                            {{parentalData && parentalData.not_date ?
+                                                            (parentalData.not_date | date:'yyyy'):'NA' }}</td>
+                                                        <td *ngIf="bspcIndex==0" [attr.rowspan]="parentalData.count"
+                                                            style="border-left: none !important;">
+                                                            {{parentalData && parentalData.line_variety_name ?
+                                                            parentalData.line_variety_name:"NA"}}
+                                                        </td>
+                                                        <td *ngIf="bspcIndex==0" [attr.rowspan]="parentalData.count"
+                                                            style="border-left: none !important;">
+                                                            {{parentalData && parentalData.indent_qnt ?
+                                                            (parentalData.indent_qnt | number:'1.2-3'):"NA"}}
+                                                        </td>
+                                                        <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                            [attr.rowspan]="data.count">
+                                                            {{data && data.indent_qnt ? (data.indent_qnt |
+                                                            number:'1.2-3'):0}}</td>
+                                                        <td>{{bspcData && bspcData.bspc_name ?
+                                                            bspcData.bspc_name:"NA"}}
+                                                        </td>
+                                                        <td>{{bspcData && bspcData.production_type ?
+                                                            bspcData.production_type:"NA"}}
+                                                        </td>
+                                                        <!-- *ngIf="isFinalSubmit" -->
+                                                        <td *ngIf="isPdfDisbaled" style="cursor: pointer;"><a
+                                                                style="color:blue;text-decoration: underline;"
+                                                                (click)="getTeamMember(bspcData.team_id)">{{bspcData &&
+                                                                bspcData.team_name ?
+                                                                (bspcData.team_name | uppercase):"NA"}}</a>
+                                                        </td>
+                                                        <td>{{bspcData && bspcData.include_seed ?
+                                                            (bspcData.include_seed | number:'1.2-3'):0}}</td>
+                                                        <td>{{bspcData && bspcData.breeder_seed ?
+                                                            (bspcData.breeder_seed |number:'1.2-3' ):0}}</td>
+                                                        <td>{{ bspcData && bspcData.isPermission ? 'Yes' : 'N/A' }}</td>
+
+                                                        <td>
+                                                            {{bspcData && bspcData.target_quantity ?
+                                                            (bspcData.target_quantity | number:'1.2-3'):0}}</td>
+
+                                                        <!-- *ngIf="bspcIndex == 0" [attr.rowspan]="parentalData.count" -->
+                                                        <td *ngIf="bspcIndex == 0" [attr.rowspan]="parentalData.count"
+                                                            style="border-right: none !important;">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <button class="list-action-buttons-second"
+                                                                        [ngClass]="is_update || isSubmit?'action_icon_inactive':'action_icon_active'"
+                                                                        [disabled]="isSubmit"
+                                                                        (click)="editFunctinality(parentalData,bspcData)">
+                                                                        <img src="assets/images/Vector.svg">
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <button class="list-action-buttons-second"
+                                                                        [ngClass]="is_update || isSubmit?'action_icon_inactive':'action_icon_active'"
+                                                                        [disabled]="isSubmit"
+                                                                        (click)="deleteData(parentalData)">
+                                                                        <img src="assets/images/Vector_delete.svg">
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        <div *ngIf="(filterPaginateSearch.itemList && filterPaginateSearch.itemList.length < 1 && !isSearch)"
+                            class="px-2 py-3 w-100" style="height: 50px;">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100"
+                                style="font-size: medium; font-weight:400">
+                                No Data Found.
+                            </div>
+                        </div>
+
+                        <div *ngIf="(filterPaginateSearch && filterPaginateSearch.itemList && filterPaginateSearch.itemList.length>0) && !isSearch"
+                            class="col-12 col- pt-2">
+                            <div class="row">
+                                <!-- <div class="col-10">
+    
+                                </div> -->
+                                <!-- [disabled]="true" -->
+                                <div class="col-2 pl-5 pl-md-0">
+                                    <button [disabled]="isFinalSubmit"
+                                        class="clear-form-button btn-inventory ml-3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        (click)="navigateByUrl()">Next</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="!isSearch" class="col-12 px-4 px-md-0 py-1 pb-4 pr-0">
+                            <!-- <app-pagination-ui></app-pagination-ui> -->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="margin-bottom: -25px;">
+                <h5 class="modal-title" id="exampleModalLongTitle">Team Member
+                    Details</h5>
+                <button type="button" class="close" data-dismiss="modal" (click)="close()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead class="data-row-header">
+                        <tr class="">
+                            <th class="table-header-left">Type</th>
+                            <th>Designation</th>
+                            <th>District </th>
+                            <th class="table-header-right">State</th>
+                        </tr>
+                    </thead>
+                    <tbody class="data-row table-bordered">
+                        <tr *ngFor="let data of teamdetailsData">
+                            <td>{{data.agency_type}}</td>
+                            <td>{{data.desingnation_name}}</td>
+                            <td>{{data.district_name}}</td>
+                            <td>{{data.state_name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row my-4 w-100 mx-0 d-none">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2" id="pdf-report">
+            <div class="row">
+                <div class="w-100">
+                    <form [formGroup]="ngForm">
+                        <div class="col-12 px-4 mt-2">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 r pb-2">
+                                    <div class="row">
+                                        <!-- <div class="col-12"> -->
+                                        <div class="col-md-11 col-sm-12 text-center ">
+                                            <span class="heading_notofied heading1"> {{userName ? userName:'NA'}}</span>
+                                        </div>
+
+                                        <div class="col-md-11 col-sm-12 text-center addresshead">
+                                            <span class="heading_notofied heading1">{{districtName ? districtName
+                                                :'NA'}},{{stateName ? stateName :'NA'}}</span>
+                                        </div>
+
+                                        <div class="col-md-11 col-sm-12 text-center pt-2 ">
+                                            <span class="heading_notofied heading1">"ALLOTMENT OF BREEDER SEED
+                                                PRODUCTION
+                                                TARGETS (BSP-I)"</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-11 col-sm-12" style="margin-top:-9em">
+
+                                        <img src="assets/images/no_logo.png" style="height:8rem;">
+                                    </div>
+                                    <div class="col-md-11 col-sm-12 float-right " style="margin-top:-8em">
+                                        <div style="float: right;">
+                                            <qrcode [qrdata]="baseUrl+ 'breeder-bsp-profarma-one-qr/'+ encryptedData"
+                                                [allowEmptyString]="true"
+                                                [ariaLabel]="'QR Code image with the following content...'"
+                                                [cssClass]="'top'" [colorDark]="'#000000ff'" [colorLight]="'#FFFFFF'"
+                                                [elementType]="'canvas'" [errorCorrectionLevel]="'M'" [imageSrc]=""
+                                                [imageHeight]="80" [imageWidth]="80" [margin]="2" [scale]="1"
+                                                [title]="'A custom title attribute'" [width]="140">
+                                            </qrcode>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+                    </form>
+                </div>
+
+                <div>
+
+
+                    <hr style="border:1px solid #228B22" class="mx-3">
+
+
+                    <!-- table for exel Download end -->
+
+                    <div class="row">
+
+                        <div class="col-6 col-md-3   d-flex verticle-content-middle  heading_notofied pl-5"
+                            style="font-size: 15px!important;">
+                            Indent Year:
+                            {{this.ngForm.controls['year'].value}}-{{(this.ngForm.controls['year'].value-2000)+1}}
+                        </div>
+                        <div class="col-6 col-md-4  d-flex verticle-content-middle px-5 heading_notofied"
+                            style="font-size: 15px!important;padding-left:15em!important">
+                            Production
+                            Year:
+                            {{this.ngForm.controls['year'].value-1}}-{{(this.ngForm.controls['year'].value-2000)}}
+                            <!-- Crop: {{cropNameofReport ? cropNameofReport :'NA'}} -->
+                        </div>
+                        <div class="col-6 col-md-4 text-right heading_notofied"
+                            style="font-size: 15px!important;margin-left:6em">
+                            Date: {{currentDate ? (currentDate |
+                            date:'dd-MM-yyyy'):''}}
+                            <!-- Reference Number:{{data1 && data1[0] && data1[0].ref_number ? data1[0].ref_number :'NA'}} -->
+
+                        </div>
+                        <div class="col-6 col-md-3 pt-3   d-flex verticle-content-middle  heading_notofied pl-5"
+                            style="font-size: 15px!important;">Season :
+                            {{this.ngForm.controls['season'].value && (this.ngForm.controls['season'].value ==
+                            'R')?'Rabi':'Kharif'}}
+                        </div>
+                        <div class="col-6 col-md-4 pt-3  d-flex verticle-content-middle px-5 heading_notofied"
+                            style="font-size: 15px!important;padding-left:15em!important">
+                            Indent Year:
+                            {{this.ngForm.controls['year'].value}}-{{(this.ngForm.controls['year'].value-2000)+1}}
+                            <!-- Crop: {{cropNameofReport ? cropNameofReport :'NA'}} -->
+                        </div>
+                        <div class="col-6 col-md-4 pt-3  text-right heading_notofied"
+                            style="font-size: 15px!important;margin-left:6em">
+                            Reference
+                            No: {{filterPaginateSearch && filterPaginateSearch.itemList &&
+                            filterPaginateSearch.itemList[0] && filterPaginateSearch.itemList[0].ref_no ?
+                            filterPaginateSearch.itemList[0].ref_no:''}}
+                            <!-- Reference Number:{{data1 && data1[0] && data1[0].ref_number ? data1[0].ref_number :'NA'}} -->
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="col-12 px-4">
+                        <div class="list-wrapper px-2 py-3">
+                            <div class="middle_line"></div>
+                            <div class="row data-row">
+                                <table class="table table-bordered table-responsive" style="text-align: center;">
+                                    <thead>
+                                        <tr class="data-row-headers headingofpdftable">
+                                            <th>S.NO.</th>
+                                            <th class="">Variety Name</th>
+                                            <th class="">Notification Year</th>
+                                            <th>Parental Line</th>
+                                            <th>Parental Indented Qty.({{unitValue?unitValue:""}})</th>
+                                            <th>Total Indented Quantity({{unitValue?unitValue:""}})</th>
+                                            <th>Details of BSPC</th>
+                                            <th>Target Quantity ({{unitValue ?
+                                                unitValue:''}})</th>
+                                            <!-- *ngIf="isFinalSubmit" -->
+                                            <th *ngIf="isPdfDisbaled">Monitoring Team</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="data-row table-bordered">
+                                        <ng-container *ngFor="let data of filterPaginateSearch.itemList;let i=index">
+                                            <ng-container
+                                                *ngFor="let parentalData of data.variety_line;let parentalIndex = index">
+                                                <ng-container
+                                                    *ngFor="let bspcData of parentalData.bspc;let bspcIndex = index">
+                                                    <tr>
+                                                        <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                            [attr.rowspan]="data.count"
+                                                            style="border-left: none !important;">
+                                                            {{i+1}}</td>
+                                                        <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                            [attr.rowspan]="data.count"
+                                                            style="border-left: none !important;">
+                                                            {{data.variety_name}}</td>
+                                                        <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                            [attr.rowspan]="data.count"
+                                                            style="border-left: none !important;">
+                                                            {{parentalData && parentalData.not_date ?
+                                                            (parentalData.not_date | date:'yyyy'):'NA' }}</td>
+
+                                                        <td *ngIf="bspcIndex==0" [attr.rowspan]="parentalData.count"
+                                                            style="border-left: none !important;">
+                                                            {{parentalData && parentalData.line_variety_name ?
+                                                            parentalData.line_variety_name:"NA"}}
+                                                        </td>
+                                                        <td *ngIf="bspcIndex==0" [attr.rowspan]="parentalData.count"
+                                                            style="border-left: none !important;">
+                                                            {{parentalData && parentalData.indent_qnt ?
+                                                            (parentalData.indent_qnt | number:'1.2-3'):"NA"}}
+                                                        </td>
+                                                        <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                            [attr.rowspan]="data.count">
+                                                            {{data && data.indent_qnt ? (data.indent_qnt |
+                                                            number:'1.2-3'):0}}</td>
+                                                        <td *ngIf="isPdfDisbaled">{{bspcData && bspcData.bspc_name ?
+                                                            bspcData.bspc_name:"NA"}},&nbsp;{{bspcData &&
+                                                            bspcData.district_code ?
+                                                            getDistrictName(bspcData.district_code,bspcData.state_code):"NA"}},&nbsp;{{bspcData
+                                                            && bspcData.state_code ?
+                                                            getStateName(bspcData.state_code):"NA"}}
+                                                        </td>
+                                                        <td>
+                                                            {{bspcData && bspcData.target_quantity ?
+                                                            (bspcData.target_quantity | number:'1.2-3'):0}}</td>
+                                                        <!-- *ngIf="isFinalSubmit" -->
+                                                        <td><span
+                                                                *ngFor="let team of getTeamMemberPdf(bspcData.team_id); let i = index">{{i+1}}.{{team
+                                                                && team.agency_type ? team.agency_type:''}},{{team &&
+                                                                team['desingnation_name'] ?
+                                                                team['desingnation_name']:''}}<br></span>
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+                                            </ng-container>
+
+                                        </ng-container>
+                                    </tbody>
+
+                                </table>
+
+
+
+                                <div class="col-12 pl-0 " style="margin-left: -1em;">
+
+                                    <span class="float-right pl-0 ">
+                                        <span style="display: flex;justify-content:center;font-weight: 500!important;"
+                                            class="user_details">--SD--</span>
+
+                                        <span class="user_details" style="font-weight: 500!important">
+                                            ({{profileData && profileData.contact_person_name ?
+                                            profileData.contact_person_name:'NA' }})
+                                            <br>
+                                            <span class="user_details" style="font-weight: 500!important">
+                                                {{pdpcDesignation ? pdpcDesignation:'NA'}}
+                                            </span>
+                                        </span>
+
+                                    </span>
+                                </div>
+                                <div class="col-12 " style="margin-top:-4em">
+                                    <span style="font-size: 12px;">
+                                        *Note This is an electronically generated report and does not require signature.
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row my-4 w-100 mx-0  d-none"  #pdfContainer >
+    <div  [attr.aria-label]="'pdf-page-1'" class="col-12 d-flex justify-content-center verticle-content-middle" id="pdf-tables">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <div class="row">
+                <div class="w-100">
+                    <form [formGroup]="ngForm">
+                        <div class="col-12 px-4 mt-2">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 r pb-2">
+                                    <div class="row">
+                                        <!-- <div class="col-12"> -->
+                                        <div class="col-md-12 col-sm-12 text-center ">
+                                            <span class="heading_notofied heading1">{{userName ? userName:'NA'}}</span>
+                                        </div>
+
+                                        <div class="col-md-12 col-sm-12 text-center addresshead">
+                                            <span class="heading_notofied heading1 ">{{districtName ? districtName
+                                                :'NA'}},&nbsp; {{stateName ? stateName :'NA'}}</span>
+                                        </div>
+
+                                        <div class="col-md-12 col-sm-12 text-center pt-4">
+                                            <span class="heading_notofied heading1">"ALLOTMENT OF BREEDER SEED
+                                                PRODUCTION
+                                                TARGETS (BSP-I)"</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-11 col-sm-12" style="margin-top:-7em">
+
+                                        <img src="assets/images/no_logo.png" style="height:8rem;">
+                                    </div>
+                                    <div class="col-md-11 col-sm-12 float-right " style="margin-top:-8em">
+                                        <div style="float: right;">
+                                            <qrcode [qrdata]="baseUrl+ 'breeder-bsp-profarma-one-qr/'+ encryptedData"
+                                                [allowEmptyString]="true"
+                                                [ariaLabel]="'QR Code image with the following content...'"
+                                                [cssClass]="'top'" [colorDark]="'#000000ff'" [colorLight]="'#FFFFFF'"
+                                                [elementType]="'canvas'" [errorCorrectionLevel]="'M'" [imageSrc]=""
+                                                [imageHeight]="80" [imageWidth]="80" [margin]="2" [scale]="1"
+                                                [title]="'A custom title attribute'" [width]="140">
+                                            </qrcode>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div>
+                    <hr style="border:1px solid #228B22" class="mx-3">
+                    <!-- table for exel Download end -->
+                    <div class="row">
+
+                        <div class="col-6 col-md-4   d-flex verticle-content-middle  heading_notofied pl-5"
+                            style="font-size: 15px!important;">
+                            Indent
+                            Year:&nbsp;{{this.ngForm.controls['year'].value}}-{{(this.ngForm.controls['year'].value-2000)+1}}
+                        </div>
+                        <div class="col-6 col-md-4 justify-content-center d-flex verticle-content-middle px-5 heading_notofied"
+                            style="font-size: 15px!important;">
+                            Production
+                            Year:&nbsp;{{this.ngForm.controls['year'].value-1}}-{{(this.ngForm.controls['year'].value-2000)}}
+                            <!-- Crop: {{cropNameofReport ? cropNameofReport :'NA'}} -->
+                        </div>
+                        <div class="col-6 col-md-4 text-right heading_notofied"
+                            style="font-size: 15px!important;margin-left:-3em">
+                            Date:&nbsp;{{currentDate ? (currentDate |
+                            date:'dd-MM-yyyy'):''}}
+                            <!-- Reference Number:{{data1 && data1[0] && data1[0].ref_number ? data1[0].ref_number :'NA'}} -->
+
+                        </div>
+                        <div class="col-6 col-md-4 pt-3   d-flex verticle-content-middle  heading_notofied pl-5"
+                            style="font-size: 15px!important;">Season :
+                            {{this.ngForm.controls['season'].value && (this.ngForm.controls['season'].value ==
+                            'R')?'Rabi':'Kharif'}}
+                        </div>
+                        <div class="col-6 col-md-4 pt-3 justify-content-center d-flex verticle-content-middle px-5 heading_notofied"
+                            style="font-size: 15px!important;">
+                            Season:&nbsp;{{this.ngForm.controls['season'].value && (this.ngForm.controls['season'].value
+                            ==
+                            'R')?'Rabi':'Kharif'}}
+                            <!-- Crop: {{cropNameofReport ? cropNameofReport :'NA'}} -->
+                        </div>
+                        <div class="col-6 col-md-4 pt-3  text-right heading_notofied"
+                            style="font-size: 15px!important;margin-left:-3em">
+                            Reference
+                            No:&nbsp;{{filterPaginateSearch && filterPaginateSearch.itemList &&
+                            filterPaginateSearch.itemList[0] && filterPaginateSearch.itemList[0].ref_no ?
+                            filterPaginateSearch.itemList[0].ref_no:''}}
+                            <!-- Reference Number:{{data1 && data1[0] && data1[0].ref_number ? data1[0].ref_number :'NA'}} -->
+
+                        </div>
+                         
+                   
+
+                        <div class="col-6 col-md-3 pt-3   d-flex verticle-content-middle  heading_notofied pl-5"
+                            style="font-size: 15px!important;">
+                            Crop Name:&nbsp;{{this.ngForm.controls['crop'].value ?
+                            getCropName(this.ngForm.controls['crop'].value) : reportDataCropvalue ? reportDataCropvalue :'N/A'}}
+                        </div>
+                    </div>
+                    <div class="col-12 px-4">
+                        <div class="list-wrapper px-2 py-3">
+                            <div class="middle_line"></div>
+                            <div class="row data-row">
+                                <table class="table table-bordered table-responsive" style="text-align: center;">
+                                    <thead>
+                                        <tr class="data-row-headers headingofpdftable">
+                                            <th scope="col" class=" py-2 datalist " style="white-space:nowrap">
+                                                S.No.
+                                            </th>
+                                            <th scope="col" class="col-md-2 py-2 datalist" style="white-space:nowrap">
+                                                Variety</th>
+                                            <th scope="col" class="py-2 datalist" style="white-space:nowrap">
+                                                Notification <br> Year </th>
+                                            <th scope="col" class=" py-2 datalist" style="white-space:nowrap">Parental
+                                                <br> Line
+                                            </th>
+                                            <th scope="col" class="py-2 datalist" style="white-space:nowrap">Parental
+                                                Line <br> Indent ({{unitValue?unitValue:""}})</th>
+                                            <th scope="col" class=" py-2 datalist" style="white-space:nowrap">Total
+                                                Indented<br>  Quantity ({{unitValue?unitValue:""}})</th>
+                                            <th scope="col" class="col-md-4 py-2 datalist" style="white-space:nowrap">
+                                                Details of BSPC</th>
+
+                                            <th style="white-space: nowrap;">Production <br>Delay</th>
+                                            <th style="white-space: nowrap;">Bs - Bs <br>Permission</th>
+
+                                            <th scope="col" class=" py-2 datalist" style="white-space:nowrap">
+                                                Target<br>Quantity ({{unitValue ? unitValue:''}})
+                                            </th>
+                                            <!-- <th scope="col" class=" py-2 datalist" style="white-space:nowrap">
+                                                Target Quantity ({{unitValue ? unitValue:''}})
+                                            </th> -->
+                                            <!-- *ngIf="isPdfDisbaled" -->
+                                            <th scope="col" class="col-md-4 py-2 datalist">
+                                                Monitoring Team
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="data-row table-bordered">
+                                        <!-- <ng-container *ngFor="let item of items"> -->
+                                            <ng-container *ngFor="let data of filterPaginateSearch.itemList;let i=index">
+                                                <ng-container
+                                                    *ngFor="let parentalData of data.variety_line;let parentalIndex = index">
+                                                    <ng-container
+                                                        *ngFor="let bspcData of parentalData.bspc;let bspcIndex = index">
+                                                        <tr>
+                                                            <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                                [attr.rowspan]="data.count"
+                                                                style="border-left: none !important;">
+                                                                {{i+1}}</td>
+                                                            <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                                [attr.rowspan]="data.count"
+                                                                style="border-left: none !important;">
+                                                                {{data.variety_name}}</td>
+                                                            <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                                [attr.rowspan]="data.count"
+                                                                style="border-left: none !important;">
+                                                                {{parentalData && parentalData.not_date ?
+                                                                (parentalData.not_date | date:'yyyy'):'NA' }}</td>
+
+                                                            <td *ngIf="bspcIndex==0" [attr.rowspan]="parentalData.count"
+                                                                style="border-left: none !important;">
+                                                                {{parentalData && parentalData.line_variety_name ?
+                                                                parentalData.line_variety_name:"NA"}}
+                                                            </td>
+                                                            <td *ngIf="bspcIndex==0" [attr.rowspan]="parentalData.count"
+                                                                style="border-left: none !important;">
+                                                                {{parentalData && parentalData.indent_qnt ?
+                                                                (parentalData.indent_qnt | number:'1.2-3'):"NA"}}
+                                                            </td>
+                                                            <td *ngIf="parentalIndex==0 && bspcIndex==0"
+                                                                [attr.rowspan]="data.count">
+                                                                {{data && data.indent_qnt ? (data.indent_qnt |
+                                                                number:'1.2-3'):0}}</td>
+                                                            <!-- *ngIf="isPdfDisbaled" -->
+                                                            <td>{{bspcData && bspcData.bspc_name ?
+                                                                bspcData.bspc_name:"NA"}},<br>
+                                                                {{bspcData &&
+                                                                bspcData.district_code ?
+                                                                getDistrictName(bspcData.district_code,bspcData.state_code):"NA"}},
+                                                                &nbsp;{{bspcData
+                                                                && bspcData.state_code ?
+                                                                getStateName(bspcData.state_code):"NA"}}
+                                                            </td>
+                                                            <td>{{bspcData && bspcData.production_type ?
+                                                                bspcData.production_type:"NA"}}
+                                                            </td>
+                                                            <td>{{ bspcData && bspcData.isPermission ? 'Yes' : 'N/A' }}</td>
+                                                            
+                                                            <td>
+                                                                {{bspcData && bspcData.target_quantity ?
+                                                                (bspcData.target_quantity | number:'1.2-3'):0}}</td>
+                                                            <!-- *ngIf="isFinalSubmit" -->
+                                                            <td><span
+                                                                    *ngFor="let team of getTeamMemberPdf(bspcData.team_id); let i = index">{{i+1}}.{{team
+                                                                    && team.agency_type ? team.agency_type:''}},&nbsp;
+                                                                    {{team &&
+                                                                    team['desingnation_name'] ?
+                                                                    team['desingnation_name']:''}}<br></span>
+                                                            </td>
+                                                        </tr>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                        <!-- </ng-container> -->
+                                    </tbody>
+                                </table>
+
+                                <div class="col-12 pl-0 " style="margin-left: -1em;">
+                                    <span class="float-right pl-0 ">
+                                        <span style="display: flex;justify-content:center;font-weight: 500!important;"
+                                            class="user_details">--SD--</span>
+                                        <span class="user_details" style="font-weight: 500!important">
+                                            ({{profileData && profileData.contact_person_name ?
+                                            profileData.contact_person_name:'NA' }})
+                                            <br>
+                                            <span class="user_details" style="font-weight: 500!important">
+                                                {{profileData && profileData['m_designation.name'] ?
+                                                profileData['m_designation.name']:'NA'}}
+                                            </span>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="col-12 pl-0" style="margin-top:-2em">
+                                    <span style="font-size: 12px;">
+                                        *Note This is an electronically generated report and does not require signature.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

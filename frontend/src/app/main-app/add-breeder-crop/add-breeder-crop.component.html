@@ -1,0 +1,284 @@
+<div class="pt-3 pb-3 px-4">
+    <form [formGroup]="ngForm">
+        <div class=" card">
+            <div class="col-12 heading mt-3 pl-3 ">
+                {{title}}
+            </div>
+            <!-- form-row -->
+            <div class="row form-group pl-2">
+
+                <!-- Year of Indent -->
+                <div class="col-12 col-lg-6 pt-3 pr-2 pr-md-4">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12  col-lg-3 pl-4 ">
+                            <label for="" class="left-heading">Year of Indent</label>
+                        </div>
+                        <div
+                            class="col-md-12 col-sm-11 d-flex  pl-sm-3 pl-lg-0 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4">
+                            <div ngbDropdown class="d-inline-block w-100 ">
+                                <select class="form-control for-downicon-remove" formControlName="year_of_indent" (change)="resetFieldYear()">
+                                    <option value="">Select Year of Indent</option>
+                                    <option *ngFor="let data of yearOfIndent" value="{{data.year}}">
+                                        {{data.year}}-{{(data.year-2000)+1}}</option>
+                                </select>
+
+                                <div class="year_of_indent errorMessage "
+                                    *ngIf="submitted || ngForm.controls['year_of_indent'].invalid && (ngForm.controls['year_of_indent'].dirty || ngForm.controls['year_of_indent'].touched)">
+                                    <span *ngIf=" ngForm.controls['year_of_indent'].errors?.['required']">
+                                        Please Select Year of Indent. <br>
+                                    </span>
+                            
+                                </div>
+                                <div class="pl-0 toggle-button" ngbDropdown
+                                >
+                                <i class="fa-solid fa-angle-down downicon"></i>
+                            </div>
+                               
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Season -->
+                <div class="col-12 col-lg-6 pt-3 pr-2 pr-md-4">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12  col-lg-3 pl-4 ">
+                            <label for="" class="left-heading">Season</label>
+                        </div>
+                        <div
+                            class="col-md-12 col-sm-11 d-flex  pl-sm-3 pl-lg-0 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4">
+                            <div ngbDropdown class="d-inline-block w-100 ">
+                                <select class="form-control for-downicon-remove" formControlName="season"  (change)="resetFieldSeason()">
+                                    <option value="">Select Season</option>
+                                    <option *ngFor="let data of seasonListData" value="{{data && data.season ? data.season :''}}">
+                                        {{data && data['m_season.season'] ? data['m_season.season']:'NA'}}</option>
+                                </select>
+
+                                <div class="season errorMessage "
+                                    *ngIf="submitted || ngForm.controls['season'].invalid && (ngForm.controls['season'].dirty || ngForm.controls['season'].touched)">
+                                    <span *ngIf=" ngForm.controls['season'].errors?.['required']">
+                                        Please Select Season. <br>
+                                    </span>
+                                </div>
+                                <div class="pl-0 toggle-button" ngbDropdown
+                                >
+                                <i class="fa-solid fa-angle-down downicon"></i>
+                            </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crop Name -->
+                <div class="col-12 col-lg-6 pt-3 pr-2 pr-md-4">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12  col-lg-3 pl-4 ">
+                            <label for="" class="left-heading">Crop Name</label>
+                        </div>
+                        <div
+                            class="col-md-12 col-sm-11 d-flex  pl-sm-3 pl-lg-0 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4">
+                            <div ngbDropdown class="d-inline-block w-100 ">
+                                <div  [ngClass]="disabledfieldCrop ? 'disabledfield' : ''" ngbDropdown class="d-inline-block w-100 "
+                            
+                                        >
+                                            <button class="btn takeplacholder w-100 crop toggle-button"
+                                                id="crop_name" ngbDropdownToggle
+                                                style="text-align: left;">{{crop_names && (crop_names.length>30) ? (crop_names.substring(0,30)+'...'):crop_names? crop_names :'Select Crop
+                                                Name'}}</button>
+                                                <!-- disabledfield -->
+                                            <div class="dropdown-menu w-100" ngbDropdownMenu="crop_name" aria-labelledby="sortMenu" *ngIf="!isView" >
+                                                <input type="text" class="form-control px-4"  formControlName="crop_name_text" >
+                                                <button class="dropdown-item" *ngFor="let data of crop_name_list"
+                                                    (click)="cropNames(data)" #dropdownItem [attr.data-parent-name]="'crop_name'">
+                                                    {{data && data.crop_name ? data.crop_name:''}}
+                                                    <!-- <input type="hidden" formControlName="crop_code"> -->
+                                                </button>
+                                               
+                                            </div>
+            
+                                        </div>
+                                        <div class="pl-0 toggle-button" ngbDropdown
+                                            >
+                                            <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                        </div>
+                                <!-- <select class="form-control" formControlName="crop_name" (change)="resetField()">
+                                    <option value="">Select Crop Name</option>
+                                    <option *ngFor="let data of crop_name_list" value="{{data && data.m_crop_id}}">
+                                        {{data && data.crop_name ? data.crop_name:''}}</option>
+                                </select> -->
+
+                                <div class="crop_name errorMessage "
+                                    *ngIf="submitted || ngForm.controls['crop_name'].invalid && (ngForm.controls['crop_name'].dirty || ngForm.controls['crop_name'].touched)">
+                                    <span *ngIf=" ngForm.controls['crop_name'].errors?.['required']">
+                                        Please Crop Name. <br>
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Variety Name -->
+                <div class="col-12 col-lg-6 pt-3 pr-2 pr-md-4">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12  col-lg-3 pl-4 ">
+                            <label for="" class="left-heading">Variety Name</label>
+                        </div>
+                        <div
+                            class="col-md-12 col-sm-11 d-flex  pl-sm-3 pl-lg-0 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4">
+                            <div ngbDropdown class="d-inline-block w-100 ">
+                                <!-- <select class="form-control" formControlName="variety_name">
+                                    <option value="">Select Variety Name</option>
+                                    <option *ngFor="let data of VarietyNameDataList" value="{{data.variety_name}}">
+                                        {{data.variety_name}}</option>
+                                </select> -->
+                                <!-- <button class="btn takeplacholder w-100 crop toggle-button"
+                                    [ngClass]=" disabledfield ? 'disabledfield' : ''" id="crop_group" ngbDropdownToggle
+                                    style="text-align: left;">{{variety_name ? variety_name: "Select Variety Name "}}</button>
+
+                                <div class="dropdown-menu w-100" ngbDropdownMenu="variety_name"
+                                    aria-labelledby="sortMenu">
+                                    <button class="dropdown-item" 
+                                        *ngFor="let data of VarietyNameDataList"(click)="varietyData(data)">{{data && data.variety_name ?
+                                        data.variety_name:" Select Croup Group"}}</button>
+                                </div> -->
+                                <div aria-disabled="varietyNameDisbale" ngbDropdown class="d-inline-block w-100 "
+                                    [ngClass]="isView? 'disable-crop' : ''">
+                                    <div>
+                                        <!-- [ngClass]=" disabledfield ? 'form-crop' : ''" -->
+                                        <ng-multiselect-dropdown [settings]="dropdownSettings" [disabled]="hiddenVeriey"
+                                            [data]="VarietyNameDataList" [(ngModel)]="variety_name"
+                                            formControlName="variety_name" [placeholder]="'Select Variety Name'"
+                                            (keydown)="keyPressedOnMultiDropdown($event)"
+                                            (onDropDownClose)="ngClearMultiSelectSelection()">
+                                        </ng-multiselect-dropdown>
+                                        <!-- <button class="btn takeplacholder1 w-100 crop toggle-button" style="color:#0000"
+                                            [ngClass]=" disabledfield || isView ? 'disabledfield' : ''"
+                                            id="variety_name" ngbDropdownToggle style="text-align: left;"
+                                            aria-disabled="true">
+                                            {{verietyName ? verietyName :'Select Variety Name'}}<i
+                                                class="fa fa-angle-down" style="float: right;"></i>
+                                        </button> -->
+                                    </div>
+                                    <div class="variety_name errorMessage "
+                                        *ngIf="submitted || ngForm.controls['variety_name'].invalid && (ngForm.controls['variety_name'].dirty || ngForm.controls['variety_name'].touched)">
+                                        <span *ngIf=" ngForm.controls['variety_name'].errors?.['required']">
+                                            Please Select Variety Name. <br>
+                                        </span>
+                                    </div>
+                                    <!-- <div class="dropdown-menu w-100" ngbDropdownMenu="variety_name"
+                                        aria-labelledby="sortMenu">
+                                        <button class="dropdown-item" *ngFor="let data of VarietyNameDataList"
+                                            value="{{data.variety_name}}" (click)="varietyData(data)">{{data &&
+                                            data.variety_name ? data.variety_name :''}}</button>
+                                    </div> -->
+                                </div>
+                                <!-- <div class="variety_name errorMessage "
+                                    *ngIf="submitted || ngForm.controls['variety_name'].invalid && (ngForm.controls['variety_name'].dirty || ngForm.controls['variety_name'].touched)">
+                                    <span *ngIf=" ngForm.controls['variety_name'].errors?.['required']">
+                                        Please Select Variety Name. <br>
+                                    </span>
+                                </div> -->
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Breeder Production Centre -->
+                <div class="col-12 col-lg-6 pt-3 pr-2 pr-md-4">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12  col-lg-3 pl-4">
+                            <label for="" class="left-heading">Breeder Production Centre</label>
+                        </div>
+                        <!-- [ngClass]="disabledfield ? 'disabledfield' : ''" -->
+                        <div
+                            class="col-md-12 col-sm-11 d-flex  pl-sm-3 pl-lg-0 pl-4 col-lg-9 ml-xs-3 px-sm-4 pr-sm-4 col-11 col-xs-3 pl-sm-4 pr-sm-4 pl-md-4 pr-mr-4">
+                            <div ngbDropdown class="d-inline-block w-100 ">
+                                <div  ngbDropdown class="d-inline-block w-100 "
+                            
+                                >
+                                    <button class="btn takeplacholder w-100 crop toggle-button" title="{{breeder_production_name ? breeder_production_name :''}}"
+                                        id="breeder_production_center" ngbDropdownToggle
+                                        style="text-align: left;">{{breeder_production_name && (breeder_production_name.length>30) ? (breeder_production_name.substring(0,30)+'...'):breeder_production_name? breeder_production_name :'Select Breeder Seed Production center
+                                        '}}</button>
+    
+                                    <div *ngIf="!isView" class="dropdown-menu w-100" ngbDropdownMenu="breeder_production_center" aria-labelledby="sortMenu">
+                                        <input type="text" class="form-control px-4"  formControlName="breeder_production_center_text" >
+                                        <button class="dropdown-item" *ngFor="let data of breederproductionList"
+                                        
+                                            (click)="breederProductionsData(data)" #dropdownItem [attr.data-parent-name]="'breeder_production_center'">
+                                            {{data  && data.agency_name  ? data.agency_name:''}}
+                                            <!-- <input type="hidden" formControlName="crop_code"> -->
+                                        </button>
+                                       
+                                    </div>
+    
+                                </div>
+                                <div class="pl-0 toggle-button" ngbDropdown
+                                    >
+                                    <i class="fa-solid fa-angle-down downicon " (click)="cnClick()"></i>
+                                </div>
+                                <!-- downicon-alignment -->
+                                <!-- <select formControlName="breeder_production_center" class="form-control"
+                                    [ngClass]="disabledfield ? 'form-crop':''">
+                                    <option value="">Select Breeder Production Centre</option>
+                                    <option value="{{data.id}}" *ngFor="let data of breederproductionList">
+                                        {{data.name}}</option>
+                                </select> -->
+                                <div class="breeder_production_center errorMessage "
+                                    *ngIf="submitted || ngForm.controls['breeder_production_center'].invalid && (ngForm.controls['breeder_production_center'].dirty || ngForm.controls['breeder_production_center'].touched)">
+                                    <span *ngIf=" ngForm.controls['breeder_production_center'].errors?.['required']">
+                                        Please Select Breeder Production Center. <br>
+                                    </span>
+                                </div>
+                                <!-- <div class="pl-0 toggle-button" ngbDropdown >
+                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                    </div> -->
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-12 pb-3 mt-4 sub_updt_cancel_btn ">
+
+                    <div class="resp_btn" *ngIf="!isEdit && submitbtn ">
+                        <button [disabled]="submitBtnDisable" (click)="postCropData()"
+                            class="form-button submit_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                            role="button">
+                            Submit
+                        </button>
+                    </div>
+                    <div class="resp_btn" *ngIf="isEdit">
+                        <button type="submit"
+                            class="form-button update_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                            (click)="updateForm()">
+                            Update
+                        </button>
+                    </div>
+                    <!-- <div class="resp_btn" [ngClass]=" btnFix ? 'px-5 pl-5 ml-5' : ''"> -->
+                    <div class="resp_btn" [ngClass]=" btnFix ? '' : ''">
+                        <button type="submit" [routerLink]="['/add-breeder-crop-list', ]"
+                            class="form-button submit_btn ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                            role="button">
+
+                            Cancel
+
+
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>

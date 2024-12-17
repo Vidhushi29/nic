@@ -1,0 +1,97 @@
+:root {
+    --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
+}
+
+@supports (font-variation-settings: normal) {
+    :root {
+        font-family: 'Inter var', sans-serif;
+    }
+}
+
+.main-inventory {
+    background-color: #B64B1D0D;
+    border: 1px #D2D2D2;
+    border-radius: 10px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    height: auto;
+    margin: 1%;
+    padding-left: 1.25%;
+    padding-right: 1.5%;
+    padding-bottom: 1%;
+    margin-left: 15px;
+    letter-spacing: 0px;
+    color: #000000;
+}
+
+.card-inventory {
+    width: auto;
+    height: auto;
+    /* border-radius: 10px; */
+    border: 2px solid #0000;
+    background: #FFFFFF;
+}
+
+hr.new2 {
+    border-top: 2px dashed #000000;
+}
+
+.border {
+    padding: 1%;
+    border: 2px solid #000000;
+}
+
+.btn-inventory1 {
+    border-radius: 5px;
+    color: white;
+    border: none;
+    height: 37px;
+    outline: none;
+    background: #B64B1D;
+}
+
+table {
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+}
+
+.table-bordered td,
+.table-bordered th {
+    /* border: 1px solid #A6A6A6 !important; */
+    border-top: none !important;
+}
+tr td {
+    /* background-color:rgb(0, 26, 255); */
+    /* color: rgb(0, 26, 255); */
+    text-align: center !important;
+    vertical-align: top !important;
+    /* vertical-align: middle; */
+    word-break: break-all !important;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+
+}
+
+tr th {
+    /* background-color:rgb(0, 26, 255); */
+    /* color: rgb(0, 26, 255); */
+    text-align: center !important;
+    vertical-align: top !important;
+    /* vertical-align: middle; */
+    word-break: break-all !important;
+
+}
+.data-row-header {
+    background: #B64B1D 0% 0% no-repeat padding-box;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    /* margin: 0.2%; */
+    /* padding: 2%; */
+}
+@media print {
+    .page-break {
+      page-break-before: always;
+      break-before: page;
+    }
+  }

@@ -1,0 +1,415 @@
+<!-- <p>breeder-seed-inventory works!</p> -->
+<form [formGroup]="ngForm">
+    <div class="main-inventory row my-4 w-90 py-1">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-0 pt-1 pb-2">
+                Add Nucleus/Breeder Seed Inventory
+            </div>
+
+            <!-- first card ui  -->
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row card-inventory form-group">
+                    <!-- start sectio 1  -->
+                    <div class="col-12 col-md-10 col-lg-10 col-sm-12 col-xl-10 pt-1">
+                        <div class="row">
+                            <!-- year of indent -->
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-4 col-sm-6">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                        <label for="year" class="label-inventory required">Year</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                        <select class=" form-control input-inventory" formControlName="year">
+                                            <option value="">Please Select Year</option>
+                                            <option *ngFor="let year of inventoryYearData" value="{{year.year}}">{{year
+                                                && year.year}}-{{(year.year-2000)+1}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- season  -->
+                            <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label for="year" class="label-inventory required">Season</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <select class=" form-control input-inventory" formControlName="season">
+                                            <option value="">Please Select Season</option>
+                                            <option *ngFor="let data of inventorySeasonData"
+                                                value="{{data.season_code}}">{{data && data.season ? data.season:''}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- crop -->
+                            <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label for="year" class="label-inventory required">Crop</label>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <select class=" form-control input-inventory" formControlName="crop">
+                                            <option value="">Please Select Crop</option>
+                                            <option *ngFor="let data of inventoryCropData" value="{{data.crop_code}}">
+                                                {{data && data.crop_name ? data.crop_name:''}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-2 col-lg-2 col-sm-12 col-xl-2">
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                <p><span style="color:transparent;">.</span></p>
+                            </div>
+                            <div class="col-12 col-md-12 col-lg-12 col-xl-12 pl-2" style="margin: -5px;">
+                                <!-- form-button btn-inventory search d-inline-flex justify-content-center verticle-content-middle mb-3 -->
+                                <button
+                                    class="form-button btn-inventory search d-inline-flex justify-content-center verticle-content-middle"
+                                    (click)="getPageData()">Search</button>
+                                <!-- (click)="search()" -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- seprater line -->
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                        <hr class="dotted">
+                    </div>
+
+                    <!-- end sectio 1  -->
+                    <!-- *ngIf="isCrop" -->
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-12" *ngIf="isCrop">
+                        <div class="row">
+                            <!-- start section 2 -->
+                            <div class="pt-1" class="col-12 col-md-10 col-lg-10 col-xl-10">
+                                <div class="row">
+                                    <!-- Variety -->
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12">
+                                                <label for="year" class="label-inventory ">Select Variety</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12">
+                                                <select type="text" class=" form-control input-inventory"
+                                                    formControlName="variety">
+                                                    <option value="">Please Select Variety</option>
+                                                    <option *ngFor="let data of inventoryVarietyData"
+                                                        value="{{data.variety_id}}">{{data && data.variety_name ?
+                                                        data.variety_name :""}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- *ngIf="isDeveloped" -->
+                                    <!-- Variety Developed By  -->
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4" *ngIf="isDeveloped">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="year" class="label-inventory ">Variety Notification</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="text" class=" form-control input-inventory"
+                                                    formControlName="variety_not">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Select State -->
+                                    <!-- *ngIf="is_developed" -->
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4" *ngIf="isDeveloped">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="year" class="label-inventory ">Select State</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <select class=" form-control input-inventory" formControlName="reason">
+                                                    <option value="">Please Select State</option>
+                                                    <option value="a">a</option>
+                                                    <option value="b">b</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- finish section 2 -->
+
+                            <!-- start section 3 -->
+                            <div class="col-12 col-md-10 col-lg-10 col-xl-10 pt-1" *ngIf="isDeveloped">
+                                <div class="row">
+                                    <!-- year of indent -->
+                                    <div class="col-12 col-md-4 col-lg-4 col-xl-4 col-sm-6" *ngIf="isOnboard">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="year" class="label-inventory ">Select SPAs</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <select class=" form-control input-inventory"
+                                                    formControlName="spa_code">
+                                                    <option value="">Please Select SPA</option>
+                                                    <option value="a">a</option>
+                                                    <option value="b">b</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <!-- Date of Reference No. in MoA -->
+                                     <!-- *ngIf="is_developed" -->
+                                     <div *ngIf="isDeveloped && !isOnboard" class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4">
+                                        <div class="row"  >
+                                            <!-- *ngIf="is_developed" -->
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="year" class="label-inventory ">
+                                                   Enter SPA Name
+                                                </label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="text" class=" form-control input-inventory"
+                                                    formControlName="spa_name" placeholder="Enter SPA Name">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="isDeveloped && !isOnboard" class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4">
+                                        <div class="row">
+                                            <!-- *ngIf="is_developed" -->
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="year" class="label-inventory ">
+                                                   Enter SPA Code
+                                                </label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="text" class=" form-control input-inventory"
+                                                    formControlName="spa_code">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-4" *ngIf="isDeveloped">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label for="year" class="label-inventory required">Indent Qty(In
+                                                    Quintal)</label>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <input type="text" class=" form-control input-inventory"
+                                                    formControlName="indent_qnt" placeholder="Enter Here">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- finish section 3 -->
+
+                            <!-- button section -->
+                            <div *ngIf="isDeveloped"
+                                class="col-12 col-md-10 col-lg-10 pt-2 pb-2 buttons-phone col-xl-10">
+                                <!-- <div class="row pl-2"> -->
+                                <!-- <div class="col-12 col-sm-12"> -->
+                                <button
+                                    class="btn-inventory-cancel search d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="revertDataCancelation()" style="border: 2px solid #B64B1D;">Cancel</button>
+                                <!-- </div> -->
+                                <!-- <div class="col-12 col-sm-12"> -->
+                                <button
+                                    class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="saveForm()" *ngIf="!is_update">Save</button>
+                                <!-- </div> -->
+                                <!-- <div class="col-12 col-sm-12"> -->
+                                <button
+                                    class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="updateForm()" *ngIf="is_update">Update</button>
+                                <!-- </div> -->
+                                <!-- </div> -->
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- second card ui  -->
+            <div class="col-12 col-md-12 col-lg-12 pt-1 col-xl-12">
+                <div class="row card-inventory form-group">
+                    <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12">
+                        <div class="row pl-0">
+                            <div class="col-12 col-md-10 col-lg-10 pl-0 col-xl-10">
+                                <div class="col-12 col-md-4 col-lg-4 col-sm-12 pt-1 pb-3 col-xl-4"
+                                    [ngClass]="varietyDisbled ? 'disable_btn' :''">
+                                    <ng-multiselect-dropdown [disabled]="varietyDisbled" [settings]="dropdownSettings"
+                                        [data]="varietyList" formControlName="variety_filter"
+                                        [placeholder]="'Please Select Variety '" class="containers"
+                                        [ngClass]="varietyDisbled ? 'disable_btn' :''">
+                                    </ng-multiselect-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-wrapper">
+                            <div class="row d-none d-md-flex data-row-header">
+                                <div
+                                    class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex verticle-content-middle">
+                                    Crop</div>
+                                <div
+                                    class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex verticle-content-middle">
+                                    Variety</div>
+                                <div
+                                    class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex verticle-content-middle">
+                                    Variety Notification Year </div>
+                                <div
+                                    class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex verticle-content-middle">
+                                    State.
+                                </div>
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex verticle-content-middle">
+                                    SPA
+                                </div>
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex verticle-content-middle">
+                                    Indent Qty
+                                </div>
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex verticle-content-middle pl-lg-4">
+                                    Generated On
+                                </div>
+                                <div
+                                    class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex verticle-content-middle justify-content-center">
+                                    Action
+                                </div>
+                            </div>
+                            <div *ngIf="!isSearch">
+                                <div *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index"
+                                    class="row data-row">
+                                    <div
+                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-1 d-flex verticle-content-middle">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none" class="d-md-none"><b>Crop</b>&nbsp;</label>
+                                            <span>
+                                                <!-- {{data.variety_name}}
+                                             {{ filterPaginateSearch.itemList[0]}} -->
+                                                {{data && data.variety_name ? data.variety_name : ""}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                    class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-1 d-flex verticle-content-middle">
+                                    <div class="w-fit-content">
+                                        <label class="d-md-none" class="d-md-none"><b>Variety</b>&nbsp;</label>
+                                        <span>
+                                            <!-- {{data.variety_name}}
+                                         {{ filterPaginateSearch.itemList[0]}} -->
+                                            {{data && data.variety_name ? data.variety_name : ""}}
+                                        </span>
+                                    </div>
+                                </div>
+                                    <div
+                                        class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-1 d-flex verticle-content-middle">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none"><b>Variety Notification Year:</b>&nbsp;</label>
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                abv
+
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-1 d-flex verticle-content-middle">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none"><b>State:</b>&nbsp;</label>
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                abc
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex verticle-content-middle">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none"><b>SPA:</b>&nbsp;</label>
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                abc
+
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex verticle-content-middle">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none"><b> Indent Qty:</b>&nbsp;</label>
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                abc
+
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex verticle-content-middle">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none"><b>Generated On:</b>&nbsp;</label>
+                                            <span style="cursor: pointer; word-break: break-word;" data-toggle="tooltip"
+                                                data-placement="bottom" title="">
+                                                abc
+
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div
+                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-1 d-flex verticle-content-middle justify-content-md-center phone_view_btn">
+                                        <div class="list-action-buttons-wrapper w-fit-content phone_view_action_btn pl-md-3 pl-lg-3 pl-xl-3 pl-sm-0">
+                                            <button class="list-action-buttons pl-md-4 pl-lg-4 pl-xl-4 pl-sm-0" style="cursor: pointer;"
+                                                (click)="editFunctinality(data)">
+                                                <img src="assets/images/edit.svg">
+                                            </button>
+                                            <button class="list-action-buttons pl-md-4 pl-lg-4 pl-xl-4 pl-sm-0" style="cursor: pointer;">
+                                                <img src="assets/images/delete.svg">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList) || filterPaginateSearch.itemList.length < 1 || isSearch)"
+                            class="px-2 py-3 w-100" style="height: 50px;">
+                            <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                No Data Found.
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!isSearch" class="col-12 col-md-12 col-lg-12 px-4 px-md-3 py-1 pb-4 pl-4">
+                        <app-pagination-ui></app-pagination-ui>
+                    </div>
+
+                    <div *ngIf="!isSearch" class="col-12 col-md-12 col-lg-12 pt-1">
+                        <div class="row">
+                            <!-- <div class="col-12 col-md-10 col-lg-10 col-xl-10">
+                                <p>ldlld</p>
+                            </div> -->
+                            <div class="col-12 col-md-1 col-lg-1 col-xl-1 pt-sm-4">
+                                <button [disabled]="true"
+                                    class="search form-button btn-inventory search3 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                    (click)="finalSubmit()">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>

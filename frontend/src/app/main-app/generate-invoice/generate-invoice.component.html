@@ -1,0 +1,574 @@
+<form [formGroup]="ngForm" class="pt-2">
+    <div class="main-inventory my-4 w-90  pt-2">
+        <span class="title-inventory pt-3 ">
+            Generate Invoice
+        </span>
+        <!-- first card ui -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-2">
+            <div class="row card-inventory form-group">
+                <!-- start sectio 1 -->
+                <div class="col-12 col-md-10 col-lg-10 col-sm-12 pt-1 pl-3">
+                    <div class="row">
+                        <!-- year of indent -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Year of Indent</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="year">
+                                        <option value="">Select Year</option>
+                                        <option *ngFor="let data of yearOfIndent"
+                                            value="{{data && data.year ? data.year :''}}">
+                                            {{data && data.year ? data.year :''}}- {{data && data.year ?
+                                            (data.year-2000)+1 :''}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- season -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Season</label>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <select class=" form-control input-inventory" formControlName="season">
+                                        <option value="">Select Season</option>
+                                        <option *ngFor="let data of seasonlist "
+                                            value="{{data && data.season ? data.season :''}}"> {{data &&
+                                                data.season_name ?
+                                                data.season_name :''}}  
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- crop -->
+                        <div class="col-12 col-md-4 col-lg-4 col-sm-12 col-xl-4">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <label for="year" class="label-inventory required">Crop</label>
+                                </div>
+                                <div class="col-md-12 px-2">
+                                    <div ngbDropdown class="d-inline-block w-100">
+                                        <button
+                                          [disabled]="!ngForm.controls['year'].value && !ngForm.controls['season'].value"
+                                          class="btn takeplacholder w-100 crop toggle-button input-inventory form-control"
+                                          id="crop_group" ngbDropdownToggle style="text-align: left;">
+                                          {{ selectCrop && (selectCrop.length > 30) ? (selectCrop.substring(0, 30) + '...') : selectCrop ? selectCrop : 'Select Crop ' }}
+                                        </button>
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group" aria-labelledby="sortMenu">
+                                          <input type="text" class="form-control px-4" formControlName="crop_text" (click)="cropdatatext()">
+                                          <button class="dropdown-item" *ngFor="let data of cropName" (click)="cropNameValue(data)" #dropdownItem [attr.data-parent-name]="'crop_group'">
+                                            {{ data && data.crop_name ? data.crop_name : '' }}
+                                          </button>
+                                        </div>
+                                      </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown>
+                                        <img src="assets/images/16.svg" alt="" srcset="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- apply button -->
+                <div class="col-12 col-md-2 col-xl-2 col-sm-12 col-12 pt-4 mt-2">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-xl-12 col-lg-12 pr-2">
+                            <button
+                                class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1"
+                                (click)="toggleSearch()" [disabled]="!ngForm.controls['crop_text'].valid">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  second Card ui -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12  pt-3 pr-0" *ngIf="visibleForm">
+            <div class="row card-inventory pb-2 pl-0">
+                <!-- <div class="row data-row "> -->
+                <div class="col-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 mt-3"    >
+                    <div *ngIf="visibleForm" class="row">
+                          <div class="col-md-3 col-12 col-sm-12">
+                            Variety1: <b>{{VarietyName ? VarietyName : 'NA'}}</b>
+                          </div>
+                          <div class="col-md-3 col-12 col-sm-12">
+                            Indenter: <b>{{IndenterName ? IndenterName : 'NA'}}</b>
+                          </div>
+                          <div class="col-md-3 col-12 col-sm-12">
+                            SPA: <b>{{SpaName ? SpaName : 'NA'}}</b>
+                          </div>
+                          <div class="col-md-3 col-12 col-sm-12">
+                            Quantity of Breeder Seed Allocated ({{this.quantityUnit}}): 
+                            <b>{{BreederSeedAllocated ? BreederSeedAllocated : 'NA'}}</b>
+                          </div>
+                      </div>                      
+                       
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <table class="table data-row mt-1" formArrayName="bag_details">
+                        <thead class="w-100">
+                            <tr class="data-row-header">
+                                <th class="col-md-1 py-3 px-2 text-white vertical-align-center heading">Bag Weight ({{this.quantityUnit}})
+                                </th>
+                                <th class="col-md-1 py-3 px-2 text-white vertical-align-center heading">No. of Bags Available
+                                </th>
+                                <th class="col-md-2 py-3 px-3 text-white vertical-align-center heading">Quantity of Breeder Seed Available({{this.quantityUnit}})
+                                </th>
+                                <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">No. of Bags to be kept for SPA
+                                </th>
+                                <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">Total Quantity of Breeder Seed to be kept for SPA ({{this.quantityUnit}})
+                                </th>
+                                <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">Per Unit MRP (in Rupees)
+                                </th>
+                                <th class="col-md-2 py-3 px-3 text-white vertical-align-center heading">Total Amount for each bag weight (in Rupees)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="py-2 text-white table-bordered heading data-row">
+                            <ng-container *ngFor="let data of bag_details.controls; let i=index">
+                                <ng-container [formGroupName]="i" class="row data-row2 px-3">
+                                    <tr>
+                                        <td>{{ngForm.controls['bag_details']['controls'][i].controls['spa_packages_size'].value}}</td>
+                                        <td>{{ngForm.controls['bag_details']['controls'][i].controls['spa_no_of_bag'].value}}</td>
+                                        <td>{{ngForm.controls['bag_details']['controls'][i].controls['spa_packages_size'].value * ngForm.controls['bag_details']['controls'][i].controls['spa_no_of_bag'].value}}</td>
+                                        <td>
+                                            <input type="number" class="form-control" formControlName="no_of_bag"
+                                                   [max]="ngForm.controls['bag_details']['controls'][i].controls['spa_no_of_bag'].value"
+                                                   (change)="sumValue($event, i)"/>
+                                            <div *ngIf="ngForm.controls['bag_details']['controls'][i].controls['no_of_bag'].errors?.maxBagsExceeded">
+                                              <small class="text-danger">Value exceeds the maximum allowed bags</small>
+                                            </div>
+                                          </td>
+                                                          
+                                        <td>{{ngForm.controls['bag_details']['controls'][i].controls['spa_packages_size'].value * ngForm.controls['bag_details']['controls'][i].controls['no_of_bag'].value}}</td>
+                                        <td><input type="number" class="form-control" [formControl]="ngForm.controls['bag_details']['controls'][i].controls['spa_per_qnt_mrp']" (change)="sumValue($event,i)"/></td>
+                                        <td class="justify-content-center">{{ngForm.controls['bag_details']['controls'][i].controls['total_amount'].value}}</td>
+                                    </tr>
+                                </ng-container>
+                            </ng-container>
+                            <!-- <ng-container *ngFor="let data of generateInvoice;let i=index">
+                            </ng-container> -->
+                            <!-- <tr class="row-color">
+                                <th colspan="6"class="text-white">Grand Total</th>
+                                <th class="text-white">{{ngForm.controls['grand_total_amt'].value ? ngForm.controls['grand_total_amt'].value:0}}</th>
+                            </tr> -->
+                            <tr class="row-color">
+                                <!-- <th colspan="5" class="text-white  text-right">Add GST% if applicable</th> -->
+                                <th colspan="5" class="text-white  text-right"></th>
+                                <th colspan="1" class="text-white  text-right">
+                                    <!-- <input type="number" class="form-control" formControlName="totalgst_per"
+                                        placeholder="GST %"
+                                        (change)="gstCalculateValue($event);calculateCharges();calculategstCharges($event) "> -->
+                                </th>
+                                <th class="text-white"> Total: {{ this.ngForm.controls['grand_total_amt'].value || 0 }}
+                                    <!-- {{ this.ngForm.controls['grand_total_amt'].value }} -->
+    
+                                </th>
+                            </tr>
+                            <!-- class="row-color" -->
+                            <!-- <tr> -->
+                                <!-- <th colspan="5" class="text-right"> GST (in Rupees)</th> -->
+                                <!-- <th colspan="5" class="text-right"></th>
+                                <th colspan="1" class="text-white  text-right"> -->
+                                    <!-- <input type="number" class="form-control" formControlName="totalgst_amt"
+                                        placeholder="GST"> -->
+                                <!-- </th>
+                                <th class="">Total: {{ grandTotal }} </th>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="col-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 pt-1">
+                        <div class="row">
+                            <div class="col-md-5 col-sm-12 col-lg-5 col-xl-5">
+                            </div>
+
+                            <div class="col-12 col-md-7 col-lg-7  col-sm-12 ">
+                                <div class="row col-12">
+                                    <div class="row">
+                                        <div class="row col-12">
+                                            <div class="col-12 col-sm-5 col-md-5 col-xl-4 col-lg-2">
+                                                <label for="" class="label-inventory">Additional Charges (if any):</label>
+                                            </div>
+                                            <div class="col-12 col-sm-5 col-md-6 col-xl-5 col-lg-5">
+                                                <ng-multiselect-dropdown class="seed-division-variety"
+                                                    formControlName="selectedCharges"[(ngModel)]="selectedItems"
+                                                    [placeholder]="'Select Charges'" [settings]="dropdownSettings1"
+                                                    [data]="additionalCharges" (onSelect)="onItemSelect($event)">
+                                                </ng-multiselect-dropdown>
+                                            </div>
+                                        </div>
+
+                                        <!-- mou charges -->
+                                        <div class="row pt-2 col-12" *ngIf="visibleMouCharges">
+
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <label for="" class="label-inventory">MoU Charges :</label>
+                                            </div>
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <input type="number" class="form-control" formControlName="mou_amt"
+                                                    (change)="gstCalculateValue($event);calculateCharges();calculategstCharges($event)"
+                                                    placeholder="  ">
+                                            </div>
+                                            <div class="col-12 col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                                                <input type="number" class="form-control"
+                                                    formControlName="mougst_amt"
+                                                    (change)="gstCalculateValue($event);calculateCharges();calculategstCharges($event)"
+                                                    placeholder="GST %">
+                                            </div>
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <input type="number" class="form-control"
+                                                    formControlName="mougst_amt_total"
+                                                    value="{{((this.ngForm.controls['mou_amt'].value)+(this.ngForm.controls['mou_amt'].value*this.ngForm.controls['mougst_amt'].value)/100)}}"
+                                                    placeholder="Total Mou Amount">
+                                            </div>
+                                            <div class="col-12 col-sm-1 col-md-1 col-xl-1 col-lg-1">     
+                                                    <button class="btn-no-border"  (click)="onDeSelect(1)"><img
+                                                    src="assets/images/delete.png" width="35"
+                                                    height="35"></button>
+                                            </div>
+                                        </div>
+
+                                        <!-- licence fee -->
+                                        <div class="row pt-1 col-12" *ngIf="visibleLicenceCharges">
+
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <label for="" class="label-inventory">Licence Fee :</label>
+                                            </div>
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <input type="number" class="form-control"
+                                                    formControlName="licence_amt"
+                                                    (change)="gstCalculateValue(null);calculateCharges();calculategstCharges($event)"
+                                                    placeholder="">
+                                            </div>
+                                            <div class="col-12 col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                                                <input type="number" class="form-control"
+                                                    formControlName="licencegst_amt"
+                                                    (change)="gstCalculateValue(null);calculateCharges();calculategstCharges($event)"
+                                                    placeholder="GST %">
+                                            </div>
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <input type="number" class="form-control"
+                                                    formControlName="licencegst_amt_total"
+                                                    placeholder="Total Licence Amount"
+                                                    value="{{((this.ngForm.controls['licence_amt'].value)+(this.ngForm.controls['licence_amt'].value*this.ngForm.controls['licencegst_amt'].value)/100)}}">
+                                            </div>
+                                            <div class="col-12 col-sm-1 col-md-1 col-xl-1 col-lg-1"> 
+                                                    <button class="btn-no-border"  (click)="onDeSelect(2)"><img
+                                                        src="assets/images/delete.png" width="35"
+                                                        height="35">
+                                                    </button>    
+                                            </div>
+                                        </div>
+                                        <!-- PPV charges-->
+                                        <div class="row pt-1 col-12" *ngIf="visibleppvCharges">
+
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <label for="" class="label-inventory">PPV Fee :</label>
+                                            </div>
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <input type="number" class="form-control" formControlName="ppv_amt"
+                                                    (change)="gstCalculateValue(null);calculateCharges();calculategstCharges($event)"
+                                                    placeholder="">
+                                            </div>
+                                            <div class="col-12 col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                                                <input type="number" class="form-control"
+                                                    formControlName="ppvgst_amt"
+                                                    (change)="gstCalculateValue(null);calculateCharges();calculategstCharges($event)"
+                                                    placeholder="GST %">
+                                            </div>
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <input type="number" class="form-control"
+                                                    formControlName="ppvgst_amt_total"
+                                                    placeholder="Total PPV Amount"
+                                                    value="{{((this.ngForm.controls['ppv_amt'].value)+(this.ngForm.controls['ppv_amt'].value*this.ngForm.controls['ppvgst_amt'].value)/100)}}"
+                                                     >
+                                                </div>
+                                                <div class="col-12 col-sm-1 col-md-1 col-xl-1 col-lg-1">     
+                                                        <button class="btn-no-border"  (click)="onDeSelect(3)"><img
+                                                        src="assets/images/delete.png" width="35"
+                                                        height="35"></button>
+                                            </div>
+                                        </div>
+                                        <!-- Royality charges -->
+                                        <div class="row pt-1 col-12" *ngIf="visiblerltCharges">
+
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <label for="" class="label-inventory">Royality :</label>
+                                            </div>
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <input type="number" class="form-control" formControlName="rlt_amt"
+                                                    (change)="gstCalculateValue(null);calculateCharges();calculategstCharges($event)"
+                                                    placeholder="" >
+                                            </div>
+                                            <div class="col-12 col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                                                <input type="number" class="form-control"
+                                                    formControlName="rltgst_amt"
+                                                    (change)="gstCalculateValue(null);calculateCharges();calculategstCharges($event)"
+                                                    placeholder="GST %">
+                                            </div>
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <input type="number" class="form-control"
+                                                    formControlName="rltgst_amt_total"
+                                                    placeholder="Total Royality Amount"
+                                                    value="{{((this.ngForm.controls['rlt_amt'].value)+(this.ngForm.controls['rlt_amt'].value*this.ngForm.controls['rltgst_amt'].value)/100)}}"
+                                                     >
+                                                </div>
+                                                <div class="btn btn-add  col-12 col-sm-1 col-md-1 col-xl-1 col-lg-1">     
+                                                        <button class="btn-no-border" (click)="onDeSelect(4)"><img
+                                                        src="assets/images/delete.png" width="35"
+                                                        height="35"></button>
+                                                </div>
+                                        </div>
+                                        <!-- gst charges -->
+                                        <div class="row pt-1 col-12" *ngIf="visibleGstCharges">
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <label for="" class="label-inventory">GST: (Total)</label>
+                                            </div>
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <input type="number" class="form-control"
+                                                    formControlName="gst_amt" (change)="gstCalculateValue(null);calculateCharges();calculategstCharges($event)" placeholder="">
+                                            </div>
+                                            <div class="col-12 col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                                                <input type="number" class="form-control" formControlName="gstGst_amt"
+                                                (change)="gstCalculateValue(null);calculateCharges();calculategstCharges($event)" placeholder="GST %">
+                                            </div>
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <input type="number" class="form-control"
+                                                    formControlName="gst_amt_total"
+                                                    placeholder="Total Gst Charges"
+                                                    value="{{((this.ngForm.controls['gst_amt'].value)+(this.ngForm.controls['gst_amt'].value*this.ngForm.controls['gstGst_amt'].value)/100)}}"
+                                                >
+                                            </div>
+                                            <div class="btn btn-add  col-12 col-sm-1 col-md-1 col-xl-1 col-lg-1">     
+                                                <button class="btn-no-border" (click)="onDeSelect(5)"><img
+                                                src="assets/images/delete.png" width="35"
+                                                height="35"></button>
+                                        </div>
+
+                                        </div>
+
+                                        <!-- total payable Invoice Amount -->
+                                        <hr>
+                                        <div class="row pt-1 col-12">
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                            </div>
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                            </div>
+                                            <div class="col-12 col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                                                <label for="" class="label-inventory text-right">Grand Total:</label>
+                                            </div>
+                                            <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                                <input type="text" class="form-control" 
+                                                    value="{{(this.ngForm.controls['final_grand_total_amt'].value ? this.ngForm.controls['final_grand_total_amt'].value: grandTotal ? grandTotal : this.ngForm.controls['grand_total_amt'].value ? this.ngForm.controls['grand_total_amt'].value : 0)}}">
+                                            </div>
+                                            <div class="col-12 col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- </div> -->
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                    <!-- </div> -->
+                </div>
+                <!-- </div> -->
+                <div class="col-12 col-md-6 col-sm-6 col-xl-6">
+                    <div class="row">
+                        <div class="col-12 col-md-6 col-sm-6 col-xl-6 pt-1" *ngIf="true">
+                            <button (click)="cancel()"
+                                class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                Cancel
+                            </button>
+                        </div>
+                        <div class="col-12 col-md-6 col-sm-6 col-xl-6 pt-1" *ngIf="true">
+                            <button (click)="generateInvoiceData()"
+                                class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                Generate Invoice
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--  Third Card ui -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12  pt-3 pr-0" *ngIf="searchClicked"> 
+            <div class="row card-inventory form-group pb-2 pl-0">
+                <div class="col-12 col-md-12 col-lg-12 pt-1">
+                    <div class="col-12 col-md-12 col-lg-12 col-sm-12 pt-1 pb-1 pr-3 pl-2">
+                        <div class="row">
+                            <div class="col-12 col-md-1 col-lg-1 col-sm-12 col-xl-1">
+                                <label for="" class="label-inventory">Filter by</label>
+                            </div>
+
+                            <div class="col-12 col-md-11 col-lg-11 col-sm-12 col-xl-11">
+                                <div class="row">
+                                    <div class="col-12 col-md-3 col-lg-3  col-sm-12">
+                                        <div class="row">
+                                            <div class="col-12 pb-1 pl-0 pr-2 ml-2 ">
+                                                <ng-multiselect-dropdown 
+                                                    [placeholder]="'Variety'"
+                                                    [settings]="varietyDropDownSettings" 
+                                                    [data]="inventoryVarietyData"
+                                                    formControlName="variety_array"
+                                                    (onSelect)="onVarietySelect($event)"
+                                                    (onSelectAll)="onVarietySelectAll($event)">
+                                                </ng-multiselect-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3 col-lg-3  col-sm-12">
+                                        <div class="row">
+                                            <div class="col-12 pb-1 pl-2 pr-2 ml-2   ">
+                                                <ng-multiselect-dropdown 
+                                                   [placeholder]="'Indenter'"
+                                                   [settings]="indenterDropDownSettings" 
+                                                   [data]="inventoryIndenterData"
+                                                   formControlName="indenter_array"
+                                                   (onSelect)="onIndenterSelect($event)"
+                                                   (onSelectAll)="onIndenterSelectAll($event)">
+                                            </ng-multiselect-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3 col-lg-3  col-sm-12">
+                                        <div class="row">
+                                            <div class="col-12 pb-1 pl-2 pr-2 ml-2  ">
+                                                <ng-multiselect-dropdown 
+                                                    [placeholder]="'SPA'"
+                                                    [settings]="spaDropDownSettings" 
+                                                    [data]="inventorySpaData"
+                                                    formControlName="spa_array"
+                                                    (onSelect)="onSPASelect($event)"
+                                                    (onSelectAll)="onSPASelectAll($event)">
+                                                </ng-multiselect-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-12 col-md-2 col-lg-2">
+                    </div>
+                    <div class="row data-row ">
+                        <table class="table">
+                            <thead class="w-100">
+                              <tr class="data-row-header">
+                                <th class="col-md-1 py-3 px-2 text-white vertical-align-center heading">S.No.</th>
+                                <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">Variety</th>
+                                <th class="col-md-2 py-3 px-3 text-white vertical-align-center heading">Indenter</th>
+                                <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">SPA</th>
+                                <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">Quantity of Breeder Seed Allocated ({{this.quantityUnit}})</th>
+                                <th class="col-md-2 py-3 px-3 text-white vertical-align-center heading">Action</th>
+                                <th class="col-md-3 py-3 px-2 text-white vertical-align-center heading">Details of Breeder Stock kept for SPA</th>
+                                <th class="col-md-2 py-3 px-2 text-white vertical-align-center heading">Invoice Amount (INR)</th>
+                              </tr>
+                            </thead>
+                            <tbody class="py-2 text-white table-bordered heading data-row">
+                              <ng-container *ngFor="let data of generateInvoiceList; let i = index">
+                                <ng-container *ngFor="let indenterData of data.indenter_details; let j = index">
+                                  <ng-container *ngFor="let spaData of indenterData.spa_details; let k = index">
+                                    <tr>
+                                      <!-- S.No -->
+                                      <td *ngIf="j === 0 && k === 0" [attr.rowspan]="data.rowspan">
+                                        {{ i + 1 }}
+                                      </td>
+                          
+                                      <!-- Variety -->
+                                      <td *ngIf="j === 0 && k === 0" [attr.rowspan]="data.rowspan">
+                                        {{ data.variety_name ? data.variety_name : 'NA' }} <br>
+                                        <span *ngIf="data.parental_line">
+                                          Parental Line: {{ data.parental_line }}
+                                        </span>
+                                      </td>
+                                      <!-- Indenter -->
+                                      <td *ngIf="k === 0" [attr.rowspan]="indenterData.rowspan">
+                                        {{ indenterData.indenter_name ? indenterData.indenter_name : 'NA' }}
+                                      </td>
+                                      <!-- SPA -->
+                                      <td>
+                                        {{ spaData.spa_name ? spaData.spa_name : 'NA' }}
+                                      </td>
+                                      <!-- Quantity of Breeder Seed Allocated (Qt) -->
+                                      <td>
+                                        {{ spaData.allocated_quantity ? spaData.allocated_quantity : 'NA' }}
+                                      </td>
+                                      <!-- Action -->
+                                      <td>
+                                        <div class="row">
+                                          <!-- <div class="col-12 pt-1" *ngIf="false">
+                                            <button class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1" (click)="viewInvoice(data.id, spaData.spa_code)">View Invoice</button>
+                                          </div> -->
+
+                                          <div class="col-12 pt-1" *ngIf="(data.payment_request | uppercase ) === 'DONE'">
+                                            <button (click)="navigateToInvoice(data, spaData )" class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">
+                                            View Invoice
+                                        </button>
+                                        </div>
+                                        <div class="col-12 pt-1" *ngIf="(data.payment_request | uppercase) === 'PENDING'">
+                                     <button (click)="createInvoice(data,indenterData, spaData)" class="w-100 py-2 mt-2 text-white btn-inventory1 bspc_text d-inline-flex justify-content-center verticle-content-middle mb-3 mt-1">Create Invoice</button>
+                                        </div>
+                                        </div>
+                                      </td>
+                                      <!-- Details of Breeder Stock kept for SPA -->
+                                      <!-- *ngIf="spaData && spaData.bag_details && spaData.bag_details.length > 0; else noData" -->
+                                      <td class="verticle-content-middle">
+                                        <ng-container *ngIf="spaData && spaData.length > 0; else noData">
+                                          <span *ngFor="let bagData of spaData">
+                                            <ng-container *ngIf="bagData && bagData.spa_no_of_bag && bagData.spa_no_of_bag != 0">
+                                              Bag size: {{ bagData.spa_no_of_bag }},
+                                              Quantity ({{ quantityUnit }}): {{ bagData.spa_packages_size }} <br>
+                                            </ng-container>
+                                          </span>
+                                        </ng-container>
+                                        <ng-template #noData>NA</ng-template>
+                                      </td>
+                                      
+                                      
+                                      
+                                      <!-- <td>
+                                        <ng-container *ngIf="spaData.bag_details && spaData.bag_details.length > 0; else noData">
+                                          <span *ngFor="let bagData of spaData.bag_details">
+                                            <ng-container *ngIf="bagData && bagData.number_of_bag && bagData.number_of_bag != 0 && bagData.number_of_bag != ''">
+                                              Bag size: {{ bagData.number_of_bag }},
+                                              Quantity ({{ quantityUnit }}): {{ bagData.bag_size }} <br>
+                                            </ng-container>
+                                          </span>
+                                        </ng-container>
+                                        </span>
+                                        <ng-template #noData>NA</ng-template>
+                                      </td> -->
+                                <!-- Invoice Amount (INR) -->
+                                      <td>
+                                        {{ spaData.invoice_amount ? spaData.invoice_amount : '--' }}
+                                      </td>
+                                    </tr>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-container>
+                            </tbody>
+                          </table>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

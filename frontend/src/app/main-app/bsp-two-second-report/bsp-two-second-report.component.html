@@ -1,0 +1,491 @@
+
+<div class="row my-4 w-100 mx-0  d-none"  >
+    <div class="col-12 d-flex justify-content-center verticle-content-middle" id="pdf-tables" >
+        <div class=" px-0 py-2" >
+            <div class="row" >
+                <div class="w-100">
+                    <form [formGroup]="ngForm">
+                        <div class="col-12 px-4 mt-2">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 r pb-2">
+                                    <div class="row">
+                                        <!-- <div class="col-12"> -->
+                                        <div class="col-md-12 col-sm-12 text-center ">
+                                            <span class="heading_notofied heading1">{{agencyName ? agencyName :'NA'}}</span>
+                                        </div>
+
+                                        <div class="col-md-12 col-sm-12 text-center addresshead">
+                                            <span class="heading_notofied heading1 ">{{districtName ? districtName :'NA'}},{{stateName ? stateName :'NA'}}</span>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 text-center pt-4">
+                                            <span class="heading_notofied heading1">BSP-II</span>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 text-center pt-2 ">
+                                            <span class="heading_notofied heading1">"Time Table of Production And Availability of
+                                                Breeder Seed1234"</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-11 col-sm-12" style="margin-top:-6em">
+
+                                        <img src="assets/images/no_logo.png" style="height:8rem;">
+                                    </div>
+                                   
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+                    </form>
+                </div>
+
+                <div>
+
+ <hr style="border:1px solid #228B22" class="mx-3">
+
+
+                    <!-- table for exel Download end -->
+
+                   
+                        <div class="row pr-5">
+                            <div class="col-4 col-md-4 col-lg-6 py-3 d-flex verticle-content-middle pl-5 heading_notofied"
+                                style="font-size: 15px!important;">Year of Indent :
+                                {{data1 && data1[0] && data1[0].year ? data1[0].year
+                                    :'NA'}}-{{data1 && data1[0] && data1[0].year ? (data1[0].year-2000)+1:'NA'}}
+                            </div>
+                            <div class="col-4 col-md-4 col-lg-6 py-3   d-flex verticle-content-middle justify-content-end heading_notofied dateClass" 
+                                style="font-size: 15px!important;">Date :
+                                {{todayData
+                                | date:"dd-MM-YYYY"}}
+                            </div>    
+                        </div>
+                       
+
+                 
+                    <div class="row pr-5">
+                            <div class="col-4 col-lg-4 col-md-4   d-flex verticle-content-middle  heading_notofied pl-5 pl-xl-5"
+                                style="font-size: 15px!important;">Season :
+                                {{this.ngForm.controls['season'].value && (this.ngForm.controls['season'].value ==
+                                'R')?'Rabi':'Kharif'}}
+                            </div>
+                            <div class="col-4 col-lg-4 col-md-4   d-flex verticle-content-middle justify-content-center  heading_notofied "
+                                style="font-size: 15px!important;text-align:center">
+                                Crop: {{cropNameofReport ? cropNameofReport :'NA'}}
+                            </div>
+                            <div class="col-4 col-lg-4 col-md-4  d-flex verticle-content-middle justify-content-end heading_notofied refclass"
+                                style="font-size: 15px!important;">
+                                Reference Number:{{data1 && data1[0] && data1[0].ref_number ? data1[0].ref_number
+                                :'NA'}}123
+
+                            </div>
+                            </div>
+
+                   
+
+                    <div class="mt-1 px-4">
+                        <div class="col-md-12 col-lg-12 col-xl-12">
+                          <div class="row">
+                            <div class="table-responsive">
+                              <table class="table table-bordered">
+                                <thead>
+                                    <tr class=" headingofpdftable">
+                                        <th scope="col" class=" py-2 datalist ">S.No.</th>
+                                        <th scope="col" class=" py-2 datalist"  >Variety</th>
+                                        <th scope="col" class=" py-2 datalist" >Parental <br>  Line</th>
+                                        <th scope="col" class=" py-2 datalist" >Quantity  Targeted <br> in ({{units}})
+                                        </th>
+                                        <th scope="col" class=" py-2 datalist" >Field  Location</th>
+                                        <th scope="col" class=" py-2 datalist" >Date of <br>  Sowing</th>
+                                        <th scope="col" class=" py-2 datalist" >Area Sown <br>  in (Ha)</th>
+
+                                        <th scope="col" class=" py-2 datalist" >Expected Date  of <br>  Inspection by
+                                            Monitoring Team</th>
+                                        <th scope="col" class=" py-2 datalist" >Expected Date <br> of Harvest </th>
+                                        <th scope="col" class=" py-2 datalist" >Expected <br>  Production ({{units}})</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let data of data1; let dataIndex=index">
+                                        <ng-container
+                                            *ngFor="let bspcData of data.line_variety_code_details; let bspcIndex=index">
+                                            <ng-container
+                                                *ngFor="let bsp2_Deteialsdata of bspcData.bsp2_Deteials; let bsp2_DeteialsIndex=index">
+                                                <tr id="{{bsp2_Deteialsdata.ids}}">
+                                                    <td class="bsp2reportdetails datalist "
+                                                        *ngIf="bspcIndex == 0 && bsp2_DeteialsIndex==0 "
+                                                        [attr.rowspan]="data.bsp2DatalengthArr">{{dataIndex+1}}
+                                                    </td>
+
+                                                    <td class="bsp2reportdetails datalist"
+                                                        *ngIf="bspcIndex == 0 && bsp2_DeteialsIndex==0"
+                                                        [attr.rowspan]="data.bsp2DatalengthArr">
+
+                                                        {{data &&
+                                                        data.variety_name ? data.variety_name :''}}</td>
+                                                    <td class="bsp2reportdetails datalist" *ngIf="bsp2_DeteialsIndex==0"
+                                                        [attr.rowspan]="bspcData.totalbsp2_Deteialslength">{{bspcData &&
+                                                        bspcData.line_variety_name ?
+                                                        bspcData.line_variety_name:'NA'}}</td>
+                                                   <td  class="bsp2reportdetails datalist" *ngIf="bsp2_DeteialsIndex==0 && data && data.meet_target  && data && data.carry_total_qty "
+                                                   [attr.rowspan]="bspcData.totalbsp2_Deteialslength">{{bspcData &&
+                                                   bspcData.total_targeted_qty ?
+                                                   checkValue(bspcData.total_targeted_qty) - data.carry_total_qty:'NA'}}</td>
+                                                   <td  class="bsp2reportdetails datalist" *ngIf="bsp2_DeteialsIndex==0 && data && !data.meet_target && data.meet_target!=2 && data && !data.carry_total_qty"
+                                                   [attr.rowspan]="bspcData.totalbsp2_Deteialslength">{{bspcData &&
+                                                   bspcData.total_targeted_qty ?
+                                                   checkValue(bspcData.total_targeted_qty) :'NA'}}</td>
+
+                                                    <td class="bsp2reportdetails datalist">
+                                                        {{bsp2_Deteialsdata && bsp2_Deteialsdata.address ?
+                                                        bsp2_Deteialsdata.address :'NA'}},
+                                                        {{bsp2_Deteialsdata && bsp2_Deteialsdata.district_name ?
+                                                        bsp2_Deteialsdata.district_name :'NA'}},
+                                                        {{bsp2_Deteialsdata && bsp2_Deteialsdata.state_name ?
+                                                        bsp2_Deteialsdata.state_name :'NA'}}
+                                                    </td>
+                                                    <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata &&
+                                                        bsp2_Deteialsdata.date_of_showing ?
+                                                        (bsp2_Deteialsdata.date_of_showing | date:
+                                                        'dd/MM/yyyy'):'NA'}}</td>
+                                                    <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata &&
+                                                        bsp2_Deteialsdata.area_shown ?
+                                                        bsp2_Deteialsdata.area_shown:'NA'}}</td>
+
+                                                    <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata &&
+                                                        bsp2_Deteialsdata.expected_inspection_from &&
+                                                        bsp2_Deteialsdata.expected_inspection_from ?
+                                                        ((bsp2_Deteialsdata.expected_inspection_from | date:
+                                                        'dd/MM/yyyy')
+                                                        + '-'+ (bsp2_Deteialsdata.expected_inspection_to | date:
+                                                        'dd/MM/yyyy' )
+                                                        ):'NA'}}</td>
+                                                    <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata &&
+                                                        bsp2_Deteialsdata.expected_harvest_from
+                                                        && bsp2_Deteialsdata.expected_harvest_to
+                                                        ?
+                                                        ((bsp2_Deteialsdata.expected_harvest_from
+                                                        | date: 'dd/MM/yyyy')
+                                                        + '-'+ (bsp2_Deteialsdata.expected_harvest_to | date:
+                                                        'dd/MM/yyyy' )
+                                                        ):'NA'}}</td>
+                                                    <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata &&
+                                                        bsp2_Deteialsdata.expected_production ?
+                                                        bsp2_Deteialsdata.expected_production:'NA'}}</td>
+
+                                                </tr>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                 <!-- <tr> -->
+
+                                     <!-- <ng-container *ngFor="let data of data1; let dataIndex=index">
+                                         <ng-container
+                                             *ngFor="let bspcData of data.line_variety_code_details; let bspcIndex=index">
+                                             <ng-container
+                                                 *ngFor="let bsp2_Deteialsdata of bspcData.bsp2_Deteials; let bsp2_DeteialsIndex=index">
+                                                 <tr id="{{bsp2_Deteialsdata.ids}}">
+                                                     <td class="bsp2reportdetails datalist " *ngIf="bspcIndex == 0 && bsp2_DeteialsIndex==0 "
+                                                         [attr.rowspan]="data.bsp2DatalengthArr">{{dataIndex+1}}
+                                                     </td>
+ 
+                                                     <td class="bsp2reportdetails datalist" *ngIf="bspcIndex == 0 && bsp2_DeteialsIndex==0"
+                                                         [attr.rowspan]="data.bsp2DatalengthArr">
+ 
+                                                         {{data &&
+                                                         data.variety_name ? data.variety_name :''}}</td>
+                                                     <td class="bsp2reportdetails datalist" *ngIf="bsp2_DeteialsIndex==0"
+                                                         [attr.rowspan]="bspcData.totalbsp2_Deteialslength">{{bspcData &&
+                                                         bspcData.line_variety_name ?
+                                                         bspcData.line_variety_name:'NA'}}</td>
+                                                     <td  class="bsp2reportdetails datalist"*ngIf="bsp2_DeteialsIndex==0"
+                                                         [attr.rowspan]="bspcData.totalbsp2_Deteialslength">{{bspcData &&
+                                                         bspcData.total_targeted_qty ?
+                                                         bspcData.total_targeted_qty.toFixed(2):'NA'}}</td>
+ 
+                                                     <td class="bsp2reportdetails datalist">
+                                                         {{bsp2_Deteialsdata && bsp2_Deteialsdata.address ?
+                                                         bsp2_Deteialsdata.address :'NA'}},
+                                                         {{bsp2_Deteialsdata && bsp2_Deteialsdata.district_name ?
+                                                         bsp2_Deteialsdata.district_name :'NA'}},
+                                                         {{bsp2_Deteialsdata && bsp2_Deteialsdata.state_name ?
+                                                         bsp2_Deteialsdata.state_name :'NA'}}
+                                                     </td>
+                                                     <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata && bsp2_Deteialsdata.date_of_showing ?
+                                                         (bsp2_Deteialsdata.date_of_showing | date:
+                                                         'dd/MM/yyyy'):'NA'}}</td>
+                                                     <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata && bsp2_Deteialsdata.area_shown ?
+                                                         bsp2_Deteialsdata.area_shown.toFixed(2):'NA'}}</td>
+ 
+                                                     <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata &&
+                                                         bsp2_Deteialsdata.expected_inspection_from &&
+                                                         bsp2_Deteialsdata.expected_inspection_from ?
+                                                         ((bsp2_Deteialsdata.expected_inspection_from | date:
+                                                         'dd/MM/yyyy')
+                                                         + '-'+ (bsp2_Deteialsdata.expected_inspection_to | date:
+                                                         'dd/MM/yyyy' )
+                                                         ):'NA'}}</td>
+                                                     <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata && bsp2_Deteialsdata.expected_harvest_from
+                                                         && bsp2_Deteialsdata.expected_harvest_to
+                                                         ?
+                                                         ((bsp2_Deteialsdata.expected_harvest_from
+                                                         | date: 'dd/MM/yyyy')
+                                                         + '-'+ (bsp2_Deteialsdata.expected_harvest_to | date:
+                                                         'dd/MM/yyyy' )
+                                                         ):'NA'}}</td>
+                                                     <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata && bsp2_Deteialsdata.expected_production ?
+                                                         bsp2_Deteialsdata.expected_production.toFixed(2):'NA'}}</td>
+ 
+                                                 </tr>
+                                             </ng-container>
+                                         </ng-container>
+                                     </ng-container> -->
+                                 <!-- </tr> -->
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                    <div *ngIf="data1 && data1.length<1 " class="px-2 py-3 w-100" style="height: 50px;">
+                        <div class="d-flex verticle-content-middle justify-content-center w-100">
+                            No Data Found.
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+
+
+<div class="px-3" >
+    <div class="container col-md-12 col-lg-12 col-xl-12 mt-5">
+        <div class="col-md-12 col-lg-12 col-xl-12 d-xl-block d-lg-block d-md-none d-sm-none d-none">
+            <div class="col-md-6 col-lg-6 col-xl-6 float-left logoclass">
+                <img src="assets/images/no_logo.png"
+                    style="height:8rem;">
+            </div>
+            <div class="col-md-6 col-lg-6 col-xl-6 float-right">
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 d-flex justify-content-center textheading textheading1">
+                    <span class="heading_notofied">{{agencyName ? agencyName :'NA'}}</span>
+                </div>
+
+                <div class="col-md-12 col-sm-12 d-flex justify-content-center addresshead textheading textheading2">
+                    <span class="heading_notofied ">{{districtName ? districtName :'NA'}},{{stateName ? stateName :'NA'}}</span>
+                </div>
+                
+                <div class="col-md-12 col-sm-12 text-center pt-4 d-flex justify-content-center textheading textheading3">
+                    <span class="heading_notofied heading1">"Time Table of Production And
+                        Availability of
+                        Breeder Seed (BSP-II)"</span>
+                </div>
+            </div>
+        </div>
+        <div class="container col-md-12 col-lg-12 col-xl-12 mt-5 d-xl-none d-lg-none d-md-block d-sm-block">
+            <div class="col-md-12 col-sm-12 col-12 col-lg-4 col-xl-12 logoclass">
+                <img src="assets/images/no_logo.png"
+                    style="height:8rem;">
+            </div>
+            <div class="col-md-12 col-lg-12 col-xl-12">
+                
+
+                <div class="row ">
+                    <!-- <div class="col-md-12 col-sm-12 col-12 col-lg-4 col-xl-4 ">
+                        <img src="assets/images/no_logo.png"
+                            style="height:8rem;">
+                    </div> -->
+                  
+                    <div class="col-md-12 col-sm-12 d-flex justify-content-center textheading1">
+                        <span class="heading_notofied">{{agencyName ? agencyName :'NA'}}</span>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 d-flex justify-content-center addresshead textheading2 ">
+                        <span class="heading_notofied ">{{districtName ? districtName :'NA'}},{{stateName ? stateName :'NA'}}</span>
+                    </div>
+                    
+                    <div class="col-md-12 col-sm-12 text-center pt-4 d-flex justify-content-center textheading3">
+                        <span class="heading_notofied heading1">"Time Table of Production And
+                            Availability of
+                            Breeder Seed (BSP-II)"</span>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+<hr style="border:1px solid #228B22" class="mx-3 mt-lg-5">
+    <div class="row mx-3">
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12 heading_notofied ">
+            <span class="headingdata">Year of Indent :
+                {{data1 && data1[0] && data1[0].year ? data1[0].year
+                    :'NA'}}-{{data1 && data1[0] && data1[0].year ? (data1[0].year-2000)+1:'NA'}}</span>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 pt-lg-0 pt-2 heading_notofied justify-content-xl-end d-flex float-right justify-content-ls-end justify-content-md-end   justify-content-sm-end ">
+            <span class="headingdata">Date :
+                {{todayData
+                    | date:"dd-MM-YYYY"}}</span>
+        </div>
+    </div>
+
+    <div class="row mx-3 pt-2  ">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-8 col-12 heading_notofied ">
+            <span class="headingdata">Season :
+                {{this.ngForm.controls['season'].value && (this.ngForm.controls['season'].value ==
+                'R')?'Rabi':'Kharif'}}</span>
+        </div>
+      
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 heading_notofied pt-lg-0 pt-2 heading_notofied justify-content-xl-center d-flex  justify-content-ls-center justify-content-md-center   justify-content-sm-center ">
+            <span class="headingdata">  Crop: {{cropNameofReport ? cropNameofReport :'NA'}}</span>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 heading_notofied pt-lg-0  pt-2 heading_notofied justify-content-xl-end d-flex  justify-content-ls-end justify-content-md-end    ">
+            <span class="headingdata" style="white-space: pre;">  Reference Number:{{data1 && data1[0] && data1[0].ref_number ? data1[0].ref_number
+                :'NA'}}</span>
+        </div>
+      
+    </div>
+
+  
+    <div class="mt-1 px-4">
+        <div class="col-md-12 col-lg-12 col-xl-12">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="data-row-headers headingofpdftable">
+                                        <th scope="col" class=" py-2 datalist " >S.No.
+                                        </th>
+                                        <th scope="col" class=" py-2 datalist" >Variety
+                                        </th>
+                                        <th scope="col" class=" py-2 datalist" >Parental
+                                            <br> Line
+                                        </th>
+                                        <th scope="col" class=" py-2 datalist" >Quantity
+                                            Targeted <br> in ({{units}})
+                                        </th>
+                                        <th scope="col" class=" py-2 datalist" >Field
+                                            Location</th>
+                                        <th scope="col" class=" py-2 datalist" >Date of
+                                            Sowing</th>
+                                        <th scope="col" class=" py-2 datalist" >Area Sown
+                                            <br> in (Ha)
+                                        </th>
+
+                                        <th scope="col" class=" py-2 datalist" >Expected
+                                            Date of <br> Inspection by
+                                            Monitoring Team</th>
+                                        <th scope="col" class=" py-2 datalist" >Expected
+                                            Date <br> of Harvest </th>
+                                        <th scope="col" class=" py-2 datalist" >Expected
+                                            <br> Production ({{units}})
+                                        </th>
+                                    </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let data of data1; let dataIndex=index">
+                                <ng-container
+                                    *ngFor="let bspcData of data.line_variety_code_details; let bspcIndex=index">
+                                    <ng-container
+                                        *ngFor="let bsp2_Deteialsdata of bspcData.bsp2_Deteials; let bsp2_DeteialsIndex=index">
+                                        <tr id="{{bsp2_Deteialsdata.ids}}">
+                                            <td class="bsp2reportdetails datalist "
+                                                *ngIf="bspcIndex == 0 && bsp2_DeteialsIndex==0 "
+                                                [attr.rowspan]="data.bsp2DatalengthArr">{{dataIndex+1}}
+                                            </td>
+
+                                            <td class="bsp2reportdetails datalist"
+                                                *ngIf="bspcIndex == 0 && bsp2_DeteialsIndex==0"
+                                                [attr.rowspan]="data.bsp2DatalengthArr">
+
+                                                {{data &&
+                                                data.variety_name ? data.variety_name :''}}</td>
+                                            <td class="bsp2reportdetails datalist" *ngIf="bsp2_DeteialsIndex==0"
+                                                [attr.rowspan]="bspcData.totalbsp2_Deteialslength">{{bspcData &&
+                                                bspcData.line_variety_name ?
+                                                bspcData.line_variety_name:'NA'}}</td>
+                                            <td class="bsp2reportdetails datalist" *ngIf="bsp2_DeteialsIndex==0"
+                                                [attr.rowspan]="bspcData.totalbsp2_Deteialslength">{{bspcData &&
+                                                bspcData.total_targeted_qty ?
+                                                bspcData.total_targeted_qty:'NA'}}</td>
+
+                                            <td class="bsp2reportdetails datalist">
+                                                {{bsp2_Deteialsdata && bsp2_Deteialsdata.address ?
+                                                bsp2_Deteialsdata.address :'NA'}},
+                                                {{bsp2_Deteialsdata && bsp2_Deteialsdata.district_name ?
+                                                bsp2_Deteialsdata.district_name :'NA'}},
+                                                {{bsp2_Deteialsdata && bsp2_Deteialsdata.state_name ?
+                                                bsp2_Deteialsdata.state_name :'NA'}}
+                                            </td>
+                                            <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata &&
+                                                bsp2_Deteialsdata.date_of_showing ?
+                                                (bsp2_Deteialsdata.date_of_showing | date:
+                                                'dd/MM/yyyy'):'NA'}}</td>
+                                            <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata &&
+                                                bsp2_Deteialsdata.area_shown ?
+                                                bsp2_Deteialsdata.area_shown:'NA'}}</td>
+
+                                            <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata &&
+                                                bsp2_Deteialsdata.expected_inspection_from &&
+                                                bsp2_Deteialsdata.expected_inspection_from ?
+                                                ((bsp2_Deteialsdata.expected_inspection_from | date:
+                                                'dd/MM/yyyy')
+                                                + '-'+ (bsp2_Deteialsdata.expected_inspection_to | date:
+                                                'dd/MM/yyyy' )
+                                                ):'NA'}}</td>
+                                            <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata &&
+                                                bsp2_Deteialsdata.expected_harvest_from
+                                                && bsp2_Deteialsdata.expected_harvest_to
+                                                ?
+                                                ((bsp2_Deteialsdata.expected_harvest_from
+                                                | date: 'dd/MM/yyyy')
+                                                + '-'+ (bsp2_Deteialsdata.expected_harvest_to | date:
+                                                'dd/MM/yyyy' )
+                                                ):'NA'}}</td>
+                                            <td class="bsp2reportdetails datalist">{{bsp2_Deteialsdata &&
+                                                bsp2_Deteialsdata.expected_production ?
+                                                bsp2_Deteialsdata.expected_production:'NA'}}</td>
+
+                                        </tr>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                    <div class="col-12 pl-0 " >
+
+                        <span class="float-right pl-0">
+                            <span style="display: flex;justify-content:center">--SD--</span>
+
+                            <span>
+                                ({{contact_person_name ? capitalizeWords(contact_person_name) :''}})
+                                <br>
+                                <span>
+                                    {{ (designation ? capitalizeWords(designation):'')}}
+                                </span>
+                            </span>
+
+                        </span>
+                    </div>
+                    <div class="col-12 pl-0" >
+                        <span style="font-size: 12px;">
+                            *Note This is an electronically generated report and does not require signature.
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>

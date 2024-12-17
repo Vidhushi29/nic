@@ -1,0 +1,492 @@
+<!-- <p></p> -->
+<div class="row my-4 w-100 mx-0">
+    <div class="col-12 d-flex justify-content-center verticle-content-middle">
+        <div class="main-content-form-wrapper px-0 py-2">
+            <form [formGroup]="formGroup">
+                <div class="row">
+                    <div class="col-md-12 px-4 py-2 pb-0 pb-md-4 ml-1">
+                        <span class="heading_notofied">Submission of Indent of Breeder Seed by State </span>
+                        <span class="heading_notofied"
+                            *ngIf="freezTimeLineData && freezTimeLineData[0] &&  freezTimeLineData[0].end_date ? freezTimeLineData[0].end_date:false"
+                            style="font-size: 18px;color: red;float: right;">(Submission Date: {{freezTimeLineData
+                            && freezTimeLineData[0] && freezTimeLineData[0].start_date ?
+                            (freezTimeLineData[0].start_date | date: 'dd/MM/yyyy'):''}} - {{freezTimeLineData
+                            && freezTimeLineData[0] && freezTimeLineData[0].end_date ?
+                            (freezTimeLineData[0].end_date | date: 'dd/MM/yyyy'):''}})</span>
+                        <!-- {{freezTimeLineData && freezTimeLineData[0] && freezTimeLineData[0].start_date ? freezTimeLineData[0].start_date | date: 'dd/MM/yyyy' :''}} -->
+                    </div>
+
+                    <div class="col-12 pt-0 mx-0 pr-3 ml-0">
+                        <div class="row ml-2 mr-0">
+                            <div class=" col-sm-12 col-md-2 pl-2 mt-4 mt-md-0">
+                                <label for="" class="left-heading">Year of Indent</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 pr-3 pl-3">
+                                <select class="form-control" formControlName="yearofIndent">
+                                    <option value="">Select Year of Indent</option>
+                                    <option *ngFor="let data of yearList" value="{{data.year}}">
+                                        {{data.year}}-{{data.year+1-2000}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class=" col-sm-12 col-md-2 pl-4 mt-4 mt-md-0">
+                                <label for="" class="left-heading">Season</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 pr-3 pl-3">
+                                <select class="form-control" formControlName="season">
+                                    <option value="">Select Season</option>
+                                    <option *ngFor="let data of seasonList" value="{{data.season_code}}">{{data.season}}
+                                    </option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-0 mt-md-4 ml-2 mr-0">
+                            <div class=" col-sm-12 col-md-2 pl-2 mt-4 mt-md-0">
+                                <label class="left-heading" for="">Crop Group</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 pr-3 pl-3">
+                                <select class="form-control" formControlName="cropGroup">
+                                    <option value="">Select Crop Group</option>
+                                    <option *ngFor="let data of cropGroupData" value="{{data.group_code}}">
+                                        {{data.group_name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-md-2 pl-4 mt-4 mt-md-0">
+                                <label class="left-heading" for="">Crop Name</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 pr-3 pl-3">
+                                <select class="form-control" formControlName="cropName">
+                                    <option value="">Select Crop Name</option>
+                                    <option *ngFor="let data of cropDataList" value="{{data.crop_code}}">
+                                        {{data.crop_name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-0 mt-md-4 ml-2 mr-0">
+                            <div class=" col-sm-12 col-md-2 pl-2 mt-4 mt-md-0">
+                                <label class="left-heading" for="">Crop Type</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 pr-3 pl-3">
+                                <select class="form-control" formControlName="cropType">
+                                    <option value="">Select Crop Type</option>
+                                    <option value="agriculture">Agriculture</option>
+                                    <option value="horticulture">Horticulture</option>
+                                </select>
+                            </div>
+                            <div class=" col-sm-12 col-md-2 pl-4 mt-4 mt-md-0">
+                                <label class="left-heading" for="">Unit (Kg/Qt)</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 pr-3 pl-3">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <input type="radio"
+                                                    [ngStyle]="{'pointer-events': disabledRadio ? 'none':''}"
+                                                    class="radio-button" formControlName="unitKgQ" value="kilogram">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="">Kilogram</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <input type="radio"
+                                                    [ngStyle]="{'pointer-events': disabledRadio ? 'none':''}"
+                                                    class="radio-button" formControlName="unitKgQ" value="quintal">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="">Quintal</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-lg-12 pt-4 pb-4">
+                                <div class="row heading_notofied">
+                                    <div class="col-sm-12 col-md-3 pr-4 pl-2">
+                                        Total SPA:
+                                        <span *ngIf="totalSPA && totalStateSPA.length > 0; else noTotal">
+                                            {{totalStateSPA.length}}
+                                        </span>
+                                        <ng-template #noTotal>
+                                            <span>{{totalSPA && totalSPA.length > 0 ? totalSPA.length : ''}}</span>
+                                        </ng-template>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3 pr-4 pl-2">
+                                        Total Indented SPA:
+                                        <span>{{totalSPA && totalSPA.length > 0 ? totalSPA.length : ''}}</span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-2 pr-0 pl-4">
+                                        Total Variety:
+                                        <span>{{indentData && indentData.total_variety ?
+                                            indentData.total_variety:""}}</span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 pr-4 pl-4">
+                                        Total Indented Quantity:
+                                        <span>{{indentData && indentData.total_indent_quantity ?
+                                            getQuantityOfSeedProduced(indentData.total_indent_quantity):""}}
+                                        </span>
+
+                                        <span>{{isAgriculture ? unit : unit}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div *ngIf="exportBtnVisible" class="col-12">
+                            <div class="dropdown float-right export_dropdown">
+                                <!-- <button (click)="myFunction()"
+                                    class="form-button  search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-2"
+                                    style="font-size: 87%;">Export To &nbsp;<i class="fa fa-angle-down"
+                                        aria-hidden="true"> </i></button> -->
+                                <!-- dropdown-content  -->
+                                <div id="myDropdown" class="">
+                                    <!-- <button  class="form-button  search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-2" (click)="printPage()"> -->
+                                    <button style="background-color: #B64B1D; border-radius: 6px;"
+                                        class="form-button  search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-2"
+                                        (click)="openPDF()">PDF</button>
+
+                                    <!-- <button
+                                        class="form-button  search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-2"
+                                        (click)="download()"> -->
+
+
+                                    <!-- <img src="assets\icons\pdf-icon.png" alt=""
+                                            width="20px" height="20px">  -->
+
+                                    <!-- <button
+                                        class="form-button  search ml-2 d-inline-flex justify-content-center verticle-content-middle mb-2 mx-2"
+                                        (click)="exportexcel()">
+                                        ............. plz comment this .............
+                                        <img src="assets\icons\excel.jpg" alt=""
+                                            width="20px" alt=""> 
+                                        ............. plz comment this .............
+                                        Excel</button> -->
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-12 px-2 ">
+                    <div class="list-wrapper px-4 py-3">
+                        <div *ngIf="!exportBtnVisible" class="row d-md-flex data-row-header extra-header">
+                            <div class="col-12 col-md-12 py-3 d-flex justify-content-center">
+                                <span>List of Indents Submitted by SPA</span>
+                            </div>
+                        </div>
+                        <br>
+                        <div id="excel-table" *ngIf="reportData && reportData.length > 0" class="row data-row ">
+                            <!-- <div class="row d-md-flex data-row-header extra-header"> -->
+                            <div *ngIf="exportBtnVisible"
+                                class="col-12 col-md-12 py-3 d-flex data-row-header justify-content-center extra-header">
+                                <span>List of Indents Submitted by SPA</span>
+                            </div>
+                            <div *ngIf="exportBtnVisible" class="row col-12 pt-2 pb-2">
+                                <!-- year of indent -->
+                                <div class="col-3">
+                                    <!-- <div class="row">
+                                        <div class="col-7"> -->
+                                    Year of Indent:&nbsp;<span>{{yearOfIndentValue}}-{{yearOfIndentValue-1999}}</span>
+                                    <!-- </div>
+                                        <div class="col-5">
+                                            
+                                        </div> -->
+                                    <!-- </div> -->
+                                </div>
+
+                                <!-- season-->
+                                <div class="col-2">
+                                    <!-- <div class="row">
+                                        <div class="col-6"> -->
+                                    Season:&nbsp;<span>{{seasonValue}}</span>
+                                    <!-- </div>
+                                        <div class="col-6">
+                                            
+                                        </div> -->
+                                    <!-- </div> -->
+                                </div>
+                                <!-- crop group -->
+                                <div class="col-3">
+                                    <!-- <div class="row">
+                                        <div class="col-4"> -->
+                                    Crop Group:&nbsp;<span>{{cropGroupValue}}</span>
+                                    <!-- </div>
+                                        <div class="col-8"> -->
+
+                                    <!-- </div> -->
+                                    <!-- </div> -->
+                                </div>
+
+                                <!-- crop Name -->
+                                <div class="col-3">
+                                    <!-- <div class="row">
+                                        <div class="col-6"> -->
+                                    Crop Name:&nbsp;<span>{{cropNameValue}}</span>
+                                    <!-- </div> -->
+                                    <!-- <div class="col-6">
+                                            {{cropNameValue}}
+                                        </div> -->
+                                    <!-- </div> -->
+                                </div>
+                                <div class="col-1">
+                                    Unit:&nbsp;{{isAgriculture ? unit : unit}}
+                                </div>
+                            </div>
+                            <!-- </div> -->
+                            <!-- table-box -->
+                            <!--  style="overflow-y: scroll;" -->
+                            <table class="table table-bordered table-responsive pl-2 pr-2">
+                                <thead style="z-index: 2;" style="font-weight: bold;">
+                                    <tr class="data-row-header">
+                                        <!-- <th scope="col" class="col-md-1 py-3">Variety</th>
+                                        <th scope="col" class="col-md-1 py-3">Notification Year </th>
+                                        <th scope="col" class="col-md-1 py-3">
+                                            SPA
+                                        </th>
+                                        <th scope="col" class="col-md-1 py-3">Indent Quantity</th>
+                                        <th scope="col" class="col-md-1 py-3">Total</th> -->
+                                        <th scope="col" class="col-md-1 py-2">S.No.</th>
+                                        <th scope="col" class="col-md-2 py-2">Variety</th>
+                                        <th scope="col" class="col-md-1 py-2">Notification Year</th>
+                                        <th scope="col" class="col-md-2 py-2">Parental Line</th>
+                                        <th scope="col" class="col-md-3 py-2">SPA Name</th>
+                                        <th scope="col" class="col-md-2 py-2">Indent Quantity</th>
+                                        <th scope="col" class="col-md-3 py-2">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let data of reportData; let cropIndex = index">
+                                        <ng-container
+                                            *ngFor="let parentalData of data.parental; let parentalIndex = index">
+                                            <ng-container
+                                                *ngFor="let spaData of parentalData.spas; let spaIndex = index">
+                                                <tr>
+                                                    <td *ngIf="spaIndex === 0 && parentalIndex === 0"
+                                                        [attr.rowspan]="data.total_spa_count">{{ cropIndex + 1 }}
+                                                    </td>
+                                                    <td *ngIf="spaIndex === 0 && parentalIndex === 0"
+                                                        [attr.rowspan]="data.total_spa_count">{{ data.variety_name ?
+                                                        data.variety_name : 'NA' }}</td>
+                                                    <td *ngIf="spaIndex === 0 && parentalIndex === 0"
+                                                        [attr.rowspan]="data.total_spa_count">{{
+                                                        data.not_year? data.not_year : 'NA' }}
+                                                    </td>
+
+
+                                                    <td *ngIf="spaIndex === 0" [attr.rowspan]="parentalData.spa_count">
+                                                        {{
+                                                        parentalData.parental_line? parentalData.parental_line : 'NA' }}
+                                                    </td>
+
+                                                    <td>{{ spaData.name ? spaData.name : 0 }}</td>
+                                                    <td *ngIf="spaData && (spaData.indent_qunatity != null)">{{ spaData.indent_qunatity && (spaData.indent_qunatity ) ? (spaData.indent_qunatity) : 0}}
+                                                    </td>
+                                                    <td *ngIf="spaData && (spaData.indent_qunatity == null)">{{ parentalData &&
+                                                        parentalData.total_indent?(parentalData.total_indent|
+                                                        number:'1.2-3'):0}}
+                                                    </td>
+                                                    <!-- (parentalData &&
+                                                        parentalData.total_indent?(parentalData.total_indent|
+                                                        number:'1.2-3'):0) -->
+                                                    <!--  -->
+                                                    <td *ngIf="spaIndex === 0 && parentalIndex === 0"
+                                                        [attr.rowspan]="data.total_spa_count">
+                                                        {{
+                                                        data && data.parental ?(sumValue(data.parental) | number:'1.2-3'
+                                                        ):0 }}
+                                                    </td>
+                                                    <!-- <td *ngIf="spaIndex === 0 && parentalIndex === 0"
+                                                        [attr.rowspan]="data.total_spa_count">
+                                                        {{
+                                                        spaData &&
+                                                        (spaData.length>0)?(spaData | sum:'indent_qunatity'|
+                                                        number:'1.2-3'):(parentalData.length>0)?(parentalData |
+                                                        sum:'total_indent'|
+                                                        number:'1.2-3'):0 }}
+                                                    </td> -->
+                                                    <!-- <td *ngIf="spaIndex === 0 && parentalIndex === 0"
+                                                        [attr.rowspan]="data.total_spa_count">
+                                                        {{
+                                                        parentalData &&
+                                                        parentalData.total_indent?(parentalData.total_indent |
+                                                        number:'1.2-3'):0 }}
+                                                    </td> -->
+                                                    <!-- <td *ngIf="spaIndex === 0 && parentalIndex === 0"
+                                                        [attr.rowspan]="data.total_spa_count">
+                                                        {{
+                                                        spaData && (spaData.length>0)? (spaData | sum:'indent_qunatity' | number:'1.2-3'): (parentalData && (parentalData.length > 0)?(parentalData |sum:'total_indent'| number:'1.2-3'):0) }}
+                                                    </td> -->
+                                                </tr>
+                                            </ng-container>
+                                        </ng-container>
+                                        <!-- <tr>
+                                            <td colspan="6"><b>Crop Wise Total</b></td>
+                                            <td><b>{{ data.crop_total_indent }}</b></td>
+                                        </tr> -->
+                                    </ng-container>
+                                </tbody>
+
+                                <!-- <tbody *ngIf="reportData && reportData.length > 0">
+                                    <tr *ngFor="let data of reportData; let dataIndex = index">
+                                        <td>
+                                            {{data && data.variety_name ? data.variety_name : ''}}
+                                        </td>
+                                        <td>
+                                            {{data && data.notification_year ? data.notification_year: ''}}
+                                        </td>
+                                        <td colspan="2">
+                                            <div *ngFor="let spa of data.spa"
+                                                style="display: flex; text-align: center; border-bottom: 3px solid #dee2e6;">
+                                                <div style="width: 50%;" class="py-auto my-auto m-2">
+                                                    <p class="my-auto ">{{spa && spa.name ? spa.name : ''}}
+                                                    </p>
+                                                </div>
+                                                <div style="width: 50%;" class="py-auto my-auto mx-2">
+                                                    <p class="my-auto">{{spa && spa.indent ?
+                                                        getQuantityOfSeedProduced(spa.indent) : ''}}
+
+                                                        <span class="ml-1">{{isAgriculture ? 'Quintal' :
+                                                            'Kg'}}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <span>{{data.totalIndent ?
+                                                getQuantityOfSeedProduced(data.totalIndent) : ''}}</span>
+                                            <span class="ml-1">{{isAgriculture ? 'Quintal' : 'Kg'}}</span>
+                                        </td>
+                                    </tr>
+                                </tbody> -->
+
+                            </table>
+
+                            <!-- <div class="col-12 col-md-12 py-3 d-flex grand-total-row"> -->
+                            <div class="col-12 col-md-12 py-3 d-flex">
+                                <span style="color: 1C1C1C !important;">Grand Total of Indented Quantity for {{cropName
+                                    ?
+                                    cropName:'NA'}} : &nbsp;&nbsp;
+                                    {{getQuantityOfSeedProduced(totalIndentQuantity)}} </span>
+                                <span class="ml-1" style="color: 1C1C1C !important;">{{isAgriculture ? 'Quintal'
+                                    :
+                                    'Kg'}}</span>
+
+                            </div>
+
+                        </div>
+
+                        <!-- <div class="row">
+                            <div class="col-12 px-0">
+                                <button *ngIf="(is_freeze && is_freeze.length > 0) &&  (freezeTimeLine==true)"
+                                    class="form-button search freeze-button" style="width: max-content;"
+                                    (click)="freeze()">
+                                    Forward Indent to Seed Division
+                                </button>
+                                <button *ngIf="(is_freeze && is_freeze.length == 0) && (freezeTimeLine==false)"
+                                    class="form-button freeze-grey freeze-button" style="width: max-content;">
+                                    Indent Has Been Forwarded to Seed Division
+                                </button>
+                            </div>
+                        </div> -->
+
+                    </div>
+                </div>
+                <div *ngIf="!reportData" class="px-2 py-3 w-100" style="height: 50px;">
+                    <div class="d-flex verticle-content-middle justify-content-center w-100">
+                        No data found.
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- *ngIf="is_freeze && is_freeze.length>0" -->
+    <!-- {{reportData}} -->
+    <div *ngIf="exportBtnVisible" class="pb-3 mt-4 px-4 ml-3">
+        <!--  -->
+        <!-- form-button search freeze-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-3  -->
+        <!-- &&  (freezeTimeLine==true) upcoming condition coment date : 9/04/2024 -->
+        <button *ngIf="(is_freeze && is_freeze.length > 0)"
+            class="form-button search freeze-button ml-2" style="width: max-content;" (click)="freeze()">
+            Forward Indent to Seed Division
+        </button>
+        <button *ngIf="(is_freeze && is_freeze.length < 1)"
+            class="form-button freeze-grey freeze-button" style="width: max-content;">
+            Indent Has Been Forwarded to Seed Division
+        </button>
+        <!-- *ngIf="is_freeze && is_freeze.length==0" -->
+        <!-- class="form-button freeze-grey search freeze-button ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3 mx-3" -->
+    </div>
+</div>
+
+
+<!-- New Table -->
+
+<!-- <table class="table table-bordered table-responsive ">
+    <thead style="z-index: 2;" style="font-weight: bold;">
+        <tr class="data-row-header">
+            <th scope="col" class="col-md-1 py-2">S/N</th>
+            <th scope="col" class="col-md-2 py-2">Variety</th>
+            <th scope="col" class="col-md-1 py-2">Notification Year</th>
+            <th scope="col" class="col-md-2 py-2">Parental Line</th>
+            <th scope="col" class="col-md-3 py-2">SPA Name</th>
+            <th scope="col" class="col-md-2 py-2">Indent Quantity</th>
+            <th scope="col" class="col-md-3 py-2">Total</th>
+
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let data of dummyData22; let cropIndex = index">
+            <ng-container
+                *ngFor="let parentalData of data.parental; let parentalIndex = index">
+                <ng-container
+                    *ngFor="let spaData of parentalData.spas; let spaIndex = index">
+                    <tr>
+                        <td *ngIf="spaIndex === 0 && parentalIndex === 0"
+                            [attr.rowspan]="data.total_spa_count">{{ cropIndex + 1 }}
+                        </td>
+                        <td *ngIf="spaIndex === 0 && parentalIndex === 0"
+                            [attr.rowspan]="data.total_spa_count">{{ data.variety_name ?
+                            data.variety_name : 'NA' }}</td>
+                        <td *ngIf="spaIndex === 0 && parentalIndex === 0"
+                        [attr.rowspan]="data.total_spa_count">{{
+                        data.not_year? data.not_year : 'NA' }}
+                    </td>
+                       
+
+                        <td *ngIf="spaIndex === 0"
+                            [attr.rowspan]="parentalData.spa_count">{{
+                            parentalData.parental_line? parentalData.parental_line : 'NA' }}
+                        </td>
+
+                            <td>{{ spaData.name ? spaData.name : 0 }}</td>
+                        <td>{{ spaData.indent_qunatity ? spaData.indent_qunatity : 0}}
+                        </td>
+                        <td *ngIf="spaIndex === 0"
+                            [attr.rowspan]="parentalData.spa_count">{{
+                            parentalData.total_indent? parentalData.total_indent : 0 }}
+                        </td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+            
+        </ng-container>
+    </tbody>
+
+</table>
+<div class="col-12 col-md-12 py-3 d-flex grand-total-row">
+    <span style="color: white !important;">Grand Total of Indented Quantity for {{200}} : &nbsp;&nbsp;
+         </span>
+    <span class="ml-1" style="color: white !important;">{{isAgriculture ? 'Quintal'
+        :
+        'Kg'}}</span>
+
+</div> -->

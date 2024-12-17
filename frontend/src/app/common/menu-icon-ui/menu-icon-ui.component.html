@@ -1,0 +1,64 @@
+<div class="menu-wrapper" style="overflow-y: scroll; overflow-x: hidden">
+    <div *ngFor="let menu of menuList; let i = index"
+      class="menu {{ menu['active'] || menu['toggled'] ? 'active' : '' }} py-2">
+      <div class="row">
+        <div class="col-2 pl-3">
+            <ng-container *ngIf="(menu.subMenus && menu.subMenus.length > 0)">
+                <img src="assets/images/{{ menu.icon }}" class="seed-division-subicon show3" />
+                <span class="title3" style="background-color: #000000;color: #fff;padding: 1px 7px 2px 5px;white-space: nowrap;margin-left: 38px;position: fixed;font-weight:700;">{{ menu.name }}</span>
+                <!-- <i class="fa fa-caret-down ml-1" (click)="clickButton()" style="cursor: pointer;"></i> -->
+            </ng-container>
+            <div *ngIf="!(menu.subMenus && menu.subMenus.length > 0)" class="py-0">
+                <a routerLink="{{ menu.href }}" class="parent-menu-hyperlink{{ menu['active'] ? '-active' : '' }}" (click)="activateMenu(menu)">
+                    <img src="assets/images/{{ menu.icon }}" class="seed-division-subicon show" />
+                    <span class="title" style="background-color: #000000;color: #fff;padding: 1px 7px 2px 5px;white-space: nowrap;margin-left: 38px;position: fixed;font-weight:700;">{{ menu.name }}</span>
+                </a>
+            </div>
+            <div *ngIf="menu.subMenus && menu.subMenus.length > 0" class="py-0">
+            <ng-container *ngTemplateOutlet="subMenuTemplate; context:{menu: menu}"></ng-container>
+            </div>         
+        </div>
+        <!-- <div class="col-10 d-flex verticle-content-middle" style="overflow-y: scroll; overflow-x: hidden">
+          <div *ngIf="!(menu.subMenus && menu.subMenus.length > 0)" class="py-0">
+            <a routerLink="{{ menu.href }}" class="parent-menu-hyperlink{{ menu['active'] ? '-active' : '' }}"
+              (click)="activateMenu(menu)">{{ menu.name }}</a>
+          </div>
+          <div *ngIf="menu.subMenus && menu.subMenus.length > 0" class="py-0">
+            <ng-container *ngTemplateOutlet="subMenuTemplate; context:{menu: menu}"></ng-container>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  
+  <ng-template #subMenuTemplate let-menu="menu">
+    <div class="sidenav">
+      <button id="dropdownbtn" class="dropdown-btn" (click)="menu['toggled'] = !menu['toggled']">
+  
+        <a class="parent-menu-hyperlink{{ menu['active'] || menu['toggled'] ? '-active' : '' }}">
+            <!-- {{ menu.name }} -->
+          <i class="fa fa-caret-down ml-1"></i>
+        </a>
+      </button>
+      <div class="dropdown-container submenus-container" [ngClass]="menu.toggled ? 'd-block active' : 'd-none'">
+        <div *ngFor="let subMenu of menu.subMenus; let subMenuIndex = index">
+          <div *ngIf="!(subMenu.subMenus && subMenu.subMenus.length > 0)">
+            <a routerLink="{{ (subMenu.href) }}" class="show submenu-hyperlink d-inline-flex {{ subMenu['active'] ? 'active' : '' }}"
+              (click)="activateMenu(subMenu)">
+              <!-- <span class="title">{{ subMenu.name }}</span> -->
+              <span class="dropdown_icon mr-2">
+                <img *ngIf="subMenu.icon" src="assets/images/{{ subMenu.icon }}" alt="alt" class="show2" />
+                <span class="title2" style="background-color: #000000;color: #fff;padding: 1px 7px 2px 5px;white-space: nowrap;margin-left: 38px;position: fixed;font-weight:700;">{{ subMenu.name }}</span>
+                <i *ngIf="!subMenu.icon" class="fa fa-circle show4" aria-hidden="true" title="{{subMenu.name}}"></i>
+              </span>
+              <!-- <span>{{ subMenu.name }}</span> -->
+            </a>
+          </div>
+  
+          <div *ngIf="subMenu.subMenus && subMenu.subMenus.length > 0">
+            <ng-container *ngTemplateOutlet="subMenuTemplate; context:{menu: subMenu}"></ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>

@@ -1,0 +1,89 @@
+.main-rep-card
+{
+    height: 6cm;
+    width: 453.54330709px;
+    background-color: #fed16c ;
+}
+.left-logo-img
+{
+    height: 1cm;
+    width: 1cm;
+}
+
+.left-logo
+{
+    float: right;
+}
+.right-logo
+{
+    float: left;
+}
+.heading
+{
+    font-size: 14px;
+    /* font-weight: bold; */
+    text-align: center;
+}
+.address-title
+{
+   font-size: 10px;
+   font-weight: 500;
+}
+.title
+{
+    font-weight: 900;
+    font-size: 12px;
+
+}
+.diveder-image
+{
+    width: 140px;
+}
+.divider
+{
+    margin-top: -25px;
+}
+.class-of
+{
+    margin-top: -25px;
+    font-weight: 500;
+}
+
+
+
+
+.input-field
+{
+    margin-top: -11px;
+    line-height: 3px;
+}
+
+input[type=text] {
+    
+    border: none;
+    background-color: #fed16c ;
+    border-bottom: 1px dashed black;
+    width: 100px;
+    font-size: 10px;
+  }
+  input[type=text]:focus
+  {
+    outline: none;
+  }
+
+  .input-heading
+  {
+    font-size: 10px;
+  }
+  
+.bar-code-img
+{
+    width: 5.8cm;
+    height: 0.5cm;
+}
+
+.qr-code-img
+{
+    width: 1cm;
+    height: 1cm;
+}
