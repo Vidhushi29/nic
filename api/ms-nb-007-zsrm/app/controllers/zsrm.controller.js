@@ -249,7 +249,7 @@ exports.viewZsrmReqFsAll = async(req, res) => {
     });
     console.log("data found", data);
     
- if (data) {
+ if (data.length > 0) {
 
     const result = data.map((item)=>{return {     year: item.year,
       season: item.season,
@@ -379,7 +379,7 @@ exports.viewZsrmReqFsCrop = async(req, res) => {
     });
     console.log("data found", data);
     
-    if (data) {
+    if (data.length > 0) {
 
       const result = data.map((item)=>{return {     year: item.year,
         season: item.season,
@@ -601,7 +601,7 @@ exports.viewZsrmReqFsAllSD= async(req, res) => {
     });
     console.log("data found", data);
     
- if (data) {
+ if (data.length > 0) {
 
     const result = data.map((item)=>{return {     year: item.year,
       season: item.season,
@@ -705,7 +705,7 @@ exports.viewZsrmReqFsAllSDCropWiseReport =async (req,res) => {
     });
     console.log("data found", data);
     
- if (data) {
+ if (data.length > 0 ) {
 
   // Get total records for pagination
     const totalRecords = await db.zsrmReqFs.count({
@@ -739,3 +739,121 @@ exports.viewZsrmReqFsAllSDCropWiseReport =async (req,res) => {
   }
   
 }
+
+
+exports.viewZsrmReqFsAllUpdated = async(req, res) => { 
+  
+  try {
+    const { search } = req.body;
+    const userid = req.body.loginedUserid.id;
+
+    const { page, limit } = req.query;  // Extract pagination params from query string
+    console.log(page, limit);
+
+    // let userExist = await userModel.findOne({
+    //   where: {
+    //     id: body.user_id,
+    //   },
+    // });
+    // console.log("user:", userExist);
+    // if(!userExist) {
+    //   return response(res, "User Not Found", 404, {});
+    // }
+
+     // Calculate offset based on page and limit
+     const offset = (page - 1) * limit;
+
+     let condition = {
+      include: [
+        {
+          model: cropDataModel,
+          attributes: ['crop_name']
+        },
+        {
+          model: varietyModel,
+          attributes: ['variety_name']
+        },
+        {
+          model:stateModel,
+          attributes: ['state_name']
+        },
+        {
+          model:userModel,
+          attributes: ['name']
+        }
+      ],
+      where: { user_id: userid, is_active: true },
+      order: [ [cropDataModel, 'crop_name', 'ASC'],  // Ordering by crop_name in ascending order
+      [varietyModel, 'variety_name', 'ASC'],
+      [stateModel,'state_name', 'ASC'],
+      [userModel,'name', 'ASC']],
+      attributes: {
+        exclude: ['createdAt', 'updatedAt', 'deletedAt','crop_id', 'variety_id', 'crop_type', 'is_active' ]
+      },
+      limit: limit,      // Limit the number of records returned
+      offset: offset, 
+    };
+    if (req.body.search) {
+      if (req.body.search.year) {
+        condition.where.year = (req.body.search.year);
+      }
+      if (req.body.search.season) {
+        condition.where.season = (req.body.search.season);
+      }
+      if (req.body.search.crop_id) {
+        condition.where.crop_id = (req.body.search.crop_id);
+      }
+      if(req.body.search.variety_id) {
+        condition.where.variety_id = (req.body.search.variety_id);
+      }
+    } 
+
+    let data = await db.zsrmReqFs.findAll(condition);
+    console.log("data found", data);
+if (data.length == 0)
+  return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+    const result = data.map((item)=>{return {     year: item.year,
+      season: item.season,
+      user_id: item.user_id,
+      crop_name: item.m_crop.crop_name,
+      variety_name: item.m_crop_variety.variety_name,
+      state_name: item.m_state.state_name,
+      user_name: item.user.name,
+      unit: item.unit,
+      req: item.req,
+      ssc: item.ssc,
+      doa: item.doa,
+      sau: item.sau,
+      nsc: item.nsc,
+      sfci: item.sfci,
+      total: item.total,
+      shtorsur: item.shtorsur,
+      pvt: item.pvt,
+      others: item.others,
+      remarks: item.remarks,
+    }
+  });
+
+    // Get total records for pagination
+    const totalRecords = await db.zsrmReqFs.count(condition);
+
+    const totalPages = Math.ceil(totalRecords / limit);  // Calculate total pages
+
+    response(res, status.DATA_AVAILABLE, 200, {
+      data: result,
+      pagination: {
+        currentPage: parseInt(page),
+        totalRecords: totalRecords,
+        totalPages: totalPages,
+        pageSize: parseInt(limit),
+      },
+    });
+    
+ 
+  } catch (error) {
+    console.log(error);
+    return response(res, status.UNEXPECTED_ERROR, 501)
+  }
+  
+} 

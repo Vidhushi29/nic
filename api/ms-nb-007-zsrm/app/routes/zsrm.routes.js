@@ -8,6 +8,7 @@ module.exports = app => {
     
     app.post(`${process.env.MICRO_SERVICE}/api/add-req-fs`,auth,zsrm.saveZsrmReqFs);
     app.get(`${process.env.MICRO_SERVICE}/api/view-req-fs-all`,auth,zsrm.viewZsrmReqFsAll);
+    app.get(`${process.env.MICRO_SERVICE}/api/view-req-fs-all-updated`,auth,zsrm.viewZsrmReqFsAllUpdated);
     app.get(`${process.env.MICRO_SERVICE}/api/view-req-fs-all-seed`,auth,zsrm.viewZsrmReqFsAllSD);
     app.get(`${process.env.MICRO_SERVICE}/api/view-req-fs-all-seed-crop`,auth,zsrm.viewZsrmReqFsAllSDCropWiseReport);
     app.get(`${process.env.MICRO_SERVICE}/api/view-req-fs-crop`,auth,zsrm.viewZsrmReqFsCrop);
