@@ -18,7 +18,55 @@ const varietyModel = db.varietyModel;
 const cropDataModel = db.cropModel
 const districtModel = db.districtModel;
 const zsemreqfsModel = db.zsrmReqFs;
+const zsrmreqqsModel = db.zsrmReqQs;
+const zsrmreqqsdistModel = db.zsrmReqQsDistWise;
+//ZSRM requriement for FS 
 
+exports.getCropList = async (req, res) => {
+  try {
+    const cropList = await cropDataModel.findAll({
+      where: { is_active: 1},
+      attributes: ['id', 'crop_code', 'crop_name', 'srr',],
+      order: [['crop_name', 'ASC']]
+    });
+    console.log(cropList);
+
+    if(cropList.length > 0) {
+
+   return  response(res, status.DATA_AVAILABLE, 200, cropList);
+    }
+    else {
+      return  response(res, status.DATA_NOT_AVAILABLE, 501, []);
+    }
+  }
+  catch (error) {
+    return   response(res, status.UNEXPECTED_ERROR, 501);
+  }
+}
+
+exports.getVarietyList = async (req, res) => {
+  try {
+    const crop_code =req.body.crop_code;
+    console.log(crop_code);
+    const varietyList = await varietyModel.findAll({
+      where: { is_active: 1, crop_code: crop_code},
+      attributes: ['id', 'variety_code', 'variety_name'],
+      order: [['variety_name', 'ASC']],
+    });
+    console.log(varietyList);
+
+    if(varietyList.length > 0) {
+
+   return  response(res, status.DATA_AVAILABLE, 200, varietyList);
+    }
+    else {
+      return  response(res, status.DATA_NOT_AVAILABLE, 501, []);
+    }
+  }
+  catch (error) {
+    return   response(res, status.UNEXPECTED_ERROR, 501);
+  }
+}
 exports.saveZsrmReqFs = async(req, res) => {
   
   try {
@@ -184,7 +232,7 @@ exports.deleteZsrmReqFsById = async (req, res) => {
   }
 }
 
-
+//view result on the basis of year and season
 exports.viewZsrmReqFsAll = async(req, res) => { 
   
   try {
@@ -304,7 +352,7 @@ exports.viewZsrmReqFsAll = async(req, res) => {
   }
   
 } 
-
+//view result on the basis of year and season crop
 exports.viewZsrmReqFsCrop = async(req, res) => {
   
   try {
@@ -434,6 +482,7 @@ exports.viewZsrmReqFsCrop = async(req, res) => {
     }
     
 }
+//view result on the basis of year and season crop season
 exports.viewZsrmReqFsCropVariety = async(req, res) => {
   
   try {
@@ -540,6 +589,7 @@ exports.viewZsrmReqFsCropVariety = async(req, res) => {
   
 }
 
+// data of all indenters n the bais of year and season for seed division report
 exports.viewZsrmReqFsAllSD= async(req, res) => { 
   
   try {
@@ -656,6 +706,8 @@ exports.viewZsrmReqFsAllSD= async(req, res) => {
   
 } 
 
+// data of all indenters n the bais of year and season for seed division report 
+// indenter wise crop wise req, total and shortorsurplus
 exports.viewZsrmReqFsAllSDCropWiseReport =async (req,res) => {
   try {
     const body = req.body;
@@ -740,7 +792,7 @@ exports.viewZsrmReqFsAllSDCropWiseReport =async (req,res) => {
   
 }
 
-
+// data on the basis of inputs given year or season or crop or variety in search for any indenter
 exports.viewZsrmReqFsAllUpdated = async(req, res) => { 
   
   try {
@@ -811,9 +863,12 @@ exports.viewZsrmReqFsAllUpdated = async(req, res) => {
     let data = await db.zsrmReqFs.findAll(condition);
     console.log("data found", data);
 if (data.length == 0)
+  //res.status(404).json({message: "No data found"})
   return response(res, status.DATA_NOT_AVAILABLE, 404)
 
-    const result = data.map((item)=>{return {     year: item.year,
+    const result = data.map((item)=>{return {     
+      id: item.id,
+      year: item.year,
       season: item.season,
       user_id: item.user_id,
       crop_name: item.m_crop.crop_name,
@@ -857,3 +912,174 @@ if (data.length == 0)
   }
   
 } 
+
+
+
+// ZSRM QS requirement and availability form 
+
+exports.addZsrmReqQsDistWise = async (req, res) => {
+  try {
+    const body = req.body;
+    console.log(body.loginedUserid.id);
+    let crop_type="";
+    let unit= "";
+    let cropExist = await cropDataModel.findOne({
+      where: {
+        id: body.crop_id,
+      },
+    });
+    console.log(body.crop_id);
+    console.log("crop:", cropExist);
+    if (!cropExist) {
+      return response(res, "Crop Not Found", 404, {});
+    }
+
+    let varietyExist = await varietyModel.findOne({
+      where: {
+        id: body.variety_id,
+      },
+    });
+    console.log("varity:", varietyExist);
+    if (!varietyExist) {
+      return response(res, "Variety Not Found", 404, {});
+    }
+
+    let recordExist = await zsrmreqqsModel.findOne({
+      where: {
+        year: body.year,
+        season: body.season,
+        crop_id: body.crop_id,
+        variety_id: body.variety_id,
+        user_id: body.loginedUserid.id
+      },
+    });
+    if(recordExist && recordExist.isFinalSubmitted==true) {
+      return response(res, "Record already exist", 404, {});
+    }
+    else if (recordExist && recordExist.isFinalSubmitted==false) {
+
+      if(await zsrmreqqsdistModel.findOne({zsrmreqfs_id: recordExist.id, district_id: body.district_id })) {
+        return response(res, "Record already exist for this district", 404, {});
+      }
+
+      const recordDist = await zsrmreqqsdistModel.create(
+        {
+          zsrmreqfs_id: recordExist.id,
+          district_id: body.district_id,
+          req: body.req,
+          avl: body.avl,
+          shtorsur: body.avl - body.req
+        }
+      )
+    }
+      if ((cropExist.crop_code).slice(0, 1) == 'A') {
+        crop_type = 'agriculture';
+        unit = 'qt';
+       }
+       else if ((cropExist.crop_code).slice(0, 1) == 'H') {
+        crop_type = 'horticulture'
+        unit = 'kg';
+       }
+       console.log("crop_type:", crop_type);
+        console.log("unit:", unit);
+    
+        let state = await agencyDetailModel.findOne({
+           where: {
+    
+            user_id: body.loginedUserid.id,
+          },
+          attributes: ['state_id']
+        }
+        )
+        console.log("state_id:", state);
+
+        let data = await zsrmreqqsModel.create({
+          year: body.year,
+          season: body.season,
+          crop_type: crop_type,
+          crop_id: body.crop_id,
+          variety_id: body.variety_id,
+          user_id: body.loginedUserid.id,
+          unit: unit,
+          state_id: state.state_id,
+        })   
+  if (data) {
+    let dataDist = zsrmreqqsdistModel.create(
+      {
+        zsrmreqfs_id: data.id,
+        district_id: body.district_id,
+        req: body.req,
+        shtorsur: body.shtorsur,
+        avl: body.avl
+      }
+    )
+    if (dataDist) {
+      return response(res, status.DATA_SAVE, 200, data);
+    }
+    else {
+      return response(res, status.DATA_NOT_SAVE, 404)
+    }
+    }
+    else {
+      return response(res, status.DATA_NOT_SAVE, 404)
+    }
+  } catch (error) {
+    console.log(error);
+    return response(res, status.UNEXPECTED_ERROR, 501)
+  }
+}
+
+exports.deleteZsrmReqQsDistWise = async (req, res) => {
+  try {
+
+  const data = await zsrmreqqsdistModel.findOne({ where: { id: req.params.id, is_active:true, user_id:body.loginedUserid.id}});
+
+  if (!data) {
+    return response(res, status.DATA_NOT_AVAILABLE, 404);
+  }
+
+  await zsrmreqqsdistModel.update({ is_active: false,  deletedAt: Date.now()},
+  {
+    where: {
+      id: req.params.id,
+    },
+  },). then(() => response(res, status.DATA_DELETED, 200, {}) )
+  .catch(() => response(res, status.DATA_NOT_DELETED, 500));
+}
+catch (error) {
+  return response(res, status.UNEXPECTED_ERROR, 500)
+}
+}
+
+exports.deleteZsrmReqQs = async (req, res) => {try {
+
+  const data = await zsrmreqqsModel.findOne({ where: { id: req.params.id, is_active:true, user_id:body.loginedUserid.id}});
+
+  if (!data) {
+    return response(res, status.DATA_NOT_AVAILABLE, 404);
+  }
+
+  const dataDeleted = await zsrmreqqsdistModel.update({ is_active: false,  deletedAt: Date.now()},
+  {
+    where: {
+      id: req.params.id,
+    },
+  },);
+  
+  if(dataDeleted) {
+    await zsrmreqqsModel.update({ is_active: false,  deletedAt: Date.now()},
+    {
+      where: {
+        id: req.params.id,
+      },
+    },).then(() => response(res, status.DATA_DELETED, 200, {}) )
+    .catch(() => response(res, status.DATA_NOT_DELETED, 500));
+  }
+ else {
+  return response(res, status.DATA_NOT_DELETED, 500);
+ } 
+}
+catch (error) {
+  return response(res, status.UNEXPECTED_ERROR, 500)
+}
+}

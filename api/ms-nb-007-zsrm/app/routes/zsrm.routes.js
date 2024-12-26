@@ -5,7 +5,10 @@ const apiValidation = require('../_middleware/api-validation');
 // const redis = require('../_middleware/redis');
 require('dotenv').config()
 module.exports = app => {
-    
+
+   
+    app.get(`${process.env.MICRO_SERVICE}/api/get-all-crops`,auth,zsrm.getCropList);
+    app.get(`${process.env.MICRO_SERVICE}/api/get-all-varieties`,auth,zsrm.getVarietyList);
     app.post(`${process.env.MICRO_SERVICE}/api/add-req-fs`,auth,zsrm.saveZsrmReqFs);
     app.get(`${process.env.MICRO_SERVICE}/api/view-req-fs-all`,auth,zsrm.viewZsrmReqFsAll);
     app.get(`${process.env.MICRO_SERVICE}/api/view-req-fs-all-updated`,auth,zsrm.viewZsrmReqFsAllUpdated);
@@ -15,4 +18,6 @@ module.exports = app => {
     app.get(`${process.env.MICRO_SERVICE}/api/view-req-fs-crop-variety`,auth,zsrm.viewZsrmReqFsCropVariety);
     app.delete(`${process.env.MICRO_SERVICE}/api/delete-req-fs/:id`,auth,zsrm.deleteZsrmReqFsById);
     app.put(`${process.env.MICRO_SERVICE}/api/update-req-fs/:id`,auth,zsrm.updateZsrmReqFsById);
+
+
 };

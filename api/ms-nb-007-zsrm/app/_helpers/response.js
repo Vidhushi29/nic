@@ -10,9 +10,9 @@ const response = (res, message, code, data=[], anyOtherData = {}) => {
         //     }
         //   )
         // );
-        res.send({"EncryptedResponse":
-            {
-              status_code: code,
+        res.status(code);
+        res.send({"Response":
+            { 
               message: message,
               data: data,
 		...anyOtherData 
