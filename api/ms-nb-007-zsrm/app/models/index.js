@@ -121,59 +121,59 @@ db.zsrmReqFs.belongsTo(db.stateModel, {
 
 //---ZSRMQService--------------------------------
 
-db.cropModel.hasMany(db.zsrmReqQs, {
-    foreignKey: 'crop_id',
-    targetKey: 'id'
+// db.cropModel.hasMany(db.zsrmReqQs, {
+//     foreignKey: 'crop_id',
+//     targetKey: 'id'
 
-});
+// });
 
-db.zsrmReqQs.belongsTo(db.cropModel, {
-     foreignKey: 'crop_id',
-    targetKey: 'id'
+// db.zsrmReqQs.belongsTo(db.cropModel, {
+//      foreignKey: 'crop_id',
+//     targetKey: 'id'
 
-});
+// });
 
-db.userModel.hasMany(db.zsrmReqQs, {
-    foreignKey: 'user_id',
-    targetKey: 'id'
-});
+// db.userModel.hasMany(db.zsrmReqQs, {
+//     foreignKey: 'user_id',
+//     targetKey: 'id'
+// });
 
-db.zsrmReqQs.belongsTo(db.userModel, {
-    foreignKey: 'user_id',
-    targetKey: 'id'
-});
+// db.zsrmReqQs.belongsTo(db.userModel, {
+//     foreignKey: 'user_id',
+//     targetKey: 'id'
+// });
 
-db.varietyModel.hasMany(db.zsrmReqQs, {
-    foreignKey: 'variety_id',
-    targetKey: 'id'
-});
+// db.varietyModel.hasMany(db.zsrmReqQs, {
+//     foreignKey: 'variety_id',
+//     targetKey: 'id'
+// });
 
-db.zsrmReqQs.belongsTo(db.varietyModel, {
-    foreignKey: 'variety_id',
-     targetKey: 'id'
-});
+// db.zsrmReqQs.belongsTo(db.varietyModel, {
+//     foreignKey: 'variety_id',
+//      targetKey: 'id'
+// });
 
-db.stateModel.hasMany(db.zsrmReqQs, {
-    foreignKey: 'state_id',
-    targetKey: 'state_code'
-});
+// db.stateModel.hasMany(db.zsrmReqQs, {
+//     foreignKey: 'state_id',
+//     targetKey: 'state_code'
+// });
 
-db.zsrmReqQs.belongsTo(db.stateModel, {
-    foreignKey: 'state_id',
-    targetKey: 'state_code'
-});
+// db.zsrmReqQs.belongsTo(db.stateModel, {
+//     foreignKey: 'state_id',
+//     targetKey: 'state_code'
+// });
 
-//---ZSRMQServiceDistWise--------------------------------
-db.zsrmReqQs.hasMany(db.zsrmReqQsDistWise, {
+// //---ZSRMQServiceDistWise--------------------------------
+// db.zsrmReqQs.hasMany(db.zsrmReqQsDistWise, {
 
-    foreignKey: 'zsrmreqfs_id',
-    targetKey: 'id'
-});
+//     foreignKey: 'zsrmreqfs_id',
+//     targetKey: 'id'
+// });
 
-db.zsrmReqQsDistWise.belongsTo(db.zsrmReqQs, {
-    foreignKey: 'zsrmreqfs_id',
-    targetKey: 'id'
-});
+// db.zsrmReqQsDistWise.belongsTo(db.zsrmReqQs, {
+//     foreignKey: 'zsrmreqfs_id',
+//     targetKey: 'id'
+// });
 
 // db.districtModel.hasMany(db.zsrmReqQsDistWise, {
 //     foreignKey: 'district_id',
