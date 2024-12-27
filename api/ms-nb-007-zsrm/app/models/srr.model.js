@@ -4,12 +4,9 @@ const db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.cropModel = require("./crop.model")(sequelize, Sequelize);
-db.userModel = require("./user.model")(sequelize, Sequelize);
-db.varietyModel = require("./variety.model")(sequelize, Sequelize);
 module.exports = (sql, Sequelize) => {
 
-    const ZsrmRefFs = sql.define('zsrm_req_fs', {
+    const SRRForm = sql.define('seedrollingplan', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -28,6 +25,10 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      crop_group_code: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       crop_code: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -40,7 +41,26 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false,
        },
-      req: {
+       proposedAreaUnderVariety: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      seedrate: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      SRRTargetbySTATE: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      seedRequired: {
+        type: Sequelize.DECIMAL,
+      },
+      doa: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      ssfs: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
@@ -48,18 +68,31 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      doa: {
-        type: Sequelize.DECIMAL,
-        allowNull: false,
-      },
-      sau: {
-        type: Sequelize.DECIMAL,
-      },
       nsc: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      sfci: {
+      saus: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      othergovpsu: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      coop: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      pvt: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      seedhub: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      others: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
@@ -71,16 +104,29 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      pvt: {
+      qualityquant: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      others: {
+      certifiedquant: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      remarks: {
-        type: Sequelize.STRING,
+      SMRKeptBSToFS: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      SMRKeptFSToCS: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      FSRequiredtomeettargetsofCS: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      BSRequiredBSRequiredtomeettargetsofFS: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
       },
       is_active: {
         type: Sequelize.BOOLEAN,
@@ -107,7 +153,7 @@ module.exports = (sql, Sequelize) => {
         // timezone: '+5:30'
       })
 
-      //ZsrmRefFs.sync({ alter: true });
-    return ZsrmRefFs;
+    //SRRForm.sync({ alter: true });
+    return SRRForm;
   };
   
