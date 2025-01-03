@@ -241,6 +241,10 @@ import { BspIStatusReportComponent } from './bsp-i-status-report/bsp-i-status-re
 import { GotMonitoringTeamDetailsComponent } from './got-monitoring-team-details/got-monitoring-team-details.component';
 import { GrowOutTestReportBspvComponent } from './grow-out-test-report-bspv/grow-out-test-report-bspv.component';
 import { CropStatusReportComponent } from './crop-status-report/crop-status-report.component';
+import { ZsrmComponent } from './indenters/zsrm/zsrm.component';
+import { AddZsrmFormComponent } from './indenters/add-zsrm-form/add-zsrm-form.component';
+
+// import { ZsmrFoundationSeedComponent } from './indenters/zsmr-foundation-seed/zsmr-foundation-seed.component';
 const routes: Routes = [
   // {
   //   path: 'login',
@@ -1140,6 +1144,15 @@ const routes: Routes = [
       {
         path: 'list-of-indent-report',
         component: ListOfIndentReportComponent
+      },
+    
+      {
+        path:'requirement-of-Foundation-Seed',
+        component: ZsrmComponent
+      },
+      {
+        path: 'add-foundation-seed',
+        component:AddZsrmFormComponent
       },
       {
         path: 'view-selection-of-spa-for-submission-indent/view',

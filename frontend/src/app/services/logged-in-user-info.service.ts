@@ -615,7 +615,580 @@ export class LoggedInUserInfoService {
 
     return subMenuCollection;
   }
+  
+  get getZsrmSubMenu() {
+    let subMenuCollection = [
+    ];
 
+    if (this.userRole == "ICAR" || this.userRole == "HICAR") {
+      subMenuCollection.push(
+        {
+          "name": "List of Crops",
+          "href": "/add-crop-report",
+          "icon": "crop.svg"
+        },
+        {
+          "name": "List of Crop Varieties",
+          "href": "/add-crop-variety-report",
+          "icon": "harvest_one.svg"
+        },
+        {
+          "name": "Variety Characterstic Reports",
+          "href": "/variety-characterstic-reports",
+          "icon": "character.svg"
+        },
+        {
+          "name": "List of Variety Characteristics",
+          "href": "/crop-variety-characterstics-report",
+          "icon": "character.svg"
+        },
+        {
+          "name": "List of Project Co-ordinators",
+          "href": "/breeder-production-report",
+          "icon": "seed_multi_ratio.svg"
+        },
+
+        {
+          "name": "Nucleus Seed Availability Report",
+          "href": "/nucleus-seed-availability-report",
+          "icon": "Add_Breeder.svg"
+        },
+        
+        {
+          "name": "BSP Forms",
+          "href": "javascript:void(0)",
+          "subMenus": [
+            {
+              "name": "BSP I",
+              "href": "/bsp-one-report"
+            },
+            {
+              "name": "BSP II",
+              "href": "/bsp-two-report"
+            },
+            {
+              "name": "BSP II Second",
+              "href": "/bsp-2-report"
+            },
+            {
+              "name": "BSP III",
+              "href": "/bspc-three-reports-second"
+            },
+            {
+              "name": "BSP IV",
+              "href": "/bsp-four-report"
+            },
+            {
+              "name": "BSP V(a)",
+              "href": "/bsp-five-a-report"
+            },
+            {
+              "name": "BSP V(b)",
+              "href": "/bsp-five-b-report"
+            },
+          ],
+          
+        },
+        {
+          "name": "Submit Indents of Breeder Seed (crop wise) ",
+          "href": "/indent-wise-crop",
+          "icon": "Add_Breeder.svg"
+        },
+        // {
+        //   "name": "Status of Lifting Non Lifting Supply Position For Crops",
+        //   "href": "/status-of-lifting-non-lifting-supply-position-for-crops",
+        //   "icon": "character.svg"
+        // },
+        {
+          "name": "Status of Lifting/Non-Lifting/Supply Position for Crops",
+          "href": "/lifting-utilization-of-breeder-seed-report",
+          "icon": "character.svg"
+        }
+
+      );
+    }
+
+    // breeder login (BR)
+    if (this.userRole == "BR") {
+      subMenuCollection.push(
+        {
+          "name": "List of Breeder Seed Production Center",
+          "href": "/list-of-breeder-seed-production-center-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Bsp One Second",
+          "href": "/bsp-one-second",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          icon: "add_breeder_crop.svg",
+          name: "Crop Wise Assigned Varieties to BSPCs",
+          href: "/crop-wise-assigned-variety",
+          subMenus: undefined
+        },
+        {
+          icon: "add_breeder_crop.svg",
+          name: "BSPC Wise Assigned Crop/Varieties",
+          href: "/bspc_wise_assign_crop",
+          subMenus: undefined
+        },
+
+        {
+          "name": "BSPC Wise Nucleus Seed Availability Report",
+          "href": "/bspc-wise-assigned-variety",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Variety Wise Nucleus Seed Availability Report",
+          "href": "/variety_wise_nucleus_seed",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Crop Wise Status of Lifting/Non-Lifting/Supply Position",
+          "href": "/crop_wise_status",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "BSPC Wise Status of Lifting/Non-Lifting/Supply Position",
+          "href": "/bspc_wise_status",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "BSP Forms",
+          "href": "javascript:void(0)",
+          "subMenus": [
+            {
+              "name": "BSP I",
+              "href": "/bsp-one-report"
+            },
+            {
+              "name": "BSP II",
+              "href": "/bspc-two-reports"
+            },
+            {
+              "name": "BSP II Second",
+              "href": "/bsp-2-report"
+            },
+            {
+              "name": "BSP III",
+              "href": "/bspc-three-reports-second"
+            },
+            {
+              "name": "BSP IV",
+              "href": "/bsp-four-report"
+            },
+            {
+              "name": "BSP V(a)",
+              "href": "/bsp-five-a-report"
+            },
+            {
+              "name": "BSP V(b)",
+              "href": "/bsp-five-b-report"
+            },
+            {
+              "name": "BSP VI",
+              "href": "/bsp-six-report"
+            }
+          ]
+        },
+
+        {
+          "name": "Allocation of Breeder Seeds to Indentors for Lifting",
+          "href": "/allocation-of-breeder-seeds-to-indentors-for-lifting-report",
+          "icon": "character.svg"
+        },
+        {
+          "name": "List of Breeders",
+          "href": "/list-of-breeders-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Nucleus Seed Availability Report",
+          "href": "/nucleus-seed-availability-report",
+          "icon": "Add_Breeder.svg"
+        },
+
+        {
+          "name": "Lifting/ Utilization of Breeder Seed Report",
+          "href": "/lifting-utilization-of-breeder-seed-report",
+          "icon": "character.svg"
+        }
+      );
+    }
+
+    if (this.userRole == "SD") {
+
+      subMenuCollection.push(
+
+        {
+          icon: "crop.svg",
+          name: "BSP I Status Report",
+          href: "/bsp-I-status-report",
+          subMenus: undefined
+        },
+        {
+          icon: "crop.svg",
+          name: "BSP II Status Report",
+          href: "/bsp-II-status-report",
+          subMenus: undefined
+        },
+        {
+          icon: "crop.svg",
+          name: "BSP III Status Report",
+          href: "/bsp-III-status-report",
+          subMenus: undefined
+        },{
+          icon: "crop.svg",
+          name: "Crop Status Report",
+          href: "/crop-status-report",
+          subMenus: undefined
+        },
+        {
+          "name": "List of Crops",
+          "href": "/add-crop-report",
+          "icon": "crop.svg"
+        },
+        {
+          "name": "List of Crop Varieties",
+          "href": "/add-crop-variety-report",
+          "icon": "harvest_one.svg"
+        },
+        {
+          "name": "Variety Characterstic Reports",
+          "href": "/variety-characterstic-reports",
+          "icon": "character.svg"
+        },
+        {
+          "name": "List of Variety Characteristics",
+          "href": "/crop-variety-characterstics-report",
+          "icon": "character.svg"
+        },
+        {
+          "name": "Seed Multiplication Ratio",
+          "href": "/seed-multiplication-ratio-report",
+          "icon": "seed_multi_ratio.svg"
+        },
+        {
+          "name": "Crop Wise Maximum LOT Size",
+          "href": "/maximum-lot-size-for-each-crop-report",
+          "icon": "size_one.svg"
+        },
+        {
+          "name": "List of Indenters",
+          "href": "/list-of-indentors-report",
+          "icon": "add_indentor.svg"
+        },
+        // {
+        //   "name": "List of SPAs",
+        //   "href": "/indenter-report",
+        //   "icon": "add_indentor.svg"
+        // },
+        {
+          "name": "List of Project Co-ordinators",
+          "href": "/breeder-production-report",
+          "icon": "seed_multi_ratio.svg"
+        },
+        {
+          "name": "List of Breeder Seed Production Center",
+          "href": "/list-of-breeder-seed-production-center-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "List of SPPs Report",
+          "href": "/spp-report",
+          "icon": "add_indentor.svg"
+        },
+        {
+          "name": "List  of Seed Testing Laboratory",
+          "href": "/seed-testing-laboratory-report",
+          "icon": "microscope.svg"
+        },
+        {
+          "name": "Nucleus Seed Availability Report",
+          "href": "/nucleus-seed-availability-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "BSP Forms",
+          "href": "javascript:void(0)",
+          "subMenus": [
+            {
+              "name": "BSP I",
+              "href": "/bsp-one-report"
+            },
+            {
+              "name": "BSP II",
+              "href": "/bsp-two-report"
+            },
+            {
+              "name": "BSP II Second",
+              "href": "/bsp-2-report"
+            },
+            {
+              "name": "BSP III",
+              "href": "/bsp-three-report"
+            },
+            {
+              "name": "BSP IV",
+              "href": "/bsp-four-report"
+            },
+            {
+              "name": "BSP V(a)",
+              "href": "/bsp-five-a-report"
+            },
+            {
+              "name": "BSP V(b)",
+              "href": "/bsp-five-b-report"
+            },
+            {
+              "name": "BSP VI",
+              "href": "/bsp-six-report"
+            }
+          ]
+
+
+        },
+        {
+          "name": "Submit Indents of Breeder Seed (crop wise) ",
+          "href": "/indent-wise-crop",
+          "icon": "Add_Breeder.svg"
+        },
+        // {
+        //   "name": "Submit Indents of Breeder Seed (Indent wise) ",
+        //   "href": "/indent-wise-spa-report",
+        //   "icon": "Add_Breeder.svg"
+        // },
+        {
+          "name": "Allocation of Breeder Seed To Indenters For Lifting",
+          "href": "/allocation-of-breeder-seed-report",
+          "icon": "character.svg"
+        },
+        {
+          "name": "Status of Lifting Non Lifting Supply Position For Crops",
+          "href": "/status-of-lifting-non-lifting-supply-position-for-crops",
+          "icon": "character.svg"
+        },
+        {
+          "name": "Crop-Wise Breeder Seed Production Status",
+          "href": "/indenter-report",
+          "icon": "character.svg"
+        },
+        {
+            "name": "Availability of Breeder Seeds (BSP IV Report)" ,
+            "href": "/bsp-four",
+            "icon": "seeding.svg"
+        }, 
+
+        // {
+        //   "name": "Status of Lifting/Non-Lifting/Supply Position for Crops",
+        //   "href": "/lifting-utilization-of-breeder-seed-report",
+        //   "icon": "character.svg"
+        // }
+        // {
+        //   "name": "Submitted Indents of Breeder Seeds",
+        //   "href": "/submit-indents-breeder-seeds",
+        //   "icon": "seeding.svg"
+        // },
+        // {
+        //   "name": "Allocation of Breeder Seeds to Indentors for Lifting",
+        //   "href": "/allocation-of-breeder-seeds-to-indentors-for-lifting-report",
+        //   "icon": "character.svg"
+        // },
+        // {
+        //   "name": "Allocation of Breeder Seeds to Indentors for Lifting",
+        //   "href": "/allocation-of-breeder-seeds-to-indentors-for-lifting-report",
+        //   "icon": "character.svg"
+        // },
+        // {
+        //   "name": "Lifting/ Utilization of Breeder Seed Report",
+        //   "href": "/lifting-utilization-of-breeder-seed-report",
+        //   "icon": "character.svg"
+        // }
+      );
+    }
+
+    if (this.userRole == "IN") {
+      // if (  this.username == "ind-nsai") {
+
+      //   subMenuCollection.push(
+      //     {
+      //       "name": "Compile Production Report",
+      //       "href": "/ms014/nscRo/growerWiseData",
+      //       "icon": "seeding.svg"
+      //     },
+      //   )
+      // }
+
+      subMenuCollection.push(
+
+        {
+          icon: "seeding.svg",
+          name: "Arrangemeent To Meet The Requirement Of Foundation Seed",
+          href: "/requirement-of-Foundation-Seed",
+         
+        },
+
+        // {
+        //   "name": "Submission of indent of Breeder Seed by State",
+        //   "href": "/submission-of-indent-of-breeder-seed-by-state-report",
+        //   "icon": "Add_Breeder.svg"
+        // },
+        // {
+        //   "name": "Submitted Indents of Breeder Seed",
+        //   "href": "/submission-for-indents-of-breeder-seed-report",
+        //   "icon": "seeding.svg"
+        // },
+
+        // {
+        //   "name": "Allocated Quantity of Breeder Seed to SPAs for Lifting",
+        //   "href": "/spa-allocation-report",
+        //   "icon": "seeding.svg"
+        // },
+        // {
+        //   "name": "Allocated Quantity by Seed Division for Lifting",
+        //   "href": "/allocated-quantity-seed-division",
+        //   "icon": "seeding.svg"
+        // },
+        // {
+        //   "name": "Status of Lifting/Non-Lifting of Breeder Seed (Crop Wise)",
+        //   "href": "/status-of-lifting-non-lifting-of-breeder-seed-crop-wise",
+        //   "icon": "seeding.svg"
+        // },
+        // {
+        //   "name": "Status of Lifting/Non-Lifting of Breeder Seed (SPA Wise)",
+        //   "href": "/spa-wise-status-lifting-non-of-breeder-seed",
+        //   "icon": "seeding.svg"
+        // },
+
+        // {
+        //   "name": " Allocated Quantity by Seed Division for Lifting",
+        //   "href": "/indenter-report",
+        //   "icon": "seeding.svg"
+        // },
+        // {
+        //   "name": "Allocated Quantity of Breeder Seed to SPAs for Lifting",
+        //   "href": "/indenter-report",
+        //   "icon": "seeding.svg"
+        // },
+        // {
+        //   "name": "Status of Lifting/Non-Lifting of Breeder Seed",
+        //   "href": "/indenter-report",
+        //   "icon": "Add_Breeder.svg"
+        // },
+
+        // {
+        //   "name": "List of Indenters",
+        //   "href": "/list-of-indentors-report",
+        //   "icon": "add_indentor.svg"
+        // },
+        // {
+        //   "name": "Maximum LOT Size for Each Crop",
+        //   "href": "/maximum-lot-size-for-each-crop-report",
+        //   "icon": "size_one.svg"
+        // },
+        // {
+        //   "name": "Nucleus Seed Availability Report",
+        //   "href": "/nucleus-seed-availability-report",
+        //   "icon": "Add_Breeder.svg"
+        // },
+
+      );
+
+      if (this.username == "ind-nsc") {
+
+        subMenuCollection.push(
+          {
+            "name": "Compile Production Report",
+            "href": "/ms014/nscRo/growerWiseData",
+            "icon": "seeding.svg"
+          },
+        )
+      }
+    }
+
+    if (this.userRole == "SPP") {
+
+    }
+
+    if (this.userRole == "BPC") {
+      subMenuCollection.push(
+        {
+          "name": "BSP iii Report",
+          "href": "/bsp-third-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "BSP ii Report",
+          "href": "/bsp-2-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Assign Crop/Variety to BSPCs",
+          "href": "/assigned-crop-variety-report",
+          "icon": "Add_Breeder.svg"
+        },
+
+        {
+          "name": "Created LOT Numbers",
+          "href": "/created-lot-numbers-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Bill/Payment/Certificate",
+          "href": "/bill-payment-certificate-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Seed Testing Laboratory Results",
+          "href": "/seed-testing-laboratory-results-reports",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Generated Label Numbers",
+          "href": "/generated-label-numbers",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Breeder Crop List",
+          "href": "/list-of-breeders-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Nucleus Seed Availability Report",
+          "href": "/nucleus-seed-availability-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Allocation of Breeder Seeds to Indenters for Lifting",
+          "href": "/allocation-of-breeder-seeds-to-indentors-for-lifting-report",
+          "icon": "character.svg"
+        },
+
+        {
+          "name": "Lifting/ Utilization of Breeder Seed Report",
+          "href": "/lifting-utilization-of-breeder-seed-report",
+          "icon": "character.svg"
+        }
+      );
+    }
+
+    subMenuCollection = subMenuCollection.concat(
+      [
+        // {
+        //     "name": "List of Breeders",
+        //     "href": "/list-of-breeders-report",
+        //     "icon": "Add_Breeder.svg"
+        //   },
+        // {
+        //   "name": "Lifting/ Utilization of Breeder Seed Report",
+        //   "href": "/lifting-utilization-of-breeder-seed-report",
+        //   "icon": "character.svg"
+        // }
+      ]);
+
+    return subMenuCollection;
+  }
   get getICARMenus() {
     return {
       name: "Nodal Officer (" + this.userRole + ")",
@@ -1190,6 +1763,13 @@ export class LoggedInUserInfoService {
             href: "/submission-of-indent-of-breeder-seed-by-state-report",
             icon: "Add_Breeder.svg"
           },
+        {
+            icon: "report.svg",
+            name: "Zsrm",
+            href: "javascript:void(0)",
+            active: false,
+            subMenus: this.getZsrmSubMenu
+          },
           // {
           //   icon: "seeding.svg",
           //   name: "Add Seed Producing Agency",
@@ -1209,6 +1789,7 @@ export class LoggedInUserInfoService {
           //   href: "indenters/allocation-of-breeder-seed-to-spa-for-liftings",
           //   subMenus: undefined
           // },
+          
           {
             icon: "seeding.svg",
             name: "Allocation of Breeder Seed to SPAs for Lifting",
@@ -1227,13 +1808,8 @@ export class LoggedInUserInfoService {
           //   href: "allocation-breeder-seed-spa-wise-list",
           //   subMenus: undefined
           // },
-          {
-            icon: "Reports.svg",
-            name: "Zsrm",
-            href: "javascript:void(0)",
-            active: false,
-            subMenus: this.getReportsSubMenu
-          },
+       
+
           {
             icon: "Reports.svg",
             name: "Reports",

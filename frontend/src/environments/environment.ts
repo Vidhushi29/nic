@@ -43,6 +43,11 @@ export const environment = {
     baseUrl: 'http://localhost:3006/',
     apiBaseUrl: 'http://localhost:3006/ms-nb-006-production-center/api/',
     apiUrl: 'http://localhost:3006/ms-nb-006-production-center/api/',
+  },
+  ms_nb_07_zsrm: {
+    baseUrl: 'http://localhost:8000/',
+    apiBaseUrl: 'http://localhost:8000/ms-nb-007-zsrm/api/',
+    apiUrl: 'http://localhost:8000/ms-nb-007-zsrm/api/',
   }
 };
 
