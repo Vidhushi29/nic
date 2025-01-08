@@ -20,6 +20,7 @@ db.varietLineModel = require('./variety_line.model.js')(sequelize, Sequelize);
 db.zsrmReqFs = require('./zsrmreqfs.model.js')(sequelize, Sequelize);
 db.zsrmReqQs = require('./zsrmreqqs.model.js')(sequelize, Sequelize);
 db.zsrmReqQsDistWise = require('./zsrmreqqsdistwise.model.js')(sequelize, Sequelize);
+db.srpModel = require('./srp.model.js')(sequelize,Sequelize);
 db.srrModel = require('./srr.model.js')(sequelize,Sequelize);
 
 module.exports = db;
@@ -196,6 +197,51 @@ db.varietyModel.belongsTo(db.cropCharactersticsModel, {
      targetKey: 'variety_code'
 });
 
+//srp
+db.cropModel.hasMany(db.srpModel, {
+    foreignKey: 'crop_code',
+    targetKey: 'crop_code'
+
+});
+
+db.srpModel.belongsTo(db.cropModel, {
+     foreignKey: 'crop_code',
+    targetKey: 'crop_code'
+
+});
+
+db.userModel.hasMany(db.srpModel, {
+    foreignKey: 'user_id',
+    targetKey: 'id'
+});
+
+db.srpModel.belongsTo(db.userModel, {
+    foreignKey: 'user_id',
+    targetKey: 'id'
+});
+
+db.varietyModel.hasMany(db.srpModel, {
+    foreignKey: 'variety_code',
+    targetKey: 'variety_code'
+});
+
+db.srpModel.belongsTo(db.varietyModel, {
+    foreignKey: 'variety_code',
+     targetKey: 'variety_code'
+});
+
+db.stateModel.hasMany(db.srpModel, {
+    foreignKey: 'state_id',
+    targetKey: 'state_code'
+});
+
+db.srpModel.belongsTo(db.stateModel, {
+    foreignKey: 'state_id',
+    targetKey: 'state_code'
+});
+
+//srr
+
 //srr
 db.cropModel.hasMany(db.srrModel, {
     foreignKey: 'crop_code',
@@ -219,15 +265,6 @@ db.srrModel.belongsTo(db.userModel, {
     targetKey: 'id'
 });
 
-db.varietyModel.hasMany(db.srrModel, {
-    foreignKey: 'variety_code',
-    targetKey: 'variety_code'
-});
-
-db.srrModel.belongsTo(db.varietyModel, {
-    foreignKey: 'variety_code',
-     targetKey: 'variety_code'
-});
 
 db.stateModel.hasMany(db.srrModel, {
     foreignKey: 'state_id',

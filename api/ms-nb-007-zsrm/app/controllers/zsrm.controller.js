@@ -21,6 +21,7 @@ const zsemreqfsModel = db.zsrmReqFs;
 const zsrmreqqsModel = db.zsrmReqQs;
 const zsrmreqqsdistModel = db.zsrmReqQsDistWise;
 const cropcharactersModel = db.cropCharactersticsModel;
+const srpModel = db.srpModel;
 const srrModel = db.srrModel;
 //ZSRM requriement for FS 
 
@@ -48,7 +49,7 @@ exports.getCropList = async (req, res) => {
 
 exports.getVarietyList = async (req, res) => {
   try {
-    const crop_code =req.body.crop_code;
+    const crop_code =req.query.crop_code;
     console.log(crop_code);
    const varietyList = await varietyModel.findAll({
   include: [
@@ -178,7 +179,6 @@ exports.saveZsrmReqFs = async(req, res) => {
 
     let state = await agencyDetailModel.findOne({
        where: {
-
         user_id: body.loginedUserid.id,
       },
       attributes: ['state_id']
@@ -242,7 +242,8 @@ exports.updateZsrmReqFsById = async(req, res) => {
       shtorsur: (body.req - (body.ssc +  body.doa + body.sau +  body.nsc +  body.sfci)),
       pvt: body.pvt,
       others: body.others,
-      remarks: body.remarks},
+      remarks: body.remarks,
+    updated_at:Date.now()},
     {
       where: {
         id: req.params.id,
@@ -257,10 +258,28 @@ exports.updateZsrmReqFsById = async(req, res) => {
   
 }
 
+exports.getZsrmReqFsById = async(req, res) => {
+  
+  try {
+    const body = req.body;
+    const recordExist = await zsemreqfsModel.findOne({where: {id: req.params.id,is_active:true, user_id:body.loginedUserid.id}});
+    if (!recordExist) {
+      return response(res, status.DATA_NOT_AVAILABLE, 404);
+    }
+    
+    return response(res, status.DATA_AVAILABLE, 200, recordExist)
+
+} catch (error) {
+    console.log(error);
+    return response(res, status.UNEXPECTED_ERROR, 501)
+  }
+  
+}
+
 exports.deleteZsrmReqFsById = async (req, res) => {
   try {
 
-    const data = await zsemreqfsModel.findOne({ where: { id: req.params.id, is_active:true, user_id:body.loginedUserid.id}});
+    const data = await zsemreqfsModel.findOne({ where: { id: req.params.id, is_active:true, user_id:req.body.loginedUserid.id}});
 
     if (!data) {
       return response(res, status.DATA_NOT_AVAILABLE, 404);
@@ -283,7 +302,7 @@ exports.deleteZsrmReqFsById = async (req, res) => {
 exports.viewZsrmReqFsAll = async(req, res) => { 
   
   try {
-    const body = req.body;
+    // const body = req.body;
 
     const { page, limit } = req.query;  // Extract pagination params from query string
     console.log(page, limit);
@@ -322,9 +341,9 @@ exports.viewZsrmReqFsAll = async(req, res) => {
         }
       ],
       where: {
-      year: body.year,
-      season: body.season,
-      user_id: body.loginedUserid.id,
+      year: req.query.year,
+      season: req.query.season,
+      user_id: req.body.loginedUserid.id,
       is_active: true
     },
 
@@ -336,7 +355,7 @@ exports.viewZsrmReqFsAll = async(req, res) => {
   ],
 
     attributes: {
-      exclude: ['createdAt', 'updatedAt', 'deletedAt','crop_id', 'variety_id', 'crop_type', 'is_active' ]
+      exclude: ['createdAt', 'updatedAt', 'deletedAt','crop_type', 'is_active' ]
     },
     limit: limit,      // Limit the number of records returned
     offset: offset,    // Skip records based on page
@@ -371,9 +390,9 @@ exports.viewZsrmReqFsAll = async(req, res) => {
     // Get total records for pagination
     const totalRecords = await db.zsrmReqFs.count({
       where: {
-        year: body.year,
-        season: body.season,
-        user_id: body.loginedUserid.id,
+        year: req.query.year,
+        season: req.query.season,
+        user_id: req.body.loginedUserid.id,
         is_active: true
       },
     });
@@ -403,7 +422,7 @@ exports.viewZsrmReqFsAll = async(req, res) => {
 exports.viewZsrmReqFsCrop = async(req, res) => {
   
   try {
-    const body = req.body;
+    //const body = req.body;
     const { page, limit } = req.query;  // Extract pagination params from query string
     console.log(page, limit);
 
@@ -420,11 +439,11 @@ exports.viewZsrmReqFsCrop = async(req, res) => {
 
     let cropExist = await cropDataModel.findOne({
       where: {
-        crop_code: body.crop_code,
+        crop_code: req.query.crop_code,
       },
     });
     console.log(
-       body.crop_code)
+      req.query.crop_code)
     console.log("crop:", cropExist);
     if (!cropExist) {
       return response(res, "Crop Not Found", 404, {});
@@ -452,10 +471,10 @@ exports.viewZsrmReqFsCrop = async(req, res) => {
         }
       ],
       where: {
-      year: body.year,
-      season: body.season,
-      crop_code: body.crop_code,
-      user_id: body.loginedUserid.id,
+      year: req.query.year,
+      season: req.query.season,
+      crop_code: req.query.crop_code,
+      user_id: req.body.loginedUserid.id,
       is_active: true
     },
     order: [
@@ -500,10 +519,10 @@ exports.viewZsrmReqFsCrop = async(req, res) => {
        // Get total records for pagination
     const totalRecords = await db.zsrmReqFs.count({
       where: {
-        year: body.year,
-        season: body.season,
-        user_id: body.loginedUserid.id,
-        crop_code: body.crop_code,
+        year: req.query.year,
+        season: req.query.season,
+        user_id: req.body.loginedUserid.id,
+        crop_code: req.query.crop_code,
         is_active: true
       },
     });
@@ -533,7 +552,7 @@ exports.viewZsrmReqFsCrop = async(req, res) => {
 exports.viewZsrmReqFsCropVariety = async(req, res) => {
   
   try {
-    const body = req.body;
+   // const body = req.body;
 
     // let userExist = await userModel.findOne({
     //   where: {
@@ -548,11 +567,11 @@ exports.viewZsrmReqFsCropVariety = async(req, res) => {
 
     let cropExist = await cropDataModel.findOne({
       where: {
-        crop_code: body.crop_code,
+        crop_code: req.query.crop_code,
       },
     });
     console.log(
-       body.crop_code)
+      req.query.crop_code)
     console.log("crop:", cropExist);
     if (!cropExist) {
       return response(res, "Crop Not Found", 404, {});
@@ -560,7 +579,7 @@ exports.viewZsrmReqFsCropVariety = async(req, res) => {
 
     let varietyExist = await varietyModel.findOne({
       where: {
-        variety_code: body.variety_code,
+        variety_code: req.query.variety_code,
       },
     });
     console.log("varity:", varietyExist);
@@ -588,11 +607,11 @@ exports.viewZsrmReqFsCropVariety = async(req, res) => {
         }
       ],
       where: {
-      year: body.year,
-      season: body.season,
-      crop_code: body.crop_code,
-      variety_code: body.variety_code,
-      user_id: body.loginedUserid.id,
+      year: req.query.year,
+      season: req.query.season,
+      crop_code: req.query.crop_code,
+      variety_code: req.query.variety_code,
+      user_id: req.body.loginedUserid.id,
       is_active: true
     },
 
@@ -636,12 +655,10 @@ exports.viewZsrmReqFsCropVariety = async(req, res) => {
   
 }
 
-// data of all indenters n the bais of year and season for seed division report
+// data of all indenters on the basis of year and season for seed division report
 exports.viewZsrmReqFsAllSD= async(req, res) => { 
   
   try {
-    const body = req.body;
-
     const { page, limit } = req.query;  // Extract pagination params from query string
     console.log(page, limit);
 
@@ -678,8 +695,8 @@ exports.viewZsrmReqFsAllSD= async(req, res) => {
         }
       ],
       where: {
-      year: body.year,
-      season: body.season,
+      year: req.query.year,
+      season: req.query.season,
       is_active: true
     },
 
@@ -725,8 +742,8 @@ exports.viewZsrmReqFsAllSD= async(req, res) => {
     // Get total records for pagination
     const totalRecords = await db.zsrmReqFs.count({
       where: {
-        year: body.year,
-        season: body.season,
+        year: req.query.year,
+        season: req.query.season,
         is_active: true
       },
     });
@@ -753,11 +770,10 @@ exports.viewZsrmReqFsAllSD= async(req, res) => {
   
 } 
 
-// data of all indenters n the bais of year and season for seed division report 
+// data of all indenters on the basis of year and season for seed division report 
 // indenter wise crop wise req, total and shortorsurplus
 exports.viewZsrmReqFsAllSDCropWiseReport =async (req,res) => {
   try {
-    const body = req.body;
 
     const { page, limit } = req.query;  // Extract pagination params from query string
     console.log(page, limit);
@@ -777,8 +793,8 @@ exports.viewZsrmReqFsAllSDCropWiseReport =async (req,res) => {
           attributes: []
       }],
       where: {
-        year: body.year,
-        season: body.season,
+        year: req.query.year,
+        season: req.query.season,
         is_active: true
       },
       attributes: [
@@ -809,10 +825,10 @@ exports.viewZsrmReqFsAllSDCropWiseReport =async (req,res) => {
   // Get total records for pagination
     const totalRecords = await db.zsrmReqFs.count({
       distinct: true, // This ensures that we count the distinct groups.
-      group: ['user_id', 'crop_id'], // We are grouping by user_id and crop_id.
+      group: ['user_id', 'crop_code'], // We are grouping by user_id and crop_id.
       where: {
-        year: body.year,
-        season: body.season,
+        year: req.query.year,
+        season: req.query.season,
         is_active: true
       }
     });
@@ -887,7 +903,7 @@ exports.viewZsrmReqFsAllUpdated = async(req, res) => {
       [stateModel,'state_name', 'ASC'],
       [userModel,'name', 'ASC']],
       attributes: {
-        exclude: ['createdAt', 'updatedAt', 'deletedAt', 'crop_type', 'is_active' ]
+        exclude: ['createdAt', 'updatedAt', 'deletedAt','crop_type', 'is_active' ]
       },
       limit: limit,      // Limit the number of records returned
       offset: offset, 
@@ -930,6 +946,8 @@ if (data.length == 0)
       year: item.year,
       season: item.season,
       user_id: item.user_id,
+      crop_code: item.crop_code,
+      variety_code: item.variety_code,
       crop_name: item.m_crop.crop_name,
       variety_name: item.m_crop_variety.variety_name,
       state_name: item.m_state.state_name,
@@ -1145,7 +1163,7 @@ catch (error) {
 
 //srr 
 
-exports.addSrr = async (req, res) => {
+exports.addSrp = async (req, res) => {
   try {
 
     const body = req.body;
@@ -1153,7 +1171,7 @@ exports.addSrr = async (req, res) => {
     let unit= "";
     let cropExist = await cropDataModel.findOne({
       where: {
-        id: body.crop_code,
+        crop_code: body.crop_code,
       },
     });
     console.log(
@@ -1165,7 +1183,7 @@ exports.addSrr = async (req, res) => {
 
     let varietyExist = await varietyModel.findOne({
       where: {
-        id: body.variety_code,
+        variety_code: body.variety_code,
       },
     });
     console.log("varity:", varietyExist);
@@ -1173,12 +1191,12 @@ exports.addSrr = async (req, res) => {
       return response(res, "Variety Not Found", 404, {});
     }
 
-    let recordExist = await srrModel.findOne({
+    let recordExist = await srpModel.findOne({
       where: {
         year: body.year,
         season: body.season,
-        crop_id: body.crop_id,
-        variety_id: body.variety_id,
+        crop_code: body.crop_code,
+        variety_code: body.variety_code,
         user_id: body.loginedUserid.id,
       },
     });
@@ -1206,12 +1224,12 @@ exports.addSrr = async (req, res) => {
     )
     console.log("state_id:", state);
 
-    let data = await srrModel.create({
+    let data = await srpModel.create({
       year: body.year,
       season: body.season,
       crop_type: crop_type,
       crop_code: body.crop_code,
-      crop_group_code:cropExist.crop_group_code,
+      crop_group_code:cropExist.group_code,
       variety_code: body.variety_code,
       user_id: body.loginedUserid.id,
       unit: unit,
@@ -1242,7 +1260,7 @@ exports.addSrr = async (req, res) => {
     })
     console.log("data added", data);
   if (data) {
-      response(res, status.DATA_SAVE, 200, data);
+      return response(res, status.DATA_SAVE, 200, data);
     }
     else {
       return response(res, status.DATA_NOT_SAVE, 404)
@@ -1254,3 +1272,832 @@ exports.addSrr = async (req, res) => {
     return response(res, status.UNEXPECTED_ERROR, 501)
   }
 }
+
+exports.deleteSrp = async (req, res) => {
+try{
+  const data = await srpModel.findOne({ where: { id: req.params.id, is_active:true, user_id:req.body.loginedUserid.id}});
+  if (!data) {
+    return response(res, status.DATA_NOT_AVAILABLE, 404);
+  }
+  await srpModel.update({ is_active: false,  deletedAt: Date.now()},
+    {
+      where: {
+        id: req.params.id,
+      },
+    },). then(() => response(res, status.DATA_DELETED, 200, {}) )
+    .catch(() => response(res, status.DATA_NOT_DELETED, 500));
+}
+catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+
+}
+
+exports.updateSrp =async (req, res) => {
+
+  try {
+    const body = req.body;
+    const recordExist = await srpModel.findOne({where: {id: req.params.id,is_active:true, user_id:body.loginedUserid.id}});
+    if (!recordExist) {
+      return response(res, status.DATA_NOT_AVAILABLE, 404);
+    }
+
+    await srpModel.update({ 
+      proposedAreaUnderVariety: body.proposedAreaUnderVariety,
+      seedrate: body.seedrate, 
+      SRRTargetbySTATE: body.SRRTargetbySTATE,
+      seedRequired: body.seedRequired,
+      qualityquant:body.qualityquant,
+      certifiedquant: body.certifiedquant,
+      doa: body.doa,
+      ssfs: body.ssfs,
+      saus: body.saus,
+      ssc: body.ssc,
+      nsc: body.nsc,
+      othergovpsu: body.othergovpsu,
+      coop:body.coop,
+      seedhub:body.seedhub,
+      pvt: body.pvt,
+      others: body.others,
+      total: body.total,
+      shtorsur: body.shtorsur,
+      SMRKeptBSToFS: body.SMRKeptBSToFS,
+      SMRKeptFSToCS: body.SMRKeptFSToCS,
+      FSRequiredtomeettargetsofCS:body.FSRequiredtomeettargetsofCS,
+      BSRequiredBSRequiredtomeettargetsofFS:body.BSRequiredBSRequiredtomeettargetsofFS,
+    updated_at: Date.now(),},
+    {
+      where: {
+        id: req.params.id,
+      },
+    },). then(() => response(res, status.DATA_UPDATED, 200, {}) )
+    .catch(() => response(res, status.DATA_NOT_UPDATED, 500));
+
+} catch (error) {
+    console.log(error);
+    return response(res, status.UNEXPECTED_ERROR, 501)
+  }
+  
+}
+
+exports.viewSrpById = async (req, res) => {
+  try{
+    const data = await srpModel.findOne({ where: { id: req.params.id, is_active:true, user_id:req.body.loginedUserid.id},
+      attributes: {
+        exclude: ['createdAt', 'updatedAt', 'deletedAt','crop_type', 'is_active' ]
+      },},
+      
+    );
+    if (!data) {
+      return response(res, status.DATA_NOT_AVAILABLE, 404);
+    }
+    return response(res, status.DATA_AVAILABLE, 200, data) ;
+  }
+  catch (error) {
+    console.log(error);
+    return response(res, status.UNEXPECTED_ERROR, 501)
+  }
+}
+
+//all records filter year, season, crop_code, variety_code
+exports.viewSrpAll = async (req, res) => { try {
+   const userid = req.body.loginedUserid.id;
+
+   const { page, limit } = req.query;  // Extract pagination params from query string
+   console.log(page, limit);
+    const offset = (page - 1) * limit;
+
+    let condition = {
+     include: [
+       {
+         model: cropDataModel,
+         attributes: ['crop_name', 'srr']
+       },
+       {
+         model: varietyModel,
+         attributes: ['variety_name' , 'not_date']
+       },
+       {
+         model:stateModel,
+         attributes: ['state_name']
+       },
+       {
+         model:userModel,
+         attributes: ['name']
+       }
+     ],
+     where: { user_id: userid, is_active: true },
+     order: [ ['year', 'ASC'],
+     ['season', 'ASC'],
+     [cropDataModel, 'crop_name', 'ASC'],  // Ordering by crop_name in ascending order
+     [varietyModel, 'variety_name', 'ASC'],
+     [stateModel,'state_name', 'ASC'],
+     [userModel,'name', 'ASC']],
+     attributes: {
+       exclude: ['createdAt', 'updatedAt', 'deletedAt', 'crop_type', 'is_active',  ]
+     },
+     limit: limit,      // Limit the number of records returned
+     offset: offset, 
+   };
+   if (req.query.year) {
+    condition.where.year = (req.query.year);
+  }
+  if(req.query.season) {
+    condition.where.season = (req.query.season);
+  }
+
+   if (req.query.crop_code) {
+     condition.where.crop_code = (req.query.crop_code);
+   }
+   if(req.query.variety_code) {
+     condition.where.variety_code = (req.query.variety_code);
+   }
+   let data = await srpModel.findAll(condition);
+   console.log("data found", data);
+if (data.length == 0)
+ //res.status(404).json({message: "No data found"})
+ return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+   const result = data.map((item)=>{
+    console.log(item.m_crop_variety.not_year);
+    return {     
+     id: item.id,
+     year: item.year,
+     season: item.season,
+     crop_code: item.crop_code,
+     variety_code: item.variety_code,
+     crop_name: item.m_crop.crop_name,
+     variety_name: item.m_crop_variety.variety_name,
+     not_year:item.m_crop_variety.not_date.substring(0, 4),
+     unit: item.unit,
+     proposedAreaUnderVariety: item.proposedAreaUnderVariety,
+     seedrate: item.seedrate, 
+     SRRTargetbyGOI: item.m_crop.srr,
+     SRRTargetbySTATE: item.SRRTargetbySTATE,
+     seedRequired: item.seedRequired,
+     qualityquant:item.qualityquant,
+     certifiedquant: item.certifiedquant,
+     doa: item.doa,
+     ssfs: item.ssfs,
+     saus: item.saus,
+     ssc: item.ssc,
+     nsc: item.nsc,
+     othergovpsu: item.othergovpsu,
+     coop:item.coop,
+     seedhub:item.seedhub,
+     pvt: item.pvt,
+     others: item.others,
+     total: item.total,
+     shtorsur: item.shtorsur,
+     SMRKeptBSToFS: item.SMRKeptBSToFS,
+     SMRKeptFSToCS: item.SMRKeptFSToCS,
+     FSRequiredtomeettargetsofCS:item.FSRequiredtomeettargetsofCS,
+     BSRequiredBSRequiredtomeettargetsofFS:item.BSRequiredBSRequiredtomeettargetsofFS,
+   }
+ });
+
+   // Get total records for pagination
+   const totalRecords = await srpModel.count(condition);
+
+   const totalPages = Math.ceil(totalRecords / limit);  // Calculate total pages
+
+   response(res, status.DATA_AVAILABLE, 200, {
+     data: result,
+     pagination: {
+       currentPage: parseInt(page),
+       totalRecords: totalRecords,
+       totalPages: totalPages,
+       pageSize: parseInt(limit),
+     },
+   });
+   
+
+ } catch (error) {
+   console.log(error);
+   return response(res, status.UNEXPECTED_ERROR, 501)
+ }
+}
+
+
+exports.viewSrpAllCropWiseSummary = async (req, res) => { 
+  try {
+  const userid = req.body.loginedUserid.id;
+
+  const { page, limit } = req.query;  // Extract pagination params from query string
+  console.log(page, limit);
+   const offset = (page - 1) * limit;
+
+   let condition = {
+      include: [
+        {
+          model: cropDataModel,
+          attributes: []
+        },],
+      where: {
+        user_id: userid, is_active: true
+      },
+      attributes: [
+        // Grouping by crop_name and user_name  
+        [sequelize.col('year'), 'year'],
+        [sequelize.col('seedrollingplan.season'), 'season'],[sequelize.col('seedrollingplan.crop_code'), 'crop_code'],
+        [sequelize.col('m_crop.crop_name'), 'crop_name'],
+        [sequelize.fn('SUM', sequelize.col('seedRequired')), 'req'], // Count of records in 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('total')), 'total'], // Sum of 'total' from 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('shtorsur')), 'shtorsur'], 
+      ],
+     group: [ [sequelize.col('year'), 'year'],
+     [sequelize.col('seedrollingplan.season'), 'season'],
+     [sequelize.col('seedrollingplan.crop_code'), 'crop_code'], [sequelize.col('m_crop.crop_name'), 'crop_name']
+    ],
+   //  [sequelize.col('m_crop.crop_name'), 'crop_name']], // Grouping by user_id and crop_id (or crop_name depending on your logic)
+     
+    limit: limit,  // Limit the number of records returned
+    offset: offset,  // Skip records based on page
+  
+      order : [
+        ['year', 'ASC'],
+        ['season', 'ASC'],
+     [sequelize.col('m_crop.crop_name'), 'ASC'],
+    ],
+    }
+  if (req.query.year) {
+   condition.where.year = (req.query.year);
+ }
+ if(req.query.season) {
+   condition.where.season = (req.query.season);
+ }
+
+  if (req.query.crop_code) {
+    condition.where.crop_code = (req.query.crop_code);
+  }
+
+  let data = await srpModel.findAll(condition);
+  console.log("data found", data);
+if (data.length == 0)
+//res.status(404).json({message: "No data found"})
+return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+  // Get total records for pagination
+  const totalRecords = await srpModel.count(condition);
+
+  const totalPages = Math.ceil(totalRecords.length / limit);  // Calculate total pages
+
+    response(res, status.DATA_AVAILABLE, 200, {
+      data: data,
+      pagination: {
+        currentPage: parseInt(page),
+        totalRecords: totalRecords.length,
+        totalPages: totalPages,
+        pageSize: parseInt(limit),
+      },
+    });
+  
+
+} catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+}
+
+exports.viewSrpAllCropWise = async (req, res) => { 
+  try {
+  const userid = req.body.loginedUserid.id;
+
+  const { page, limit } = req.query;  // Extract pagination params from query string
+  console.log(page, limit);
+   const offset = (page - 1) * limit;
+
+   let condition = {
+      include: [
+        {
+          model: cropDataModel,
+          attributes: []
+        },],
+      where: {
+        user_id: userid, is_active: true
+      },
+      attributes: [
+        // Grouping by crop_name and user_name  
+        [sequelize.col('year'), 'year'],
+        [sequelize.col('seedrollingplan.season'), 'season'],[sequelize.col('seedrollingplan.crop_code'), 'crop_code'],
+        [sequelize.col('m_crop.crop_name'), 'crop_name'],
+        [sequelize.fn('SUM', sequelize.col('proposedAreaUnderVariety')), 'AreaUnderVariety'],
+        [sequelize.fn('SUM', sequelize.col('seedRequired')), 'SeedRequired'],
+        [sequelize.fn('SUM', sequelize.col('doa')), 'doa'],
+        [sequelize.fn('SUM', sequelize.col('ssfs')), 'ssfs'],
+        [sequelize.fn('SUM', sequelize.col('ssc')), 'ssc'],
+        [sequelize.fn('SUM', sequelize.col('nsc')), 'nsc'],
+        [sequelize.fn('SUM', sequelize.col('saus')), 'saus'],
+        [sequelize.fn('SUM', sequelize.col('othergovpsu')), 'othergovpsu'],
+        [sequelize.fn('SUM', sequelize.col('coop')), 'coop'], 
+        [sequelize.fn('SUM', sequelize.col('pvt')), 'pvt'], 
+        [sequelize.fn('SUM', sequelize.col('seedhub')), 'seedhub'], 
+        [sequelize.fn('SUM', sequelize.col('others')), 'others'], 
+        [sequelize.fn('SUM', sequelize.col('total')), 'total'], // Sum of 'total' from 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('shtorsur')), 'shtorsur'], 
+        [sequelize.fn('SUM', sequelize.col('BSRequiredBSRequiredtomeettargetsofFS')), 'BSRequiredBSRequiredtomeettargetsofFS'], 
+        [sequelize.fn('SUM', sequelize.col('FSRequiredtomeettargetsofCS')), 'FSRequiredtomeettargetsofCS'], 
+      ],
+     group: [ [sequelize.col('year'), 'year'],
+     [sequelize.col('seedrollingplan.season'), 'season'],
+     [sequelize.col('seedrollingplan.crop_code'), 'crop_code'], [sequelize.col('m_crop.crop_name'), 'crop_name']
+    ],
+   //  [sequelize.col('m_crop.crop_name'), 'crop_name']], // Grouping by user_id and crop_id (or crop_name depending on your logic)
+     
+    limit: limit,  // Limit the number of records returned
+    offset: offset,  // Skip records based on page
+  
+      order : [
+        ['year', 'ASC'],
+        ['season', 'ASC'],
+     [sequelize.col('m_crop.crop_name'), 'ASC'],
+    ],
+    }
+  if (req.query.year) {
+   condition.where.year = (req.query.year);
+ }
+ if(req.query.season) {
+   condition.where.season = (req.query.season);
+ }
+
+  if (req.query.crop_code) {
+    condition.where.crop_code = (req.query.crop_code);
+  }
+
+  let data = await srpModel.findAll(condition);
+  console.log("data found", data);
+if (data.length == 0)
+//res.status(404).json({message: "No data found"})
+return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+  // Get total records for pagination
+  const totalRecords = await srpModel.count(condition);
+
+  const totalPages = Math.ceil(totalRecords.length / limit);  // Calculate total pages
+
+    response(res, status.DATA_AVAILABLE, 200, {
+      data: data,
+      pagination: {
+        currentPage: parseInt(page),
+        totalRecords: totalRecords.length,
+        totalPages: totalPages,
+        pageSize: parseInt(limit),
+      },
+    });
+  
+
+} catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+}
+
+exports.viewSrpAllSD = async (req, res) => { try {
+  const { page, limit } = req.query;  // Extract pagination params from query string
+  console.log(page, limit);
+   const offset = (page - 1) * limit;
+
+   let condition = {
+    include: [
+      {
+        model: cropDataModel,
+        attributes: ['crop_name', 'srr']
+      },
+      {
+        model: varietyModel,
+        attributes: ['variety_name' , 'not_date']
+      },
+      {
+        model:userModel,
+        attributes: ['name']
+      }
+    ],
+    where: { is_active: true },
+    order: [ [userModel,'name', 'ASC'],
+    ['year', 'ASC'],
+    ['season', 'ASC'],
+    [cropDataModel, 'crop_name', 'ASC'],  // Ordering by crop_name in ascending order
+    [varietyModel, 'variety_name', 'ASC'],
+    ],
+    attributes: {
+      exclude: ['createdAt', 'updatedAt', 'deletedAt', 'crop_type', 'is_active',  ]
+    },
+    limit: limit,      // Limit the number of records returned
+    offset: offset, 
+  };
+  if (req.query.year) {
+   condition.where.year = (req.query.year);
+ }
+ if(req.query.season) {
+   condition.where.season = (req.query.season);
+ }
+ if(req.query.userid) {
+  condition.where.user_id = (req.query.userid);
+}
+
+
+  if (req.query.crop_code) {
+    condition.where.crop_code = (req.query.crop_code);
+  }
+  if(req.query.variety_code) {
+    condition.where.variety_code = (req.query.variety_code);
+  }
+  let data = await srpModel.findAll(condition);
+  console.log("data found", data);
+if (data.length == 0)
+//res.status(404).json({message: "No data found"})
+return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+  const result = data.map((item)=>{
+   console.log(item.m_crop_variety.not_year);
+   return {     
+    id: item.id,
+    user_id:item.user_id,
+    user_name: item.user.name,
+    year: item.year,
+    season: item.season,
+    crop_name: item.m_crop.crop_name,
+    variety_name: item.m_crop_variety.variety_name,
+    not_year:item.m_crop_variety.not_date.substring(0, 4),
+    unit: item.unit,
+    proposedAreaUnderVariety: item.proposedAreaUnderVariety,
+    seedrate: item.seedrate, 
+    SRRTargetbyGOI: item.m_crop.srr,
+    SRRTargetbySTATE: item.SRRTargetbySTATE,
+    seedRequired: item.seedRequired,
+    qualityquant:item.qualityquant,
+    certifiedquant: item.certifiedquant,
+    doa: item.doa,
+    ssfs: item.ssfs,
+    saus: item.saus,
+    ssc: item.ssc,
+    nsc: item.nsc,
+    othergovpsu: item.othergovpsu,
+    coop:item.coop,
+    seedhub:item.seedhub,
+    pvt: item.pvt,
+    others: item.others,
+    total: item.total,
+    shtorsur: item.shtorsur,
+    SMRKeptBSToFS: item.SMRKeptBSToFS,
+    SMRKeptFSToCS: item.SMRKeptFSToCS,
+    FSRequiredtomeettargetsofCS:item.FSRequiredtomeettargetsofCS,
+    BSRequiredBSRequiredtomeettargetsofFS:item.BSRequiredBSRequiredtomeettargetsofFS,
+  }
+});
+
+  // Get total records for pagination
+  const totalRecords = await srpModel.count(condition);
+
+  const totalPages = Math.ceil(totalRecords / limit);  // Calculate total pages
+
+  response(res, status.DATA_AVAILABLE, 200, {
+    data: result,
+    pagination: {
+      currentPage: parseInt(page),
+      totalRecords: totalRecords,
+      totalPages: totalPages,
+      pageSize: parseInt(limit),
+    },
+  });
+  
+
+} catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+}
+
+exports.viewSrpAllCropWiseSD = async (req, res) => { 
+  try {
+
+  const { page, limit } = req.query;  // Extract pagination params from query string
+  console.log(page, limit);
+   const offset = (page - 1) * limit;
+
+   let condition = {
+      include: [
+        {
+          model: cropDataModel,
+          attributes: []
+        },
+        {
+          model: userModel,
+          attributes: []
+        }],
+      where: {
+       is_active: true
+      },
+      attributes: [
+        [sequelize.col('seedrollingplan.user_id'),'user_id'],
+        [sequelize.col('user.name'),'name'],
+        [sequelize.col('year'), 'year'],
+        [sequelize.col('seedrollingplan.season'), 'season'],[sequelize.col('seedrollingplan.crop_code'), 'crop_code'],
+        [sequelize.col('m_crop.crop_name'), 'crop_name'],
+        [sequelize.fn('SUM', sequelize.col('proposedAreaUnderVariety')), 'AreaUnderVariety'],
+        [sequelize.fn('SUM', sequelize.col('seedRequired')), 'SeedRequired'],
+        [sequelize.fn('SUM', sequelize.col('doa')), 'doa'],
+        [sequelize.fn('SUM', sequelize.col('ssfs')), 'ssfs'],
+        [sequelize.fn('SUM', sequelize.col('ssc')), 'ssc'],
+        [sequelize.fn('SUM', sequelize.col('nsc')), 'nsc'],
+        [sequelize.fn('SUM', sequelize.col('saus')), 'saus'],
+        [sequelize.fn('SUM', sequelize.col('othergovpsu')), 'othergovpsu'],
+        [sequelize.fn('SUM', sequelize.col('coop')), 'coop'], 
+        [sequelize.fn('SUM', sequelize.col('pvt')), 'pvt'], 
+        [sequelize.fn('SUM', sequelize.col('seedhub')), 'seedhub'], 
+        [sequelize.fn('SUM', sequelize.col('others')), 'others'], 
+        [sequelize.fn('SUM', sequelize.col('total')), 'total'], // Sum of 'total' from 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('shtorsur')), 'shtorsur'], 
+        [sequelize.fn('SUM', sequelize.col('BSRequiredBSRequiredtomeettargetsofFS')), 'BSRequiredBSRequiredtomeettargetsofFS'], 
+        [sequelize.fn('SUM', sequelize.col('FSRequiredtomeettargetsofCS')), 'FSRequiredtomeettargetsofCS'], 
+      ],
+     group: [  [sequelize.col('seedrollingplan.user_id'),'user_id'],
+    [sequelize.col('user.name'),'name'],
+    [sequelize.col('year'), 'year'],
+     [sequelize.col('seedrollingplan.season'), 'season'],
+     [sequelize.col('seedrollingplan.crop_code'), 'crop_code'], [sequelize.col('m_crop.crop_name'), 'crop_name']
+    ],
+   //  [sequelize.col('m_crop.crop_name'), 'crop_name']], // Grouping by user_id and crop_id (or crop_name depending on your logic)
+     
+    limit: limit,  // Limit the number of records returned
+    offset: offset,  // Skip records based on page
+  
+      order : [ 
+      [sequelize.col('user.name'),'ASC'],
+        ['year', 'ASC'],
+        ['season', 'ASC'],
+     [sequelize.col('m_crop.crop_name'), 'ASC'],
+    ],
+    }
+  if (req.query.year) {
+   condition.where.year = (req.query.year);
+ }
+ if(req.query.season) {
+   condition.where.season = (req.query.season);
+ }
+
+  if (req.query.crop_code) {
+    condition.where.crop_code = (req.query.crop_code);
+  }
+  if (req.query.userid) {
+    condition.where.user_id = (req.query.userid);
+  }
+
+
+  let data = await srpModel.findAll(condition);
+  console.log("data found", data);
+if (data.length == 0)
+//res.status(404).json({message: "No data found"})
+return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+  // Get total records for pagination
+  const totalRecords = await srpModel.count(condition);
+
+  const totalPages = Math.ceil(totalRecords.length / limit);  // Calculate total pages
+
+    response(res, status.DATA_AVAILABLE, 200, {
+      data: data,
+      pagination: {
+        currentPage: parseInt(page),
+        totalRecords: totalRecords.length,
+        totalPages: totalPages,
+        pageSize: parseInt(limit),
+      },
+    });
+  
+
+} catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+}
+
+
+exports.viewSrpAllCropWiseSummarySD = async (req, res) => { 
+  try {
+  const { page, limit } = req.query;  // Extract pagination params from query string
+  console.log(page, limit);
+   const offset = (page - 1) * limit;
+
+   let condition = {
+      include: [
+        {
+          model: cropDataModel,
+          attributes: []
+        },
+        {
+          model: userModel,
+          attributes: []
+        }],
+      where: {
+         is_active: true
+      },
+      attributes: [
+        [sequelize.col('seedrollingplan.user_id'), 'user_id'],
+        [sequelize.col('user.name'), 'name'],
+        [sequelize.col('year'), 'year'],
+        [sequelize.col('seedrollingplan.season'), 'season'],[sequelize.col('seedrollingplan.crop_code'), 'crop_code'],
+        [sequelize.col('m_crop.crop_name'), 'crop_name'],
+        [sequelize.fn('SUM', sequelize.col('seedRequired')), 'req'], // Count of records in 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('total')), 'total'], // Sum of 'total' from 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('shtorsur')), 'shtorsur'], 
+      ],
+     group: [
+      [sequelize.col('seedrollingplan.user_id'), 'user_id'],
+      [sequelize.col('user.name'), 'name'],
+       [sequelize.col('year'), 'year'],
+     [sequelize.col('seedrollingplan.season'), 'season'],
+     [sequelize.col('seedrollingplan.crop_code'), 'crop_code'], [sequelize.col('m_crop.crop_name'), 'crop_name']
+    ],
+   //  [sequelize.col('m_crop.crop_name'), 'crop_name']], // Grouping by user_id and crop_id (or crop_name depending on your logic)
+     
+    limit: limit,  // Limit the number of records returned
+    offset: offset,  // Skip records based on page
+  
+      order : [
+        [sequelize.col('user.name'), 'ASC'],
+        ['year', 'ASC'],
+        ['season', 'ASC'],
+     [sequelize.col('m_crop.crop_name'), 'ASC'],
+    ],
+    }
+  if (req.query.year) {
+   condition.where.year = (req.query.year);
+ }
+ if(req.query.season) {
+   condition.where.season = (req.query.season);
+ }
+
+  if (req.query.crop_code) {
+    condition.where.crop_code = (req.query.crop_code);
+  }
+
+  if (req.query.userid) {
+    condition.where.user_id = (req.query.userid);
+  }
+
+  let data = await srpModel.findAll(condition);
+  console.log("data found", data);
+if (data.length == 0)
+//res.status(404).json({message: "No data found"})
+return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+  // Get total records for pagination
+  const totalRecords = await srpModel.count(condition);
+
+  const totalPages = Math.ceil(totalRecords.length / limit);  // Calculate total pages
+
+    response(res, status.DATA_AVAILABLE, 200, {
+      data: data,
+      pagination: {
+        currentPage: parseInt(page),
+        totalRecords: totalRecords.length,
+        totalPages: totalPages,
+        pageSize: parseInt(limit),
+      },
+    });
+  
+
+} catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+}
+
+exports.addSrr = async (req, res) => {
+  try {
+
+    const body = req.body;
+    let crop_type="";
+    let unit= "";
+    let cropExist = await cropDataModel.findOne({
+      where: {
+        crop_code: body.crop_code,
+      },
+    });
+    console.log(
+       body.crop_code)
+    console.log("crop:", cropExist);
+    if (!cropExist) {
+      return response(res, "Crop Not Found", 404, {});
+    }
+
+    let recordExist = await srrModel.findOne({
+      where: {
+        year: body.year,
+        season: body.season,
+        crop_code: body.crop_code,
+        seed_type: body.seed_type,
+        user_id: body.loginedUserid.id,
+      },
+    });
+    if(!recordExist) {
+    
+    if ((cropExist.crop_code).slice(0, 1) == 'A') {
+        crop_type = 'agriculture';
+        unit = 'qt';
+       }
+    else if ((cropExist.crop_code).slice(0, 1) == 'H') {
+        crop_type = 'horticulture'
+        unit = 'kg';
+    }
+    let state = await agencyDetailModel.findOne({
+      where: {
+       user_id: body.loginedUserid.id,
+     },
+     attributes: ['state_id']
+   }
+   )
+   await srrModel.create({
+        year: body.year,
+        season: body.season,
+        crop_type: crop_type,
+        crop_code: body.crop_code,
+        crop_group_code:cropExist.group_code,
+        seed_type: body.seed_type,
+        user_id: body.loginedUserid.id,
+        state_id: state.state_id,
+        unit: unit,
+        plannedAreaUnderCropInHa: 0.00,
+        seedRateInQtPerHt: 0.00,
+        plannedSeedQuanDis: 0.00,
+        plannedSrr: 0.00,
+        areaSownUnderCropInHa:body.areaSownUnderCropInHa,
+        seedRateAcheived: body.seedRateAcheived,
+        seedQuanDis: body.seedQuanDis,
+        acheivedSrr: body.acheivedSrr
+      });
+
+        let startYear = parseInt(body.year.split('-')[0]);
+
+        // Calculate the next year range
+       let nextYear = `${startYear + 1}-${(startYear + 2).toString().slice(-2)}`;
+       console.log(nextYear);
+
+       await srrModel.create({
+        year: nextYear,
+        season: body.season,
+        crop_type: crop_type,
+        crop_code: body.crop_code,
+        crop_group_code:cropExist.group_code,
+        seed_type: body.seed_type,
+        user_id: body.loginedUserid.id,
+        state_id: state.state_id,
+        unit: unit,
+        plannedAreaUnderCropInHa: body.plannedAreaUnderCropInHa,
+        seedRateInQtPerHt: body.seedRateInQtPerHt,
+        plannedSeedQuanDis: body.plannedSeedQuanDis,
+        plannedSrr: body.plannedSrr,
+        areaSownUnderCropInHa:0.00,
+        seedRateAcheived: 0.00,
+        seedQuanDis: 0.00,
+        acheivedSrr: 0.00
+       })
+      return response(res, status.DATA_SAVE, 200, {});
+    }
+    else {
+      await srrModel.update({
+        areaSownUnderCropInHa:body.areaSownUnderCropInHa,
+        seedRateAcheived: body.seedRateAcheived,
+        seedQuanDis: body.seedQuanDis,
+        acheivedSrr: body.acheivedSrr,
+        update_at:Date.now(),
+      },
+    {where: {
+      id: recordExist.id
+    }});
+
+      let startYear = parseInt(body.year.split('-')[0]);
+
+      // Calculate the next year range
+     let nextYear = `${startYear + 1}-${(startYear + 2).toString().slice(-2)}`;
+
+     await srrModel.create({
+      year: nextYear,
+      season: recordExist.season,
+      crop_type: recordExist.crop_type,
+      crop_code: recordExist.crop_code,
+      crop_group_code:recordExist.crop_group_code,
+      seed_type: recordExist.seed_type,
+      user_id: recordExist.user_id,
+      unit: recordExist.unit,
+      state_id: recordExist.state_id,
+      plannedAreaUnderCropInHa: body.plannedAreaUnderCropInHa,
+      seedRateInQtPerHt: body.seedRateInQtPerHt,
+      plannedSeedQuanDis: body.plannedSeedQuanDis,
+      plannedSrr: body.plannedSrr,
+      areaSownUnderCropInHa:0.00,
+      seedRateAcheived: 0.00,
+      seedQuanDis: 0.00,
+      acheivedSrr: 0.00
+     });
+     response(res, status.DATA_SAVE, 200, {});
+    }
+  }
+  catch (error) {
+    console.log(error);
+    return response(res, status.UNEXPECTED_ERROR, 501)
+  }
+}
+

@@ -45,6 +45,7 @@ const status = {
     DATA_NOT_UPDATED: 'Data not updated',
     DATA_SAVE: 'Data saved succesfully',
     DATA_NOT_DELETED:'DATA not deleted',
+    DATA_NOT_CORRECT:'DATA not Correct',
     ACCOUNT_VERIFIED: 'Account verified',
     ACCOUNT_PENDING: 'Account under review',
     DATA_NOT_SAVE: 'Data Not Saved',
