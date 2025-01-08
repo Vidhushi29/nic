@@ -162,11 +162,11 @@
 
                         <div class="col-12 col-md-12 col-lg-12 col-xl-12 mt-2" *ngIf="isAddSelected">
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-3 pb-2 ">
-{{update_Form? 'Enter the Source Availability':'Update the Source Availability'}}
+ {{this.isChangeMessage}}
                             </div>
                             <div class="row">
                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                    <div class="row" *ngIf="update_Form">
+                                    <div class="row">
                                         <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -389,11 +389,13 @@
                                     <button
                                         class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
                                         (click)="createAndSave()" style="border: 2px solid #B64B1D;"
-                                        *ngIf="!is_update">Save</button>
+                                        *ngIf="!is_update"
+                                        >Add</button>
 
                                     <button
                                         class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
-                                        (click)="updateForm()" *ngIf="is_update">Update</button>
+                                        (click)="updateForm()"
+                                        *ngIf="is_update">Update</button>
 
                                 </div>
                             </div>

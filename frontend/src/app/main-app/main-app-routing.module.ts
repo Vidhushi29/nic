@@ -242,7 +242,6 @@ import { GotMonitoringTeamDetailsComponent } from './got-monitoring-team-details
 import { GrowOutTestReportBspvComponent } from './grow-out-test-report-bspv/grow-out-test-report-bspv.component';
 import { CropStatusReportComponent } from './crop-status-report/crop-status-report.component';
 import { ZsrmComponent } from './indenters/zsrm/zsrm.component';
-import { AddZsrmFormComponent } from './indenters/add-zsrm-form/add-zsrm-form.component';
 
 // import { ZsmrFoundationSeedComponent } from './indenters/zsmr-foundation-seed/zsmr-foundation-seed.component';
 const routes: Routes = [
@@ -1150,10 +1149,7 @@ const routes: Routes = [
         path:'requirement-of-Foundation-Seed',
         component: ZsrmComponent
       },
-      {
-        path: 'add-foundation-seed',
-        component:AddZsrmFormComponent
-      },
+      
       {
         path: 'view-selection-of-spa-for-submission-indent/view',
         component: ViewSelectionOfSpaForSubmissionIndentComponent

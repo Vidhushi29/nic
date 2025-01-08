@@ -42,7 +42,7 @@ export class ZsrmComponent implements OnInit {
   dataId: any;
   authUserId: any;
   isVarietySelected = false;
-  isEditMode = false;
+  isEditMode:boolean= false;
   isShowTable = false;
   varietyAndQuantity: any[] = [];
   unit: string = '';
@@ -55,10 +55,14 @@ export class ZsrmComponent implements OnInit {
   isLimeSection: boolean;
   isAddSelected: boolean = false;
   isNotShowTable: boolean = false;
-  lineData: any;
+  isAddFormOpen: boolean = false; 
+  isUpdateFormOpen:boolean=false;
   isPatchData: boolean;
   formBuilder: any;
   update_Form: boolean=false;
+  isChangeMessage:string;
+  isButtonText: string;
+
   constructor(
     private fb: FormBuilder,
     private zsrmServiceService: ZsrmServiceService
@@ -84,8 +88,8 @@ export class ZsrmComponent implements OnInit {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        const route = "delete-req-fs";
-        this.zsrmServiceService.postRequestCreator(route, null, { "id": id }).subscribe(data => {
+        const route = `delete-req-fs/${id}`;
+        this.zsrmServiceService.deleteRequestCreator(route, null,).subscribe(data => {
           if (data.Response.status_code === 200) {
             Swal.fire({
               title: "Deleted!",
@@ -100,8 +104,12 @@ export class ZsrmComponent implements OnInit {
   }
 
   SaveAsData() {
-    this.isAddSelected = !this.isAddSelected;
+    this.isAddSelected = true;
+    this. isChangeMessage="Entre the Source Availability"
+    this.resetCancelation()
+    
   }
+ 
 
   createForm() {
     this.ngForm = this.fb.group({
@@ -169,97 +177,45 @@ export class ZsrmComponent implements OnInit {
 
   }
 
-  // patchDataForUpdate(data: any) {
-  //   this.isEditMode = true
-  //   this.is_update = true;
-  //   this.isPatchData = true;
-  //   this.dataId = data.id;
-  //   const cropName = this.cropData.find(crop => crop.crop_code === data.crop_code)?.crop_name;
-  //   if (data) {
-  //     this.selectCrop = cropName;
-  //     this.ngForm.controls['year'].patchValue(data.year, { emitEvent: false });
-  //     this.ngForm.controls['season'].patchValue(data.season, { emitEvent: false });
-  //     this.ngForm.controls['crop'].patchValue(data.crop_code, { emitEvent: false });
-  //     this.getVarietyData(data.variety_code);
-  //     this.ngForm.controls['nsc'].patchValue(data.nsc);
-  //     this.ngForm.controls['req'].patchValue(data.req);
-  //     this.ngForm.controls['pvt'].patchValue(data.pvt);
-  //     this.ngForm.controls['others'].patchValue(data.others);
-  //     this.ngForm.controls['remarks'].patchValue(data.remarks);
-  //     this.ngForm.controls['doa'].patchValue(data.doa);
-  //     this.ngForm.controls['sfci'].patchValue(data.sfci);
-  //     this.ngForm.controls['sau'].patchValue(data.sau);
-  //     this.ngForm.controls['ssc'].patchValue(data.ssc);
-
-  //   }
-  // }
   patchDataForUpdate(data: any) {
-    console.log("hello gas")
-    this.isEditMode = true
+    this.isAddSelected = true
+    this. isChangeMessage="Update the Source Availability"
+    this.isButtonText="Update"
+    this.isEditMode=true
     this.is_update = true;
-    this.update_Form=true
-    this.isPatchData = true;
     this.dataId = data.id;
     const cropName = this.cropData.find(crop => crop.crop_code === data.crop_code)?.crop_name;
-       if (data) {
+      if (data) {
       this.selectCrop = cropName;
-      this.ngForm.controls['year'].patchValue(data.year, { emitEvent: false });
-      this.ngForm.controls['season'].patchValue(data.season, { emitEvent: false });
-      this.ngForm.controls['crop'].patchValue(data.crop_code, { emitEvent: false });
+      this.ngForm.controls['year'].patchValue(data.year);
+      this.ngForm.controls['season'].patchValue(data.season);
+      this.ngForm.controls['crop'].patchValue(data.crop_code);
+      
+      const firstChar = (data?.crop_code || '').substring(0, 1);
+      if (firstChar == 'H') {
+        this.showQuantity = true;
+      } else {
+        this.showQuantity = false;
+      }
+
       this.getVarietyData(data.variety_code);
       this.ngForm.controls['nsc'].patchValue(data.nsc);
       this.ngForm.controls['req'].patchValue(data.req);
       this.ngForm.controls['pvt'].patchValue(data.pvt);
       this.ngForm.controls['sau'].patchValue(data.sau);
       this.ngForm.controls['remarks'].patchValue(data.remarks);
-      this.ngForm.controls['nsc'].patchValue(data.nsc, { emitEvent: false });
+      this.ngForm.controls['nsc'].patchValue(data.nsc);
       this.ngForm.controls['ssc'].patchValue(data.ssc);
       this.ngForm.controls['req'].patchValue(data.req);
       this.ngForm.controls['others'].patchValue(data.others);
       this.ngForm.controls['sfci'].patchValue(data.sfci);
-   
-     
-    }
+      this.ngForm.patchValue(
+        { total: data.total, shtorsub: data.shtorsur },
+        { emitEvent: false }
+      );
+      
+      }
   }
-//   patchDataForUpdate(data: any) {
-//     console.log("Editing data with ID:", data.id);
-//     this.isEditMode = true;
-//     this.is_update = true;
-//     this.update_Form = true;
-//     this.isPatchData = true;
-//     this.dataId = data.id;
-
-//     const route=
-//     this.zsrmServiceService.getDataById(data.id).subscribe({
-//         next: (response: any) => {
-//             const cropName = this.cropData.find(crop => crop.crop_code === response.crop_code)?.crop_name;
-
-//             // Patch form controls with API response data
-//             this.selectCrop = cropName;
-//             this.ngForm.controls['year'].patchValue(response.year, { emitEvent: false });
-//             this.ngForm.controls['season'].patchValue(response.season, { emitEvent: false });
-//             this.ngForm.controls['crop'].patchValue(response.crop_code, { emitEvent: false });
-//             this.getVarietyData(response.variety_code);
-//             this.ngForm.controls['nsc'].patchValue(response.nsc, { emitEvent: false });
-//             this.ngForm.controls['req'].patchValue(response.req);
-//             this.ngForm.controls['pvt'].patchValue(response.pvt);
-//             this.ngForm.controls['sau'].patchValue(response.sau);
-//             this.ngForm.controls['remarks'].patchValue(response.remarks);
-//             this.ngForm.controls['ssc'].patchValue(response.ssc);
-//             this.ngForm.controls['others'].patchValue(response.others);
-//             this.ngForm.controls['sfci'].patchValue(response.sfci);
-//         },
-//         error: (err) => {
-//             console.error("Error fetching data:", err);
-//             // Optionally, handle errors (e.g., display a toast or error message)
-//         }
-//     });
-// }
-
-  getdistrictData(district_code: any) {
-    throw new Error('Method not implemented.');
-  }
-
   variety(item: any) {
     const indentQntControl = this.ngForm.get('indent_qnt');
     this.selectVariety = item && item.variety_name ? item.variety_name : '',
@@ -268,11 +224,10 @@ export class ZsrmComponent implements OnInit {
     this.varietyData = this.varietyListSecond;
     this.ngForm.controls['variety'].setValue(item && item.variety_code ? item.variety_code : '')
   }
-    
 
   resetSelections() {
     this.isShowTable = false;
-    this.isAddSelected = false;
+    // this.isAddSelected = false;
     this.isVarietySelected = false;
   }
 
@@ -286,6 +241,7 @@ export class ZsrmComponent implements OnInit {
 
   searchData() {
     this.isShowTable = true;
+    this.isAddSelected=false;
     this.getPageData();
   }
   cClick() {
@@ -320,6 +276,22 @@ export class ZsrmComponent implements OnInit {
     this.ngForm.controls['season'].reset('');
     this.ngForm.controls['year'].reset('');
     this.ngForm.controls['variety'].reset('');
+    this.ngForm.controls['nsc'].reset('');
+    this.ngForm.controls['remarks'].reset('');
+    this.ngForm.controls['others'].patchValue('');
+    this.ngForm.controls['doa'].patchValue('');
+    this.ngForm.controls['sau'].patchValue('');
+    this.ngForm.controls['sfci'].patchValue('');
+    this.ngForm.controls['pvt'].patchValue('');
+    this.ngForm.controls['req'].patchValue('');
+    this.ngForm.controls['ssc'].patchValue('');
+    this.ngForm.controls['total'].patchValue('');
+    this.ngForm.controls['shtorsur'].patchValue('');
+    this.is_update = false;
+    this.showOtherInputBox = false;
+  
+  }
+  resetCancelation() {
     this.ngForm.controls['nsc'].reset('');
     this.ngForm.controls['remarks'].reset('');
     this.ngForm.controls['others'].patchValue('');
@@ -369,6 +341,7 @@ export class ZsrmComponent implements OnInit {
 
     this.zsrmServiceService.postRequestCreator(route, null, baseParam).subscribe(data => {
       if (data.Response.status_code === 200) {
+        console.log()
         Swal.fire({
           title: '<p style="font-size:25px;">Data Has Been Successfully Saved.</p>',
           icon: 'success',
@@ -400,54 +373,63 @@ export class ZsrmComponent implements OnInit {
   }
 
   createAndSave() {
-    console.log('Save button clicked');
     this.submitted = true;
+    this.isAddFormOpen = true;
     this.saveForm();
   }
   getVarietyData(varietyCode: any) {
-    this.ngForm.controls['variety'].patchValue('');
-    const route = "get-all-varieties";
-    const param = {
-      "crop_code": this.ngForm.controls['crop'].value,
-    }
-    this.zsrmServiceService.postRequestCreator(route, null, param).subscribe(data => {
+   
+   
+     const crop_code = this.ngForm.controls['crop'].value;
+     this.ngForm.controls['variety'].patchValue('');
+    const route = `get-all-varieties?crop_code=${crop_code}`;
+    this.zsrmServiceService.getRequestCreator(route, null,).subscribe(data => {
       if (data.Response.status_code === 200) {
         this.varietyData = data && data.Response && data.Response.data ? data.Response.data : '';
         this.varietyListSecond = this.varietyData;
+        console.log(this.isEditMode,"...................")
         if (this.isEditMode) {
+          
           const varietyName = this.varietyData.filter(variety => variety.variety_code === varietyCode);
-          this.selectVariety = varietyName;
+          console.log(varietyName)
+          this.selectVariety = varietyName; 
           this.selectVariety = varietyName[0].variety_name;
         }
       }
     })
   }
 
-  getPageData() {
+  getPageData(loadPageNumberData: number = 1) {
     this.filterPaginateSearch.itemList = [];
     const year = this.ngForm.controls['year'].value;
     const season = this.ngForm.controls['season'].value;
     const crop = this.ngForm.controls['crop'].value;
     const variety = this.ngForm.controls['variety'].value;
+    const page= loadPageNumberData;
+    const pageSize= this.filterPaginateSearch.itemListPageSize = 5;
+   
     const queryParams = [];
     if (year) queryParams.push(`year=${encodeURIComponent(year)}`);
     if (season) queryParams.push(`season=${encodeURIComponent(season)}`);
     if (crop) queryParams.push(`crop_code=${encodeURIComponent(crop)}`);
     if (variety) queryParams.push(`variety_code=${encodeURIComponent(variety)}`);
-    
+    queryParams.push(`page=${encodeURIComponent(page)}`); // Add page to query params
+    queryParams.push(`limit=${encodeURIComponent(pageSize)}`); // Add pageSize (limit) to query params
+  
     const apiUrl = `view-req-fs-all-updated?${queryParams.join('&')}`;
     this.zsrmServiceService
       .getRequestCreator(apiUrl)
       .subscribe(
         (apiResponse: any) => {
           if (apiResponse?.Response.status_code === 200) {
+            console.log(apiResponse.Response.data.pagination)
             this.allData = apiResponse.Response.data || [];
             this.filterPaginateSearch.Init(
               this.allData.data,
               this,
               'getPageData',
               undefined,
-              apiResponse.Response.data.total,
+              apiResponse.Response.data.pagination.totalRecords,
               true
             );
             this.initSearchAndPagination();
@@ -471,72 +453,60 @@ export class ZsrmComponent implements OnInit {
   }
   updateForm() {
     this.submitted = true;
-    this.varietyAndQuantity = [];
     if (this.ngForm.invalid) {
       return;
     }
-    
-      this.submitted = true;
-      this.isShowTable = true;
-      const route = "update-req-fs";
-      const req = Number(this.ngForm.controls['req'].value) || 0;
-      const ssc = Number(this.ngForm.controls['ssc'].value) || 0;
-      const doa = Number(this.ngForm.controls['doa'].value) || 0;
-      const sau = Number(this.ngForm.controls['sau'].value) || 0;
-      const sfci = Number(this.ngForm.controls['sfci'].value) || 0;
-      const pvt = Number(this.ngForm.controls['pvt'].value) || 0;
-      const nsc = Number(this.ngForm.controls['nsc'].value) || 0;
-      const others = Number(this.ngForm.controls['others'].value) || 0;
-      const total = ssc + doa + sau + sfci + pvt + nsc + others;
-      const shtorsur = total - req;
-      const baseParam = {
-        "user_id": this.authUserId,
-        "year": this.ngForm.controls['year'].value,
-        "season": this.ngForm.controls['season'].value,
-        "crop_code": this.ngForm.controls['crop'].value,
-        "variety_code": this.ngForm.controls['variety'].value,
-        "req": req,
-        "ssc": ssc,
-        "doa": doa,
-        "sau": sau,
-        "sfci": sfci,
-        "pvt": pvt,
-        "nsc": nsc,
-        "others": others,
-        "remarks": this.ngForm.controls['remarks'].value,
-        "total": total,
-        "shtorsur": shtorsur
-      };
-    
-    this.zsrmServiceService.postRequestCreator(route, baseParam , null).subscribe(data => {
-      if (data.status === 200) {
-        this.getPageData();
+    const values = this.ngForm.value;  
+    const baseParam = {
+      ...values,
+      user_id: this.authUserId,
+    };
+    this.ngForm.valueChanges.subscribe(values => {
+      const total =
+        (values.ssc || 0) +
+        (values.doa || 0) +
+        (values.sau || 0) +
+        (values.sfci || 0) +
+        (values.pvt || 0) +
+        (values.nsc || 0) +
+        (values.others || 0);
+      const shtorsub = total - (values.req || 0);
+
+      this.ngForm.patchValue(
+        { total: total, shtorsub: shtorsub },
+        { emitEvent: false }
+      );
+    });
+    const route = `update-req-fs/${this.dataId}`;
+  
+    this.zsrmServiceService.putRequestCreator(route, baseParam, null).subscribe(data => {
+      if (data.Response.status_code === 200) {
         this.is_update = false;
-        this.ngForm.controls['nsc'].reset('');
-        this.ngForm.controls['ssc'].reset('');
-        this.ngForm.controls[''].reset('');
-        this.ngForm.controls['state'].reset('');
-        this.ngForm.controls['address'].reset('');
-        this.ngForm.controls['mobile_no'].reset('');
-        this.ngForm.controls['email'].reset('');
-        this.ngForm.controls['district'].reset('');
-        this.submitted = false;
-        this.showOtherInputBox = false;
-        this.ngForm.controls['selectSpa'].markAsUntouched();
-        this.ngForm.controls['mobile_no'].markAsUntouched();
-        this.ngForm.controls['email'].markAsUntouched();
-        this.ngForm.controls['state'].markAsUntouched();
-        this.ngForm.controls['indent_qnt'].markAsUntouched();
-        this.districtData = null;
-        this.allSpaData = null;
-        if(this.lineData){
-        this.lineData.forEach((line, index) => {
-          this.ngForm.controls[`indentQnty_${index}`].reset();
+        Swal.fire({
+          title: '<p style="font-size:25px;">Data Has Been Successfully Updated.</p>',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#E97E15'
+        }).then(() => this.resetForm());
+      } else {
+        Swal.fire({
+          title: '<p style="font-size:25px;">An Error Occurred.</p>',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#E97E15'
         });
       }
-      }
-    })
+    });
   }
+  
+  resetForm() {
+    this.isAddFormOpen = true;
+    this.isUpdateFormOpen = false;
+    this.submitted = false;
+    this.ngForm.reset();
+    this.getPageData
+  }
+  
 }
 
 
