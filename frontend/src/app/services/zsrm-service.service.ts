@@ -59,11 +59,13 @@ export class ZsrmServiceService {
     // return this.http.post<T>(this.endpoint + route, DataRow);
   }
   
-  deleteRequestCreator<T>(route: string, id: number,DataRow:any={}): Observable<T> {
-    const currentUser = JSON.parse(localStorage.getItem('BHTCurrentUser') || '{}');
-    const token = currentUser?.token || '';
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.delete<T>(this.endpoint+route+id, { headers });
+  deleteRequestCreator<T>(route: string, token: any = '', DataRow: any = {}): Observable<any> {
+    const currentUser = JSON.parse(localStorage.getItem('BHTCurrentUser'));
+    token = currentUser?currentUser.token:'';
+    const header = new HttpHeaders();
+    const otherHeader = header.append('Authorization', 'Bearer ' + token);
+    return this.http.delete<T>(this.endpoint + route, { headers: otherHeader });
+    // return this.http.post<T>(this.endpoint + route, DataRow);
   }
   
   postRequestCreator<T>(route: string, token: any = '', DataRow: any = {}): Observable<any> {
@@ -94,6 +96,14 @@ download(fileName, token: any = ''):Observable<any> {
   const header = new HttpHeaders();
   const otherHeader = header.append('Authorization', 'Bearer ' + token);
   return this.http.get(this.endpoint + 'utils/file-download?file='+ fileName, { headers: otherHeader });
+}
+putRequestCreator<T>(route: string, token: any = '', DataRow: any = {}): Observable<any> {
+  const currentUser = JSON.parse(localStorage.getItem('BHTCurrentUser'));
+  token = currentUser? currentUser.token:'';
+  const header = new HttpHeaders();
+  const otherHeader = header.append('Authorization', 'Bearer ' + token);
+  return this.http.put<T>(this.endpoint + route, DataRow, { headers: otherHeader });
+  // return this.http.post<T>(this.endpoint + route, DataRow);
 }
 }
 
