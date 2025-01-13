@@ -17,10 +17,6 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      season: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       crop_type: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -87,6 +83,11 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+
+      prevYearId:{
+        type: Sequelize.INTEGER,
+
+      },
       
       createdAt: { type: Sequelize.DATE, field: 'created_at', default: Date.now() },
       updatedAt: { type: Sequelize.DATE, field: 'updated_at', default: Date.now() },
@@ -98,7 +99,7 @@ module.exports = (sql, Sequelize) => {
         // timezone: '+5:30'
       })
 
-   //SRRForm.sync({ alter: true });
+//SRRForm.sync({ alter: true });
     return SRRForm;
   };
   

@@ -164,7 +164,7 @@ exports.saveZsrmReqFs = async(req, res) => {
       },
     });
     if(recordExist) {
-      return response(res, "Record already exist", 404, {});
+      return response(res, "Record already exist", 409, {});
     }
    if ((cropExist.crop_code).slice(0, 1) == 'A') {
     crop_type = 'agriculture';
@@ -373,16 +373,16 @@ exports.viewZsrmReqFsAll = async(req, res) => {
       state_name: item.m_state.state_name,
       user_name: item.user.name,
       unit: item.unit,
-      req: item.req,
-      ssc: item.ssc,
-      doa: item.doa,
-      sau: item.sau,
-      nsc: item.nsc,
-      sfci: item.sfci,
-      total: item.total,
-      shtorsur: item.shtorsur,
-      pvt: item.pvt,
-      others: item.others,
+      req: parseFloat(item.req),
+      ssc: parseFloat(item.ssc),
+      doa: parseFloat(item.doa),
+      sau: parseFloat(item.sau),
+      nsc: parseFloat(item.nsc),
+      sfci: parseFloat(item.sfci),
+      total: parseFloat(item.total),
+      shtorsur: parseFloat(item.shtorsur),
+      pvt: parseFloat(item.pvt),
+      others: parseFloat(item.others),
       remarks: item.remarks,
     }
   });
@@ -503,16 +503,16 @@ exports.viewZsrmReqFsCrop = async(req, res) => {
         state_name: item.m_state.state_name,
         user_name:item.user.name,
         unit: item.unit,
-        req: item.req,
-        ssc: item.ssc,
-        doa: item.doa,
-        sau: item.sau,
-        nsc: item.nsc,
-        sfci: item.sfci,
-        total: item.total,
-        shtorsur: item.shtorsur,
-        pvt: item.pvt,
-        others: item.others,
+        req: parseFloat(item.req),
+        ssc: parseFloat(item.ssc),
+        doa: parseFloat(item.doa),
+        sau: parseFloat(item.sau),
+        nsc: parseFloat(item.nsc),
+        sfci: parseFloat(item.sfci),
+        total: parseFloat(item.total),
+        shtorsur: parseFloat(item.shtorsur),
+        pvt: parseFloat(item.pvt),
+        others: parseFloat(item.others),
         remarks: item.remarks,
       }
     })
@@ -631,16 +631,16 @@ exports.viewZsrmReqFsCropVariety = async(req, res) => {
       state_name:data.m_state.state_name,
       user_name: data.user.name,
       unit: data.unit,
-      req: data.req,
-      ssc: data.ssc,
-      doa: data.doa,
-      sau: data.sau,
-      nsc: data.nsc,
-      sfci: data.sfci,
-      total: data.total,
-      shtorsur: data.shtorsur,
-      pvt: data.pvt,
-      others: data.others,
+      req: parseFloat(data.req),
+      ssc: parseFloat(data.ssc),
+      doa: parseFloat(data.doa),
+      sau: parseFloat(data.sau),
+      nsc: parseFloat(data.nsc),
+      sfci: parseFloat(data.sfci),
+      total: parseFloat(data.total),
+      shtorsur: parseFloat(data.shtorsur),
+      pvt: parseFloat(data.pvt),
+      others: parseFloat(data.others),
       remarks: data.remarks,
     };
       response(res, status.DATA_AVAILABLE, 200, result);
@@ -725,16 +725,16 @@ exports.viewZsrmReqFsAllSD= async(req, res) => {
       not_year:item.m_crop_variety.not_date,
       user_name: item.user.name,
       unit: item.unit,
-      req: item.req,
-      ssc: item.ssc,
-      doa: item.doa,
-      sau: item.sau,
-      nsc: item.nsc,
-      sfci: item.sfci,
-      total: item.total,
-      shtorsur: item.shtorsur,
-      pvt: item.pvt,
-      others: item.others,
+      req: parseFloat(item.req),
+      ssc: parseFloat(item.ssc),
+      doa: parseFloat(item.doa),
+      sau: parseFloat(item.sau),
+      nsc: parseFloat(item.nsc),
+      sfci: parseFloat(item.sfci),
+      total: parseFloat(item.total),
+      shtorsur: parseFloat(item.shtorsur),
+      pvt: parseFloat(item.pvt),
+      others: parseFloat(item.others),
       remarks: item.remarks,
     }
   });
@@ -953,16 +953,16 @@ if (data.length == 0)
       state_name: item.m_state.state_name,
       user_name: item.user.name,
       unit: item.unit,
-      req: item.req,
-      ssc: item.ssc,
-      doa: item.doa,
-      sau: item.sau,
-      nsc: item.nsc,
-      sfci: item.sfci,
-      total: item.total,
-      shtorsur: item.shtorsur,
-      pvt: item.pvt,
-      others: item.others,
+      req: parseFloat(item.req),
+      ssc: parseFloat(item.ssc),
+      doa: parseFloat(item.doa),
+      sau: parseFloat(item.sau),
+      nsc: parseFloat(item.nsc),
+      sfci: parseFloat(item.sfci),
+      total: parseFloat(item.total),
+      shtorsur: parseFloat(item.shtorsur),
+      pvt: parseFloat(item.pvt),
+      others: parseFloat(item.others),
       remarks: item.remarks,
     }
   });
@@ -1031,12 +1031,12 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
       },
     });
     if(recordExist && recordExist.isFinalSubmitted==true) {
-      return response(res, "Record already exist", 404, {});
+      return response(res, "Record already exist", 409, {});
     }
     else if (recordExist && recordExist.isFinalSubmitted==false) {
 
       if(await zsrmreqqsdistModel.findOne({zsrmreqfs_id: recordExist.id, district_id: body.district_id })) {
-        return response(res, "Record already exist for this district", 404, {});
+        return response(res, "Record already exist for this district", 409, {});
       }
 
       const recordDist = await zsrmreqqsdistModel.create(
@@ -1429,31 +1429,31 @@ if (data.length == 0)
      variety_code: item.variety_code,
      crop_name: item.m_crop.crop_name,
      variety_name: item.m_crop_variety.variety_name,
-     not_year:item.m_crop_variety.not_date.substring(0, 4),
+     not_year:Number(item.m_crop_variety.not_date.substring(0, 4)),
      unit: item.unit,
-     proposedAreaUnderVariety: item.proposedAreaUnderVariety,
-     seedrate: item.seedrate, 
-     SRRTargetbyGOI: item.m_crop.srr,
-     SRRTargetbySTATE: item.SRRTargetbySTATE,
-     seedRequired: item.seedRequired,
-     qualityquant:item.qualityquant,
-     certifiedquant: item.certifiedquant,
-     doa: item.doa,
-     ssfs: item.ssfs,
-     saus: item.saus,
-     ssc: item.ssc,
-     nsc: item.nsc,
-     othergovpsu: item.othergovpsu,
-     coop:item.coop,
-     seedhub:item.seedhub,
-     pvt: item.pvt,
-     others: item.others,
-     total: item.total,
-     shtorsur: item.shtorsur,
-     SMRKeptBSToFS: item.SMRKeptBSToFS,
-     SMRKeptFSToCS: item.SMRKeptFSToCS,
-     FSRequiredtomeettargetsofCS:item.FSRequiredtomeettargetsofCS,
-     BSRequiredBSRequiredtomeettargetsofFS:item.BSRequiredBSRequiredtomeettargetsofFS,
+     proposedAreaUnderVariety: parseFloat(item.proposedAreaUnderVariety),
+     seedrate: parseFloat(item.seedrate), 
+     SRRTargetbyGOI: parseFloat(item.m_crop.srr),
+     SRRTargetbySTATE: parseFloat(item.SRRTargetbySTATE),
+     seedRequired: parseFloat(item.seedRequired),
+     qualityquant:parseFloat(item.qualityquant),
+     certifiedquant: parseFloat(item.certifiedquant),
+     doa: parseFloat(item.doa),
+     ssfs: parseFloat(item.ssfs),
+     saus: parseFloat(item.saus),
+     ssc: parseFloat(item.ssc),
+     nsc: parseFloat(item.nsc),
+     othergovpsu: parseFloat(item.othergovpsu),
+     coop:parseFloat(item.coop),
+     seedhub:parseFloat(item.seedhub),
+     pvt: parseFloat(item.pvt),
+     others: parseFloat(item.others),
+     total: parseFloat(item.total),
+     shtorsur: parseFloat(item.shtorsur),
+     SMRKeptBSToFS: parseFloat(item.SMRKeptBSToFS),
+     SMRKeptFSToCS: parseFloat(item.SMRKeptFSToCS),
+     FSRequiredtomeettargetsofCS:parseFloat(item.FSRequiredtomeettargetsofCS),
+     BSRequiredBSRequiredtomeettargetsofFS:parseFloat(item.BSRequiredBSRequiredtomeettargetsofFS),
    }
  });
 
@@ -1721,29 +1721,29 @@ return response(res, status.DATA_NOT_AVAILABLE, 404)
     variety_name: item.m_crop_variety.variety_name,
     not_year:item.m_crop_variety.not_date.substring(0, 4),
     unit: item.unit,
-    proposedAreaUnderVariety: item.proposedAreaUnderVariety,
-    seedrate: item.seedrate, 
-    SRRTargetbyGOI: item.m_crop.srr,
-    SRRTargetbySTATE: item.SRRTargetbySTATE,
-    seedRequired: item.seedRequired,
-    qualityquant:item.qualityquant,
-    certifiedquant: item.certifiedquant,
-    doa: item.doa,
-    ssfs: item.ssfs,
-    saus: item.saus,
-    ssc: item.ssc,
-    nsc: item.nsc,
-    othergovpsu: item.othergovpsu,
-    coop:item.coop,
-    seedhub:item.seedhub,
-    pvt: item.pvt,
-    others: item.others,
-    total: item.total,
-    shtorsur: item.shtorsur,
-    SMRKeptBSToFS: item.SMRKeptBSToFS,
-    SMRKeptFSToCS: item.SMRKeptFSToCS,
-    FSRequiredtomeettargetsofCS:item.FSRequiredtomeettargetsofCS,
-    BSRequiredBSRequiredtomeettargetsofFS:item.BSRequiredBSRequiredtomeettargetsofFS,
+    proposedAreaUnderVariety: parseFloat(item.proposedAreaUnderVariety),
+     seedrate: parseFloat(item.seedrate), 
+     SRRTargetbyGOI: parseFloat(item.m_crop.srr),
+     SRRTargetbySTATE: parseFloat(item.SRRTargetbySTATE),
+     seedRequired: parseFloat(item.seedRequired),
+     qualityquant:parseFloat(item.qualityquant),
+     certifiedquant: parseFloat(item.certifiedquant),
+     doa: parseFloat(item.doa),
+     ssfs: parseFloat(item.ssfs),
+     saus: parseFloat(item.saus),
+     ssc: parseFloat(item.ssc),
+     nsc: parseFloat(item.nsc),
+     othergovpsu: parseFloat(item.othergovpsu),
+     coop:parseFloat(item.coop),
+     seedhub:parseFloat(item.seedhub),
+     pvt: parseFloat(item.pvt),
+     others: parseFloat(item.others),
+     total: parseFloat(item.total),
+     shtorsur: parseFloat(item.shtorsur),
+     SMRKeptBSToFS: parseFloat(item.SMRKeptBSToFS),
+     SMRKeptFSToCS: parseFloat(item.SMRKeptFSToCS),
+     FSRequiredtomeettargetsofCS:parseFloat(item.FSRequiredtomeettargetsofCS),
+     BSRequiredBSRequiredtomeettargetsofFS:parseFloat(item.BSRequiredBSRequiredtomeettargetsofFS),
   }
 });
 
@@ -1971,6 +1971,12 @@ exports.addSrr = async (req, res) => {
     const body = req.body;
     let crop_type="";
     let unit= "";
+
+    let startYear = parseInt(body.year.split('-')[0]);
+
+    // Calculate the next year range
+   let nextYear = `${startYear + 1}-${(startYear + 2).toString().slice(-2)}`;
+
     let cropExist = await cropDataModel.findOne({
       where: {
         crop_code: body.crop_code,
@@ -1986,13 +1992,29 @@ exports.addSrr = async (req, res) => {
     let recordExist = await srrModel.findOne({
       where: {
         year: body.year,
-        season: body.season,
         crop_code: body.crop_code,
         seed_type: body.seed_type,
         user_id: body.loginedUserid.id,
       },
     });
-    if(!recordExist) {
+
+  
+       console.log(nextYear);
+       let recordExistForNext = await srrModel.findOne({
+        where: {
+          year: nextYear,
+          crop_code: body.crop_code,
+          seed_type: body.seed_type,
+          user_id: body.loginedUserid.id,
+        },
+      });
+
+    if(recordExist && recordExistForNext)
+        return response(res, "Seed Roll Plan already exist for this year", 409, {});
+
+
+    if(!recordExist)  //first time entry case     
+      {
     
     if ((cropExist.crop_code).slice(0, 1) == 'A') {
         crop_type = 'agriculture';
@@ -2009,9 +2031,8 @@ exports.addSrr = async (req, res) => {
      attributes: ['state_id']
    }
    )
-   await srrModel.create({
+   const data  = await srrModel.create({
         year: body.year,
-        season: body.season,
         crop_type: crop_type,
         crop_code: body.crop_code,
         crop_group_code:cropExist.group_code,
@@ -2026,18 +2047,11 @@ exports.addSrr = async (req, res) => {
         areaSownUnderCropInHa:body.areaSownUnderCropInHa,
         seedRateAcheived: body.seedRateAcheived,
         seedQuanDis: body.seedQuanDis,
-        acheivedSrr: body.acheivedSrr
+        acheivedSrr: body.acheivedSrr,
+        prevYearId: null,
       });
-
-        let startYear = parseInt(body.year.split('-')[0]);
-
-        // Calculate the next year range
-       let nextYear = `${startYear + 1}-${(startYear + 2).toString().slice(-2)}`;
-       console.log(nextYear);
-
-       await srrModel.create({
+       const nextYearData= await srrModel.create({
         year: nextYear,
-        season: body.season,
         crop_type: crop_type,
         crop_code: body.crop_code,
         crop_group_code:cropExist.group_code,
@@ -2052,30 +2066,21 @@ exports.addSrr = async (req, res) => {
         areaSownUnderCropInHa:0.00,
         seedRateAcheived: 0.00,
         seedQuanDis: 0.00,
-        acheivedSrr: 0.00
-       })
+        acheivedSrr: 0.00,
+        prevYearId: data.id
+       });
       return response(res, status.DATA_SAVE, 200, {});
     }
     else {
-      await srrModel.update({
+      await recordExist.update({
         areaSownUnderCropInHa:body.areaSownUnderCropInHa,
         seedRateAcheived: body.seedRateAcheived,
         seedQuanDis: body.seedQuanDis,
         acheivedSrr: body.acheivedSrr,
         update_at:Date.now(),
-      },
-    {where: {
-      id: recordExist.id
-    }});
-
-      let startYear = parseInt(body.year.split('-')[0]);
-
-      // Calculate the next year range
-     let nextYear = `${startYear + 1}-${(startYear + 2).toString().slice(-2)}`;
-
-     await srrModel.create({
+      },);
+    const nextYearData = await srrModel.create({
       year: nextYear,
-      season: recordExist.season,
       crop_type: recordExist.crop_type,
       crop_code: recordExist.crop_code,
       crop_group_code:recordExist.crop_group_code,
@@ -2090,8 +2095,10 @@ exports.addSrr = async (req, res) => {
       areaSownUnderCropInHa:0.00,
       seedRateAcheived: 0.00,
       seedQuanDis: 0.00,
-      acheivedSrr: 0.00
+      acheivedSrr: 0.00,
+      prevYearId: recordExist.id
      });
+
      response(res, status.DATA_SAVE, 200, {});
     }
   }
@@ -2101,3 +2108,260 @@ exports.addSrr = async (req, res) => {
   }
 }
 
+exports.viewSrrAll = async (req, res) => { 
+  try {
+  const userid = req.body.loginedUserid.id;
+  const { page, limit } = req.query;  // Extract pagination params from query string
+  console.log(page, limit);
+  const offset = (page - 1) * limit;
+
+   let condition = {
+    include: [
+      {
+        model: srrModel,
+        as: 'nextYearData',
+        required: true, 
+        attributes: ['plannedAreaUnderCropInHa','seedRateInQtPerHt','plannedSeedQuanDis', 'plannedSrr',]
+      },
+      {
+        model: cropDataModel,
+        attributes: ['crop_name', 'srr']
+      },
+      {
+        model:stateModel,
+        attributes: ['state_name']
+      },
+      {
+        model:userModel,
+        attributes: ['name']
+      }
+    ],
+    where: { user_id: userid, is_active: true},
+    order: [ ['year', 'ASC'],
+    [cropDataModel, 'crop_name', 'ASC'],  // Ordering by crop_name in ascending order
+    [ 'seed_type', 'ASC'],
+    [stateModel,'state_name', 'ASC'],
+    [userModel,'name', 'ASC']],
+    attributes: {
+      exclude: ['createdAt', 'updatedAt', 'deletedAt', 'crop_type', 'is_active',  ]
+    },
+    limit: limit,      // Limit the number of records returned
+    offset: offset, 
+  };
+  if (req.query.year) {
+    condition.where.year = (req.query.year);
+  }
+
+  if (req.query.crop_code) {
+    condition.where.crop_code = (req.query.crop_code);
+  }
+  if(req.query.seed_type) {
+    condition.where.seed_type = (req.query.seed_type);
+  }
+  let data = await srrModel.findAll(condition);
+  console.log("data found", data);
+if (data.length == 0)
+//res.status(404).json({message: "No data found"})
+return response(res, status.DATA_NOT_AVAILABLE, 404)
+  let count =0
+
+  const result = data.map((item)=>{
+   return {     
+    id: item.id,
+    year: item.year,
+    crop_code: item.crop_code,
+    crop_name: item.m_crop.crop_name,
+    seed_type: item.seed_type,
+    unit: item.unit,
+    areaSownUnderCropInHa:parseFloat(item.areaSownUnderCropInHa),
+    seedRateAcheived: parseFloat(item.seedRateAcheived),
+    seedQuanDis: parseFloat(item.seedQuanDis),
+    acheivedSrr: parseFloat(item.acheivedSrr),
+    NextYearAreaUnderCropInHa: parseFloat(item.nextYearData.plannedAreaUnderCropInHa),
+    NextYearseedRateInQtPerHt: parseFloat(item.nextYearData.seedRateInQtPerHt),
+    NextYearSeedQuanDis: parseFloat(item.nextYearData.plannedSeedQuanDis),
+    NextYearSrr: parseFloat(item.nextYearData.plannedSrr),
+  } 
+});
+
+  // Get total records for pagination
+  let totalRecords = await srrModel.count(condition);
+  const totalPages = Math.ceil(totalRecords / limit);  // Calculate total pages
+  response(res, status.DATA_AVAILABLE, 200, {
+    data: result,
+    pagination: {
+      currentPage: parseInt(page),
+      totalRecords: totalRecords,
+      totalPages: totalPages,
+      pageSize: parseInt(limit),
+    },
+  });
+  
+
+} catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+}
+
+
+exports.viewSrrAllReport = async (req, res) => { 
+  try {
+  const userid = req.body.loginedUserid.id;
+  const { page, limit } = req.query;  // Extract pagination params from query string
+  console.log(page, limit);
+  const offset = (page - 1) * limit;
+
+   let condition = {
+    include: [
+      {
+        model: srrModel,
+        as: 'nextYearData',
+        required: true, 
+        attributes: ['plannedAreaUnderCropInHa','seedRateInQtPerHt','plannedSeedQuanDis', 'plannedSrr',]
+      },
+      {
+        model: cropDataModel,
+        attributes: ['crop_name', 'srr']
+      },
+      {
+        model:stateModel,
+        attributes: ['state_name']
+      },
+      {
+        model:userModel,
+        attributes: ['name']
+      }
+    ],
+    where: { user_id: userid, is_active: true},
+    order: [ ['year', 'ASC'],
+    [cropDataModel, 'crop_name', 'ASC'],  // Ordering by crop_name in ascending order
+    [ 'seed_type', 'ASC'],
+    [stateModel,'state_name', 'ASC'],
+    [userModel,'name', 'ASC']],
+    attributes: {
+      exclude: ['createdAt', 'updatedAt', 'deletedAt', 'crop_type', 'is_active',  ]
+    },
+    limit: limit,      // Limit the number of records returned
+    offset: offset, 
+  };
+ // Handle multiple years (if provided in the body)
+if (req.body.year) {
+  condition.where.year = Array.isArray(req.body.year) ? { [Op.in]: req.body.year } : req.body.year;
+}
+
+// Handle multiple crop_codes (if provided in the body)
+if (req.body.crop_code) {
+  condition.where.crop_code = Array.isArray(req.body.crop_code) ? { [Op.in]: req.body.crop_code } : req.body.crop_code;
+}
+
+// Handle seed_type if provided in the body
+if (req.body.seed_type) {
+  condition.where.seed_type = req.body.seed_type;
+}
+  let data = await srrModel.findAll(condition);
+  console.log("data found", data);
+if (data.length == 0)
+//res.status(404).json({message: "No data found"})
+return response(res, status.DATA_NOT_AVAILABLE, 404)
+  const result = data.map((item)=>{
+   return {     
+    id: item.id,
+    year: item.year,
+    crop_code: item.crop_code,
+    crop_name: item.m_crop.crop_name,
+    seed_type: item.seed_type,
+    unit: item.unit,
+    plannedAreaUnderCropInHa: parseFloat(item.plannedAreaUnderCropInHa),
+    seedRateInQtPerHt: parseFloat(item.seedRateInQtPerHt),
+    plannedSeedQuanDis:parseFloat(item.plannedSeedQuanDis),
+    plannedSrr:parseFloat(item.plannedSrr),
+    areaSownUnderCropInHa:parseFloat(item.areaSownUnderCropInHa),
+    seedRateAcheived: parseFloat(item.seedRateAcheived),
+    seedQuanDis: parseFloat(item.seedQuanDis),
+    acheivedSrr: parseFloat(item.acheivedSrr),
+    NextYearAreaUnderCropInHa: parseFloat(item.nextYearData.plannedAreaUnderCropInHa),
+    NextYearseedRateInQtPerHt: parseFloat(item.nextYearData.seedRateInQtPerHt),
+    NextYearSeedQuanDis: parseFloat(item.nextYearData.plannedSeedQuanDis),
+    NextYearSrr: parseFloat(item.nextYearData.plannedSrr),
+  } 
+});
+
+  // Get total records for pagination
+  let totalRecords = await srrModel.count(condition);
+  const totalPages = Math.ceil(totalRecords / limit);  // Calculate total pages
+  response(res, status.DATA_AVAILABLE, 200, {
+    data: result,
+    pagination: {
+      currentPage: parseInt(page),
+      totalRecords: totalRecords,
+      totalPages: totalPages,
+      pageSize: parseInt(limit),
+    },
+  });
+  
+
+} catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+}
+
+
+// exports.deleteSrr = async (req, res) => {
+//   try{
+//     const data = await srrModel.findOne({ where: { id: req.params.id, is_active:true, user_id:req.body.loginedUserid.id}});
+//     if (!data) {
+//       return response(res, status.DATA_NOT_AVAILABLE, 404);
+//     }
+//     await data.update({ is_active: false,  deletedAt: Date.now()},);
+//      await srrModel.update({
+//       is_active: false,  deletedAt: Date.now()
+//      },
+//      {where: {
+//       prevYearId:data.id
+//      }});
+//       return response(res, status.DATA_DELETED, 200, {});
+//   }
+//   catch (error) {
+//     console.log(error);
+//     return response(res, status.UNEXPECTED_ERROR, 501)
+//   }
+  
+//   }
+  
+exports.updateSrr =async (req, res) => {
+  
+    try {
+      const body = req.body;
+      const recordExist = await srrModel.findOne({where: {id: req.params.id,is_active:true, user_id:body.loginedUserid.id}});
+      if (!recordExist) {
+        return response(res, status.DATA_NOT_AVAILABLE, 404);
+      }
+  
+      await recordExist.update({
+        areaSownUnderCropInHa:body.areaSownUnderCropInHa,
+        seedRateAcheived: body.seedRateAcheived,
+        seedQuanDis: body.seedQuanDis,
+        acheivedSrr: body.acheivedSrr,
+        update_at:Date.now(),
+      },);
+     await srrModel.update({
+      plannedAreaUnderCropInHa: body.plannedAreaUnderCropInHa,
+      seedRateInQtPerHt: body.seedRateInQtPerHt,
+      plannedSeedQuanDis: body.plannedSeedQuanDis,
+      plannedSrr: body.plannedSrr,
+      update_at:Date.now(),
+     },
+     {where: {
+      prevYearId: recordExist.id
+     }});
+     return response(res, status.DATA_UPDATED, 200, {}) ;
+  
+  } catch (error) {
+      console.log(error);
+      return response(res, status.UNEXPECTED_ERROR, 501)
+    }
+    
+  }
+  

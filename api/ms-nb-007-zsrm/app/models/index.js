@@ -275,3 +275,17 @@ db.srrModel.belongsTo(db.stateModel, {
     foreignKey: 'state_id',
     targetKey: 'state_code'
 });
+
+
+db.srrModel.hasOne(db.srrModel, {
+    foreignKey: 'prevYearId',  
+    targetKey: 'id',
+    as: 'nextYearData'
+  });
+  
+db.srrModel.belongsTo(db.srrModel, {
+    foreignKey: 'prevYearId',  
+    targetKey: 'id',
+    as: 'previousYearData'
+  });
+  
