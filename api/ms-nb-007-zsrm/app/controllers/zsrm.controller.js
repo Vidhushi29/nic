@@ -2108,6 +2108,101 @@ exports.addSrr = async (req, res) => {
   }
 }
 
+exports.viewSrrByYearCropSeedType = async (req, res) => { 
+  try {
+  const userid = req.body.loginedUserid.id;
+  let startYear = parseInt(req.query.year.split('-')[0]);
+    // Calculate the next year range
+   let nextYear = `${startYear + 1}-${(startYear + 2).toString().slice(-2)}`;
+   let cropExist = await cropDataModel.findOne({
+    where: {
+      crop_code: req.query.crop_code,
+    },
+  });
+    let recordExist = await srrModel.findOne({
+      where: {
+        year:req.query.year,
+        crop_code: req.query.crop_code,
+        seed_type: req.query.seed_type,
+        user_id: userid,
+        is_active: true
+      },
+    });
+
+    let recordExistForNext = await srrModel.findOne({
+        where: {
+          year: nextYear,
+          crop_code: req.query.crop_code,
+        seed_type: req.query.seed_type,
+          user_id: userid, 
+          is_active:true
+        },
+      });
+    if(!recordExist) {
+    return response(res, status.DATA_NOT_AVAILABLE, 404, {srr:cropExist.srr})
+    }
+    else if (recordExist && !recordExistForNext) {
+      data = {
+        srr: cropExist.srr,
+        plannedAreaUnderCropInHa: recordExist.plannedAreaUnderCropInHa,
+        seedRateInQtPerHt: recordExist.seedRateInQtPerHt,
+        plannedSeedQuanDis:recordExist.plannedSeedQuanDis,
+        plannedSrr:recordExist.plannedSrr
+      }
+      return response(res, status.DATA_AVAILABLE, 200, data)
+    }
+    else if(recordExist && recordExistForNext) {
+      let condition = {
+        include: [
+          {
+            model: srrModel,
+            as: 'nextYearData',
+            required: true, 
+            attributes: ['plannedAreaUnderCropInHa','seedRateInQtPerHt','plannedSeedQuanDis', 'plannedSrr',]
+          },
+          {
+            model: cropDataModel,
+            attributes: ['crop_name', 'srr']
+          },
+        ],
+        where: {   
+          year:req.query.year,
+          crop_code: req.query.crop_code,
+          seed_type: req.query.seed_type,
+          user_id: userid, is_active: true},
+        attributes: {
+          exclude: ['createdAt', 'updatedAt', 'deletedAt', 'crop_type', 'is_active',  ]
+        }
+      };
+      let data = await srrModel.findOne(condition);
+     const result = {    
+        id: data.id,
+        year: data.year,
+        crop_code: data.crop_code,
+        crop_name: data.m_crop.crop_name,
+        srr: data.m_crop.srr,
+        seed_type: data.seed_type,
+        unit: data.unit,
+        areaSownUnderCropInHa:parseFloat(data.areaSownUnderCropInHa),
+        seedRateAcheived: parseFloat(data.seedRateAcheived),
+        seedQuanDis: parseFloat(data.seedQuanDis),
+        acheivedSrr: parseFloat(data.acheivedSrr),
+        NextYearAreaUnderCropInHa: parseFloat(data.nextYearData.plannedAreaUnderCropInHa),
+        NextYearseedRateInQtPerHt: parseFloat(data.nextYearData.seedRateInQtPerHt),
+        NextYearSeedQuanDis: parseFloat(data.nextYearData.plannedSeedQuanDis),
+        NextYearSrr: parseFloat(data.nextYearData.plannedSrr),
+      };
+      // Get total records for pagination
+  response(res, status.DATA_AVAILABLE, 200, result);
+  
+
+    }
+} catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+}
+
 exports.viewSrrAll = async (req, res) => { 
   try {
   const userid = req.body.loginedUserid.id;
@@ -2151,7 +2246,6 @@ exports.viewSrrAll = async (req, res) => {
   if (req.query.year) {
     condition.where.year = (req.query.year);
   }
-
   if (req.query.crop_code) {
     condition.where.crop_code = (req.query.crop_code);
   }
@@ -2203,7 +2297,6 @@ return response(res, status.DATA_NOT_AVAILABLE, 404)
   return response(res, status.UNEXPECTED_ERROR, 501)
 }
 }
-
 
 exports.viewSrrAllReport = async (req, res) => { 
   try {

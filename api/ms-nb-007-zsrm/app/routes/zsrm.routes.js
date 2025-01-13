@@ -36,8 +36,10 @@ module.exports = app => {
 
     //SRR
     app.post(`${process.env.MICRO_SERVICE}/api/add-srr`,auth,zsrm.addSrr);
+    app.get(`${process.env.MICRO_SERVICE}/api/view-srr`,auth,zsrm.viewSrrByYearCropSeedType); 
     app.get(`${process.env.MICRO_SERVICE}/api/view-srr-all`,auth,zsrm.viewSrrAll); 
     app.get(`${process.env.MICRO_SERVICE}/api/view-srr-all-report`,auth,zsrm.viewSrrAllReport); 
     app.put(`${process.env.MICRO_SERVICE}/api/update-srr/:id`,auth,zsrm.updateSrr);
-    // app.delete(`${process.env.MICRO_SERVICE}/api/delete-srr/:id`,auth,zsrm.deleteSrr);
+    // app.delete(`${process.env.MICRO_SERVICE}/api/delete-srr/:id`,auth,zsrm.dele
+    // teSrr);
 };
