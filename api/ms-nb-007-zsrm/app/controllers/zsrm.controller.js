@@ -7,6 +7,7 @@ const ConditionCreator = require('../_helpers/condition-creator')
 const paginateResponse = require("../_utility/generate-otp");
 const { raw } = require('body-parser');
 const db = require("../models");
+const { cloneDeep } = require('sequelize/lib/utils');
 const indenterModel = db.indenterModel;
 const agencyDetailModel = db.agencyDetailModel
 const userModel = db.userModel
@@ -23,6 +24,7 @@ const zsrmreqqsdistModel = db.zsrmReqQsDistWise;
 const cropcharactersModel = db.cropCharactersticsModel;
 const srpModel = db.srpModel;
 const srrModel = db.srrModel;
+const zsrmbstofsModel = db.ZsrmBsToFs; //
 //ZSRM requriement for FS 
 
 exports.getCropList = async (req, res) => {
@@ -114,6 +116,72 @@ exports.getVarietyList = async (req, res) => {
   }
 }
 
+
+exports.getVarietyData = async (req, res) => {
+  try {
+    const variety_code =req.query.variety_code;
+    console.log(crop_code);
+   const varietyData = await varietyModel.findOne({
+  include: [
+    {
+      model: cropcharactersModel,
+      attributes: []
+    },
+  ],
+  where: { is_active: 1, variety_code: variety_code },
+  attributes: [
+    'id', 
+    'variety_code', 
+    'variety_name', 
+    'status', 
+    'developed_by',
+    
+    // Correct usage of SUBSTRING function for extracting the first 4 characters from 'not_date'
+    [
+      sequelize.fn('SUBSTRING', sequelize.col('not_date'), 1, 4),
+      'not_date_substring'
+    ],
+    
+    // // CASE statement for 'matuarity_day_from' field
+    [
+      sequelize.literal(`
+        CASE
+          WHEN "matuarity_day_from" = '1' THEN 'Early'
+          WHEN "matuarity_day_from" = '2' THEN 'Medium'
+          WHEN "matuarity_day_from" = '3' THEN 'Late'
+          WHEN "matuarity_day_from" = '4' THEN 'Perennial'
+          ELSE 'NA'
+        END
+      `),
+      'maturity_type'
+    ],
+    
+    // CASE statement for 'is_notified' field
+    [
+      sequelize.literal(`
+        CASE
+          WHEN "is_notified" = 1 THEN 'Notified'
+          ELSE 'Non-Notified'
+        END
+      `),
+      'notification_status'
+    ]
+  ],
+  order: [['variety_name', 'ASC']]
+});
+
+    if(varietyData) {
+
+   return  response(res, status.DATA_AVAILABLE, 200, varietyData);
+    }
+    else {
+      return  response(res, status.DATA_NOT_AVAILABLE, 404, []);
+    }
+  }
+  catch (error) {
+    return   response(res, status.UNEXPECTED_ERROR, 501, error.message);
+  }
+}
 
 exports.saveZsrmReqFs = async(req, res) => {
   
@@ -1376,7 +1444,47 @@ exports.viewSrpAll = async (req, res) => { try {
        },
        {
          model: varietyModel,
-         attributes: ['variety_name' , 'not_date']
+         attributes: [
+          'variety_name', 
+          'status', 
+          'developed_by',
+          
+          // Correct usage of SUBSTRING function for extracting the first 4 characters from 'not_date'
+          [
+            sequelize.fn('SUBSTRING', sequelize.col('not_date'), 1, 4),
+            'not_date'
+          ],
+          'is_notified'
+          
+          // // // CASE statement for 'matuarity_day_from' field
+          // [
+          //   sequelize.literal(`
+          //     CASE
+          //       WHEN "matuarity_day_from" = '1' THEN 'Early'
+          //       WHEN "matuarity_day_from" = '2' THEN 'Medium'
+          //       WHEN "matuarity_day_from" = '3' THEN 'Late'
+          //       WHEN "matuarity_day_from" = '4' THEN 'Perennial'
+          //       ELSE 'NA'
+          //     END
+          //   `),
+          //   'maturity_type'
+          // ],
+         
+          // CASE statement for 'is_notified' field
+          // [
+          //   sequelize.literal(`
+          //     CASE
+          //       WHEN "is_notified" = 1 THEN 'Notified'
+          //       ELSE 'Non-Notified'
+          //     END
+          //   `),
+          //   'notification_status'
+          // ]
+        ]
+       },
+       {
+        model: db.cropCharactersticsModel,
+        attributes: ['matuarity_day_from']
        },
        {
          model:stateModel,
@@ -1414,13 +1522,14 @@ exports.viewSrpAll = async (req, res) => { try {
      condition.where.variety_code = (req.query.variety_code);
    }
    let data = await srpModel.findAll(condition);
+   console.log(data.sql);
    console.log("data found", data);
 if (data.length == 0)
  //res.status(404).json({message: "No data found"})
  return response(res, status.DATA_NOT_AVAILABLE, 404)
 
    const result = data.map((item)=>{
-    console.log(item.m_crop_variety.not_year);
+    console.log("ite,:", item)
     return {     
      id: item.id,
      year: item.year,
@@ -1429,7 +1538,17 @@ if (data.length == 0)
      variety_code: item.variety_code,
      crop_name: item.m_crop.crop_name,
      variety_name: item.m_crop_variety.variety_name,
-     not_year:Number(item.m_crop_variety.not_date.substring(0, 4)),
+     not_year: item.m_crop_variety.not_date,
+     status: item.m_crop_variety.status,
+     developed_by: item.m_crop_variety.developed_by,
+     maturity_type: item.m_variety_characteristic? 
+     (item.m_variety_characteristic.matuarity_day_from == '1'? 'Early':
+      (item.m_variety_characteristic.matuarity_day_from == '2'? 'Medium':
+        (item.m_variety_characteristic.matuarity_day_from == '3'? 'Late':
+          (item.m_variety_characteristic.matuarity_day_from == '4'? 'Perennial': 'NA')
+        )
+      )): 'NA',
+     notification_status: item.m_crop_variety.is_notified==1 ? 'Notified':'Non-Notified',
      unit: item.unit,
      proposedAreaUnderVariety: parseFloat(item.proposedAreaUnderVariety),
      seedrate: parseFloat(item.seedrate), 
@@ -1456,14 +1575,14 @@ if (data.length == 0)
      BSRequiredBSRequiredtomeettargetsofFS:parseFloat(item.BSRequiredBSRequiredtomeettargetsofFS),
    }
  });
-
+//  console.log(result,'result')
    // Get total records for pagination
    const totalRecords = await srpModel.count(condition);
 
    const totalPages = Math.ceil(totalRecords / limit);  // Calculate total pages
 
    response(res, status.DATA_AVAILABLE, 200, {
-     data: result,
+     data:result,
      pagination: {
        currentPage: parseInt(page),
        totalRecords: totalRecords,
@@ -1666,8 +1785,48 @@ exports.viewSrpAllSD = async (req, res) => { try {
       },
       {
         model: varietyModel,
-        attributes: ['variety_name' , 'not_date']
+        attributes: [
+         'variety_name', 
+         'status', 
+         'developed_by',
+         
+         // Correct usage of SUBSTRING function for extracting the first 4 characters from 'not_date'
+         [
+           sequelize.fn('SUBSTRING', sequelize.col('not_date'), 1, 4),
+           'not_date'
+         ],
+         'is_notified'
+         
+         // // // CASE statement for 'matuarity_day_from' field
+         // [
+         //   sequelize.literal(`
+         //     CASE
+         //       WHEN "matuarity_day_from" = '1' THEN 'Early'
+         //       WHEN "matuarity_day_from" = '2' THEN 'Medium'
+         //       WHEN "matuarity_day_from" = '3' THEN 'Late'
+         //       WHEN "matuarity_day_from" = '4' THEN 'Perennial'
+         //       ELSE 'NA'
+         //     END
+         //   `),
+         //   'maturity_type'
+         // ],
+        
+         // CASE statement for 'is_notified' field
+         // [
+         //   sequelize.literal(`
+         //     CASE
+         //       WHEN "is_notified" = 1 THEN 'Notified'
+         //       ELSE 'Non-Notified'
+         //     END
+         //   `),
+         //   'notification_status'
+         // ]
+       ]
       },
+      {
+        model: db.cropCharactersticsModel,
+        attributes: ['matuarity_day_from']
+       },
       {
         model:userModel,
         attributes: ['name']
@@ -1719,7 +1878,17 @@ return response(res, status.DATA_NOT_AVAILABLE, 404)
     season: item.season,
     crop_name: item.m_crop.crop_name,
     variety_name: item.m_crop_variety.variety_name,
-    not_year:item.m_crop_variety.not_date.substring(0, 4),
+    not_year: item.m_crop_variety.not_date,
+     status: item.m_crop_variety.status,
+     developed_by: item.m_crop_variety.developed_by,
+     maturity_type: item.m_variety_characteristic? 
+     (item.m_variety_characteristic.matuarity_day_from == '1'? 'Early':
+      (item.m_variety_characteristic.matuarity_day_from == '2'? 'Medium':
+        (item.m_variety_characteristic.matuarity_day_from == '3'? 'Late':
+          (item.m_variety_characteristic.matuarity_day_from == '4'? 'Perennial': 'NA')
+        )
+      )): 'NA',
+     notification_status: item.m_crop_variety.is_notified==1 ? 'Notified':'Non-Notified',
     unit: item.unit,
     proposedAreaUnderVariety: parseFloat(item.proposedAreaUnderVariety),
      seedrate: parseFloat(item.seedrate), 
@@ -2265,6 +2434,7 @@ return response(res, status.DATA_NOT_AVAILABLE, 404)
     year: item.year,
     crop_code: item.crop_code,
     crop_name: item.m_crop.crop_name,
+    srr:item.m_crop.srr,
     seed_type: item.seed_type,
     unit: item.unit,
     areaSownUnderCropInHa:parseFloat(item.areaSownUnderCropInHa),
@@ -2363,6 +2533,7 @@ return response(res, status.DATA_NOT_AVAILABLE, 404)
     year: item.year,
     crop_code: item.crop_code,
     crop_name: item.m_crop.crop_name,
+    srr:item.m_crop.srr,
     seed_type: item.seed_type,
     unit: item.unit,
     plannedAreaUnderCropInHa: parseFloat(item.plannedAreaUnderCropInHa),
@@ -2457,4 +2628,385 @@ exports.updateSrr =async (req, res) => {
     }
     
   }
+
+
+  exports.viewSrrAllReportSD = async (req, res) => {
+    try {
+      // Extract pagination params from query string
+      let { page = 1, limit = 10, year } = req.query;
+      page = parseInt(page);
+      limit = parseInt(limit);
+      const offset = (page - 1) * limit;
   
+      // Ensure `year` is provided and parse it
+      let startYear = parseInt(year.split('-')[0]);
+  
+      // Calculate the previous and previous-to-previous year ranges
+      let previousYear = `${startYear - 1}-${(startYear).toString().slice(-2)}`;
+      let previousToPreviousYear = `${startYear - 2}-${(startYear - 1).toString().slice(-2)}`;
+  
+      console.log(previousYear, previousToPreviousYear);
+  
+      // Condition to fetch data for 2020-21, 2021-22, and 2022-23
+      let condition = {
+        include: [
+          {
+            model: userModel,
+            attributes: [],
+          },
+          {
+            model: cropGroupModel,
+            attributes: [],
+          },
+          {
+            model: cropDataModel,
+            attributes: [],
+          },
+        ],
+        where: {
+          year: { [Op.in]: [previousToPreviousYear, previousYear, year] },
+          is_active: true,
+        },
+        order: [
+          [userModel, 'name', 'ASC'],
+          [cropGroupModel, 'group_name', 'ASC'],
+          [cropDataModel, 'crop_name', 'ASC'],
+        ],
+        attributes: [
+          //[sequelize.col('year'), 'year'],
+          [sequelize.col('user.name'), 'user_name'],
+          [sequelize.col('m_crop_group.group_name'), 'group_name'],
+          [sequelize.col('m_crop.crop_name'), 'crop_name'],
+          [sequelize.col('seed_type'), 'seed_type'],
+          [sequelize.col('m_crop.srr'), 'srr'],
+          //[sequelize.col('acheivedSrr'), 'acheivedSrr'],
+          //Corrected SUM with CASE WHEN and achievedSrr from srrModel
+
+          [
+            sequelize.fn ( "SUM",sequelize.literal(`CASE WHEN year='${previousToPreviousYear}' THEN "seedrepalcementrate"."acheivedSrr" ELSE 0 END`)),
+            'previousToPreviousYear',
+          ],
+          [
+            sequelize.fn ( "SUM",sequelize.literal(`CASE WHEN year='${previousYear}' THEN  "seedrepalcementrate"."acheivedSrr" ELSE 0 END`)),
+            'previousYear',
+          ],
+          [
+            sequelize.fn ( "SUM",sequelize.literal(`CASE WHEN year='${year}' THEN  "seedrepalcementrate"."acheivedSrr" ELSE 0 END`)),
+            'year',
+          ],
+        ],
+        group: [
+          [sequelize.col('user.name'), 'user_name'],
+          [sequelize.col('m_crop_group.group_name'), 'group_name'],
+          [sequelize.col('m_crop.crop_name'), 'crop_name'],
+          [sequelize.col('seed_type'), 'seed_type'],
+          [sequelize.col('m_crop.srr'), 'srr'],
+        ],
+        limit: limit,
+        offset: offset,
+      };
+  
+      console.log(condition);
+      if (req.body.crop_code) {
+        condition.where.crop_code = Array.isArray(req.body.crop_code) ? { [Op.in]: req.body.crop_code } : req.body.crop_code;
+      }
+    
+      if (req.body.user_id) {
+        condition.where.user_id = Array.isArray(req.body.user_id) ? { [Op.in]: req.body.user_id } : req.body.user_id;
+      }
+
+  
+      // Fetching the data
+      const data = await srrModel.findAll(condition);
+  
+      console.log(data);
+  
+      // If no data is found
+      if (data.length === 0) {
+        return res.status(404).json({ message: "No data found" });
+      }
+  
+      const totalRecords = await srrModel.count(condition);
+
+      const totalPages = Math.ceil(totalRecords.length / limit);  // Calculate total pages
+    
+      return res.status(200).json({
+        data,
+        pagination: {
+          currentPage: page,
+          totalRecords: totalRecords.length,
+          totalPages: totalPages,
+          pageSize: limit,
+        },
+      });
+  
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "An unexpected error occurred" });
+    }
+  };
+
+  //zsrmbstofs
+  exports.addZsrmBsToFs = async(req, res) => {
+  
+    try {
+      const body = req.body;
+      console.log(body.loginedUserid.id);
+      let crop_type="";
+      let unit= "";
+      let cropExist = await cropDataModel.findOne({
+        where: {
+          crop_code: body.crop_code,
+        },
+      });
+      if (!cropExist) {
+        return response(res, "Crop Not Found", 404, {});
+      }
+  
+      let varietyExist = await varietyModel.findOne({
+        where: {
+          variety_code: body.variety_code,
+        },
+      });
+      if (!varietyExist) {
+        return response(res, "Variety Not Found", 404, {});
+      }
+  
+      let recordExist = await zsrmbstofsModel.findOne({
+        where: {
+          year: body.year,
+          season: body.season,
+          crop_code: body.crop_code,
+          variety_code: body.variety_code,
+          user_id: body.loginedUserid.id,
+        },
+      });
+      if(recordExist) {
+        return response(res, "Record already exist", 409, {});
+      }
+     if ((cropExist.crop_code).slice(0, 1) == 'A') {
+      crop_type = 'agriculture';
+      unit = 'qt';
+     }
+     else if ((cropExist.crop_code).slice(0, 1) == 'H') {
+      crop_type = 'horticulture'
+      unit = 'kg';
+     }
+      let state = await agencyDetailModel.findOne({
+         where: {
+          user_id: body.loginedUserid.id,
+        },
+        attributes: ['state_id']
+      }
+      )
+      console.log("state_id:", state);
+
+      let data = await zsrmbstofsModel.create({
+        year: body.year,
+        season: body.season,
+        crop_type: crop_type,
+        crop_code: body.crop_code,
+        crop_group_code:cropExist.group_code,
+        variety_code: body.variety_code,
+        user_id: body.loginedUserid.id,
+        unit: unit,
+        norms: body.norms,
+        bsLiftedIcar: body.bsLiftedIcar,
+        bsLiftedSau: body.bsLiftedSau,
+        bsLiftedOthers: body.bsLiftedOthers,
+        bsLiftedTotal: body.bsLiftedTotal,
+        bsUsedIcar: body.bsUsedIcar,
+        bsUsedSau: body.bsUsedSau,
+        bsUsedOthers: body.bsUsedOthers,
+        bsUsedTotal: body.bsUsedTotal,
+        fsProdFromBs: body.fsProdFromBs,
+        smrAchieved: body.smrAchieved,
+        percentAchievement: body.percentAchievement,
+        fsProdOutOfFs: body.fsProdOutOfFs,
+        carryOverFs: body.carryOverFs,
+        totalFsAvl: body.totalFsAvl,
+        state_id: state.state_id,
+           
+      })
+      console.log("data added", data);
+    if (data) {
+        response(res, status.DATA_SAVE, 200, data);
+      }
+      else {
+        return response(res, status.DATA_NOT_SAVE, 404)
+      }
+    } catch (error) {
+      console.log(error);
+      return response(res, status.UNEXPECTED_ERROR, 501)
+    }
+    
+  }
+
+
+  exports.deleteZsrmBsToFs = async (req, res) => {
+    try{
+      const data = await zsrmbstofsModel.findOne({ where: { id: req.params.id, is_active:true, user_id:req.body.loginedUserid.id}});
+      if (!data) {
+        return response(res, status.DATA_NOT_AVAILABLE, 404);
+      }
+      await data.update({ is_active: false,  deletedAt: Date.now()},
+       ). then(() => response(res, status.DATA_DELETED, 200, {}) )
+        .catch(() => response(res, status.DATA_NOT_DELETED, 500));
+    }
+    catch (error) {
+      console.log(error);
+      return response(res, status.UNEXPECTED_ERROR, 501)
+    }
+    
+    }
+    
+    exports.updateZsrmBsToFs =async (req, res) => {
+    
+      try {
+        const body = req.body;
+        const recordExist = await zsrmbstofsModel.findOne({where: {id: req.params.id,is_active:true, user_id:body.loginedUserid.id}});
+        if (!recordExist) {
+          return response(res, status.DATA_NOT_AVAILABLE, 404);
+        }
+    
+        await recordExist.update({ 
+        norms: body.norms,
+        bsLiftedIcar: body.bsLiftedIcar,
+        bsLiftedSau: body.bsLiftedSau,
+        bsLiftedOthers: body.bsLiftedOthers,
+        bsLiftedTotal: body.bsLiftedTotal,
+        bsUsedIcar: body.bsUsedIcar,
+        bsUsedSau: body.bsUsedSau,
+        bsUsedOthers: body.bsUsedOthers,
+        bsUsedTotal: body.bsUsedTotal,
+        fsProdFromBs: body.fsProdFromBs,
+        smrAchieved: body.smrAchieved,
+        percentAchievement: body.percentAchievement,
+        fsProdOutOfFs: body.fsProdOutOfFs,
+        carryOverFs: body.carryOverFs,
+        totalFsAvl: body.totalFsAvl,
+        updated_at: Date.now(),},
+       ). then(() => response(res, status.DATA_UPDATED, 200, {}) )
+        .catch(() => response(res, status.DATA_NOT_UPDATED, 500));
+    
+    } catch (error) {
+        console.log(error);
+        return response(res, status.UNEXPECTED_ERROR, 501)
+      }
+      
+    }
+
+    exports.viewZsrmBsToFs = async(req, res) => { 
+  
+      try {
+       // const { search } = req.body;
+        const userid = req.body.loginedUserid.id;
+    
+        const { page, limit } = req.query;  // Extract pagination params from query string
+        console.log(page, limit);
+        const offset = (page - 1) * limit;
+    
+         let condition = {
+          include: [
+            {
+              model: cropDataModel,
+              attributes: ['crop_name']
+            },
+            {
+              model: varietyModel,
+              attributes: ['variety_name']
+            },
+            {
+              model:stateModel,
+              attributes: ['state_name']
+            },
+            {
+              model:userModel,
+              attributes: ['name']
+            }
+          ],
+          where: { user_id: userid, is_active: true },
+          order: [ [cropDataModel, 'crop_name', 'ASC'],  // Ordering by crop_name in ascending order
+          [varietyModel, 'variety_name', 'ASC'],
+          [stateModel,'state_name', 'ASC'],
+          [userModel,'name', 'ASC']],
+          attributes: {
+            exclude: ['createdAt', 'updatedAt', 'deletedAt','crop_type', 'is_active' ]
+          },
+          limit: limit,      // Limit the number of records returned
+          offset: offset, 
+        }
+    
+        if (req.query.year) {
+          condition.where.year = (req.query.year);
+        }
+        if (req.query.season) {
+          condition.where.season = (req.query.season);
+        }
+        if (req.query.crop_code) {
+          condition.where.crop_code = (req.query.crop_code);
+        }
+        if(req.query.variety_code) {
+          condition.where.variety_code = (req.query.variety_code);
+        }
+        let data = await zsrmbstofsModel.findAll(condition);
+        console.log("data found", data);
+    if (data.length == 0)
+      //res.status(404).json({message: "No data found"})
+      return response(res, status.DATA_NOT_AVAILABLE, 404)
+    
+        const result = data.map((item)=>{return {     
+          id: item.id,
+          year: item.year,
+          season: item.season,
+          user_id: item.user_id,
+          crop_code: item.crop_code,
+          variety_code: item.variety_code,
+          crop_name: item.m_crop.crop_name,
+          variety_name: item.m_crop_variety.variety_name,
+          state_name: item.m_state.state_name,
+          user_name: item.user.name,
+          unit: item.unit,
+          norms: parseFloat(item.norms),
+          bsLiftedIcar: parseFloat(item.bsLiftedIcar),
+        bsLiftedSau: parseFloat(item.bsLiftedSau),
+        bsLiftedOthers: parseFloat(item.bsLiftedOthers),
+        bsLiftedTotal: parseFloat(item.bsLiftedTotal),
+        bsUsedIcar: parseFloat(item.bsUsedIcar),
+        bsUsedSau: parseFloat(item.bsUsedSau),
+        bsUsedOthers: parseFloat(item.bsUsedOthers),
+        bsUsedTotal: parseFloat(item.bsUsedTotal),
+        fsProdFromBs: parseFloat(item.fsProdFromBs),
+        smrAchieved: parseFloat(item.smrAchieved),
+        percentAchievement: parseFloat(item.percentAchievement),
+        fsProdOutOfFs: parseFloat(item.fsProdOutOfFs),
+        carryOverFs: parseFloat(item.carryOverFs),
+        totalFsAvl: parseFloat(item.totalFsAvl),
+        }
+      });
+    
+        // Get total records for pagination
+        const totalRecords = await zsrmbstofsModel.count(condition);
+    
+        const totalPages = Math.ceil(totalRecords / limit);  // Calculate total pages
+    
+        response(res, status.DATA_AVAILABLE, 200, {
+          data: result,
+          pagination: {
+            currentPage: parseInt(page),
+            totalRecords: totalRecords,
+            totalPages: totalPages,
+            pageSize: parseInt(limit),
+          },
+        });
+        
+     
+      } catch (error) {
+        console.log(error);
+        return response(res, status.UNEXPECTED_ERROR, 501)
+      }
+      
+    } 
+
+   
+    

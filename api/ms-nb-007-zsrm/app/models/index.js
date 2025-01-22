@@ -22,6 +22,7 @@ db.zsrmReqQs = require('./zsrmreqqs.model.js')(sequelize, Sequelize);
 db.zsrmReqQsDistWise = require('./zsrmreqqsdistwise.model.js')(sequelize, Sequelize);
 db.srpModel = require('./srp.model.js')(sequelize,Sequelize);
 db.srrModel = require('./srr.model.js')(sequelize,Sequelize);
+db.ZsrmBsToFs = require('./zsrmbstofs.model.js')(sequelize,Sequelize);
 
 module.exports = db;
 
@@ -230,6 +231,16 @@ db.srpModel.belongsTo(db.varietyModel, {
      targetKey: 'variety_code'
 });
 
+db.cropCharactersticsModel.hasMany(db.srpModel, {
+    foreignKey: 'variety_code',
+    targetKey: 'variety_code'
+});
+
+db.srpModel.belongsTo(db.cropCharactersticsModel, {
+    foreignKey: 'variety_code',
+     targetKey: 'variety_code'
+});
+
 db.stateModel.hasMany(db.srpModel, {
     foreignKey: 'state_id',
     targetKey: 'state_code'
@@ -252,6 +263,18 @@ db.cropModel.hasMany(db.srrModel, {
 db.srrModel.belongsTo(db.cropModel, {
      foreignKey: 'crop_code',
     targetKey: 'crop_code'
+
+});
+
+db.cropGroupModel.hasMany(db.srrModel, {
+    foreignKey: 'crop_group_code',
+    targetKey: 'group_code'
+
+});
+
+db.srrModel.belongsTo(db.cropGroupModel, {
+     foreignKey: 'crop_group_code',
+    targetKey: 'group_code'
 
 });
 
@@ -289,3 +312,60 @@ db.srrModel.belongsTo(db.srrModel, {
     as: 'previousYearData'
   });
   
+//zsrmbstofs
+db.cropModel.hasMany(db.ZsrmBsToFs, {
+    foreignKey: 'crop_code',
+    targetKey: 'crop_code'
+
+});
+
+db.ZsrmBsToFs.belongsTo(db.cropModel, {
+     foreignKey: 'crop_code',
+    targetKey: 'crop_code'
+
+});
+
+db.varietyModel.hasMany(db.ZsrmBsToFs, {
+    foreignKey: 'variety_code',
+    targetKey: 'variety_code'
+});
+
+db.cropGroupModel.hasMany(db.ZsrmBsToFs, {
+    foreignKey: 'crop_group_code',
+    targetKey: 'group_code'
+
+});
+
+db.ZsrmBsToFs.belongsTo(db.cropGroupModel, {
+     foreignKey: 'crop_group_code',
+    targetKey: 'group_code'
+
+});
+
+db.ZsrmBsToFs.belongsTo(db.varietyModel, {
+    foreignKey: 'variety_code',
+     targetKey: 'variety_code'
+});
+
+
+db.userModel.hasMany(db.ZsrmBsToFs, {
+    foreignKey: 'user_id',
+    targetKey: 'id'
+});
+
+db.ZsrmBsToFs.belongsTo(db.userModel, {
+    foreignKey: 'user_id',
+    targetKey: 'id'
+});
+
+
+db.stateModel.hasMany(db.ZsrmBsToFs, {
+    foreignKey: 'state_id',
+    targetKey: 'state_code'
+});
+
+db.ZsrmBsToFs.belongsTo(db.stateModel, {
+    foreignKey: 'state_id',
+    targetKey: 'state_code'
+});
+

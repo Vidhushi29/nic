@@ -9,6 +9,7 @@ module.exports = app => {
    
     app.get(`${process.env.MICRO_SERVICE}/api/get-all-crops`,auth,zsrm.getCropList);
     app.get(`${process.env.MICRO_SERVICE}/api/get-all-varieties`,auth,zsrm.getVarietyList);
+    app.get(`${process.env.MICRO_SERVICE}/api/get-variety-data`,auth,zsrm.getVarietyData);
 
 //ZSRM FS SEED
     app.post(`${process.env.MICRO_SERVICE}/api/add-req-fs`,auth,zsrm.saveZsrmReqFs);
@@ -42,4 +43,10 @@ module.exports = app => {
     app.put(`${process.env.MICRO_SERVICE}/api/update-srr/:id`,auth,zsrm.updateSrr);
     // app.delete(`${process.env.MICRO_SERVICE}/api/delete-srr/:id`,auth,zsrm.dele
     // teSrr);
+
+    //ZSRMBSTOFS
+    app.post(`${process.env.MICRO_SERVICE}/api/add-zsrm-bs-to-fs`,auth,zsrm.addZsrmBsToFs);
+    app.delete(`${process.env.MICRO_SERVICE}/api/delete-zsrm-bs-to-fs/:id`,auth,zsrm.deleteZsrmBsToFs);
+    app.put(`${process.env.MICRO_SERVICE}/api/update-zsrm-bs-to-fs/:id`,auth,zsrm.updateZsrmBsToFs);
+    app.get(`${process.env.MICRO_SERVICE}/api/view-zsrm-bs-to-fs-all`,auth,zsrm.viewZsrmBsToFs); 
 };
