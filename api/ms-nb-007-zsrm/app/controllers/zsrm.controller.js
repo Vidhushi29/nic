@@ -2302,13 +2302,20 @@ exports.viewSrrByYearCropSeedType = async (req, res) => {
         where: {
           year: nextYear,
           crop_code: req.query.crop_code,
-        seed_type: req.query.seed_type,
+          seed_type: req.query.seed_type,
           user_id: userid, 
           is_active:true
         },
       });
     if(!recordExist) {
-    return response(res, status.DATA_NOT_AVAILABLE, 404, {srr:cropExist.srr})
+      data = {
+        srr: cropExist.srr,
+        plannedAreaUnderCropInHa: 0.00,
+        seedRateInQtPerHt: 0.00,
+        plannedSeedQuanDis:0.00,
+        plannedSrr:0.00
+      }
+    return response(res, status.DATA_AVAILABLE, 200, data)
     }
     else if (recordExist && !recordExistForNext) {
       data = {
@@ -2321,48 +2328,48 @@ exports.viewSrrByYearCropSeedType = async (req, res) => {
       return response(res, status.DATA_AVAILABLE, 200, data)
     }
     else if(recordExist && recordExistForNext) {
-      let condition = {
-        include: [
-          {
-            model: srrModel,
-            as: 'nextYearData',
-            required: true, 
-            attributes: ['plannedAreaUnderCropInHa','seedRateInQtPerHt','plannedSeedQuanDis', 'plannedSrr',]
-          },
-          {
-            model: cropDataModel,
-            attributes: ['crop_name', 'srr']
-          },
-        ],
-        where: {   
-          year:req.query.year,
-          crop_code: req.query.crop_code,
-          seed_type: req.query.seed_type,
-          user_id: userid, is_active: true},
-        attributes: {
-          exclude: ['createdAt', 'updatedAt', 'deletedAt', 'crop_type', 'is_active',  ]
-        }
-      };
-      let data = await srrModel.findOne(condition);
-     const result = {    
-        id: data.id,
-        year: data.year,
-        crop_code: data.crop_code,
-        crop_name: data.m_crop.crop_name,
-        srr: data.m_crop.srr,
-        seed_type: data.seed_type,
-        unit: data.unit,
-        areaSownUnderCropInHa:parseFloat(data.areaSownUnderCropInHa),
-        seedRateAcheived: parseFloat(data.seedRateAcheived),
-        seedQuanDis: parseFloat(data.seedQuanDis),
-        acheivedSrr: parseFloat(data.acheivedSrr),
-        NextYearAreaUnderCropInHa: parseFloat(data.nextYearData.plannedAreaUnderCropInHa),
-        NextYearseedRateInQtPerHt: parseFloat(data.nextYearData.seedRateInQtPerHt),
-        NextYearSeedQuanDis: parseFloat(data.nextYearData.plannedSeedQuanDis),
-        NextYearSrr: parseFloat(data.nextYearData.plannedSrr),
-      };
-      // Get total records for pagination
-  response(res, status.DATA_AVAILABLE, 200, result);
+    //   let condition = {
+    //     include: [
+    //       {
+    //         model: srrModel,
+    //         as: 'nextYearData',
+    //         required: true, 
+    //         attributes: ['plannedAreaUnderCropInHa','seedRateInQtPerHt','plannedSeedQuanDis', 'plannedSrr',]
+    //       },
+    //       {
+    //         model: cropDataModel,
+    //         attributes: ['crop_name', 'srr']
+    //       },
+    //     ],
+    //     where: {   
+    //       year:req.query.year,
+    //       crop_code: req.query.crop_code,
+    //       seed_type: req.query.seed_type,
+    //       user_id: userid, is_active: true},
+    //     attributes: {
+    //       exclude: ['createdAt', 'updatedAt', 'deletedAt', 'crop_type', 'is_active',  ]
+    //     }
+    //   };
+    //   let data = await srrModel.findOne(condition);
+    //  const result = {    
+    //     id: data.id,
+    //     year: data.year,
+    //     crop_code: data.crop_code,
+    //     crop_name: data.m_crop.crop_name,
+    //     srr: data.m_crop.srr,
+    //     seed_type: data.seed_type,
+    //     unit: data.unit,
+    //     areaSownUnderCropInHa:parseFloat(data.areaSownUnderCropInHa),
+    //     seedRateAcheived: parseFloat(data.seedRateAcheived),
+    //     seedQuanDis: parseFloat(data.seedQuanDis),
+    //     acheivedSrr: parseFloat(data.acheivedSrr),
+    //     NextYearAreaUnderCropInHa: parseFloat(data.nextYearData.plannedAreaUnderCropInHa),
+    //     NextYearseedRateInQtPerHt: parseFloat(data.nextYearData.seedRateInQtPerHt),
+    //     NextYearSeedQuanDis: parseFloat(data.nextYearData.plannedSeedQuanDis),
+    //     NextYearSrr: parseFloat(data.nextYearData.plannedSrr),
+    //   };
+    //   // Get total records for pagination
+    return response(res, "Record already exist", 409, {});
   
 
     }
