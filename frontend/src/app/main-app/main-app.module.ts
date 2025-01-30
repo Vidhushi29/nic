@@ -242,6 +242,7 @@ import { BspTwoSecondtComponent } from './bsp-two-second/bsp-two-second';
 import { GrowOutTestReportBspvComponent } from './grow-out-test-report-bspv/grow-out-test-report-bspv.component';
 import { CropStatusReportComponent } from './crop-status-report/crop-status-report.component';
 import { ZsrmComponent } from './indenters/zsrm/zsrm.component';
+import { ZsrmCsFsAreaComponent } from './indenters/zsrm-cs-fs-area/zsrm-cs-fs-area.component';
 // import { AddZsrmFormComponent } from './indenters/add-zsrm-form/add-zsrm-form.component';
 // import { GenerateCardQrComponent } from '../generate-card-qr/generate-card-qr.component';
 // import { BillReceiptQrComponent } from '../bill-receipt-qr/bill-receipt-qr.component';
@@ -443,6 +444,7 @@ import { ZsrmComponent } from './indenters/zsrm/zsrm.component';
     GrowOutTestReportBspvComponent,
     CropStatusReportComponent,
     ZsrmComponent,
+    ZsrmCsFsAreaComponent,
     // AddZsrmFormComponent
   
     // GenerateCardQrComponent

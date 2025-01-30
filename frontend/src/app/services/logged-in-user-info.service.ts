@@ -1029,6 +1029,14 @@ export class LoggedInUserInfoService {
          
         },
 
+        {
+          icon: "seeding.svg",
+          name: "Area Registered for Certification",
+          href: "/area-registered-for-certification",
+         
+        },
+
+
         // {
         //   "name": "Submission of indent of Breeder Seed by State",
         //   "href": "/submission-of-indent-of-breeder-seed-by-state-report",
@@ -1085,6 +1093,7 @@ export class LoggedInUserInfoService {
         // {
         //   "name": "Maximum LOT Size for Each Crop",
         //   "href": "/maximum-lot-size-for-each-crop-report",
+
         //   "icon": "size_one.svg"
         // },
         // {
