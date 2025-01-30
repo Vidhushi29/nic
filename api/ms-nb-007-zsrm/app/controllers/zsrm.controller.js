@@ -25,6 +25,9 @@ const cropcharactersModel = db.cropCharactersticsModel;
 const srpModel = db.srpModel;
 const srrModel = db.srrModel;
 const zsrmbstofsModel = db.ZsrmBsToFs; //
+const zsrmfstocsModel = db.ZsrmFsToCs; 
+const zsrmcsqsdistModel = db.ZsrmCSQsDist;
+const zsrmcsfsarea =db.zsrmcsfsarea;
 //ZSRM requriement for FS 
 
 exports.getCropList = async (req, res) => {
@@ -3016,4 +3019,742 @@ exports.updateSrr =async (req, res) => {
     } 
 
    
+    
+
+
+    //zsrmfstocs
+  exports.addZsrmFsToCs = async(req, res) => {
+    try {
+      const body = req.body;
+      console.log(body.loginedUserid.id);
+      let crop_type="";
+      let unit= "";
+      let cropExist = await cropDataModel.findOne({
+        where: {
+          crop_code: body.crop_code,
+        },
+      });
+      if (!cropExist) {
+        return response(res, "Crop Not Found", 404, {});
+      }
+  
+      let varietyExist = await varietyModel.findOne({
+        where: {
+          variety_code: body.variety_code,
+        },
+      });
+      if (!varietyExist) {
+        return response(res, "Variety Not Found", 404, {});
+      }
+  
+      let recordExist = await zsrmfstocsModel.findOne({
+        where: {
+          year: body.year,
+          season: body.season,
+          crop_code: body.crop_code,
+          variety_code: body.variety_code,
+          user_id: body.loginedUserid.id,
+        },
+      });
+      if(recordExist) {
+        return response(res, "Record already exist", 409, {});
+      }
+     if ((cropExist.crop_code).slice(0, 1) == 'A') {
+      crop_type = 'agriculture';
+      unit = 'qt';
+     }
+     else if ((cropExist.crop_code).slice(0, 1) == 'H') {
+      crop_type = 'horticulture'
+      unit = 'kg';
+     }
+      let state = await agencyDetailModel.findOne({
+         where: {
+          user_id: body.loginedUserid.id,
+        },
+        attributes: ['state_id']
+      }
+      )
+      console.log("state_id:", state);
+
+      let data = await zsrmfstocsModel.create({
+        year: body.year,
+        season: body.season,
+        crop_type: crop_type,
+        crop_code: body.crop_code,
+        crop_group_code:cropExist.group_code,
+        variety_code: body.variety_code,
+        user_id: body.loginedUserid.id,
+        unit: unit,
+        norms: body.norms,
+        fsLiftedDao: body.fsLiftedDao,
+        fsLiftedSsc: body.fsLiftedSsc,
+        fsLiftedSau: body.fsLiftedSau,
+        fsLiftedCoop: body.fsLiftedCoop,
+        fsLiftedOthers: body.fsLiftedOthers,
+        fsLiftedTotal: body.fsLiftedTotal,
+        fsUsedDao: body.fsUsedDao,
+        fsUsedSsc: body.fsUsedSsc,
+        fsUsedSau: body.fsUsedSau,
+        fsUsedCoop: body.fsUsedCoop,
+        fsUsedOthers: body.fsUsedOthers, 
+        fsUsedTotal: body.fsUsedTotal,
+        csProdFromfs: body.csProdFromfs,
+        smrAchieved: body.smrAchieved,
+        percentAchievement: body.percentAchievement,
+        csProdOutOfCs: body.csProdOutOfCs,
+        carryOverCs: body.carryOverCs,
+        totalCsAvl: body.totalCsAvl,
+        state_id: state.state_id,   
+      })
+      console.log("data added", data);
+    if (data) {
+        response(res, status.DATA_SAVE, 200, data);
+      }
+      else {
+        return response(res, status.DATA_NOT_SAVE, 404)
+      }
+    } catch (error) {
+      console.log(error);
+      return response(res, status.UNEXPECTED_ERROR, 501)
+    }
+    
+  }
+
+
+  exports.deleteZsrmFsToCs = async (req, res) => {
+    try{
+      const data = await zsrmfstocsModel.findOne({ where: { id: req.params.id, is_active:true, user_id:req.body.loginedUserid.id}});
+      if (!data) {
+        return response(res, status.DATA_NOT_AVAILABLE, 404);
+      }
+      await data.update({ is_active: false,  deletedAt: Date.now()},
+       ). then(() => response(res, status.DATA_DELETED, 200, {}) )
+        .catch(() => response(res, status.DATA_NOT_DELETED, 500));
+    }
+    catch (error) {
+      console.log(error);
+      return response(res, status.UNEXPECTED_ERROR, 501)
+    }
+    
+    }
+    
+    exports.updateZsrmFsToCs =async (req, res) => {
+    
+      try {
+        const body = req.body;
+        const recordExist = await zsrmfstocsModel.findOne({where: {id: req.params.id,is_active:true, user_id:body.loginedUserid.id}});
+        if (!recordExist) {
+          return response(res, status.DATA_NOT_AVAILABLE, 404);
+        }
+    
+        await recordExist.update({ 
+        norms: body.norms,
+        fsLiftedDao: body.fsLiftedDao,
+        fsLiftedSsc: body.fsLiftedSsc,
+        fsLiftedSau: body.fsLiftedSau,
+        fsLiftedCoop: body.fsLiftedCoop,
+        fsLiftedOthers: body.fsLiftedOthers,
+        fsLiftedTotal: body.fsLiftedTotal,
+        fsUsedDao: body.fsUsedDao,
+        fsUsedSsc: body.fsUsedSsc,
+        fsUsedSau: body.fsUsedSau,
+        fsUsedCoop: body.fsUsedCoop,
+        fsUsedOthers: body.fsUsedOthers, 
+        fsUsedTotal: body.fsUsedTotal,
+        csProdFromfs: body.csProdFromfs,
+        smrAchieved: body.smrAchieved,
+        percentAchievement: body.percentAchievement,
+        csProdOutOfCs: body.csProdOutOfCs,
+        carryOverCs: body.carryOverCs,
+        totalCsAvl: body.totalCsAvl,
+        updated_at: Date.now(),},
+       ). then(() => response(res, status.DATA_UPDATED, 200, {}) )
+        .catch(() => response(res, status.DATA_NOT_UPDATED, 500));
+    
+    } catch (error) {
+        console.log(error);
+        return response(res, status.UNEXPECTED_ERROR, 501)
+      }
+      
+    }
+
+    exports.viewZsrmFsToCs = async(req, res) => { 
+  
+      try {
+       // const { search } = req.body;
+        const userid = req.body.loginedUserid.id;
+    
+        const { page, limit } = req.query;  // Extract pagination params from query string
+        console.log(page, limit);
+        const offset = (page - 1) * limit;
+    
+         let condition = {
+          include: [
+            {
+              model: cropDataModel,
+              attributes: ['crop_name']
+            },
+            {
+              model: varietyModel,
+              attributes: ['variety_name']
+            },
+            {
+              model:stateModel,
+              attributes: ['state_name']
+            },
+            {
+              model:userModel,
+              attributes: ['name']
+            }
+          ],
+          where: { user_id: userid, is_active: true },
+          order: [ [cropDataModel, 'crop_name', 'ASC'],  // Ordering by crop_name in ascending order
+          [varietyModel, 'variety_name', 'ASC'],
+          [stateModel,'state_name', 'ASC'],
+          [userModel,'name', 'ASC']],
+          attributes: {
+            exclude: ['createdAt', 'updatedAt', 'deletedAt','crop_type', 'is_active' ]
+          },
+          limit: limit,      // Limit the number of records returned
+          offset: offset, 
+        }
+    
+        if (req.query.year) {
+          condition.where.year = (req.query.year);
+        }
+        if (req.query.season) {
+          condition.where.season = (req.query.season);
+        }
+        if (req.query.crop_code) {
+          condition.where.crop_code = (req.query.crop_code);
+        }
+        if(req.query.variety_code) {
+          condition.where.variety_code = (req.query.variety_code);
+        }
+        let data = await zsrmfstocsModel.findAll(condition);
+        console.log("data found", data);
+    if (data.length == 0)
+      //res.status(404).json({message: "No data found"})
+      return response(res, status.DATA_NOT_AVAILABLE, 404)
+    
+        const result = data.map((item)=>{return {     
+          id: item.id,
+          year: item.year,
+          season: item.season,
+          user_id: item.user_id,
+          crop_code: item.crop_code,
+          variety_code: item.variety_code,
+          crop_name: item.m_crop.crop_name,
+          variety_name: item.m_crop_variety.variety_name,
+          state_name: item.m_state.state_name,
+          user_name: item.user.name,
+          unit: item.unit,
+          norms: parseFloat(item.norms),
+          fsLiftedDao: parseFloat(item.fsLiftedDao),
+          fsLiftedSsc: parseFloat(item.fsLiftedSsc),
+          fsLiftedSau: parseFloat(item.fsLiftedSau),
+          fsLiftedCoop: parseFloat(item.fsLiftedCoop),
+          fsLiftedOthers: parseFloat(item.fsLiftedOthers),
+          fsLiftedTotal: parseFloat(item.fsLiftedTotal),
+          fsUsedDao: parseFloat(item.fsUsedDao),
+          fsUsedSsc: parseFloat(item.fsUsedSsc),
+          fsUsedSau: parseFloat(item.fsUsedSau),
+          fsUsedCoop: parseFloat(item.fsUsedCoop),
+          fsUsedOthers: parseFloat(item.fsUsedOthers),
+          fsUsedTotal: parseFloat(item.fsUsedTotal),
+          csProdFromfs: parseFloat(item.csProdFromfs),
+          smrAchieved: parseFloat(item.smrAchieved),
+          percentAchievement: parseFloat(item.percentAchievement),
+          csProdOutOfCs: parseFloat(item.csProdOutOfCs),
+          carryOverCs: parseFloat(item.carryOverCs),
+          totalCsAvl: parseFloat(item.totalCsAvl),
+        }
+      });
+        // Get total records for pagination
+        const totalRecords = await zsrmfstocsModel.count(condition);
+        const totalPages = Math.ceil(totalRecords / limit);  // Calculate total pages
+        response(res, status.DATA_AVAILABLE, 200, {
+          data: result,
+          pagination: {
+            currentPage: parseInt(page),
+            totalRecords: totalRecords,
+            totalPages: totalPages,
+            pageSize: parseInt(limit),
+          },
+        });
+      } catch (error) {
+        console.log(error);
+        return response(res, status.UNEXPECTED_ERROR, 501)
+      }
+      
+    } 
+
+   
+
+    //zsrmcsqsdist
+    exports.addZsrmCsQsDist = async(req, res) => {
+      try {
+        const body = req.body;
+        console.log(body.loginedUserid.id);
+        let crop_type="";
+        let unit= "";
+        let cropExist = await cropDataModel.findOne({
+          where: {
+            crop_code: body.crop_code,
+          },
+        });
+        if (!cropExist) {
+          return response(res, "Crop Not Found", 404, {});
+        }
+    
+        let varietyExist = await varietyModel.findOne({
+          where: {
+            variety_code: body.variety_code,
+          },
+        });
+        if (!varietyExist) {
+          return response(res, "Variety Not Found", 404, {});
+        }
+    
+        let recordExist = await zsrmcsqsdistModel.findOne({
+          where: {
+            year: body.year,
+            season: body.season,
+            crop_code: body.crop_code,
+            variety_code: body.variety_code,
+            user_id: body.loginedUserid.id,
+            seedType: body.seedType
+          },
+        });
+        if(recordExist) {
+          return response(res, "Record already exist", 409, {});
+        }
+       if ((cropExist.crop_code).slice(0, 1) == 'A') {
+        crop_type = 'agriculture';
+        unit = 'qt';
+       }
+       else if ((cropExist.crop_code).slice(0, 1) == 'H') {
+        crop_type = 'horticulture'
+        unit = 'kg';
+       }
+        let state = await agencyDetailModel.findOne({
+           where: {
+            user_id: body.loginedUserid.id,
+          },
+          attributes: ['state_id']
+        }
+        )
+        console.log("state_id:", state);
+  
+        let data = await zsrmcsqsdistModel.create({
+          year: body.year,
+          season: body.season,
+          crop_type: crop_type,
+          crop_code: body.crop_code,
+          crop_group_code:cropExist.group_code,
+          variety_code: body.variety_code,
+          user_id: body.loginedUserid.id,
+          unit: unit,
+          seedType: body.seedType,
+          doa:body.doa,
+          ssc: body.ssc,
+          others: body.others,
+          nsc: body.nsc,
+          sfci: body.sfci,
+          private: body.private,
+          total: body.total,
+          state_id: state.state_id,   
+        })
+        console.log("data added", data);
+      if (data) {
+          response(res, status.DATA_SAVE, 200, data);
+        }
+        else {
+          return response(res, status.DATA_NOT_SAVE, 404)
+        }
+      } catch (error) {
+        console.log(error);
+        return response(res, status.UNEXPECTED_ERROR, 501)
+      }
+      
+    }
+  
+  
+    exports.deleteZsrmCsQsDist = async (req, res) => {
+      try{
+        const data = await zsrmcsqsdistModel.findOne({ where: { id: req.params.id, is_active:true, user_id:req.body.loginedUserid.id}});
+        if (!data) {
+          return response(res, status.DATA_NOT_AVAILABLE, 404);
+        }
+        await data.update({ is_active: false,  deletedAt: Date.now()},
+         ). then(() => response(res, status.DATA_DELETED, 200, {}) )
+          .catch(() => response(res, status.DATA_NOT_DELETED, 500));
+      }
+      catch (error) {
+        console.log(error);
+        return response(res, status.UNEXPECTED_ERROR, 501)
+      }
+      
+      }
+      
+      exports.updateZsrmCsQsDist =async (req, res) => {
+      
+        try {
+          const body = req.body;
+          const recordExist = await zsrmcsqsdistModel.findOne({where: {id: req.params.id,is_active:true, user_id:body.loginedUserid.id}});
+          if (!recordExist) {
+            return response(res, status.DATA_NOT_AVAILABLE, 404);
+          }
+      
+          await recordExist.update({ 
+            doa:body.doa,
+            ssc: body.ssc,
+            others: body.others,
+            nsc: body.nsc,
+            sfci: body.sfci,
+            private: body.private,
+            total: body.total,
+          updated_at: Date.now(),},
+         ). then(() => response(res, status.DATA_UPDATED, 200, {}) )
+          .catch(() => response(res, status.DATA_NOT_UPDATED, 500));
+      
+      } catch (error) {
+          console.log(error);
+          return response(res, status.UNEXPECTED_ERROR, 501)
+        }
+        
+      }
+  
+      exports.viewZsrmCsQsDist = async(req, res) => { 
+    
+        try {
+         // const { search } = req.body;
+          const userid = req.body.loginedUserid.id;
+      
+          const { page, limit } = req.query;  // Extract pagination params from query string
+          console.log(page, limit);
+          const offset = (page - 1) * limit;
+      
+           let condition = {
+            include: [
+              {
+                model: cropDataModel,
+                attributes: ['crop_name']
+              },
+              {
+                model: varietyModel,
+                attributes: ['variety_name']
+              },
+              {
+                model:stateModel,
+                attributes: ['state_name']
+              },
+              {
+                model:userModel,
+                attributes: ['name']
+              }
+            ],
+            where: { user_id: userid, is_active: true },
+            order: [ [cropDataModel, 'crop_name', 'ASC'],  // Ordering by crop_name in ascending order
+            [varietyModel, 'variety_name', 'ASC'],
+            [stateModel,'state_name', 'ASC'],
+            [userModel,'name', 'ASC']],
+            attributes: {
+              exclude: ['createdAt', 'updatedAt', 'deletedAt','crop_type', 'is_active' ]
+            },
+            limit: limit,      // Limit the number of records returned
+            offset: offset, 
+          }
+      
+          if (req.query.year) {
+            condition.where.year = (req.query.year);
+          }
+          if (req.query.season) {
+            condition.where.season = (req.query.season);
+          }
+          if (req.query.crop_code) {
+            condition.where.crop_code = (req.query.crop_code);
+          }
+          if(req.query.variety_code) {
+            condition.where.variety_code = (req.query.variety_code);
+          }
+          if(req.query.seed_type) {
+            condition.where.seedType= (req.query.seed_type);
+          }
+          let data = await zsrmcsqsdistModel.findAll(condition);
+          console.log("data found", data);
+      if (data.length == 0)
+        //res.status(404).json({message: "No data found"})
+        return response(res, status.DATA_NOT_AVAILABLE, 404)
+      
+          const result = data.map((item)=>{return {     
+            id: item.id,
+            year: item.year,
+            season: item.season,
+            user_id: item.user_id,
+            crop_code: item.crop_code,
+            variety_code: item.variety_code,
+            crop_name: item.m_crop.crop_name,
+            variety_name: item.m_crop_variety.variety_name,
+            state_name: item.m_state.state_name,
+            user_name: item.user.name,
+            unit: item.unit,
+            seedType: item.seedType,
+            doa:parseFloat(item.doa),
+            ssc: parseFloat(item.ssc),
+            others: parseFloat(item.others),
+            nsc: parseFloat(item.nsc),
+            sfci: parseFloat(item.sfci),
+            private: parseFloat(item.private),
+            total: parseFloat(item.total),
+          }
+        });
+          // Get total records for pagination
+          const totalRecords = await zsrmcsqsdistModel.count(condition);
+          const totalPages = Math.ceil(totalRecords / limit);  // Calculate total pages
+          response(res, status.DATA_AVAILABLE, 200, {
+            data: result,
+            pagination: {
+              currentPage: parseInt(page),
+              totalRecords: totalRecords,
+              totalPages: totalPages,
+              pageSize: parseInt(limit),
+            },
+          });
+        } catch (error) {
+          console.log(error);
+          return response(res, status.UNEXPECTED_ERROR, 501)
+        }
+        
+      } 
+  
+
+        //zsrmcsfsarea
+    exports.addZsrmCsFsArea = async(req, res) => {
+      try {
+        const body = req.body;
+        console.log(body.loginedUserid.id);
+        let crop_type="";
+        let unit= "";
+        let cropExist = await cropDataModel.findOne({
+          where: {
+            crop_code: body.crop_code,
+          },
+        });
+        if (!cropExist) {
+          return response(res, "Crop Not Found", 404, {});
+        }
+    
+        let varietyExist = await varietyModel.findOne({
+          where: {
+            variety_code: body.variety_code,
+          },
+        });
+        if (!varietyExist) {
+          return response(res, "Variety Not Found", 404, {});
+        }
+    
+        let recordExist = await zsrmcsfsarea.findOne({
+          where: {
+            year: body.year,
+            season: body.season,
+            crop_code: body.crop_code,
+            variety_code: body.variety_code,
+            user_id: body.loginedUserid.id,
+            category: body.category
+          },
+        });
+        if(recordExist) {
+          return response(res, "Record already exist", 409, {});
+        }
+       if ((cropExist.crop_code).slice(0, 1) == 'A') {
+        crop_type = 'agriculture';
+        unit = 'qt';
+       }
+       else if ((cropExist.crop_code).slice(0, 1) == 'H') {
+        crop_type = 'horticulture'
+        unit = 'kg';
+       }
+        let state = await agencyDetailModel.findOne({
+           where: {
+            user_id: body.loginedUserid.id,
+          },
+          attributes: ['state_id']
+        }
+        )
+        console.log("state_id:", state);
+  
+        let data = await zsrmcsfsarea.create({
+          year: body.year,
+          season: body.season,
+          crop_type: crop_type,
+          crop_code: body.crop_code,
+          crop_group_code:cropExist.group_code,
+          variety_code: body.variety_code,
+          user_id: body.loginedUserid.id,
+          unit: unit,
+          category: body.category,
+          cs_area: body.cs_area,
+          cs_quant: body.cs_quant,
+          fs_area: body.fs_area,
+          fs_quant: body.fs_quant,
+          state_id: state.state_id,   
+        })
+        console.log("data added", data);
+      if (data) {
+          response(res, status.DATA_SAVE, 200, data);
+        }
+        else {
+          return response(res, status.DATA_NOT_SAVE, 404)
+        }
+      } catch (error) {
+        console.log(error);
+        return response(res, status.UNEXPECTED_ERROR, 501)
+      }
+      
+    }
+  
+  
+    exports.deleteZsrmCsFsArea = async (req, res) => {
+      try{
+        const data = await zsrmcsfsarea.findOne({ where: { id: req.params.id, is_active:true, user_id:req.body.loginedUserid.id}});
+        if (!data) {
+          return response(res, status.DATA_NOT_AVAILABLE, 404);
+        }
+        await data.update({ is_active: false,  deletedAt: Date.now()},
+         ). then(() => response(res, status.DATA_DELETED, 200, {}) )
+          .catch(() => response(res, status.DATA_NOT_DELETED, 500));
+      }
+      catch (error) {
+        console.log(error);
+        return response(res, status.UNEXPECTED_ERROR, 501)
+      }
+      
+      }
+      
+      exports.updateZsrmCsFsArea =async (req, res) => {
+      
+        try {
+          const body = req.body;
+          const recordExist = await zsrmcsfsarea.findOne({where: {id: req.params.id,is_active:true, user_id:body.loginedUserid.id}});
+          if (!recordExist) {
+            return response(res, status.DATA_NOT_AVAILABLE, 404);
+          }
+          console.log(body, "body");
+          await recordExist.update({ 
+          cs_area: body.cs_area,
+          cs_quant: body.cs_quant,
+          fs_area: body.fs_area,
+          fs_quant: body.fs_quant,
+          updated_at: Date.now(),},
+         ). then(() => response(res, status.DATA_UPDATED, 200, {}) )
+          .catch(() => response(res, status.DATA_NOT_UPDATED, 500));
+      
+      } catch (error) {
+          console.log(error);
+          return response(res, status.UNEXPECTED_ERROR, 501)
+        }
+        
+      }
+  
+      exports.viewZsrmCsFsArea = async(req, res) => { 
+    
+        try {
+         // const { search } = req.body;
+          const userid = req.body.loginedUserid.id;
+      
+          const { page, limit } = req.query;  // Extract pagination params from query string
+          console.log(page, limit);
+          const offset = (page - 1) * limit;
+      
+           let condition = {
+            include: [
+              {
+                model: cropDataModel,
+                attributes: ['crop_name']
+              },
+              {
+                model: varietyModel,
+                attributes: ['variety_name']
+              },
+              {
+                model:stateModel,
+                attributes: ['state_name']
+              },
+              {
+                model:userModel,
+                attributes: ['name']
+              }
+            ],
+            where: { user_id: userid, is_active: true },
+            order: [ [cropDataModel, 'crop_name', 'ASC'],  // Ordering by crop_name in ascending order
+            [varietyModel, 'variety_name', 'ASC'],
+            [stateModel,'state_name', 'ASC'],
+            [userModel,'name', 'ASC']],
+            attributes: {
+              exclude: ['createdAt', 'updatedAt', 'deletedAt','crop_type', 'is_active' ]
+            },
+            limit: limit,      // Limit the number of records returned
+            offset: offset, 
+          }
+      
+          if (req.query.year) {
+            condition.where.year = (req.query.year);
+          }
+          if (req.query.season) {
+            condition.where.season = (req.query.season);
+          }
+          if (req.query.crop_code) {
+            condition.where.crop_code = (req.query.crop_code);
+          }
+          if(req.query.variety_code) {
+            condition.where.variety_code = (req.query.variety_code);
+          }
+          if(req.query.category) {
+            condition.where.category= (req.query.category);
+          }
+          let data = await zsrmcsfsarea.findAll(condition);
+          console.log("data found", data);
+      if (data.length == 0)
+        //res.status(404).json({message: "No data found"})
+        return response(res, status.DATA_NOT_AVAILABLE, 404)
+      
+          const result = data.map((item)=>{return {     
+            id: item.id,
+            year: item.year,
+            season: item.season,
+            user_id: item.user_id,
+            crop_code: item.crop_code,
+            variety_code: item.variety_code,
+            crop_name: item.m_crop.crop_name,
+            variety_name: item.m_crop_variety.variety_name,
+            state_name: item.m_state.state_name,
+            user_name: item.user.name,
+            unit: item.unit,
+            category: item.category,
+            cs_area:parseFloat(item.cs_area),
+            cs_quant: parseFloat(item.cs_quant),
+            fs_area: parseFloat(item.fs_area),
+            fs_quant: parseFloat(item.fs_quant),
+          }
+        });
+          // Get total records for pagination
+          const totalRecords = await zsrmcsfsarea.count(condition);
+          const totalPages = Math.ceil(totalRecords / limit);  // Calculate total pages
+          response(res, status.DATA_AVAILABLE, 200, {
+            data: result,
+            pagination: {
+              currentPage: parseInt(page),
+              totalRecords: totalRecords,
+              totalPages: totalPages,
+              pageSize: parseInt(limit),
+            },
+          });
+        } catch (error) {
+          console.log(error);
+          return response(res, status.UNEXPECTED_ERROR, 501)
+        }
+        
+      } 
+  
     

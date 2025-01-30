@@ -23,6 +23,9 @@ db.zsrmReqQsDistWise = require('./zsrmreqqsdistwise.model.js')(sequelize, Sequel
 db.srpModel = require('./srp.model.js')(sequelize,Sequelize);
 db.srrModel = require('./srr.model.js')(sequelize,Sequelize);
 db.ZsrmBsToFs = require('./zsrmbstofs.model.js')(sequelize,Sequelize);
+db.ZsrmFsToCs = require('./zsrmfstocs.model.js')(sequelize,Sequelize);
+db.ZsrmCSQsDist = require('./zsrmcsqsdist.model.js')(sequelize, Sequelize);
+db.zsrmcsfsarea = require('./zsrmcsfsarea.model.js')(sequelize, Sequelize);
 
 module.exports = db;
 
@@ -369,3 +372,177 @@ db.ZsrmBsToFs.belongsTo(db.stateModel, {
     targetKey: 'state_code'
 });
 
+//zsrmfstocs
+db.cropModel.hasMany(db.ZsrmFsToCs, {
+    foreignKey: 'crop_code',
+    targetKey: 'crop_code'
+
+});
+
+db.ZsrmFsToCs.belongsTo(db.cropModel, {
+     foreignKey: 'crop_code',
+    targetKey: 'crop_code'
+
+});
+
+db.varietyModel.hasMany(db.ZsrmFsToCs, {
+    foreignKey: 'variety_code',
+    targetKey: 'variety_code'
+});
+
+db.ZsrmFsToCs.belongsTo(db.varietyModel, {
+    foreignKey: 'variety_code',
+     targetKey: 'variety_code'
+});
+
+db.cropGroupModel.hasMany(db.ZsrmFsToCs, {
+    foreignKey: 'crop_group_code',
+    targetKey: 'group_code'
+
+});
+
+db.ZsrmFsToCs.belongsTo(db.cropGroupModel, {
+     foreignKey: 'crop_group_code',
+    targetKey: 'group_code'
+
+});
+
+
+
+
+db.userModel.hasMany(db.ZsrmFsToCs, {
+    foreignKey: 'user_id',
+    targetKey: 'id'
+});
+
+db.ZsrmFsToCs.belongsTo(db.userModel, {
+    foreignKey: 'user_id',
+    targetKey: 'id'
+});
+
+
+db.stateModel.hasMany(db.ZsrmFsToCs, {
+    foreignKey: 'state_id',
+    targetKey: 'state_code'
+});
+
+db.ZsrmFsToCs.belongsTo(db.stateModel, {
+    foreignKey: 'state_id',
+    targetKey: 'state_code'
+});
+
+
+//zsrmcsqsdist
+db.cropModel.hasMany(db.ZsrmCSQsDist, {
+    foreignKey: 'crop_code',
+    targetKey: 'crop_code'
+
+});
+
+db.ZsrmCSQsDist.belongsTo(db.cropModel, {
+     foreignKey: 'crop_code',
+    targetKey: 'crop_code'
+
+});
+
+db.varietyModel.hasMany(db.ZsrmCSQsDist, {
+    foreignKey: 'variety_code',
+    targetKey: 'variety_code'
+});
+
+db.ZsrmCSQsDist.belongsTo(db.varietyModel, {
+    foreignKey: 'variety_code',
+     targetKey: 'variety_code'
+});
+
+db.cropGroupModel.hasMany(db.ZsrmCSQsDist, {
+    foreignKey: 'crop_group_code',
+    targetKey: 'group_code'
+
+});
+
+db.ZsrmCSQsDist.belongsTo(db.cropGroupModel, {
+     foreignKey: 'crop_group_code',
+    targetKey: 'group_code'
+
+});
+
+
+
+
+db.userModel.hasMany(db.ZsrmCSQsDist, {
+    foreignKey: 'user_id',
+    targetKey: 'id'
+});
+
+db.ZsrmCSQsDist.belongsTo(db.userModel, {
+    foreignKey: 'user_id',
+    targetKey: 'id'
+});
+
+
+db.stateModel.hasMany(db.ZsrmCSQsDist, {
+    foreignKey: 'state_id',
+    targetKey: 'state_code'
+});
+
+db.ZsrmCSQsDist.belongsTo(db.stateModel, {
+    foreignKey: 'state_id',
+    targetKey: 'state_code'
+});
+
+//zsrmcsfsarea
+db.cropModel.hasMany(db.zsrmcsfsarea, {
+    foreignKey: 'crop_code',
+    targetKey: 'crop_code'
+
+});
+
+db.zsrmcsfsarea.belongsTo(db.cropModel, {
+     foreignKey: 'crop_code',
+    targetKey: 'crop_code'
+
+});
+
+db.varietyModel.hasMany(db.zsrmcsfsarea, {
+    foreignKey: 'variety_code',
+    targetKey: 'variety_code'
+});
+
+db.zsrmcsfsarea.belongsTo(db.varietyModel, {
+    foreignKey: 'variety_code',
+     targetKey: 'variety_code'
+});
+
+db.cropGroupModel.hasMany(db.zsrmcsfsarea, {
+    foreignKey: 'crop_group_code',
+    targetKey: 'group_code'
+
+});
+
+db.zsrmcsfsarea.belongsTo(db.cropGroupModel, {
+     foreignKey: 'crop_group_code',
+    targetKey: 'group_code'
+
+});
+
+db.userModel.hasMany(db.zsrmcsfsarea, {
+    foreignKey: 'user_id',
+    targetKey: 'id'
+});
+
+db.zsrmcsfsarea.belongsTo(db.userModel, {
+    foreignKey: 'user_id',
+    targetKey: 'id'
+});
+
+
+db.stateModel.hasMany(db.zsrmcsfsarea, {
+    foreignKey: 'state_id',
+    targetKey: 'state_code'
+});
+
+db.zsrmcsfsarea.belongsTo(db.stateModel, {
+    foreignKey: 'state_id',
+    targetKey: 'state_code'
+});
