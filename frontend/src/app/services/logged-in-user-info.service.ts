@@ -1031,8 +1031,15 @@ export class LoggedInUserInfoService {
 
         {
           icon: "seeding.svg",
-          name: "Area Registered for Certification",
+          name: "Area Registered (Certification)",
           href: "/area-registered-for-certification",
+         
+        },
+
+        {
+          icon: "seeding.svg",
+          name: "CS Distribution (Variety-wise)",
+          href: "/seed-distribution",
          
         },
 

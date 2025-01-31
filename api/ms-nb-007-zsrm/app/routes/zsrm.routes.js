@@ -57,7 +57,7 @@ module.exports = app => {
     app.post(`${process.env.MICRO_SERVICE}/api/add-zsrm-cs-qs-dist`,auth,zsrm.addZsrmCsQsDist);
     app.delete(`${process.env.MICRO_SERVICE}/api/delete-zsrm-cs-qs-dist/:id`,auth,zsrm.deleteZsrmCsQsDist);
     app.put(`${process.env.MICRO_SERVICE}/api/update-zsrm-cs-qs-dist/:id`,auth,zsrm.updateZsrmCsQsDist);
-    app.get(`${process.env.MICRO_SERVICE}/api/view-zsrm-cs-qs-all`,auth,zsrm.viewZsrmCsQsDist); 
+    app.get(`${process.env.MICRO_SERVICE}/api/view-zsrm-cs-qs-dist-all`,auth,zsrm.viewZsrmCsQsDist); 
 
 
      //ZSRMCSFSAREA

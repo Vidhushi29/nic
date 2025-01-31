@@ -1,7 +1,7 @@
 <div class="main-inventory 1">
     <div class="row">
         <div class="col-12 col-md-12 col-lg-12 pl-2 pb-3 pt-0">
-            <div class="title-inventory">  AREA REGISTERED FOR CERTIFICATION</div>
+            <div class="title-inventory">Variety Wise Actual Distribution of Certified/Quality Seed</div>
           
 
 
@@ -142,19 +142,18 @@
                                  <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-2 pr-1 pl-1">
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <label for="category" class="left-heading required">Category</label>
+                                            <label for="category" class="left-heading required">Type</label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                             <select class="form-control input-inventory" formControlName="category" [ngClass]="disableUpperSection ? 'disableFiel':''">
-                                                <option value="">Please Select Category</option>
-                                            <option value="Govt">Govt</option>
-                                            <option value="Q Govt">Q Govt</option>
-                                            <option value="Private">Private</option>
+                                                <option value="">Please Select Type</option>
+                                                <option value="Certified">Certified</option> 
+                                             <option value="Quality">Quality</option>                                                
                                             </select>
                                             <div class="errorMessage"
                                                 *ngIf="submitted || ngForm.controls['category'].invalid && (ngForm.controls['category'].dirty || ngForm.controls['category'].touched)">
                                                 <span *ngIf="ngForm.controls['category'].errors?.['required']">
-                                                    Please Select Category.
+                                                    Please Select Type.
                                                 </span>
                                             </div>
                                         </div>
@@ -201,17 +200,17 @@
                                         <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="cs_area" class="left-heading required">
-                                                        CS Area (in Ha.)
+                                                    <label for="doa" class="left-heading required">
+                                                        DOA
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="cs_area" placeholder="Enter CS Area (in Ha.)" (keypress)="validateDecimal($event)">
+                                                        formControlName="doa" placeholder="0">
                                                     <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['cs_area'].invalid && ngForm.controls['cs_area'].dirty || ngForm.controls['cs_area'].touched">
-                                                        <span *ngIf=" ngForm.controls['cs_area'].errors?.['required']">
-                                                            Please Enter CS Area (in Ha.)
+                                                        *ngIf="submitted ||ngForm.controls['doa'].invalid && ngForm.controls['doa'].dirty || ngForm.controls['doa'].touched">
+                                                        <span *ngIf=" ngForm.controls['doa'].errors?.['required']">
+                                                            Enter only decimal number upto 2 digit
                                                         </span>
 
                                                     </div>
@@ -222,17 +221,17 @@
                                         <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="cs_quant" class="left-heading required">
-                                                        CS Quantity
+                                                    <label for="ssc" class="left-heading required">
+                                                        SSC
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="cs_quant" placeholder="Enter CS Quantity" (keypress)="validateDecimal($event)">
+                                                        formControlName="ssc" placeholder="Enter SSC" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['cs_quant'].invalid && ngForm.controls['cs_quant'].dirty || ngForm.controls['cs_quant'].touched">
-                                                        <span *ngIf=" ngForm.controls['cs_quant'].errors?.['required']">
-                                                            Please Enter CS Quantity
+                                                        *ngIf="submitted ||ngForm.controls['ssc'].invalid && ngForm.controls['ssc'].dirty || ngForm.controls['ssc'].touched">
+                                                        <span *ngIf=" ngForm.controls['ssc'].errors?.['required']">
+                                                            Enter only decimal number upto 2 digit
                                                         </span>
 
                                                     </div>
@@ -242,17 +241,17 @@
                                         <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="fs_area" class="left-heading required">
-                                                        FS Area (in Ha.)
+                                                    <label for="nsc" class="left-heading required">
+                                                        NSC
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="fs_area" placeholder="Enter FS Area (in Ha.)" (keypress)="validateDecimal($event)" >
+                                                        formControlName="nsc" placeholder="Enter NSC" (keypress)="validateDecimal($event)" >
                                                     <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['fs_area'].invalid && ngForm.controls['fs_area'].dirty || ngForm.controls['fs_area'].touched">
-                                                        <span *ngIf=" ngForm.controls['fs_area'].errors?.['required']">
-                                                            Please Enter FS Area (in Ha.).
+                                                        *ngIf="submitted ||ngForm.controls['nsc'].invalid && ngForm.controls['nsc'].dirty || ngForm.controls['nsc'].touched">
+                                                        <span *ngIf=" ngForm.controls['nsc'].errors?.['required']">
+                                                            Enter only decimal number upto 2 digit
                                                         </span>
 
                                                     </div>
@@ -262,23 +261,83 @@
                                         <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="fs_quant" class="left-heading required">
-                                                        FS Quantity
+                                                    <label for="sfci" class="left-heading required">
+                                                        SFCI
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="fs_quant" placeholder="Enter FS Quantity" (keypress)="validateDecimal($event)">
+                                                        formControlName="sfci" placeholder="Enter NSC" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['fs_quant'].invalid && ngForm.controls['fs_quant'].dirty || ngForm.controls['fs_quant'].touched">
-                                                        <span *ngIf=" ngForm.controls['fs_quant'].errors?.['required']">
-                                                            Please Enter FS Quantity.
+                                                        *ngIf="submitted ||ngForm.controls['sfci'].invalid && ngForm.controls['sfci'].dirty || ngForm.controls['sfci'].touched">
+                                                        <span *ngIf=" ngForm.controls['sfci'].errors?.['required']">
+                                                            Enter only decimal number upto 2 digit
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="row">
+                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <label for="pvt" class="left-heading required">
+                                                       Priavte
+                                                    </label>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <input type="number" class=" form-control input-inventory"
+                                                        formControlName="pvt" placeholder="Enter DOA" (keypress)="validateDecimal($event)">
+                                                    <div class="username errorMessage"
+                                                        *ngIf="submitted ||ngForm.controls['pvt'].invalid && ngForm.controls['pvt'].dirty || ngForm.controls['pvt'].touched">
+                                                        <span *ngIf=" ngForm.controls['pvt'].errors?.['required']">
+                                                            Please Enter DOA
                                                         </span>
 
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <label for="others" class="left-heading required">
+                                                        Others
+                                                    </label>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <input type="number" class=" form-control input-inventory"
+                                                        formControlName="others" placeholder="Enter SSC" (keypress)="validateDecimal($event)">
+                                                    <div class="username errorMessage"
+                                                        *ngIf="submitted ||ngForm.controls['others'].invalid && ngForm.controls['others'].dirty || ngForm.controls['others'].touched">
+                                                        <span *ngIf=" ngForm.controls['others'].errors?.['required']">
+                                                            Please Enter SSC
+                                                        </span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <label for="total" class="left-heading required">
+                                                        Total
+                                                    </label>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <input type="number" class=" form-control input-inventory" 
+                                                        formControlName="total" readonly>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
 
                                     </div>
                                 </div>
@@ -313,50 +372,38 @@
                         <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12">
                             <div class="list-wrapper">
                                 <div class="row d-none d-md-flex data-row-header">
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">S/N</div>
+                                    <div class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">S/N</div>
                                     <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                         Season</div>
                                     <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        class="col-9 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                         Crop</div>
                                     <div
                                         class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                         Variety</div>
                                     <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                         Category</div>
                                     <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        class="col-4 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                         Unit
                                     </div>
-
                                     <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                        CS Area<br>(in Ha.)
-                                    </div>
-
-                                    <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                        CS Quantity
+                                    class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                    Seed Distribution</div>    
+                                 <div
+                                        class="col-4 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
+                                        Total
                                     </div>
                                     <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                        FS Area<br>(in Ha.)
-                                    </div>
-
-                                    <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                        FS Quantity
-                                    </div>
-                                    <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                         Actions</div>
                                 </div>
                                 <div>
                                     <div *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index"
                                         class="row data-row">
-                                        <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center ">
+                                        <div class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center ">
                                             <div class="w-fit-content">
                                                 <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
                                                 <span title="{{(filterPaginateSearch.itemListCurrentPage - 1) *
@@ -366,7 +413,7 @@
                                             </div>
                                         </div>
                                         <div
-                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
                                                 <label class="d-md-none" class="d-md-none"><b>Season:</b>&nbsp;</label>
                                                 <span>
@@ -375,7 +422,7 @@
                                             </div>
                                         </div>
                                         <div
-                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                            class="col-9 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
                                                 <label class="d-md-none" class="d-md-none"><b>Crop:</b>&nbsp;</label>
                                                 <span>
@@ -391,58 +438,55 @@
                                             </div>
                                         </div>
                                         <div
-                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
-                                                <label class="d-md-none" class="d-md-none"><b>Category:</b>&nbsp;</label>
-                                                <span>{{data&&data.category?data.category:""}}</span>
+                                                <label class="d-md-none" class="d-md-none"><b>Type:</b>&nbsp;</label>
+                                                <span>{{data&&data.seedType?data.seedType:""}}</span>
                                             </div>
                                         </div>
 
                                         <div
-                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
                                                 <label class="d-md-none" class="d-md-none"><b>Unit:</b>&nbsp;</label>
                                                 <span>{{data && data.unit ? data.unit : ""}}</span>
                                             </div>
                                         </div>
                                         <div
-                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none" class="d-md-none"><b>Seed Distribution:</b>&nbsp;</label>
+                                            <span>
+                                                <td style="font-weight: 500;">
+                                                    <span><b class="font-weight-bold">DOA:</b> {{data && data.doa ?
+                                                            formatNumber(data.doa) : 0}},
+                                                            <b class="font-weight-bold">SSC: </b>{{data && data.ssc ?
+                                                            formatNumber(data.ssc)  : 0}}</span><br>
+                                                    <span><b class="font-weight-bold">NSC:</b> {{data && data.nsc ?
+                                                            formatNumber(data.nsc) : 0}},
+                                                            <b class="font-weight-bold">SFCI: </b>{{data && data.sfci ?
+                                                            formatNumber(data.sfci)  : 0}}</span><br>
+                                                    <span><b class="font-weight-bold">Private:</b> {{data && data.private ?
+                                                        formatNumber(data.private) : 0}},
+                                                        <b class="font-weight-bold">Others: </b>{{data && data.others ?
+                                                        formatNumber(data.others)  : 0}}</span><br>
+                                            </td>
+                                            </span>
+                                        </div>
+                                    </div>
+                                                                
+                                        
+                                        <div
+                                            class="col-4 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
-                                                <label class="d-md-none" class="d-md-none"><b>CS Area (in Ha.):</b>&nbsp;</label>
+                                                <label class="d-md-none" class="d-md-none"><b>Total:</b>&nbsp;</label>
                                                 <span>
-                                                    {{data && data.cs_area ? formatNumber(data.cs_area) : ""}}
+                                                    {{data && data.total ? formatNumber(data.total) : ""}}
                                                 </span>
                                             </div>
                                         </div>
                                         <div
-                                            class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                            <div class="w-fit-content">
-                                                <label class="d-md-none" class="d-md-none"><b>CS Quantity:</b>&nbsp;</label>
-                                                <span>
-                                                    {{data && data.cs_quant ? formatNumber(data.cs_quant) : ""}}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                            <div class="w-fit-content">
-                                                <label class="d-md-none" class="d-md-none"><b>FS Area (in Ha.):</b>&nbsp;</label>
-                                                <span>
-                                                    {{data && data.fs_area ? formatNumber(data.fs_area) : ""}}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                            <div class="w-fit-content">
-                                                <label class="d-md-none" class="d-md-none"><b>CS Quantity:</b>&nbsp;</label>
-                                                <span>
-                                                    {{data && data.fs_quant ? formatNumber(data.fs_quant) : ""}}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                             <div
                                                 class="list-action-buttons-wrapper w-fit-content phone_view_action_btn col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
 

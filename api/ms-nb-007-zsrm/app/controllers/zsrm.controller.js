@@ -232,6 +232,7 @@ exports.saveZsrmReqFs = async(req, res) => {
         crop_code: body.crop_code,
         variety_code: body.variety_code,
         user_id: body.loginedUserid.id,
+        is_active:true
       },
     });
     if(recordExist) {
@@ -1073,21 +1074,18 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
     let unit= "";
     let cropExist = await cropDataModel.findOne({
       where: {
-        id: body.crop_id,
+        crop_code: body.crop_code,
       },
     });
-    console.log(body.crop_id);
-    console.log("crop:", cropExist);
     if (!cropExist) {
       return response(res, "Crop Not Found", 404, {});
     }
 
     let varietyExist = await varietyModel.findOne({
       where: {
-        id: body.variety_id,
+        variety_code: body.variety_code,
       },
     });
-    console.log("varity:", varietyExist);
     if (!varietyExist) {
       return response(res, "Variety Not Found", 404, {});
     }
@@ -1096,9 +1094,10 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
       where: {
         year: body.year,
         season: body.season,
-        crop_id: body.crop_id,
-        variety_id: body.variety_id,
-        user_id: body.loginedUserid.id
+        crop_code: body.crop_code,
+        variety_code: body.variety_code,
+        user_id: body.loginedUserid.id,
+        is_active: true
       },
     });
     if(recordExist && recordExist.isFinalSubmitted==true) {
@@ -1106,20 +1105,22 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
     }
     else if (recordExist && recordExist.isFinalSubmitted==false) {
 
-      if(await zsrmreqqsdistModel.findOne({zsrmreqfs_id: recordExist.id, district_id: body.district_id })) {
+      if(await zsrmreqqsdistModel.findOne({zsrmreqfs_id: recordExist.id, district_id: body.district_id, is_active:true })) {
         return response(res, "Record already exist for this district", 409, {});
       }
 
-      const recordDist = await zsrmreqqsdistModel.create(
+      await zsrmreqqsdistModel.create(
         {
           zsrmreqfs_id: recordExist.id,
           district_id: body.district_id,
           req: body.req,
           avl: body.avl,
-          shtorsur: body.avl - body.req
+          shtorsur: body.shtorsur
         }
-      )
+      ).then(() => response(res, status.DATA_SAVE, 200) )
+      .catch(() => response(res, status.DATA_NOT_SAVE, 404));
     }
+
       if ((cropExist.crop_code).slice(0, 1) == 'A') {
         crop_type = 'agriculture';
         unit = 'qt';
@@ -1145,8 +1146,8 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
           year: body.year,
           season: body.season,
           crop_type: crop_type,
-          crop_id: body.crop_id,
-          variety_id: body.variety_id,
+          crop_code: body.crop_code,
+          variety_code: body.variety_code,
           user_id: body.loginedUserid.id,
           unit: unit,
           state_id: state.state_id,
@@ -1210,7 +1211,7 @@ exports.deleteZsrmReqQs = async (req, res) => {try {
   const dataDeleted = await zsrmreqqsdistModel.update({ is_active: false,  deletedAt: Date.now()},
   {
     where: {
-      id: req.params.id,
+      zsrmreqfs_id: req.params.id,
     },
   },);
   
@@ -1269,6 +1270,7 @@ exports.addSrp = async (req, res) => {
         crop_code: body.crop_code,
         variety_code: body.variety_code,
         user_id: body.loginedUserid.id,
+        is_active:true
       },
     });
     if(recordExist) {
@@ -2167,6 +2169,7 @@ exports.addSrr = async (req, res) => {
         crop_code: body.crop_code,
         seed_type: body.seed_type,
         user_id: body.loginedUserid.id,
+        is_active:true
       },
     });
 
@@ -2447,6 +2450,10 @@ return response(res, status.DATA_NOT_AVAILABLE, 404)
     srr:item.m_crop.srr,
     seed_type: item.seed_type,
     unit: item.unit,
+    targetAreaUnderCropInHa: parseFloat(item.plannedAreaUnderCropInHa),
+    targetSeedRateInQtPerHt: parseFloat(item.seedRateInQtPerHt),
+    targetSeedQuanDis: parseFloat(item.plannedSeedQuanDis),
+    targetSrr: parseFloat(item.plannedSrr),
     areaSownUnderCropInHa:parseFloat(item.areaSownUnderCropInHa),
     seedRateAcheived: parseFloat(item.seedRateAcheived),
     seedQuanDis: parseFloat(item.seedQuanDis),
@@ -2789,6 +2796,7 @@ exports.updateSrr =async (req, res) => {
           crop_code: body.crop_code,
           variety_code: body.variety_code,
           user_id: body.loginedUserid.id,
+          is_active: true
         },
       });
       if(recordExist) {
@@ -3054,6 +3062,7 @@ exports.updateSrr =async (req, res) => {
           crop_code: body.crop_code,
           variety_code: body.variety_code,
           user_id: body.loginedUserid.id,
+          is_active:true
         },
       });
       if(recordExist) {
@@ -3323,7 +3332,8 @@ exports.updateSrr =async (req, res) => {
             crop_code: body.crop_code,
             variety_code: body.variety_code,
             user_id: body.loginedUserid.id,
-            seedType: body.seedType
+            seedType: body.seedType,
+            is_active:true
           },
         });
         if(recordExist) {
@@ -3361,7 +3371,7 @@ exports.updateSrr =async (req, res) => {
           others: body.others,
           nsc: body.nsc,
           sfci: body.sfci,
-          private: body.private,
+          private: body.pvt,
           total: body.total,
           state_id: state.state_id,   
         })
@@ -3412,7 +3422,7 @@ exports.updateSrr =async (req, res) => {
             others: body.others,
             nsc: body.nsc,
             sfci: body.sfci,
-            private: body.private,
+            private: body.pvt,
             total: body.total,
           updated_at: Date.now(),},
          ). then(() => response(res, status.DATA_UPDATED, 200, {}) )
@@ -3561,7 +3571,8 @@ exports.updateSrr =async (req, res) => {
             crop_code: body.crop_code,
             variety_code: body.variety_code,
             user_id: body.loginedUserid.id,
-            category: body.category
+            category: body.category,
+            is_active:true
           },
         });
         if(recordExist) {

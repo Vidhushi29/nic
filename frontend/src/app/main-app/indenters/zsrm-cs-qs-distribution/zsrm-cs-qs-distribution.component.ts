@@ -9,13 +9,13 @@ import { ZsrmServiceService } from 'src/app/services/zsrm-service.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-zsrm-cs-fs-area',
-  templateUrl: './zsrm-cs-fs-area.component.html',
-  styleUrls: ['./zsrm-cs-fs-area.component.css']
+  selector: 'app-zsrm-cs-qs-distribution',
+  templateUrl: './zsrm-cs-qs-distribution.component.html',
+  styleUrls: ['./zsrm-cs-qs-distribution.component.css']
 })
-export class ZsrmCsFsAreaComponent implements OnInit {
-
-    @ViewChild(PaginationUiComponent) paginationUiComponent!: PaginationUiComponent;
+export class ZsrmCsQsDistributionComponent implements OnInit {
+  
+  @ViewChild(PaginationUiComponent) paginationUiComponent!: PaginationUiComponent;
     ngForm!: FormGroup;
     filterPaginateSearch: FilterPaginateSearch = new FilterPaginateSearch();
     allData: any = [];
@@ -92,7 +92,7 @@ export class ZsrmCsFsAreaComponent implements OnInit {
         confirmButtonText: "Yes, delete it!"
       }).then((result) => {
         if (result.isConfirmed) {
-          const route = `delete-zsrm-cs-fs-area/${id}`;
+          const route = `delete-zsrm-cs-qs-dist/${id}`;
           this.zsrmServiceService.deleteRequestCreator(route, null,).subscribe(data => {
             if (data.Response.status_code === 200) {
               Swal.fire({
@@ -122,13 +122,30 @@ export class ZsrmCsFsAreaComponent implements OnInit {
         crop: ['', [Validators.required]],
         variety: ['', [Validators.required]],
         category: ['', [Validators.required]],
-        cs_area: [0, [Validators.required]],
-        cs_quant: [0, [Validators.required]],
-        fs_area: [0, [Validators.required]],
-        fs_quant: [0, [Validators.required]],
+        ssc: [0, [Validators.required]],
+         doa: [0, [Validators.required]],
+        nsc: [0, [Validators.required]],
+      sfci: [0, [Validators.required]],
+      pvt: [0, [Validators.required]],
+      others: [0, [Validators.required]],
+      total: [{ value: 0, disabled: true }],
         crop_text: [''],
         variety_text: ['']
   
+      });
+      this.ngForm.valueChanges.subscribe(values => {
+        const total =
+          (values.ssc || 0) +
+          (values.doa || 0) +
+          (values.sfci || 0) +
+          (values.pvt || 0) +
+          (values.nsc || 0) +
+          (values.others || 0);
+
+        this.ngForm.patchValue(
+          { total: this.formatNumber(total) },
+          { emitEvent: false }
+        );
       });
       this.ngForm.controls['year'].valueChanges.subscribe(() => this.resetSelections());
       this.ngForm.controls['season'].valueChanges.subscribe(() => this.resetSelections());
@@ -180,13 +197,15 @@ export class ZsrmCsFsAreaComponent implements OnInit {
         this.selectCrop = cropName;
         this.ngForm.controls['year'].patchValue(data.year);
         this.ngForm.controls['season'].patchValue(data.season);
-        this.ngForm.controls['category'].patchValue(data.category);
+        this.ngForm.controls['category'].patchValue(data.seedType);
         this.ngForm.controls['crop'].patchValue(data.crop_code);
         this.getVarietyData(data.variety_code);
-        this.ngForm.controls['cs_area'].patchValue(data.cs_area);
-        this.ngForm.controls['cs_quant'].patchValue(data.cs_quant);
-        this.ngForm.controls['fs_area'].patchValue(data.fs_area);
-        this.ngForm.controls['fs_quant'].patchValue(data.fs_quant);
+        this.ngForm.controls['doa'].patchValue(data.doa);
+        this.ngForm.controls['ssc'].patchValue(data.ssc);
+        this.ngForm.controls['nsc'].patchValue(data.nsc);
+        this.ngForm.controls['sfci'].patchValue(data.sfci);
+        this.ngForm.controls['pvt'].patchValue(data.private);
+        this.ngForm.controls['others'].patchValue(data.others);
         this.disableUpperSection=true;
         }
     }
@@ -231,7 +250,7 @@ export class ZsrmCsFsAreaComponent implements OnInit {
       this.cropData = this.croplistSecond;
       this.ngForm.controls['crop'].setValue(item && item.crop_code ? item.crop_code : '')
       this.getVarietyData(item.crop_code);
-      this.selectVariety = '';
+      this.selectVariety=''
     }
   
     getCropData() {
@@ -246,10 +265,12 @@ export class ZsrmCsFsAreaComponent implements OnInit {
     revertDataCancelation() {
 
       this.isAddSelected=false;
-      this.ngForm.controls['cs_area'].reset('');
-      this.ngForm.controls['cs_quant'].reset('');
-      this.ngForm.controls['fs_area'].reset('');
-      this.ngForm.controls['fs_quant'].reset('');
+      this.ngForm.controls['doa'].reset('');
+      this.ngForm.controls['ssc'].reset('');
+      this.ngForm.controls['nsc'].reset('');
+      this.ngForm.controls['sfci'].reset('');
+      this.ngForm.controls['pvt'].reset('');
+      this.ngForm.controls['others'].reset('');
       this.is_update = false;
       this.showOtherInputBox = false;
       this.disableUpperSection = false;
@@ -268,22 +289,28 @@ export class ZsrmCsFsAreaComponent implements OnInit {
     saveForm() {
       this.submitted = true;
       this.isShowTable = true;
-      const route = "add-zsrm-cs-fs-area";
-      const cs_area = Number(this.ngForm.controls['cs_area'].value) || 0;
-      const cs_quant = Number(this.ngForm.controls['cs_quant'].value) || 0;
-      const fs_area = Number(this.ngForm.controls['fs_area'].value) || 0;
-      const fs_quant = Number(this.ngForm.controls['fs_quant'].value) || 0;
+      const route = "add-zsrm-cs-qs-dist";
+      const doa = Number(this.ngForm.controls['doa'].value) || 0;
+      const ssc = Number(this.ngForm.controls['ssc'].value) || 0;
+      const others = Number(this.ngForm.controls['others'].value) || 0;
+      const nsc = Number(this.ngForm.controls['nsc'].value) || 0;
+      const sfci = Number(this.ngForm.controls['sfci'].value) || 0;
+      const pvt = Number(this.ngForm.controls['pvt'].value) || 0;
+      const total = ssc + doa  + sfci + pvt + nsc + others;
       const baseParam = {
         "user_id": this.authUserId,
         "year": this.ngForm.controls['year'].value,
         "season": this.ngForm.controls['season'].value,
         "crop_code": this.ngForm.controls['crop'].value,
         "variety_code": this.ngForm.controls['variety'].value,
-        "category": this.ngForm.controls['category'].value,
-        "cs_area": cs_area,
-        "cs_quant": cs_quant,
-        "fs_area": fs_area,
-        "fs_quant": fs_quant
+        "seedType": this.ngForm.controls['category'].value,
+        "doa": doa,
+        "ssc": ssc,
+        "others": others,
+        "nsc": nsc,
+        "sfci": sfci,
+        "pvt": pvt,
+        "total": total
       };
   
       this.zsrmServiceService.postRequestCreator(route, null, baseParam).subscribe(data => {
@@ -297,10 +324,12 @@ export class ZsrmCsFsAreaComponent implements OnInit {
             confirmButtonColor: '#E97E15'
           }).then(x => {
             this.getPageData();
-            this.ngForm.controls['cs_area'].reset('');
-            this.ngForm.controls['cs_quant'].reset('');
-            this.ngForm.controls['fs_area'].reset('');
-            this.ngForm.controls['fs_quant'].reset('');
+            this.ngForm.controls['doa'].reset(0);
+            this.ngForm.controls['ssc'].reset(0);
+            this.ngForm.controls['others'].reset(0);
+            this.ngForm.controls['nsc'].reset(0);
+            this.ngForm.controls['sfci'].reset(0);
+            this.ngForm.controls['pvt'].reset(0);
             this.submitted = false;
             this.isAddSelected=false;
           })
@@ -358,11 +387,11 @@ export class ZsrmCsFsAreaComponent implements OnInit {
       if (season) queryParams.push(`season=${encodeURIComponent(season)}`);
       if (crop) queryParams.push(`crop_code=${encodeURIComponent(crop)}`);
       if (variety) queryParams.push(`variety_code=${encodeURIComponent(variety)}`);
-      if (category) queryParams.push(`category=${encodeURIComponent(category)}`);
+      if (category) queryParams.push(`seed_type=${encodeURIComponent(category)}`);
       queryParams.push(`page=${encodeURIComponent(page)}`); // Add page to query params
       queryParams.push(`limit=${encodeURIComponent(pageSize)}`); // Add pageSize (limit) to query params
     
-      const apiUrl = `view-zsrm-cs-fs-area-all?${queryParams.join('&')}`;
+      const apiUrl = `view-zsrm-cs-qs-dist-all?${queryParams.join('&')}`;
       this.zsrmServiceService
         .getRequestCreator(apiUrl)
         .subscribe(
@@ -400,18 +429,23 @@ export class ZsrmCsFsAreaComponent implements OnInit {
     updateForm() {
       this.submitted = true;
       this.isShowTable = true;
-      const route = `update-zsrm-cs-fs-area/${this.dataId}`;
-      const cs_area = Number(this.ngForm.controls['cs_area'].value) || 0;
-      const cs_quant = Number(this.ngForm.controls['cs_quant'].value) || 0;
-      const fs_area = Number(this.ngForm.controls['fs_area'].value) || 0;
-      const fs_quant = Number(this.ngForm.controls['fs_quant'].value) || 0;
+      const route = `update-zsrm-cs-qs-dist/${this.dataId}`;
+      const doa = Number(this.ngForm.controls['doa'].value) || 0;
+      const ssc = Number(this.ngForm.controls['ssc'].value) || 0;
+      const others = Number(this.ngForm.controls['others'].value) || 0;
+      const nsc = Number(this.ngForm.controls['nsc'].value) || 0;
+      const sfci = Number(this.ngForm.controls['sfci'].value) || 0;
+      const pvt = Number(this.ngForm.controls['pvt'].value) || 0;
+      const total = ssc + doa  + sfci + pvt + nsc + others;
       const baseParam = {
-        "cs_area": cs_area,
-        "cs_quant": cs_quant,
-        "fs_area": fs_area,
-        "fs_quant": fs_quant
+        "doa": doa,
+        "ssc": ssc,
+        "others": others,
+        "nsc": nsc,
+        "sfci": sfci,
+        "pvt": pvt,
+        "total": total
       };
-  
    
     
       this.zsrmServiceService.putRequestCreator(route,null,baseParam).subscribe(data => {
@@ -424,13 +458,15 @@ export class ZsrmCsFsAreaComponent implements OnInit {
             confirmButtonColor: '#E97E15'
           }).then(() => {
             this.getPageData();
-            this.ngForm.controls['cs_area'].reset('');
-            this.ngForm.controls['cs_quant'].reset('');
-            this.ngForm.controls['fs_area'].reset('');
-            this.ngForm.controls['fs_quant'].reset('');
+            this.ngForm.controls['doa'].reset(0);
+            this.ngForm.controls['ssc'].reset(0);
+            this.ngForm.controls['others'].reset(0);
+            this.ngForm.controls['nsc'].reset(0);
+            this.ngForm.controls['sfci'].reset(0);
+            this.ngForm.controls['pvt'].reset(0);
             this.submitted = false;
             this.isAddSelected=false;
-            this.disableUpperSection = false;
+            this.disableUpperSection= false;
           });
         } else {
           Swal.fire({
@@ -469,7 +505,4 @@ export class ZsrmCsFsAreaComponent implements OnInit {
     }
 
 
-    
-  }
-  
-  
+}

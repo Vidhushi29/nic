@@ -244,6 +244,7 @@ import { CropStatusReportComponent } from './crop-status-report/crop-status-repo
 import { ZsrmComponent } from './indenters/zsrm/zsrm.component';
 import { ZsrmCsFsAreaComponent } from './indenters/zsrm-cs-fs-area/zsrm-cs-fs-area.component';
 import { SrrComponent } from './indenters/srr/srr.component';
+import { ZsrmCsQsDistributionComponent } from './indenters/zsrm-cs-qs-distribution/zsrm-cs-qs-distribution.component';
 // import { AddZsrmFormComponent } from './indenters/add-zsrm-form/add-zsrm-form.component';
 // import { GenerateCardQrComponent } from '../generate-card-qr/generate-card-qr.component';
 // import { BillReceiptQrComponent } from '../bill-receipt-qr/bill-receipt-qr.component';
@@ -447,6 +448,7 @@ import { SrrComponent } from './indenters/srr/srr.component';
     ZsrmComponent,
     ZsrmCsFsAreaComponent,
     SrrComponent,
+    ZsrmCsQsDistributionComponent,
     // AddZsrmFormComponent
   
     // GenerateCardQrComponent
