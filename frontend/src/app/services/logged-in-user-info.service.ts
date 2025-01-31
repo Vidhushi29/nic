@@ -1028,6 +1028,199 @@ export class LoggedInUserInfoService {
           href: "/requirement-of-Foundation-Seed",
          
         },
+        {
+          icon: "seeding.svg",
+          name: " VARIETY-WISE CONVERSION OF BREEDER SEED INTO FOUNDATION SEED ",
+          href: "/conversion-of-BStoFS",
+         
+         },
+        // {
+        //   "name": "Submission of indent of Breeder Seed by State",
+        //   "href": "/submission-of-indent-of-breeder-seed-by-state-report",
+        //   "icon": "Add_Breeder.svg"
+        // },
+        // {
+        //   "name": "Submitted Indents of Breeder Seed",
+        //   "href": "/submission-for-indents-of-breeder-seed-report",
+        //   "icon": "seeding.svg"
+        // },
+
+        // {
+        //   "name": "Allocated Quantity of Breeder Seed to SPAs for Lifting",
+        //   "href": "/spa-allocation-report",
+        //   "icon": "seeding.svg"
+        // },
+        // {
+        //   "name": "Allocated Quantity by Seed Division for Lifting",
+        //   "href": "/allocated-quantity-seed-division",
+        //   "icon": "seeding.svg"
+        // },
+        // {
+        //   "name": "Status of Lifting/Non-Lifting of Breeder Seed (Crop Wise)",
+        //   "href": "/status-of-lifting-non-lifting-of-breeder-seed-crop-wise",
+        //   "icon": "seeding.svg"
+        // },
+        // {
+        //   "name": "Status of Lifting/Non-Lifting of Breeder Seed (SPA Wise)",
+        //   "href": "/spa-wise-status-lifting-non-of-breeder-seed",
+        //   "icon": "seeding.svg"
+        // },
+
+        // {
+        //   "name": " Allocated Quantity by Seed Division for Lifting",
+        //   "href": "/indenter-report",
+        //   "icon": "seeding.svg"
+        // },
+        // {
+        //   "name": "Allocated Quantity of Breeder Seed to SPAs for Lifting",
+        //   "href": "/indenter-report",
+        //   "icon": "seeding.svg"
+        // },
+        // {
+        //   "name": "Status of Lifting/Non-Lifting of Breeder Seed",
+        //   "href": "/indenter-report",
+        //   "icon": "Add_Breeder.svg"
+        // },
+
+        // {
+        //   "name": "List of Indenters",
+        //   "href": "/list-of-indentors-report",
+        //   "icon": "add_indentor.svg"
+        // },
+        // {
+        //   "name": "Maximum LOT Size for Each Crop",
+        //   "href": "/maximum-lot-size-for-each-crop-report",
+        //   "icon": "size_one.svg"
+        // },
+        // {
+        //   "name": "Nucleus Seed Availability Report",
+        //   "href": "/nucleus-seed-availability-report",
+        //   "icon": "Add_Breeder.svg"
+        // },
+
+      );
+
+      if (this.username == "ind-nsc") {
+
+        subMenuCollection.push(
+          {
+            "name": "Compile Production Report",
+            "href": "/ms014/nscRo/growerWiseData",
+            "icon": "seeding.svg"
+          },
+        )
+      }
+    }
+
+    if (this.userRole == "SPP") {
+
+    }
+
+    if (this.userRole == "BPC") {
+      subMenuCollection.push(
+        {
+          "name": "BSP iii Report",
+          "href": "/bsp-third-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "BSP ii Report",
+          "href": "/bsp-2-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Assign Crop/Variety to BSPCs",
+          "href": "/assigned-crop-variety-report",
+          "icon": "Add_Breeder.svg"
+        },
+
+        {
+          "name": "Created LOT Numbers",
+          "href": "/created-lot-numbers-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Bill/Payment/Certificate",
+          "href": "/bill-payment-certificate-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Seed Testing Laboratory Results",
+          "href": "/seed-testing-laboratory-results-reports",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Generated Label Numbers",
+          "href": "/generated-label-numbers",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Breeder Crop List",
+          "href": "/list-of-breeders-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Nucleus Seed Availability Report",
+          "href": "/nucleus-seed-availability-report",
+          "icon": "Add_Breeder.svg"
+        },
+        {
+          "name": "Allocation of Breeder Seeds to Indenters for Lifting",
+          "href": "/allocation-of-breeder-seeds-to-indentors-for-lifting-report",
+          "icon": "character.svg"
+        },
+
+        {
+          "name": "Lifting/ Utilization of Breeder Seed Report",
+          "href": "/lifting-utilization-of-breeder-seed-report",
+          "icon": "character.svg"
+        }
+      );
+    }
+
+    subMenuCollection = subMenuCollection.concat(
+      [
+        // {
+        //     "name": "List of Breeders",
+        //     "href": "/list-of-breeders-report",
+        //     "icon": "Add_Breeder.svg"
+        //   },
+        // {
+        //   "name": "Lifting/ Utilization of Breeder Seed Report",
+        //   "href": "/lifting-utilization-of-breeder-seed-report",
+        //   "icon": "character.svg"
+        // }
+      ]);
+
+    return subMenuCollection;
+  }
+
+
+  get getSRPMenu() {
+    let subMenuCollection = [
+    ];
+
+  
+    if (this.userRole == "IN") {
+      // if (  this.username == "ind-nsai") {
+
+      //   subMenuCollection.push(
+      //     {
+      //       "name": "Compile Production Report",
+      //       "href": "/ms014/nscRo/growerWiseData",
+      //       "icon": "seeding.svg"
+      //     },
+      //   )
+      // }
+
+      subMenuCollection.push(
+
+        {
+          icon: "seeding.svg",
+          name: "Seed Rolling Plan",
+          href: "/SeedRollingPlan",
+         
+        },
 
         // {
         //   "name": "Submission of indent of Breeder Seed by State",
@@ -1792,9 +1985,10 @@ export class LoggedInUserInfoService {
           
           {
             icon: "seeding.svg",
-            name: "Allocation of Breeder Seed to SPAs for Lifting",
-            href: "allocation-breeder-seed-spa-wise",
-            subMenus: undefined
+            name: "Seed Rolling Plan",
+            href: "javascript:void(0)",
+            active: false,
+            subMenus: this.getSRPMenu
           },
           // {
           //   icon: "seeding.svg",
@@ -1809,7 +2003,12 @@ export class LoggedInUserInfoService {
           //   subMenus: undefined
           // },
        
-
+          {
+            icon: "seeding.svg",
+            name: "SRP",
+            href: "/SeedRollingPlan",
+            subMenus: undefined
+          },
           {
             icon: "Reports.svg",
             name: "Reports",

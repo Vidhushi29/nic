@@ -98,6 +98,8 @@ import { BillReceiptQrComponent } from './bill-receipt-qr/bill-receipt-qr.compon
 import { GenerateCardQrComponent } from './generate-card-qr/generate-card-qr.component';
 import { MobileAppComponent } from './mobile-app/mobile-app.component';
 import { TagNumberVerificationQrComponent } from './tag-number-verification-qr/tag-number-verification-qr.component';
+import { ZsrmbstofsComponent } from './main-app/indenters/zsrmbstofs/zsrmbstofs.component';
+import { SrpComponent } from './main-app/indenters/srp/srp.component';
 // import { GenerateCardQrComponent } from './generate-card-qr/generate-card-qr.component';
 // import { NgxPrintModule } from 'ngx-print';
 
@@ -183,7 +185,8 @@ import { TagNumberVerificationQrComponent } from './tag-number-verification-qr/t
     BillReceiptQrComponent,
     MobileAppComponent,
     TagNumberVerificationQrComponent,
-
+    ZsrmbstofsComponent,
+    SrpComponent 
     // GenerateCardQr
     // GenerateCardQrComponent
     // BspcWiseAssi
