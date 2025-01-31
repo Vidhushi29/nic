@@ -179,7 +179,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="req" placeholder="Enter req" (input)="validate($event)">
+                                                        formControlName="req" placeholder="Enter req"(keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['req'].invalid && ngForm.controls['req'].dirty || ngForm.controls['req'].touched">
                                                         <span *ngIf=" ngForm.controls['req'].errors?.['required']">
@@ -200,7 +200,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="ssc" placeholder="Enter ssc" (input)="validate($event)">
+                                                        formControlName="ssc" placeholder="Enter ssc"(keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['ssc'].invalid && ngForm.controls['ssc'].dirty || ngForm.controls['ssc'].touched">
                                                         <span *ngIf=" ngForm.controls['ssc'].errors?.['required']">
@@ -220,7 +220,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="doa" placeholder="Enter DOA" (input)="validate($event)">
+                                                        formControlName="doa" placeholder="Enter DOA" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['doa'].invalid && ngForm.controls['doa'].dirty || ngForm.controls['doa'].touched">
                                                         <span *ngIf=" ngForm.controls['doa'].errors?.['required']">
@@ -240,7 +240,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="sau" placeholder="Enter Email ID" (input)="validate($event)">
+                                                        formControlName="sau" placeholder="Enter Email ID" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['sau'].invalid && ngForm.controls['sau'].dirty || ngForm.controls['sau'].touched">
                                                         <span *ngIf=" ngForm.controls['sau'].errors?.['required']">
@@ -260,7 +260,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="nsc" placeholder="Enter nsc" (input)="validate($event)">
+                                                        formControlName="nsc" placeholder="Enter nsc" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['nsc'].invalid && ngForm.controls['nsc'].dirty || ngForm.controls['nsc'].touched">
                                                         <span *ngIf=" ngForm.controls['nsc'].errors?.['required']">
@@ -280,7 +280,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="sfci" placeholder="Enter sfci" (input)="validate($event)">
+                                                        formControlName="sfci" placeholder="Enter sfci" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['sfci'].invalid && ngForm.controls['sfci'].dirty || ngForm.controls['sfci'].touched">
                                                         <span *ngIf=" ngForm.controls['sfci'].errors?.['required']">
@@ -300,7 +300,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="pvt" placeholder="Enter Pvt" (input)="validate($event)">
+                                                        formControlName="pvt" placeholder="Enter Pvt" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['pvt'].invalid && ngForm.controls['pvt'].dirty || ngForm.controls['pvt'].touched">
                                                         <span *ngIf=" ngForm.controls['pvt'].errors?.['required']">
@@ -340,7 +340,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="others" placeholder="Enter Others" (input)="validate($event)">
+                                                        formControlName="others" placeholder="Enter Others"(keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['others'].invalid && ngForm.controls['others'].dirty || ngForm.controls['others'].touched">
                                                         <span *ngIf=" ngForm.controls['others'].errors?.['required']">
@@ -361,7 +361,6 @@
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory" 
                                                         formControlName="total" readonly>
-
                                                 </div>
                                             </div>
                                         </div>

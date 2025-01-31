@@ -42,7 +42,7 @@ export class ZsrmComponent implements OnInit {
   dataId: any;
   authUserId: any;
   isVarietySelected = false;
-  isEditMode:boolean= false;
+  isEditMode: boolean = false;
   isShowTable = false;
   varietyAndQuantity: any[] = [];
   unit: string = '';
@@ -55,8 +55,8 @@ export class ZsrmComponent implements OnInit {
   isAddSelected: boolean = false;
   isPatchData: boolean;
   formBuilder: any;
-  update_Form: boolean=false;
-  isChangeMessage:string;
+  update_Form: boolean = false;
+  isChangeMessage: string;
 
   constructor(
     private fb: FormBuilder,
@@ -100,35 +100,23 @@ export class ZsrmComponent implements OnInit {
 
   SaveAsData() {
     this.isAddSelected = true;
-    this. isChangeMessage="Entre the Source Availability"
+    this.isChangeMessage = "Entre the Source Availability"
     this.resetCancelation()
-    
+
   }
-  validate(event: any): void {
-    const inputElement = event.target;
-    const t = inputElement.value;
+  validateDecimal(event: any): void {
+    const input = event.target as HTMLInputElement;
+    const regex = /^[0-9]+(\.[0-9]{0,2})?$/;
 
-    // Allow numbers with up to two decimal places
-    const regex = /^\d*\.?\d{0,2}$/;
-
-    // Get cursor position
-    const cursorPosition = inputElement.selectionStart;
-
-    // Check if the value matches the regex
-    if (regex.test(t)) {
-        inputElement.dataset.previousValue = t; // Save valid value
-    } else {
-        inputElement.value = inputElement.dataset.previousValue || ''; // Revert to the last valid value
+    const newValue = input.value + event.key;
+    if (!regex.test(newValue) || (event.key === '.' && input.value.includes('.'))) {
+      event.preventDefault();
     }
+  }
 
-    // Restore the cursor position
-    const adjustment = inputElement.value.length - t.length;
-    inputElement.setSelectionRange(cursorPosition + adjustment, cursorPosition + adjustment);
-}
-
-formatNumber(value: number) {
-  return value ? value.toFixed(2) : '';
-}
+  formatNumber(value: number) {
+    return value ? value.toFixed(2) : '';
+  }
   createForm() {
     this.ngForm = this.fb.group({
       year: ['', [Validators.required]],
@@ -149,6 +137,15 @@ formatNumber(value: number) {
       crop_text: [''],
       variety_text: ['']
 
+    });
+    this.ngForm.valueChanges.subscribe((formValues) => {
+      const { year, crop, season, variety } = formValues;
+
+      if (year || crop || season || variety) {
+        this.getPageData();
+        this.isShowTable = true
+
+      }
     });
     this.ngForm.valueChanges.subscribe(values => {
       const total =
@@ -197,17 +194,16 @@ formatNumber(value: number) {
 
   patchDataForUpdate(data: any) {
     this.isAddSelected = true
-    this. isChangeMessage="Update the Source Availability"
-    this.isEditMode=true
+    this.isChangeMessage = "Update the Source Availability"
+    this.isEditMode = true
     this.is_update = true;
     this.dataId = data.id;
     const cropName = this.cropData.find(crop => crop.crop_code === data.crop_code)?.crop_name;
-      if (data) {
+    if (data) {
       this.selectCrop = cropName;
       this.ngForm.controls['year'].patchValue(data.year);
       this.ngForm.controls['season'].patchValue(data.season);
       this.ngForm.controls['crop'].patchValue(data.crop_code);
-      
       const firstChar = (data?.crop_code || '').substring(0, 1);
       if (firstChar == 'H') {
         this.showQuantity = true;
@@ -230,8 +226,8 @@ formatNumber(value: number) {
         { total: data.total, shtorsub: data.shtorsur },
         { emitEvent: false }
       );
-      
-      }
+
+    }
   }
   variety(item: any) {
     const indentQntControl = this.ngForm.get('indent_qnt');
@@ -258,7 +254,7 @@ formatNumber(value: number) {
 
   searchData() {
     this.isShowTable = true;
-    this.isAddSelected=false;
+    this.isAddSelected = false;
     this.getPageData();
   }
   cClick() {
@@ -286,13 +282,13 @@ formatNumber(value: number) {
     })
   }
   revertDataCancelation() {
-    this.isShowTable=true
+    this.isShowTable = true
     this.is_update = false;
-    this.isAddSelected=false;
+    this.isAddSelected = false;
     this.showOtherInputBox = false;
-  
+
   }
-  
+
   resetCancelation() {
     this.ngForm.controls['nsc'].reset(0);
     this.ngForm.controls['remarks'].reset(0);
@@ -305,24 +301,24 @@ formatNumber(value: number) {
     this.ngForm.controls['ssc'].patchValue(0);
     this.is_update = false;
     this.showOtherInputBox = false;
-  
+
   }
-  
-  
+
+
   saveForm() {
     this.submitted = true;
     this.isShowTable = true;
     const route = "add-req-fs";
     const req = this.ngForm.controls['req'].value || 0;
     const ssc = this.ngForm.controls['ssc'].value || 0;
-    const doa = this.ngForm.controls['doa'].value|| 0;
+    const doa = this.ngForm.controls['doa'].value || 0;
     const sau = this.ngForm.controls['sau'].value || 0;
     const sfci = this.ngForm.controls['sfci'].value || 0;
     const pvt = this.ngForm.controls['pvt'].value || 0;
     const nsc = this.ngForm.controls['nsc'].value || 0;
     const others = this.ngForm.controls['others'].value || 0;
-    const total = ssc + doa + sau + sfci + pvt + nsc + others;
-    const shtorsur = total - req;
+    const total = (ssc + doa + sau + sfci + pvt + nsc + others);
+    const shtorsur = (total - req);
     const baseParam = {
       "user_id": this.authUserId,
       "year": this.ngForm.controls['year'].value,
@@ -377,66 +373,60 @@ formatNumber(value: number) {
           confirmButtonColor: '#E97E15'
         });
       }
-    })};
+    })
+  };
 
-createAndSave() {
-  this.isShowTable=true
+  createAndSave() {
+    this.isShowTable = true
     this.submitted = true;
     this.saveForm();
   }
   getVarietyData(varietyCode: any) {
     this.ngForm.controls['variety'].patchValue('');
-     const crop_code = this.ngForm.controls['crop'].value;
-     this.selectVariety = ''; // Reset the selected variety display
+    const crop_code = this.ngForm.controls['crop'].value;
+    this.selectVariety = ''; // Reset the selected variety display
     const route = `get-all-varieties?crop_code=${crop_code}`;
     this.zsrmServiceService.getRequestCreator(route, null,).subscribe(data => {
       if (data.Response.status_code === 200) {
         this.varietyData = data && data.Response && data.Response.data ? data.Response.data : '';
         this.varietyListSecond = this.varietyData;
         if (this.isEditMode && varietyCode) {
-          // Set the variety based on the code if in edit mode
           const varietyName = this.varietyData.filter(variety => variety.variety_code === varietyCode);
           this.selectVariety = varietyName.length > 0 ? varietyName[0].variety_name : '';
         }
       } else {
-        // Handle case where no varieties are available for the selected crop
         this.varietyData = [];
         this.varietyListSecond = [];
-      
+
       }
     })
   }
 
-  logValue(value: any): void {
-    console.log('Value:', value, 'Type:', typeof value);
-  }
   getPageData(loadPageNumberData: number = 1) {
     this.filterPaginateSearch.itemList = [];
     const year = this.ngForm.controls['year'].value;
-    console.log(year,'year');
     const season = this.ngForm.controls['season'].value;
     const crop = this.ngForm.controls['crop'].value;
     const variety = this.ngForm.controls['variety'].value;
-    const page= loadPageNumberData;
-    const pageSize= this.filterPaginateSearch.itemListPageSize = 5;
-   
+    const page = loadPageNumberData;
+    const pageSize = this.filterPaginateSearch.itemListPageSize = 5;
+
     const queryParams = [];
     if (year) queryParams.push(`year=${encodeURIComponent(year)}`);
-    console.log(year,'2025444')
     if (season) queryParams.push(`season=${encodeURIComponent(season)}`);
     if (crop) queryParams.push(`crop_code=${encodeURIComponent(crop)}`);
     if (variety) queryParams.push(`variety_code=${encodeURIComponent(variety)}`);
     queryParams.push(`page=${encodeURIComponent(page)}`); // Add page to query params
     queryParams.push(`limit=${encodeURIComponent(pageSize)}`); // Add pageSize (limit) to query params
-  
+
     const apiUrl = `view-req-fs-all-updated?${queryParams.join('&')}`;
-    console.log(apiUrl,'apiUrl');
+    console.log(apiUrl, 'apiUrl');
     this.zsrmServiceService
       .getRequestCreator(apiUrl)
       .subscribe(
         (apiResponse: any) => {
           if (apiResponse?.Response.status_code === 200) {
-           
+
             this.allData = apiResponse.Response.data || [];
             this.filterPaginateSearch.Init(
               this.allData.data,
@@ -465,8 +455,6 @@ createAndSave() {
     this.paginationUiComponent.Init(this.filterPaginateSearch);
   }
   updateForm() {
-    this.submitted = true;
-    this.isShowTable=true
     if (this.ngForm.invalid) {
       return;
     }
@@ -495,11 +483,11 @@ createAndSave() {
       "shtorsur": shtorsur
     };
     const route = `update-req-fs/${this.dataId}`;
-  
-    this.zsrmServiceService.putRequestCreator(route,null, baseParam,).subscribe(data => {
+
+    this.zsrmServiceService.putRequestCreator(route, null, baseParam,).subscribe(data => {
       if (data.Response.status_code === 200) {
         this.is_update = true;
-        this.isShowTable=true;
+        this.isShowTable = true;
         Swal.fire({
           title: '<p style="font-size:25px;">Data Has Been Successfully Updated.</p>',
           icon: 'success',
@@ -527,7 +515,7 @@ createAndSave() {
         });
       }
     });
-  }  
+  }
 }
 
 

@@ -1037,6 +1037,12 @@ export class LoggedInUserInfoService {
         },
 
 
+        {
+          icon: "seeding.svg",
+          name: "Target & Acheivement Seed Replacement Rate by State",
+          href: "/target-Achievement-of-seed",
+         
+        },
         // {
         //   "name": "Submission of indent of Breeder Seed by State",
         //   "href": "/submission-of-indent-of-breeder-seed-by-state-report",
@@ -1769,8 +1775,9 @@ export class LoggedInUserInfoService {
           },
           {
             name: "View and Submit the Indent to Seed Division",
-            href: "/submission-of-indent-of-breeder-seed-by-state-report",
-            icon: "Add_Breeder.svg"
+            href: "submission-of-indent-of-breeder-seed-by-state-report",
+            icon: "Add_Breeder.svg",
+            subMenus: undefined
           },
         {
             icon: "report.svg",

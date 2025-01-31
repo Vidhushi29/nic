@@ -243,6 +243,7 @@ import { GrowOutTestReportBspvComponent } from './grow-out-test-report-bspv/grow
 import { CropStatusReportComponent } from './crop-status-report/crop-status-report.component';
 import { ZsrmComponent } from './indenters/zsrm/zsrm.component';
 import { ZsrmCsFsAreaComponent } from './indenters/zsrm-cs-fs-area/zsrm-cs-fs-area.component';
+import { SrrComponent } from './indenters/srr/srr.component';
 
 // import { ZsmrFoundationSeedComponent } from './indenters/zsmr-foundation-seed/zsmr-foundation-seed.component';
 const routes: Routes = [
@@ -1153,6 +1154,9 @@ const routes: Routes = [
       {
         path:'area-registered-for-certification',
         component: ZsrmCsFsAreaComponent
+      },{
+        path:'target-Achievement-of-seed',
+        component: SrrComponent
       },
       
       {
