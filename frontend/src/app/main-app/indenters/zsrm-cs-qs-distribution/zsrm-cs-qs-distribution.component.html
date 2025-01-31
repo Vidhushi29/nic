@@ -1,16 +1,16 @@
-<form [formGroup]="ngForm">
-    <div class="main-inventory 1">
-        <div class="row">
-            <div class="col-12 px-3 mt-2">
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-0 pt-1 pb-2">
-                    ARRANGEMENT TO MEET THE REQUIREDMENT OF FOUNDATION SEED
-                </div>
+<div class="main-inventory 1">
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12 pl-2 pb-3 pt-0">
+            <div class="title-inventory">Variety Wise Actual Distribution of Certified/Quality Seed</div>
+          
 
-                <!-- first card ui  -->
+
+            <!-- first card ui  -->
+            <form [formGroup]="ngForm">
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <div class="row card-inventory form-group pb-3">
+                   
                         <!-- start sectio 1  -->
-                        <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12 pt-1">
+                        <div class="row card-inventory form-group pl-3 pb-3">
                             <div class="row for-width">
                                 <!-- year of indent -->
                                 <div class="col-12 col-md-4 col-lg-4 col-xl-2 col-sm-6">
@@ -19,7 +19,7 @@
                                             <label for="year" class="left-heading required ">Year of Indent</label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12 pr-1">
-                                            <select class=" form-control input-inventory" formControlName="year">
+                                            <select class=" form-control input-inventory" formControlName="year" [ngClass]="disableUpperSection ? 'disableFiel':''">
                                                 <option value="">Please Select Year</option>
                                                 <option *ngFor="let year of inventoryYearData" value="{{year.value}}">
                                                     <!-- {{ year.year }}-{{ ((year.year % 100) + 1) < 10 ? '0' : '' }}{{ (year.year % 100) + 1 }} -->
@@ -43,7 +43,7 @@
                                             <label for="season" class="left-heading required">Season</label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <select class="form-control input-inventory" formControlName="season">
+                                            <select class="form-control input-inventory" formControlName="season" [ngClass]="disableUpperSection ? 'disableFiel':''">
                                                 <option value="">Please Select Season</option>
                                                 <option value="Kharif">Kharif</option>
                                                 <option value="Rabi">Rabi</option>
@@ -66,7 +66,7 @@
                                             <label for="year" class="left-heading required">Crop</label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <div ngbDropdown class="d-inline-block w-100">
+                                            <div ngbDropdown class="d-inline-block w-100" [ngClass]="disableUpperSection ? 'disableFiel':''">
                                                 <button
                                                     class="btn takeplacholder w-100 crop toggle-button input-inventory"
                                                     id="crop" ngbDropdownToggle style="text-align: left;">
@@ -105,7 +105,7 @@
                                             <label for="season" class="left-heading required">Variety</label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <div ngbDropdown class="d-inline-block w-100">
+                                            <div ngbDropdown class="d-inline-block w-100" [ngClass]="disableUpperSection ? 'disableFiel':''">
                                                 <button
                                                     class="btn takeplacholder w-100 crop toggle-button input-inventory"
                                                     id="crop" ngbDropdownToggle style="text-align: left;">
@@ -138,26 +138,53 @@
 
                                     </div>
                                 </div>
-                                <!-- Variety Notification Year -->
-                                <div class="col-12 col-md-4 col-lg-4 col-xl-2 col-sm-6 pl-1 pr-1">
+                                <!-- Category -->            
+                                 <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-2 pr-1 pl-1">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <label for="category" class="left-heading required">Type</label>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                            <select class="form-control input-inventory" formControlName="category" [ngClass]="disableUpperSection ? 'disableFiel':''">
+                                                <option value="">Please Select Type</option>
+                                                <option value="Certified">Certified</option> 
+                                             <option value="Quality">Quality</option>                                                
+                                            </select>
+                                            <div class="errorMessage"
+                                                *ngIf="submitted || ngForm.controls['category'].invalid && (ngForm.controls['category'].dirty || ngForm.controls['category'].touched)">
+                                                <span *ngIf="ngForm.controls['category'].errors?.['required']">
+                                                    Please Select Type.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                                <!-- Add Button -->
+                                <div class="col-9 col-md-4 col-lg-4 col-xl-2 col-sm-6 ">
                                     <div class="d-flex align-items-end justify-content-center h-100">
-                                        <!-- <button class="btn btn-inventory search2"
-                                            style="width: 8rem ; margin-right: 10px; color: black;"
-                                            (click)="searchData()"
-                                            [disabled]="!ngForm.controls['year'].valid || !ngForm.controls['crop'].valid">
-                                            Search</button> -->
+                                        <button class="btn btn-inventory search2"
+                                        style="width: 6rem ; margin-right: 10px; color: white;"
+                                        (click)="resetForm()" *ngIf="(!is_update) &&
+                                        (ngForm.controls['year'].valid || ngForm.controls['season'].valid ||
+                                        ngForm.controls['crop'].valid || ngForm.controls['variety'].valid)"
+                                        >Reset</button> 
 
                                         <button
-                                            *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList) || filterPaginateSearch.itemList.length < 1)"
-                                            class="btn btn-inventory search2" style="width: 8rem; color: white;"
-                                            (click)="SaveAsData()"                                         
-                                            [disabled]="!ngForm.controls['year'].valid ||!ngForm.controls['crop'].valid || !ngForm.controls['variety'].valid">Add</button>
+                                            *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList) || filterPaginateSearch.itemList.length < 1)
+                                            &&  (ngForm.controls['year'].valid && ngForm.controls['season'].valid && 
+                                            ngForm.controls['crop'].valid && ngForm.controls['variety'].valid && ngForm.controls['category'].valid )"
+                                            class="btn btn-inventory search2" style="width: 6rem; color: white;"
+                                            (click)="SaveAsData()"
+                                            [disabled]="!(ngForm.controls['year'].valid && ngForm.controls['season'].valid && 
+                                        ngForm.controls['crop'].valid && ngForm.controls['variety'].valid)">Add</button>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
-                    </div>
+                  
                 </div>
                 <!-- end sectio 1  -->
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -165,7 +192,7 @@
 
                         <div class="col-12 col-md-12 col-lg-12 col-xl-12 mt-2" *ngIf="isAddSelected">
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-3 pb-2 ">
- {{this.isChangeMessage}}
+                                {{this.isChangeMessage}}
                             </div>
                             <div class="row">
                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -173,17 +200,17 @@
                                         <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="req" class="left-heading required">
-                                                        req
+                                                    <label for="doa" class="left-heading required">
+                                                        DOA
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="req" placeholder="Enter req"(keypress)="validateDecimal($event)">
+                                                        formControlName="doa" placeholder="0">
                                                     <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['req'].invalid && ngForm.controls['req'].dirty || ngForm.controls['req'].touched">
-                                                        <span *ngIf=" ngForm.controls['req'].errors?.['required']">
-                                                            Please Enter value
+                                                        *ngIf="submitted ||ngForm.controls['doa'].invalid && ngForm.controls['doa'].dirty || ngForm.controls['doa'].touched">
+                                                        <span *ngIf=" ngForm.controls['doa'].errors?.['required']">
+                                                            Enter only decimal number upto 2 digit
                                                         </span>
 
                                                     </div>
@@ -200,51 +227,11 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="ssc" placeholder="Enter ssc"(keypress)="validateDecimal($event)">
+                                                        formControlName="ssc" placeholder="Enter SSC" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['ssc'].invalid && ngForm.controls['ssc'].dirty || ngForm.controls['ssc'].touched">
                                                         <span *ngIf=" ngForm.controls['ssc'].errors?.['required']">
-                                                            Please Enter value
-                                                        </span>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="doa" class="left-heading required">
-                                                        doa
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
-                                                        formControlName="doa" placeholder="Enter DOA" (keypress)="validateDecimal($event)">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['doa'].invalid && ngForm.controls['doa'].dirty || ngForm.controls['doa'].touched">
-                                                        <span *ngIf=" ngForm.controls['doa'].errors?.['required']">
-                                                            Please Enter value.
-                                                        </span>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="sau" class="left-heading required">
-                                                        SAU
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
-                                                        formControlName="sau" placeholder="Enter Email ID" (keypress)="validateDecimal($event)">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['sau'].invalid && ngForm.controls['sau'].dirty || ngForm.controls['sau'].touched">
-                                                        <span *ngIf=" ngForm.controls['sau'].errors?.['required']">
-                                                            Please Enter SAU.
+                                                            Enter only decimal number upto 2 digit
                                                         </span>
 
                                                     </div>
@@ -255,16 +242,16 @@
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <label for="nsc" class="left-heading required">
-                                                        nsc
+                                                        NSC
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="nsc" placeholder="Enter nsc" (keypress)="validateDecimal($event)">
+                                                        formControlName="nsc" placeholder="Enter NSC" (keypress)="validateDecimal($event)" >
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['nsc'].invalid && ngForm.controls['nsc'].dirty || ngForm.controls['nsc'].touched">
                                                         <span *ngIf=" ngForm.controls['nsc'].errors?.['required']">
-                                                            Please Enter NSC.
+                                                            Enter only decimal number upto 2 digit
                                                         </span>
 
                                                     </div>
@@ -274,63 +261,48 @@
                                         <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="doa" class="left-heading required">
-                                                        sfci
+                                                    <label for="sfci" class="left-heading required">
+                                                        SFCI
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="sfci" placeholder="Enter sfci" (keypress)="validateDecimal($event)">
+                                                        formControlName="sfci" placeholder="Enter NSC" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['sfci'].invalid && ngForm.controls['sfci'].dirty || ngForm.controls['sfci'].touched">
                                                         <span *ngIf=" ngForm.controls['sfci'].errors?.['required']">
-                                                            Please Enter SFCI.
+                                                            Enter only decimal number upto 2 digit
                                                         </span>
-
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
+                                    </div>
+                                </div>
+                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="row">
                                         <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="email" class="left-heading required">
-                                                        Pvt
+                                                    <label for="pvt" class="left-heading required">
+                                                       Priavte
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="pvt" placeholder="Enter Pvt" (keypress)="validateDecimal($event)">
+                                                        formControlName="pvt" placeholder="Enter DOA" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['pvt'].invalid && ngForm.controls['pvt'].dirty || ngForm.controls['pvt'].touched">
                                                         <span *ngIf=" ngForm.controls['pvt'].errors?.['required']">
-                                                            Pvt
+                                                            Please Enter DOA
                                                         </span>
 
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="remarks" class="left-heading required">
-                                                        Remarks
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="text" class=" form-control input-inventory"
-                                                        formControlName="remarks" placeholder="Enter Reamrks">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['remarks'].invalid && ngForm.controls['remarks'].dirty || ngForm.controls['remarks'].touched">
-                                                        <span *ngIf=" ngForm.controls['remarks'].errors?.['required']">
-                                                            Please Enter Remarks.
-                                                        </span>
 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -340,11 +312,11 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="others" placeholder="Enter Others"(keypress)="validateDecimal($event)">
+                                                        formControlName="others" placeholder="Enter SSC" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['others'].invalid && ngForm.controls['others'].dirty || ngForm.controls['others'].touched">
                                                         <span *ngIf=" ngForm.controls['others'].errors?.['required']">
-                                                            Others
+                                                            Please Enter SSC
                                                         </span>
 
                                                     </div>
@@ -361,26 +333,17 @@
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory" 
                                                         formControlName="total" readonly>
+
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="shtorsur" class="left-heading required">
-                                                        ShtOrSub
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
-                                                        formControlName="shtorsub"  readonly>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    
+
                                     </div>
                                 </div>
 
-                 
+                                <!-- finish section 2 -->
+
                                 <!-- button section -->
                                 <div class="col-12 col-md-10 col-lg-10 pt-4 pb-2 buttons-phone col-xl-10">
                                     <button
@@ -389,59 +352,58 @@
                                         style="border: 2px solid #B64B1D;">Cancel</button>
                                     <button
                                         class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
-                                        (click)="createAndSave()" style="border: 2px solid #B64B1D;"
-                                        *ngIf="!is_update">Add</button>
+                                        (click)="createAndSave()" *ngIf="!is_update"
+                                        style="border: 2px solid #B64B1D;">Add</button>
 
                                     <button
                                         class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
                                         (click)="updateForm()" *ngIf="is_update">Update</button>
-
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div> <!-- start section 2 -->
 
-                <div class="col-12 " style="visibility: hidden; height: 100px;" *ngIf="!isShowTable"></div>
+
                 <!-- second card ui  -->
                 <div class="col-12 col-md-12 col-lg-12 col-xl-12" *ngIf="isShowTable">
                     <div class="row card-inventory form-group">
+
                         <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12">
                             <div class="list-wrapper">
                                 <div class="row d-none d-md-flex data-row-header">
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">S/N</div>
+                                    <div class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">S/N</div>
                                     <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
+                                        Season</div>
+                                    <div
+                                        class="col-9 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                         Crop</div>
                                     <div
                                         class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                         Variety</div>
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Req</div>
                                     <div
-                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
-                                        Availability</div>
+                                        class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
+                                        Category</div>
                                     <div
-                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex align-items-center justify-content-center text-center">
+                                        class="col-4 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                         Unit
                                     </div>
-
                                     <div
-                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-2 d-flex align-items-center justify-content-center text-center">
+                                    class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                    Seed Distribution</div>    
+                                 <div
+                                        class="col-4 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                         Total
                                     </div>
-
                                     <div
-                                        class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 py-16 d-flex align-items-center justify-content-center text-center">
-                                        ShtOrSur
-                                    </div>
-                                    <div
-                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                        class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                         Actions</div>
                                 </div>
                                 <div>
                                     <div *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index"
                                         class="row data-row">
-                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                        <div class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center ">
                                             <div class="w-fit-content">
                                                 <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
                                                 <span title="{{(filterPaginateSearch.itemListCurrentPage - 1) *
@@ -451,79 +413,80 @@
                                             </div>
                                         </div>
                                         <div
-                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
+                                                <label class="d-md-none" class="d-md-none"><b>Season:</b>&nbsp;</label>
+                                                <span>
+                                                    {{data && data.season ? data.season : ""}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-9 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                            <div class="w-fit-content">
+                                                <label class="d-md-none" class="d-md-none"><b>Crop:</b>&nbsp;</label>
                                                 <span>
                                                     {{data && data.crop_name ? data.crop_name : ""}}
-                                                 
                                                 </span>
                                             </div>
                                         </div>
                                         <div
-                                            class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-1 d-flex align-items-center justify-content-center text-center">
+                                            class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
-                                                <span>
-                                                    {{data && data.variety_name ? data.variety_name : ""}}
-                                                </span>
+                                                <label class="d-md-none" class="d-md-none"><b>Variety:</b>&nbsp;</label>
+                                              <span>{{data&&data.variety_name?data.variety_name:""}}</span>
                                             </div>
                                         </div>
-                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                        <div
+                                            class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
-                                                <label class="d-md-none" class="d-md-none"><b>Req:</b>&nbsp;</label>
-                                                <span>{{data&&data.req?data.req:""}}
-                                                   
-                                                </span>
+                                                <label class="d-md-none" class="d-md-none"><b>Type:</b>&nbsp;</label>
+                                                <span>{{data&&data.seedType?data.seedType:""}}</span>
                                             </div>
                                         </div>
+
                                         <div
-                                            class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-1 d-flex align-items-center justify-content-center text-center">
-                                            <span>
-                                                <td style="font-weight: 500;">
-                                                    <span>nsc: <b class="font-weight-bold">{{data.nsc ?
-                                                            formatNumber(data.nsc)  : 0}}</b></span><br>
-                                                    <span>sfci: <b class="font-weight-bold">{{data.sfci
-                                                            ? formatNumber(data.sfci)  :
-                                                            0}}</b></span><br>
-                                                    <span>sau: <b class="font-weight-bold">{{data.sau
-                                                            ? formatNumber(data.sau)  :
-                                                            0}}</b></span><br>
-                                                    <span>doa: <b class="font-weight-bold">{{formatNumber(data.doa) ?
-                                                            data.doa : 0}}</b></span><br>
-                                                    <span>pvt: <b class="font-weight-bold">{{data.pvt ?
-                                                            formatNumber(data.pvt)  : 0}}</b></span><br>
-                                                    <span>others: <b class="font-weight-bold">{{data.others ?
-                                                            formatNumber(data.others):0}}</b></span><br>
-                                                    <span>ssc: <b class="font-weight-bold">{{data.ssc ?
-formatNumber(data.ssc)  :0}}</b></span><br>
-                                                    <br>
-                                                </td>
-                                            </span>
-                                        </div>
-                                        <div
-                                            class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
                                                 <label class="d-md-none" class="d-md-none"><b>Unit:</b>&nbsp;</label>
                                                 <span>{{data && data.unit ? data.unit : ""}}</span>
                                             </div>
                                         </div>
                                         <div
-                                            class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                        <div class="w-fit-content">
+                                            <label class="d-md-none" class="d-md-none"><b>Seed Distribution:</b>&nbsp;</label>
+                                            <span>
+                                                <td style="font-weight: 500;">
+                                                    <span><b class="font-weight-bold">DOA:</b> {{data && data.doa ?
+                                                            formatNumber(data.doa) : 0}},
+                                                            <b class="font-weight-bold">SSC: </b>{{data && data.ssc ?
+                                                            formatNumber(data.ssc)  : 0}}</span><br>
+                                                    <span><b class="font-weight-bold">NSC:</b> {{data && data.nsc ?
+                                                            formatNumber(data.nsc) : 0}},
+                                                            <b class="font-weight-bold">SFCI: </b>{{data && data.sfci ?
+                                                            formatNumber(data.sfci)  : 0}}</span><br>
+                                                    <span><b class="font-weight-bold">Private:</b> {{data && data.private ?
+                                                        formatNumber(data.private) : 0}},
+                                                        <b class="font-weight-bold">Others: </b>{{data && data.others ?
+                                                        formatNumber(data.others)  : 0}}</span><br>
+                                            </td>
+                                            </span>
+                                        </div>
+                                    </div>
+                                                                
+                                        
+                                        <div
+                                            class="col-4 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
+                                                <label class="d-md-none" class="d-md-none"><b>Total:</b>&nbsp;</label>
                                                 <span>
-                                                    {{data &&data.total ? formatNumber(data.total) : 0}}
+                                                    {{data && data.total ? formatNumber(data.total) : ""}}
                                                 </span>
                                             </div>
                                         </div>
                                         <div
-                                            class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                            <div class="w-fit-content">
-                                                <span>
-                                                    {{data && data.shtorsur ? formatNumber(data.shtorsur) : 0}}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
                                             <div
                                                 class="list-action-buttons-wrapper w-fit-content phone_view_action_btn col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
 
@@ -552,7 +515,7 @@ formatNumber(data.ssc)  :0}}</b></span><br>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
-</form>
+</div>

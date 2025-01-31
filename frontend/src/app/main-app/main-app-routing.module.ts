@@ -247,6 +247,9 @@ import { ZsrmbstofsComponent } from './indenters/zsrmbstofs/zsrmbstofs.component
 
 
 // import { ZsrmComponent } from './indenters/zsrm/zsrm.component';
+import { ZsrmCsFsAreaComponent } from './indenters/zsrm-cs-fs-area/zsrm-cs-fs-area.component';
+import { SrrComponent } from './indenters/srr/srr.component';
+import { ZsrmCsQsDistributionComponent } from './indenters/zsrm-cs-qs-distribution/zsrm-cs-qs-distribution.component';
 
 // import { ZsmrFoundationSeedComponent } from './indenters/zsmr-foundation-seed/zsmr-foundation-seed.component';
 const routes: Routes = [
@@ -1161,7 +1164,18 @@ const routes: Routes = [
       {
          path: 'conversion-of-BStoFS',
          component:ZsrmbstofsComponent
-     },
+     },{
+        path:'area-registered-for-certification',
+        component: ZsrmCsFsAreaComponent
+      },{
+        path:'target-Achievement-of-seed',
+        component: SrrComponent
+      },
+
+      {
+        path:'seed-distribution',
+        component: ZsrmCsQsDistributionComponent
+      },
       
       {
         path: 'view-selection-of-spa-for-submission-indent/view',
