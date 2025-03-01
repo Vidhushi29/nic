@@ -128,7 +128,7 @@ export class SrpComponent implements OnInit {
     this.isAddSelected = true;
     this.isChangeMessage = "Entre the Source Availability"
     this.selectvarietycode = String(this.ngForm.controls['variety'].value);
-    const route = `get-variety-data?variety_code=${this.selectvarietycode}`;
+    const apiUrl = `get-variety-data?variety_code=${this.selectvarietycode}`;
     // this.zsrmServiceService.getRequestCreator(route, null,null).subscribe((apiResponse:any) => {
     //   if (apiResponse.Response.status_code === 200) {
     //     this.varietyData =apiResponse.Response.data
@@ -137,6 +137,37 @@ export class SrpComponent implements OnInit {
         
     //   }
     // })
+    this.zsrmServiceService.getRequestCreator(apiUrl, null, null).subscribe({
+      next: (apiResponse: any) => {
+        console.log('API Response:', apiResponse);
+
+        if (apiResponse?.Response?.status_code === 200) {
+          // this.allViewSrr = apiResponse.Response.data;
+
+          if (this.ngForm && this.ngForm.controls) {
+            this.ngForm.controls['hybrid'].setValue(apiResponse.Response.data.status ?? 'NA');
+          this.ngForm.controls['notifiedValue'].setValue(apiResponse.Response.data.developed_by ?? 'NA');
+            this.ngForm.controls['yearN'].setValue(apiResponse.Response.data.not_date_substring ?? 'NA');
+            this.ngForm.controls['duration'].setValue(apiResponse.Response.data.maturity_type ?? 'NA');
+            this.ngForm.controls['notification'].setValue(apiResponse.Response.data.notification_status ?? 'NA');
+            this.ngForm.controls['SRRTargetbyGOI'].setValue(apiResponse.Response.data.srr ?? 0);
+          } else {
+            console.error('ngForm is not initialized properly.');
+          }
+        } else {
+          console.error('Unexpected response structure:', apiResponse);
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching data:', error);
+      },
+      complete: () => {
+        console.log('API request completed.');
+      }
+    });
+
+
+
 
   }
 
@@ -165,7 +196,9 @@ export class SrpComponent implements OnInit {
       hybrid: [''],
       notification: ['', [Validators.required]],
       yearN: ['', [Validators.required]],
+      notifiedValue: ['', [Validators.required]],
       duration: ['', [Validators.required]],
+      SRRTargetbyGOI:['', [Validators.required]],
       smrfs: [0, [Validators.required]],
       fsreq: [0, [Validators.required]],
       smrbs: [0, [Validators.required]],
@@ -227,6 +260,8 @@ export class SrpComponent implements OnInit {
           x.crop_name.toLowerCase().includes(item.toLowerCase())
         );
         this.cropData = response
+       
+    
       }
       else {
         this.getCropData()
@@ -274,7 +309,7 @@ export class SrpComponent implements OnInit {
       this.ngForm.controls['notification'].patchValue(data.notification_status);
       this.ngForm.controls['yearN'].patchValue(data.not_year);
       this.ngForm.controls['duration'].patchValue(data.maturity_type);
-      //this.ngForm.controls['duration'].patchValue(data.developed_by);
+      this.ngForm.controls['notifiedValue'].patchValue(data.developed_by);
 
       this.ngForm.controls['doa'].patchValue(data.doa);
       this.ngForm.controls['nsc'].patchValue(data.nsc);
@@ -417,6 +452,7 @@ export class SrpComponent implements OnInit {
 
     this.is_update = false;
     this.showOtherInputBox = false;
+    this.isAddSelected=false;
 
   }
    resetCancelation() {
@@ -689,11 +725,14 @@ console.log(route,'route')
   }
 
   resetForm() {
-    this.isAddFormOpen = true;
-    this.isUpdateFormOpen = false;
-    this.submitted = false;
-    this.ngForm.reset();
-    this.getPageData
+    this.ngForm.controls['year'].reset('');
+    this.ngForm.controls['season'].reset('');
+    this.selectCrop = '';
+    this.selectVariety = '';     
+    this.ngForm.controls['crop'].reset('');
+    this.ngForm.controls['variety'].reset('');
+    this.isShowTable = false;
+    this.isAddSelected = false;
   }
 
   getYear() {
@@ -728,5 +767,8 @@ console.log(route,'route')
   resetRadioBtn() {
     window.location.reload();
     this.productionType = ""
+  }
+  formatNumber(value: number) {
+    return value ? value.toFixed(2) : '';
   }
 }

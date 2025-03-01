@@ -69,7 +69,7 @@
                                             <div ngbDropdown class="d-inline-block w-100">
                                                 <button
                                                     class="btn takeplacholder w-100 crop toggle-button input-inventory"
-                                                    id="crop" ngbDropdownToggle style="text-align: left;">
+                                                    id="crop" ngbDropdownToggle style="text-align: left; color: darkslategrey;">
                                                     {{ selectCrop && (selectCrop.length > 30) ?
                                                     (selectCrop.substring(0,23)
                                                     + '...') : selectCrop ? selectCrop : 'Select Crop' }}
@@ -133,7 +133,7 @@
                                                 <span *ngIf="ngForm.controls['variety'].errors?.['required']">
                                                     Please Select Variety Name.
                                                 </span>
-                                            </div> 
+                                            </div>
                                         </div>
 
                                     </div>
@@ -141,12 +141,15 @@
                                 <!-- Variety Notification Year -->
                                 <div class="col-12 col-md-4 col-lg-4 col-xl-2 col-sm-6 pl-1 pr-1">
                                     <div class="d-flex align-items-end justify-content-center h-100">
-                                        <!-- <button class="btn btn-inventory search2"
-                                            style="width: 8rem ; margin-right: 10px; color: black;"
-                                            (click)="searchData()">Search</button> -->
-
-                                        <button
-                                            *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList) || filterPaginateSearch.itemList.length < 1)"
+                                        <button class="btn btn-inventory search2"
+                                            style="width: 6rem ; margin-right: 10px; color: white;"
+                                            (click)="resetForm()"
+                                            *ngIf="(!is_update) &&
+                                        (ngForm.controls['year'].valid || ngForm.controls['season'].valid ||
+                                        ngForm.controls['crop'].valid || ngForm.controls['variety'].valid)">Reset</button>
+                                        <button *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList) || filterPaginateSearch.itemList.length < 1)
+                                        &&  (ngForm.controls['year'].valid && ngForm.controls['season'].valid && 
+                                        ngForm.controls['crop'].valid && ngForm.controls['variety'].valid )"
                                             class="btn btn-inventory search2" style="width: 8rem; color: white;"
                                             (click)="SaveAsData()">Add</button>
                                     </div>
@@ -171,32 +174,18 @@
                             <p style="margin-left:20px;color:red;font-weight:400;">2. If any notified variety is not
                                 listed in the list please mail the details on support-seednet[at]gov[dot]in.</p>
                             <div class="row">
-
-
-
-
                                 <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                             <label for="hybrid" class="left-heading required">
                                                 2. Variety/Hybrid
                                             </label>
-                                        
-                                          
-                
-                                           
+
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <input type="text" class=" form-control input-inventory"
-                                                formControlName="hybrid">
-                                               
-                                            <div class="username errorMessage"
-                                                *ngIf="submitted ||ngForm.controls['hybrid'].invalid && ngForm.controls['hybrid'].dirty || ngForm.controls['hybrid'].touched">
-                                                <span *ngIf=" ngForm.controls['hybrid'].errors?.['required']">
-                                                    Please Enter hybrid.
-                                                </span>
-
-                                            </div> 
+                                            <div class="col-md-12">
+                                                <span>{{ ngForm.controls['hybrid'].value }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -208,14 +197,8 @@
                                             </label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <input type="text" class=" form-control input-inventory"
-                                                formControlName="notification">
-                                            <div class="username errorMessage"
-                                                *ngIf="submitted ||ngForm.controls['notification'].invalid && ngForm.controls['notification'].dirty || ngForm.controls['notification'].touched">
-                                                <span *ngIf=" ngForm.controls['notification'].errors?.['required']">
-                                                    Please Enter notification.
-                                                </span>
-
+                                            <div class="col-md-12">
+                                                <span>{{ ngForm.controls['notification'].value }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -223,21 +206,17 @@
 
                                 <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                     <div class="row">
-                                        <div  class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                             <label for="yearN" class="left-heading required">
-                                                5. Year of Notification 
-                                                {{notificationYear}} 
+                                                5. Year of Notification
+                                                {{notificationYear}}
                                             </label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <input type="text" class=" form-control input-inventory"
-                                                formControlName="yearN" placeholder="Enter Reamrks">
-                                            <div class="username errorMessage"
-                                                *ngIf="submitted ||ngForm.controls['yearN'].invalid && ngForm.controls['yearN'].dirty || ngForm.controls['yearN'].touched">
-                                                <span *ngIf=" ngForm.controls['yearN'].errors?.['required']">
-                                                    Please Enter Remarks.
-                                                </span>
-
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-md-12">
+                                                    <span>{{ ngForm.controls['yearN'].value }}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -253,64 +232,28 @@
                                             </label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <div class="row">
-                                                <div class="col-md-2 col-sm-2 col-md-2 col-lg-3 mb-2 mb-md-0">
-                                                    <div class="form-check">
-                                                        <!-- checked -->
-                                                        <!-- [checked]="ngForm.controls['willing_to_produce'].value=='yes'" -->
-                                                        <input class="radio-button form-check-input radio-btn"
-                                                            name="notifiedValue" type="radio"
-                                                            (change)="productionTypeValue('NORMAL')"
-                                                            [ngClass]="isDisableNormal?'disableField':''"
-                                                            id="flexRadioDefault1" value="non-notified">
-                                                        <label class="form-check-label" for="flexRadioDefault1">
-                                                            Public Sector
-                                                        </label>
-                                                    </div>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-md-12">
+                                                    <span>{{ ngForm.controls['notifiedValue'].value }}</span>
                                                 </div>
-                                                <!-- [(ngModel)]="notifiedValue" -->
-                                                <!-- checked -->
-                                                <!-- [checked]="ngForm.controls['willing_to_produce'].value=='no' && ngForm.controls['variety'].value" -->
-
-                                                <div
-                                                    class="col-md-2 col-sm-2 col-md-2 col-lg-3 pl-lg-5 pl-md-5 pl-sm-2 ">
-                                                    <div class="form-check">
-                                                        <input class="radio-button form-check-input radio-btn"
-                                                            name="notifiedValue" type="radio"
-                                                            (change)="productionTypeValue('REALLOCATION')"
-                                                            [ngClass]="isDisableNormalReallocate?'disableField':''"
-                                                            [disabled]="isDisableNormalReallocate"
-                                                            id="flexRadioDefault2">
-                                                        <label class="form-check-label" for="flexRadioDefault2">
-                                                            Private Sector
-                                                        </label>
-                                                    </div>
-                                                </div>
-
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
 
 
 
-                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-2 pr-1 pl-1">
+                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                             <label for="duration" class="left-heading required">6. Duration</label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <select class="form-control input-inventory" formControlName="duration">
-                                                <option value="" selected="true">Please Select</option>
-                                                <option value="S">Short</option>
-                                                <option value="M">Medium</option>
-                                                <option value="L">Long</option>
-                                            </select>
-                                            <div class="errorMessage"
-                                                *ngIf="submitted || ngForm.controls['duration'].invalid && (ngForm.controls['duration'].dirty || ngForm.controls['duration'].touched)">
-                                                <span *ngIf="ngForm.controls['duration'].errors?.['required']">
-                                                    Please Select Season.
-                                                </span>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-md-4">
+                                                    <span>{{ ngForm.controls['duration'].value }}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -348,12 +291,12 @@
                                             <input type="number" class=" form-control input-inventory"
                                                 formControlName="seedrate" placeholder="Enter Pvt">
                                             <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['seedrate'].invalid && ngForm.controls['seedrate'].dirty || ngForm.controls['seedrate'].touched">
-                                                        <span *ngIf=" ngForm.controls['seedrate'].errors?.['required']">
-                                                            enter the value
-                                                        </span>
+                                                *ngIf="submitted ||ngForm.controls['seedrate'].invalid && ngForm.controls['seedrate'].dirty || ngForm.controls['seedrate'].touched">
+                                                <span *ngIf=" ngForm.controls['seedrate'].errors?.['required']">
+                                                    enter the value
+                                                </span>
 
-                                                    </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -367,8 +310,11 @@
                                             </label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <input type="number" class=" form-control input-inventory"
-                                                formControlName="SRRTargetbyGOI" readonly>
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-md-4">
+                                                    <span>{{ ngForm.controls['SRRTargetbyGOI'].value }}</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -396,8 +342,7 @@
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                             <label for="totalreq" class="left-heading required">
-                                                11. Seed Required (in Quintal) (7*8*10%)=11
-                                                and 11=(12+13)
+                                                11. Seed Required (in Quintal) (7*8*10%)=11                                
                                             </label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -476,8 +421,10 @@
 
                             <div class="row">
                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                    <p>SEED PRODUCTION AGENCIES</p>
-                                    <div class="row">
+                                    <label >
+                                        <b>SEED PRODUCTION AGENCIES</b>
+                                    </label>
+                                      <div class="row">
                                         <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -765,7 +712,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="smrfs" >
+                                                        formControlName="smrfs">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['smrfs'].invalid && ngForm.controls['smrfs'].dirty || ngForm.controls['smrfs'].touched">
                                                         <span *ngIf=" ngForm.controls['smrfs'].errors?.['required']">
@@ -786,7 +733,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="fsreq" >
+                                                        formControlName="fsreq">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['fsreq'].invalid && ngForm.controls['fsreq'].dirty || ngForm.controls['fsreq'].touched">
                                                         <span *ngIf=" ngForm.controls['fsreq'].errors?.['required']">
@@ -806,7 +753,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="smrbs" >
+                                                        formControlName="smrbs">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['smrbs'].invalid && ngForm.controls['smrbs'].dirty || ngForm.controls['smrbs'].touched">
                                                         <span *ngIf=" ngForm.controls['smrbs'].errors?.['required']">
@@ -851,18 +798,20 @@
                                         style="border: 2px solid #B64B1D;">Cancel</button>
                                     <button
                                         class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
-                                        (click)="createAndSave()" style="border: 2px solid #B64B1D;" *ngIf="!is_update">Add</button>
+                                        (click)="createAndSave()" style="border: 2px solid #B64B1D;"
+                                        *ngIf="!is_update">Add</button>
 
-                                     <button
+                                    <button
                                         class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
-                                        (click)="updateForm()" style="border: 2px solid #B64B1D;"  *ngIf="is_update">Update</button>
+                                        (click)="updateForm()" style="border: 2px solid #B64B1D;"
+                                        *ngIf="is_update">Update</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div> <!-- start section 2 -->
 
-                <div class="col-12 " style="visibility: hidden; height: 100px;" *ngIf="!isShowTable"></div>
+               
                 <!-- second card ui  -->
                 <div class="col-12 col-md-12 col-lg-12 col-xl-12" *ngIf="isShowTable">
                     <div class="row card-inventory form-group">
@@ -872,52 +821,40 @@
                         <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12">
                             <div class="list-wrapper">
                                 <div class="row d-none d-md-flex data-row-header">
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">S/N</div>
                                     <div
                                         class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        S/N</div>
+                                    <div
+                                        class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        Season</div>
+                                    <div
+                                        class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         Crop</div>
                                     <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         Variety</div>
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Proposed Area (In Ha)</div>
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Seed Rate (In Qts/Ha)</div>
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">SRR Target (by GOI)</div>
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">SRR Proposed (by State) %</div>
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Seed Required (in Qts)</div>
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Certified</div>
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Quality</div>
-                                    
                                     <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                        Seed Production Agencies </div>
+                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                        Seed Requirement</div>
                                     <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                        Production Targets (in preceding year)</div>
+                                    <div
+                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                        Foundation and Breeder Seed Requirements</div>
+                                    <div
+                                        class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         Unit
                                     </div>
-
                                     <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                        Total
-                                    </div>
-
-                                    <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                        Surplus/Deficit
-                                    </div>
-
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">SMR- FSToCS</div>
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">FStoCS (in Qts)</div>
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">SMR- CSToFS</div>
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">BStoFS (in Qts)</div>
-
-                                    <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         Actions</div>
                                 </div>
                                 <div>
                                     <div *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index"
                                         class="row data-row">
-                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                        <div
+                                            class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
                                                 <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
                                                 <span title="{{(filterPaginateSearch.itemListCurrentPage - 1) *
@@ -927,7 +864,15 @@
                                             </div>
                                         </div>
                                         <div
-                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                            <div class="w-fit-content">
+                                                <span>
+                                                    {{data && data.season ? data.season : ""}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
                                                 <span>
                                                     {{data && data.crop_name ? data.crop_name : ""}}
@@ -935,76 +880,91 @@
                                             </div>
                                         </div>
                                         <div
-                                            class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-1 d-flex align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
                                                 <span>
                                                     {{data && data.variety_name ? data.variety_name : ""}}
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                        <div
+                                            class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex  align-items-center justify-content-center text-center ">
                                             <div class="w-fit-content">
-                                                <label class="d-md-none" class="d-md-none"><b>proposedAreaUnderVariety:</b>&nbsp;</label>
-                                                <span>{{data&&data.proposedAreaUnderVariety?data.proposedAreaUnderVariety:""}}</span>
+                                                <label class="d-md-none" class="d-md-none"><b>Seed
+                                                        Distribution:</b>&nbsp;</label>
+                                                <span>
+                                                    <td style="font-weight: 500;">
+                                                        <span><b class="font-weight-bold">SRR Target (by GOI):</b>
+                                                            {{data&&data.SRRTargetbyGOI?data.SRRTargetbyGOI:0}}</span><br>
+                                                        <span><b class="font-weight-bold">Proposed Area (in Ha.):
+                                                            </b>{{data&&data.proposedAreaUnderVariety?data.proposedAreaUnderVariety:0}}</span><br>
+                                                        <span><b class="font-weight-bold">Seed Rate (In Q/Ha):</b>
+                                                            {{data&&data.seedrate?data.seedrate:0}}</span><br>
+                                                        <span> <b class="font-weight-bold">SRR Proposed (by State):
+                                                            </b>{{data&&data.SRRTargetbySTATE?data.SRRTargetbySTATE:0}}</span><br>
+                                                        <span><b class="font-weight-bold">Seed Required </b>
+                                                            {{data&&data.seedRequired?data.seedRequired:0}}</span><br>
+                                                        <span> <b class="font-weight-bold">Certified:
+                                                            </b>{{data&&data.certifiedquant?data.certifiedquant:0}}</span><br>
+                                                        <span><b class="font-weight-bold">Quality:</b>
+                                                            {{data&&data.qualityquant?data.qualityquant:0}}
+                                                        </span><br>
+                                                    </td>
+                                                </span>
                                             </div>
                                         </div>
-                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+
+                                        <div
+                                            class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
-                                               <span>{{data&&data.seedrate?data.seedrate:""}}</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
-                                            <div class="w-fit-content">
-                                               <span>{{data&&data.SRRTargetbyGOI?data.SRRTargetbyGOI:""}}</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
-                                            <div class="w-fit-content">
-                                               <span>{{data&&data.SRRTargetbySTATE?data.SRRTargetbySTATE:""}}</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
-                                            <div class="w-fit-content">
-                                               <span>{{data&&data.seedRequired?data.seedRequired:""}}</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
-                                            <div class="w-fit-content">
-                                               <span>{{data&&data.certifiedquant?data.certifiedquant:""}}</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
-                                            <div class="w-fit-content">
-                                               <span>{{data&&data.qualityquant?data.qualityquant:""}}</span>
+                                                <span>
+                                                    <td style="font-weight: 500;">
+                                                        <span><b class="font-weight-bold">DOA:</b> {{data && data.doa ?
+                                                            formatNumber(data.doa) : 0}},
+                                                            <b class="font-weight-bold">SSC: </b>{{data && data.ssc ?
+                                                            formatNumber(data.ssc) : 0}}</span><br>
+                                                        <span><b class="font-weight-bold">NSC:</b> {{data && data.nsc ?
+                                                            formatNumber(data.nsc) : 0}},
+                                                            <b class="font-weight-bold">SSFS: </b>{{data && data.ssfs ?
+                                                            formatNumber(data.ssfs) : 0}}</span><br>
+                                                        <span><b class="font-weight-bold">SAUs:</b> {{data && data.saus
+                                                            ?
+                                                            formatNumber(data.saus) : 0}},
+                                                            <b class="font-weight-bold">othersGovt: </b>{{data &&
+                                                            data.othergovpsu ?
+                                                            formatNumber(data.othergovpsu) : 0}}</span><br>
+                                                        <span><b class="font-weight-bold">Private:</b> {{data &&
+                                                            data.pvt ?
+                                                            formatNumber(data.pvt) : 0}},
+                                                            <b class="font-weight-bold">Others: </b>{{data &&
+                                                            data.others ?
+                                                            formatNumber(data.others) : 0}}</span><br>
+                                                    </td>
+                                                </span>
+
                                             </div>
                                         </div>
                                         <div
-                                            class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                            class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
-                                            <span>
-                                                <td style="font-weight: 500;">
-                                                    <span>nsc: <b class="font-weight-bold">{{data.nsc ?
-                                                            data.nsc : '--'}}</b></span>,
-                                                    <span>ssfs: <b class="font-weight-bold">{{data.ssfs
-                                                            ? data.ssfs :
-                                                            '--'}}</b></span>,
-                                                    <span>sau: <b class="font-weight-bold">{{data.saus
-                                                            ? data.saus :
-                                                            '--'}}</b></span>,
-                                                    <span>doa: <b class="font-weight-bold">{{data.doa ?
-                                                            data.doa : '--'}}</b></span>,
-                                                    <span>pvt: <b class="font-weight-bold">{{data.pvt ?
-                                                            data.pvt : '--'}}</b></span>,
-                                                            <span>ssc: <b class="font-weight-bold">{{data.ssc ?
-                                                            data.ssc : '--'}}</b></span>,
-                                                    <span>others: <b class="font-weight-bold">{{data.others ?
-                                                            data.others : '--'}}</b></span>,
-                                                    <span>othersGovt: <b class="font-weight-bold">{{data.othergovpsu ?
-                                                            data.othergovpsu : '--'}}</b></span>
-                                                    
-                                                    <br>
-                                                </td>
-                                            </span>
+                                                <span>
+                                                    <td style="font-weight: 500;">
+                                                        <span><b class="font-weight-bold">SMR Kept for FS to CS:</b>
+                                                            {{data && data.SMRKeptFSToCS ? data.SMRKeptFSToCS :
+                                                            0}}</span><br>
+                                                        <span> <b class="font-weight-bold">FS Required to meet targets
+                                                                of CS: </b>{{data && data.FSRequiredtomeettargetsofCS ?
+                                                            data.FSRequiredtomeettargetsofCS : 0}}</span><br>
+                                                        <span><b class="font-weight-bold">SMR Kept for BS to CS:</b>
+                                                            {{data && data.FSRequiredtomeettargetsofCS ?
+                                                            data.FSRequiredtomeettargetsofCS : 0}}</span><br>
+                                                        <span> <b class="font-weight-bold">BS Required to meet targets
+                                                                of CS: </b> {{data && data.SMRKeptBSToFS ?
+                                                            data.SMRKeptBSToFS : 0}}</span><br>
+
+                                                    </td>
+                                                </span>
+
                                             </div>
                                         </div>
                                         <div
@@ -1014,57 +974,12 @@
                                                 <span>{{data && data.unit ? data.unit : ""}}</span>
                                             </div>
                                         </div>
+
+
+
+
                                         <div
                                             class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                            <div class="w-fit-content">
-                                                <span>
-                                                    {{data && data.total ? data.total : ""}}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                            <div class="w-fit-content">
-                                                <span>
-                                                    {{data && data.shtorsur ? data.shtorsur : ""}}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        
-                                        <div
-                                            class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                            <div class="w-fit-content">
-                                                <span>
-                                                    {{data && data.SMRKeptFSToCS ? data.SMRKeptFSToCS : ""}}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                            <div class="w-fit-content">
-                                                <span>
-                                                    {{data && data.FSRequiredtomeettargetsofCS ? data.FSRequiredtomeettargetsofCS : ""}}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                            <div class="w-fit-content">
-                                                <span>
-                                                    {{data && data.SMRKeptBSToFS ? data.SMRKeptBSToFS : ""}}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                            <div class="w-fit-content">
-                                                <span>
-                                                    {{data && data.BSRequiredBSRequiredtomeettargetsofFS ? data.BSRequiredBSRequiredtomeettargetsofFS : ""}}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                             <div
                                                 class="list-action-buttons-wrapper w-fit-content phone_view_action_btn col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
 
