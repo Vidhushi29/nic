@@ -30,6 +30,33 @@ const zsrmcsqsdistModel = db.ZsrmCSQsDist;
 const zsrmcsfsarea =db.zsrmcsfsarea;
 //ZSRM requriement for FS 
 
+
+exports.getUserStateCode = async (req, res) => {
+  try {
+
+    let state = await agencyDetailModel.findOne({
+      where: {
+       user_id: req.body.loginedUserid.id,
+     },
+     attributes: ['state_id']
+   }
+   )
+    if(state) {
+      const result = {
+        state_code : state.state_id
+      }
+
+   return  response(res, status.DATA_AVAILABLE, 200, result);
+    }
+    else {
+      return  response(res, status.DATA_NOT_AVAILABLE, 501, []);
+    }
+  }
+  catch (error) {
+    return   response(res, status.UNEXPECTED_ERROR, 501);
+  }
+}
+
 exports.getCropList = async (req, res) => {
   try {
     const cropList = await cropDataModel.findAll({
@@ -123,11 +150,15 @@ exports.getVarietyList = async (req, res) => {
 exports.getVarietyData = async (req, res) => {
   try {
     const variety_code =req.query.variety_code;
-    console.log(crop_code);
+
    const varietyData = await varietyModel.findOne({
   include: [
     {
       model: cropcharactersModel,
+      attributes: []
+    },
+    {
+      model: cropDataModel,
       attributes: []
     },
   ],
@@ -168,7 +199,8 @@ exports.getVarietyData = async (req, res) => {
         END
       `),
       'notification_status'
-    ]
+    ],
+    [sequelize.col('m_crop.srr'), 'srr']
   ],
   order: [['variety_name', 'ASC']]
 });
@@ -1061,9 +1093,6 @@ if (data.length == 0)
   }
   
 } 
-
-
-
 // ZSRM QS requirement and availability form 
 
 exports.addZsrmReqQsDistWise = async (req, res) => {
@@ -1096,6 +1125,7 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
         season: body.season,
         crop_code: body.crop_code,
         variety_code: body.variety_code,
+        seedType: body.seed_type,
         user_id: body.loginedUserid.id,
         is_active: true
       },
@@ -1105,7 +1135,7 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
     }
     else if (recordExist && recordExist.isFinalSubmitted==false) {
 
-      if(await zsrmreqqsdistModel.findOne({zsrmreqfs_id: recordExist.id, district_id: body.district_id, is_active:true })) {
+      if(await zsrmreqqsdistModel.findOne({where : {zsrmreqfs_id: recordExist.id, district_id: body.district_id, is_active:true }})) {
         return response(res, "Record already exist for this district", 409, {});
       }
 
@@ -1113,14 +1143,15 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
         {
           zsrmreqfs_id: recordExist.id,
           district_id: body.district_id,
-          req: body.req,
-          avl: body.avl,
-          shtorsur: body.shtorsur
+          req: body.district_req,
+          avl: body.district_avl,
+          shtorsur: body.district_shtorsur,
+          user_id: body.loginedUserid.id,
         }
-      ).then(() => response(res, status.DATA_SAVE, 200) )
+      ).then(() => response(res, status.DATA_SAVE, 200, recordExist) )
       .catch(() => response(res, status.DATA_NOT_SAVE, 404));
-    }
-
+    } 
+    else {
       if ((cropExist.crop_code).slice(0, 1) == 'A') {
         crop_type = 'agriculture';
         unit = 'qt';
@@ -1148,18 +1179,31 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
           crop_type: crop_type,
           crop_code: body.crop_code,
           variety_code: body.variety_code,
+          seedType: body.seed_type,
+          asOnDate: body.as_on_date,
           user_id: body.loginedUserid.id,
           unit: unit,
           state_id: state.state_id,
+          req: body.req,
+          ssc: body.ssc,
+          doa: body.doa,
+          sau: body.sau,
+          nsc: body.nsc,
+          seedhubs: body.seedhubs,
+          pvt: body.pvt,
+          others: body.others,
+          total: body.total,
+          shtorsur: body.shtorsur
         })   
   if (data) {
     let dataDist = zsrmreqqsdistModel.create(
       {
         zsrmreqfs_id: data.id,
         district_id: body.district_id,
-        req: body.req,
-        shtorsur: body.shtorsur,
-        avl: body.avl
+        req: body.district_req,
+        shtorsur: body.district_shtorsur,
+        avl: body.district_avl,
+        user_id: body.loginedUserid.id,
       }
     )
     if (dataDist) {
@@ -1168,11 +1212,52 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
     else {
       return response(res, status.DATA_NOT_SAVE, 404)
     }
+
     }
-    else {
-      return response(res, status.DATA_NOT_SAVE, 404)
+  }
+ } catch (error) {
+    console.log(error);
+    return response(res, status.UNEXPECTED_ERROR, 501)
+  }
+}
+
+
+exports.addZsrmReqQsFinal = async (req, res) => {
+  try {
+    const body = req.body;
+    console.log(body.loginedUserid.id);
+    let recordExist = await zsrmreqqsModel.findOne({
+      where: {
+        year: body.year,
+        season: body.season,
+        crop_code: body.crop_code,
+        variety_code: body.variety_code,
+        seedType: body.seed_type,
+        user_id: body.loginedUserid.id,
+        is_active: true
+      },
+    });
+    if(recordExist && recordExist.isFinalSubmitted==true) {
+      return response(res, "Record already exist", 409, {});
     }
-  } catch (error) {
+    else if (recordExist && recordExist.isFinalSubmitted==false) {
+
+         await recordExist.update({
+          asOnDate: body.as_on_date,
+          req: body.req,
+          ssc: body.ssc,
+          doa: body.doa,
+          sau: body.sau,
+          nsc: body.nsc,
+          seedhubs: body.seedhubs,
+          pvt: body.pvt,
+          others: body.others,
+          total: body.total,
+          shtorsur: body.shtorsur,
+          isFinalSubmitted: true
+        }).then(() => response(res, status.DATA_SAVE, 200, {}) )
+        .catch(() => response(res, status.DATA_NOT_SAVE, 500));   
+  }} catch (error) {
     console.log(error);
     return response(res, status.UNEXPECTED_ERROR, 501)
   }
@@ -1180,9 +1265,11 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
 
 exports.deleteZsrmReqQsDistWise = async (req, res) => {
   try {
-
+    const body =req.body;
   const data = await zsrmreqqsdistModel.findOne({ where: { id: req.params.id, is_active:true, user_id:body.loginedUserid.id}});
-
+  const result = {
+    zsrmreqfs_id : data.zsrmreqfs_id
+  }
   if (!data) {
     return response(res, status.DATA_NOT_AVAILABLE, 404);
   }
@@ -1192,7 +1279,7 @@ exports.deleteZsrmReqQsDistWise = async (req, res) => {
     where: {
       id: req.params.id,
     },
-  },). then(() => response(res, status.DATA_DELETED, 200, {}) )
+  },). then(() => response(res, status.DATA_DELETED, 200, result) )
   .catch(() => response(res, status.DATA_NOT_DELETED, 500));
 }
 catch (error) {
@@ -1200,10 +1287,12 @@ catch (error) {
 }
 }
 
-exports.deleteZsrmReqQs = async (req, res) => {try {
-
+exports.deleteZsrmReqQs = async (req, res) => {
+  try {
+    const body = req.body;
+    console.log(body.loginedUserid.id);
   const data = await zsrmreqqsModel.findOne({ where: { id: req.params.id, is_active:true, user_id:body.loginedUserid.id}});
-
+  console.log(data);
   if (!data) {
     return response(res, status.DATA_NOT_AVAILABLE, 404);
   }
@@ -1229,9 +1318,186 @@ exports.deleteZsrmReqQs = async (req, res) => {try {
  } 
 }
 catch (error) {
+  console.log(error,'error')
   return response(res, status.UNEXPECTED_ERROR, 500)
 }
 }
+
+exports.viewZsrmReqQs = async(req, res) => { 
+  
+  try {
+   // const { search } = req.body;
+    const userid = req.body.loginedUserid.id;
+
+    const { page, limit } = req.query;  // Extract pagination params from query string
+    console.log(page, limit);
+
+     // Calculate offset based on page and limit
+     const offset = (page - 1) * limit;
+
+     let condition = {
+      include: [
+        {
+          model: cropDataModel,
+          attributes: ['crop_name']
+        },
+        {
+          model: varietyModel,
+          attributes: ['variety_name']
+        },
+        {
+          model:stateModel,
+          attributes: ['state_name']
+        },
+        {
+          model:userModel,
+          attributes: ['name']
+        },
+      ],
+      where: { user_id: userid, is_active: true },
+      order: [ [cropDataModel, 'crop_name', 'ASC'],  // Ordering by crop_name in ascending order
+      [varietyModel, 'variety_name', 'ASC'],
+      [stateModel,'state_name', 'ASC'],
+      [userModel,'name', 'ASC']],
+      attributes: {
+        exclude: ['createdAt', 'updatedAt', 'deletedAt','crop_type', 'is_active' ]
+      },
+      limit: limit,      // Limit the number of records returned
+      offset: offset, 
+    };
+
+    if (req.query.year) {
+      condition.where.year = (req.query.year);
+    }
+    if (req.query.season) {
+      condition.where.season = (req.query.season);
+    }
+    if (req.query.crop_code) {
+      condition.where.crop_code = (req.query.crop_code);
+    }
+    if(req.query.variety_code) {
+      condition.where.variety_code = (req.query.variety_code);
+    }
+    if(req.query.seed_type) {
+      condition.where.seedType = (req.query.seed_type);
+    }
+    let data = await zsrmreqqsModel.findAll(condition);
+    console.log("data found", data);
+  if (data.length == 0)
+  //res.status(404).json({message: "No data found"})
+  return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+    const result = data.map((item)=>{return {     
+      id: item.id,
+      year: item.year,
+      season: item.season,
+      user_id: item.user_id,
+      crop_code: item.crop_code,
+      variety_code: item.variety_code,
+      crop_name: item.m_crop.crop_name,
+      variety_name: item.m_crop_variety.variety_name,
+      state_id:item.state_id,
+      state_name: item.m_state.state_name,
+      user_name: item.user.name,
+      unit: item.unit,
+      seed_type:item.seedType,
+      req: parseFloat(item.req),
+      ssc: parseFloat(item.ssc),
+      doa: parseFloat(item.doa),
+      sau: parseFloat(item.sau),
+      nsc: parseFloat(item.nsc),
+      seedhubs: parseFloat(item.seedhubs),
+      total: parseFloat(item.total),
+      shtorsur: parseFloat(item.shtorsur),
+      pvt: parseFloat(item.pvt),
+      others: parseFloat(item.others),
+    }
+  });
+    // Get total records for pagination
+    const totalRecords = await zsrmreqqsModel.count(condition);
+
+    const totalPages = Math.ceil(totalRecords / limit);  // Calculate total pages
+
+    response(res, status.DATA_AVAILABLE, 200, {
+      data: result,
+      pagination: {
+        currentPage: parseInt(page),
+        totalRecords: totalRecords,
+        totalPages: totalPages,
+        pageSize: parseInt(limit),
+      },
+    });
+    
+ 
+  } catch (error) {
+    console.log(error);
+    return response(res, status.UNEXPECTED_ERROR, 501)
+  }
+  
+} 
+
+exports.viewZsrmReqQsDistWise = async(req, res) => { 
+  try {
+   // const { search } = req.body;
+    const userid = req.body.loginedUserid.id;
+
+    const { zsrmreqfs_id } = req.query;  // Extract pagination params from query string
+
+     let condition = {
+      include: [
+        {
+          model: districtModel,
+          attributes: ['district_name']
+        }, 
+      ],
+      where: { user_id: userid, zsrmreqfs_id:zsrmreqfs_id, is_active: true },
+      order: [ [districtModel, 'district_name', 'ASC'],  // Ordering by crop_name in ascending order
+      ],
+      attributes: 
+      {
+        exclude: ['createdAt', 'updatedAt', 'deletedAt', 'is_active' ]
+      }
+    };
+    let data = await db.zsrmReqQsDistWise.findAll(condition);
+
+    let dataSum = await db.zsrmReqQsDistWise.findAll({
+      where: {
+        user_id: userid, zsrmreqfs_id:zsrmreqfs_id, is_active: true
+      },
+      attributes: [
+        // Grouping by crop_name and user_name  
+        [sequelize.fn('SUM', sequelize.col('req')), 'req'], // Count of records in 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('avl')), 'avl'], // Sum of 'total' from 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('shtorsur')), 'shtorsur'], 
+      ],
+     group: [ [sequelize.col('zsrmreqfs_id'), 'zsrmreqfs_id'],], // Grouping by user_id and crop_id (or crop_name depending on your logic)
+    });
+
+  // if (data.length == 0)
+  // //res.status(404).json({message: "No data found"})
+  // return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+  const result = data.map((item)=>{return {     
+    id: item.id,
+    req: parseFloat(item.req),
+    avl: parseFloat(item.avl),
+    shtorsur: parseFloat(item.shtorsur),
+    district_name: item.m_district.district_name
+  }
+});
+
+    response(res, status.DATA_AVAILABLE, 200, {
+      result:result,
+      total_req: dataSum.length? dataSum[0].req : 0,
+      total_avl: dataSum.length? dataSum[0].avl : 0,
+      total_shtorsur: dataSum.length? dataSum[0].shtorsur:0,
+    });
+  } catch (error) {
+    console.log(error);
+    return response(res, status.UNEXPECTED_ERROR, 501)
+  }
+  
+} 
 
 //srr 
 
@@ -1557,7 +1823,7 @@ if (data.length == 0)
      unit: item.unit,
      proposedAreaUnderVariety: parseFloat(item.proposedAreaUnderVariety),
      seedrate: parseFloat(item.seedrate), 
-     SRRTargetbyGOI: parseFloat(item.m_crop.srr),
+     SRRTargetbyGOI: parseFloat(item.m_crop.srr) || 0.0,
      SRRTargetbySTATE: parseFloat(item.SRRTargetbySTATE),
      seedRequired: parseFloat(item.seedRequired),
      qualityquant:parseFloat(item.qualityquant),
@@ -3537,7 +3803,446 @@ exports.updateSrr =async (req, res) => {
         }
         
       } 
-  
+      
+      exports.getZsrmCsQsDistYear = async(req, res) => { 
+    
+        try {
+         // const { search } = req.body;
+          const userid = req.body.loginedUserid.id;
+          let data = await zsrmcsqsdistModel.findAll({
+            attributes: [  [sequelize.fn('DISTINCT', sequelize.col('year')), 'year'],],
+            distinct: true,
+            where: { user_id: userid, is_active: true },
+            order: [ ['year', 'Desc'] ],
+          });
+          console.log("data found", data);
+      if (data.length == 0)
+        //res.status(404).json({message: "No data found"})
+        return response(res, status.DATA_NOT_AVAILABLE, 404)
+      response(res, status.DATA_AVAILABLE, 200, data);
+     } catch (error) {
+          console.log(error);
+          return response(res, status.UNEXPECTED_ERROR, 501)
+        }
+        
+      } 
+
+      exports.getZsrmCsQsDistSeason = async(req, res) => { 
+    
+        try {
+         // const { search } = req.body;
+          const userid = req.body.loginedUserid.id;
+          let data = await zsrmcsqsdistModel.findAll({
+            attributes: [  [sequelize.fn('DISTINCT', sequelize.col('season')), 'season'],],
+            distinct: true,
+            where: { user_id: userid, is_active: true, year: req.query.year},
+            order: [ ['season', 'Asc'] ],
+          });
+          console.log("data found", data);
+      if (data.length == 0)
+        //res.status(404).json({message: "No data found"})
+        return response(res, status.DATA_NOT_AVAILABLE, 404)
+      response(res, status.DATA_AVAILABLE, 200, data);
+     } catch (error) {
+          console.log(error);
+          return response(res, status.UNEXPECTED_ERROR, 501)
+        }
+        
+      } 
+
+      exports.getZsrmCsQsDistCropType= async(req, res) => { 
+    
+        try {
+         // const { search } = req.body;
+          const userid = req.body.loginedUserid.id;
+          let data = await zsrmcsqsdistModel.findAll({
+            attributes: [  [sequelize.fn('DISTINCT', sequelize.col('crop_type')), 'crop_type'],],
+            distinct: true,
+            where: { user_id: userid, is_active: true, year: req.query.year, season: req.query.season},
+            order: [ ['crop_type', 'Asc'] ],
+          });
+          console.log("data found", data);
+      if (data.length == 0)
+        //res.status(404).json({message: "No data found"})
+        return response(res, status.DATA_NOT_AVAILABLE, 404)
+      response(res, status.DATA_AVAILABLE, 200, data);
+     } catch (error) {
+          console.log(error);
+          return response(res, status.UNEXPECTED_ERROR, 501)
+        }
+        
+      } 
+
+      exports.getZsrmCsQsDistCrop= async(req, res) => { 
+    
+        try {
+         // const { search } = req.body;
+          const userid = req.body.loginedUserid.id;
+          let condition = {
+          
+            include: [
+              {
+                model: cropDataModel,
+                attributes: []
+              },
+            ],
+            where: { user_id: userid, is_active: true, year: req.query.year, season: req.query.season,
+              crop_type: req.query.crop_type
+             },
+            order: [ [cropDataModel, 'crop_name', 'ASC'],  // Ordering by crop_name in ascending order
+           ],
+          
+            attributes: [  [sequelize.col('crop_name'), 'crop_name'],
+            [sequelize.col('zsrm_cs_qs_seed_dist.crop_code'), 'crop_code']
+          ],
+          distinct: true, // Ensure distinct rows based on crop_name and crop_code
+      group: [
+        sequelize.col('zsrm_cs_qs_seed_dist.crop_code'),
+        sequelize.col('crop_name')
+      ] // This groups by crop_name and crop_code to ensure uniqueness
+          }
+      
+          let data = await zsrmcsqsdistModel.findAll(condition);
+          console.log("data found", data);
+      if (data.length == 0)
+        //res.status(404).json({message: "No data found"})
+        return response(res, status.DATA_NOT_AVAILABLE, 404)
+      response(res, status.DATA_AVAILABLE, 200, data);
+     } catch (error) {
+          console.log(error);
+          return response(res, status.UNEXPECTED_ERROR, 501)
+        }
+        
+      } 
+    
+      exports.getZsrmCsQsDistData = async (req, res) => {
+        let data = {};
+        try {
+          let condition = {}
+      console.log(req.body)
+          let filters = await ConditionCreator.filters(req.body.search);
+          console.log(filters, "filters")
+
+            condition = {
+              where: filters,
+              include: [
+                {
+                  model: cropDataModel,
+                  attributes: [],
+                  attributes: ['id', 'crop_name', 'crop_code'],
+                },
+                {
+                  model: varietyModel,
+                  attributes: ['variety_name',]
+                },
+              ],
+              attributes: [
+                [sequelize.col('zsrm_cs_qs_seed_dist.crop_code'), 'crop_code'],
+                [sequelize.col('m_crop.crop_name'), 'crop_name'],
+                [sequelize.col('m_crop_variety.variety_code'), 'variety_code'],
+                [sequelize.col('m_crop_variety.variety_name'), 'variety_name'], 
+                [sequelize.col('zsrm_cs_qs_seed_dist.seedType'), 'seedType'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.doa'), 'doa'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.ssc'),'ssc'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.others'), 'others'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.nsc'), 'nsc'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.sfci'),'sfci'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.private'), 'private'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.total'), 'total'],                              
+               ],
+            };
+          condition.order = [[sequelize.col('m_crop.crop_name'), 'ASC'], [sequelize.col('m_crop_variety.variety_name'), 'ASC'],
+          [sequelize.col('zsrm_cs_qs_seed_dist.seedType'), 'ASC'] ];
+          condition.where.user_id = req.body.loginedUserid.id;
+          data = await zsrmcsqsdistModel.findAll(condition);
+          let filteredData = []
+          data.forEach(el => {
+          const cropIndex = filteredData.findIndex(item => item.crop_code === el.crop_code);
+          if (cropIndex === -1) {
+          filteredData.push({
+            "crop_name": el.m_crop.crop_name,
+            "crop_code": el.crop_code,
+            "crop_total_dist": parseFloat(el.total).toFixed(2),
+            "variety_count": 1,
+            "total_seed_count": 1,
+            "variety": [
+              {
+                "variety_code": el.variety_code,
+                "variety_name": el.m_crop_variety.variety_name,              
+                "total_dist": parseFloat(el.total).toFixed(2),
+                "seed_count": 1,
+                "seeds": [
+                  {
+                    "seed_type": el && el.seedType ? el.seedType : '',
+                    "doa": el && el.doa ? parseFloat(el.doa).toFixed(2) : '',
+                    "ssc": el && el.ssc ?parseFloat(el.ssc).toFixed(2) : '',
+                    "others": el && el.others ? parseFloat(el.others).toFixed(2) : '',
+                    "nsc": el && el.nsc ? parseFloat(el.nsc).toFixed(2) : '',
+                    "sfci": el && el.sfci ? parseFloat(el.sfci).toFixed(2) : '',
+                    "private": el && el.private ? parseFloat(el.private).toFixed(2) : '',
+                    "total": el && el.total ? parseFloat(el.total).toFixed(2) : '',
+                  }
+                ]
+              }
+            ]
+          });
+        } else {
+          // console.log('filteredData88888888888',el.agency_name, filteredData[cropIndex]);
+          const varietyIndex = filteredData[cropIndex].variety.findIndex(item => item.variety_code === el.variety_code);
+          //	          const cropIndex = filteredData.findIndex(item => item.state_code === el.state_code && item.spa_code === el.spa_code );
+
+          if (varietyIndex !== -1) {
+            // console.log('>>>>', varietyIndex);
+            filteredData[cropIndex].crop_total_dist = parseFloat(parseFloat(filteredData[cropIndex].crop_total_dist) + parseFloat(el.total)).toFixed(2);
+
+            filteredData[cropIndex].variety[varietyIndex].total_dist = parseFloat(parseFloat(filteredData[cropIndex].variety[varietyIndex].total_dist) + parseFloat(el.total)).toFixed(2);
+            filteredData[cropIndex].variety_count  = filteredData[cropIndex].variety_count + 1;
+            filteredData[cropIndex].variety[varietyIndex].seed_count = filteredData[cropIndex].variety[varietyIndex].seed_count + 1;
+            filteredData[cropIndex].total_seed_count = filteredData[cropIndex].total_seed_count + 1;
+
+            filteredData[cropIndex].variety[varietyIndex].seeds.push(
+              {
+                "seed_type": el && el.seedType ? el.seedType : '',
+                "doa": el && el.doa ? parseFloat(el.doa).toFixed(2) : '',
+                "ssc": el && el.ssc ?parseFloat(el.ssc).toFixed(2) : '',
+                "others": el && el.others ? parseFloat(el.others).toFixed(2) : '',
+                "nsc": el && el.nsc ? parseFloat(el.nsc).toFixed(2) : '',
+                "sfci": el && el.sfci ? parseFloat(el.sfci).toFixed(2) : '',
+                "private": el && el.private ? parseFloat(el.private).toFixed(2) : '',
+                "total": el && el.total ? parseFloat(el.total).toFixed(2) : '',
+              }
+            );
+          } else {
+            // console.log("fil/teredDataaaaaaaaaaaaa", filteredData)
+            filteredData[cropIndex].crop_total_dist = parseFloat(parseFloat(filteredData[cropIndex].crop_total_dist) + parseFloat(el.total)).toFixed(2);
+            filteredData[cropIndex].variety_count = filteredData[cropIndex].variety_count + 1;
+            filteredData[cropIndex].total_seed_count = filteredData[cropIndex].total_seed_count + 1;
+
+            filteredData[cropIndex].variety.push({
+                   
+              "variety_code": el.variety_code,
+              "variety_name": el.m_crop_variety.variety_name,
+              "total_dist": parseFloat(el.total).toFixed(2),
+             
+              "seed_count": 1,
+              "seeds": [
+                {
+                  "seed_type": el && el.seedType ? el.seedType : '',
+                    "doa": el && el.doa ? parseFloat(el.doa).toFixed(2) : '',
+                    "ssc": el && el.ssc ?parseFloat(el.ssc).toFixed(2) : '',
+                    "others": el && el.others ? parseFloat(el.others).toFixed(2) : '',
+                    "nsc": el && el.nsc ? parseFloat(el.nsc).toFixed(2) : '',
+                    "sfci": el && el.sfci ? parseFloat(el.sfci).toFixed(2) : '',
+                    "private": el && el.private ? parseFloat(el.private).toFixed(2) : '',
+                    "total": el && el.total ? parseFloat(el.total).toFixed(2) : '',
+                }
+              ]
+            });
+          }
+        }
+      });
+          if (filteredData) {
+            return response(res, status.DATA_AVAILABLE, 200, filteredData)
+          } else {
+            return response(res, "Data Not Found", 200, {})
+          }
+        } catch (error) {
+          console.log(error)
+          response(res, status.DATA_NOT_AVAILABLE, 500)
+        }
+      }
+      
+      exports.getZsrmCsQsDistDataSeedDiv = async (req, res) => {
+        let data = {};
+        try {
+          let condition = {}
+          console.log(req.body)
+          let filters = await ConditionCreator.filters(req.body.search);
+          console.log(filters, "filters")
+
+            condition = {
+              where: filters,
+              include: [
+                {
+                  model: cropDataModel,
+                  attributes: [],
+                  attributes: ['id', 'crop_name', 'crop_code'],
+                },
+                {
+                  model: varietyModel,
+                  attributes: ['variety_name',]
+                },
+                {
+                  model:userModel,
+                  attributes: ['name']
+                }
+              ],
+              attributes: [
+                [sequelize.col('user.name'),'user_name'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.user_id'),'user_id'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.crop_code'), 'crop_code'],
+                [sequelize.col('m_crop.crop_name'), 'crop_name'],
+                [sequelize.col('m_crop_variety.variety_code'), 'variety_code'],
+                [sequelize.col('m_crop_variety.variety_name'), 'variety_name'], 
+                [sequelize.col('zsrm_cs_qs_seed_dist.seedType'), 'seedType'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.doa'), 'doa'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.ssc'),'ssc'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.others'), 'others'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.nsc'), 'nsc'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.sfci'),'sfci'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.private'), 'private'],
+                [sequelize.col('zsrm_cs_qs_seed_dist.total'), 'total'],                              
+               ],
+            };
+          condition.order = [[sequelize.col('user.name'), 'ASC'],
+          [sequelize.col('m_crop.crop_name'), 'ASC'],
+          , [sequelize.col('m_crop_variety.variety_name'), 'ASC'],
+          [sequelize.col('zsrm_cs_qs_seed_dist.seedType'), 'ASC'] ];
+          data = await zsrmcsqsdistModel.findAll(condition);
+          let filteredData = [];
+
+          data.forEach(el => {
+            // Check if user already exists in filteredData
+            const userIndex = filteredData.findIndex(item => item.user === el.user_id);
+          
+            if (userIndex === -1) {
+              // If the user doesn't exist, create a new user entry
+              filteredData.push({
+                "user_name": el.user_name,
+                "user": el.user_id,
+                "user_total_dist": parseFloat(el.total).toFixed(2),
+                "total_crop_count": 1, // Initially 1 as we are adding the first crop
+                "total_variety_count": 1, // Initially 1 as we are adding the first variety
+                "total_seeds_count": 1, // Initially 1 as we are adding the first seed
+                "crops": [
+                  {
+                    "crop_name": el.m_crop.crop_name,
+                    "crop_code": el.crop_code,
+                    "crop_total_dist": parseFloat(el.total).toFixed(2),
+                    "variety_count": 1,
+                    "total_seed_count": 1,
+                    "variety": [
+                      {
+                        "variety_code": el.variety_code,
+                        "variety_name": el.m_crop_variety.variety_name,
+                        "total_dist": parseFloat(el.total).toFixed(2),
+                        "seed_count": 1,
+                        "seeds": [
+                          {
+                            "seed_type": el.seedType || '',
+                            "doa": el.doa ? parseFloat(el.doa).toFixed(2) : '',
+                            "ssc": el.ssc ? parseFloat(el.ssc).toFixed(2) : '',
+                            "others": el.others ? parseFloat(el.others).toFixed(2) : '',
+                            "nsc": el.nsc ? parseFloat(el.nsc).toFixed(2) : '',
+                            "sfci": el.sfci ? parseFloat(el.sfci).toFixed(2) : '',
+                            "private": el.private ? parseFloat(el.private).toFixed(2) : '',
+                            "total": el.total ? parseFloat(el.total).toFixed(2) : '',
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              });
+            } else {
+              // If the user already exists, find the cropIndex
+              const cropIndex = filteredData[userIndex].crops.findIndex(item => item.crop_code === el.crop_code);
+          
+              if (cropIndex === -1) {
+                // If the crop doesn't exist for this user, create a new crop entry
+                filteredData[userIndex].crops.push({
+                  "crop_name": el.m_crop.crop_name,
+                  "crop_code": el.crop_code,
+                  "crop_total_dist": parseFloat(el.total).toFixed(2),
+                  "variety_count": 1,
+                  "total_seed_count": 1,
+                  "variety": [
+                    {
+                      "variety_code": el.variety_code,
+                      "variety_name": el.m_crop_variety.variety_name,
+                      "total_dist": parseFloat(el.total).toFixed(2),
+                      "seed_count": 1,
+                      "seeds": [
+                        {
+                          "seed_type": el.seedType || '',
+                          "doa": el.doa ? parseFloat(el.doa).toFixed(2) : '',
+                          "ssc": el.ssc ? parseFloat(el.ssc).toFixed(2) : '',
+                          "others": el.others ? parseFloat(el.others).toFixed(2) : '',
+                          "nsc": el.nsc ? parseFloat(el.nsc).toFixed(2) : '',
+                          "sfci": el.sfci ? parseFloat(el.sfci).toFixed(2) : '',
+                          "private": el.private ? parseFloat(el.private).toFixed(2) : '',
+                          "total": el.total ? parseFloat(el.total).toFixed(2) : '',
+                        }
+                      ]
+                    }
+                  ]
+                });
+                // Increment user crop count
+                filteredData[userIndex].total_crop_count += 1;
+              } else {
+                // If the crop exists, find the varietyIndex
+                const varietyIndex = filteredData[userIndex].crops[cropIndex].variety.findIndex(item => item.variety_code === el.variety_code);
+          
+                if (varietyIndex !== -1) {
+                  // Update the total distribution and seed counts for the variety and crop
+                  filteredData[userIndex].crops[cropIndex].crop_total_dist = (parseFloat(filteredData[userIndex].crops[cropIndex].crop_total_dist) + parseFloat(el.total)).toFixed(2);
+                  filteredData[userIndex].crops[cropIndex].variety[varietyIndex].total_dist = (parseFloat(filteredData[userIndex].crops[cropIndex].variety[varietyIndex].total_dist) + parseFloat(el.total)).toFixed(2);
+                  filteredData[userIndex].crops[cropIndex].variety_count += 1;  // Update variety count
+                  filteredData[userIndex].crops[cropIndex].variety[varietyIndex].seed_count += 1;  // Update seed count
+                  filteredData[userIndex].crops[cropIndex].total_seed_count += 1;  // Update total seed count
+          
+                  filteredData[userIndex].crops[cropIndex].variety[varietyIndex].seeds.push(
+                    {
+                      "seed_type": el.seedType || '',
+                      "doa": el.doa ? parseFloat(el.doa).toFixed(2) : '',
+                      "ssc": el.ssc ? parseFloat(el.ssc).toFixed(2) : '',
+                      "others": el.others ? parseFloat(el.others).toFixed(2) : '',
+                      "nsc": el.nsc ? parseFloat(el.nsc).toFixed(2) : '',
+                      "sfci": el.sfci ? parseFloat(el.sfci).toFixed(2) : '',
+                      "private": el.private ? parseFloat(el.private).toFixed(2) : '',
+                      "total": el.total ? parseFloat(el.total).toFixed(2) : '',
+                    }
+                  );
+                } else {
+                  // If the variety doesn't exist for the crop, add it
+                  filteredData[userIndex].crops[cropIndex].crop_total_dist = (parseFloat(filteredData[userIndex].crops[cropIndex].crop_total_dist) + parseFloat(el.total)).toFixed(2);
+                  filteredData[userIndex].crops[cropIndex].variety_count += 1; // Increment variety count
+                  filteredData[userIndex].crops[cropIndex].total_seed_count += 1; // Increment seed count
+          
+                  filteredData[userIndex].crops[cropIndex].variety.push({
+                    "variety_code": el.variety_code,
+                    "variety_name": el.m_crop_variety.variety_name,
+                    "total_dist": parseFloat(el.total).toFixed(2),
+                    "seed_count": 1,
+                    "seeds": [
+                      {
+                        "seed_type": el.seedType || '',
+                        "doa": el.doa ? parseFloat(el.doa).toFixed(2) : '',
+                        "ssc": el.ssc ? parseFloat(el.ssc).toFixed(2) : '',
+                        "others": el.others ? parseFloat(el.others).toFixed(2) : '',
+                        "nsc": el.nsc ? parseFloat(el.nsc).toFixed(2) : '',
+                        "sfci": el.sfci ? parseFloat(el.sfci).toFixed(2) : '',
+                        "private": el.private ? parseFloat(el.private).toFixed(2) : '',
+                        "total": el.total ? parseFloat(el.total).toFixed(2) : '',
+                      }
+                    ]
+                  });
+                }
+              }
+            }
+          });
+          
+          // Return the filtered data with the totals for each user
+          if (filteredData.length > 0) {
+            return response(res, status.DATA_AVAILABLE, 200, filteredData);
+          } else {
+            return response(res, "Data Not Found", 200, {});
+          }
+        } catch (error) {
+          console.log(error)
+          response(res, status.DATA_NOT_AVAILABLE, 500)
+        }
+      }
 
         //zsrmcsfsarea
     exports.addZsrmCsFsArea = async(req, res) => {
