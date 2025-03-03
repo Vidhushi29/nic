@@ -366,6 +366,44 @@ export class LoggedInUserInfoService {
 
         },
         {
+          "name": "ZSRM Report",
+          "href": "javascript:void(0)",
+          "subMenus": [
+            {
+              "name": "CS/Quality Seed Distribution (State/Variety-wise)",
+              "href": "/state-variety-wise-cs-qs-dist-report"
+            },
+            {
+              "name": "Summary CS/Quality Seed Distribution (Crop-wise)",
+              "href": "/crop-wise-cs-qs-dist-report"
+            },
+     
+          ]
+
+        },
+        {
+          "name": "SRP Report",
+          "href": "javascript:void(0)",
+          "subMenus": [
+            {
+              "name": "Crop-Wise SRP Report",
+              "href": "/crop-wise-srp-sd-report",
+              "icon": "seeding.svg"
+            },
+            {
+              "name": "CROP-WISE SUMMARY OF SRP",
+              "href": "/crop-wise-summary-srp-sd-report",
+              "icon": "seeding.svg"
+            },
+            {
+              "name": "CROP-VARIETY WISE SRP REPORT",
+              "href": "/master-srp-sd-report",
+              "icon": "seeding.svg"
+            }
+          ]
+
+        },
+        {
           "name": "Submit Indents of Breeder Seed (crop wise) ",
           "href": "/indent-wise-crop",
           "icon": "Add_Breeder.svg"
@@ -465,7 +503,42 @@ export class LoggedInUserInfoService {
           "href": "/submit-indent-of-spa-wise",
           "icon": "seeding.svg"
         },
+        {
+          "name": "SRP Report",
+          "href": "javascript:void(0)",
+          "subMenus": [
+            {
+              "name": "Crop-Wise SRP Report",
+              "href": "/crop-wise-srp-report",
+              "icon": "seeding.svg"
+            },
+            {
+              "name": "Crop-Wise Summary of SRP",
+              "href": "/crop-wise-summary-srp-report",
+              "icon": "seeding.svg"
+            },
+            {
+              "name": "CROP-VARIETY WISE SRP REPORT",
+              "href": "/master-srp-report",
+              "icon": "seeding.svg"
+            }
+          ]
 
+        },
+       
+        {
+          "name": "ZSRM Report",
+          "href": "javascript:void(0)",
+          "subMenus": [
+            {
+              "name": "Variety Wise Actual Distribution of Certified / Quality Seed ",
+              "href": "/variety-wise-dist-cs-qs",
+              "icon": "seeding.svg"
+            }
+          ]
+
+        },
+      
         // {
         //   "name": "Allocated Quantity of Breeder Seed to SPAs for Lifting",
         //   "href": "/spa-allocation-report",
@@ -1024,16 +1097,44 @@ export class LoggedInUserInfoService {
 
         {
           icon: "seeding.svg",
-          name: "Arrangemeent To Meet The Requirement Of Foundation Seed",
+          name: "FS Requirement & Availability Seed",
           href: "/requirement-of-Foundation-Seed",
          
         },
-        {
+       
+         {
           icon: "seeding.svg",
-          name: " VARIETY-WISE CONVERSION OF BREEDER SEED INTO FOUNDATION SEED ",
+          name: "CS/Quality Seed Requirement & Availability",
+          href: "/requirement-of-cs-qs-Seed",
+         },
+         {
+          icon: "seeding.svg",
+          name: " BS to FS (Conversion)",
           href: "/conversion-of-BStoFS",
          
          },
+         {
+          icon: "seeding.svg",
+          name: "CS Distribution (Variety-wise)",
+          href: "/seed-distribution",
+         
+        },
+         {
+          icon: "seeding.svg",
+          name: "Area Registered (Certification)",
+          href: "/area-registered-for-certification",
+         
+        },
+
+       
+
+
+        {
+          icon: "seeding.svg",
+          name: "Target & Acheivement Seed Replacement Rate by State",
+          href: "/target-Achievement-of-seed",
+         
+        },
         // {
         //   "name": "Submission of indent of Breeder Seed by State",
         //   "href": "/submission-of-indent-of-breeder-seed-by-state-report",
@@ -1222,27 +1323,7 @@ export class LoggedInUserInfoService {
          
         },
 
-        {
-          icon: "seeding.svg",
-          name: "Area Registered (Certification)",
-          href: "/area-registered-for-certification",
-         
-        },
-
-        {
-          icon: "seeding.svg",
-          name: "CS Distribution (Variety-wise)",
-          href: "/seed-distribution",
-         
-        },
-
-
-        {
-          icon: "seeding.svg",
-          name: "Target & Acheivement Seed Replacement Rate by State",
-          href: "/target-Achievement-of-seed",
-         
-        },
+       
         // {
         //   "name": "Submission of indent of Breeder Seed by State",
         //   "href": "/submission-of-indent-of-breeder-seed-by-state-report",

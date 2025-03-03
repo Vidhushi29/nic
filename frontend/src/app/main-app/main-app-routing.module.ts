@@ -250,6 +250,13 @@ import { ZsrmbstofsComponent } from './indenters/zsrmbstofs/zsrmbstofs.component
 import { ZsrmCsFsAreaComponent } from './indenters/zsrm-cs-fs-area/zsrm-cs-fs-area.component';
 import { SrrComponent } from './indenters/srr/srr.component';
 import { ZsrmCsQsDistributionComponent } from './indenters/zsrm-cs-qs-distribution/zsrm-cs-qs-distribution.component';
+import { ZsrmReqQsComponent } from './indenters/zsrm-req-qs/zsrm-req-qs.component';
+import { VarietyWiseDistCsQsComponent } from './variety-wise-dist-cs-qs/variety-wise-dist-cs-qs.component';
+import { StateVarietyWiseCsqsDistReportComponent } from './state-variety-wise-csqs-dist-report/state-variety-wise-csqs-dist-report.component';
+import { CropWiseCsqsDistReportComponent } from './crop-wise-csqs-dist-report/crop-wise-csqs-dist-report.component';
+import { SrpIndenterCropWiseReportComponent } from './srp-indenter-crop-wise-report/srp-indenter-crop-wise-report.component';
+import { SrpIndenterCropWiseSummaryReportComponent } from './srp-indenter-crop-wise-summary-report/srp-indenter-crop-wise-summary-report.component';
+import { SrpIndenterMasterReportComponent } from './srp-indenter-master-report/srp-indenter-master-report.component';
 
 // import { ZsmrFoundationSeedComponent } from './indenters/zsmr-foundation-seed/zsmr-foundation-seed.component';
 const routes: Routes = [
@@ -265,7 +272,7 @@ const routes: Routes = [
       //   path: '',
       //   component: WebLoginComponent
       // },
-      {
+      { 
         path: 'add-crop/submission/edit/:submissionid',
         component: AddCropComponent,
         canActivate: [SeedDivisionGuard]
@@ -1158,6 +1165,10 @@ const routes: Routes = [
         component: ZsrmComponent
       },
       {
+        path:'requirement-of-cs-qs-Seed',
+        component: ZsrmReqQsComponent
+      },
+      {
           path: 'SeedRollingPlan',
           component:SrpComponent
       },
@@ -1284,6 +1295,31 @@ const routes: Routes = [
       {
         path: 'submit-indent-of-spa-wise',
         component: IndentBreederSeedSpaWiseReportComponent
+      },
+      {
+        path: 'variety-wise-dist-cs-qs',
+        component: VarietyWiseDistCsQsComponent
+      },
+      {
+        path:'state-variety-wise-cs-qs-dist-report',
+        component: StateVarietyWiseCsqsDistReportComponent
+      },
+      {
+        path:'crop-wise-srp-report',
+        component: SrpIndenterCropWiseReportComponent
+      },
+      {
+        path:'crop-wise-summary-srp-report',
+        component: SrpIndenterCropWiseSummaryReportComponent
+      },
+
+      {
+        path:'master-srp-report',
+        component: SrpIndenterMasterReportComponent
+      },
+      {
+        path: 'crop-wise-cs-qs-dist-report',
+        component: CropWiseCsqsDistReportComponent
       },
       {
         path: 'allocated-quantity-seed-division',

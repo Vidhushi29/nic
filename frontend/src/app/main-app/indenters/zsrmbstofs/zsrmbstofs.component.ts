@@ -196,6 +196,13 @@ export class ZsrmbstofsComponent implements OnInit {
           this.getVarietyData(this.ngForm.controls['crop'].value);
         }
       })
+
+      this.ngForm.valueChanges.subscribe((formValues) => {
+        const { year, season, crop, variety} = formValues;
+        if (year || season || crop || variety ) {
+          this.getPageData();
+          this.isShowTable = true;
+      }}) 
   
     }
   
@@ -604,11 +611,13 @@ export class ZsrmbstofsComponent implements OnInit {
     }
     
     resetForm() {
-      this.isAddFormOpen = true;
-      this.isUpdateFormOpen = false;
-      this.submitted = false;
-      this.ngForm.reset();
-      this.getPageData
+      this.ngForm.controls['year'].reset('');
+      this.ngForm.controls['season'].reset('');
+      this.selectCrop = '';
+      this.selectVariety = '';     
+      this.ngForm.controls['crop'].reset('');
+      this.ngForm.controls['variety'].reset('');
+      this.isShowTable = false;
     }
     
   }

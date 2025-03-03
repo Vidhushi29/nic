@@ -109,7 +109,7 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
   
     SaveAsData() {
       this.isAddSelected = true;
-      this. isChangeMessage="Enter Registered Area and Quantiy Details"
+      this. isChangeMessage="Enter Distribution of Certified/Quality Seed"
       this.resetCancelation()
       
     }
@@ -187,7 +187,7 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
   
     patchDataForUpdate(data: any) {
       this.isAddSelected = true
-      this. isChangeMessage="Update:"
+      this. isChangeMessage="Update Distribution of Certified/Quality Seed"
       this.isButtonText="Update"
       this.isEditMode=true
       this.is_update = true;
@@ -278,10 +278,17 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
     
     }
     resetCancelation() {
-      this.ngForm.controls['cs_area'].reset('');
-      this.ngForm.controls['cs_quant'].reset('');
-      this.ngForm.controls['fs_area'].reset('');
-      this.ngForm.controls['fs_quant'].reset('');
+  
+      this.ngForm.controls['ssc'].patchValue(0);
+      this.ngForm.controls['doa'].patchValue(0);
+   
+      this.ngForm.controls['nsc'].patchValue(0);
+      this.ngForm.controls['sfci'].patchValue(0);
+      this.ngForm.controls['pvt'].patchValue(0);
+      this.ngForm.controls['others'].patchValue(0);
+      this.ngForm.patchValue(   { total: 0 },
+        { emitEvent: false }
+      );
       this.is_update = false;
       this.showOtherInputBox = false;
     }
@@ -345,8 +352,21 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
     }
   
     createAndSave() {
+        if (!this.ngForm.controls["total"].value) {
+             Swal.fire({
+               title: '<p style="font-size:25px;">Total can not be 0</p>',
+               icon: 'error',
+               confirmButtonText:
+                 'OK',
+               confirmButtonColor: '#E97E15'
+             })
+       
+             return;
+           }
       this.submitted = true;
       this.isAddFormOpen = true;
+     
+
       this.saveForm();
     }
     getVarietyData(varietyCode: any) {
@@ -427,6 +447,16 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
       this.paginationUiComponent.Init(this.filterPaginateSearch);
     }
     updateForm() {
+      if (!this.ngForm.controls["total"].value) {
+        Swal.fire({
+          title: '<p style="font-size:25px;">Total can not be 0</p>',
+          icon: 'error',
+          confirmButtonText:
+            'OK',
+          confirmButtonColor: '#E97E15'
+        })
+        return;
+      }
       this.submitted = true;
       this.isShowTable = true;
       const route = `update-zsrm-cs-qs-dist/${this.dataId}`;
@@ -490,7 +520,7 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
     }
 
   formatNumber(value: number) {
-    return value ? value.toFixed(2) : '';
+    return value ? value.toFixed(2) : 0.00;
   }
     
     resetForm() {
@@ -501,7 +531,7 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
       this.selectVariety = '';     
       this.ngForm.controls['crop'].reset('');
       this.ngForm.controls['variety'].reset('');
-      this.isShowTable = false;
+      this.isShowTable = false; this.isAddSelected = false;
     }
 
 

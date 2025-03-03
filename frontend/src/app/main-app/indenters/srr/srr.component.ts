@@ -243,6 +243,7 @@ export class SrrComponent implements OnInit {
       }
     })
     this.ngForm.controls['seed_type'].valueChanges.subscribe(() => this.resetSelections());
+    
   }
   createAndSave() {
     this.isShowTable = true

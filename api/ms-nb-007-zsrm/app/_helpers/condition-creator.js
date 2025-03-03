@@ -369,6 +369,9 @@ class ConditionCreator {
                             ...filter 
                         }
                         break;
+                        case 'userid':
+                        filter = { user_id: value, ...filter }
+                        break;
 
                     case 'crop_code'   :
                         console.log("value.length", value, value.length)

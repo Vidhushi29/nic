@@ -257,10 +257,10 @@ export class ZsrmCsFsAreaComponent implements OnInit {
     
     }
     resetCancelation() {
-      this.ngForm.controls['cs_area'].reset('');
-      this.ngForm.controls['cs_quant'].reset('');
-      this.ngForm.controls['fs_area'].reset('');
-      this.ngForm.controls['fs_quant'].reset('');
+      this.ngForm.controls['cs_area'].reset(0);
+      this.ngForm.controls['cs_quant'].reset(0);
+      this.ngForm.controls['fs_area'].reset(0);
+      this.ngForm.controls['fs_quant'].reset(0);
       this.is_update = false;
       this.showOtherInputBox = false;
     }
@@ -316,6 +316,46 @@ export class ZsrmCsFsAreaComponent implements OnInit {
     }
   
     createAndSave() {
+      if (!this.ngForm.controls["cs_area"].value) {
+              Swal.fire({
+                title: '<p style="font-size:25px;">CS Area can not be 0</p>',
+                icon: 'error',
+                confirmButtonText:
+                  'OK',
+                confirmButtonColor: '#E97E15'
+              })
+              return;
+            }
+        else if(!this.ngForm.controls["cs_quant"].value) {
+          Swal.fire({
+            title: '<p style="font-size:25px;">CS Quantity can not be 0</p>',
+            icon: 'error',
+            confirmButtonText:
+              'OK',
+            confirmButtonColor: '#E97E15'
+          })
+          return;
+        }
+        else if(!this.ngForm.controls["fs_area"].value) {
+          Swal.fire({
+            title: '<p style="font-size:25px;">FS Area can not be 0</p>',
+            icon: 'error',
+            confirmButtonText:
+              'OK',
+            confirmButtonColor: '#E97E15'
+          })
+          return;
+        }
+        else if(!this.ngForm.controls["fs_quant"].value) {
+          Swal.fire({
+            title: '<p style="font-size:25px;">FS Quantity can not be 0</p>',
+            icon: 'error',
+            confirmButtonText:
+              'OK',
+            confirmButtonColor: '#E97E15'
+          })
+          return;
+        }
       this.submitted = true;
       this.isAddFormOpen = true;
       this.saveForm();
@@ -398,6 +438,46 @@ export class ZsrmCsFsAreaComponent implements OnInit {
       this.paginationUiComponent.Init(this.filterPaginateSearch);
     }
     updateForm() {
+      if (!this.ngForm.controls["cs_area"].value) {
+        Swal.fire({
+          title: '<p style="font-size:25px;">CS Area can not be 0</p>',
+          icon: 'error',
+          confirmButtonText:
+            'OK',
+          confirmButtonColor: '#E97E15'
+        })
+        return;
+      }
+  else if(!this.ngForm.controls["cs_quant"].value) {
+    Swal.fire({
+      title: '<p style="font-size:25px;">CS Quantity can not be 0</p>',
+      icon: 'error',
+      confirmButtonText:
+        'OK',
+      confirmButtonColor: '#E97E15'
+    })
+    return;
+  }
+  else if(!this.ngForm.controls["fs_area"].value) {
+    Swal.fire({
+      title: '<p style="font-size:25px;">FS Area can not be 0</p>',
+      icon: 'error',
+      confirmButtonText:
+        'OK',
+      confirmButtonColor: '#E97E15'
+    })
+    return;
+  }
+  else if(!this.ngForm.controls["fs_quant"].value) {
+    Swal.fire({
+      title: '<p style="font-size:25px;">FS Quantity can not be 0</p>',
+      icon: 'error',
+      confirmButtonText:
+        'OK',
+      confirmButtonColor: '#E97E15'
+    })
+    return;
+  }
       this.submitted = true;
       this.isShowTable = true;
       const route = `update-zsrm-cs-fs-area/${this.dataId}`;
@@ -466,6 +546,7 @@ export class ZsrmCsFsAreaComponent implements OnInit {
       this.ngForm.controls['crop'].reset('');
       this.ngForm.controls['variety'].reset('');
       this.isShowTable = false;
+      this.isAddSelected = false;
     }
 
 

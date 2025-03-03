@@ -36,13 +36,23 @@ module.exports = app => {
     app.post(`${process.env.MICRO_SERVICE}/api/add-srp`,auth,zsrm.addSrp);
     app.get(`${process.env.MICRO_SERVICE}/api/view-srp/:id`,auth,zsrm.viewSrpById); 
     app.get(`${process.env.MICRO_SERVICE}/api/view-srp-all`,auth,zsrm.viewSrpAll); 
-    app.get(`${process.env.MICRO_SERVICE}/api/view-srp-crop-wise-summary`,auth,zsrm.viewSrpAllCropWiseSummary); 
-    app.get(`${process.env.MICRO_SERVICE}/api/view-srp-crop-wise`,auth,zsrm.viewSrpAllCropWise); 
+    app.post(`${process.env.MICRO_SERVICE}/api/view-srp-all`,auth,zsrm.viewSrpAllMasterReport); 
+    app.post(`${process.env.MICRO_SERVICE}/api/view-srp-crop-wise-summary`,auth,zsrm.viewSrpAllCropWiseSummary); 
+    app.post(`${process.env.MICRO_SERVICE}/api/view-srp-crop-wise`,auth,zsrm.viewSrpAllCropWise); 
     app.delete(`${process.env.MICRO_SERVICE}/api/delete-srp/:id`,auth,zsrm.deleteSrp);
     app.put(`${process.env.MICRO_SERVICE}/api/update-srp/:id`,auth,zsrm.updateSrp);
     app.get(`${process.env.MICRO_SERVICE}/api/view-srp-all-seed-division`,auth,zsrm.viewSrpAllSD); 
     app.get(`${process.env.MICRO_SERVICE}/api/view-srp-crop-wise-seed-division`,auth,zsrm.viewSrpAllCropWiseSD); 
     app.get(`${process.env.MICRO_SERVICE}/api/view-srp-crop-wise-summary-seed-division`,auth,zsrm.viewSrpAllCropWiseSummarySD); 
+    app.get(`${process.env.MICRO_SERVICE}/api/get-srp-year`,auth,zsrm.getSrpYear); 
+    app.get(`${process.env.MICRO_SERVICE}/api/get-srp-season`,auth,zsrm.getSrpSeason); 
+    app.get(`${process.env.MICRO_SERVICE}/api/get-srp-croptype`,auth,zsrm.getSrpCropType); 
+    app.get(`${process.env.MICRO_SERVICE}/api/get-srp-year-sd`,auth,zsrm.getSrpYearSD); 
+    app.get(`${process.env.MICRO_SERVICE}/api/get-srp-season-sd`,auth,zsrm.getSrpSeasonSD); 
+    app.get(`${process.env.MICRO_SERVICE}/api/get-srp-croptype-sd`,auth,zsrm.getSrpCropTypeSD);
+    app.get(`${process.env.MICRO_SERVICE}/api/get-srp-sd-ct-year-based`,auth,zsrm.getSrpCropTypeSDYearBased)
+    app.get(`${process.env.MICRO_SERVICE}/api/get-srp-state`,auth,zsrm.getSrpStateSD); 
+    app.get(`${process.env.MICRO_SERVICE}/api/get-srp-crop`,auth,zsrm.getSrpCrop);
 
     //SRR
     app.post(`${process.env.MICRO_SERVICE}/api/add-srr`,auth,zsrm.addSrr);
@@ -71,9 +81,15 @@ module.exports = app => {
     app.get(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-year`,auth,zsrm.getZsrmCsQsDistYear); 
     app.get(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-season`,auth,zsrm.getZsrmCsQsDistSeason); 
     app.get(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-croptype`,auth,zsrm.getZsrmCsQsDistCropType); 
+    app.get(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-year-sd`,auth,zsrm.getZsrmCsQsDistYearSD); 
+    app.get(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-season-sd`,auth,zsrm.getZsrmCsQsDistSeasonSD); 
+    app.get(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-croptype-sd`,auth,zsrm.getZsrmCsQsDistCropTypeSD);
+    app.get(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-croptype-sd-year-based`,auth,zsrm.getZsrmCsQsDistCropTypeSDYearBased)
+    app.get(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-state`,auth,zsrm.getZsrmCsQsDistStateSD); 
     app.get(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-crop`,auth,zsrm.getZsrmCsQsDistCrop);
     app.post(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-data`,auth,zsrm.getZsrmCsQsDistData);
     app.post(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-data-sd`,auth,zsrm.getZsrmCsQsDistDataSeedDiv);
+    app.post(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-data-cropwise-sd`,auth,zsrm.getZsrmCsQsDistDataCropWiseSeedDiv);
 
 
      //ZSRMCSFSAREA
