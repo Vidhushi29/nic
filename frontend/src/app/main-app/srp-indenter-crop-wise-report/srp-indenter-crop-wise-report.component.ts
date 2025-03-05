@@ -123,7 +123,7 @@ export class SrpIndenterCropWiseReportComponent implements OnInit {
       this.ngForm.controls['year_of_indent'].valueChanges.subscribe(newValue => {
         if (newValue) {
           this.getIndentorSpaSeason(newValue)
-          this.ngForm.controls['season'].patchValue("");
+          this.ngForm.controls['season'].patchValue('');
           this.ngForm.controls['crop_group'].patchValue("");
           this.ngForm.controls['crop_name'].patchValue("");
           this.ngForm.controls['variety_name'].setValue('');
@@ -136,6 +136,7 @@ export class SrpIndenterCropWiseReportComponent implements OnInit {
           this.spa_namesArr = []
           this.selectCrop_group = '';
           this.cropVarietList = []
+
           this.spa_names = ''
           this.variety_names = '';
           this.enableTable = false;
@@ -231,9 +232,21 @@ export class SrpIndenterCropWiseReportComponent implements OnInit {
   
   
     onSearch() {
-      if ((!this.ngForm.controls["year_of_indent"].value && !this.ngForm.controls["season"].value)) {
+      
+      if ((!this.ngForm.controls["year_of_indent"].value)) {
         Swal.fire({
           title: '<p style="font-size:25px;">Please Select Something.</p>',
+          icon: 'error',
+          confirmButtonText:
+            'OK',
+          confirmButtonColor: '#E97E15'
+        })
+  
+        return;
+      }
+      if ((!this.ngForm.controls["season"].value)) {
+        Swal.fire({
+          title: '<p style="font-size:25px;">Please Select Season.</p>',
           icon: 'error',
           confirmButtonText:
             'OK',

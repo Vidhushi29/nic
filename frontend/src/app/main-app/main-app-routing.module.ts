@@ -257,6 +257,7 @@ import { CropWiseCsqsDistReportComponent } from './crop-wise-csqs-dist-report/cr
 import { SrpIndenterCropWiseReportComponent } from './srp-indenter-crop-wise-report/srp-indenter-crop-wise-report.component';
 import { SrpIndenterCropWiseSummaryReportComponent } from './srp-indenter-crop-wise-summary-report/srp-indenter-crop-wise-summary-report.component';
 import { SrpIndenterMasterReportComponent } from './srp-indenter-master-report/srp-indenter-master-report.component';
+import { CropWiseSrpSdReportComponent } from './crop-wise-srp-sd-report/crop-wise-srp-sd-report.component';
 
 // import { ZsmrFoundationSeedComponent } from './indenters/zsmr-foundation-seed/zsmr-foundation-seed.component';
 const routes: Routes = [
@@ -1307,6 +1308,10 @@ const routes: Routes = [
       {
         path:'crop-wise-srp-report',
         component: SrpIndenterCropWiseReportComponent
+      },
+      {
+        path:'crop-wise-srp-sd-report',
+        component: CropWiseSrpSdReportComponent
       },
       {
         path:'crop-wise-summary-srp-report',

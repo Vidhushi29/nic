@@ -26,6 +26,7 @@ module.exports = app => {
     //ZSRM QS SEED
     app.post(`${process.env.MICRO_SERVICE}/api/add-req-qs-dist`,auth,zsrm.addZsrmReqQsDistWise);
     app.post(`${process.env.MICRO_SERVICE}/api/add-req-qs`,auth,zsrm.addZsrmReqQsFinal);
+    app.put(`${process.env.MICRO_SERVICE}/api/update-req-qs/:id`,auth,zsrm.updateZsrmReqQs);
     app.get(`${process.env.MICRO_SERVICE}/api/view-req-qs`,auth,zsrm.viewZsrmReqQs);
     app.get(`${process.env.MICRO_SERVICE}/api/view-req-qs-dist`,auth,zsrm.viewZsrmReqQsDistWise);
     app.delete(`${process.env.MICRO_SERVICE}/api/delete-req-qs-dist/:id`,auth,zsrm.deleteZsrmReqQsDistWise);
@@ -36,7 +37,7 @@ module.exports = app => {
     app.post(`${process.env.MICRO_SERVICE}/api/add-srp`,auth,zsrm.addSrp);
     app.get(`${process.env.MICRO_SERVICE}/api/view-srp/:id`,auth,zsrm.viewSrpById); 
     app.get(`${process.env.MICRO_SERVICE}/api/view-srp-all`,auth,zsrm.viewSrpAll); 
-    app.post(`${process.env.MICRO_SERVICE}/api/view-srp-all`,auth,zsrm.viewSrpAllMasterReport); 
+    app.post(`${process.env.MICRO_SERVICE}/api/view-srp-master-all`,auth,zsrm.viewSrpAllMasterReport); 
     app.post(`${process.env.MICRO_SERVICE}/api/view-srp-crop-wise-summary`,auth,zsrm.viewSrpAllCropWiseSummary); 
     app.post(`${process.env.MICRO_SERVICE}/api/view-srp-crop-wise`,auth,zsrm.viewSrpAllCropWise); 
     app.delete(`${process.env.MICRO_SERVICE}/api/delete-srp/:id`,auth,zsrm.deleteSrp);

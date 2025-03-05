@@ -317,6 +317,10 @@ export class ZsrmReqQsComponent implements OnInit {
      cClick() {
        document.getElementById('crop').click();
      }
+
+     dClick() {
+      document.getElementById('district').click();
+    }
      vClick() {
        document.getElementById('variety').click();
      }
@@ -340,7 +344,24 @@ export class ZsrmReqQsComponent implements OnInit {
        })
      }
      revertDataCancelation() {
- 
+      if(this.is_update) {
+
+        const total = this.ngForm.controls['doa'].value + this.ngForm.controls['ssc'].value + this.ngForm.controls['nsc'].value
+        + this.ngForm.controls['sau'].value + this.ngForm.controls['seedhubs'].value + this.ngForm.controls['pvt'].value + 
+        this.ngForm.controls['others'].value ;
+        
+        if(total != this.totalAvl)
+        {
+          Swal.fire({
+            title: '<p style="font-size:25px;">Total District Requirement should not exceed Total Available.</p>',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#E97E15'
+          });
+          return
+        }
+
+      }
        this.isAddSelected=false;
        this.ngForm.controls['doa'].reset('');
        this.ngForm.controls['ssc'].reset('');
@@ -459,6 +480,33 @@ export class ZsrmReqQsComponent implements OnInit {
      }
 
      saveDistData() {
+      if(!this.ngForm.controls['district'].valid) {
+        Swal.fire({
+          title: '<p style="font-size:25px;">Please select district</p>',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#E97E15'
+        });
+        return
+      }
+      if(!this.ngForm.controls['district_req'].value) {
+        Swal.fire({
+          title: '<p style="font-size:25px;">District Req cannot be empty</p>',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#E97E15'
+        });
+        return
+      } 
+      if(!this.ngForm.controls['district_avl'].value) {
+        Swal.fire({
+          title: '<p style="font-size:25px;">District Avl cannot be empty</p>',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#E97E15'
+        });
+        return
+      } 
       const route = "add-req-qs-dist";
       const req = this.totalReq;
       const total = this.totalAvl;
@@ -544,6 +592,31 @@ export class ZsrmReqQsComponent implements OnInit {
     }
    
      createAndSave() {
+      if(!this.totalAvl || !this.totalReq) {
+
+        Swal.fire({
+          title: '<p style="font-size:25px;">Total Req and Total Avl cannot be zero</p>',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#E97E15'
+        });
+        return
+      }
+
+      const total = this.ngForm.controls['doa'].value + this.ngForm.controls['ssc'].value + this.ngForm.controls['nsc'].value
+      + this.ngForm.controls['sau'].value + this.ngForm.controls['seedhubs'].value + this.ngForm.controls['pvt'].value + 
+      this.ngForm.controls['others'].value ;
+      
+      if(total != this.totalAvl)
+      {
+        Swal.fire({
+          title: '<p style="font-size:25px;">Total District Avl should be equal to Total Available.</p>',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#E97E15'
+        });
+        return
+      }
        this.submitted = true;
        this.isAddFormOpen = true;
        this.saveForm();
@@ -618,11 +691,13 @@ export class ZsrmReqQsComponent implements OnInit {
      }
      
   district_select(data) {
-    this.selectDistrict = data.district_name;
+
+
+    this.selectDistrict = data.district_name|| '';
     this.ngForm.controls['district_text'].setValue('',{emitEvent:false})
+    this.districtList = this.districtListSecond   
     this.ngForm.controls['district'].setValue(data.district_code)
-    this.districtList = this.districtListSecond
-    this.selectDistrict= ''    
+   
   }
    
      getDistrictWiseData(id) {
@@ -659,26 +734,63 @@ export class ZsrmReqQsComponent implements OnInit {
        this.paginationUiComponent.Init(this.filterPaginateSearch);
      }
      updateForm() {
+
+      if(!this.totalAvl || !this.totalReq) {
+
+        Swal.fire({
+          title: '<p style="font-size:25px;">Total Req and Total Avl cannot be zero</p>',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#E97E15'
+        });
+        return
+      }
+
+      const total1 = this.ngForm.controls['doa'].value + this.ngForm.controls['ssc'].value + this.ngForm.controls['nsc'].value
+      + this.ngForm.controls['sau'].value + this.ngForm.controls['seedhubs'].value + this.ngForm.controls['pvt'].value + 
+      this.ngForm.controls['others'].value ;
+      
+      if(total1 != this.totalAvl)
+        {
+          Swal.fire({
+            title: '<p style="font-size:25px;">Total District Avl should be equal to Total Available.</p>',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#E97E15'
+          });
+          return
+        }
        this.submitted = true;
        this.isShowTable = true;
-       const route = `update-zsrm-cs-qs-dist/${this.dataId}`;
-       const doa = Number(this.ngForm.controls['doa'].value) || 0;
-       const ssc = Number(this.ngForm.controls['ssc'].value) || 0;
-       const others = Number(this.ngForm.controls['others'].value) || 0;
-       const nsc = Number(this.ngForm.controls['nsc'].value) || 0;
-       const sfci = Number(this.ngForm.controls['sfci'].value) || 0;
-       const pvt = Number(this.ngForm.controls['pvt'].value) || 0;
-       const total = ssc + doa  + sfci + pvt + nsc + others;
-       const baseParam = {
-         "doa": doa,
-         "ssc": ssc,
-         "others": others,
-         "nsc": nsc,
-         "sfci": sfci,
-         "pvt": pvt,
-         "total": total
-       };
-    
+       const route = `update-req-qs/${this.dataId}`;
+      
+      const req = this.totalReq;
+      const total = this.totalAvl;
+      const shtorsur = this.totalSoS;
+      const doa = Number(this.ngForm.controls['doa'].value) || 0;
+      const ssc = Number(this.ngForm.controls['ssc'].value) || 0;
+      const seedhubs = Number(this.ngForm.controls['seedhubs'].value) || 0;
+      const nsc = Number(this.ngForm.controls['nsc'].value) || 0;
+      const sau = Number(this.ngForm.controls['sau'].value) || 0;
+      const pvt = Number(this.ngForm.controls['pvt'].value) || 0;
+      const others = Number(this.ngForm.controls['others'].value) || 0;
+      const baseParam = {
+        "year": this.ngForm.controls['year'].value,
+        "season": this.ngForm.controls['season'].value,
+        "crop_code": this.ngForm.controls['crop'].value,
+        "variety_code": this.ngForm.controls['variety'].value,
+        "seed_type": this.ngForm.controls['category'].value,
+        "req":req,
+        "shtorsur": shtorsur,
+        "doa": doa,
+        "ssc": ssc,
+        "others": others,
+        "nsc": nsc,
+        "sau": sau,
+        "pvt": pvt,
+        "total": total,
+        "seedhubs":seedhubs
+      };
      
        this.zsrmServiceService.putRequestCreator(route,null,baseParam).subscribe(data => {
          if (data.Response.status_code === 200) {
@@ -694,10 +806,15 @@ export class ZsrmReqQsComponent implements OnInit {
              this.ngForm.controls['ssc'].reset(0);
              this.ngForm.controls['others'].reset(0);
              this.ngForm.controls['nsc'].reset(0);
-             this.ngForm.controls['sfci'].reset(0);
+             this.ngForm.controls['sau'].reset(0);
              this.ngForm.controls['pvt'].reset(0);
+             this.ngForm.controls['seedhubs'].reset(0);
              this.submitted = false;
              this.isAddSelected=false;
+             this.totalAvl=0;
+             this.totalReq=0;
+             this.totalSoS=0;
+             this.allDistrictData= []
              this.disableUpperSection= false;
            });
          } else {

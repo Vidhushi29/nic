@@ -127,6 +127,8 @@ export class VarietyWiseDistCsQsComponent implements OnInit {
          this.ngForm.controls['crop_type'].setValue('');
          this.ngForm.controls['spa_name'].setValue('');
          this.spa_names = ''
+         this.finalData = [];
+         this.enableTable = false;
        }
  
      });

@@ -1130,10 +1130,7 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
         is_active: true
       },
     });
-    if(recordExist && recordExist.isFinalSubmitted==true) {
-      return response(res, "Record already exist", 409, {});
-    }
-    else if (recordExist && recordExist.isFinalSubmitted==false) {
+    if (recordExist) {
 
       if(await zsrmreqqsdistModel.findOne({where : {zsrmreqfs_id: recordExist.id, district_id: body.district_id, is_active:true }})) {
         return response(res, "Record already exist for this district", 409, {});
@@ -1258,6 +1255,42 @@ exports.addZsrmReqQsFinal = async (req, res) => {
         }).then(() => response(res, status.DATA_SAVE, 200, {}) )
         .catch(() => response(res, status.DATA_NOT_SAVE, 500));   
   }} catch (error) {
+    console.log(error);
+    return response(res, status.UNEXPECTED_ERROR, 501)
+  }
+}
+
+exports.updateZsrmReqQs = async (req, res) => {
+  try {
+    const body = req.body;
+    console.log(body.loginedUserid.id);
+    let recordExist = await zsrmreqqsModel.findOne({
+      where: {
+       id: req.params.id,
+        user_id: body.loginedUserid.id,
+        is_active: true
+      },
+    });
+    if (!recordExist) {
+      return response(res, status.DATA_NOT_AVAILABLE, 404);
+    }
+  
+         await recordExist.update({
+          asOnDate: body.as_on_date,
+          req: body.req,
+          ssc: body.ssc,
+          doa: body.doa,
+          sau: body.sau,
+          nsc: body.nsc,
+          seedhubs: body.seedhubs,
+          pvt: body.pvt,
+          others: body.others,
+          total: body.total,
+          shtorsur: body.shtorsur,
+          isFinalSubmitted: true
+        }).then(() => response(res, status.DATA_UPDATED, 200, {}) )
+        .catch(() => response(res, status.DATA_NOT_UPDATED, 500));   
+  } catch (error) {
     console.log(error);
     return response(res, status.UNEXPECTED_ERROR, 501)
   }
@@ -2083,7 +2116,7 @@ exports.getSrpStateSD= async(req, res) => {
         },
       ],
       where: { is_active: true, year: req.query.year, season: req.query.season,
-        crop_type: req.query.crop_type
+       
        },
       order: [ [userModel, 'name', 'ASC'],  // Ordering by crop_name in ascending order
      ],
@@ -2133,54 +2166,14 @@ exports.viewSrpAllMasterReport = async (req, res) => { try {
            sequelize.fn('SUBSTRING', sequelize.col('not_date'), 1, 4),
            'not_date'
          ],
-         'is_notified'
-         
-         // // // CASE statement for 'matuarity_day_from' field
-         // [
-         //   sequelize.literal(`
-         //     CASE
-         //       WHEN "matuarity_day_from" = '1' THEN 'Early'
-         //       WHEN "matuarity_day_from" = '2' THEN 'Medium'
-         //       WHEN "matuarity_day_from" = '3' THEN 'Late'
-         //       WHEN "matuarity_day_from" = '4' THEN 'Perennial'
-         //       ELSE 'NA'
-         //     END
-         //   `),
-         //   'maturity_type'
-         // ],
-        
-         // CASE statement for 'is_notified' field
-         // [
-         //   sequelize.literal(`
-         //     CASE
-         //       WHEN "is_notified" = 1 THEN 'Notified'
-         //       ELSE 'Non-Notified'
-         //     END
-         //   `),
-         //   'notification_status'
-         // ]
-       ]
+        ]
       },
-      {
-       model: db.cropCharactersticsModel,
-       attributes: ['matuarity_day_from']
-      },
-      {
-        model:stateModel,
-        attributes: ['state_name']
-      },
-      {
-        model:userModel,
-        attributes: ['name']
-      }
     ],
     where: filters, 
     order: [ ['year', 'ASC'],
     ['season', 'ASC'],
     [cropDataModel, 'crop_name', 'ASC'],  // Ordering by crop_name in ascending order
-    [varietyModel, 'variety_name', 'ASC'],
-    [stateModel,'state_name', 'ASC'],
-    [userModel,'name', 'ASC']],
+    [varietyModel, 'variety_name', 'ASC'],],
     attributes: {
       exclude: ['createdAt', 'updatedAt', 'deletedAt', 'crop_type', 'is_active',  ]
     },
@@ -2195,28 +2188,13 @@ if (data.length == 0)
 //res.status(404).json({message: "No data found"})
 return response(res, status.DATA_NOT_AVAILABLE, 404)
 
-  const result = data.map((item)=>{
-   console.log("ite,:", item)
-   return {     
-    id: item.id,
-    year: item.year,
-    season: item.season,
+  const result = data.map((item)=> {
+   return {  
     crop_code: item.crop_code,
     variety_code: item.variety_code,
     crop_name: item.m_crop.crop_name,
     variety_name: item.m_crop_variety.variety_name,
     not_year: item.m_crop_variety.not_date,
-    status: item.m_crop_variety.status,
-    developed_by: item.m_crop_variety.developed_by,
-    maturity_type: item.m_variety_characteristic? 
-    (item.m_variety_characteristic.matuarity_day_from == '1'? 'Early':
-     (item.m_variety_characteristic.matuarity_day_from == '2'? 'Medium':
-       (item.m_variety_characteristic.matuarity_day_from == '3'? 'Late':
-         (item.m_variety_characteristic.matuarity_day_from == '4'? 'Perennial': 'NA')
-       )
-     )): 'NA',
-    notification_status: item.m_crop_variety.is_notified==1 ? 'Notified':'Non-Notified',
-    unit: item.unit,
     proposedAreaUnderVariety: parseFloat(item.proposedAreaUnderVariety),
     seedrate: parseFloat(item.seedrate), 
     SRRTargetbyGOI: parseFloat(item.m_crop.srr) || 0.0,
@@ -2239,7 +2217,7 @@ return response(res, status.DATA_NOT_AVAILABLE, 404)
     SMRKeptBSToFS: parseFloat(item.SMRKeptBSToFS),
     SMRKeptFSToCS: parseFloat(item.SMRKeptFSToCS),
     FSRequiredtomeettargetsofCS:parseFloat(item.FSRequiredtomeettargetsofCS),
-    BSRequiredBSRequiredtomeettargetsofFS:parseFloat(item.BSRequiredBSRequiredtomeettargetsofFS),
+   BSRequiredtomeettargetsofFS:parseFloat(item.BSRequiredBSRequiredtomeettargetsofFS),
   }
 });
 //  console.log(result,'result')

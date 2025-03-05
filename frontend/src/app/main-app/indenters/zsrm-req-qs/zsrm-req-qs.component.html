@@ -210,7 +210,7 @@
                                                             (selectDistrict.substring(0,23)
                                                             + '...') : selectDistrict ? selectDistrict : 'Select District' }}
                                                         </button>
-                                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop"
+                                                        <div class="dropdown-menu w-100" ngbDropdownMenu="district"
                                                             aria-labelledby="sortMenu">
                                                             <input type="text" class="form-control px-4"
                                                                 formControlName="district_text" placeholder="Search Di...">
@@ -222,7 +222,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="pl-0 toggle-button" ngbDropdown>
-                                                        <i class="fa-solid fa-angle-down downicon" (click)="cClick()"></i>
+                                                        <i class="fa-solid fa-angle-down downicon" (click)="dClick()"></i>
                                                     </div>
                                                     <div class="errorMessage"
                                                         *ngIf="submitted || ngForm.controls['district'].invalid && (ngForm.controls['district'].dirty || ngForm.controls['district'].touched)">
@@ -232,7 +232,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>                        
 
                                         <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                             <div class="row">
@@ -243,11 +243,11 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="district_req" placeholder="Enter SSC" (keypress)="validateDecimal($event)">
+                                                        formControlName="district_req" placeholder="Enter Req" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['district_req'].invalid && ngForm.controls['district_req'].dirty || ngForm.controls['district_req'].touched">
                                                         <span *ngIf=" ngForm.controls['district_req'].errors?.['required']">
-                                                            Enter only decimal number upto 2 digit
+                                                            Please Enter Req
                                                         </span>
 
                                                     </div>
@@ -263,24 +263,26 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="district_avl" placeholder="Enter NSC" (keypress)="validateDecimal($event)" >
+                                                        formControlName="district_avl" placeholder="Enter Avl" (keypress)="validateDecimal($event)" >
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['district_avl'].invalid && ngForm.controls['district_avl'].dirty || ngForm.controls['district_avl'].touched">
                                                         <span *ngIf=" ngForm.controls['district_avl'].errors?.['required']">
-                                                            Enter only decimal number upto 2 digit
+                                                            Please Enter AVL
                                                         </span>
 
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12 pt-1">
+                                    <div class="row">
+                                        
                                         <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                             <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="sfci" class="left-heading required">
-                                                   
-                                                    </label>
-                                                </div>
+                                              
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <button class="btn btn-inventory search2"
                                         style="width: 6rem ; margin-right: 10px; color: white;"
@@ -370,11 +372,11 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="doa" placeholder="0">
+                                                        formControlName="doa" placeholder="Enter DOA">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['doa'].invalid && ngForm.controls['doa'].dirty || ngForm.controls['doa'].touched">
                                                         <span *ngIf=" ngForm.controls['doa'].errors?.['required']">
-                                                            Enter only decimal number upto 2 digit
+                                                            Please Enter DOA
                                                         </span>
 
                                                     </div>
@@ -395,7 +397,7 @@
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['ssc'].invalid && ngForm.controls['ssc'].dirty || ngForm.controls['ssc'].touched">
                                                         <span *ngIf=" ngForm.controls['ssc'].errors?.['required']">
-                                                            Enter only decimal number upto 2 digit
+                                                            Please Enter SSC
                                                         </span>
 
                                                     </div>
@@ -415,7 +417,7 @@
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['nsc'].invalid && ngForm.controls['nsc'].dirty || ngForm.controls['nsc'].touched">
                                                         <span *ngIf=" ngForm.controls['nsc'].errors?.['required']">
-                                                            Enter only decimal number upto 2 digit
+                                                            Please Enter NSC
                                                         </span>
 
                                                     </div>
@@ -436,11 +438,11 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="sau" placeholder="0">
+                                                        formControlName="sau" placeholder="Enter SAU">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['sau'].invalid && ngForm.controls['sau'].dirty || ngForm.controls['sau'].touched">
                                                         <span *ngIf=" ngForm.controls['sau'].errors?.['required']">
-                                                            Enter only decimal number upto 2 digit
+                                                            Please Enter SAU
                                                         </span>
 
                                                     </div>
@@ -456,11 +458,11 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="seedhubs" placeholder="Enter DOA" (keypress)="validateDecimal($event)">
+                                                        formControlName="seedhubs" placeholder="Enter Seedhubs" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['seedhubs'].invalid && ngForm.controls['seedhubs'].dirty || ngForm.controls['seedhubs'].touched">
                                                         <span *ngIf=" ngForm.controls['seedhubs'].errors?.['required']">
-                                                            Please Enter DOA
+                                                            Please Enter Seedhubs
                                                         </span>
 
                                                     </div>
@@ -476,11 +478,11 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="pvt" placeholder="Enter DOA" (keypress)="validateDecimal($event)">
+                                                        formControlName="pvt" placeholder="Enter Priavte" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['pvt'].invalid && ngForm.controls['pvt'].dirty || ngForm.controls['pvt'].touched">
                                                         <span *ngIf=" ngForm.controls['pvt'].errors?.['required']">
-                                                            Please Enter DOA
+                                                            Please Enter Priavte
                                                         </span>
 
                                                     </div>
@@ -497,11 +499,11 @@
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="others" placeholder="Enter SSC" (keypress)="validateDecimal($event)">
+                                                        formControlName="others" placeholder="Enter Others" (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['others'].invalid && ngForm.controls['others'].dirty || ngForm.controls['others'].touched">
                                                         <span *ngIf=" ngForm.controls['others'].errors?.['required']">
-                                                            Please Enter SSC
+                                                            Please Enter Others
                                                         </span>
 
                                                     </div>

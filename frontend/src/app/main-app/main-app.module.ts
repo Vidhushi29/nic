@@ -245,6 +245,14 @@ import { ZsrmComponent } from './indenters/zsrm/zsrm.component';
 import { ZsrmCsFsAreaComponent } from './indenters/zsrm-cs-fs-area/zsrm-cs-fs-area.component';
 import { SrrComponent } from './indenters/srr/srr.component';
 import { ZsrmCsQsDistributionComponent } from './indenters/zsrm-cs-qs-distribution/zsrm-cs-qs-distribution.component';
+import { ZsrmReqQsComponent } from './indenters/zsrm-req-qs/zsrm-req-qs.component';
+import { VarietyWiseDistCsQsComponent } from './variety-wise-dist-cs-qs/variety-wise-dist-cs-qs.component';
+import { StateVarietyWiseCsqsDistReportComponent } from './state-variety-wise-csqs-dist-report/state-variety-wise-csqs-dist-report.component';
+import { CropWiseCsqsDistReportComponent } from './crop-wise-csqs-dist-report/crop-wise-csqs-dist-report.component';
+import { SrpIndenterCropWiseReportComponent } from './srp-indenter-crop-wise-report/srp-indenter-crop-wise-report.component';
+import { SrpIndenterCropWiseSummaryReportComponent } from './srp-indenter-crop-wise-summary-report/srp-indenter-crop-wise-summary-report.component';
+import { SrpIndenterMasterReportComponent } from './srp-indenter-master-report/srp-indenter-master-report.component';
+import { CropWiseSrpSdReportComponent } from './crop-wise-srp-sd-report/crop-wise-srp-sd-report.component';
 // import { AddZsrmFormComponent } from './indenters/add-zsrm-form/add-zsrm-form.component';
 // import { GenerateCardQrComponent } from '../generate-card-qr/generate-card-qr.component';
 // import { BillReceiptQrComponent } from '../bill-receipt-qr/bill-receipt-qr.component';
@@ -449,6 +457,14 @@ import { ZsrmCsQsDistributionComponent } from './indenters/zsrm-cs-qs-distributi
     ZsrmCsFsAreaComponent,
     SrrComponent,
     ZsrmCsQsDistributionComponent,
+    ZsrmReqQsComponent,
+    VarietyWiseDistCsQsComponent,
+    StateVarietyWiseCsqsDistReportComponent,
+    CropWiseCsqsDistReportComponent,
+    SrpIndenterCropWiseReportComponent,
+    SrpIndenterCropWiseSummaryReportComponent,
+    SrpIndenterMasterReportComponent,
+    CropWiseSrpSdReportComponent,
     // AddZsrmFormComponent
   
     // GenerateCardQrComponent
