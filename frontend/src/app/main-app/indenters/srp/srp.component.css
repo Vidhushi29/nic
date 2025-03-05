@@ -116,6 +116,11 @@
     background: #B64B1D;
 }
 
+.disableFiel{
+    pointer-events: none;
+    background-color: #cccccc;
+    cursor: none;
+}
 .form-button.search {
     width: 157px !important;
     align-items: center;

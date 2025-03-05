@@ -75,10 +75,10 @@ export class SrpComponent implements OnInit {
   notificationStatus: any;
   status: any;
   selectedVariety: any;
-
-  notification:any
-
+  disableUpperSection: boolean;
+  notification: any
   dataRow: boolean = false;
+  certifiedquant: number = 0;
 
 
   constructor(private service: SeedServiceService, private master: MasterService, private elementRef: ElementRef,
@@ -127,57 +127,11 @@ export class SrpComponent implements OnInit {
   SaveAsData() {
     this.isAddSelected = true;
     this.isChangeMessage = "Entre the Source Availability"
-    this.selectvarietycode = String(this.ngForm.controls['variety'].value);
-    const apiUrl = `get-variety-data?variety_code=${this.selectvarietycode}`;
-    // this.zsrmServiceService.getRequestCreator(route, null,null).subscribe((apiResponse:any) => {
-    //   if (apiResponse.Response.status_code === 200) {
-    //     this.varietyData =apiResponse.Response.data
-    //   const yearn=apiResponse.Response.data.status;
-    //  this.ngForm.controls['hybrid'].setValue(yearn)
-        
-    //   }
-    // })
-    this.zsrmServiceService.getRequestCreator(apiUrl, null, null).subscribe({
-      next: (apiResponse: any) => {
-        console.log('API Response:', apiResponse);
-
-        if (apiResponse?.Response?.status_code === 200) {
-          // this.allViewSrr = apiResponse.Response.data;
-
-          if (this.ngForm && this.ngForm.controls) {
-            this.ngForm.controls['hybrid'].setValue(apiResponse.Response.data.status ?? 'NA');
-          this.ngForm.controls['notifiedValue'].setValue(apiResponse.Response.data.developed_by ?? 'NA');
-            this.ngForm.controls['yearN'].setValue(apiResponse.Response.data.not_date_substring ?? 'NA');
-            this.ngForm.controls['duration'].setValue(apiResponse.Response.data.maturity_type ?? 'NA');
-            this.ngForm.controls['notification'].setValue(apiResponse.Response.data.notification_status ?? 'NA');
-            this.ngForm.controls['SRRTargetbyGOI'].setValue(apiResponse.Response.data.srr ?? 0);
-          } else {
-            console.error('ngForm is not initialized properly.');
-          }
-        } else {
-          console.error('Unexpected response structure:', apiResponse);
-        }
-      },
-      error: (error) => {
-        console.error('Error fetching data:', error);
-      },
-      complete: () => {
-        console.log('API request completed.');
-      }
-    });
-
-
-
+    this.resetCancelation()
 
   }
 
-
- 
-
-
   createForm() {
-
-    //this.notificationYear=  String(this.ngForm.controls['crop'].value); //this.selectVarietyStatus;
     this.ngForm = this.fb.group({
       year: ['', [Validators.required]],
       season: ['', [Validators.required]],
@@ -198,7 +152,7 @@ export class SrpComponent implements OnInit {
       yearN: ['', [Validators.required]],
       notifiedValue: ['', [Validators.required]],
       duration: ['', [Validators.required]],
-      SRRTargetbyGOI:['', [Validators.required]],
+      SRRTargetbyGOI: ['', [Validators.required]],
       smrfs: [0, [Validators.required]],
       fsreq: [0, [Validators.required]],
       smrbs: [0, [Validators.required]],
@@ -206,7 +160,7 @@ export class SrpComponent implements OnInit {
       proposedarea: [0, [Validators.required]],
       seedrate: [0, [Validators.required]],
       SRRTargetbySTATE: [0, [Validators.required]],
-      certifiedquant: [0, [Validators.required]],
+      certifiedquant: [0, Validators.required],
       qualityquant: [0, [Validators.required]],
       totalreq: [{ value: 0, disabled: true }],
       total: [{ value: 0, disabled: true }],
@@ -214,10 +168,15 @@ export class SrpComponent implements OnInit {
       remarks: [''],
       crop_text: [''],
       variety_text: ['']
-
     });
 
+
+
     this.ngForm.valueChanges.subscribe(values => {
+      const totalreq =
+        (values.proposedarea || 0) +
+        (values.seedrate || 0) +
+        (values.SRRTargetbySTATE || 0);
       const total =
         (values.ssc || 0) +
         (values.doa || 0) +
@@ -229,27 +188,18 @@ export class SrpComponent implements OnInit {
         (values.hub || 0) +
         (values.othersgovt || 0) +
         (values.others || 0);
-      const shtorsub = total - (values.coop || 0);
-
-
+      const shtorsub = total - totalreq
       const { year } = values;
 
       if (year) {
         this.getPageData();
         this.isShowTable = true
       }
-
-
-      const totalreq =
-        (values.proposedarea || 0) +
-        (values.seedrate || 0) +
-        (values.SRRTargetbySTATE || 0);
-      //const shtorsub = total - (values.coop || 0);
-
       this.ngForm.patchValue(
-        { total: total, shtorsub: shtorsub, totalreq: totalreq },
+        { total: this.formatNumber(total) || 0, shtorsub: this.formatNumber(shtorsub) || 0, totalreq: this.formatNumber(totalreq) || 0 },
         { emitEvent: false }
       );
+
     });
     this.ngForm.controls['year'].valueChanges.subscribe(() => this.resetSelections());
     this.ngForm.controls['season'].valueChanges.subscribe(() => this.resetSelections());
@@ -260,8 +210,8 @@ export class SrpComponent implements OnInit {
           x.crop_name.toLowerCase().includes(item.toLowerCase())
         );
         this.cropData = response
-       
-    
+
+
       }
       else {
         this.getCropData()
@@ -280,6 +230,34 @@ export class SrpComponent implements OnInit {
       }
     })
 
+  }
+
+  checkCertifiedquantEmpty(): boolean {
+    const currentValue = this.ngForm.controls['certifiedquant'].value;
+    console.log(currentValue, 'gfd')
+    if (currentValue)
+      return currentValue === 0;
+  }
+  srrValidation(event: any) {
+    const input = event.target as HTMLInputElement;
+    const currentValue = input.value + event.key;
+    const regex = /^[0-9]+(\.[0-9]{0,2})?$/;
+    if (!regex.test(currentValue) || (event.key === '.' && input.value.includes('.'))) {
+      event.preventDefault();
+    }
+
+    const SRRTargetbySTATE = parseFloat(input.value);
+
+    if (SRRTargetbySTATE > 100) {
+      Swal.fire({
+        title: '<p style="font-size:25px;">Error: SRR Target must be 100 or less.</p>',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#E97E15'
+      });
+      event.preventDefault();
+    }
+    return;
   }
 
   patchDataForUpdate(data: any) {
@@ -303,8 +281,9 @@ export class SrpComponent implements OnInit {
         this.showQuantity = false;
       }
 
-      
+
       this.getVarietyData(data.variety_code);
+      console.log(data.variety_code,'sdfghjk')
       this.ngForm.controls['hybrid'].patchValue(data.status);
       this.ngForm.controls['notification'].patchValue(data.notification_status);
       this.ngForm.controls['yearN'].patchValue(data.not_year);
@@ -322,7 +301,6 @@ export class SrpComponent implements OnInit {
       this.ngForm.controls['coop'].patchValue(data.coop);
       this.ngForm.controls['others'].patchValue(data.others);
       this.ngForm.controls['othersgovt'].patchValue(data.othergovpsu);
-      
       this.ngForm.controls['smrfs'].patchValue(data.SMRKeptFSToCS);
       this.ngForm.controls['fsreq'].patchValue(data.FSRequiredtomeettargetsofCS);
       this.ngForm.controls['smrbs'].patchValue(data.SMRKeptBSToFS);
@@ -333,17 +311,15 @@ export class SrpComponent implements OnInit {
       this.ngForm.controls['SRRTargetbyGOI'].patchValue(data.SRRTargetbyGOI);
       this.ngForm.controls['certifiedquant'].patchValue(data.certifiedquant);
       this.ngForm.controls['qualityquant'].patchValue(data.qualityquant);
-      //this.ngForm.controls['totalreq'].patchValue(data.seedRequired);
-      //this.ngForm.controls['total'].patchValue(data.total);
-      
-     
+      this.disableUpperSection = true;
       this.ngForm.patchValue(
         { total: data.total, shtorsub: data.shtorsur },
         { emitEvent: false }
       );
-      console.log(data.sau, 'hello: ');
+
     }
   }
+
   variety(item: any) {
     // const indentQntControl = this.ngForm.get('indent_qnt');
     this.selectVariety = item && item.variety_name ? item.variety_name : '',
@@ -370,11 +346,7 @@ export class SrpComponent implements OnInit {
     }
   }
 
-  // searchData() {
-  //   this.isShowTable = true;
-  //   this.isAddSelected=false;
-  //   this.getPageData();
-  // }
+
   cClick() {
     document.getElementById('crop').click();
   }
@@ -409,66 +381,31 @@ export class SrpComponent implements OnInit {
     })
   }
   revertDataCancelation() {
-
-    this.isShowTable=true;
-    this.selectVariety = '';
-    this.selectCrop = '';
-    this.ngForm.controls['crop'].reset('');
-    this.ngForm.controls['season'].reset('');
-    this.ngForm.controls['year'].reset('');
-    this.ngForm.controls['variety'].reset('');
-    
-    this.ngForm.controls['nsc'].reset('');
-    this.ngForm.controls['remarks'].reset('');
-    this.ngForm.controls['others'].patchValue('');
-    this.ngForm.controls['doa'].patchValue('');
-    this.ngForm.controls['sau'].patchValue('');    
-    this.ngForm.controls['pvt'].patchValue('');    
-    this.ngForm.controls['ssc'].patchValue('');
-    this.ngForm.controls['total'].patchValue('');
-    this.ngForm.controls['shtorsub'].patchValue('');
-    this.ngForm.controls['ssf'].patchValue('');   
-    this.ngForm.controls['hub'].patchValue('');    
-    this.ngForm.controls['coop'].patchValue('');    
-    this.ngForm.controls['othersgovt'].patchValue('');
-
-    this.ngForm.controls['hybrid'].patchValue('');
-    this.ngForm.controls['notification'].patchValue('');
-    this.ngForm.controls['yearN'].patchValue('');   
-
-          
-    this.ngForm.controls['smrfs'].patchValue('');
-    this.ngForm.controls['fsreq'].patchValue('');
-    this.ngForm.controls['smrbs'].patchValue('');
-    this.ngForm.controls['bsreq'].patchValue('');
-    this.ngForm.controls['proposedarea'].patchValue('');
-    this.ngForm.controls['seedrate'].patchValue('');
-    this.ngForm.controls['SRRTargetbySTATE'].patchValue('');
-    this.ngForm.controls['SRRTargetbyGOI'].patchValue('');
-    this.ngForm.controls['certifiedquant'].patchValue('');
-    this.ngForm.controls['qualityquant'].patchValue('');
-
-
-
+    this.isShowTable = true
     this.is_update = false;
+    this.isAddSelected = false;
     this.showOtherInputBox = false;
-    this.isAddSelected=false;
+    this.disableUpperSection = false;
 
   }
-   resetCancelation() {
-     this.ngForm.controls['nsc'].reset('');
-     this.ngForm.controls['remarks'].reset('');
-     this.ngForm.controls['others'].patchValue('');
-     this.ngForm.controls['doa'].patchValue('');
-     this.ngForm.controls['sau'].patchValue('');
-     this.ngForm.controls['sfci'].patchValue('');
-     this.ngForm.controls['pvt'].patchValue('');
-     this.ngForm.controls['req'].patchValue('');
-     this.ngForm.controls['ssc'].patchValue('');
-     this.is_update = false;
-     this.showOtherInputBox = false;
+  
+  searchData() {
+    this.isShowTable = true;
+    this.isAddSelected=false;
+    this.getPageData();
+  }
+  resetCancelation() {
+   
+    this.ngForm.controls['ssc'].patchValue(0);
+    this.ngForm.controls['doa'].patchValue(0);
+    this.ngForm.controls['nsc'].patchValue(0);
+    this.ngForm.controls['sfci'].patchValue(0);
+    this.ngForm.controls['pvt'].patchValue(0);
+    this.ngForm.controls['others'].patchValue(0);
+    this.is_update = false;
+    this.showOtherInputBox = false;
 
-   }
+  }
 
   saveForm() {
     this.submitted = true;
@@ -487,6 +424,10 @@ export class SrpComponent implements OnInit {
     const totalreq = Number(this.ngForm.controls['totalreq'].value) || 0;
     const total = ssf + ssc + doa + sau + hub + pvt + nsc + coop + others + othersgovt;
     const shtorsur = total - totalreq;
+    const seedrate = Number(this.ngForm.controls['seedrate'].value);
+    const proposedAreaUnderVariety = Number(this.ngForm.controls['proposedarea'].value);
+    const qualityquant = Number(this.ngForm.controls['qualityquant'].value);
+    const certifiedquant = Number(this.ngForm.controls['certifiedquant'].value) || 0;
     const baseParam = {
       "user_id": this.authUserId,
       "year": this.ngForm.controls['year'].value,
@@ -503,6 +444,7 @@ export class SrpComponent implements OnInit {
       "coop": coop,
       "seedhub": hub,
       "others": others,
+      "seedrate": seedrate,
       "othergovpsu": othersgovt,
       "remarks": this.ngForm.controls['remarks'].value,
       "total": total,
@@ -511,22 +453,57 @@ export class SrpComponent implements OnInit {
       "SMRKeptFSToCS": this.ngForm.controls['smrfs'].value,
       "FSRequiredtomeettargetsofCS": this.ngForm.controls['fsreq'].value,
       "BSRequiredBSRequiredtomeettargetsofFS": this.ngForm.controls['bsreq'].value,
-      "proposedAreaUnderVariety": this.ngForm.controls['proposedarea'].value,
-      "seedrate": this.ngForm.controls['seedrate'].value,
+      "proposedAreaUnderVariety": proposedAreaUnderVariety,
       "SRRTargetbySTATE": this.ngForm.controls['SRRTargetbySTATE'].value,
       "seedRequired": this.ngForm.controls['totalreq'].value,
-      "qualityquant": this.ngForm.controls['qualityquant'].value,
-      "certifiedquant": this.ngForm.controls['certifiedquant'].value,
-
-
-
+      "qualityquant": qualityquant,
+      "certifiedquant": certifiedquant,
     };
-    console.log(baseParam);
+    if (proposedAreaUnderVariety === 0) {
+      Swal.fire({
+        title: '<p style="font-size:25px;">Proposed area under variety cannot be zero. Please enter the value.</p>',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#E97E15'
+      });
+    
+      return;
+    }
+    if (totalreq === 0) {
+      Swal.fire({
+        title: '<p style="font-size:25px;">Seed Requirement cannot be zero. Please enter the value.</p>',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#E97E15'
+      });
+     
+      return;
+    }
+
+    if (seedrate === 0) {
+      Swal.fire({
+        title: '<p style="font-size:25px;">Seed rate cannot be zero. Please enter the value.</p>',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#E97E15'
+      });
+     
+      return;
+    }
+    if ((certifiedquant + qualityquant) !== totalreq) {
+      Swal.fire({
+        title: '<p style="font-size:25px;">Sum of certified quante & quality quant should be equal seed Requiredment. Please enter the value.</p>',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#E97E15'
+      });
+     
+      return;
+    }
 
     this.zsrmServiceService.postRequestCreator(route, null, baseParam).subscribe(data => {
-      console.log(data, 'data')
       if (data.Response.status_code === 200) {
-        console.log()
+
         Swal.fire({
           title: '<p style="font-size:25px;">Data Has Been Successfully Saved.</p>',
           icon: 'success',
@@ -563,27 +540,26 @@ export class SrpComponent implements OnInit {
     this.saveForm();
   }
   getVarietyData(varietyCode: any) {
-
-
     const crop_code = this.ngForm.controls['crop'].value;
     this.ngForm.controls['variety'].patchValue('');
-    const route = `get-all-varieties?crop_code=${crop_code}`;
-    this.zsrmServiceService.getRequestCreator(route, null,).subscribe(data => {
-      if (data.Response.status_code === 200) {
-        this.varietyData = data && data.Response && data.Response.data ? data.Response.data : '';
-        this.varietyListSecond = this.varietyData;
-        console.log(this.isEditMode, "...................")
-        if (this.isEditMode) {
-
-          const varietyName = this.varietyData.filter(variety => variety.variety_code === varietyCode);
-          console.log(varietyName)
-          this.selectVariety = varietyName;
-          this.selectVariety = varietyName[0].variety_name;
-          
-        }
-      }
-    })
-  }
+   const route = `get-all-varieties?crop_code=${crop_code}`;
+   this.zsrmServiceService.getRequestCreator(route, null,).subscribe(data => {
+     if (data.Response.status_code === 200) {
+       this.varietyData = data && data.Response && data.Response.data ? data.Response.data : '';
+       this.varietyListSecond = this.varietyData;
+       console.log(this.isEditMode,"...................")
+       if (this.isEditMode) {
+         
+         const varietyName = this.varietyData.filter(variety => variety.variety_code === varietyCode);
+      
+         this.selectVariety = varietyName; 
+         this.selectVariety = varietyName[0].variety_name;
+         this.ngForm.controls['variety'].patchValue(varietyName[0].variety_code);
+       }
+     }
+   })
+ }
+  
 
   getPageData(loadPageNumberData: number = 1) {
     this.filterPaginateSearch.itemList = [];
@@ -608,7 +584,7 @@ export class SrpComponent implements OnInit {
       .subscribe(
         (apiResponse: any) => {
           if (apiResponse?.Response.status_code === 200) {
-            console.log(apiResponse.Response.data.pagination)
+          
             this.allData = apiResponse.Response.data || [];
             this.filterPaginateSearch.Init(
               this.allData.data,
@@ -637,22 +613,55 @@ export class SrpComponent implements OnInit {
     }
     this.paginationUiComponent.Init(this.filterPaginateSearch);
   }
+
   updateForm() {
+    const seedrate = Number(this.ngForm.controls['seedrate'].value);
+    const proposedAreaUnderVariety = Number(this.ngForm.controls['proposedarea'].value);
+    const qualityquant = Number(this.ngForm.controls['qualityquant'].value);
+    const certifiedquant = Number(this.ngForm.controls['certifiedquant'].value);
+    const totalreq = Number(this.ngForm.controls['totalreq'].value);
+    if (proposedAreaUnderVariety === 0) {
+      Swal.fire({
+        title: '<p style="font-size:25px;">Proposed area under variety cannot be zero. Please enter the value.</p>',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#E97E15'
+      });
+
+      return;
+    }
+    if (totalreq === 0) {
+      Swal.fire({
+        title: '<p style="font-size:25px;">Seed Requirement cannot be zero. Please enter the value.</p>',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#E97E15'
+      });
+      return;
+    }
+
+    if (seedrate === 0) {
+      Swal.fire({
+        title: '<p style="font-size:25px;">Seed rate cannot be zero. Please enter the value.</p>',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#E97E15'
+      });
+      return;
+    }
+    if ((certifiedquant + qualityquant) !== totalreq) {
+      Swal.fire({
+        title: '<p style="font-size:25px;">Sum of certified quante & quality quant should be equal seed Requiredment. Please enter the value.</p>',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#E97E15'
+      });
+    
+      return;
+    }
     this.submitted = true;
-
-    // if (this.ngForm.invalid) {
-      
-    //   return;
-    // }
-
-    const values = this.ngForm.value;
-    // const baseParam = {
-    //   ...values,
-    //   user_id: this.authUserId,
-    // };
-
-
-
+    this.isShowTable = true;
+  
     const baseParam = {
       "user_id": this.authUserId,
       "year": this.ngForm.controls['year'].value,
@@ -662,7 +671,7 @@ export class SrpComponent implements OnInit {
       "ssfs": Number(this.ngForm.controls['ssf'].value),
       "ssc": Number(this.ngForm.controls['ssc'].value),
       "doa": Number(this.ngForm.controls['doa'].value),
-      "saus": Number(this.ngForm.controls['sau'].value),      
+      "saus": Number(this.ngForm.controls['sau'].value),
       "pvt": Number(this.ngForm.controls['pvt'].value),
       "nsc": Number(this.ngForm.controls['nsc'].value),
       "coop": Number(this.ngForm.controls['coop'].value),
@@ -682,9 +691,7 @@ export class SrpComponent implements OnInit {
       "seedRequired": this.ngForm.controls['totalreq'].value,
       "qualityquant": this.ngForm.controls['qualityquant'].value,
       "certifiedquant": this.ngForm.controls['certifiedquant'].value,
-     };
-
-
+    };
 
     this.ngForm.valueChanges.subscribe(values => {
       const total =
@@ -696,23 +703,49 @@ export class SrpComponent implements OnInit {
         (values.nsc || 0) +
         (values.others || 0);
       const shtorsub = total - (values.req || 0);
-console.log(total,'total')
+
       this.ngForm.patchValue(
         { total: total, shtorsub: shtorsub },
         { emitEvent: false }
       );
     });
     const route = `update-srp/${this.dataId}`;
-console.log(route,'route')
-    this.zsrmServiceService.putRequestCreator(route, baseParam, null).subscribe(data => {
+    this.zsrmServiceService.putRequestCreator(route, null, baseParam).subscribe(data => {
       if (data.Response.status_code === 200) {
-        this.is_update = false;
+        this.is_update = true;
+        this.isShowTable = true;
         Swal.fire({
           title: '<p style="font-size:25px;">Data Has Been Successfully Updated.</p>',
           icon: 'success',
           confirmButtonText: 'OK',
           confirmButtonColor: '#E97E15'
-        }).then(() => this.resetForm());
+        }).then(() => {
+          this.getPageData();
+          this.ngForm.controls['doa'].reset(0)
+          this.ngForm.controls['nsc'].reset(0)
+          this.ngForm.controls['ssf'].reset(0)
+          this.ngForm.controls['pvt'].reset(0)
+          this.ngForm.controls['sau'].reset(0)
+          this.ngForm.controls['remarks'].reset('')
+          this.ngForm.controls['hub'].reset(0)
+          this.ngForm.controls['ssc'].reset(0)
+          this.ngForm.controls['coop'].reset(0)
+          this.ngForm.controls['others'].reset(0)
+          this.ngForm.controls['othersgovt'].reset(0)
+          this.ngForm.controls['smrfs'].reset(0)
+          this.ngForm.controls['fsreq'].reset(0)
+          this.ngForm.controls['smrbs'].reset(0)
+          this.ngForm.controls['bsreq'].reset(0)
+          this.ngForm.controls['proposedarea'].reset(0)
+          this.ngForm.controls['seedrate'].reset(0)
+          this.ngForm.controls['SRRTargetbySTATE'].reset(0)
+          this.ngForm.controls['SRRTargetbyGOI'].reset(0)
+          this.ngForm.controls['certifiedquant'].reset(0)
+          this.ngForm.controls['qualityquant'].reset(0)
+            this.submitted = false;
+            this.isAddSelected=false;
+            this.disableUpperSection= false;
+        });
       } else {
         Swal.fire({
           title: '<p style="font-size:25px;">An Error Occurred.</p>',
@@ -728,11 +761,12 @@ console.log(route,'route')
     this.ngForm.controls['year'].reset('');
     this.ngForm.controls['season'].reset('');
     this.selectCrop = '';
-    this.selectVariety = '';     
+    this.selectVariety = '';
     this.ngForm.controls['crop'].reset('');
     this.ngForm.controls['variety'].reset('');
-    this.isShowTable = false;
-    this.isAddSelected = false;
+    this.submitted = false;
+            this.isAddSelected=false;
+            this.disableUpperSection= false;
   }
 
   getYear() {
@@ -767,6 +801,15 @@ console.log(route,'route')
   resetRadioBtn() {
     window.location.reload();
     this.productionType = ""
+  }
+  validateDecimal(event: any): void {
+    const input = event.target as HTMLInputElement;
+    const regex = /^[0-9]+(\.[0-9]{0,2})?$/;
+
+    const newValue = input.value + event.key;
+    if (!regex.test(newValue) || (event.key === '.' && input.value.includes('.'))) {
+      event.preventDefault();
+    }
   }
   formatNumber(value: number) {
     return value ? value.toFixed(2) : '';
