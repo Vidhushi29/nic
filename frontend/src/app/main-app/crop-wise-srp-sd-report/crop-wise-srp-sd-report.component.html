@@ -6,7 +6,7 @@
                     <div class="col-12 px-4 mt-2">
                         <div class="row">
                             <div class="col-md-10 pl-4 pb-2 pb-md-3">
-                                <span class="heading_notofied">Actual Distribution of Certified Seed/Quality Seed</span>
+                                <span class="heading_notofied">Crop-Wise Seed Rolling Plan</span>
                             </div>
                             <div class="col-md-1 pl-4 pb-2"
                                 style="font: normal normal 600 20px/30px Poppins; letter-spacing: 0px; color: #1C1C1C;">
@@ -46,13 +46,14 @@
 
                                 </div>
                             </div>
+                           
+
                           
-                          
-                            <div class="col-md-4 pl-4 pl-md-3 pt-2 pr-4 pr-md-2 py-2 py-md-0">
+                            <div class="col-md-3 pl-4 pl-md-3 pt-2 pr-4 pr-md-2 py-2 py-md-0">
                                 <div class="col-md-12 px-2">
                                     <label for="" class="left-heading">State/UT</label>
                                 </div>
-                                <div class="col-11  mt-0 px-0  pl-md-0">
+                                <div class="col-12  mt-0 px-0  pl-md-0">
                                      <ng-multiselect-dropdown [settings]="dropdownSettings1" [data]="stateIndenterList"
                                    
                                    formControlName="state_name"                                  
@@ -82,21 +83,39 @@
 
                             </div>
                          
-                            <div class="col-md-4 pl-2 pt-0 pr-2 py-2 py-md-0 pl-md-0">
-                                <div class="col-12">
-                                    <label for="Crop Group" class="left-heading required">Crop Type</label>
+                            <!-- <div class="col-md-4 pl-2 pt-0 pr-2 py-2 py-md-0 pr-md-0 pl-md-0">
+                                <div class="col-12 pl-3  ">
+                                    <label for="Crop Group" id="search_text" class="left-heading">Crop </label>
                                 </div>
-                                <div class="col-12 pr-md-3 mb-2">
-                                    <select class="form-select form-control" aria-label="Default select exampl  e"
-                                        formControlName="crop_type">
-                                        <option value="" selected disabled>Select Crop Type</option>
-                                        <option *ngFor="let data of cropTypeList" value="{{data.crop_type}}">
-                                            {{ data && data.crop_type ? (data.crop_type | titlecase) :''}}</option>
-                                    </select>
+                                <div class="col-12 pr-md-0">
+                                    <div ngbDropdown class="d-inline-block w-100">
+                                        <button class="btn takeplacholder w-100 crop toggle-button" id="crop_group"
+                                            ngbDropdownToggle style="text-align: left;" aria-disabled="true">
+                                            {{selectCrop_group && (selectCrop_group.length>30) ?
+                                            (selectCrop_group.substring(0,30)+'...'):selectCrop_group?selectCrop_group :'Select
+                                            Crop Group'}}
+                                        </button>
+                                        <div class="dropdown-menu w-100" ngbDropdownMenu="crop_group"
+                                            aria-labelledby="sortMenu">
 
 
+                                            <input type="text" class="form-control px-4"
+                                                formControlName="crop_text">
+                                            <button class="dropdown-item" *ngFor="let data of cropList"
+                                                value="{{data.crop_group_code}}" (click)="crop_name(data)"
+                                                #dropdownItem [attr.data-parent-name]="'cropGroup'">
+                                                {{data && data.crop_name ? data.crop_name : ''}}
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="pl-0 toggle-button" ngbDropdown id="crop_group">
+                                        <i class="fa-solid fa-angle-down downicon" (click)="cgClick()"></i>
+                                    </div>
+
+                                    
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="col-12 mt-3 mt-md-4 buttons-phone">
                                 <button
@@ -141,7 +160,7 @@
                             <div class="row d-md-flex data-row-header extra-header ">
                                         <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
                                         </div> -->
-                                        <div class="col-12 col-md-12 py-3 d-flex justify-content-center">Actual Distribution of Certified Seed/Quality Seed</div>
+                                        <div class="col-12 col-md-12 py-3 d-flex justify-content-center">Crop-Wise Seed Rolling Plan</div>
                                         <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
                                         </div> -->
                                     </div>
@@ -160,10 +179,7 @@
                                         {{ enableTable && ngForm.controls['season'].value? ngForm.controls['season'].value :''}}
                                      
                                     </div>
-                                    <div class="col-sm-3 py-3 d-flex verticle-content-middle">Crop Type : 
-                                       
-                                        {{enableTable && ngForm.controls['crop_type'].value ? (ngForm.controls['crop_type'].value | titlecase) :''}}
-                                    </div>
+                                  
                                     <!-- <div class="col-sm-2 py-3 d-flex verticle-content-middle">Crop:
                                          {{cropNameArr ? (cropNameArr):'' }}
                                         
@@ -184,69 +200,116 @@
                                      
                                         <thead>
 
-                                          <tr class="data-row-header">
-                                            <th scope="col" class="col-md-1 py-2">S/N</th>
-                                            <th scope="col" class="col-md-3 py-2">State/UT</th>
-                                            <th scope="col" class="col-md-3 py-2">Crop</th>
-                                            <th scope="col" class="col-md-3 py-2">Variety</th>
-                                            <th scope="col" class="col-md-3 py-2">Seed Type</th>
-                                            <th scope="col" class="col-md-2 py-2">DOA</th>
-                                            <th scope="col" class="col-md-2 py-2">SSC</th>
-                                            <th scope="col" class="col-md-2 py-2">NSC</th>
-                                            <th scope="col" class="col-md-2 py-2">SFCI</th>
-                                            <th scope="col" class="col-md-2 py-2">Private</th>
-                                            <th scope="col" class="col-md-2 py-2">Others</th>
-                                            <th scope="col" class="col-md-2 py-2">Total</th>
-                                            <th scope="col" class="col-md-2 py-2">Variety Total</th>
-                                            <th scope="col" class="col-md-2 py-2">Crop Total</th>
-        
+                                            <tr class="data-row-header">
+                                                <th scope="col" class="col-md-1 py-2" rowspan="2">S/N</th>
+                                                <th scope="col" class="col-md-3 py-2" rowspan="2">State/UT</th>
+                                                <th scope="col" class="col-md-3 py-2" rowspan="2">Crop</th>
+                                                <th scope="col" class="col-md-2 py-2" rowspan="2">Area (in Ha)</th>
+                                                <th scope="col" class="col-md-2 py-2" rowspan="2">Seed Required (in Qt) </th>
+                                                <th scope="col" class="col-md-2 py-2" colspan="10">SEED PRODUCTION AGENCIES</th>
+                                                <th scope="col" class="col-md-2 py-2" rowspan="2"> Total Available Seed (in Qt) </th>
+                                                <th scope="col" class="col-md-2 py-2" rowspan="2">Surplus /Deficit(in Quintals)</th>
+                                                <th scope="col" class="col-md-2 py-2" rowspan="2">FS Required to meet targets of CS (in Qt)</th>
+                                                <th scope="col" class="col-md-2 py-2" rowspan="2">BS Required to meet targets of FS (in Qt)</th>
+                                    </tr>
+                                    <tr class="data-row-header">
+                                        <th scope="col" class="col-md-1 py-2" >DOA</th>
+                                        <th scope="col" class="col-md-1 py-2" >SSFS</th>
+                                        <th scope="col" class="col-md-1 py-2" >SSC</th>
+                                        <th scope="col" class="col-md-1 py-2" >SAUs</th>
+                                        <th scope="col" class="col-md-1 py-2" >NSC</th>
+                                        <th scope="col" class="col-md-1 py-2" >Other Govt PSUs</th>
+                                        <th scope="col" class="col-md-1 py-2" >COOP</th>
+                                        <th scope="col" class="col-md-1 py-2" >PVT</th>
+                                        <th scope="col" class="col-md-1 py-2" >Seed Hub</th>
+                                        <th scope="col" class="col-md-1 py-2" >Other Agency</th>
+            
+                            </tr>
                                         </thead>
                                         <tbody>
                                             <ng-container *ngFor="let data of finalData; let stateIndex = index">
-                                            <ng-container *ngFor="let cropsData of data.crops; let cropIndex = index">
-                                            <ng-container *ngFor="let varietyData of cropsData.variety; let varietyIndex = index">
-                                                <ng-container *ngFor="let spaData of varietyData.seeds; let spaIndex = index">
+                                                <ng-container *ngFor="let cropsData of data.crop; let cropIndex = index">
+                                                        <tr>
+                                                            <td style="text-align: center;" *ngIf="cropIndex === 0"
+                                                                [attr.rowspan]="data.crop_count">{{ stateIndex + 1 }}
+                                                            </td>
+                                                            <td *ngIf="cropIndex === 0 "
+                                                            [attr.rowspan]="data.crop_count">{{ (data.user_name |uppercase) }}</td>
+
+                                                    
+                                                    
+                                                            <td 
+                                                            >{{ cropsData.crop_name ?
+                                                            cropsData.crop_name : 'NA' }}</td>  
+                                                                                                                                                
+                                                             <td style="text-align: center;">{{ cropsData.proposedAreaUnderVariety ? cropsData.proposedAreaUnderVariety : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.seedRequired ? cropsData.seedRequired : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.doa ? cropsData.doa : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.ssfs ? cropsData.ssfs : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.ssc ? cropsData.ssc : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.saus ? cropsData.saus : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.nsc ? cropsData.nsc : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.othergovpsu ? cropsData.othergovpsu : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.coop ? cropsData.coop : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.pvt ? cropsData.pvt : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.seedhub ? cropsData.seedhub : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.others ? cropsData.others : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.total ? cropsData.total : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.shtorsur ? cropsData.shtorsur : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.FSRequiredtomeettargetsofCS ? cropsData.FSRequiredtomeettargetsofCS : 0 }}</td>
+                                                             <td style="text-align: center;">{{ cropsData.BSRequiredtomeettargetsofFS ? cropsData.BSRequiredtomeettargetsofFS : 0 }}</td>
+                                                            
+                                                        </tr>
+                                            </ng-container>
+                                                <tr>
+                                                    <td colspan="3"><b>State Wise Total</b></td>
+                                                    <td style="text-align: center;"><b>{{data && data.user_area ? data.user_area:0  }}</b></td>
+                                                    
+                                                    <td style="text-align: center;"><b>{{data && data.user_seed_req ? data.user_seed_req:0  }}</b></td>
+                                                    <td style="text-align: center;"><b>{{data && data.user_doa ? data.user_doa:0  }}</b></td>
+                                                    <td style="text-align: center;"><b>{{data && data.user_ssfs ? data.user_ssfs:0  }}</b></td>
+                                                    <td style="text-align: center;"><b>{{data && data.user_ssc ? data.user_ssc:0  }}</b></td>
+                                                    <td style="text-align: center;"><b>{{data && data.user_saus ? data.user_saus:0  }}</b></td>
+                                                    <td style="text-align: center;"><b>{{data && data.user_nsc ? data.user_nsc:0  }}</b></td>
+                                                    <td style="text-align: center;"><b>{{data && data.user_othergovpsu ? data.user_othergovpsu:0  }}</b></td>
+                                                    <td style="text-align: center;"><b>{{data && data.user_coop ? data.user_coop:0  }}</b></td>
+                                                    <td style="text-align: center;"><b>{{data && data.user_pvt ? data.user_pvt:0  }}</b></td>
+                                                    <td style="text-align: center;"><b>{{data && data.user_seedhub ? data.user_seedhub:0  }}</b></td>
+                                                    <td style="text-align: center;"><b>{{data && data.user_others ? data.user_others:0  }}</b></td>
+                                                    <td style="text-align: center;"><b>{{data && data.user_total ? data.user_total:0  }}</b></td>
+                                                    <td style="text-align: center;"><b>{{data && data.user_shtorsur ? data.user_shtorsur:0  }}</b></td>
+                                                    
+                                                    <td style="text-align: center;"><b>{{data && data.user_BSRequiredtomeettargetsofFS ? data.user_BSRequiredtomeettargetsofFS:0  }}</b></td>
+                                                    
+                                                    <td style="text-align: center;"><b>{{data && data.user_FSRequiredtomeettargetsofCS ? data.user_FSRequiredtomeettargetsofCS:0  }}</b></td>
+                                                </tr>
+                                                </ng-container>
+                                                <ng-container>
                                                     <tr>
-                                                        <td style="text-align: center;" *ngIf="spaIndex === 0 && varietyIndex === 0 && cropIndex === 0"
-                                                            [attr.rowspan]="data.total_seeds_count">{{ stateIndex + 1 }}
-                                                        </td>
-                                                        <td *ngIf="spaIndex === 0 && varietyIndex === 0 && cropIndex === 0 "
-                                                        [attr.rowspan]="data.total_seeds_count">{{ (data.name |uppercase) }}</td>
-                                                
-                                                        <td *ngIf="spaIndex === 0 && varietyIndex === 0 "
-                                                            [attr.rowspan]="cropsData.total_seed_count">{{ cropsData.crop_name ?
-                                                            cropsData.crop_name : 'NA' }}</td>
-                                                        <td *ngIf="spaIndex === 0 "
-                                                            [attr.rowspan]="varietyData.seed_count">{{
-                                                            varietyData.variety_name? varietyData.variety_name : 'NA' }}
-                                                        </td>                                                    
-                                                        <td style="text-align: center;">{{ spaData.seed_type ? spaData.seed_type : 0 }}</td>
-                                                        <td style="text-align: center;">{{ spaData.doa ? spaData.doa : 0 }}</td>
-                                                        <td style="text-align: center;">{{ spaData.ssc ? spaData.ssc : 0 }}</td>
-                                                        <td style="text-align: center;">{{ spaData.nsc ? spaData.nsc : 0 }}</td>
-                                                        <td style="text-align: center;">{{ spaData.sfci ? spaData.sfci : 0 }}</td>
-                                                        <td style="text-align: center;">{{ spaData.private ? spaData.private : 0 }}</td>
-                                                        <td style="text-align: center;">{{ spaData.others ? spaData.others : 0}}
-                                                        </td>
-                                                        <td style="text-align: center;">{{ spaData.total ? spaData.total : 0}}
-                                                        </td>
-                                                        <td  style="text-align: center;" *ngIf="spaIndex === 0"
-                                                            [attr.rowspan]="varietyData.seed_count">{{
-                                                            varietyData.total_dist? varietyData.total_dist : 0 }}
-                                                        </td>
-                                                        <td  style="text-align: center;" *ngIf="varietyIndex === 0 && spaIndex === 0"
-                                                        [attr.rowspan]="cropsData.total_seed_count">{{
-                                                        cropsData.crop_total_dist? cropsData.crop_total_dist : 0 }}
-                                                    </td>
+                                                        <td colspan="3"
+                                                            ><b>TOTAL:</b>
+                                                        </td>                                                                                                                                       
+                                                        <td style="text-align: center;"><b>{{ totalData.AreaUnderVariety ? totalData.AreaUnderVariety : 0 }}</b></td>
+                                    
+                                                        <td style="text-align: center;"><b>{{ totalData.SeedRequired ? totalData.SeedRequired : 0 }}</b></td>
+                                                        <td style="text-align: center;"><b>{{ totalData.doa ? totalData.doa : 0 }}</b></td>
+                                                        <td style="text-align: center;"><b>{{ totalData.ssfs ? totalData.ssfs : 0 }}</b></td>
+                                                        <td style="text-align: center;"><b>{{ totalData.ssc ? totalData.ssc : 0 }}</b></td>
+                                                        <td style="text-align: center;"><b>{{ totalData.saus ? totalData.saus : 0 }}</b></td>
+                                                        <td style="text-align: center;"><b>{{ totalData.nsc ? totalData.nsc : 0 }}</b></td>
+                                                        <td style="text-align: center;"><b>{{ totalData.othergovpsu ? totalData.othergovpsu : 0 }}</b></td>
+                                                        <td style="text-align: center;"><b>{{ totalData.coop ? totalData.coop : 0 }}</b></td>
+                                                        <td style="text-align: center;"><b>{{ totalData.pvt ? totalData.pvt : 0 }}</b></td>
+                                                        <td style="text-align: center;"><b>{{ totalData.seedhub ? totalData.seedhub : 0 }}</b></td>
+                                                        <td style="text-align: center;"><b>{{ totalData.others ? totalData.others : 0 }}</b></td>
+                                                        <td style="text-align: center;"><b>{{ totalData.total ? totalData.total : 0 }}</b></td>
+                                                        <td style="text-align: center;"><b>{{ totalData.shtorsur ? totalData.shtorsur : 0 }}</b></td>
+                                                      
+                                                        <td style="text-align: center;"><b>{{ totalData.FSRequiredtomeettargetsofCS ? totalData.FSRequiredtomeettargetsofCS : 0 }}</b></td>
+                                                       
+                                                        <td style="text-align: center;"><b>{{ totalData.BSRequiredtomeettargetsofFS ? totalData.BSRequiredtomeettargetsofFS : 0 }}</b></td>
                                                     </tr>
-                                            </ng-container>
-                                            </ng-container>
-                                        </ng-container>
-                                            <tr>
-                                                <td colspan="13"><b>State Wise Total</b></td>
-                                                <td><b>{{data && data.user_total_dist ? data.user_total_dist:0  }}</b></td>
-                                            </tr>
-                                            </ng-container>
+                                           </ng-container>
                                         </tbody>
                         
                                       </table>
@@ -275,7 +338,7 @@
                                 <div class="row d-md-flex data-row-header extra-header ">
                                     <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
                                     </div> -->
-                                    <div class="col-12 col-md-12 py-3 d-flex justify-content-center">Actual Distribution of Certified Seed/Quality Seed</div>
+                                    <div class="col-12 col-md-12 py-3 d-flex justify-content-center">Crop-Wise Seed Rolling Plan</div>
                                     <!-- <div class="col-6 col-md-2 py-3 d-flex verticle-content-middle">
                                     </div> -->
                                 </div>
@@ -294,10 +357,7 @@
                                     {{ enableTable && ngForm.controls['season'].value? ngForm.controls['season'].value :''}}
                                  
                                 </div>
-                                <div class="col-sm-3 py-3 d-flex verticle-content-middle">Crop Type : 
-                                   
-                                    {{enableTable && ngForm.controls['crop_type'].value ? (ngForm.controls['crop_type'].value | titlecase) :''}}
-                                </div>
+                              
                                 <!-- <div class="col-sm-2 py-3 d-flex verticle-content-middle">Crop:
                                      {{cropNameArr ? (cropNameArr):'' }}
                                     
@@ -318,69 +378,116 @@
                                  
                                     <thead>
 
-                                      <tr class="data-row-header">
-                                        <th scope="col" class="col-md-1 py-2">S/N</th>
-                                        <th scope="col" class="col-md-3 py-2">State/UT</th>
-                                        <th scope="col" class="col-md-3 py-2">Crop</th>
-                                        <th scope="col" class="col-md-3 py-2">Variety</th>
-                                        <th scope="col" class="col-md-3 py-2">Seed Type</th>
-                                        <th scope="col" class="col-md-2 py-2">DOA</th>
-                                        <th scope="col" class="col-md-2 py-2">SSC</th>
-                                        <th scope="col" class="col-md-2 py-2">NSC</th>
-                                        <th scope="col" class="col-md-2 py-2">SFCI</th>
-                                        <th scope="col" class="col-md-2 py-2">Private</th>
-                                        <th scope="col" class="col-md-2 py-2">Others</th>
-                                        <th scope="col" class="col-md-2 py-2">Total</th>
-                                        <th scope="col" class="col-md-2 py-2">Variety Total</th>
-                                        <th scope="col" class="col-md-2 py-2">Crop Total</th>
-    
+                                        <tr class="data-row-header">
+                                            <th scope="col" class="col-md-1 py-2" rowspan="2">S/N</th>
+                                            <th scope="col" class="col-md-3 py-2" rowspan="2">State/UT</th>
+                                            <th scope="col" class="col-md-3 py-2" rowspan="2">Crop</th>
+                                            <th scope="col" class="col-md-2 py-2" rowspan="2">Area (in Ha)</th>
+                                            <th scope="col" class="col-md-2 py-2" rowspan="2">Seed Required (in Qt) </th>
+                                            <th scope="col" class="col-md-2 py-2" colspan="10">SEED PRODUCTION AGENCIES</th>
+                                            <th scope="col" class="col-md-2 py-2" rowspan="2"> Total Available Seed (in Qt) </th>
+                                            <th scope="col" class="col-md-2 py-2" rowspan="2">Surplus /Deficit(in Quintals)</th>
+                                            <th scope="col" class="col-md-2 py-2" rowspan="2">FS Required to meet targets of CS (in Qt)</th>
+                                            <th scope="col" class="col-md-2 py-2" rowspan="2">BS Required to meet targets of FS (in Qt)</th>
+                                </tr>
+                                <tr class="data-row-header">
+                                    <th scope="col" class="col-md-1 py-2" >DOA</th>
+                                    <th scope="col" class="col-md-1 py-2" >SSFS</th>
+                                    <th scope="col" class="col-md-1 py-2" >SSC</th>
+                                    <th scope="col" class="col-md-1 py-2" >SAUs</th>
+                                    <th scope="col" class="col-md-1 py-2" >NSC</th>
+                                    <th scope="col" class="col-md-1 py-2" >Other Govt PSUs</th>
+                                    <th scope="col" class="col-md-1 py-2" >COOP</th>
+                                    <th scope="col" class="col-md-1 py-2" >PVT</th>
+                                    <th scope="col" class="col-md-1 py-2" >Seed Hub</th>
+                                    <th scope="col" class="col-md-1 py-2" >Other Agency</th>
+        
+                        </tr>
                                     </thead>
                                     <tbody>
                                         <ng-container *ngFor="let data of finalData; let stateIndex = index">
-                                        <ng-container *ngFor="let cropsData of data.crops; let cropIndex = index">
-                                        <ng-container *ngFor="let varietyData of cropsData.variety; let varietyIndex = index">
-                                            <ng-container *ngFor="let spaData of varietyData.seeds; let spaIndex = index">
+                                            <ng-container *ngFor="let cropsData of data.crop; let cropIndex = index">
+                                                    <tr>
+                                                        <td style="text-align: center;" *ngIf="cropIndex === 0"
+                                                            [attr.rowspan]="data.crop_count">{{ stateIndex + 1 }}
+                                                        </td>
+                                                        <td *ngIf="cropIndex === 0 "
+                                                        [attr.rowspan]="data.crop_count">{{ (data.user_name |uppercase) }}</td>
+
+                                                
+                                                
+                                                        <td 
+                                                        >{{ cropsData.crop_name ?
+                                                        cropsData.crop_name : 'NA' }}</td>  
+                                                                                                                                            
+                                                         <td style="text-align: center;">{{ cropsData.proposedAreaUnderVariety ? cropsData.proposedAreaUnderVariety : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.seedRequired ? cropsData.seedRequired : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.doa ? cropsData.doa : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.ssfs ? cropsData.ssfs : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.ssc ? cropsData.ssc : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.saus ? cropsData.saus : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.nsc ? cropsData.nsc : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.othergovpsu ? cropsData.othergovpsu : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.coop ? cropsData.coop : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.pvt ? cropsData.pvt : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.seedhub ? cropsData.seedhub : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.others ? cropsData.others : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.total ? cropsData.total : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.shtorsur ? cropsData.shtorsur : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.FSRequiredtomeettargetsofCS ? cropsData.FSRequiredtomeettargetsofCS : 0 }}</td>
+                                                         <td style="text-align: center;">{{ cropsData.BSRequiredtomeettargetsofFS ? cropsData.BSRequiredtomeettargetsofFS : 0 }}</td>
+                                                        
+                                                    </tr>
+                                        </ng-container>
+                                            <tr>
+                                                <td colspan="3"><b>State Wise Total</b></td>
+                                                <td style="text-align: center;"><b>{{data && data.user_area ? data.user_area:0  }}</b></td>
+                                                
+                                                <td style="text-align: center;"><b>{{data && data.user_seed_req ? data.user_seed_req:0  }}</b></td>
+                                                <td style="text-align: center;"><b>{{data && data.user_doa ? data.user_doa:0  }}</b></td>
+                                                <td style="text-align: center;"><b>{{data && data.user_ssfs ? data.user_ssfs:0  }}</b></td>
+                                                <td style="text-align: center;"><b>{{data && data.user_ssc ? data.user_ssc:0  }}</b></td>
+                                                <td style="text-align: center;"><b>{{data && data.user_saus ? data.user_saus:0  }}</b></td>
+                                                <td style="text-align: center;"><b>{{data && data.user_nsc ? data.user_nsc:0  }}</b></td>
+                                                <td style="text-align: center;"><b>{{data && data.user_othergovpsu ? data.user_othergovpsu:0  }}</b></td>
+                                                <td style="text-align: center;"><b>{{data && data.user_coop ? data.user_coop:0  }}</b></td>
+                                                <td style="text-align: center;"><b>{{data && data.user_pvt ? data.user_pvt:0  }}</b></td>
+                                                <td style="text-align: center;"><b>{{data && data.user_seedhub ? data.user_seedhub:0  }}</b></td>
+                                                <td style="text-align: center;"><b>{{data && data.user_others ? data.user_others:0  }}</b></td>
+                                                <td style="text-align: center;"><b>{{data && data.user_total ? data.user_total:0  }}</b></td>
+                                                <td style="text-align: center;"><b>{{data && data.user_shtorsur ? data.user_shtorsur:0  }}</b></td>
+                                                
+                                                <td style="text-align: center;"><b>{{data && data.user_BSRequiredtomeettargetsofFS ? data.user_BSRequiredtomeettargetsofFS:0  }}</b></td>
+                                                
+                                                <td style="text-align: center;"><b>{{data && data.user_FSRequiredtomeettargetsofCS ? data.user_FSRequiredtomeettargetsofCS:0  }}</b></td>
+                                            </tr>
+                                            </ng-container>
+                                            <ng-container>
                                                 <tr>
-                                                    <td style="text-align: center;" *ngIf="spaIndex === 0 && varietyIndex === 0 && cropIndex === 0"
-                                                        [attr.rowspan]="data.total_seeds_count">{{ stateIndex + 1 }}
-                                                    </td>
-                                                    <td *ngIf="spaIndex === 0 && varietyIndex === 0 && cropIndex === 0 "
-                                                    [attr.rowspan]="data.total_seeds_count">{{ (data.name |uppercase) }}</td>
-                                            
-                                                    <td *ngIf="spaIndex === 0 && varietyIndex === 0 "
-                                                        [attr.rowspan]="cropsData.total_seed_count">{{ cropsData.crop_name ?
-                                                        cropsData.crop_name : 'NA' }}</td>
-                                                    <td *ngIf="spaIndex === 0 "
-                                                        [attr.rowspan]="varietyData.seed_count">{{
-                                                        varietyData.variety_name? varietyData.variety_name : 'NA' }}
-                                                    </td>                                                    
-                                                    <td style="text-align: center;">{{ spaData.seed_type ? spaData.seed_type : 0 }}</td>
-                                                    <td style="text-align: center;">{{ spaData.doa ? spaData.doa : 0 }}</td>
-                                                    <td style="text-align: center;">{{ spaData.ssc ? spaData.ssc : 0 }}</td>
-                                                    <td style="text-align: center;">{{ spaData.nsc ? spaData.nsc : 0 }}</td>
-                                                    <td style="text-align: center;">{{ spaData.sfci ? spaData.sfci : 0 }}</td>
-                                                    <td style="text-align: center;">{{ spaData.private ? spaData.private : 0 }}</td>
-                                                    <td style="text-align: center;">{{ spaData.others ? spaData.others : 0}}
-                                                    </td>
-                                                    <td style="text-align: center;">{{ spaData.total ? spaData.total : 0}}
-                                                    </td>
-                                                    <td  style="text-align: center;" *ngIf="spaIndex === 0"
-                                                        [attr.rowspan]="varietyData.seed_count">{{
-                                                        varietyData.total_dist? varietyData.total_dist : 0 }}
-                                                    </td>
-                                                    <td  style="text-align: center;" *ngIf="varietyIndex === 0 && spaIndex === 0"
-                                                    [attr.rowspan]="cropsData.total_seed_count">{{
-                                                    cropsData.crop_total_dist? cropsData.crop_total_dist : 0 }}
-                                                </td>
+                                                    <td colspan="3"
+                                                        ><b>TOTAL:</b>
+                                                    </td>                                                                                                                                       
+                                                    <td style="text-align: center;"><b>{{ totalData.AreaUnderVariety ? totalData.AreaUnderVariety : 0 }}</b></td>
+                                
+                                                    <td style="text-align: center;"><b>{{ totalData.SeedRequired ? totalData.SeedRequired : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.doa ? totalData.doa : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.ssfs ? totalData.ssfs : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.ssc ? totalData.ssc : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.saus ? totalData.saus : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.nsc ? totalData.nsc : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.othergovpsu ? totalData.othergovpsu : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.coop ? totalData.coop : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.pvt ? totalData.pvt : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.seedhub ? totalData.seedhub : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.others ? totalData.others : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.total ? totalData.total : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.shtorsur ? totalData.shtorsur : 0 }}</b></td>
+                                                  
+                                                    <td style="text-align: center;"><b>{{ totalData.FSRequiredtomeettargetsofCS ? totalData.FSRequiredtomeettargetsofCS : 0 }}</b></td>
+                                                   
+                                                    <td style="text-align: center;"><b>{{ totalData.BSRequiredtomeettargetsofFS ? totalData.BSRequiredtomeettargetsofFS : 0 }}</b></td>
                                                 </tr>
-                                        </ng-container>
-                                        </ng-container>
-                                    </ng-container>
-                                        <tr>
-                                            <td colspan="13"><b>State Wise Total</b></td>
-                                            <td><b>{{data && data.user_total_dist ? data.user_total_dist:0  }}</b></td>
-                                        </tr>
-                                        </ng-container>
+                                       </ng-container>
                                     </tbody>
                     
                                   </table>
@@ -412,14 +519,14 @@
                               <thead >
                                 <tr>
                                     <td>
-                                        Actual Distribution of Certified Seed/Quality Seed
+                                        Crop-Wise Seed Rolling Plan
                                     </td>
                                 </tr>
                                 <tr>
 
                                     <td>Year</td>
                                     <td>Season</td>
-                                    <td>Crop Type</td>
+                                  
                                 </tr>
                               </thead>
                               <tbody >
@@ -432,80 +539,124 @@
                                         {{ enableTable && ngForm.controls['season'].value ? ngForm.controls['season'].value:''}}
                                  
                                     </td>
-                                    <td>
-                                        {{enableTable && ngForm.controls['crop_type'].value ? (ngForm.controls['crop_type'].value) :''}}
-                                    </td>
+                                  
                                 </tr>
 
 
                               </tbody>
-                                <thead>
+                              <thead>
 
-                                    <tr class="data-row-header">
-                                        <th scope="col" class="col-md-1 py-2">S/N</th>
-                                        <th scope="col" class="col-md-3 py-2">State/UT</th>
-                                        <th scope="col" class="col-md-3 py-2">Crop</th>
-                                        <th scope="col" class="col-md-3 py-2">Variety</th>
-                                        <th scope="col" class="col-md-3 py-2">Seed Type</th>
-                                        <th scope="col" class="col-md-2 py-2">DOA</th>
-                                        <th scope="col" class="col-md-2 py-2">SSC</th>
-                                        <th scope="col" class="col-md-2 py-2">NSC</th>
-                                        <th scope="col" class="col-md-2 py-2">SFCI</th>
-                                        <th scope="col" class="col-md-2 py-2">Private</th>
-                                        <th scope="col" class="col-md-2 py-2">Others</th>
-                                        <th scope="col" class="col-md-2 py-2">Total</th>
-                                        <th scope="col" class="col-md-2 py-2">Variety Total</th>
-                                        <th scope="col" class="col-md-2 py-2">Crop Total</th>
-    
-                               
-                                    </thead>
-                                    <tbody>
-                                        <ng-container *ngFor="let data of finalData; let stateIndex = index">
-                                        <ng-container *ngFor="let cropsData of data.crops; let cropIndex = index">
-                                        <ng-container *ngFor="let varietyData of cropsData.variety; let varietyIndex = index">
-                                            <ng-container *ngFor="let spaData of varietyData.seeds; let spaIndex = index">
-                                                <tr>
-                                                    <td style="text-align: center;" *ngIf="spaIndex === 0 && varietyIndex === 0 && cropIndex === 0"
-                                                        [attr.rowspan]="data.total_seeds_count">{{ stateIndex + 1 }}
-                                                    </td>
-                                                    <td *ngIf="spaIndex === 0 && varietyIndex === 0 && cropIndex === 0 "
-                                                    [attr.rowspan]="data.total_seeds_count">{{ (data.name |uppercase) }}</td>
-                                            
-                                                    <td *ngIf="spaIndex === 0 && varietyIndex === 0 "
-                                                        [attr.rowspan]="cropsData.total_seed_count">{{ cropsData.crop_name ?
-                                                        cropsData.crop_name : 'NA' }}</td>
-                                                    <td *ngIf="spaIndex === 0 "
-                                                        [attr.rowspan]="varietyData.seed_count">{{
-                                                        varietyData.variety_name? varietyData.variety_name : 'NA' }}
-                                                    </td>                                                    
-                                                    <td style="text-align: center;">{{ spaData.seed_type ? spaData.seed_type : 0 }}</td>
-                                                    <td style="text-align: center;">{{ spaData.doa ? spaData.doa : 0 }}</td>
-                                                    <td style="text-align: center;">{{ spaData.ssc ? spaData.ssc : 0 }}</td>
-                                                    <td style="text-align: center;">{{ spaData.nsc ? spaData.nsc : 0 }}</td>
-                                                    <td style="text-align: center;">{{ spaData.sfci ? spaData.sfci : 0 }}</td>
-                                                    <td style="text-align: center;">{{ spaData.private ? spaData.private : 0 }}</td>
-                                                    <td style="text-align: center;">{{ spaData.others ? spaData.others : 0}}
-                                                    </td>
-                                                    <td style="text-align: center;">{{ spaData.total ? spaData.total : 0}}
-                                                    </td>
-                                                    <td  style="text-align: center;" *ngIf="spaIndex === 0"
-                                                        [attr.rowspan]="varietyData.seed_count">{{
-                                                        varietyData.total_dist? varietyData.total_dist : 0 }}
-                                                    </td>
-                                                    <td  style="text-align: center;" *ngIf="varietyIndex === 0 && spaIndex === 0"
-                                                    [attr.rowspan]="cropsData.total_seed_count">{{
-                                                    cropsData.crop_total_dist? cropsData.crop_total_dist : 0 }}
+                                <tr class="data-row-header">
+                                    <th scope="col" class="col-md-1 py-2" rowspan="2">S/N</th>
+                                    <th scope="col" class="col-md-3 py-2" rowspan="2">State/UT</th>
+                                    <th scope="col" class="col-md-3 py-2" rowspan="2">Crop</th>
+                                    <th scope="col" class="col-md-2 py-2" rowspan="2">Area (in Ha)</th>
+                                    <th scope="col" class="col-md-2 py-2" rowspan="2">Seed Required (in Qt) </th>
+                                    <th scope="col" class="col-md-2 py-2" colspan="10">SEED PRODUCTION AGENCIES</th>
+                                    <th scope="col" class="col-md-2 py-2" rowspan="2"> Total Available Seed (in Qt) </th>
+                                    <th scope="col" class="col-md-2 py-2" rowspan="2">Surplus /Deficit(in Quintals)</th>
+                                    <th scope="col" class="col-md-2 py-2" rowspan="2">FS Required to meet targets of CS (in Qt)</th>
+                                    <th scope="col" class="col-md-2 py-2" rowspan="2">BS Required to meet targets of FS (in Qt)</th>
+                        </tr>
+                        <tr class="data-row-header">
+                            <th scope="col" class="col-md-1 py-2" >DOA</th>
+                            <th scope="col" class="col-md-1 py-2" >SSFS</th>
+                            <th scope="col" class="col-md-1 py-2" >SSC</th>
+                            <th scope="col" class="col-md-1 py-2" >SAUs</th>
+                            <th scope="col" class="col-md-1 py-2" >NSC</th>
+                            <th scope="col" class="col-md-1 py-2" >Other Govt PSUs</th>
+                            <th scope="col" class="col-md-1 py-2" >COOP</th>
+                            <th scope="col" class="col-md-1 py-2" >PVT</th>
+                            <th scope="col" class="col-md-1 py-2" >Seed Hub</th>
+                            <th scope="col" class="col-md-1 py-2" >Other Agency</th>
+
+                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let data of finalData; let stateIndex = index">
+                                    <ng-container *ngFor="let cropsData of data.crop; let cropIndex = index">
+                                            <tr>
+                                                <td style="text-align: center;" *ngIf="cropIndex === 0"
+                                                    [attr.rowspan]="data.crop_count">{{ stateIndex + 1 }}
                                                 </td>
-                                                </tr>
-                                        </ng-container>
-                                        </ng-container>
+                                                <td *ngIf="cropIndex === 0 "
+                                                [attr.rowspan]="data.crop_count">{{ (data.user_name |uppercase) }}</td>
+
+                                        
+                                        
+                                                <td 
+                                                >{{ cropsData.crop_name ?
+                                                cropsData.crop_name : 'NA' }}</td>  
+                                                                                                                                    
+                                                 <td style="text-align: center;">{{ cropsData.proposedAreaUnderVariety ? cropsData.proposedAreaUnderVariety : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.seedRequired ? cropsData.seedRequired : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.doa ? cropsData.doa : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.ssfs ? cropsData.ssfs : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.ssc ? cropsData.ssc : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.saus ? cropsData.saus : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.nsc ? cropsData.nsc : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.othergovpsu ? cropsData.othergovpsu : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.coop ? cropsData.coop : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.pvt ? cropsData.pvt : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.seedhub ? cropsData.seedhub : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.others ? cropsData.others : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.total ? cropsData.total : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.shtorsur ? cropsData.shtorsur : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.FSRequiredtomeettargetsofCS ? cropsData.FSRequiredtomeettargetsofCS : 0 }}</td>
+                                                 <td style="text-align: center;">{{ cropsData.BSRequiredtomeettargetsofFS ? cropsData.BSRequiredtomeettargetsofFS : 0 }}</td>
+                                                
+                                            </tr>
+                                </ng-container>
+                                    <tr>
+                                        <td colspan="3"><b>State Wise Total</b></td>
+                                        <td style="text-align: center;"><b>{{data && data.user_area ? data.user_area:0  }}</b></td>
+                                        
+                                        <td style="text-align: center;"><b>{{data && data.user_seed_req ? data.user_seed_req:0  }}</b></td>
+                                        <td style="text-align: center;"><b>{{data && data.user_doa ? data.user_doa:0  }}</b></td>
+                                        <td style="text-align: center;"><b>{{data && data.user_ssfs ? data.user_ssfs:0  }}</b></td>
+                                        <td style="text-align: center;"><b>{{data && data.user_ssc ? data.user_ssc:0  }}</b></td>
+                                        <td style="text-align: center;"><b>{{data && data.user_saus ? data.user_saus:0  }}</b></td>
+                                        <td style="text-align: center;"><b>{{data && data.user_nsc ? data.user_nsc:0  }}</b></td>
+                                        <td style="text-align: center;"><b>{{data && data.user_othergovpsu ? data.user_othergovpsu:0  }}</b></td>
+                                        <td style="text-align: center;"><b>{{data && data.user_coop ? data.user_coop:0  }}</b></td>
+                                        <td style="text-align: center;"><b>{{data && data.user_pvt ? data.user_pvt:0  }}</b></td>
+                                        <td style="text-align: center;"><b>{{data && data.user_seedhub ? data.user_seedhub:0  }}</b></td>
+                                        <td style="text-align: center;"><b>{{data && data.user_others ? data.user_others:0  }}</b></td>
+                                        <td style="text-align: center;"><b>{{data && data.user_total ? data.user_total:0  }}</b></td>
+                                        <td style="text-align: center;"><b>{{data && data.user_shtorsur ? data.user_shtorsur:0  }}</b></td>
+                                        
+                                        <td style="text-align: center;"><b>{{data && data.user_BSRequiredtomeettargetsofFS ? data.user_BSRequiredtomeettargetsofFS:0  }}</b></td>
+                                        
+                                        <td style="text-align: center;"><b>{{data && data.user_FSRequiredtomeettargetsofCS ? data.user_FSRequiredtomeettargetsofCS:0  }}</b></td>
+                                    </tr>
                                     </ng-container>
+                                <ng-container *ngIf="totalData">
                                         <tr>
-                                            <td colspan="13"><b>State Wise Total</b></td>
-                                            <td><b>{{data && data.user_total_dist ? data.user_total_dist:0  }}</b></td>
+                                            <td colspan="3"
+                                                ><b>TOTAL:</b>
+                                            </td>                                                                                                                                       
+                                            <td style="text-align: center;"><b>{{ totalData.AreaUnderVariety ? totalData.AreaUnderVariety : 0 }}</b></td>
+                        
+                                            <td style="text-align: center;"><b>{{ totalData.SeedRequired ? totalData.SeedRequired : 0 }}</b></td>
+                                            <td style="text-align: center;"><b>{{ totalData.doa ? totalData.doa : 0 }}</b></td>
+                                            <td style="text-align: center;"><b>{{ totalData.ssfs ? totalData.ssfs : 0 }}</b></td>
+                                            <td style="text-align: center;"><b>{{ totalData.ssc ? totalData.ssc : 0 }}</b></td>
+                                            <td style="text-align: center;"><b>{{ totalData.saus ? totalData.saus : 0 }}</b></td>
+                                            <td style="text-align: center;"><b>{{ totalData.nsc ? totalData.nsc : 0 }}</b></td>
+                                            <td style="text-align: center;"><b>{{ totalData.othergovpsu ? totalData.othergovpsu : 0 }}</b></td>
+                                            <td style="text-align: center;"><b>{{ totalData.coop ? totalData.coop : 0 }}</b></td>
+                                            <td style="text-align: center;"><b>{{ totalData.pvt ? totalData.pvt : 0 }}</b></td>
+                                            <td style="text-align: center;"><b>{{ totalData.seedhub ? totalData.seedhub : 0 }}</b></td>
+                                            <td style="text-align: center;"><b>{{ totalData.others ? totalData.others : 0 }}</b></td>
+                                            <td style="text-align: center;"><b>{{ totalData.total ? totalData.total : 0 }}</b></td>
+                                            <td style="text-align: center;"><b>{{ totalData.shtorsur ? totalData.shtorsur : 0 }}</b></td>
+                                          
+                                            <td style="text-align: center;"><b>{{ totalData.FSRequiredtomeettargetsofCS ? totalData.FSRequiredtomeettargetsofCS : 0 }}</b></td>
+                                           
+                                            <td style="text-align: center;"><b>{{ totalData.BSRequiredtomeettargetsofFS ? totalData.BSRequiredtomeettargetsofFS : 0 }}</b></td>
                                         </tr>
-                                        </ng-container>
-                                    </tbody>
+                               </ng-container>
+                            </tbody>
                               </table>
 
                               

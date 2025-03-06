@@ -76,6 +76,7 @@ export class CropWiseSrpSdReportComponent implements OnInit {
        spa_namesArr: any;
     stateList: any;
     stateIndenterList: any;
+  totalData: any;
        constructor(
          private fb: FormBuilder,
          private router: Router,
@@ -128,35 +129,20 @@ export class CropWiseSrpSdReportComponent implements OnInit {
              this.ngForm.controls['crop_type'].setValue('');
              this.ngForm.controls['spa_name'].setValue('');
              this.spa_names = ''
+             this.finalData = [];
+          this.totalData = []
            }
      
          });
          this.ngForm.controls['season'].valueChanges.subscribe(newValue => {
            if (newValue) {
-            this.getIndentorCrop(newValue);
+            this.getIndentorCrop(newValue)
              this.ngForm.controls['crop_group'].patchValue("");
              this.ngForm.controls['state_name'].patchValue("");
              this.ngForm.controls['variety_name'].setValue('');
              this.ngForm.controls['crop_type'].setValue('');
              this.ngForm.controls['spa_name'].setValue('');
              this.spa_names = ''
-           }
-         });
-     
-         this.ngForm.controls['state_name'].valueChanges.subscribe(newValue => {
-           if (newValue) {
-                      
-             this.ngForm.controls['crop_group'].patchValue("");
-             this.ngForm.controls['state_name'].patchValue("");
-             this.ngForm.controls['variety_name'].setValue('');
-             this.ngForm.controls['spa_name'].setValue('');
-             this.spa_names = ''
-           }
-         });
-     
-         this.ngForm.controls['spa_name'].valueChanges.subscribe(newValue => {
-           if (newValue) {
-             this.getIndentorCrop(newValue)
            }
          });
        }
@@ -209,9 +195,9 @@ export class CropWiseSrpSdReportComponent implements OnInit {
      
      
        onSearch() {
-         if ((!this.ngForm.controls["year_of_indent"].value && !this.ngForm.controls["season"].value && !this.ngForm.controls["crop_type"].value)) {
+         if ((!this.ngForm.controls["year_of_indent"].value)) {
            Swal.fire({
-             title: '<p style="font-size:25px;">Please Select Something.</p>',
+             title: '<p style="font-size:25px;">Please Select Year.</p>',
              icon: 'error',
              confirmButtonText:
                'OK',
@@ -220,20 +206,9 @@ export class CropWiseSrpSdReportComponent implements OnInit {
      
            return;
          }
-         if ((!this.ngForm.controls["season"].value && !this.ngForm.controls["crop_type"].value)) {
+         if ((!this.ngForm.controls["season"].value)) {
            Swal.fire({
-             title: '<p style="font-size:25px;">Please Select Season And Crop Type.</p>',
-             icon: 'error',
-             confirmButtonText:
-               'OK',
-             confirmButtonColor: '#E97E15'
-           })
-     
-           return;
-         }
-         if ((!this.ngForm.controls["crop_type"].value)) {
-           Swal.fire({
-             title: '<p style="font-size:25px;">Please Select Crop Type.</p>',
+             title: '<p style="font-size:25px;">Please Select Season.</p>',
              icon: 'error',
              confirmButtonText:
                'OK',
@@ -260,17 +235,198 @@ export class CropWiseSrpSdReportComponent implements OnInit {
              search: {
                year: this.ngForm.controls["year_of_indent"].value,
                season: this.ngForm.controls["season"].value,
-               crop_type: this.ngForm.controls['crop_type'].value,
                userid: stateNameArr && (stateNameArr.length > 0) ? stateNameArr : '',
              }
            }
-           this.zsrmServiceService.postRequestCreator('get-zsrm-cs-qs-dist-data-sd', null, param).subscribe(data => {
+           this.zsrmServiceService.postRequestCreator('view-srp-crop-wise-seed-division', null, param).subscribe(data => {
     
             if (data.Response.status_code === 200) {
-              
-              let res =data && data.Response && data.Response.data ? data.Response.data : '';
-              this.finalData = res;
-              console.log(this.finalData)
+              let res =data && data.Response && data.Response.data && data.Response.data ? data.Response.data : '';
+              console.log(res,"response");
+              let totals = {
+               AreaUnderVariety: 0,
+               SeedRequired: 0,
+               doa: 0,
+               ssfs: 0,
+               ssc: 0,
+               nsc: 0,
+               saus: 0,
+               othergovpsu: 0,
+               coop: 0,
+               pvt: 0,
+               seedhub: 0,
+               others: 0,
+               total: 0,
+               shtorsur: 0,
+               BSRequiredBSRequiredtomeettargetsofFS: 0,
+               FSRequiredtomeettargetsofCS: 0,
+             };
+             
+             // Iterate through the data and sum up all the fields
+             res.forEach(item => {
+               console.log(item.AreaUnderVariety);
+               totals.AreaUnderVariety += parseFloat(item.AreaUnderVariety) || 0;
+               totals.SeedRequired += parseFloat(item.SeedRequired) || 0;
+               totals.doa += parseFloat(item.doa) || 0;
+               totals.ssfs += parseFloat(item.ssfs) || 0;
+               totals.ssc += parseFloat(item.ssc) || 0;
+               totals.nsc += parseFloat(item.nsc) || 0;
+               totals.saus += parseFloat(item.saus) || 0;
+               totals.othergovpsu += parseFloat(item.othergovpsu) || 0;
+               totals.coop += parseFloat(item.coop) || 0;
+               totals.pvt += parseFloat(item.pvt) || 0;
+               totals.seedhub += parseFloat(item.seedhub) || 0;
+               totals.others += parseFloat(item.others) || 0;
+               totals.total += parseFloat(item.total) || 0;
+               totals.shtorsur += parseFloat(item.shtorsur) || 0;
+               totals.BSRequiredBSRequiredtomeettargetsofFS += parseFloat(item.BSRequiredBSRequiredtomeettargetsofFS) || 0;
+               totals.FSRequiredtomeettargetsofCS += parseFloat(item.FSRequiredtomeettargetsofCS) || 0;
+             });
+   
+             let filteredData = [];
+             res.forEach((el) => {
+            const userIndex = filteredData.findIndex(
+              (item) => item.user_id === el.user_id
+            );
+            if (userIndex === -1) {
+              filteredData.push({
+                user_name: el.name,
+                user_id: el.user_id,
+                crop_count: 1,
+                user_area: parseFloat(el.AreaUnderVariety).toFixed(2),
+                user_seed_req: parseFloat(el.SeedRequired).toFixed(2),
+                user_doa: parseFloat(el.doa).toFixed(2),
+                user_ssfs: parseFloat(el.ssfs).toFixed(2),
+                user_ssc: parseFloat(el.ssc).toFixed(2),
+                user_nsc: parseFloat(el.nsc).toFixed(2),
+                user_saus: parseFloat(el.saus).toFixed(2),
+                user_othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
+                user_coop: parseFloat(el.coop).toFixed(2),
+                user_pvt: parseFloat(el.pvt).toFixed(2),
+                user_seedhub: parseFloat(el.seedhub).toFixed(2),
+                user_others: parseFloat(el.others).toFixed(2),
+                user_total: parseFloat(el.total).toFixed(2),
+                user_shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                user_BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredBSRequiredtomeettargetsofFS).toFixed(2),
+                user_FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
+                crop: [
+                  {
+                    crop_code: el.crop_code,
+                    crop_name: el.crop_name,              
+                    proposedAreaUnderVariety: parseFloat(el.AreaUnderVariety).toFixed(2),
+                    seedRequired: parseFloat(el.SeedRequired).toFixed(2),
+                    doa: parseFloat(el.doa).toFixed(2),
+                    ssfs: parseFloat(el.ssfs).toFixed(2),
+                    saus: parseFloat(el.saus).toFixed(2),
+                    ssc: parseFloat(el.ssc).toFixed(2),
+                    nsc: parseFloat(el.nsc).toFixed(2),
+                    othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
+                    coop: parseFloat(el.coop).toFixed(2),
+                    seedhub: parseFloat(el.seedhub).toFixed(2),
+                    pvt: parseFloat(el.pvt).toFixed(2),
+                    others: parseFloat(el.others).toFixed(2),
+                    total: parseFloat(el.total).toFixed(2),
+                    shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                    FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
+                    BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredBSRequiredtomeettargetsofFS).toFixed(2),
+                  },
+                ],
+              });
+            } else {
+              filteredData[userIndex].crop_count += 1;
+              filteredData[userIndex].user_area = (
+                parseFloat(filteredData[userIndex].user_area) +
+                parseFloat(el.AreaUnderVariety)
+              ).toFixed(2);
+              filteredData[userIndex].user_seed_req = (
+                parseFloat(filteredData[userIndex].user_seed_req) +
+                parseFloat(el.SeedRequired)
+              ).toFixed(2);
+              filteredData[userIndex].user_doa = (
+                parseFloat(filteredData[userIndex].user_doa) +
+                parseFloat(el.doa)
+              ).toFixed(2);
+              filteredData[userIndex].user_ssfs = (
+                parseFloat(filteredData[userIndex].user_ssfs) +
+                parseFloat(el.ssfs)
+              ).toFixed(2);
+              filteredData[userIndex].user_ssc = (
+                parseFloat(filteredData[userIndex].user_ssc) +
+                parseFloat(el.ssc)
+              ).toFixed(2);
+              filteredData[userIndex].user_nsc = (
+                parseFloat(filteredData[userIndex].user_nsc) +
+                parseFloat(el.nsc)
+              ).toFixed(2);
+              filteredData[userIndex].user_saus = (
+                parseFloat(filteredData[userIndex].user_saus) +
+                parseFloat(el.saus)
+              ).toFixed(2);
+              filteredData[userIndex].user_othergovpsu = (
+                parseFloat(filteredData[userIndex].user_othergovpsu) +
+                parseFloat(el.othergovpsu)
+              ).toFixed(2);
+              filteredData[userIndex].user_coop = (
+                parseFloat(filteredData[userIndex].user_coop) +
+                parseFloat(el.coop)
+              ).toFixed(2);
+              filteredData[userIndex].user_pvt = (
+                parseFloat(filteredData[userIndex].user_pvt) +
+                parseFloat(el.pvt)
+              ).toFixed(2);
+              filteredData[userIndex].user_seedhub = (
+                parseFloat(filteredData[userIndex].user_seedhub) +
+                parseFloat(el.seedhub)
+              ).toFixed(2);
+              filteredData[userIndex].user_others = (
+                parseFloat(filteredData[userIndex].user_others) +
+                parseFloat(el.others)
+              ).toFixed(2);
+              filteredData[userIndex].user_total = (
+                parseFloat(filteredData[userIndex].user_total) +
+                parseFloat(el.total)
+              ).toFixed(2);
+              filteredData[userIndex].user_shtorsur = (
+                parseFloat(filteredData[userIndex].user_shtorsur) +
+                parseFloat(el.shtorsur)
+              ).toFixed(2);
+              filteredData[userIndex].user_BSRequiredtomeettargetsofFS = (
+                parseFloat(filteredData[userIndex].user_BSRequiredtomeettargetsofFS) +
+                parseFloat(el.BSRequiredBSRequiredtomeettargetsofFS)
+              ).toFixed(2);
+              filteredData[userIndex].user_FSRequiredtomeettargetsofCS = (
+                parseFloat(filteredData[userIndex].user_FSRequiredtomeettargetsofCS) +
+                parseFloat(el.FSRequiredtomeettargetsofCS)
+              ).toFixed(2);
+
+              filteredData[userIndex].crop.push({
+                crop_name: el.crop_name,              
+                proposedAreaUnderVariety: parseFloat(el.AreaUnderVariety).toFixed(2),
+                seedRequired: parseFloat(el.SeedRequired).toFixed(2),
+                doa: parseFloat(el.doa).toFixed(2),
+                ssfs: parseFloat(el.ssfs).toFixed(2),
+                saus: parseFloat(el.saus).toFixed(2),
+                ssc: parseFloat(el.ssc).toFixed(2),
+                nsc: parseFloat(el.nsc).toFixed(2),
+                othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
+                coop: parseFloat(el.coop).toFixed(2),
+                seedhub: parseFloat(el.seedhub).toFixed(2),
+                pvt: parseFloat(el.pvt).toFixed(2),
+                others: parseFloat(el.others).toFixed(2),
+                total: parseFloat(el.total).toFixed(2),
+                shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
+                BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredBSRequiredtomeettargetsofFS).toFixed(2),
+          }); }
+
+
+      })
+
+
+          this.finalData = filteredData;
+          this.totalData = totals;
+          console.log(this.finalData, "response final");
+          console.log(this.totalData, "response total");
             } 
         
                 
@@ -298,9 +454,6 @@ export class CropWiseSrpSdReportComponent implements OnInit {
          this.spa_namesArr = []
          this.selectCrop_group = '';
          this.stateIndenterList = []
-     
-     
-     
          this.spa_names = ''
          this.variety_names = '';
          this.enableTable = false;
@@ -312,6 +465,8 @@ export class CropWiseSrpSdReportComponent implements OnInit {
          this.selectedCropGroup = '';
          this.selectedCropName = '';
          this.finalData = []
+         this.totalData=[]
+         
        }
      
        myFunction() {
@@ -393,10 +548,9 @@ export class CropWiseSrpSdReportComponent implements OnInit {
          this.stateIndenterList = [];
          const queryParams = [];
         const year = this.ngForm.controls['year_of_indent'].value;
-        const season = this.ngForm.controls['season'].value;
+      
         if (year) queryParams.push(`year=${encodeURIComponent(year)}`);
-        if(newValue) queryParams.push(`season=${encodeURIComponent(newValue.toLowerCase())}`);
-        
+        if (newValue) queryParams.push(`season=${encodeURIComponent(newValue)}`);
     
         const apiUrl = `get-srp-state?${queryParams.join('&')}`;
         console.log(apiUrl);
@@ -415,7 +569,4 @@ export class CropWiseSrpSdReportComponent implements OnInit {
          })
        }
     
-  
-  
-
 }

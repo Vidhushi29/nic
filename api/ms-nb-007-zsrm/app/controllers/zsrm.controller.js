@@ -1575,18 +1575,7 @@ exports.addSrp = async (req, res) => {
     if(recordExist) {
       return response(res, "Record already exist", 404, {});
     }
-   if ((cropExist.crop_code).slice(0, 1) == 'A') {
-    crop_type = 'agriculture';
-    unit = 'qt';
-   }
-   else if ((cropExist.crop_code).slice(0, 1) == 'H') {
-    crop_type = 'horticulture'
-    unit = 'kg';
-   }
-   console.log("crop_type:", crop_type);
-    console.log("unit:", unit);
-
-    let state = await agencyDetailModel.findOne({
+        let state = await agencyDetailModel.findOne({
        where: {
 
         user_id: body.loginedUserid.id,
@@ -1604,7 +1593,7 @@ exports.addSrp = async (req, res) => {
       crop_group_code:cropExist.group_code,
       variety_code: body.variety_code,
       user_id: body.loginedUserid.id,
-      unit: unit,
+      unit: 'qt',
       proposedAreaUnderVariety: body.proposedAreaUnderVariety,
       seedrate: body.seedrate, 
       SRRTargetbySTATE: body.SRRTargetbySTATE,

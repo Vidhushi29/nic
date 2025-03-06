@@ -127,7 +127,10 @@ export class SrpComponent implements OnInit {
   SaveAsData() {
     this.isAddSelected = true;
     this.isChangeMessage = "Entre the Source Availability"
-    this.resetCancelation()
+    this.resetCancelation();
+    const variety_code = this.ngForm.controls['variety'].value;
+    this.getVarietyDeatil(variety_code);
+
 
   }
 
@@ -399,7 +402,7 @@ export class SrpComponent implements OnInit {
     this.ngForm.controls['ssc'].patchValue(0);
     this.ngForm.controls['doa'].patchValue(0);
     this.ngForm.controls['nsc'].patchValue(0);
-    this.ngForm.controls['sfci'].patchValue(0);
+    this.ngForm.controls['sau'].patchValue(0);
     this.ngForm.controls['pvt'].patchValue(0);
     this.ngForm.controls['others'].patchValue(0);
     this.is_update = false;
@@ -408,8 +411,6 @@ export class SrpComponent implements OnInit {
   }
 
   saveForm() {
-    this.submitted = true;
-    this.isShowTable = true;
     const route = "add-srp";
     const ssf = Number(this.ngForm.controls['ssf'].value) || 0;
     const ssc = Number(this.ngForm.controls['ssc'].value) || 0;
@@ -428,7 +429,12 @@ export class SrpComponent implements OnInit {
     const proposedAreaUnderVariety = Number(this.ngForm.controls['proposedarea'].value);
     const qualityquant = Number(this.ngForm.controls['qualityquant'].value);
     const certifiedquant = Number(this.ngForm.controls['certifiedquant'].value) || 0;
-    const baseParam = {
+    const SMRKeptBSToFS=Number(this.ngForm.controls['smrbs'].value) ||0
+    const SMRKeptFSToCS=Number(this.ngForm.controls['smrfs'].value) ||0
+    const FSRequiredtomeettargetsofCS = Number(this.ngForm.controls['fsreq'].value) || 0
+    const BSRequiredBSRequiredtomeettargetsofFS = Number(this.ngForm.controls['bsreq'].value) || 0
+    
+  const baseParam = {
       "user_id": this.authUserId,
       "year": this.ngForm.controls['year'].value,
       "season": this.ngForm.controls['season'].value,
@@ -449,16 +455,17 @@ export class SrpComponent implements OnInit {
       "remarks": this.ngForm.controls['remarks'].value,
       "total": total,
       "shtorsur": shtorsur,
-      "SMRKeptBSToFS": this.ngForm.controls['smrbs'].value,
-      "SMRKeptFSToCS": this.ngForm.controls['smrfs'].value,
-      "FSRequiredtomeettargetsofCS": this.ngForm.controls['fsreq'].value,
-      "BSRequiredBSRequiredtomeettargetsofFS": this.ngForm.controls['bsreq'].value,
+      "SMRKeptBSToFS": SMRKeptBSToFS,
+      "SMRKeptFSToCS": SMRKeptFSToCS,
+      "FSRequiredtomeettargetsofCS": FSRequiredtomeettargetsofCS,
+      "BSRequiredBSRequiredtomeettargetsofFS": BSRequiredBSRequiredtomeettargetsofFS,
       "proposedAreaUnderVariety": proposedAreaUnderVariety,
       "SRRTargetbySTATE": this.ngForm.controls['SRRTargetbySTATE'].value,
       "seedRequired": this.ngForm.controls['totalreq'].value,
       "qualityquant": qualityquant,
       "certifiedquant": certifiedquant,
     };
+
     if (proposedAreaUnderVariety === 0) {
       Swal.fire({
         title: '<p style="font-size:25px;">Proposed area under variety cannot be zero. Please enter the value.</p>',
@@ -501,6 +508,20 @@ export class SrpComponent implements OnInit {
       return;
     }
 
+    if(certifiedquant) {
+    if (SMRKeptBSToFS === 0 ||  SMRKeptFSToCS ===0 ||  FSRequiredtomeettargetsofCS===0 || BSRequiredBSRequiredtomeettargetsofFS===0 ) {
+      Swal.fire({
+        title: '<p style="font-size:25px;">SMR and FS and BS Req can not be zero. Please enter the value.</p>',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#E97E15'
+      });
+     
+      return;
+    }
+  }
+    this.submitted = true;
+    this.isShowTable = true;
     this.zsrmServiceService.postRequestCreator(route, null, baseParam).subscribe(data => {
       if (data.Response.status_code === 200) {
 
@@ -517,7 +538,6 @@ export class SrpComponent implements OnInit {
           this.ngForm.controls['sau'].reset('');
           this.ngForm.controls['remarks'].patchValue('');
           this.ngForm.controls['others'].reset('');
-          this.ngForm.controls['sfci'].reset('');
           this.ngForm.controls['ssc'].reset('');
           this.ngForm.controls['nsc'].reset('');
           this.ngForm.controls['pvt'].reset('');
@@ -559,6 +579,21 @@ export class SrpComponent implements OnInit {
      }
    })
  }
+
+ getVarietyDeatil(varietyCode: any) {
+ const route = `get-variety-data?variety_code=${varietyCode}`;
+ this.zsrmServiceService.getRequestCreator(route, null,).subscribe(data => {
+   if (data.Response.status_code === 200) {
+     const res = data && data.Response && data.Response.data ? data.Response.data : '';
+      this.ngForm.controls['hybrid'].patchValue(res.status);
+      this.ngForm.controls['notification'].patchValue(res.notification_status);
+      this.ngForm.controls['yearN'].patchValue(res.not_date_substring);
+      this.ngForm.controls['duration'].patchValue(res.maturity_type);
+      this.ngForm.controls['notifiedValue'].patchValue(res.developed_by);
+
+   }
+ })
+}
   
 
   getPageData(loadPageNumberData: number = 1) {
