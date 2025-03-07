@@ -253,6 +253,8 @@ import { SrpIndenterCropWiseReportComponent } from './srp-indenter-crop-wise-rep
 import { SrpIndenterCropWiseSummaryReportComponent } from './srp-indenter-crop-wise-summary-report/srp-indenter-crop-wise-summary-report.component';
 import { SrpIndenterMasterReportComponent } from './srp-indenter-master-report/srp-indenter-master-report.component';
 import { CropWiseSrpSdReportComponent } from './crop-wise-srp-sd-report/crop-wise-srp-sd-report.component';
+import { CropWiseSummarySrpSdReportComponent } from './crop-wise-summary-srp-sd-report/crop-wise-summary-srp-sd-report.component';
+import { CropVarietyWiseSrpSdReportComponent } from './crop-variety-wise-srp-sd-report/crop-variety-wise-srp-sd-report.component';
 // import { AddZsrmFormComponent } from './indenters/add-zsrm-form/add-zsrm-form.component';
 // import { GenerateCardQrComponent } from '../generate-card-qr/generate-card-qr.component';
 // import { BillReceiptQrComponent } from '../bill-receipt-qr/bill-receipt-qr.component';
@@ -465,6 +467,8 @@ import { CropWiseSrpSdReportComponent } from './crop-wise-srp-sd-report/crop-wis
     SrpIndenterCropWiseSummaryReportComponent,
     SrpIndenterMasterReportComponent,
     CropWiseSrpSdReportComponent,
+    CropWiseSummarySrpSdReportComponent,
+    CropVarietyWiseSrpSdReportComponent,
     // AddZsrmFormComponent
   
     // GenerateCardQrComponent

@@ -144,7 +144,7 @@ export class ZsrmbstofsComponent implements OnInit {
       });
       this.ngForm.valueChanges.subscribe(values => {
         const bsLiftedTotal =
-          (values.norms || 0) +
+          
           (values.bsLiftedIcar || 0) +
           (values.bsLiftedSau || 0) +
           (values.bsLiftedOthers || 0);
@@ -163,7 +163,7 @@ export class ZsrmbstofsComponent implements OnInit {
         (values.carryOverFs || 0) ;
 
         const smrAchieved=(values.fsProdFromBs || 0) /bsUsedTotal;
-        const percentAchievement=(values.fsProdFromBs || 0) /(smrAchieved*bsUsedTotal) * 1000;
+        const percentAchievement=(values.fsProdFromBs || 0) /(values.norms*bsUsedTotal) * 100;
 
         this.ngForm.patchValue(
           { bsLiftedTotal: bsLiftedTotal, bsUsedTotal: bsUsedTotal, smrAchieved:smrAchieved ,percentAchievement:percentAchievement , totalFsAvl:totalFsAvl},
@@ -374,8 +374,8 @@ export class ZsrmbstofsComponent implements OnInit {
       const fsProdFromBs=Number(this.ngForm.controls['fsProdFromBs'].value) || 0;
       const fsProdOutOfFs= Number(this.ngForm.controls['fsProdOutOfFs'].value) || 0;
       const carryOverFs= Number(this.ngForm.controls['carryOverFs'].value) || 0;
-      //const smrAchieved= Number(this.ngForm.controls['fsProdFromBs'].value) || 0;
-      //const percentAchievement= Number(this.ngForm.controls['fsProdFromBs'].value) || 0;
+      const smrAchieved= fsProdFromBs/bsUsedTotal;
+      const percentAchievement= (smrAchieved/norms)*100;
       
       const totalFsAvl= fsProdFromBs + fsProdOutOfFs + carryOverFs;
 
@@ -395,8 +395,8 @@ export class ZsrmbstofsComponent implements OnInit {
         "bsLiftedOthers": bsLiftedOthers,
         "fsProdOutOfFs": fsProdOutOfFs,
         "carryOverFs": carryOverFs,
-        "smrAchieved" : 4, //Number(this.ngForm.controls['smrAchieved'].value),
-        "percentAchievement" : 100,// Number(this.ngForm.controls['percentAchievement'].value),
+        "smrAchieved" : smrAchieved, //Number(this.ngForm.controls['smrAchieved'].value),
+        "percentAchievement" : percentAchievement,// Number(this.ngForm.controls['percentAchievement'].value),
         "bsLiftedTotal": bsLiftedTotal,
         "bsUsedTotal" : bsUsedTotal,
         "totalFsAvl": totalFsAvl
@@ -618,6 +618,7 @@ export class ZsrmbstofsComponent implements OnInit {
       this.ngForm.controls['crop'].reset('');
       this.ngForm.controls['variety'].reset('');
       this.isShowTable = false;
+      this.isAddSelected = false;
     }
     
   }

@@ -42,9 +42,9 @@ module.exports = app => {
     app.post(`${process.env.MICRO_SERVICE}/api/view-srp-crop-wise`,auth,zsrm.viewSrpAllCropWise); 
     app.delete(`${process.env.MICRO_SERVICE}/api/delete-srp/:id`,auth,zsrm.deleteSrp);
     app.put(`${process.env.MICRO_SERVICE}/api/update-srp/:id`,auth,zsrm.updateSrp);
-    app.get(`${process.env.MICRO_SERVICE}/api/view-srp-all-seed-division`,auth,zsrm.viewSrpAllSD); 
+    app.post(`${process.env.MICRO_SERVICE}/api/view-srp-all-seed-division`,auth,zsrm.viewSrpAllSD); 
     app.post(`${process.env.MICRO_SERVICE}/api/view-srp-crop-wise-seed-division`,auth,zsrm.viewSrpAllCropWiseSD); 
-    app.get(`${process.env.MICRO_SERVICE}/api/view-srp-crop-wise-summary-seed-division`,auth,zsrm.viewSrpAllCropWiseSummarySD); 
+    app.post(`${process.env.MICRO_SERVICE}/api/view-srp-crop-wise-summary-seed-division`,auth,zsrm.viewSrpAllCropWiseSummarySD); 
     app.get(`${process.env.MICRO_SERVICE}/api/get-srp-year`,auth,zsrm.getSrpYear); 
     app.get(`${process.env.MICRO_SERVICE}/api/get-srp-season`,auth,zsrm.getSrpSeason); 
     app.get(`${process.env.MICRO_SERVICE}/api/get-srp-croptype`,auth,zsrm.getSrpCropType); 

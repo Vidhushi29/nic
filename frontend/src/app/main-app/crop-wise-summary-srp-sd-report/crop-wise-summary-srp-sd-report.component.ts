@@ -14,14 +14,15 @@ import { IndenterService } from 'src/app/services/indenter/indenter.service';
 import { MasterService } from 'src/app/services/master/master.service';
 import { ZsrmServiceService } from 'src/app/services/zsrm-service.service';
 
-@Component({
-  selector: 'app-crop-wise-srp-sd-report',
-  templateUrl: './crop-wise-srp-sd-report.component.html',
-  styleUrls: ['./crop-wise-srp-sd-report.component.css']
-})
-export class CropWiseSrpSdReportComponent implements OnInit {
 
-   @ViewChild(PaginationUiComponent) paginationUiComponent: PaginationUiComponent | undefined = undefined;
+@Component({
+  selector: 'app-crop-wise-summary-srp-sd-report',
+  templateUrl: './crop-wise-summary-srp-sd-report.component.html',
+  styleUrls: ['./crop-wise-summary-srp-sd-report.component.css']
+})
+export class CropWiseSummarySrpSdReportComponent implements OnInit {
+
+@ViewChild(PaginationUiComponent) paginationUiComponent: PaginationUiComponent | undefined = undefined;
        filterPaginateSearch: FilterPaginateSearch = new FilterPaginateSearch();
      
        ngForm!: FormGroup;
@@ -238,50 +239,25 @@ export class CropWiseSrpSdReportComponent implements OnInit {
                userid: stateNameArr && (stateNameArr.length > 0) ? stateNameArr : '',
              }
            }
-           this.zsrmServiceService.postRequestCreator('view-srp-crop-wise-seed-division', null, param).subscribe(data => {
+           this.zsrmServiceService.postRequestCreator('view-srp-crop-wise-summary-seed-division', null, param).subscribe(data => {
     
             if (data.Response.status_code === 200) {
               let res =data && data.Response && data.Response.data && data.Response.data ? data.Response.data : '';
               console.log(res,"response");
-              let totals = {
-               AreaUnderVariety: 0,
+              let totals = {        
                SeedRequired: 0,
-               doa: 0,
-               ssfs: 0,
-               ssc: 0,
-               nsc: 0,
-               saus: 0,
-               othergovpsu: 0,
-               coop: 0,
-               pvt: 0,
-               seedhub: 0,
-               others: 0,
                total: 0,
-               shtorsur: 0,
-               BSRequiredtomeettargetsofFS: 0,
-               FSRequiredtomeettargetsofCS: 0,
+               shtorsur: 0             
              };
              
              // Iterate through the data and sum up all the fields
              res.forEach(item => {
-               console.log(item.AreaUnderVariety);
-               totals.AreaUnderVariety += parseFloat(item.AreaUnderVariety) || 0;
-               totals.SeedRequired += parseFloat(item.SeedRequired) || 0;
-               totals.doa += parseFloat(item.doa) || 0;
-               totals.ssfs += parseFloat(item.ssfs) || 0;
-               totals.ssc += parseFloat(item.ssc) || 0;
-               totals.nsc += parseFloat(item.nsc) || 0;
-               totals.saus += parseFloat(item.saus) || 0;
-               totals.othergovpsu += parseFloat(item.othergovpsu) || 0;
-               totals.coop += parseFloat(item.coop) || 0;
-               totals.pvt += parseFloat(item.pvt) || 0;
-               totals.seedhub += parseFloat(item.seedhub) || 0;
-               totals.others += parseFloat(item.others) || 0;
+              
+              
+               totals.SeedRequired += parseFloat(item.req) || 0;
                totals.total += parseFloat(item.total) || 0;
                totals.shtorsur += parseFloat(item.shtorsur) || 0;
-               totals.BSRequiredtomeettargetsofFS += parseFloat(item.BSRequiredBSRequiredtomeettargetsofFS) || 0;
-               totals.FSRequiredtomeettargetsofCS += parseFloat(item.FSRequiredtomeettargetsofCS) || 0;
-             });
+            });
    
              let filteredData = [];
              res.forEach((el) => {
@@ -292,95 +268,25 @@ export class CropWiseSrpSdReportComponent implements OnInit {
               filteredData.push({
                 user_name: el.name,
                 user_id: el.user_id,
-                crop_count: 1,
-                user_area: parseFloat(el.AreaUnderVariety).toFixed(2),
-                user_seed_req: parseFloat(el.SeedRequired).toFixed(2),
-                user_doa: parseFloat(el.doa).toFixed(2),
-                user_ssfs: parseFloat(el.ssfs).toFixed(2),
-                user_ssc: parseFloat(el.ssc).toFixed(2),
-                user_nsc: parseFloat(el.nsc).toFixed(2),
-                user_saus: parseFloat(el.saus).toFixed(2),
-                user_othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
-                user_coop: parseFloat(el.coop).toFixed(2),
-                user_pvt: parseFloat(el.pvt).toFixed(2),
-                user_seedhub: parseFloat(el.seedhub).toFixed(2),
-                user_others: parseFloat(el.others).toFixed(2),
+                crop_count: 1,              
+                user_seed_req: parseFloat(el.req).toFixed(2),
                 user_total: parseFloat(el.total).toFixed(2),
                 user_shtorsur: parseFloat(el.shtorsur).toFixed(2),
-                user_BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredBSRequiredtomeettargetsofFS).toFixed(2),
-                user_FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
                 crop: [
                   {
                     crop_code: el.crop_code,
                     crop_name: el.crop_name,              
-                    proposedAreaUnderVariety: parseFloat(el.AreaUnderVariety).toFixed(2),
-                    seedRequired: parseFloat(el.SeedRequired).toFixed(2),
-                    doa: parseFloat(el.doa).toFixed(2),
-                    ssfs: parseFloat(el.ssfs).toFixed(2),
-                    saus: parseFloat(el.saus).toFixed(2),
-                    ssc: parseFloat(el.ssc).toFixed(2),
-                    nsc: parseFloat(el.nsc).toFixed(2),
-                    othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
-                    coop: parseFloat(el.coop).toFixed(2),
-                    seedhub: parseFloat(el.seedhub).toFixed(2),
-                    pvt: parseFloat(el.pvt).toFixed(2),
-                    others: parseFloat(el.others).toFixed(2),
+                    seedRequired: parseFloat(el.req).toFixed(2),
                     total: parseFloat(el.total).toFixed(2),
                     shtorsur: parseFloat(el.shtorsur).toFixed(2),
-                    FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
-                    BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredBSRequiredtomeettargetsofFS).toFixed(2),
                   },
                 ],
               });
             } else {
               filteredData[userIndex].crop_count += 1;
-              filteredData[userIndex].user_area = (
-                parseFloat(filteredData[userIndex].user_area) +
-                parseFloat(el.AreaUnderVariety)
-              ).toFixed(2);
-              filteredData[userIndex].user_seed_req = (
+            filteredData[userIndex].user_seed_req = (
                 parseFloat(filteredData[userIndex].user_seed_req) +
-                parseFloat(el.SeedRequired)
-              ).toFixed(2);
-              filteredData[userIndex].user_doa = (
-                parseFloat(filteredData[userIndex].user_doa) +
-                parseFloat(el.doa)
-              ).toFixed(2);
-              filteredData[userIndex].user_ssfs = (
-                parseFloat(filteredData[userIndex].user_ssfs) +
-                parseFloat(el.ssfs)
-              ).toFixed(2);
-              filteredData[userIndex].user_ssc = (
-                parseFloat(filteredData[userIndex].user_ssc) +
-                parseFloat(el.ssc)
-              ).toFixed(2);
-              filteredData[userIndex].user_nsc = (
-                parseFloat(filteredData[userIndex].user_nsc) +
-                parseFloat(el.nsc)
-              ).toFixed(2);
-              filteredData[userIndex].user_saus = (
-                parseFloat(filteredData[userIndex].user_saus) +
-                parseFloat(el.saus)
-              ).toFixed(2);
-              filteredData[userIndex].user_othergovpsu = (
-                parseFloat(filteredData[userIndex].user_othergovpsu) +
-                parseFloat(el.othergovpsu)
-              ).toFixed(2);
-              filteredData[userIndex].user_coop = (
-                parseFloat(filteredData[userIndex].user_coop) +
-                parseFloat(el.coop)
-              ).toFixed(2);
-              filteredData[userIndex].user_pvt = (
-                parseFloat(filteredData[userIndex].user_pvt) +
-                parseFloat(el.pvt)
-              ).toFixed(2);
-              filteredData[userIndex].user_seedhub = (
-                parseFloat(filteredData[userIndex].user_seedhub) +
-                parseFloat(el.seedhub)
-              ).toFixed(2);
-              filteredData[userIndex].user_others = (
-                parseFloat(filteredData[userIndex].user_others) +
-                parseFloat(el.others)
+                parseFloat(el.req)
               ).toFixed(2);
               filteredData[userIndex].user_total = (
                 parseFloat(filteredData[userIndex].user_total) +
@@ -390,34 +296,12 @@ export class CropWiseSrpSdReportComponent implements OnInit {
                 parseFloat(filteredData[userIndex].user_shtorsur) +
                 parseFloat(el.shtorsur)
               ).toFixed(2);
-              filteredData[userIndex].user_BSRequiredtomeettargetsofFS = (
-                parseFloat(filteredData[userIndex].user_BSRequiredtomeettargetsofFS) +
-                parseFloat(el.BSRequiredBSRequiredtomeettargetsofFS)
-              ).toFixed(2);
-              filteredData[userIndex].user_FSRequiredtomeettargetsofCS = (
-                parseFloat(filteredData[userIndex].user_FSRequiredtomeettargetsofCS) +
-                parseFloat(el.FSRequiredtomeettargetsofCS)
-              ).toFixed(2);
-
               filteredData[userIndex].crop.push({
-                crop_name: el.crop_name,              
-                proposedAreaUnderVariety: parseFloat(el.AreaUnderVariety).toFixed(2),
-                seedRequired: parseFloat(el.SeedRequired).toFixed(2),
-                doa: parseFloat(el.doa).toFixed(2),
-                ssfs: parseFloat(el.ssfs).toFixed(2),
-                saus: parseFloat(el.saus).toFixed(2),
-                ssc: parseFloat(el.ssc).toFixed(2),
-                nsc: parseFloat(el.nsc).toFixed(2),
-                othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
-                coop: parseFloat(el.coop).toFixed(2),
-                seedhub: parseFloat(el.seedhub).toFixed(2),
-                pvt: parseFloat(el.pvt).toFixed(2),
-                others: parseFloat(el.others).toFixed(2),
+                crop_name: el.crop_name,             
+                seedRequired: parseFloat(el.req).toFixed(2),
                 total: parseFloat(el.total).toFixed(2),
                 shtorsur: parseFloat(el.shtorsur).toFixed(2),
-                FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
-                BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredBSRequiredtomeettargetsofFS).toFixed(2),
-          }); }
+              }); }
 
 
       })
@@ -568,5 +452,4 @@ export class CropWiseSrpSdReportComponent implements OnInit {
           console.log("this.cropVarietList", this.stateList);
          })
        }
-    
 }

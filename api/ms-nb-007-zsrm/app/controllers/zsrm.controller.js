@@ -290,8 +290,7 @@ exports.saveZsrmReqFs = async(req, res) => {
     )
     console.log("state_id:", state);
 
-    const total = (body.ssc +  body.doa + body.sau +  body.nsc +  body.sfci + body.pvt + body.others) ;
-
+  
     let data = await zsemreqfsModel.create({
       year: body.year,
       season: body.season,
@@ -308,8 +307,8 @@ exports.saveZsrmReqFs = async(req, res) => {
       sfci: body.sfci,
       pvt: body.pvt,
       others: body.others,
-      total: total,
-      shtorsur: total - body.req,
+      total: body.total,
+      shtorsur: body.shtorsur,
       remarks: body.remarks,
       state_id: state.state_id,
          
@@ -342,8 +341,8 @@ exports.updateZsrmReqFsById = async(req, res) => {
       sau: body.sau,
       nsc: body.nsc,
       sfci: body.sfci,
-      total: (body.ssc +  body.doa + body.sau +  body.nsc +  body.sfci),
-      shtorsur: (body.req - (body.ssc +  body.doa + body.sau +  body.nsc +  body.sfci)),
+      total: body.total,
+      shtorsur: body.shtorsur,
       pvt: body.pvt,
       others: body.others,
       remarks: body.remarks,
@@ -2411,7 +2410,9 @@ return response(res, status.DATA_NOT_AVAILABLE, 404)
     user_name: item.user.name,
     year: item.year,
     season: item.season,
+    crop_code: item.crop_code,
     crop_name: item.m_crop.crop_name,
+    variety_code: item.variety_code,
     variety_name: item.m_crop_variety.variety_name,
     not_year: item.m_crop_variety.not_date,
      status: item.m_crop_variety.status,
@@ -2447,7 +2448,7 @@ return response(res, status.DATA_NOT_AVAILABLE, 404)
      SMRKeptBSToFS: parseFloat(item.SMRKeptBSToFS),
      SMRKeptFSToCS: parseFloat(item.SMRKeptFSToCS),
      FSRequiredtomeettargetsofCS:parseFloat(item.FSRequiredtomeettargetsofCS),
-     BSRequiredBSRequiredtomeettargetsofFS:parseFloat(item.BSRequiredBSRequiredtomeettargetsofFS),
+     BSRequiredtomeettargetsofFS:parseFloat(item.BSRequiredBSRequiredtomeettargetsofFS),
   }
 });
   response(res, status.DATA_AVAILABLE, 200,result);
@@ -2575,7 +2576,7 @@ if (data.length == 0)
 //res.status(404).json({message: "No data found"})
 return response(res, status.DATA_NOT_AVAILABLE, 404)
 
-     response(res, status.DATA_AVAILABLE, 200, result);
+     response(res, status.DATA_AVAILABLE, 200, data);
   
 
 } catch (error) {

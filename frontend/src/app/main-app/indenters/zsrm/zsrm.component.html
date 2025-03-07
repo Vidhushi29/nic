@@ -143,17 +143,20 @@
                                 <div class="col-12 col-md-4 col-lg-4 col-xl-2 col-sm-6 pl-1 pr-1">
                                     <div class="d-flex align-items-end justify-content-center h-100">
                                         <button class="btn btn-inventory search2"
-                                            style="width: 8rem ; margin-right: 10px; color: black;"
-                                            (click)="searchData()"
-                                            [disabled]="!ngForm.controls['year'].valid || !ngForm.controls['crop'].valid">
-                                            Search</button>
+                                        style="width: 6rem ; margin-right: 10px; color: white;"
+                                        (click)="resetForm()" *ngIf="(!is_update) &&
+                                        (ngForm.controls['year'].valid || ngForm.controls['season'].valid ||
+                                        ngForm.controls['crop'].valid || ngForm.controls['variety'].valid)"
+                                        >Reset</button> 
 
                                         <button
-                                            *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList) || filterPaginateSearch.itemList.length < 1)"
-                                            class="btn btn-inventory search2" style="width: 8rem; color: white;"
-                                            (click)="SaveAsData()"                                         
-                                            [disabled]="!ngForm.controls['year'].valid ||!ngForm.controls['crop'].valid || !ngForm.controls['variety'].valid">Add</button>
-                                    </div>
+                                            *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList) || filterPaginateSearch.itemList.length < 1)
+                                            &&  (ngForm.controls['year'].valid && ngForm.controls['season'].valid && 
+                                            ngForm.controls['crop'].valid && ngForm.controls['variety'].valid )"
+                                            class="btn btn-inventory search2" style="width: 6rem; color: white;"
+                                            (click)="SaveAsData()"
+                                            [disabled]="!(ngForm.controls['year'].valid && ngForm.controls['season'].valid && 
+                                        ngForm.controls['crop'].valid && ngForm.controls['variety'].valid)">Add</button>              </div>
 
                                 </div>
                             </div>
@@ -175,7 +178,7 @@
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <label for="req" class="left-heading required">
-                                                        req
+                                                        REQ
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -216,7 +219,7 @@
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <label for="doa" class="left-heading required">
-                                                        doa
+                                                        DOA
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -256,7 +259,7 @@
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <label for="nsc" class="left-heading required">
-                                                        nsc
+                                                        NSC
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -276,7 +279,7 @@
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <label for="doa" class="left-heading required">
-                                                        sfci
+                                                        SFCI
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -296,7 +299,7 @@
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <label for="email" class="left-heading required">
-                                                        Pvt
+                                                        PVT
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -315,20 +318,14 @@
                                         <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="remarks" class="left-heading required">
+                                                    <label for="remarks" class="left-heading">
                                                         Remarks
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="text" class=" form-control input-inventory"
                                                         formControlName="remarks" placeholder="Enter Reamrks">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['remarks'].invalid && ngForm.controls['remarks'].dirty || ngForm.controls['remarks'].touched">
-                                                        <span *ngIf=" ngForm.controls['remarks'].errors?.['required']">
-                                                            Please Enter Remarks.
-                                                        </span>
-
-                                                    </div>
+                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -369,7 +366,7 @@
                                             <div class="row">
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <label for="shtorsur" class="left-heading required">
-                                                        ShtOrSub
+                                                        Surplus/Shortfall
                                                     </label>
                                                 </div>
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -420,14 +417,11 @@
                                     <div
                                         class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                         Variety</div>
-                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle">Req</div>
+                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">Requirement</div>
                                     <div
                                         class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                         Availability</div>
-                                    <div
-                                        class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                        Unit
-                                    </div>
+                                    
 
                                     <div
                                         class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
@@ -436,7 +430,11 @@
 
                                     <div
                                         class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                        ShtOrSur
+                                        Surplus/Shortfall
+                                    </div>
+                                    <div
+                                        class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        Unit
                                     </div>
                                     <div
                                         class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
@@ -480,7 +478,7 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle">
+                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
                                                 <label class="d-md-none" class="d-md-none"><b>Req:</b>&nbsp;</label>
                                                 <span>{{data&&data.req?data.req:""}}
@@ -490,35 +488,28 @@
                                         </div>
                                         <div
                                             class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-1 d-flex align-items-center justify-content-center text-center">
+                                          
                                             <span>
                                                 <td style="font-weight: 500;">
-                                                    <span>nsc: <b class="font-weight-bold">{{data.nsc ?
-                                                            formatNumber(data.nsc)  : 0}}</b></span><br>
-                                                    <span>sfci: <b class="font-weight-bold">{{data.sfci
-                                                            ? formatNumber(data.sfci)  :
-                                                            0}}</b></span><br>
-                                                    <span>sau: <b class="font-weight-bold">{{data.sau
-                                                            ? formatNumber(data.sau)  :
-                                                            0}}</b></span><br>
-                                                    <span>doa: <b class="font-weight-bold">{{formatNumber(data.doa) ?
-                                                            data.doa : 0}}</b></span><br>
-                                                    <span>pvt: <b class="font-weight-bold">{{data.pvt ?
-                                                            formatNumber(data.pvt)  : 0}}</b></span><br>
-                                                    <span>others: <b class="font-weight-bold">{{data.others ?
-                                                            formatNumber(data.others):0}}</b></span><br>
-                                                    <span>ssc: <b class="font-weight-bold">{{data.ssc ?
-formatNumber(data.ssc)  :0}}</b></span><br>
-                                                    <br>
-                                                </td>
+                                                    <span><b class="font-weight-bold">DOA:</b> {{data && data.doa ?
+                                                            formatNumber(data.doa) : 0}},
+                                                            <b class="font-weight-bold">SSC: </b>{{data && data.ssc ?
+                                                            formatNumber(data.ssc)  : 0}}</span><br>
+                                                    <span><b class="font-weight-bold">NSC:</b> {{data && data.nsc ?
+                                                            formatNumber(data.nsc) : 0}},
+                                                            <b class="font-weight-bold">SFCI: </b>{{data && data.sfci ?
+                                                            formatNumber(data.sfci)  : 0}}</span><br>
+                                                    <span><b class="font-weight-bold">SAU:</b> {{data && data.sau ?
+                                                                formatNumber(data.sau) : 0}},
+                                                                 <b class="font-weight-bold">Private: </b>{{data && data.private ?
+                                                        formatNumber(data.private)  : 0}}</span><br>
+                                                    <span>
+                                                        <b class="font-weight-bold">Others: </b>{{data && data.others ?
+                                                        formatNumber(data.others)  : 0}}</span><br>
+                                            </td>
                                             </span>
                                         </div>
-                                        <div
-                                            class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
-                                            <div class="w-fit-content">
-                                                <label class="d-md-none" class="d-md-none"><b>Unit:</b>&nbsp;</label>
-                                                <span>{{data && data.unit ? data.unit : ""}}</span>
-                                            </div>
-                                        </div>
+                                        
                                         <div
                                             class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
@@ -533,6 +524,13 @@ formatNumber(data.ssc)  :0}}</b></span><br>
                                                 <span>
                                                     {{data && data.shtorsur ? formatNumber(data.shtorsur) : 0}}
                                                 </span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                            <div class="w-fit-content">
+                                                <label class="d-md-none" class="d-md-none"><b>Unit:</b>&nbsp;</label>
+                                                <span>{{data && data.unit ? data.unit : ""}}</span>
                                             </div>
                                         </div>
                                         <div

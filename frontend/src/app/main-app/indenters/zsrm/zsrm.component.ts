@@ -291,7 +291,7 @@ export class ZsrmComponent implements OnInit {
 
   resetCancelation() {
     this.ngForm.controls['nsc'].reset(0);
-    this.ngForm.controls['remarks'].reset(0);
+    this.ngForm.controls['remarks'].reset('');
     this.ngForm.controls['others'].patchValue(0);
     this.ngForm.controls['doa'].patchValue(0);
     this.ngForm.controls['sau'].patchValue(0);
@@ -301,11 +301,20 @@ export class ZsrmComponent implements OnInit {
     this.ngForm.controls['ssc'].patchValue(0);
     this.is_update = false;
     this.showOtherInputBox = false;
-
   }
 
 
   saveForm() {
+    if (!this.ngForm.controls["req"].value) {
+            Swal.fire({
+              title: '<p style="font-size:25px;">Req can not be 0</p>',
+              icon: 'error',
+              confirmButtonText:
+                'OK',
+              confirmButtonColor: '#E97E15'
+            })
+            return;
+          }
     this.submitted = true;
     this.isShowTable = true;
     const route = "add-req-fs";
@@ -357,6 +366,7 @@ export class ZsrmComponent implements OnInit {
           this.ngForm.controls['nsc'].reset('');
           this.ngForm.controls['pvt'].reset('');
           this.submitted = false;
+          this.isAddSelected=false;
         });
       } else if (data.Response.status_code === 409) { // Assuming 409 indicates "Conflict" or "Already Exists"
         Swal.fire({
@@ -458,6 +468,16 @@ export class ZsrmComponent implements OnInit {
     if (this.ngForm.invalid) {
       return;
     }
+    if (!this.ngForm.controls["req"].value) {
+      Swal.fire({
+        title: '<p style="font-size:25px;">Req can not be 0</p>',
+        icon: 'error',
+        confirmButtonText:
+          'OK',
+        confirmButtonColor: '#E97E15'
+      })
+      return;
+    }
     const req = this.ngForm.controls['req'].value || 0;
     const ssc = this.ngForm.controls['ssc'].value || 0;
     const doa = this.ngForm.controls['doa'].value || 0;
@@ -486,7 +506,7 @@ export class ZsrmComponent implements OnInit {
 
     this.zsrmServiceService.putRequestCreator(route, null, baseParam,).subscribe(data => {
       if (data.Response.status_code === 200) {
-        this.is_update = true;
+        this.is_update = false;
         this.isShowTable = true;
         Swal.fire({
           title: '<p style="font-size:25px;">Data Has Been Successfully Updated.</p>',
@@ -505,6 +525,7 @@ export class ZsrmComponent implements OnInit {
           this.ngForm.controls['nsc'].reset('');
           this.ngForm.controls['pvt'].reset('');
           this.submitted = false;
+          this.isAddSelected=false;
         })
       } else {
         Swal.fire({
@@ -516,6 +537,19 @@ export class ZsrmComponent implements OnInit {
       }
     });
   }
+  resetForm() {
+    this.ngForm.controls['year'].reset('');
+    this.ngForm.controls['season'].reset('');
+   
+    this.ngForm.controls['crop'].reset('');
+    this.ngForm.controls['variety'].reset('');
+    this.selectCrop = '';
+    this.selectVariety = '';    
+    this.isShowTable = false;
+    this.isAddSelected = false;
+  }
+
+
 }
 
 
