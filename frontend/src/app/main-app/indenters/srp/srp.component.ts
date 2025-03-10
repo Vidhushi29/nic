@@ -78,8 +78,7 @@ export class SrpComponent implements OnInit {
   disableUpperSection: boolean;
   notification: any
   dataRow: boolean = false;
-  certifiedquant: number = 0;
-
+  isCertifiedquant: number;
 
   constructor(private service: SeedServiceService, private master: MasterService, private elementRef: ElementRef,
     private productionService: ProductioncenterService,
@@ -172,9 +171,14 @@ export class SrpComponent implements OnInit {
       crop_text: [''],
       variety_text: ['']
     });
+    this.ngForm.valueChanges.subscribe(values => {
+      if (values.certifiedquant !== undefined) {
+        this.isCertifiedquant = values.certifiedquant;
 
-
-
+      }
+    })
+   
+  
     this.ngForm.valueChanges.subscribe(values => {
       const totalreq =
         (values.proposedarea || 0) +
@@ -235,12 +239,6 @@ export class SrpComponent implements OnInit {
 
   }
 
-  checkCertifiedquantEmpty(): boolean {
-    const currentValue = this.ngForm.controls['certifiedquant'].value;
-    console.log(currentValue, 'gfd')
-    if (currentValue)
-      return currentValue === 0;
-  }
   srrValidation(event: any) {
     const input = event.target as HTMLInputElement;
     const currentValue = input.value + event.key;
@@ -286,7 +284,7 @@ export class SrpComponent implements OnInit {
 
 
       this.getVarietyData(data.variety_code);
-      console.log(data.variety_code,'sdfghjk')
+
       this.ngForm.controls['hybrid'].patchValue(data.status);
       this.ngForm.controls['notification'].patchValue(data.notification_status);
       this.ngForm.controls['yearN'].patchValue(data.not_year);
@@ -324,7 +322,6 @@ export class SrpComponent implements OnInit {
   }
 
   variety(item: any) {
-    // const indentQntControl = this.ngForm.get('indent_qnt');
     this.selectVariety = item && item.variety_name ? item.variety_name : '',
       this.selectVarietyStatus = item && item.status ? item.status : '',
       this.notificationYear = item.status;
@@ -337,7 +334,6 @@ export class SrpComponent implements OnInit {
 
   resetSelections() {
     this.isShowTable = false;
-    // this.isAddSelected = false;
     this.isVarietySelected = false;
   }
 
@@ -389,22 +385,35 @@ export class SrpComponent implements OnInit {
     this.isAddSelected = false;
     this.showOtherInputBox = false;
     this.disableUpperSection = false;
-
   }
-  
   searchData() {
     this.isShowTable = true;
-    this.isAddSelected=false;
+    this.isAddSelected = false;
     this.getPageData();
   }
   resetCancelation() {
-   
-    this.ngForm.controls['ssc'].patchValue(0);
-    this.ngForm.controls['doa'].patchValue(0);
-    this.ngForm.controls['nsc'].patchValue(0);
-    this.ngForm.controls['sau'].patchValue(0);
-    this.ngForm.controls['pvt'].patchValue(0);
-    this.ngForm.controls['others'].patchValue(0);
+
+    this.ngForm.controls['doa'].reset(0)
+    this.ngForm.controls['nsc'].reset(0)
+    this.ngForm.controls['ssf'].reset(0)
+    this.ngForm.controls['pvt'].reset(0)
+    this.ngForm.controls['sau'].reset(0)
+    this.ngForm.controls['remarks'].reset()
+    this.ngForm.controls['hub'].reset(0)
+    this.ngForm.controls['ssc'].reset(0)
+    this.ngForm.controls['coop'].reset(0)
+    this.ngForm.controls['others'].reset(0);
+    this.ngForm.controls['othersgovt'].reset(0)
+    this.ngForm.controls['smrfs'].reset(0)
+    this.ngForm.controls['fsreq'].reset(0)
+    this.ngForm.controls['smrbs'].reset(0);
+    this.ngForm.controls['bsreq'].reset(0)
+    this.ngForm.controls['proposedarea'].reset(0)
+    this.ngForm.controls['seedrate'].reset(0)
+    this.ngForm.controls['SRRTargetbySTATE'].reset(0)
+    this.ngForm.controls['SRRTargetbyGOI'].reset(0)
+    this.ngForm.controls['certifiedquant'].reset(0)
+    this.ngForm.controls['qualityquant'].reset(0)
     this.is_update = false;
     this.showOtherInputBox = false;
 
@@ -429,12 +438,13 @@ export class SrpComponent implements OnInit {
     const proposedAreaUnderVariety = Number(this.ngForm.controls['proposedarea'].value);
     const qualityquant = Number(this.ngForm.controls['qualityquant'].value);
     const certifiedquant = Number(this.ngForm.controls['certifiedquant'].value) || 0;
-    const SMRKeptBSToFS=Number(this.ngForm.controls['smrbs'].value) ||0
-    const SMRKeptFSToCS=Number(this.ngForm.controls['smrfs'].value) ||0
+    const SMRKeptBSToFS = Number(this.ngForm.controls['smrbs'].value) || 0
+    const SMRKeptFSToCS = Number(this.ngForm.controls['smrfs'].value) || 0
     const FSRequiredtomeettargetsofCS = Number(this.ngForm.controls['fsreq'].value) || 0
     const BSRequiredBSRequiredtomeettargetsofFS = Number(this.ngForm.controls['bsreq'].value) || 0
-    
-  const baseParam = {
+    this.isCertifiedquant = certifiedquant;
+
+    const baseParam = {
       "user_id": this.authUserId,
       "year": this.ngForm.controls['year'].value,
       "season": this.ngForm.controls['season'].value,
@@ -473,7 +483,7 @@ export class SrpComponent implements OnInit {
         confirmButtonText: 'OK',
         confirmButtonColor: '#E97E15'
       });
-    
+
       return;
     }
     if (totalreq === 0) {
@@ -483,7 +493,7 @@ export class SrpComponent implements OnInit {
         confirmButtonText: 'OK',
         confirmButtonColor: '#E97E15'
       });
-     
+
       return;
     }
 
@@ -494,7 +504,7 @@ export class SrpComponent implements OnInit {
         confirmButtonText: 'OK',
         confirmButtonColor: '#E97E15'
       });
-     
+
       return;
     }
     if ((certifiedquant + qualityquant) !== totalreq) {
@@ -504,22 +514,22 @@ export class SrpComponent implements OnInit {
         confirmButtonText: 'OK',
         confirmButtonColor: '#E97E15'
       });
-     
+
       return;
     }
 
-    if(certifiedquant) {
-    if (SMRKeptBSToFS === 0 ||  SMRKeptFSToCS ===0 ||  FSRequiredtomeettargetsofCS===0 || BSRequiredBSRequiredtomeettargetsofFS===0 ) {
-      Swal.fire({
-        title: '<p style="font-size:25px;">SMR and FS and BS Req can not be zero. Please enter the value.</p>',
-        icon: 'error',
-        confirmButtonText: 'OK',
-        confirmButtonColor: '#E97E15'
-      });
-     
-      return;
+    if (certifiedquant) {
+      if (SMRKeptBSToFS === 0 || SMRKeptFSToCS === 0 || FSRequiredtomeettargetsofCS === 0 || BSRequiredBSRequiredtomeettargetsofFS === 0) {
+        Swal.fire({
+          title: '<p style="font-size:25px;">SMR and FS and BS Req can not be zero. Please enter the value.</p>',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#E97E15'
+        });
+
+        return;
+      }
     }
-  }
     this.submitted = true;
     this.isShowTable = true;
     this.zsrmServiceService.postRequestCreator(route, null, baseParam).subscribe(data => {
@@ -533,14 +543,27 @@ export class SrpComponent implements OnInit {
           confirmButtonColor: '#E97E15'
         }).then(x => {
           this.getPageData();
-          this.ngForm.controls['req'].reset('');
-          this.ngForm.controls['doa'].reset('');
-          this.ngForm.controls['sau'].reset('');
-          this.ngForm.controls['remarks'].patchValue('');
-          this.ngForm.controls['others'].reset('');
-          this.ngForm.controls['ssc'].reset('');
-          this.ngForm.controls['nsc'].reset('');
-          this.ngForm.controls['pvt'].reset('');
+          this.ngForm.controls['doa'].reset(0)
+          this.ngForm.controls['nsc'].reset(0)
+          this.ngForm.controls['ssf'].reset(0)
+          this.ngForm.controls['pvt'].reset()
+          this.ngForm.controls['sau'].reset()
+          this.ngForm.controls['remarks'].reset()
+          this.ngForm.controls['hub'].reset(0)
+          this.ngForm.controls['ssc'].reset(0)
+          this.ngForm.controls['coop'].reset(0)
+          this.ngForm.controls['others'].reset(0);
+          this.ngForm.controls['othersgovt'].reset(0)
+          this.ngForm.controls['smrfs'].reset(0)
+          this.ngForm.controls['fsreq'].reset(0)
+          this.ngForm.controls['smrbs'].reset(0);
+          this.ngForm.controls['bsreq'].reset(0)
+          this.ngForm.controls['proposedarea'].reset(0)
+          this.ngForm.controls['seedrate'].reset(0)
+          this.ngForm.controls['SRRTargetbySTATE'].reset(0)
+          this.ngForm.controls['SRRTargetbyGOI'].reset(0)
+          this.ngForm.controls['certifiedquant'].reset(0)
+          this.ngForm.controls['qualityquant'].reset(0)
           this.submitted = false;
         })
       } else {
@@ -562,39 +585,39 @@ export class SrpComponent implements OnInit {
   getVarietyData(varietyCode: any) {
     const crop_code = this.ngForm.controls['crop'].value;
     this.ngForm.controls['variety'].patchValue('');
-   const route = `get-all-varieties?crop_code=${crop_code}`;
-   this.zsrmServiceService.getRequestCreator(route, null,).subscribe(data => {
-     if (data.Response.status_code === 200) {
-       this.varietyData = data && data.Response && data.Response.data ? data.Response.data : '';
-       this.varietyListSecond = this.varietyData;
-       console.log(this.isEditMode,"...................")
-       if (this.isEditMode) {
-         
-         const varietyName = this.varietyData.filter(variety => variety.variety_code === varietyCode);
-      
-         this.selectVariety = varietyName; 
-         this.selectVariety = varietyName[0].variety_name;
-         this.ngForm.controls['variety'].patchValue(varietyName[0].variety_code);
-       }
-     }
-   })
- }
+    const route = `get-all-varieties?crop_code=${crop_code}`;
+    this.zsrmServiceService.getRequestCreator(route, null,).subscribe(data => {
+      if (data.Response.status_code === 200) {
+        this.varietyData = data && data.Response && data.Response.data ? data.Response.data : '';
+        this.varietyListSecond = this.varietyData;
+        console.log(this.isEditMode, "...................")
+        if (this.isEditMode) {
 
- getVarietyDeatil(varietyCode: any) {
- const route = `get-variety-data?variety_code=${varietyCode}`;
- this.zsrmServiceService.getRequestCreator(route, null,).subscribe(data => {
-   if (data.Response.status_code === 200) {
-     const res = data && data.Response && data.Response.data ? data.Response.data : '';
-      this.ngForm.controls['hybrid'].patchValue(res.status);
-      this.ngForm.controls['notification'].patchValue(res.notification_status);
-      this.ngForm.controls['yearN'].patchValue(res.not_date_substring);
-      this.ngForm.controls['duration'].patchValue(res.maturity_type);
-      this.ngForm.controls['notifiedValue'].patchValue(res.developed_by);
+          const varietyName = this.varietyData.filter(variety => variety.variety_code === varietyCode);
 
-   }
- })
-}
-  
+          this.selectVariety = varietyName;
+          this.selectVariety = varietyName[0].variety_name;
+          this.ngForm.controls['variety'].patchValue(varietyName[0].variety_code);
+        }
+      }
+    })
+  }
+
+  getVarietyDeatil(varietyCode: any) {
+    const route = `get-variety-data?variety_code=${varietyCode}`;
+    this.zsrmServiceService.getRequestCreator(route, null,).subscribe(data => {
+      if (data.Response.status_code === 200) {
+        const res = data && data.Response && data.Response.data ? data.Response.data : '';
+        this.ngForm.controls['hybrid'].patchValue(res.status);
+        this.ngForm.controls['notification'].patchValue(res.notification_status);
+        this.ngForm.controls['yearN'].patchValue(res.not_date_substring);
+        this.ngForm.controls['duration'].patchValue(res.maturity_type);
+        this.ngForm.controls['notifiedValue'].patchValue(res.developed_by);
+
+      }
+    })
+  }
+
 
   getPageData(loadPageNumberData: number = 1) {
     this.filterPaginateSearch.itemList = [];
@@ -619,7 +642,7 @@ export class SrpComponent implements OnInit {
       .subscribe(
         (apiResponse: any) => {
           if (apiResponse?.Response.status_code === 200) {
-          
+
             this.allData = apiResponse.Response.data || [];
             this.filterPaginateSearch.Init(
               this.allData.data,
@@ -655,6 +678,10 @@ export class SrpComponent implements OnInit {
     const qualityquant = Number(this.ngForm.controls['qualityquant'].value);
     const certifiedquant = Number(this.ngForm.controls['certifiedquant'].value);
     const totalreq = Number(this.ngForm.controls['totalreq'].value);
+    const SMRKeptBSToFS = Number(this.ngForm.controls['smrbs'].value);
+    const SMRKeptFSToCS = Number(this.ngForm.controls['smrfs'].value);
+    const FSRequiredtomeettargetsofCS = Number(this.ngForm.controls['fsreq'].value);
+    const BSRequiredBSRequiredtomeettargetsofFS = Number(this.ngForm.controls['bsreq'].value);
     if (proposedAreaUnderVariety === 0) {
       Swal.fire({
         title: '<p style="font-size:25px;">Proposed area under variety cannot be zero. Please enter the value.</p>',
@@ -691,12 +718,12 @@ export class SrpComponent implements OnInit {
         confirmButtonText: 'OK',
         confirmButtonColor: '#E97E15'
       });
-    
+
       return;
     }
     this.submitted = true;
     this.isShowTable = true;
-  
+
     const baseParam = {
       "user_id": this.authUserId,
       "year": this.ngForm.controls['year'].value,
@@ -777,9 +804,9 @@ export class SrpComponent implements OnInit {
           this.ngForm.controls['SRRTargetbyGOI'].reset(0)
           this.ngForm.controls['certifiedquant'].reset(0)
           this.ngForm.controls['qualityquant'].reset(0)
-            this.submitted = false;
-            this.isAddSelected=false;
-            this.disableUpperSection= false;
+          this.submitted = false;
+          this.isAddSelected = false;
+          this.disableUpperSection = false;
         });
       } else {
         Swal.fire({
@@ -800,8 +827,8 @@ export class SrpComponent implements OnInit {
     this.ngForm.controls['crop'].reset('');
     this.ngForm.controls['variety'].reset('');
     this.submitted = false;
-            this.isAddSelected=false;
-            this.disableUpperSection= false;
+    this.isAddSelected = false;
+    this.disableUpperSection = false;
   }
 
   getYear() {

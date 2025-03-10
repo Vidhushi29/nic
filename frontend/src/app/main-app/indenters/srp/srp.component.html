@@ -353,7 +353,7 @@
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                             <input type="number" class=" form-control input-inventory"
                                                 formControlName="certifiedquant" placeholder="Enter Others"
-                                                (keypress)="validateDecimal($event)" [(ngModel)]="certifiedquant"
+                                                (keypress)="validateDecimal($event)" [(ngModel)]="isCertifiedquant"
                                                 *ngIf="!is_update">
                                             <input type="number" class=" form-control input-inventory"
                                                 formControlName="certifiedquant" placeholder="Enter Others"
@@ -705,7 +705,7 @@
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
                                                         formControlName="smrfs" (keypress)="validateDecimal($event)"
-                                                        [attr.disabled]="certifiedquant === 0 ? true : null">
+                                                        [attr.disabled]="isCertifiedquant === 0 ? true : null">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['smrfs'].invalid && ngForm.controls['smrfs'].dirty || ngForm.controls['smrfs'].touched">
                                                         <span *ngIf=" ngForm.controls['smrfs'].errors?.['required']">
@@ -727,7 +727,7 @@
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class=" form-control input-inventory"
                                                         formControlName="fsreq" (keypress)="validateDecimal($event)"
-                                                        [attr.disabled]="certifiedquant === 0 ? true : null">
+                                                        [attr.disabled]="isCertifiedquant === 0 ? true : null">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['fsreq'].invalid && ngForm.controls['fsreq'].dirty || ngForm.controls['fsreq'].touched">
                                                         <span *ngIf=" ngForm.controls['fsreq'].errors?.['required']">
@@ -748,7 +748,7 @@
                                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                                     <input type="number" class="form-control input-inventory"
                                                         formControlName="smrbs" (keypress)="validateDecimal($event)"
-                                                        [attr.disabled]="certifiedquant === 0 ? true : null">
+                                                        [attr.disabled]="isCertifiedquant === 0 ? true : null">
 
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted || ngForm.controls['smrbs'].invalid && ngForm.controls['smrbs'].dirty || ngForm.controls['smrbs'].touched">
@@ -771,7 +771,7 @@
                                                     <input type="number" class=" form-control input-inventory"
                                                         formControlName="bsreq" placeholder="Enter bs req"
                                                         (keypress)="validateDecimal($event)"
-                                                        [attr.disabled]="certifiedquant === 0 ? true : null">
+                                                        [attr.disabled]="isCertifiedquant === 0 ? true : null">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['bsreq'].invalid && ngForm.controls['bsreq'].dirty || ngForm.controls['bsreq'].touched">
                                                         <span *ngIf=" ngForm.controls['bsreq'].errors?.['required']">
