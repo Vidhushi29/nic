@@ -247,15 +247,6 @@ exports.saveZsrmReqFs = async(req, res) => {
       return response(res, "Variety Not Found", 404, {});
     }
 
-    // let userExist = await userModel.findOne({
-    //   where: {
-    //     id: body.user_id,
-    //   },
-    // });
-    // console.log("user:", userExist);
-    // if(!userExist) {
-    //   return response(res, "User Not Found", 404, {});
-    // }
     
     let recordExist = await zsemreqfsModel.findOne({
       where: {
@@ -310,7 +301,6 @@ exports.saveZsrmReqFs = async(req, res) => {
       shtorsur: body.shtorsur,
       remarks: body.remarks,
       state_id: state.state_id,
-         
     })
     console.log("data added", data);
   if (data) {
@@ -330,7 +320,9 @@ exports.updateZsrmReqFsById = async(req, res) => {
   
   try {
     const body = req.body;
-    const recordExist = await zsemreqfsModel.findOne({where: {id: req.params.id,is_active:true, user_id:body.loginedUserid.id}});
+    const recordExist = await zsemreqfsModel.findOne({where: {id: req.params.id,is_active:true, user_id:body.loginedUserid.id,
+      is_finalised: false
+    }});
     if (!recordExist) {
       return response(res, status.DATA_NOT_AVAILABLE, 404);
     }
@@ -349,6 +341,30 @@ exports.updateZsrmReqFsById = async(req, res) => {
       where: {
         id: req.params.id,
       },
+    },). then(() => response(res, status.DATA_UPDATED, 200, {}) )
+    .catch(() => response(res, status.DATA_NOT_UPDATED, 500));
+
+} catch (error) {
+    console.log(error);
+    return response(res, status.UNEXPECTED_ERROR, 501)
+  }
+  
+}
+
+
+exports.finaliseZsrmReqFs = async(req, res) => {
+  
+  try {
+    
+    const recordsExist = await zsemreqfsModel.findAll({where: {year: req.query.year, season: req.query.season,is_active:true, user_id:body.loginedUserid.id}});
+    if (recordsExist.length === 0) {
+      return response(res, status.DATA_NOT_AVAILABLE, 404);
+    }
+    await zsemreqfsModel.update({ 
+      is_finalised:true,
+      finalisedAt:Date.now()},
+    {
+      where: {year: req.params.year, season: req.params.season,is_active:true, user_id:req.body.loginedUserid.id}
     },). then(() => response(res, status.DATA_UPDATED, 200, {}) )
     .catch(() => response(res, status.DATA_NOT_UPDATED, 500));
 
@@ -380,7 +396,9 @@ exports.getZsrmReqFsById = async(req, res) => {
 exports.deleteZsrmReqFsById = async (req, res) => {
   try {
 
-    const data = await zsemreqfsModel.findOne({ where: { id: req.params.id, is_active:true, user_id:req.body.loginedUserid.id}});
+    const data = await zsemreqfsModel.findOne({ where: { id: req.params.id, is_active:true, user_id:req.body.loginedUserid.id,
+      is_finalised:false
+    }});
 
     if (!data) {
       return response(res, status.DATA_NOT_AVAILABLE, 404);
@@ -484,6 +502,7 @@ exports.viewZsrmReqFsAll = async(req, res) => {
       pvt: parseFloat(item.pvt),
       others: parseFloat(item.others),
       remarks: item.remarks,
+      is_finalised: item.is_finalised
     }
   });
 
@@ -1060,6 +1079,7 @@ if (data.length == 0)
       pvt: parseFloat(item.pvt),
       others: parseFloat(item.others),
       remarks: item.remarks,
+      is_finalised: item.is_finalised,
     }
   });
 
@@ -1607,7 +1627,7 @@ exports.addSrp = async (req, res) => {
       SMRKeptBSToFS: body.SMRKeptBSToFS,
       SMRKeptFSToCS: body.SMRKeptFSToCS,
       FSRequiredtomeettargetsofCS:body.FSRequiredtomeettargetsofCS,
-      BSRequiredBSRequiredtomeettargetsofFS:body.BSRequiredBSRequiredtomeettargetsofFS,
+      BSRequiredtomeettargetsofFS:body.BSRequiredtomeettargetsofFS,
       state_id: state.state_id,
          
     })
@@ -1628,7 +1648,8 @@ exports.addSrp = async (req, res) => {
 
 exports.deleteSrp = async (req, res) => {
 try{
-  const data = await srpModel.findOne({ where: { id: req.params.id, is_active:true, user_id:req.body.loginedUserid.id}});
+  const data = await srpModel.findOne({ where: { id: req.params.id, is_active:true, 
+    is_finalised: false, user_id:req.body.loginedUserid.id}});
   if (!data) {
     return response(res, status.DATA_NOT_AVAILABLE, 404);
   }
@@ -1651,7 +1672,8 @@ exports.updateSrp =async (req, res) => {
 
   try {
     const body = req.body;
-    const recordExist = await srpModel.findOne({where: {id: req.params.id,is_active:true, user_id:body.loginedUserid.id}});
+    const recordExist = await srpModel.findOne({where: {id: req.params.id,is_active:true, 
+      is_finalised: false, user_id:body.loginedUserid.id}});
     if (!recordExist) {
       return response(res, status.DATA_NOT_AVAILABLE, 404);
     }
@@ -1678,7 +1700,7 @@ exports.updateSrp =async (req, res) => {
       SMRKeptBSToFS: body.SMRKeptBSToFS,
       SMRKeptFSToCS: body.SMRKeptFSToCS,
       FSRequiredtomeettargetsofCS:body.FSRequiredtomeettargetsofCS,
-      BSRequiredBSRequiredtomeettargetsofFS:body.BSRequiredBSRequiredtomeettargetsofFS,
+      BSRequiredtomeettargetsofFS:body.BSRequiredtomeettargetsofFS,
     updated_at: Date.now(),},
     {
       where: {
@@ -1857,7 +1879,8 @@ if (data.length == 0)
      SMRKeptBSToFS: parseFloat(item.SMRKeptBSToFS),
      SMRKeptFSToCS: parseFloat(item.SMRKeptFSToCS),
      FSRequiredtomeettargetsofCS:parseFloat(item.FSRequiredtomeettargetsofCS),
-     BSRequiredBSRequiredtomeettargetsofFS:parseFloat(item.BSRequiredBSRequiredtomeettargetsofFS),
+     BSRequiredtomeettargetsofFS:parseFloat(item.BSRequiredtomeettargetsofFS),
+     is_finalised: item.is_finalised
    }
  });
 //  console.log(result,'result')
@@ -2198,7 +2221,7 @@ return response(res, status.DATA_NOT_AVAILABLE, 404)
     SMRKeptBSToFS: parseFloat(item.SMRKeptBSToFS),
     SMRKeptFSToCS: parseFloat(item.SMRKeptFSToCS),
     FSRequiredtomeettargetsofCS:parseFloat(item.FSRequiredtomeettargetsofCS),
-   BSRequiredtomeettargetsofFS:parseFloat(item.BSRequiredBSRequiredtomeettargetsofFS),
+   BSRequiredtomeettargetsofFS:parseFloat(item.BSRequiredtomeettargetsofFS),
   }
 });
 //  console.log(result,'result')
@@ -2287,7 +2310,7 @@ exports.viewSrpAllCropWise = async (req, res) => {
         [sequelize.fn('SUM', sequelize.col('others')), 'others'], 
         [sequelize.fn('SUM', sequelize.col('total')), 'total'], // Sum of 'total' from 'zsrmReqFs'
         [sequelize.fn('SUM', sequelize.col('shtorsur')), 'shtorsur'], 
-        [sequelize.fn('SUM', sequelize.col('BSRequiredBSRequiredtomeettargetsofFS')), 'BSRequiredBSRequiredtomeettargetsofFS'], 
+        [sequelize.fn('SUM', sequelize.col('BSRequiredtomeettargetsofFS')), 'BSRequiredtomeettargetsofFS'], 
         [sequelize.fn('SUM', sequelize.col('FSRequiredtomeettargetsofCS')), 'FSRequiredtomeettargetsofCS'], 
       ],
      group: [ [sequelize.col('year'), 'year'],
@@ -2441,7 +2464,7 @@ return response(res, status.DATA_NOT_AVAILABLE, 404)
      SMRKeptBSToFS: parseFloat(item.SMRKeptBSToFS),
      SMRKeptFSToCS: parseFloat(item.SMRKeptFSToCS),
      FSRequiredtomeettargetsofCS:parseFloat(item.FSRequiredtomeettargetsofCS),
-     BSRequiredtomeettargetsofFS:parseFloat(item.BSRequiredBSRequiredtomeettargetsofFS),
+     BSRequiredtomeettargetsofFS:parseFloat(item.BSRequiredtomeettargetsofFS),
   }
 });
   response(res, status.DATA_AVAILABLE, 200,result);
@@ -2487,7 +2510,7 @@ exports.viewSrpAllCropWiseSD = async (req, res) => {
         [sequelize.fn('SUM', sequelize.col('others')), 'others'], 
         [sequelize.fn('SUM', sequelize.col('total')), 'total'], // Sum of 'total' from 'zsrmReqFs'
         [sequelize.fn('SUM', sequelize.col('shtorsur')), 'shtorsur'], 
-        [sequelize.fn('SUM', sequelize.col('BSRequiredBSRequiredtomeettargetsofFS')), 'BSRequiredBSRequiredtomeettargetsofFS'], 
+        [sequelize.fn('SUM', sequelize.col('BSRequiredtomeettargetsofFS')), 'BSRequiredtomeettargetsofFS'], 
         [sequelize.fn('SUM', sequelize.col('FSRequiredtomeettargetsofCS')), 'FSRequiredtomeettargetsofCS'], 
       ],
      group: [  [sequelize.col('seedrollingplan.user_id'),'user_id'],

@@ -295,7 +295,7 @@ export class SrpIndenterCropWiseReportComponent implements OnInit {
             others: 0,
             total: 0,
             shtorsur: 0,
-            BSRequiredBSRequiredtomeettargetsofFS: 0,
+            BSRequiredtomeettargetsofFS: 0,
             FSRequiredtomeettargetsofCS: 0,
           };
           
@@ -316,7 +316,7 @@ export class SrpIndenterCropWiseReportComponent implements OnInit {
             totals.others += parseFloat(item.others) || 0;
             totals.total += parseFloat(item.total) || 0;
             totals.shtorsur += parseFloat(item.shtorsur) || 0;
-            totals.BSRequiredBSRequiredtomeettargetsofFS += parseFloat(item.BSRequiredBSRequiredtomeettargetsofFS) || 0;
+            totals.BSRequiredtomeettargetsofFS += parseFloat(item.BSRequiredtomeettargetsofFS) || 0;
             totals.FSRequiredtomeettargetsofCS += parseFloat(item.FSRequiredtomeettargetsofCS) || 0;
           });
 

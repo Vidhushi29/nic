@@ -129,8 +129,6 @@ export class SrpComponent implements OnInit {
     this.resetCancelation();
     const variety_code = this.ngForm.controls['variety'].value;
     this.getVarietyDeatil(variety_code);
-
-
   }
 
   createForm() {
@@ -181,9 +179,9 @@ export class SrpComponent implements OnInit {
   
     this.ngForm.valueChanges.subscribe(values => {
       const totalreq =
-        (values.proposedarea || 0) +
-        (values.seedrate || 0) +
-        (values.SRRTargetbySTATE || 0);
+        ((values.proposedarea || 0) *
+        (values.seedrate || 0) *
+        (values.SRRTargetbySTATE || 0))/100;
       const total =
         (values.ssc || 0) +
         (values.doa || 0) +
@@ -305,7 +303,7 @@ export class SrpComponent implements OnInit {
       this.ngForm.controls['smrfs'].patchValue(data.SMRKeptFSToCS);
       this.ngForm.controls['fsreq'].patchValue(data.FSRequiredtomeettargetsofCS);
       this.ngForm.controls['smrbs'].patchValue(data.SMRKeptBSToFS);
-      this.ngForm.controls['bsreq'].patchValue(data.BSRequiredBSRequiredtomeettargetsofFS);
+      this.ngForm.controls['bsreq'].patchValue(data.BSRequiredtomeettargetsofFS);
       this.ngForm.controls['proposedarea'].patchValue(data.proposedAreaUnderVariety);
       this.ngForm.controls['seedrate'].patchValue(data.seedrate);
       this.ngForm.controls['SRRTargetbySTATE'].patchValue(data.SRRTargetbySTATE);
@@ -441,7 +439,7 @@ export class SrpComponent implements OnInit {
     const SMRKeptBSToFS = Number(this.ngForm.controls['smrbs'].value) || 0
     const SMRKeptFSToCS = Number(this.ngForm.controls['smrfs'].value) || 0
     const FSRequiredtomeettargetsofCS = Number(this.ngForm.controls['fsreq'].value) || 0
-    const BSRequiredBSRequiredtomeettargetsofFS = Number(this.ngForm.controls['bsreq'].value) || 0
+    const BSRequiredtomeettargetsofFS = Number(this.ngForm.controls['bsreq'].value) || 0
     this.isCertifiedquant = certifiedquant;
 
     const baseParam = {
@@ -468,7 +466,7 @@ export class SrpComponent implements OnInit {
       "SMRKeptBSToFS": SMRKeptBSToFS,
       "SMRKeptFSToCS": SMRKeptFSToCS,
       "FSRequiredtomeettargetsofCS": FSRequiredtomeettargetsofCS,
-      "BSRequiredBSRequiredtomeettargetsofFS": BSRequiredBSRequiredtomeettargetsofFS,
+      "BSRequiredtomeettargetsofFS": BSRequiredtomeettargetsofFS,
       "proposedAreaUnderVariety": proposedAreaUnderVariety,
       "SRRTargetbySTATE": this.ngForm.controls['SRRTargetbySTATE'].value,
       "seedRequired": this.ngForm.controls['totalreq'].value,
@@ -519,7 +517,7 @@ export class SrpComponent implements OnInit {
     }
 
     if (certifiedquant) {
-      if (SMRKeptBSToFS === 0 || SMRKeptFSToCS === 0 || FSRequiredtomeettargetsofCS === 0 || BSRequiredBSRequiredtomeettargetsofFS === 0) {
+      if (SMRKeptBSToFS === 0 || SMRKeptFSToCS === 0 || FSRequiredtomeettargetsofCS === 0 || BSRequiredtomeettargetsofFS === 0) {
         Swal.fire({
           title: '<p style="font-size:25px;">SMR and FS and BS Req can not be zero. Please enter the value.</p>',
           icon: 'error',
@@ -613,7 +611,7 @@ export class SrpComponent implements OnInit {
         this.ngForm.controls['yearN'].patchValue(res.not_date_substring);
         this.ngForm.controls['duration'].patchValue(res.maturity_type);
         this.ngForm.controls['notifiedValue'].patchValue(res.developed_by);
-
+        this.ngForm.controls['SRRTargetbyGOI'].patchValue(res.srr);
       }
     })
   }
@@ -681,7 +679,7 @@ export class SrpComponent implements OnInit {
     const SMRKeptBSToFS = Number(this.ngForm.controls['smrbs'].value);
     const SMRKeptFSToCS = Number(this.ngForm.controls['smrfs'].value);
     const FSRequiredtomeettargetsofCS = Number(this.ngForm.controls['fsreq'].value);
-    const BSRequiredBSRequiredtomeettargetsofFS = Number(this.ngForm.controls['bsreq'].value);
+    const BSRequiredtomeettargetsofFS = Number(this.ngForm.controls['bsreq'].value);
     if (proposedAreaUnderVariety === 0) {
       Swal.fire({
         title: '<p style="font-size:25px;">Proposed area under variety cannot be zero. Please enter the value.</p>',
@@ -746,7 +744,7 @@ export class SrpComponent implements OnInit {
       "SMRKeptBSToFS": this.ngForm.controls['smrbs'].value,
       "SMRKeptFSToCS": this.ngForm.controls['smrfs'].value,
       "FSRequiredtomeettargetsofCS": this.ngForm.controls['fsreq'].value,
-      "BSRequiredBSRequiredtomeettargetsofFS": this.ngForm.controls['bsreq'].value,
+      "BSRequiredtomeettargetsofFS": this.ngForm.controls['bsreq'].value,
       "proposedAreaUnderVariety": this.ngForm.controls['proposedarea'].value,
       "seedrate": this.ngForm.controls['seedrate'].value,
       "SRRTargetbySTATE": this.ngForm.controls['SRRTargetbySTATE'].value,

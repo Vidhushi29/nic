@@ -279,7 +279,7 @@ export class CropWiseSrpSdReportComponent implements OnInit {
                totals.others += parseFloat(item.others) || 0;
                totals.total += parseFloat(item.total) || 0;
                totals.shtorsur += parseFloat(item.shtorsur) || 0;
-               totals.BSRequiredtomeettargetsofFS += parseFloat(item.BSRequiredBSRequiredtomeettargetsofFS) || 0;
+               totals.BSRequiredtomeettargetsofFS += parseFloat(item.BSRequiredtomeettargetsofFS) || 0;
                totals.FSRequiredtomeettargetsofCS += parseFloat(item.FSRequiredtomeettargetsofCS) || 0;
              });
    
@@ -307,7 +307,7 @@ export class CropWiseSrpSdReportComponent implements OnInit {
                 user_others: parseFloat(el.others).toFixed(2),
                 user_total: parseFloat(el.total).toFixed(2),
                 user_shtorsur: parseFloat(el.shtorsur).toFixed(2),
-                user_BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredBSRequiredtomeettargetsofFS).toFixed(2),
+                user_BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredtomeettargetsofFS).toFixed(2),
                 user_FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
                 crop: [
                   {
@@ -328,7 +328,7 @@ export class CropWiseSrpSdReportComponent implements OnInit {
                     total: parseFloat(el.total).toFixed(2),
                     shtorsur: parseFloat(el.shtorsur).toFixed(2),
                     FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
-                    BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredBSRequiredtomeettargetsofFS).toFixed(2),
+                    BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredtomeettargetsofFS).toFixed(2),
                   },
                 ],
               });
@@ -392,7 +392,7 @@ export class CropWiseSrpSdReportComponent implements OnInit {
               ).toFixed(2);
               filteredData[userIndex].user_BSRequiredtomeettargetsofFS = (
                 parseFloat(filteredData[userIndex].user_BSRequiredtomeettargetsofFS) +
-                parseFloat(el.BSRequiredBSRequiredtomeettargetsofFS)
+                parseFloat(el.BSRequiredtomeettargetsofFS)
               ).toFixed(2);
               filteredData[userIndex].user_FSRequiredtomeettargetsofCS = (
                 parseFloat(filteredData[userIndex].user_FSRequiredtomeettargetsofCS) +
@@ -416,7 +416,7 @@ export class CropWiseSrpSdReportComponent implements OnInit {
                 total: parseFloat(el.total).toFixed(2),
                 shtorsur: parseFloat(el.shtorsur).toFixed(2),
                 FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
-                BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredBSRequiredtomeettargetsofFS).toFixed(2),
+                BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredtomeettargetsofFS).toFixed(2),
           }); }
 
 

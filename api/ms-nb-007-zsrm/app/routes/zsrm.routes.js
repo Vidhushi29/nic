@@ -22,6 +22,7 @@ module.exports = app => {
     app.get(`${process.env.MICRO_SERVICE}/api/view-req-fs-crop-variety`,auth,zsrm.viewZsrmReqFsCropVariety);
     app.delete(`${process.env.MICRO_SERVICE}/api/delete-req-fs/:id`,auth,zsrm.deleteZsrmReqFsById);
     app.put(`${process.env.MICRO_SERVICE}/api/update-req-fs/:id`,auth,zsrm.updateZsrmReqFsById);
+    app.put(`${process.env.MICRO_SERVICE}/api/finalise-req-fs`,auth,zsrm.finaliseZsrmReqFs);
 
     //ZSRM QS SEED
     app.post(`${process.env.MICRO_SERVICE}/api/add-req-qs-dist`,auth,zsrm.addZsrmReqQsDistWise);

@@ -92,10 +92,17 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+
+      is_finalised: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
+
       
       createdAt: { type: Sequelize.DATE, field: 'created_at', default: Date.now() },
       updatedAt: { type: Sequelize.DATE, field: 'updated_at', default: Date.now() },
-      deletedAt: { type: Sequelize.DATE, field: 'deleted_at', default: null}
+      deletedAt: { type: Sequelize.DATE, field: 'deleted_at', default: null},
+      finalisedAt: { type: Sequelize.DATE, field: 'finalised_at', default: null}
     },
     
       {
@@ -103,7 +110,7 @@ module.exports = (sql, Sequelize) => {
         // timezone: '+5:30'
       })
 
-      //ZsrmRefFs.sync({ alter: true });
+     // ZsrmRefFs.sync({ alter: true });
     return ZsrmRefFs;
   };
   

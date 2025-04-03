@@ -936,6 +936,12 @@
                                                             <b class="font-weight-bold">Others: </b>{{data &&
                                                             data.others ?
                                                             formatNumber(data.others) : 0}}</span><br>
+                                                        <span><b class="font-weight-bold">Total:</b> {{data &&
+                                                                data.total ?
+                                                                formatNumber(data.total) : 0}},
+                                                                <b class="font-weight-bold">Surplus/Shortfall: </b>{{data &&
+                                                                data.shtorsur ?
+                                                                formatNumber(data.shtorsur) : 0}}</span><br>
                                                     </td>
                                                 </span>
 
@@ -952,12 +958,12 @@
                                                         <span> <b class="font-weight-bold">FS Required to meet targets
                                                                 of CS: </b>{{data && data.FSRequiredtomeettargetsofCS ?
                                                             data.FSRequiredtomeettargetsofCS : 0}}</span><br>
-                                                        <span><b class="font-weight-bold">SMR Kept for BS to CS:</b>
-                                                            {{data && data.FSRequiredtomeettargetsofCS ?
-                                                            data.FSRequiredtomeettargetsofCS : 0}}</span><br>
-                                                        <span> <b class="font-weight-bold">BS Required to meet targets
-                                                                of CS: </b> {{data && data.SMRKeptBSToFS ?
+                                                        <span><b class="font-weight-bold">SMR Kept for BS to FS:</b>
+                                                            {{data && data.SMRKeptBSToFS ?
                                                             data.SMRKeptBSToFS : 0}}</span><br>
+                                                        <span> <b class="font-weight-bold">BS Required to meet targets
+                                                                of FS: </b> {{data && data.BSRequiredtomeettargetsofFS ?
+                                                            data.BSRequiredtomeettargetsofFS : 0}}</span><br>
 
                                                     </td>
                                                 </span>
