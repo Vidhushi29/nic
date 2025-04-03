@@ -128,7 +128,6 @@ export class ZsrmComponent implements OnInit {
       doa: [0, [Validators.required]],
       nsc: [0, [Validators.required]],
       sau: [0, [Validators.required]],
-      sfci: [0, [Validators.required]],
       pvt: [0, [Validators.required]],
       others: [0, [Validators.required]],
       total: [{ value: 0, disabled: true }],
@@ -152,7 +151,6 @@ export class ZsrmComponent implements OnInit {
         (values.ssc || 0) +
         (values.doa || 0) +
         (values.sau || 0) +
-        (values.sfci || 0) +
         (values.pvt || 0) +
         (values.nsc || 0) +
         (values.others || 0);
@@ -221,7 +219,6 @@ export class ZsrmComponent implements OnInit {
       this.ngForm.controls['ssc'].patchValue(Number(data.ssc));
       this.ngForm.controls['doa'].patchValue(Number(data.doa));
       this.ngForm.controls['others'].patchValue(Number(data.others));
-      this.ngForm.controls['sfci'].patchValue(Number(data.sfci));
       this.ngForm.patchValue(
         { total: data.total, shtorsub: data.shtorsur },
         { emitEvent: false }
@@ -295,7 +292,6 @@ export class ZsrmComponent implements OnInit {
     this.ngForm.controls['others'].patchValue(0);
     this.ngForm.controls['doa'].patchValue(0);
     this.ngForm.controls['sau'].patchValue(0);
-    this.ngForm.controls['sfci'].patchValue(0);
     this.ngForm.controls['pvt'].patchValue(0)
     this.ngForm.controls['req'].patchValue(0);
     this.ngForm.controls['ssc'].patchValue(0);
@@ -322,11 +318,10 @@ export class ZsrmComponent implements OnInit {
     const ssc = this.ngForm.controls['ssc'].value || 0;
     const doa = this.ngForm.controls['doa'].value || 0;
     const sau = this.ngForm.controls['sau'].value || 0;
-    const sfci = this.ngForm.controls['sfci'].value || 0;
     const pvt = this.ngForm.controls['pvt'].value || 0;
     const nsc = this.ngForm.controls['nsc'].value || 0;
     const others = this.ngForm.controls['others'].value || 0;
-    const total = (ssc + doa + sau + sfci + pvt + nsc + others);
+    const total = (ssc + doa + sau + pvt + nsc + others);
     const shtorsur = (total - req);
     const baseParam = {
       "user_id": this.authUserId,
@@ -338,7 +333,6 @@ export class ZsrmComponent implements OnInit {
       "ssc": ssc,
       "doa": doa,
       "sau": sau,
-      "sfci": sfci,
       "pvt": pvt,
       "nsc": nsc,
       "others": others,
@@ -361,7 +355,7 @@ export class ZsrmComponent implements OnInit {
           this.ngForm.controls['sau'].reset('');
           this.ngForm.controls['remarks'].patchValue('');
           this.ngForm.controls['others'].reset('');
-          this.ngForm.controls['sfci'].reset('');
+       
           this.ngForm.controls['ssc'].reset('');
           this.ngForm.controls['nsc'].reset('');
           this.ngForm.controls['pvt'].reset('');
@@ -482,11 +476,11 @@ export class ZsrmComponent implements OnInit {
     const ssc = this.ngForm.controls['ssc'].value || 0;
     const doa = this.ngForm.controls['doa'].value || 0;
     const sau = this.ngForm.controls['sau'].value || 0;
-    const sfci = this.ngForm.controls['sfci'].value || 0;
+  
     const pvt = this.ngForm.controls['pvt'].value || 0;
     const nsc = this.ngForm.controls['nsc'].value || 0;
     const others = this.ngForm.controls['others'].value || 0;
-    const total = (ssc + doa + sau + sfci + pvt + nsc + others);
+    const total = (ssc + doa + sau + pvt + nsc + others);
     const shtorsur = total - req;
     const baseParam = {
       "user_id": this.authUserId,
@@ -494,7 +488,7 @@ export class ZsrmComponent implements OnInit {
       "ssc": ssc,
       "doa": doa,
       "sau": sau,
-      "sfci": sfci,
+ 
       "pvt": pvt,
       "nsc": nsc,
       "others": others,
@@ -520,7 +514,7 @@ export class ZsrmComponent implements OnInit {
           this.ngForm.controls['sau'].reset('');
           this.ngForm.controls['remarks'].patchValue('');
           this.ngForm.controls['others'].reset('');
-          this.ngForm.controls['sfci'].reset('');
+     
           this.ngForm.controls['ssc'].reset('');
           this.ngForm.controls['nsc'].reset('');
           this.ngForm.controls['pvt'].reset('');

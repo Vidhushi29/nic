@@ -59,10 +59,6 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      sfci: {
-        type: Sequelize.DECIMAL,
-        allowNull: false,
-      },
       shtorsur: {
         type: Sequelize.DECIMAL,
         allowNull: false,
