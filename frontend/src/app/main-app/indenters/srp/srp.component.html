@@ -16,7 +16,7 @@
                                 <div class="col-12 col-md-4 col-lg-4 col-xl-2 col-sm-6">
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
-                                            <label for="year" class="left-heading required ">Year of Indent</label>
+                                            <label for="year" class="left-heading required ">Year</label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12 pr-1">
                                             <select class=" form-control input-inventory" formControlName="year" [ngClass]="disableUpperSection ? 'disableFiel':''">
@@ -47,6 +47,7 @@
                                                 <option value="">Please Select Season</option>
                                                 <option value="Kharif">Kharif</option>
                                                 <option value="Rabi">Rabi</option>
+                                                <option value="Rabi">All</option>
                                             </select>
                                             <div class="errorMessage"
                                                 *ngIf="submitted || ngForm.controls['season'].invalid && (ngForm.controls['season'].dirty || ngForm.controls['season'].touched)">
@@ -150,10 +151,7 @@
                                             *ngIf="(!is_update) &&
                                         (ngForm.controls['year'].valid || ngForm.controls['season'].valid ||
                                         ngForm.controls['crop'].valid || ngForm.controls['variety'].valid)">Reset</button>
-                                        <button *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList) || filterPaginateSearch.itemList.length < 1)
-                                        &&  (ngForm.controls['year'].valid && ngForm.controls['season'].valid && 
-                                        ngForm.controls['crop'].valid && ngForm.controls['variety'].valid )"
-                                            class="btn btn-inventory search2" style="width: 8rem; color: white;"
+                                        <button class="btn btn-inventory search2" style="width: 8rem; color: white;"
                                             (click)="SaveAsData()">Add</button>
                                     </div>
 
@@ -167,7 +165,7 @@
                     <div class="row card-inventory form-group">
 
                         <div class="col-12 col-md-12 col-lg-12 col-xl-12 mt-2" *ngIf="isAddSelected">
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-3 pb-2 ">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-3 pb-2 d-flex justify-content-center align-items-center">
                                 {{this.isChangeMessage}}
                             </div>
 
@@ -274,7 +272,7 @@
                                             <input type="number" class=" form-control input-inventory"
                                                 formControlName="proposedarea" placeholder="Enter sfci"
                                                 (keypress)="validateDecimal($event)">
-                                           
+
                                         </div>
                                     </div>
                                 </div>
@@ -324,8 +322,8 @@
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                             <input type="number" class=" form-control input-inventory"
-                                                formControlName="SRRTargetbySTATE" placeholder="Enter Others"
-                                                (keypress)="srrValidation($event)">
+                                                formControlName="SRRTargetbySTATE" placeholder="Enter Srr Target"
+                                                (input)="srrValidation($event)">
                                         </div>
                                     </div>
                                 </div>
@@ -379,13 +377,7 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
-
-
-
-
 
                     </div>
                 </div>
@@ -690,8 +682,6 @@
                                 <p style="margin-left:10px;font-weight:bold; font-size:large;">Part-III : FOUNDATION &
                                     BREEDER SEED REQUIREMENT</p>
                             </div>
-
-
                             <div class="row">
                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                     <div class="row">
@@ -785,9 +775,7 @@
                                     </div>
                                 </div>
 
-                                <!-- finish section 2 -->
-
-                                <!-- button section -->
+                               
                                 <div class="col-12 col-md-10 col-lg-10 pt-4 pb-2 buttons-phone col-xl-10">
                                     <button
                                         class="btn-inventory-cancel search d-inline-flex justify-content-center verticle-content-middle mb-3"
@@ -818,40 +806,31 @@
                         <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12">
                             <div class="list-wrapper">
                                 <div class="row d-none d-md-flex data-row-header">
-                                    <div
-                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                    <div class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         S/N</div>
-                                    <div
-                                        class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                    <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         Season</div>
-                                    <div
-                                        class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                    <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         Crop</div>
-                                    <div
-                                        class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                    <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         Variety</div>
-                                    <div
-                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                    <div class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                         Seed Requirement</div>
-                                    <div
-                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                    <div class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                         Production Targets (in preceding year)</div>
-                                    <div
-                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                    <div class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                         Foundation and Breeder Seed Requirements</div>
-                                    <div
-                                        class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                    <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         Unit
                                     </div>
-                                    <div
-                                        class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                    <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         Actions</div>
                                 </div>
-                                <div>
-                                    <div *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index"
-                                        class="row data-row">
-                                        <div
-                                            class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                        
+                                <!-- Scrollable data rows container -->
+                                <div style="max-height: 500px; overflow-y: auto;">
+                                    <div *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index" class="row data-row">
+                                        <div class="col-6 col-md-1 py-1 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
                                                 <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
                                                 <span title="{{(filterPaginateSearch.itemListCurrentPage - 1) *
@@ -868,8 +847,8 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div
-                                            class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        <!-- More data columns go here -->
+                                        <div class="col-6 col-md-1 py-2 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
                                                 <span>
                                                     {{data && data.crop_name ? data.crop_name : ""}}
@@ -910,7 +889,8 @@
                                                 </span>
                                             </div>
                                         </div>
-
+                                        <!-- Continue with other data columns... -->
+                        
                                         <div
                                             class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
@@ -977,7 +957,7 @@
                                                 <span>{{data && data.unit ? data.unit : ""}}</span>
                                             </div>
                                         </div>
-
+                        
 
 
 
@@ -1001,11 +981,21 @@
                             </div>
                             <div *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList) || filterPaginateSearch.itemList.length < 1)"
                                 class="px-2 py-3 w-100" style="height: 50px;">
-                                <div class="d-flex verticle-content-middle justify-content-center w-100">
-                                    No Data Found.
+                                    <div class="d-flex verticle-content-middle justify-content-center w-100">
+                                        No Data Found.
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="col-2 px-0 px-md-3 py-1 pb-4 pr-0 ">
+
+                                <div class="col-12 pt-4 pl-0">
+                                   <button class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                   style="border: 2px solid #B64B1D;"
+                                   
+                                    >Submit</button>
+                                   
+                                </div>
+                            </div>
                         <div class="col-12 col-md-12 col-lg-12 px-4 px-md-3 py-1 pb-4 pl-4">
                             <app-pagination-ui></app-pagination-ui>
                         </div>

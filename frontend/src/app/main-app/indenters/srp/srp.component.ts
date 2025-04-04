@@ -17,7 +17,7 @@ import { ProductioncenterService } from 'src/app/services/productionCenter/produ
 })
 
 export class SrpComponent implements OnInit {
-  @ViewChild(PaginationUiComponent) paginationUiComponent!: PaginationUiComponent;
+  // @ViewChild(PaginationUiComponent) paginationUiComponent!: PaginationUiComponent;
   ngForm!: FormGroup;
   filterPaginateSearch: FilterPaginateSearch = new FilterPaginateSearch();
   allData: any = [];
@@ -28,16 +28,12 @@ export class SrpComponent implements OnInit {
   showOtherInputBox = false;
   inventoryYearData = [
     { year: '2026-27', value: '2026-27' },
-    { year: '2025-26', value: '2025-26' },
-    { year: '2024-25', value: '2024-25' },
-    { year: '2023-24', value: '2023-24' },
-    { year: '2022-23', value: '2022-23' },
-    { year: '2021-22', value: '2021-22' },
-    { year: '2020-21', value: '2020-21' },
-    { year: '2019-20', value: '2019-20' },
-    { year: '2018-19', value: '2018-19' },
+    { year: '2027-28', value: '2027-28' },
+    { year: '2028-29', value: '2028-29' },
+    { year: '2029-30', value: '2029-30' },
+    
   ];
-  inventorySeasonData = ['Kharif', 'Rabi'];
+  inventorySeasonData = ['Kharif', 'Rabi','All'];
   cropData: any[] = [];
   districtData: { district_name: string; district_code: string }[] = [];
   allDirectIndentsData: any[] = [];
@@ -116,7 +112,7 @@ export class SrpComponent implements OnInit {
               text: "Your data has been deleted.",
               icon: "success"
             });
-            this.filterPaginateSearch.itemList = this.filterPaginateSearch.itemList.filter(item => item.id !== id);
+            // this.filterPaginateSearch.itemList = this.filterPaginateSearch.itemList.filter(item => item.id !== id);
           }
         });
       }
@@ -125,7 +121,7 @@ export class SrpComponent implements OnInit {
 
   SaveAsData() {
     this.isAddSelected = true;
-    this.isChangeMessage = "Entre the Source Availability"
+    this.isChangeMessage = "ENTER THE SOURCE AVAILABILITY"
     this.resetCancelation();
     const variety_code = this.ngForm.controls['variety'].value;
     this.getVarietyDeatil(variety_code);
@@ -175,8 +171,8 @@ export class SrpComponent implements OnInit {
 
       }
     })
-   
-  
+
+
     this.ngForm.valueChanges.subscribe(values => {
       const totalreq =
         ((values.proposedarea || 0) *
@@ -242,9 +238,9 @@ export class SrpComponent implements OnInit {
     const currentValue = input.value + event.key;
     const regex = /^[0-9]+(\.[0-9]{0,2})?$/;
     if (!regex.test(currentValue) || (event.key === '.' && input.value.includes('.'))) {
-      event.preventDefault();
-    }
-
+          event.preventDefault();
+        }
+  
     const SRRTargetbySTATE = parseFloat(input.value);
 
     if (SRRTargetbySTATE > 100) {
@@ -257,9 +253,9 @@ export class SrpComponent implements OnInit {
       event.preventDefault();
     }
     return;
-  }
-
-  patchDataForUpdate(data: any) {
+    }
+     
+    patchDataForUpdate(data: any) {
     this.isAddSelected = true
     this.isChangeMessage = "Update the Source Availability"
     this.isButtonText = "Update"
@@ -280,15 +276,12 @@ export class SrpComponent implements OnInit {
         this.showQuantity = false;
       }
 
-
       this.getVarietyData(data.variety_code);
-
       this.ngForm.controls['hybrid'].patchValue(data.status);
       this.ngForm.controls['notification'].patchValue(data.notification_status);
       this.ngForm.controls['yearN'].patchValue(data.not_year);
       this.ngForm.controls['duration'].patchValue(data.maturity_type);
       this.ngForm.controls['notifiedValue'].patchValue(data.developed_by);
-
       this.ngForm.controls['doa'].patchValue(data.doa);
       this.ngForm.controls['nsc'].patchValue(data.nsc);
       this.ngForm.controls['ssf'].patchValue(data.ssfs);
@@ -370,7 +363,7 @@ export class SrpComponent implements OnInit {
   getCropData() {
     const route = "get-all-crops";
     this.zsrmServiceService.getRequestCreator(route, null, null).subscribe(data => {
-      console.log(data, 'data')
+    
       if (data.Response.status_code === 200) {
         this.cropData = data && data.Response && data.Response.data ? data.Response.data : '';
         this.croplistSecond = this.cropData;
@@ -588,7 +581,7 @@ export class SrpComponent implements OnInit {
       if (data.Response.status_code === 200) {
         this.varietyData = data && data.Response && data.Response.data ? data.Response.data : '';
         this.varietyListSecond = this.varietyData;
-        console.log(this.isEditMode, "...................")
+     
         if (this.isEditMode) {
 
           const varietyName = this.varietyData.filter(variety => variety.variety_code === varietyCode);
@@ -647,28 +640,26 @@ export class SrpComponent implements OnInit {
               this,
               'getPageData',
               undefined,
-              apiResponse.Response.data.pagination.totalRecords,
-              true
+              // apiResponse.Response.data.pagination.totalRecords,
+         
             );
-            this.initSearchAndPagination();
+            // this.initSearchAndPagination();
           } else {
             console.warn('API returned an unexpected status:', apiResponse?.Response.status_code);
           }
         },
-        (error) => {
-          console.error('Error fetching data:', error);
-        }
+        
       );
   }
 
 
-  initSearchAndPagination() {
-    if (!this.paginationUiComponent) {
-      setTimeout(() => this.initSearchAndPagination(), 300);
-      return;
-    }
-    this.paginationUiComponent.Init(this.filterPaginateSearch);
-  }
+  // initSearchAndPagination() {
+  //   if (!this.paginationUiComponent) {
+  //     setTimeout(() => this.initSearchAndPagination(), 300);
+  //     return;
+  //   }
+  //   this.paginationUiComponent.Init(this.filterPaginateSearch);
+  // }
 
   updateForm() {
     const seedrate = Number(this.ngForm.controls['seedrate'].value);
