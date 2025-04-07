@@ -57,7 +57,10 @@ export class ZsrmComponent implements OnInit {
   formBuilder: any;
   update_Form: boolean = false;
   isChangeMessage: string;
-
+  freezeData: boolean;
+  dummyData = [];
+  isCheck: boolean=false;
+  
   constructor(
     private fb: FormBuilder,
     private zsrmServiceService: ZsrmServiceService
@@ -98,9 +101,62 @@ export class ZsrmComponent implements OnInit {
     });
   }
 
+  finalizeData() {
+    const year = this.ngForm.controls['year'].value;
+    const season = this.ngForm.controls['season'].value;
+    const queryParams = [];
+    if (year) queryParams.push(`year=${encodeURIComponent(year)}`);
+    if (season) queryParams.push(`season=${encodeURIComponent(season)}`);
+
+    const apiUrl = `finalise-req-fs?${queryParams.join('&')}`;
+    Swal.fire({
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Yes,Submit it!",
+      cancelButtonText: "Cancel",
+      icon: "warning",
+      title: "Are You Sure?",
+      text: "You won't be able to Edit this!",
+      position: "center",
+      cancelButtonColor: "#DD6B55",
+    }).then(x => {
+    
+      if (x.isConfirmed) {
+
+        this.zsrmServiceService.putRequestCreator(apiUrl).subscribe(apiResponse => {
+
+          if (apiResponse.Response.status_code === 200) {
+            Swal.fire({
+              title: '<p style="font-size:25px;">Data Submited Successfully.</p>',
+              icon: 'success',
+              confirmButtonText:
+                'OK',
+              confirmButtonColor: '#E97E15'
+            }).then(x => {
+              this.getPageData()
+
+
+            })
+
+
+          } else {
+            Swal.fire({
+              title: '<p style="font-size:25px;">Something Went Wrong.</p>',
+              icon: 'error',
+              confirmButtonText:
+                'OK',
+              confirmButtonColor: '#E97E15'
+            })
+          }
+        })
+      }
+
+    })
+  }
+
   SaveAsData() {
     this.isAddSelected = true;
-    this.isChangeMessage = "Entre the Source Availability"
+    this.isChangeMessage = "Enter the Source Availability"
     this.resetCancelation()
 
   }
@@ -140,7 +196,7 @@ export class ZsrmComponent implements OnInit {
     this.ngForm.valueChanges.subscribe((formValues) => {
       const { year, crop, season, variety } = formValues;
 
-      if (year || crop || season || variety) {
+      if (year && season||crop || variety) {
         this.getPageData();
         this.isShowTable = true
 
@@ -219,6 +275,7 @@ export class ZsrmComponent implements OnInit {
       this.ngForm.controls['ssc'].patchValue(Number(data.ssc));
       this.ngForm.controls['doa'].patchValue(Number(data.doa));
       this.ngForm.controls['others'].patchValue(Number(data.others));
+
       this.ngForm.patchValue(
         { total: data.total, shtorsub: data.shtorsur },
         { emitEvent: false }
@@ -292,6 +349,7 @@ export class ZsrmComponent implements OnInit {
     this.ngForm.controls['others'].patchValue(0);
     this.ngForm.controls['doa'].patchValue(0);
     this.ngForm.controls['sau'].patchValue(0);
+
     this.ngForm.controls['pvt'].patchValue(0)
     this.ngForm.controls['req'].patchValue(0);
     this.ngForm.controls['ssc'].patchValue(0);
@@ -302,15 +360,15 @@ export class ZsrmComponent implements OnInit {
 
   saveForm() {
     if (!this.ngForm.controls["req"].value) {
-            Swal.fire({
-              title: '<p style="font-size:25px;">Req can not be 0</p>',
-              icon: 'error',
-              confirmButtonText:
-                'OK',
-              confirmButtonColor: '#E97E15'
-            })
-            return;
-          }
+      Swal.fire({
+        title: '<p style="font-size:25px;">Req can not be 0</p>',
+        icon: 'error',
+        confirmButtonText:
+          'OK',
+        confirmButtonColor: '#E97E15'
+      })
+      return;
+    }
     this.submitted = true;
     this.isShowTable = true;
     const route = "add-req-fs";
@@ -318,6 +376,7 @@ export class ZsrmComponent implements OnInit {
     const ssc = this.ngForm.controls['ssc'].value || 0;
     const doa = this.ngForm.controls['doa'].value || 0;
     const sau = this.ngForm.controls['sau'].value || 0;
+
     const pvt = this.ngForm.controls['pvt'].value || 0;
     const nsc = this.ngForm.controls['nsc'].value || 0;
     const others = this.ngForm.controls['others'].value || 0;
@@ -333,6 +392,7 @@ export class ZsrmComponent implements OnInit {
       "ssc": ssc,
       "doa": doa,
       "sau": sau,
+
       "pvt": pvt,
       "nsc": nsc,
       "others": others,
@@ -355,12 +415,12 @@ export class ZsrmComponent implements OnInit {
           this.ngForm.controls['sau'].reset('');
           this.ngForm.controls['remarks'].patchValue('');
           this.ngForm.controls['others'].reset('');
-       
+
           this.ngForm.controls['ssc'].reset('');
           this.ngForm.controls['nsc'].reset('');
           this.ngForm.controls['pvt'].reset('');
           this.submitted = false;
-          this.isAddSelected=false;
+          this.isAddSelected = false;
         });
       } else if (data.Response.status_code === 409) { // Assuming 409 indicates "Conflict" or "Already Exists"
         Swal.fire({
@@ -424,7 +484,7 @@ export class ZsrmComponent implements OnInit {
     queryParams.push(`limit=${encodeURIComponent(pageSize)}`); // Add pageSize (limit) to query params
 
     const apiUrl = `view-req-fs-all-updated?${queryParams.join('&')}`;
-    console.log(apiUrl, 'apiUrl');
+    console.log(this.dummyData.length,'dummyData.length')
     this.zsrmServiceService
       .getRequestCreator(apiUrl)
       .subscribe(
@@ -432,6 +492,15 @@ export class ZsrmComponent implements OnInit {
           if (apiResponse?.Response.status_code === 200) {
 
             this.allData = apiResponse.Response.data || [];
+            this.dummyData = this.allData.data
+           
+                       
+            if (this.dummyData && this.dummyData[0]?.is_finalised) {
+              this.freezeData = true;
+              console.log(this.freezeData,'fresszs')
+            } else {
+              this.freezeData = false;
+            }
             this.filterPaginateSearch.Init(
               this.allData.data,
               this,
@@ -440,7 +509,6 @@ export class ZsrmComponent implements OnInit {
               apiResponse.Response.data.pagination.totalRecords,
               true
             );
-            this.initSearchAndPagination();
           } else {
             console.warn('API returned an unexpected status:', apiResponse?.Response.status_code);
           }
@@ -451,13 +519,15 @@ export class ZsrmComponent implements OnInit {
       );
   }
 
-  initSearchAndPagination() {
-    if (!this.paginationUiComponent) {
-      setTimeout(() => this.initSearchAndPagination(), 300);
-      return;
-    }
-    this.paginationUiComponent.Init(this.filterPaginateSearch);
+isAddMore(){
+  this.isCheck=true;
+  if (this.dummyData && this.dummyData[0]?.is_finalised) {
+    this.freezeData = true;
+  
+  } else {
+    this.freezeData = false;
   }
+}
   updateForm() {
     if (this.ngForm.invalid) {
       return;
@@ -476,7 +546,7 @@ export class ZsrmComponent implements OnInit {
     const ssc = this.ngForm.controls['ssc'].value || 0;
     const doa = this.ngForm.controls['doa'].value || 0;
     const sau = this.ngForm.controls['sau'].value || 0;
-  
+
     const pvt = this.ngForm.controls['pvt'].value || 0;
     const nsc = this.ngForm.controls['nsc'].value || 0;
     const others = this.ngForm.controls['others'].value || 0;
@@ -488,7 +558,7 @@ export class ZsrmComponent implements OnInit {
       "ssc": ssc,
       "doa": doa,
       "sau": sau,
- 
+
       "pvt": pvt,
       "nsc": nsc,
       "others": others,
@@ -514,12 +584,12 @@ export class ZsrmComponent implements OnInit {
           this.ngForm.controls['sau'].reset('');
           this.ngForm.controls['remarks'].patchValue('');
           this.ngForm.controls['others'].reset('');
-     
+
           this.ngForm.controls['ssc'].reset('');
           this.ngForm.controls['nsc'].reset('');
           this.ngForm.controls['pvt'].reset('');
           this.submitted = false;
-          this.isAddSelected=false;
+          this.isAddSelected = false;
         })
       } else {
         Swal.fire({
@@ -532,13 +602,11 @@ export class ZsrmComponent implements OnInit {
     });
   }
   resetForm() {
-    this.ngForm.controls['year'].reset('');
-    this.ngForm.controls['season'].reset('');
-   
+  
     this.ngForm.controls['crop'].reset('');
     this.ngForm.controls['variety'].reset('');
     this.selectCrop = '';
-    this.selectVariety = '';    
+    this.selectVariety = '';
     this.isShowTable = false;
     this.isAddSelected = false;
   }
