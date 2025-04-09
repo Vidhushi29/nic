@@ -94,7 +94,7 @@ export class ZsrmComponent implements OnInit {
               text: "Your data has been deleted.",
               icon: "success"
             });
-            this.filterPaginateSearch.itemList = this.filterPaginateSearch.itemList.filter(item => item.id !== id);
+            this.getPageData(); 
           }
         });
       }
@@ -472,52 +472,53 @@ export class ZsrmComponent implements OnInit {
     const season = this.ngForm.controls['season'].value;
     const crop = this.ngForm.controls['crop'].value;
     const variety = this.ngForm.controls['variety'].value;
-    const page = loadPageNumberData;
-    const pageSize = this.filterPaginateSearch.itemListPageSize = 5;
+ 
 
     const queryParams = [];
     if (year) queryParams.push(`year=${encodeURIComponent(year)}`);
     if (season) queryParams.push(`season=${encodeURIComponent(season)}`);
     if (crop) queryParams.push(`crop_code=${encodeURIComponent(crop)}`);
     if (variety) queryParams.push(`variety_code=${encodeURIComponent(variety)}`);
-    queryParams.push(`page=${encodeURIComponent(page)}`); // Add page to query params
-    queryParams.push(`limit=${encodeURIComponent(pageSize)}`); // Add pageSize (limit) to query params
-
     const apiUrl = `view-req-fs-all-updated?${queryParams.join('&')}`;
-    console.log(this.dummyData.length,'dummyData.length')
+   
     this.zsrmServiceService
-      .getRequestCreator(apiUrl)
-      .subscribe(
-        (apiResponse: any) => {
-          if (apiResponse?.Response.status_code === 200) {
-
-            this.allData = apiResponse.Response.data || [];
-            this.dummyData = this.allData.data
-           
-                       
-            if (this.dummyData && this.dummyData[0]?.is_finalised) {
-              this.freezeData = true;
-              console.log(this.freezeData,'fresszs')
-            } else {
-              this.freezeData = false;
-            }
-            this.filterPaginateSearch.Init(
-              this.allData.data,
-              this,
-              'getPageData',
-              undefined,
-              apiResponse.Response.data.pagination.totalRecords,
-              true
-            );
-          } else {
-            console.warn('API returned an unexpected status:', apiResponse?.Response.status_code);
-          }
-        },
-        (error) => {
+    .getRequestCreator(apiUrl)
+    .subscribe(
+      (apiResponse: any) => {
+        if (apiResponse?.Response.status_code === 200) {
+          this.allData = apiResponse.Response.data || [];
+          this.dummyData = this.allData;
+ 
+          if (this.dummyData && this.dummyData[0]?.is_finalised) {
+            this.freezeData = true;
+          } 
+  
+         
+        } else {
+          console.warn('API returned an unexpected status:', apiResponse?.Response.status_code);
+        }
+      },
+      (error) => {
+        if (error.status === 404) {
+          this.dummyData=[];
+            this.freezeData = false;
+         
+          
+        } else if (error.status === 500) {
+          Swal.fire({
+                   title: 'Oops',
+                   text: '<p style="font-size:25px;">Something Went Wrong.</p>',
+                   icon: 'error',
+                   confirmButtonText:
+                     'OK',
+                   confirmButtonColor: '#E97E15'
+                 })
+        } else {
           console.error('Error fetching data:', error);
         }
-      );
-  }
+      }
+    );
+}
 
 isAddMore(){
   this.isCheck=true;
@@ -546,7 +547,6 @@ isAddMore(){
     const ssc = this.ngForm.controls['ssc'].value || 0;
     const doa = this.ngForm.controls['doa'].value || 0;
     const sau = this.ngForm.controls['sau'].value || 0;
-
     const pvt = this.ngForm.controls['pvt'].value || 0;
     const nsc = this.ngForm.controls['nsc'].value || 0;
     const others = this.ngForm.controls['others'].value || 0;

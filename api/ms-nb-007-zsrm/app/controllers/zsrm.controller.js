@@ -345,7 +345,6 @@ exports.updateZsrmReqFsById = async(req, res) => {
     .catch(() => response(res, status.DATA_NOT_UPDATED, 500));
 
 } catch (error) {
-    console.log(error);
     return response(res, status.UNEXPECTED_ERROR, 501)
   }
   
@@ -353,10 +352,8 @@ exports.updateZsrmReqFsById = async(req, res) => {
 
 
 exports.finaliseZsrmReqFs = async(req, res) => {
-  
   try {
-    
-    const recordsExist = await zsemreqfsModel.findAll({where: {year: req.query.year, season: req.query.season,is_active:true, user_id:body.loginedUserid.id}});
+    const recordsExist = await zsemreqfsModel.findAll({where: {year: req.query.year, season: req.query.season, is_active:true, user_id:req.body.loginedUserid.id}});
     if (recordsExist.length === 0) {
       return response(res, status.DATA_NOT_AVAILABLE, 404);
     }
@@ -364,7 +361,7 @@ exports.finaliseZsrmReqFs = async(req, res) => {
       is_finalised:true,
       finalisedAt:Date.now()},
     {
-      where: {year: req.params.year, season: req.params.season,is_active:true, user_id:req.body.loginedUserid.id}
+      where: {year: req.query.year, season: req.query.season,is_active:true, user_id:req.body.loginedUserid.id}
     },). then(() => response(res, status.DATA_UPDATED, 200, {}) )
     .catch(() => response(res, status.DATA_NOT_UPDATED, 500));
 
@@ -978,8 +975,8 @@ exports.viewZsrmReqFsAllUpdated = async(req, res) => {
    // const { search } = req.body;
     const userid = req.body.loginedUserid.id;
 
-    const { page, limit } = req.query;  // Extract pagination params from query string
-    console.log(page, limit);
+    // const { page, limit } = req.query;  // Extract pagination params from query string
+    // console.log(page, limit);
 
     // let userExist = await userModel.findOne({
     //   where: {
@@ -992,7 +989,7 @@ exports.viewZsrmReqFsAllUpdated = async(req, res) => {
     // }
 
      // Calculate offset based on page and limit
-     const offset = (page - 1) * limit;
+    //  const offset = (page - 1) * limit;
 
      let condition = {
       include: [
@@ -1021,8 +1018,8 @@ exports.viewZsrmReqFsAllUpdated = async(req, res) => {
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'deletedAt','crop_type', 'is_active' ]
       },
-      limit: limit,      // Limit the number of records returned
-      offset: offset, 
+      // limit: limit,      // Limit the number of records returned
+      // offset: offset, 
     };
     // if (req.body.search) {
     //   if (req.body.search.year) {
@@ -1055,7 +1052,7 @@ exports.viewZsrmReqFsAllUpdated = async(req, res) => {
     console.log("data found", data);
 if (data.length == 0)
   //res.status(404).json({message: "No data found"})
-  return response(res, status.DATA_NOT_AVAILABLE, 404)
+  return response(res, status.DATA_NOT_AVAILABLE, 404,data)
 
     const result = data.map((item)=>{return {     
       id: item.id,
@@ -1083,20 +1080,10 @@ if (data.length == 0)
     }
   });
 
-    // Get total records for pagination
-    const totalRecords = await db.zsrmReqFs.count(condition);
 
-    const totalPages = Math.ceil(totalRecords / limit);  // Calculate total pages
 
-    response(res, status.DATA_AVAILABLE, 200, {
-      data: result,
-      pagination: {
-        currentPage: parseInt(page),
-        totalRecords: totalRecords,
-        totalPages: totalPages,
-        pageSize: parseInt(limit),
-      },
-    });
+    response(res, status.DATA_AVAILABLE, 200, result, 
+    );
     
  
   } catch (error) {
