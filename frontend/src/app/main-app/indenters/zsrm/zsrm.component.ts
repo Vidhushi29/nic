@@ -409,6 +409,8 @@ export class ZsrmComponent implements OnInit {
           confirmButtonText: 'OK',
           confirmButtonColor: '#E97E15'
         }).then(x => {
+          this.ngForm.controls['variety'].reset('');
+          this.selectVariety = '';
           this.getPageData();
           this.ngForm.controls['req'].reset('');
           this.ngForm.controls['doa'].reset('');
@@ -492,6 +494,9 @@ export class ZsrmComponent implements OnInit {
           if (this.dummyData && this.dummyData[0]?.is_finalised) {
             this.freezeData = true;
           } 
+          else {
+            this.freezeData = false;
+          }
   
          
         } else {
@@ -501,9 +506,7 @@ export class ZsrmComponent implements OnInit {
       (error) => {
         if (error.status === 404) {
           this.dummyData=[];
-            this.freezeData = false;
-         
-          
+            this.freezeData = false;   
         } else if (error.status === 500) {
           Swal.fire({
                    title: 'Oops',
@@ -607,7 +610,7 @@ isAddMore(){
     this.ngForm.controls['variety'].reset('');
     this.selectCrop = '';
     this.selectVariety = '';
-    this.isShowTable = false;
+    this.isShowTable = true;
     this.isAddSelected = false;
   }
 

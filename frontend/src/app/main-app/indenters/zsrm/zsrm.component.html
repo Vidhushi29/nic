@@ -158,11 +158,11 @@
                                             style="width: 6rem ; margin-right: 10px; color: white;"
                                             (click)="resetForm()"
                                             *ngIf="(!is_update) &&
-                                        (ngForm.controls['year'].valid || ngForm.controls['season'].valid ||
+                                        (
                                         ngForm.controls['crop'].valid || ngForm.controls['variety'].valid)">Reset</button>
 
                                         <button
-                                        *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList) || filterPaginateSearch.itemList.length < 1)
+                                        *ngIf="((dummyData&&dummyData.length< 1))
                                         &&  (ngForm.controls['year'].valid && ngForm.controls['season'].valid && 
                                         ngForm.controls['crop'].valid && ngForm.controls['variety'].valid  )"
                                             class="btn btn-inventory search2" style="width: 8rem; color: white;"
