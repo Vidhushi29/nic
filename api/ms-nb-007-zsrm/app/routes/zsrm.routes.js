@@ -55,7 +55,13 @@ module.exports = app => {
     app.get(`${process.env.MICRO_SERVICE}/api/get-srp-sd-ct-year-based`,auth,zsrm.getSrpCropTypeSDYearBased)
     app.get(`${process.env.MICRO_SERVICE}/api/get-srp-state`,auth,zsrm.getSrpStateSD); 
     app.get(`${process.env.MICRO_SERVICE}/api/get-srp-crop`,auth,zsrm.getSrpCrop);
-
+    app.put(`${process.env.MICRO_SERVICE}/api/finalise-srp`,auth,zsrm.finaliseSrp);
+    app.post(`${process.env.MICRO_SERVICE}/api/get-srp-dashboard-item-count`,auth,zsrm.dashboardSrpCardCount);
+    app.post(`${process.env.MICRO_SERVICE}/api/get-srp-dashboard-crop-wise-data`,auth,zsrm.dashboardCropWiseData);
+    app.post(`${process.env.MICRO_SERVICE}/api/get-srp-dashboard-crop-variety-wise-data`,auth,zsrm.dashboardCropVarietyWiseData);
+    app.post(`${process.env.MICRO_SERVICE}/api/get-srp-dashboard-user-wise-data`,auth,zsrm.dashboardStateWiseData);
+    app.post(`${process.env.MICRO_SERVICE}/api/get-srp-dashboard-user-crop-wise-data`,auth,zsrm.dashboardStateCropWiseData);
+    app.post(`${process.env.MICRO_SERVICE}/api/get-srp-dashboard-pie-chart`,auth,zsrm.dashboardPieData);
     //SRR
     app.post(`${process.env.MICRO_SERVICE}/api/add-srr`,auth,zsrm.addSrr);
     app.get(`${process.env.MICRO_SERVICE}/api/view-srr`,auth,zsrm.viewSrrByYearCropSeedType); 

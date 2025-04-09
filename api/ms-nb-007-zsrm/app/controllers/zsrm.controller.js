@@ -1703,6 +1703,30 @@ exports.updateSrp =async (req, res) => {
   
 }
 
+exports.finaliseSrp = async(req, res) => {
+  
+  try {
+    
+    const recordsExist = await srpModel.findAll({where: {year: req.query.year, is_active:true, user_id:body.loginedUserid.id}});
+    if (recordsExist.length === 0) {
+      return response(res, status.DATA_NOT_AVAILABLE, 404);
+    }
+    await srpModel.update({ 
+      is_finalised:true,
+      finalisedAt:Date.now()},
+    {
+      where: {year: req.query.year, is_active:true, user_id:req.body.loginedUserid.id}
+    },). then(() => response(res, status.DATA_UPDATED, 200, {}) )
+    .catch(() => response(res, status.DATA_NOT_UPDATED, 500));
+
+} catch (error) {
+    console.log(error);
+    return response(res, status.UNEXPECTED_ERROR, 501)
+  }
+  
+}
+
+
 exports.viewSrpById = async (req, res) => {
   try{
     const data = await srpModel.findOne({ where: { id: req.params.id, is_active:true, user_id:req.body.loginedUserid.id},
@@ -2587,6 +2611,281 @@ return response(res, status.DATA_NOT_AVAILABLE, 404)
   return response(res, status.UNEXPECTED_ERROR, 501)
 }
 }
+
+exports.dashboardSrpCardCount = async (req, res) => { 
+  let filters = await ConditionCreator.filters(req.body.search); 
+  try {
+    let condition = {
+      where : filters,
+      attributes: [
+        [sequelize.col('year'), 'year'],
+        [sequelize.fn('COUNT', sequelize.fn('DISTINCT', sequelize.col('crop_code'))), 'crops'],
+        [sequelize.fn('COUNT', sequelize.fn('DISTINCT', sequelize.col('variety_code'))), 'varieties'],
+        [sequelize.fn('SUM', sequelize.col('seedRequired')), 'req'],
+        [sequelize.fn('SUM', sequelize.col('total')), 'total'], 
+        [sequelize.fn('SUM', sequelize.col('certifiedquant')), 'certifiedquant'],
+        [sequelize.fn('SUM', sequelize.col('qualityquant')), 'qualityquant'],
+        [sequelize.fn('SUM', sequelize.col('shtorsur')), 'shtorsur'], 
+      ],
+     group: [
+    [sequelize.col('year'), 'year']    ]  ,
+
+    }
+    condition.where.is_active = true;
+
+  let data = await srpModel.findAll(condition);
+  console.log("data found", data);
+if (data.length == 0)
+//res.status(404).json({message: "No data found"})
+return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+     response(res, status.DATA_AVAILABLE, 200, data);
+  
+
+} catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+}
+
+exports.dashboardCropWiseData = async (req, res) => { 
+  try {
+    let filters = await ConditionCreator.filters(req.body.search); 
+   let condition = {
+      include: [
+        {
+          model: cropDataModel,
+          attributes: []
+        },],
+      where: filters,
+      attributes: [
+        [sequelize.col('seedrollingplan.crop_code'), 'crop_code'],
+        [sequelize.col('m_crop.crop_name'), 'crop_name'],
+        [sequelize.fn('SUM', sequelize.col('seedRequired')), 'req'], // Count of records in 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('total')), 'total'], // Sum of 'total' from 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('shtorsur')), 'shtorsur'], 
+      ],
+     group: [
+     [sequelize.col('seedrollingplan.crop_code'), 'crop_code'], [sequelize.col('m_crop.crop_name'), 'crop_name']
+    ]  ,
+      order : [
+     [sequelize.col('m_crop.crop_name'), 'ASC'],
+    ],
+    }
+ condition.where.is_active=true;
+
+  let data = await srpModel.findAll(condition);
+  console.log("data found", data);
+if (data.length == 0)
+//res.status(404).json({message: "No data found"})
+return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+     response(res, status.DATA_AVAILABLE, 200, data);
+  
+
+} catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+}
+
+exports.dashboardPieData = async (req, res) => { 
+  try {
+    let filters = await ConditionCreator.filters(req.body.search); 
+    let condition = {
+      where: filters,
+      attributes: [
+        [sequelize.col('year'), 'year'],
+        [sequelize.fn('SUM', sequelize.col('doa')), 'doa'],
+        [sequelize.fn('SUM', sequelize.col('ssfs')), 'ssfs'],
+        [sequelize.fn('SUM', sequelize.col('ssc')), 'ssc'],
+        [sequelize.fn('SUM', sequelize.col('nsc')), 'nsc'],
+        [sequelize.fn('SUM', sequelize.col('saus')), 'saus'],
+        [sequelize.fn('SUM', sequelize.col('othergovpsu')), 'othergovpsu'],
+        [sequelize.fn('SUM', sequelize.col('coop')), 'coop'], 
+        [sequelize.fn('SUM', sequelize.col('pvt')), 'pvt'], 
+        [sequelize.fn('SUM', sequelize.col('seedhub')), 'seedhub'], 
+        [sequelize.fn('SUM', sequelize.col('others')), 'others'], 
+        [sequelize.fn('SUM', sequelize.col('total')), 'total'], 
+      ],
+     group: [  
+    [sequelize.col('year'), 'year']
+    ],
+        order : [ 
+        ['year', 'ASC'],
+    ],
+    }
+    condition.where.is_active = true;
+
+  let data = await srpModel.findAll(condition);
+  console.log("data found", data);
+  let result = {
+    doa: 0.00,
+    ssfs: 0.00,
+    ssc: 0.00,
+    nsc: 0.00,
+    saus: 0.00,
+    othergovpsu: 0.00,
+    coop: 0.00,
+    pvt: 0.00,
+    seedhub: 0.00,
+    others: 0.00,
+   };
+   result.doa = ((parseFloat(data[0].doa)/parseFloat(data[0].total)) *100).toFixed(2) || 0.00;
+   result.ssfs = ((parseFloat(data[0].ssfs)/parseFloat(data[0].total)) *100).toFixed(2) || 0.00;
+   result.ssc = ((parseFloat(data[0].ssc)/parseFloat(data[0].total)) *100).toFixed(2) || 0.00;
+   result.nsc = ((parseFloat(data[0].nsc)/parseFloat(data[0].total)) *100).toFixed(2) || 0.00;
+   result.saus = ((parseFloat(data[0].saus)/parseFloat(data[0].total)) *100).toFixed(2) || 0.00;
+   result.othergovpsu = ((parseFloat(data[0].othergovpsu)/parseFloat(data[0].total)) *100).toFixed(2) || 0.00;
+   result.coop = ((parseFloat(data[0].coop)/parseFloat(data[0].total)) *100).toFixed(2) || 0.00;
+   result.pvt = ((parseFloat(data[0].pvt)/parseFloat(data[0].total)) *100).toFixed(2) || 0.00;
+   result.seedhub = ((parseFloat(data[0].seedhub)/parseFloat(data[0].total)) *100).toFixed(2) || 0.00;
+   result.others = ((parseFloat(data[0].others)/parseFloat(data[0].total)) *100).toFixed(2) || 0.00;
+   console.log("totals found", result);
+
+if (data.length == 0)
+//res.status(404).json({message: "No data found"})
+return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+  // Get total records for pagination
+  
+    response(res, status.DATA_AVAILABLE, 200, result);
+  
+
+} catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+}
+
+exports.dashboardCropVarietyWiseData = async (req, res) => { 
+  try {
+  //  let filters = await ConditionCreator.filters(req.body.search); 
+   let condition = {
+      include: [
+        {
+          model: varietyModel,
+          attributes: []
+        },],
+      where: {
+        year : req.body.search.year,
+        crop_code:req.body.search.crop_code
+      },
+      attributes: [
+        [sequelize.col('seedrollingplan.variety_code'), 'variety_code'],
+        [sequelize.col('m_crop_variety.variety_name'), 'variety_name'],
+        [sequelize.fn('SUM', sequelize.col('seedRequired')), 'req'], // Count of records in 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('total')), 'total'], // Sum of 'total' from 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('shtorsur')), 'shtorsur'], 
+      ],
+     group: [
+      [sequelize.col('seedrollingplan.variety_code'), 'variety_code'],
+      [sequelize.col('m_crop_variety.variety_name'), 'variety_name']
+    ]  ,
+      order : [
+     [sequelize.col('m_crop_variety.variety_name'), 'ASC'],
+    ],
+    }
+ condition.where.is_active=true;
+
+  let data = await srpModel.findAll(condition);
+  console.log("data found", data);
+if (data.length == 0)
+//res.status(404).json({message: "No data found"})
+return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+     response(res, status.DATA_AVAILABLE, 200, data);
+  
+
+} catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+}
+
+exports.dashboardStateWiseData = async (req, res) => { 
+  try {
+    let filters = await ConditionCreator.filters(req.body.search); 
+   let condition = {
+      include: [
+        {
+          model: userModel,
+          attributes: []
+        }],
+      where: filters,
+      attributes: [
+        [sequelize.col('seedrollingplan.user_id'), 'user_id'],
+        [sequelize.col('user.name'), 'name'],
+        [sequelize.fn('SUM', sequelize.col('seedRequired')), 'req'], // Count of records in 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('total')), 'total'], // Sum of 'total' from 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('shtorsur')), 'shtorsur'], 
+      ],
+     group: [
+      [sequelize.col('seedrollingplan.user_id'), 'user_id'],
+      [sequelize.col('user.name'), 'name'],
+        ]  ,
+      order : [
+        [sequelize.col('user.name'), 'ASC'],
+    ],
+    }
+ condition.where.is_active=true;
+
+  let data = await srpModel.findAll(condition);
+  console.log("data found", data);
+if (data.length == 0)
+//res.status(404).json({message: "No data found"})
+return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+     response(res, status.DATA_AVAILABLE, 200, data);
+  
+
+} catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+}
+
+exports.dashboardStateCropWiseData = async (req, res) => { 
+  try {
+    let filters = await ConditionCreator.filters(req.body.search); 
+   let condition = {
+      include: [
+        {
+          model: cropDataModel,
+          attributes: []
+        },],
+      where: filters,
+      attributes: [
+        [sequelize.col('seedrollingplan.crop_code'), 'crop_code'],
+        [sequelize.col('m_crop.crop_name'), 'crop_name'],
+        [sequelize.fn('SUM', sequelize.col('seedRequired')), 'req'], // Count of records in 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('total')), 'total'], // Sum of 'total' from 'zsrmReqFs'
+        [sequelize.fn('SUM', sequelize.col('shtorsur')), 'shtorsur'], 
+      ],
+     group: [
+     [sequelize.col('seedrollingplan.crop_code'), 'crop_code'], [sequelize.col('m_crop.crop_name'), 'crop_name']
+    ]  ,
+      order : [
+     [sequelize.col('m_crop.crop_name'), 'ASC'],
+    ],
+    }
+ condition.where.is_active=true;
+
+  let data = await srpModel.findAll(condition);
+  console.log("data found", data);
+if (data.length == 0)
+//res.status(404).json({message: "No data found"})
+return response(res, status.DATA_NOT_AVAILABLE, 404)
+
+     response(res, status.DATA_AVAILABLE, 200, data);
+  
+
+} catch (error) {
+  console.log(error);
+  return response(res, status.UNEXPECTED_ERROR, 501)
+}
+}
+
 
 exports.addSrr = async (req, res) => {
   try {

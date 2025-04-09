@@ -270,7 +270,7 @@ export class SrpIndenterCropWiseReportComponent implements OnInit {
         }
         const param = {
           search: {
-            year: this.ngForm.controls["year_of_indent"].value,
+            year: 'this.ngForm.controls["year_of_indent"].value',
             season: this.ngForm.controls["season"].value,
             crop_code: cropNameArr && (cropNameArr.length > 0) ? cropNameArr : '',
           }

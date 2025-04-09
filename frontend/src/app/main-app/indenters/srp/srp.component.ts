@@ -27,11 +27,13 @@ export class SrpComponent implements OnInit {
   varietyData: any[] = [];
   showOtherInputBox = false;
   inventoryYearData = [
-    { year: '2026-27', value: '2026-27' },
-    { year: '2027-28', value: '2027-28' },
-    { year: '2028-29', value: '2028-29' },
     { year: '2029-30', value: '2029-30' },
+    { year: '2028-29', value: '2028-29' },
+    { year: '2027-28', value: '2027-28' },
+    { year: '2026-27', value: '2026-27' },
     
+    
+   
   ];
   inventorySeasonData = ['Kharif', 'Rabi','All'];
   cropData: any[] = [];
@@ -44,6 +46,7 @@ export class SrpComponent implements OnInit {
   isVarietySelected = false;
   isEditMode: boolean = false;
   isShowTable = false;
+  isAddMore = false;
   varietyAndQuantity: any[] = [];
   unit: string = '';
   showQuantity = false;
@@ -92,7 +95,9 @@ export class SrpComponent implements OnInit {
 
   }
 
-
+  addMore() {
+    this.isAddMore=true;
+  }
   deleteDirectIndent(id: number) {
     Swal.fire({
       title: "Are you sure?",
@@ -195,6 +200,7 @@ export class SrpComponent implements OnInit {
       if (year) {
         this.getPageData();
         this.isShowTable = true
+
       }
       this.ngForm.patchValue(
         { total: this.formatNumber(total) || 0, shtorsub: this.formatNumber(shtorsub) || 0, totalreq: this.formatNumber(totalreq) || 0 },
@@ -202,7 +208,7 @@ export class SrpComponent implements OnInit {
       );
 
     });
-    this.ngForm.controls['year'].valueChanges.subscribe(() => this.resetSelections());
+    this.ngForm.controls['year'].valueChanges.subscribe(() => {this.resetSelections(); this.isAddMore=false;});
     this.ngForm.controls['season'].valueChanges.subscribe(() => this.resetSelections());
     this.ngForm.controls['crop_text'].valueChanges.subscribe(item => {
       if (item) {
@@ -358,6 +364,7 @@ export class SrpComponent implements OnInit {
     this.cropData = this.croplistSecond;
     this.ngForm.controls['crop'].setValue(item && item.crop_code ? item.crop_code : '')
     this.getVarietyData(item.crop_code);
+    this.selectVariety=''
   }
 
   getCropData() {
@@ -808,8 +815,12 @@ export class SrpComponent implements OnInit {
     });
   }
 
+  finaliseForm() {
+
+  }
+
   resetForm() {
-    this.ngForm.controls['year'].reset('');
+
     this.ngForm.controls['season'].reset('');
     this.selectCrop = '';
     this.selectVariety = '';

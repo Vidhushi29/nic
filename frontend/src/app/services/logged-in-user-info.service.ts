@@ -381,28 +381,7 @@ export class LoggedInUserInfoService {
           ]
 
         },
-        {
-          "name": "SRP Report",
-          "href": "javascript:void(0)",
-          "subMenus": [
-            {
-              "name": "Crop-Wise SRP Report",
-              "href": "/crop-wise-srp-sd-report",
-              "icon": "seeding.svg"
-            },
-            {
-              "name": "CROP-WISE SUMMARY OF SRP",
-              "href": "/crop-wise-summary-srp-sd-report",
-              "icon": "seeding.svg"
-            },
-            {
-              "name": "CROP-VARIETY WISE SRP REPORT",
-              "href": "/master-srp-sd-report",
-              "icon": "seeding.svg"
-            }
-          ]
-
-        },
+       
         {
           "name": "Submit Indents of Breeder Seed (crop wise) ",
           "href": "/indent-wise-crop",
@@ -1905,6 +1884,33 @@ export class LoggedInUserInfoService {
             "href": '/bsp-four-report-availability',
             "icon": "Add_Breeder.svg"
           },
+          { icon: "seeding-one.svg",
+            "name": "SRP",
+            "href": "javascript:void(0)",
+            "subMenus": [
+              {
+                "name": "SRP Dashboard",
+                "href": "/srp-dashboard-sd",
+                "icon": "seeding.svg"
+              },
+              {
+                "name": "Crop-Wise SRP Report",
+                "href": "/crop-wise-srp-sd-report",
+                "icon": "seeding.svg"
+              },
+              {
+                "name": "CROP-WISE SUMMARY OF SRP",
+                "href": "/crop-wise-summary-srp-sd-report",
+                "icon": "seeding.svg"
+              },
+              {
+                "name": "CROP-VARIETY WISE SRP REPORT",
+                "href": "/master-srp-sd-report",
+                "icon": "seeding.svg"
+              }
+            ]
+  
+          },
           {
             icon: "report.svg",
             name: "Reports",
@@ -1912,6 +1918,7 @@ export class LoggedInUserInfoService {
             active: false,
             subMenus: this.getReportsSubMenu
           },
+         
         ]
         // }]
       },
