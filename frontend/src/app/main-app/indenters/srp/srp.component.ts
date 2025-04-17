@@ -35,7 +35,7 @@ export class SrpComponent implements OnInit {
     
    
   ];
-  inventorySeasonData = ['Kharif', 'Rabi','All'];
+  inventorySeasonData = ['Kharif', 'Rabi'];
   cropData: any[] = [];
   districtData: { district_name: string; district_code: string }[] = [];
   allDirectIndentsData: any[] = [];
@@ -46,7 +46,6 @@ export class SrpComponent implements OnInit {
   isVarietySelected = false;
   isEditMode: boolean = false;
   isShowTable = false;
-  isAddMore = false;
   varietyAndQuantity: any[] = [];
   unit: string = '';
   showQuantity = false;
@@ -78,7 +77,9 @@ export class SrpComponent implements OnInit {
   notification: any
   dataRow: boolean = false;
   isCertifiedquant: number;
-
+  freezeData: boolean;
+  dummyData = [];
+  isCheck: boolean = false;
   constructor(private service: SeedServiceService, private master: MasterService, private elementRef: ElementRef,
     private productionService: ProductioncenterService,
     private breeder: BreederService,
@@ -95,9 +96,7 @@ export class SrpComponent implements OnInit {
 
   }
 
-  addMore() {
-    this.isAddMore=true;
-  }
+
   deleteDirectIndent(id: number) {
     Swal.fire({
       title: "Are you sure?",
@@ -117,11 +116,66 @@ export class SrpComponent implements OnInit {
               text: "Your data has been deleted.",
               icon: "success"
             });
-            // this.filterPaginateSearch.itemList = this.filterPaginateSearch.itemList.filter(item => item.id !== id);
+           
+            this.getPageData();
           }
         });
       }
     });
+  }
+
+
+  finalizeData() {
+    const year = this.ngForm.controls['year'].value;
+    const season = this.ngForm.controls['season'].value;
+    const queryParams = [];
+    if (year) queryParams.push(`year=${encodeURIComponent(year)}`);
+    if (season) queryParams.push(`season=${encodeURIComponent(season)}`);
+
+    const apiUrl = `finalise-srp?${queryParams.join('&')}`;
+    Swal.fire({
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Yes,Submit it!",
+      cancelButtonText: "Cancel",
+      icon: "warning",
+      title: "Are You Sure?",
+      text: "You won't be able to Edit this!",
+      position: "center",
+      cancelButtonColor: "#DD6B55",
+    }).then(x => {
+
+      if (x.isConfirmed) {
+
+        this.zsrmServiceService.putRequestCreator(apiUrl).subscribe(apiResponse => {
+
+          if (apiResponse.Response.status_code === 200) {
+            Swal.fire({
+              title: '<p style="font-size:25px;">Data Submited Successfully.</p>',
+              icon: 'success',
+              confirmButtonText:
+                'OK',
+              confirmButtonColor: '#E97E15'
+            }).then(x => {
+              this.getPageData()
+
+
+            })
+
+
+          } else {
+            Swal.fire({
+              title: '<p style="font-size:25px;">Something Went Wrong.</p>',
+              icon: 'error',
+              confirmButtonText:
+                'OK',
+              confirmButtonColor: '#E97E15'
+            })
+          }
+        })
+      }
+
+    })
   }
 
   SaveAsData() {
@@ -181,8 +235,8 @@ export class SrpComponent implements OnInit {
     this.ngForm.valueChanges.subscribe(values => {
       const totalreq =
         ((values.proposedarea || 0) *
-        (values.seedrate || 0) *
-        (values.SRRTargetbySTATE || 0))/100;
+          (values.seedrate || 0) *
+          (values.SRRTargetbySTATE || 0)) / 100;
       const total =
         (values.ssc || 0) +
         (values.doa || 0) +
@@ -208,7 +262,7 @@ export class SrpComponent implements OnInit {
       );
 
     });
-    this.ngForm.controls['year'].valueChanges.subscribe(() => {this.resetSelections(); this.isAddMore=false;});
+    this.ngForm.controls['year'].valueChanges.subscribe(() => { this.resetSelections(); });
     this.ngForm.controls['season'].valueChanges.subscribe(() => this.resetSelections());
     this.ngForm.controls['crop_text'].valueChanges.subscribe(item => {
       if (item) {
@@ -244,9 +298,9 @@ export class SrpComponent implements OnInit {
     const currentValue = input.value + event.key;
     const regex = /^[0-9]+(\.[0-9]{0,2})?$/;
     if (!regex.test(currentValue) || (event.key === '.' && input.value.includes('.'))) {
-          event.preventDefault();
-        }
-  
+      event.preventDefault();
+    }
+
     const SRRTargetbySTATE = parseFloat(input.value);
 
     if (SRRTargetbySTATE > 100) {
@@ -259,9 +313,9 @@ export class SrpComponent implements OnInit {
       event.preventDefault();
     }
     return;
-    }
-     
-    patchDataForUpdate(data: any) {
+  }
+
+  patchDataForUpdate(data: any) {
     this.isAddSelected = true
     this.isChangeMessage = "Update the Source Availability"
     this.isButtonText = "Update"
@@ -364,13 +418,13 @@ export class SrpComponent implements OnInit {
     this.cropData = this.croplistSecond;
     this.ngForm.controls['crop'].setValue(item && item.crop_code ? item.crop_code : '')
     this.getVarietyData(item.crop_code);
-    this.selectVariety=''
+    this.selectVariety = ''
   }
 
   getCropData() {
     const route = "get-all-crops";
     this.zsrmServiceService.getRequestCreator(route, null, null).subscribe(data => {
-    
+
       if (data.Response.status_code === 200) {
         this.cropData = data && data.Response && data.Response.data ? data.Response.data : '';
         this.croplistSecond = this.cropData;
@@ -588,7 +642,7 @@ export class SrpComponent implements OnInit {
       if (data.Response.status_code === 200) {
         this.varietyData = data && data.Response && data.Response.data ? data.Response.data : '';
         this.varietyListSecond = this.varietyData;
-     
+
         if (this.isEditMode) {
 
           const varietyName = this.varietyData.filter(variety => variety.variety_code === varietyCode);
@@ -617,22 +671,18 @@ export class SrpComponent implements OnInit {
   }
 
 
-  getPageData(loadPageNumberData: number = 1) {
+  getPageData() {
     this.filterPaginateSearch.itemList = [];
     const year = this.ngForm.controls['year'].value;
     const season = this.ngForm.controls['season'].value;
     const crop = this.ngForm.controls['crop'].value;
     const variety = this.ngForm.controls['variety'].value;
-    const page = loadPageNumberData;
-    const pageSize = this.filterPaginateSearch.itemListPageSize = 5;
-
+ 
     const queryParams = [];
     if (year) queryParams.push(`year=${encodeURIComponent(year)}`);
     if (season) queryParams.push(`season=${encodeURIComponent(season)}`);
     if (crop) queryParams.push(`crop_code=${encodeURIComponent(crop)}`);
     if (variety) queryParams.push(`variety_code=${encodeURIComponent(variety)}`);
-    queryParams.push(`page=${encodeURIComponent(page)}`); // Add page to query params
-    queryParams.push(`limit=${encodeURIComponent(pageSize)}`); // Add pageSize (limit) to query params
 
     const apiUrl = `view-srp-all?${queryParams.join('&')}`;
     this.zsrmServiceService
@@ -640,26 +690,50 @@ export class SrpComponent implements OnInit {
       .subscribe(
         (apiResponse: any) => {
           if (apiResponse?.Response.status_code === 200) {
-
             this.allData = apiResponse.Response.data || [];
-            this.filterPaginateSearch.Init(
-              this.allData.data,
-              this,
-              'getPageData',
-              undefined,
-              // apiResponse.Response.data.pagination.totalRecords,
-         
-            );
-            // this.initSearchAndPagination();
+            this.dummyData = this.allData;
+            console.log(this.dummyData,'data');
+            if (this.dummyData && this.dummyData[0]?.is_finalised) {
+              this.freezeData = true;
+            }
+            else {
+              this.freezeData = false;
+            }
+
+
           } else {
             console.warn('API returned an unexpected status:', apiResponse?.Response.status_code);
           }
-        },
-        
+        }, (error) => {
+          if (error.status === 404) {
+            this.dummyData = [];
+            this.freezeData = false;
+          } else if (error.status === 500) {
+            Swal.fire({
+              title: 'Oops',
+              text: '<p style="font-size:25px;">Something Went Wrong.</p>',
+              icon: 'error',
+              confirmButtonText:
+                'OK',
+              confirmButtonColor: '#E97E15'
+            })
+          } else {
+            console.error('Error fetching data:', error);
+          }
+        }
+
       );
   }
 
+  isAddMore() {
+    this.isCheck = true;
+    if (this.dummyData && this.dummyData[0]?.is_finalised) {
+      this.freezeData = true;
 
+    } else {
+      this.freezeData = false;
+    }
+  }
   // initSearchAndPagination() {
   //   if (!this.paginationUiComponent) {
   //     setTimeout(() => this.initSearchAndPagination(), 300);
@@ -815,9 +889,6 @@ export class SrpComponent implements OnInit {
     });
   }
 
-  finaliseForm() {
-
-  }
 
   resetForm() {
 

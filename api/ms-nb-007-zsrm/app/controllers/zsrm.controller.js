@@ -1707,7 +1707,7 @@ exports.finaliseSrp = async(req, res) => {
   
   try {
     
-    const recordsExist = await srpModel.findAll({where: {year: req.query.year, is_active:true, user_id:body.loginedUserid.id}});
+    const recordsExist = await srpModel.findAll({where: {year: req.query.year, is_active:true, user_id:req.body.loginedUserid.id}});
     if (recordsExist.length === 0) {
       return response(res, status.DATA_NOT_AVAILABLE, 404);
     }

@@ -270,3 +270,18 @@ input[type='radio'] {
   .myClass {
       max-width: 50% !important;
   }
+  .disableBtn {
+    width: 32px;
+    /* height: 39px; */
+    height: 35px;
+    outline: none;
+    border: none !important;
+    background: gainsboro !important;
+    cursor: pointer;
+}
+
+.activeBtn {
+    background-color: #B64B1D !important;
+    color: white !important;
+    border: 2px solid #B64B1D !important;
+}
