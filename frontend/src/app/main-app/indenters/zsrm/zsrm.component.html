@@ -396,13 +396,13 @@
                         <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12">
                             <div class="list-wrapper">
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="text-align: right; font-weight: bold;">
-                                    <a> <img src="assets\icons\pdf-icon.png" alt=""
+                                    <a (click)="download()"> <img src="assets\icons\pdf-icon.png" alt=""
                                         width="30px" height="30px"></a>&nbsp;
-                                <a> <img src="assets\icons\excel.jpg" alt=""
+                                <a (click)="exportexcel()"> <img src="assets\icons\excel.jpg" alt=""
                                     width="30px" height="30px"></a>
                                  </div>
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="text-align: right; font-weight: bold;">
-                                   (Horticulture Crops- in Kg. Agriculture Crops in Qt)
+                                   (Agriculture Crops - in Qts., Horticulture Crops - in Kgs.)
                                 </div>
                                 <div class="row d-none d-md-flex data-row-header">
                                     <div
@@ -509,9 +509,9 @@
                                                     </span><br>
                                                     <span><b class="font-weight-bold">SAU:</b> {{data && data.sau ?
                                                         formatNumber(data.sau) : 0}},
-                                                        <b class="font-weight-bold">Private: </b>{{data && data.private
+                                                        <b class="font-weight-bold">Private: </b>{{data && data.pvt
                                                         ?
-                                                        formatNumber(data.private) : 0}}</span><br>
+                                                        formatNumber(data.pvt) : 0}}</span><br>
                                                     <span>
                                                         <b class="font-weight-bold">Others: </b>{{data && data.others ?
                                                         formatNumber(data.others) : 0}}</span><br>
@@ -579,6 +579,242 @@
                         <div class="col-12 col-md-12 col-lg-12 px-4 px-md-3 py-1 pb-4 pl-4">
                             <app-pagination-ui></app-pagination-ui>
                         </div>
+                    </div>
+                </div>
+
+                <!-- //pdf -->
+                <ng-container >
+
+                    <div class="col-12 px-4 data-row" style="display: none;" >
+                        <div class="list-wrapper px-4 py-3">
+                           
+                            <br>
+                            <div id="excel-table">
+                                <div class="row d-md-flex data-row-header extra-header ">
+                                  
+                                    <div class="col-12 col-md-12 py-3 d-flex justify-content-center">ARRANGEMENT TO MEET THE REQUIREDMENT OF FOUNDATION SEED</div>
+                                   
+                                </div>
+
+                                <div class="row d-md-flex data-row-header" style="zoom: 0.9;">
+                                    <div class="col-2 py-3 d-flex verticle-content-middle">
+                                        Year:
+                                        {{enableTable && ngForm.controls['year'].value ? ngForm.controls['year'].value :''}}
+                                        <!-- {{year}}-{{((year+1)-2000)}} -->
+                                    </div>
+                                    <div class="col-2 py-3 d-flex verticle-content-middle">
+                                        Season :
+                                        {{ enableTable && ngForm.controls['season'].value? ngForm.controls['season'].value :''}}
+                                     
+                                    </div>
+                                    
+                                    <div class="col-2 py-3 d-flex " style="text-align: right">As on Date : {{today |
+                                        date:"dd-MM-YYYY"}}
+                                     
+                                    </div>
+                                    <div class="col-6 py-3 d-flex " style="text-align: right"> (Agriculture Crops - in Qts., Horticulture Crops - in Kgs.)
+                                     
+                                    </div>
+        
+                                </div>
+                           
+                                <div class="row data-row" >
+        
+                                    <table class="table table-bordered table-responsive"  *ngIf="enableTable">
+                                     
+                                        <thead>                                        
+                                            <tr class="data-row-header1">
+                                                <th scope="col" class="col-md-1 py-2" rowspan="2" >S/N</th>
+                                                <th scope="col" class="col-md-3 py-2" rowspan="2">Crop</th>
+                                                <th scope="col" class="col-md-3 py-2" rowspan="2">Variety</th>
+                                                <th scope="col" class="col-md-2 py-2" rowspan="2">Requirement</th>
+                                                <th scope="col" class="col-md-2 py-2" colspan="6">Availability</th>
+                                                <th scope="col" class="col-md-2 py-2" rowspan="2">Total</th>
+                                                <th scope="col" class="col-md-2 py-2" rowspan="2">Surplus/Shortfall</th>
+                                    </tr>
+                                    <tr class="data-row-header1">
+                                        <th scope="col" class="col-md-1 py-2" >DOA</th>        
+                                        <th scope="col" class="col-md-1 py-2" >SSC</th>
+                                        <th scope="col" class="col-md-1 py-2" >SAU</th>
+                                        <th scope="col" class="col-md-1 py-2" >NSC</th>
+                                        <th scope="col" class="col-md-1 py-2" >PVT</th>
+                                        <th scope="col" class="col-md-1 py-2" >Others</th>
+               
+                            </tr>
+         
+                                                 </thead>
+                                                 <tbody>
+                                                    <ng-container *ngFor="let data of finalData; let stateIndex = index">
+                                                        <ng-container *ngFor="let varietyData of data.variety; let cropIndex = index">
+                                                                <tr>
+                                                                    <td style="text-align: center;" *ngIf="cropIndex === 0"
+                                                                        [attr.rowspan]="data.variety_count">{{ stateIndex + 1 }}
+                                                                    </td>
+                                                                    <td *ngIf="cropIndex === 0 "
+                                                                    [attr.rowspan]="data.variety_count">{{ (data.crop_name |uppercase) }}</td>
+                                                            
+                                                                    <td 
+                                                                    >{{ varietyData.variety_name ?
+                                                                    varietyData.variety_name : 'NA' }}</td>       
+                                                                     <td style="text-align: center;">{{ varietyData.req ? varietyData.req : 0 }}</td>
+                                                                     <td style="text-align: center;">{{ varietyData.doa ? varietyData.doa : 0 }}</td>
+                                                                     <td style="text-align: center;">{{ varietyData.ssc ? varietyData.ssc : 0 }}</td>
+                                                                     <td style="text-align: center;">{{ varietyData.sau ? varietyData.sau : 0 }}</td>
+                                                                     <td style="text-align: center;">{{ varietyData.nsc ? varietyData.nsc : 0 }}</td>
+                                                                     <td style="text-align: center;">{{ varietyData.pvt ? varietyData.pvt : 0 }}</td>
+                                                                     <td style="text-align: center;">{{ varietyData.others ? varietyData.others : 0 }}</td>
+                                                                     <td style="text-align: center;">{{ varietyData.total ? varietyData.total : 0 }}</td>
+                                                                     <td style="text-align: center;">{{ varietyData.shtorsur ? varietyData.shtorsur : 0 }}</td>
+                                                                </tr>
+                                                    </ng-container>
+                                                        <tr>
+                                                            <td colspan="3"><b>Crop Wise Total</b></td>        
+                                                            <td style="text-align: center;"><b>{{data && data.crop_seed_req ? data.crop_seed_req:0  }}</b></td>
+                                                            <td style="text-align: center;"><b>{{data && data.crop_doa ? data.crop_doa:0  }}</b></td>
+                                                            <td style="text-align: center;"><b>{{data && data.crop_ssc ? data.crop_ssc:0  }}</b></td>
+                                                            <td style="text-align: center;"><b>{{data && data.crop_sau ? data.crop_sau:0  }}</b></td>
+                                                            <td style="text-align: center;"><b>{{data && data.crop_nsc ? data.crop_nsc:0  }}</b></td>
+                                                            <td style="text-align: center;"><b>{{data && data.crop_pvt ? data.crop_pvt:0  }}</b></td>
+                                                            <td style="text-align: center;"><b>{{data && data.crop_others ? data.crop_others:0  }}</b></td>
+                                                            <td style="text-align: center;"><b>{{data && data.crop_total ? data.crop_total:0  }}</b></td>
+                                                            <td style="text-align: center;"><b>{{data && data.crop_shtorsur ? data.crop_shtorsur:0  }}</b></td>
+                                                        </tr>
+                                                        </ng-container>
+                                                       
+                                                 </tbody>
+                        
+                                      </table>
+        
+                                      
+                                      
+                                    <ng-template #noVarietyData>
+                                        <div style="text-align: center; width: 100%;">
+                                            <p class="my-2 mx-auto">No Data Found</p>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+    
+    
+                        </div>
+                    </div>
+                </ng-container>
+
+                <!-- //excel -->
+                <div class="col-12 px-4 data-row" style="display: none;" >
+                    <div class="list-wrapper px-4 py-3">
+                       
+                        <br>
+                        
+                        <div class="row data-row" >
+
+                            <table class="table table-bordered table-responsive"  id="excel-tables" >
+                              <thead >
+                                <tr>
+                                    <td>
+                                        ARRANGEMENT TO MEET THE REQUIREDMENT OF FOUNDATION SEED
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>Year</td>
+                                    <td>Season</td>
+                                    <td>As on Date</td>
+                                </tr>
+                              </thead>
+                              <tbody >
+                                <tr>
+
+                                    <td>
+                                        {{enableTable && ngForm.controls['year'].value ? ngForm.controls['year'].value :''}}
+                                    </td>
+                                    <td>
+                                        {{ enableTable && ngForm.controls['season'].value ? ngForm.controls['season'].value:''}}
+                                 
+                                    </td>
+                                    <td>
+                                        {{today |
+                                        date:"dd-MM-YYYY"}}
+                                 
+                                    </td>
+                                    
+                                </tr>
+
+
+                              </tbody>
+                              <thead>                                        
+                                <tr class="data-row-header">
+                                 <th scope="col" class="col-md-1 py-2" rowspan="2">S/N</th>
+                                 <th scope="col" class="col-md-3 py-2" rowspan="2">Crop</th>
+                                 <th scope="col" class="col-md-3 py-2" rowspan="2">Variety</th>
+                                 <th scope="col" class="col-md-2 py-2" rowspan="2">Requirement</th>
+                                 <th scope="col" class="col-md-2 py-2" colspan="6">Availability</th>
+                                 <th scope="col" class="col-md-2 py-2" rowspan="2">Total</th>
+                                 <th scope="col" class="col-md-2 py-2" rowspan="2">Surplus/Shortfall</th>
+                     </tr>
+                     <tr class="data-row-header">
+                         <th scope="col" class="col-md-1 py-2" >DOA</th>        
+                         <th scope="col" class="col-md-1 py-2" >SSC</th>
+                         <th scope="col" class="col-md-1 py-2" >SAU</th>
+                         <th scope="col" class="col-md-1 py-2" >NSC</th>
+                         <th scope="col" class="col-md-1 py-2" >PVT</th>
+                         <th scope="col" class="col-md-1 py-2" >Others</th>
+
+             </tr>
+
+                                     </thead>
+                                     <tbody>
+                                         <ng-container *ngFor="let data of finalData; let stateIndex = index">
+                                             <ng-container *ngFor="let varietyData of data.variety; let cropIndex = index">
+                                                     <tr>
+                                                         <td style="text-align: center;" *ngIf="cropIndex === 0"
+                                                             [attr.rowspan]="data.variety_count">{{ stateIndex + 1 }}
+                                                         </td>
+                                                         <td *ngIf="cropIndex === 0 "
+                                                         [attr.rowspan]="data.variety_count">{{ (data.crop_name |uppercase) }}</td>
+                                                 
+                                                         <td 
+                                                         >{{ varietyData.variety_name ?
+                                                         varietyData.variety_name : 'NA' }}</td>       
+                                                          <td style="text-align: center;">{{ varietyData.req ? varietyData.req : 0 }}</td>
+                                                          <td style="text-align: center;">{{ varietyData.doa ? varietyData.doa : 0 }}</td>
+                                                          <td style="text-align: center;">{{ varietyData.ssc ? varietyData.ssc : 0 }}</td>
+                                                          <td style="text-align: center;">{{ varietyData.sau ? varietyData.sau : 0 }}</td>
+                                                          <td style="text-align: center;">{{ varietyData.nsc ? varietyData.nsc : 0 }}</td>
+                                                          <td style="text-align: center;">{{ varietyData.pvt ? varietyData.pvt : 0 }}</td>
+                                                          <td style="text-align: center;">{{ varietyData.others ? varietyData.others : 0 }}</td>
+                                                          <td style="text-align: center;">{{ varietyData.total ? varietyData.total : 0 }}</td>
+                                                          <td style="text-align: center;">{{ varietyData.shtorsur ? varietyData.shtorsur : 0 }}</td>
+                                                     </tr>
+                                         </ng-container>
+                                             <tr>
+                                                 <td colspan="3"><b>Crop Wise Total</b></td>        
+                                                 <td style="text-align: center;"><b>{{data && data.crop_seed_req ? data.crop_seed_req:0  }}</b></td>
+                                                 <td style="text-align: center;"><b>{{data && data.crop_doa ? data.crop_doa:0  }}</b></td>
+                                                 <td style="text-align: center;"><b>{{data && data.crop_ssc ? data.crop_ssc:0  }}</b></td>
+                                                 <td style="text-align: center;"><b>{{data && data.crop_sau ? data.crop_sau:0  }}</b></td>
+                                                 <td style="text-align: center;"><b>{{data && data.crop_nsc ? data.crop_nsc:0  }}</b></td>
+                                                 <td style="text-align: center;"><b>{{data && data.crop_pvt ? data.crop_pvt:0  }}</b></td>
+                                                 <td style="text-align: center;"><b>{{data && data.crop_others ? data.crop_others:0  }}</b></td>
+                                                 <td style="text-align: center;"><b>{{data && data.crop_total ? data.crop_total:0  }}</b></td>
+                                                 <td style="text-align: center;"><b>{{data && data.crop_shtorsur ? data.crop_shtorsur:0  }}</b></td>
+                                             </tr>
+                                             </ng-container>
+                                        
+                                     </tbody>
+                
+                              </table>
+
+                              
+                              
+                            <ng-template #noVarietyData>
+                                <div style="text-align: center; width: 100%;">
+                                    <p class="my-2 mx-auto">No Data Found</p>
+                                </div>
+                            </ng-template>
+                        </div>
+
+
                     </div>
                 </div>
             </div>

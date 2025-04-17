@@ -1,11 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FilterPaginateSearch } from 'src/app/common/data/data-among-components/filter-paginate-search';
 import { PaginationUiComponent } from 'src/app/common/pagination-ui/pagination-ui.component';
 import { SeedServiceService } from 'src/app/services/seed-service.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import * as html2PDF from 'html2pdf.js';
 import { BreederService } from 'src/app/services/breeder/breeder.service';
 import { ZsrmServiceService } from 'src/app/services/zsrm-service.service';
+import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-zsrm',
@@ -14,10 +16,13 @@ import Swal from 'sweetalert2';
 })
 export class ZsrmComponent implements OnInit {
   @ViewChild(PaginationUiComponent) paginationUiComponent!: PaginationUiComponent;
+  @ViewChild('chartSection') chartSection: ElementRef;
   ngForm!: FormGroup;
   filterPaginateSearch: FilterPaginateSearch = new FilterPaginateSearch();
   allData: any = [];
+  fileName = 'fs-req.xlsx';
   is_update: boolean = false;
+  enableTable: boolean = false;
   dropdownSettings: IDropdownSettings = {};
   varietyList: any[] = [];
   varietyData: any[] = [];
@@ -50,6 +55,7 @@ export class ZsrmComponent implements OnInit {
   croplistSecond: any[];
   selectCrop: any;
   selectVariety: any;
+  today = new Date();
   selectVarietyStatus: any;
   varietyListSecond: any[];
   isAddSelected: boolean = false;
@@ -60,6 +66,7 @@ export class ZsrmComponent implements OnInit {
   freezeData: boolean;
   dummyData = [];
   isCheck: boolean=false;
+  finalData: any[];
   
   constructor(
     private fb: FormBuilder,
@@ -340,7 +347,10 @@ export class ZsrmComponent implements OnInit {
     this.is_update = false;
     this.isAddSelected = false;
     this.showOtherInputBox = false;
-
+    this.selectVariety = '';
+    this.selectCrop = '';
+    this.ngForm.controls['crop'].reset('');
+    this.ngForm.controls['variety'].reset('');
   }
 
   resetCancelation() {
@@ -470,6 +480,7 @@ export class ZsrmComponent implements OnInit {
 
   getPageData(loadPageNumberData: number = 1) {
     this.filterPaginateSearch.itemList = [];
+    this.finalData = [];
     const year = this.ngForm.controls['year'].value;
     const season = this.ngForm.controls['season'].value;
     const crop = this.ngForm.controls['crop'].value;
@@ -494,10 +505,101 @@ export class ZsrmComponent implements OnInit {
           if (this.dummyData && this.dummyData[0]?.is_finalised) {
             this.freezeData = true;
           } 
+          
           else {
             this.freezeData = false;
           }
-  
+          let filteredData = [];
+          this.dummyData.forEach((el) => {
+            const cropIndex = filteredData.findIndex(
+              (item) => item.crop_code === el.crop_code
+            );
+            if (cropIndex === -1) {
+              filteredData.push({
+                crop_name: el.crop_name,
+                crop_code: el.crop_code,
+                variety_count: 1,
+                crop_seed_req: parseFloat(el.req).toFixed(2),
+                crop_doa: parseFloat(el.doa).toFixed(2),          
+                crop_ssc: parseFloat(el.ssc).toFixed(2),
+                crop_nsc: parseFloat(el.nsc).toFixed(2),
+                crop_sau: parseFloat(el.sau).toFixed(2),
+                crop_pvt: parseFloat(el.pvt).toFixed(2),
+                crop_others: parseFloat(el.others).toFixed(2),
+                crop_total: parseFloat(el.total).toFixed(2),
+                crop_shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                variety: [
+                  {
+                    variety_code: el.variety_code,
+                    variety_name: el.variety_name,
+                    req: parseFloat(el.req).toFixed(2),
+                    doa: parseFloat(el.doa).toFixed(2),
+                    sau: parseFloat(el.sau).toFixed(2),
+                    ssc: parseFloat(el.ssc).toFixed(2),
+                    nsc: parseFloat(el.nsc).toFixed(2),
+                    pvt: parseFloat(el.pvt).toFixed(2),
+                    others: parseFloat(el.others).toFixed(2),
+                    total: parseFloat(el.total).toFixed(2),
+                    shtorsur: parseFloat(el.shtorsur).toFixed(2)
+                  },
+                ],
+              });
+            } else {
+              filteredData[cropIndex].variety_count += 1;
+              filteredData[cropIndex].crop_seed_req = (
+                parseFloat(filteredData[cropIndex].crop_seed_req) +
+                parseFloat(el.req)
+              ).toFixed(2);
+              filteredData[cropIndex].crop_doa = (
+                parseFloat(filteredData[cropIndex].crop_doa) +
+                parseFloat(el.doa)
+              ).toFixed(2);
+              filteredData[cropIndex].crop_ssc = (
+                parseFloat(filteredData[cropIndex].crop_ssc) +
+                parseFloat(el.ssc)
+              ).toFixed(2);
+              filteredData[cropIndex].crop_nsc = (
+                parseFloat(filteredData[cropIndex].crop_nsc) +
+                parseFloat(el.nsc)
+              ).toFixed(2);
+              filteredData[cropIndex].crop_sau = (
+                parseFloat(filteredData[cropIndex].crop_sau) +
+                parseFloat(el.sau)
+              ).toFixed(2);
+              filteredData[cropIndex].crop_pvt = (
+                parseFloat(filteredData[cropIndex].crop_pvt) +
+                parseFloat(el.pvt)
+              ).toFixed(2);
+              filteredData[cropIndex].crop_others = (
+                parseFloat(filteredData[cropIndex].crop_others) +
+                parseFloat(el.others)
+              ).toFixed(2);
+              filteredData[cropIndex].crop_total = (
+                parseFloat(filteredData[cropIndex].crop_total) +
+                parseFloat(el.total)
+              ).toFixed(2);
+              filteredData[cropIndex].crop_shtorsur = (
+                parseFloat(filteredData[cropIndex].crop_shtorsur) +
+                parseFloat(el.shtorsur)
+              ).toFixed(2);
+              filteredData[cropIndex].variety.push({
+                variety_code: el.variety_code,
+                variety_name: el.variety_name,
+                req: parseFloat(el.req).toFixed(2),
+                doa: parseFloat(el.doa).toFixed(2),
+                sau: parseFloat(el.sau).toFixed(2),
+                ssc: parseFloat(el.ssc).toFixed(2),
+                nsc: parseFloat(el.nsc).toFixed(2),
+                pvt: parseFloat(el.pvt).toFixed(2),
+                others: parseFloat(el.others).toFixed(2),
+                total: parseFloat(el.total).toFixed(2),
+                shtorsur: parseFloat(el.shtorsur).toFixed(2)
+          }); }
+
+
+      })
+          this.finalData = filteredData;
+          this.enableTable = true;
          
         } else {
           console.warn('API returned an unexpected status:', apiResponse?.Response.status_code);
@@ -507,6 +609,7 @@ export class ZsrmComponent implements OnInit {
         if (error.status === 404) {
           this.dummyData=[];
             this.freezeData = false;   
+            this.enableTable = false;
         } else if (error.status === 500) {
           Swal.fire({
                    title: 'Oops',
@@ -522,6 +625,19 @@ export class ZsrmComponent implements OnInit {
       }
     );
 }
+
+  exportexcel(): void {
+    let element = document.getElementById('excel-tables');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    XLSX.writeFile(wb, this.fileName);
+
+  }
+
+
 
 isAddMore(){
   this.isCheck=true;
@@ -581,6 +697,8 @@ isAddMore(){
           confirmButtonText: 'OK',
           confirmButtonColor: '#E97E15'
         }).then(() => {
+          this.ngForm.controls['variety'].reset('');
+          this.selectVariety = '';
           this.getPageData();
           this.ngForm.controls['req'].reset('');
           this.ngForm.controls['doa'].reset('');
@@ -613,6 +731,24 @@ isAddMore(){
     this.isShowTable = true;
     this.isAddSelected = false;
   }
+   download() {
+      const name = 'Fs-req-report';
+      const element = document.getElementById('excel-table');
+      const options = {
+        margin: 5,
+        filename: `${name}.pdf`,
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: {
+          dpi: 100,
+          scale: 1,
+          letterRendering: true,
+          useCORS: true
+        },
+        // jsPDF: { unit: 'mm', format: pageSize, orientation: 'portrait' }
+        jsPDF: { unit: 'mm', format: 'A3', orientation: 'landscape' }
+      };
+      html2PDF().set(options).from(element).toPdf().save();
+    }
 
 
 }
