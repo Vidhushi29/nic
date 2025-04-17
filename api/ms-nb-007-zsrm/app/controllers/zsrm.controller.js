@@ -1752,9 +1752,7 @@ exports.viewSrpById = async (req, res) => {
 exports.viewSrpAll = async (req, res) => { try {
    const userid = req.body.loginedUserid.id;
 
-   const { page, limit } = req.query;  // Extract pagination params from query string
-   console.log(page, limit);
-    const offset = (page - 1) * limit;
+
 
     let condition = {
      include: [
@@ -1825,8 +1823,7 @@ exports.viewSrpAll = async (req, res) => { try {
      attributes: {
        exclude: ['createdAt', 'updatedAt', 'deletedAt', 'crop_type', 'is_active',  ]
      },
-     limit: limit,      // Limit the number of records returned
-     offset: offset, 
+  
    };
    if (req.query.year) {
     condition.where.year = (req.query.year);
@@ -1842,14 +1839,13 @@ exports.viewSrpAll = async (req, res) => { try {
      condition.where.variety_code = (req.query.variety_code);
    }
    let data = await srpModel.findAll(condition);
-   console.log(data.sql);
-   console.log("data found", data);
+ 
 if (data.length == 0)
  //res.status(404).json({message: "No data found"})
  return response(res, status.DATA_NOT_AVAILABLE, 404)
 
    const result = data.map((item)=>{
-    console.log("ite,:", item)
+  
     return {     
      id: item.id,
      year: item.year,
@@ -1898,19 +1894,8 @@ if (data.length == 0)
  });
 //  console.log(result,'result')
    // Get total records for pagination
-   const totalRecords = await srpModel.count(condition);
 
-   const totalPages = Math.ceil(totalRecords / limit);  // Calculate total pages
-
-   response(res, status.DATA_AVAILABLE, 200, {
-     data:result,
-     pagination: {
-       currentPage: parseInt(page),
-       totalRecords: totalRecords,
-       totalPages: totalPages,
-       pageSize: parseInt(limit),
-     },
-   });
+   response(res, status.DATA_AVAILABLE, 200, result);
    
 
  } catch (error) {
