@@ -171,6 +171,18 @@ input[type='radio'] {
     /* padding: 2%; */
 }
 
+
+.data-row-header1 {
+    background: #B64B1D 0% 0% no-repeat padding-box;
+}
+
+.data-row-header1 * {
+    font: normal Poppins 600 15px/19px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+}
+
+
 .data-row-header * {
     /* font: normal Poppins 600 13px/16px;
     font-weight: 500; */
@@ -218,7 +230,6 @@ input[type='radio'] {
     /* line-height: 24px; */
     /* font: normal Poppins 15px/18px; */
     letter-spacing: 0px;
-    color: #000000;
 }
 .left-align-icons {
     display: flex;

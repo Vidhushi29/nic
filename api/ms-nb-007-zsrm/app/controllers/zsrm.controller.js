@@ -372,6 +372,8 @@ exports.finaliseZsrmReqFs = async(req, res) => {
   
 }
 
+
+
 exports.getZsrmReqFsById = async(req, res) => {
   
   try {
@@ -2259,7 +2261,7 @@ exports.viewSrpAllCropWiseSummary = async (req, res) => {
         // Grouping by crop_name and user_name  
         [sequelize.col('year'), 'year'],
         [sequelize.col('seedrollingplan.season'), 'season'],[sequelize.col('seedrollingplan.crop_code'), 'crop_code'],
-        [sequelize.col('m_crop.crop_name'), 'crop_name'],
+        [sequelize.col('user.name'), 'name'],
         [sequelize.fn('SUM', sequelize.col('seedRequired')), 'req'], // Count of records in 'zsrmReqFs'
         [sequelize.fn('SUM', sequelize.col('total')), 'total'], // Sum of 'total' from 'zsrmReqFs'
         [sequelize.fn('SUM', sequelize.col('shtorsur')), 'shtorsur'], 
@@ -2886,6 +2888,87 @@ return response(res, status.DATA_NOT_AVAILABLE, 404)
 }
 }
 
+exports.srpStatusReportCheckStatus = async (req, res) => {
+    try {
+
+
+      let conditionSrp= {
+        where: { year: req.year, user_id: req.user_id, is_active: true },
+        attributes: [ 'is_finalised', 'finalisedAt']
+      };
+
+
+      // Fetch data from srp model
+      const srpData = await srpModel.findOne(conditionSrp);
+
+      let status = "Pending";
+      let submit_date = "";
+      console.log("user_id", srpData  )
+      // Check conditions based on fetched data
+      if (srpData) {
+        // Check if both conditions (icar_freeze and is_final_submit) are met
+        console.log("is_finalised", srpData.is_finalised)
+        if (srpData.is_finalised === true) {
+          status = "Completed";
+          submit_date = srpData.finalisedAt || "";
+        } else  {
+          status = "Working";
+          // submit_date = indentData.updated_at || "";
+        } 
+      }
+      else {
+        status = "Pending";
+        submit_date = "";
+      }
+      console.log(req.user_id, status, submit_date)
+
+      return { status, submit_date };
+
+    } catch (error) {
+      console.error('Error:', error);
+      return response(res, status.UNEXPECTED_ERROR, 501, []);
+    }
+  };
+exports.srpStatusReport = async (req, res) => {
+      try {  
+        let userData = await userModel.findAll({
+          attributes: [
+            ['id', 'user_id'],
+            ['name', 'name'],
+          ],
+          order: [
+            ['name', 'ASC'],
+          ],
+          where: {
+            user_type: 'IN',is_active:1
+          }
+        })
+        if (userData && userData.length) {
+          let final_array = [];
+          for (let key of userData) {
+            if (key && key.user_id) {
+              let request = {
+                "year": req.query.year,
+                "user_id": key.user_id
+              }
+              let data = await this.srpStatusReportCheckStatus(request);
+              final_array.push({
+                "user_id": key.user_id,
+                "name": key.name,
+                "status": data.status,
+                "submit_date": data.submit_date
+              })
+            }
+          }
+          return response(res, status.DATA_AVAILABLE, 200, final_array);
+        } else {
+          return response(res, status.DATA_NOT_AVAILABLE, 201, {})
+        }
+      } catch (error) {
+        console.log(error);
+        return response(res, status.UNEXPECTED_ERROR, 501, [])
+      }
+    }
 
 exports.addSrr = async (req, res) => {
   try {

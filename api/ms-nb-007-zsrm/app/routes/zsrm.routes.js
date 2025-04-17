@@ -62,6 +62,7 @@ module.exports = app => {
     app.post(`${process.env.MICRO_SERVICE}/api/get-srp-dashboard-user-wise-data`,auth,zsrm.dashboardStateWiseData);
     app.post(`${process.env.MICRO_SERVICE}/api/get-srp-dashboard-user-crop-wise-data`,auth,zsrm.dashboardStateCropWiseData);
     app.post(`${process.env.MICRO_SERVICE}/api/get-srp-dashboard-pie-chart`,auth,zsrm.dashboardPieData);
+    app.get(`${process.env.MICRO_SERVICE}/api/get-srp-status-report`,auth,zsrm.srpStatusReport);
     //SRR
     app.post(`${process.env.MICRO_SERVICE}/api/add-srr`,auth,zsrm.addSrr);
     app.get(`${process.env.MICRO_SERVICE}/api/view-srr`,auth,zsrm.viewSrrByYearCropSeedType); 

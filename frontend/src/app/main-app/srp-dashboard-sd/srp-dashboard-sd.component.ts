@@ -249,6 +249,7 @@ export class SrpDashboardSdComponent implements OnInit {
     showVariety: boolean = false;
     cropFilterData: any;
     graphtitle: string = "Crop";
+    graphtitle1: string = "State/UT";
     cropDataList: any;
     graphFilterCrop: any;
     freezeDataQantity: any;
@@ -315,14 +316,14 @@ export class SrpDashboardSdComponent implements OnInit {
       this.ngForm.controls['variety_name_graph'].valueChanges.subscribe(newValue => {
         if (newValue) {
           if (newValue == "all_crop") {
-            this.graphtitle = "Crop"
+            this.graphtitle1 = "State/UT"
             this.showIndenterVariety = false;
             this.isSearch = false;
             // this.ngForm.controls['variety_name_graph'].setValue('all_crop');
   
           } else {
             this.showIndenterVariety = true;
-            this.graphtitle = "Variety";
+            this.graphtitle1 = "Crop";
             this.isSearch = false;
             this.getCropChartAllIndentor(this.cropTypeLoginWise)
           }
@@ -1984,5 +1985,6 @@ export class SrpDashboardSdComponent implements OnInit {
         this.itemCount = (data && data.Response && data.Response.data && data.Response.data) ? data.Response.data : '';
       })
     }
+    
   }
   
