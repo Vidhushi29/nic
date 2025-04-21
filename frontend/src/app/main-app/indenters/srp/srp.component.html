@@ -188,213 +188,156 @@
                         <div class="col-12 col-md-12 col-lg-12 col-xl-12 mt-2" *ngIf="isAddSelected">
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-3 pb-2 d-flex justify-content-center align-items-center">
                                 {{this.isChangeMessage}}
+                       
                             </div>
-
-                            <p style="margin-left:20px;color:red;font-weight:400;">1. The State/UT may enter the total
-                                quantity of all non-notified varities or hybrids seed of there Seed Plan under Other
-                                Variety or Other Hybrid name.</p>
-                            <p style="margin-left:20px;color:red;font-weight:400;">2. If any notified variety is not
-                                listed in the list please mail the details on support-seednet[at]gov[dot]in.</p>
+                            <div class="d-lg-inline-flex pt-2 pl-4 d-md-none d-sm-none d-none" >
                             <div class="row">
-                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                    <div class="row">
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <label for="hybrid" class="left-heading required">
-                                                2. Variety/Hybrid
-                                            </label>
 
-                                        </div>
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <div class="col-md-12">
-                                                <span>{{ ngForm.controls['hybrid'].value }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="p-2"> 
+                                    <label class="label-inventory-v2 ">Variety/Hybrid: &nbsp;</label>
+                                    <span>{{ ngForm.controls['hybrid'].value }}</span>
                                 </div>
-                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                    <div class="row">
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <label for="notification" class="left-heading required">
-                                                3. Notification Status
-                                            </label>
-                                        </div>
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <div class="col-md-12">
-                                                <span>{{ ngForm.controls['notification'].value }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="p-2"> <label class="label-inventory-v2">
+                                    Notification Status:&nbsp;</label>
+                                    <span>{{ ngForm.controls['notification'].value }}</span>
 
-                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                </div>
+                                <div class="p-2"> <label class="label-inventory-v2">Notification Year:&nbsp;</label>
+                                    <span>{{ ngForm.controls['yearN'].value }}</span>
+                                </div>
+                                <div class="p-2"> <label class="label-inventory-v2">Released By:&nbsp;</label>
+                                    <span> {{ ngForm.controls['notifiedValue'].value }}</span>
+                                </div>
+                                <div class="p-2"> <label class="label-inventory-v2">Duration:&nbsp;</label>
+                                    <span> {{ ngForm.controls['duration'].value  }}</span>
+                                </div>
+                                <div class="p-2"> <label class="label-inventory-v2"> SRR Target (by GOI):&nbsp;</label>
+                                    <span> {{ ngForm.controls['SRRTargetbyGOI'].value  }}</span>
+                                </div>
+                               
+                            </div>
+                        </div>
+                            <div class="row form-group pl-2">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+
                                     <div class="row">
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <label for="yearN" class="left-heading required">
-                                                5. Year of Notification
-                                                {{notificationYear}}
-                                            </label>
-                                        </div>
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                <div class="col-md-12">
-                                                    <span>{{ ngForm.controls['yearN'].value }}</span>
+
+                                        <div class="col-12 pt-4 px-4">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="req" class="left-heading required">
+                                                        Proposed Area (In Ha)
+                                                    </label>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                                <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
+                                                    <input type="number" class=" form-control input-inventory"
+                                                    formControlName="proposedarea" placeholder="Enter Proposed Area"
+                                                    (keypress)="validateDecimal($event)">
+                                                    <div class="username errorMessage"
+                                                        *ngIf="submitted ||ngForm.controls['proposedarea'].invalid && ngForm.controls['proposedarea'].dirty || ngForm.controls['proposedarea'].touched">
+                                                        <span *ngIf=" ngForm.controls['proposedarea'].errors?.['required']">
+                                                            Enter the value.
+                                                        </span>
 
-
-
-                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                    <div class="row">
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <label for="notifiedValue" class="left-heading required">
-                                                4. Released By
-                                            </label>
-                                        </div>
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                <div class="col-md-12">
-                                                    <span>{{ ngForm.controls['notifiedValue'].value }}</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
 
 
 
-                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                    <div class="row">
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <label for="duration" class="left-heading required">6. Duration</label>
-                                        </div>
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                <div class="col-md-4">
-                                                    <span>{{ ngForm.controls['duration'].value }}</span>
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="doa" class="left-heading required">
+                                                        Seed Rate (In Q/Ha)
+                                                    </label>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                                <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                    <input type="number" class=" form-control input-inventory"
+                                                        formControlName="seedrate" placeholder="Enter Seed Rate"
+                                                        (keypress)="validateDecimal($event)">
+                                                    <div class="username errorMessage"
+                                                        *ngIf="submitted ||ngForm.controls['seedrate'].invalid && ngForm.controls['seedrate'].dirty || ngForm.controls['seedrate'].touched">
+                                                        <span *ngIf=" ngForm.controls['seedrate'].errors?.['required']">
+                                                            Enter the value .
+                                                        </span>
 
-
-                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                    <div class="row">
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <label for="proposedarea" class="left-heading required">
-                                                7. Proposed Area (In Ha)
-                                            </label>
-                                        </div>
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <input type="number" class=" form-control input-inventory"
-                                                formControlName="proposedarea" placeholder="Enter sfci"
-                                                (keypress)="validateDecimal($event)">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                    <div class="row">
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <label for="seedrate" class="left-heading required">
-                                                8. Seed Rate (In Q/Ha)
-                                            </label>
-                                        </div>
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <input type="number" class=" form-control input-inventory"
-                                                formControlName="seedrate" placeholder="Enter Pvt"
-                                                (keypress)="validateDecimal($event)">
-                                            <div class="username errorMessage"
-                                                *ngIf="submitted ||ngForm.controls['seedrate'].invalid && ngForm.controls['seedrate'].dirty || ngForm.controls['seedrate'].touched">
-                                                <span *ngIf=" ngForm.controls['seedrate'].errors?.['required']">
-                                                    enter the value
-                                                </span>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                    <div class="row">
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <label for="SRRTargetbyGOI" class="left-heading required">
-                                                9. SRR Target (by GOI)
-                                            </label>
-                                        </div>
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                <div class="col-md-4">
-                                                    <span>{{ ngForm.controls['SRRTargetbyGOI'].value }}</span>
+                                                    </div>
                                                 </div>
+
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                    <div class="row">
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <label for="SRRTargetbySTATE" class="left-heading required">
-                                                10. SRR Proposed (by State) %
-                                            </label>
-                                        </div>
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <input type="number" class=" form-control input-inventory"
-                                                formControlName="SRRTargetbySTATE" placeholder="Enter Srr Target"
-                                                (input)="srrValidation($event)">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                    <div class="row">
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <label for="totalreq" class="left-heading required">
-                                                11. Seed Required (in Quintal) (7*8*10%)=11
-                                            </label>
-                                        </div>
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <input type="number" class=" form-control input-inventory"
-                                                formControlName="totalreq" readonly>
 
+                                        <div class="col-12 pt-4 px-4">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="SRRTargetbySTATE" class="left-heading required">
+                                                        SRR Proposed (by State) %
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
+                                                    <input type="number" class=" form-control input-inventory"
+                                                        formControlName="SRRTargetbySTATE" placeholder="Enter SRR Target by STATE"
+                                                        (keypress)="validateDecimal($event)">
+                                                    <div class="username errorMessage"
+                                                        *ngIf="submitted ||ngForm.controls['SRRTargetbySTATE'].invalid && ngForm.controls['SRRTargetbySTATE'].dirty || ngForm.controls['SRRTargetbySTATE'].touched">
+                                                        <span *ngIf=" ngForm.controls['SRRTargetbySTATE'].errors?.['required']">
+                                                            Enter the value
+                                                        </span>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="nsc" class="left-heading required">
+                                                        Seed Required (in Quintal) 
+                                                    </label>
+                                                    
+                                                </div>
+                                                <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                    <input type="number" class=" form-control input-inventory"
+                                                        formControlName="totalreq" readonly
+                                                        >
+                                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <label class="label-inventory-l1 mt-2">
+                                                               (Proposed Area*Seed Rate*SRR Proposed)%=Seed Required
+                                                            </label>
+                                                           
+                                                        </div>
+                                                </div>
+                                                
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                    <div class="row">
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <label for="certifiedquant" class="left-heading required">
-                                                12. Type of Seed: Certified
-                                            </label>
-                                        </div>
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <input type="number" class=" form-control input-inventory"
-                                                formControlName="certifiedquant" placeholder="Enter Others"
+                                        <div class="col-12 pt-4 px-4">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="ssc" class="left-heading required">
+                                                        Type of Seed: Certified
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
+                                                    <input type="number" class=" form-control input-inventory"
+                                                formControlName="certifiedquant" placeholder="Enter Certified"
                                                 (keypress)="validateDecimal($event)" [(ngModel)]="isCertifiedquant"
                                                 *ngIf="!is_update">
                                             <input type="number" class=" form-control input-inventory"
-                                                formControlName="certifiedquant" placeholder="Enter Others"
+                                                formControlName="certifiedquant" placeholder="Enter Certified"
                                                 (keypress)="validateDecimal($event)" *ngIf="is_update">
+                                                   
+                                                </div>
 
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="pvt" class="left-heading required">
+                                                        Type of Seed: Quality
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                    <input type="number" class=" form-control input-inventory"
+                                                    formControlName="qualityquant" placeholder="Enter Others"
+                                                    (keypress)="validateDecimal($event)">
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                    <div class="row">
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <label for="qualityquant" class="left-heading required">
-                                                13. Type of Seed: Quality
-                                            </label>
-                                        </div>
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <input type="number" class=" form-control input-inventory"
-                                                formControlName="qualityquant" placeholder="Enter Others"
-                                                (keypress)="validateDecimal($event)">
-
-                                        </div>
+                                     
                                     </div>
                                 </div>
                             </div>
@@ -408,94 +351,93 @@
                     <div class="row card-inventory form-group">
 
                         <div class="col-12 col-md-12 col-lg-12 col-xl-12 mt-2" *ngIf="isAddSelected">
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-3 pb-2 ">
-                                <p style="margin-left:10px;font-weight:bold; font-size:large;">Part-II : PRODUCTION
-                                    TARGETS (IN PRECEDING YEAR)</p>
+                            <div class= "col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-3 pb-2 d-flex justify-content-center align-items-center">
+                                <span>PART-II : PRODUCTION
+                                    TARGETS (IN PRECEDING YEAR) </span>
+                                &nbsp;
+                                    <span> SEED PRODUCTION AGENCIES</span>
+                              
+                                  
                             </div>
 
-
-                            <div class="row">
+                            <div class="row form-group pl-2">
                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                    <label>
-                                        <b>SEED PRODUCTION AGENCIES</b>
-                                    </label>
+
                                     <div class="row">
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+
+                                        <div class="col-12 pt-4 px-4">
                                             <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
                                                     <label for="ssf" class="left-heading required">
-                                                        15. SSFs
+                                                        SSFs
                                                     </label>
                                                 </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="ssf" placeholder="Enter ssf"
-                                                        (keypress)="validateDecimal($event)">
+                                                    formControlName="ssf" placeholder="Enter SSFs"
+                                                    (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['ssf'].invalid && ngForm.controls['ssf'].dirty || ngForm.controls['ssf'].touched">
                                                         <span *ngIf=" ngForm.controls['ssf'].errors?.['required']">
-                                                            Please Enter SSFs
+                                                            Enter value.
                                                         </span>
 
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+ 
+
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
                                                     <label for="ssc" class="left-heading required">
-                                                        16. SSC
+                                                        SSC
                                                     </label>
                                                 </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="ssc" placeholder="Enter ssc"
+                                                        formControlName="ssc" placeholder="Enter SSC"
                                                         (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['ssc'].invalid && ngForm.controls['ssc'].dirty || ngForm.controls['ssc'].touched">
                                                         <span *ngIf=" ngForm.controls['ssc'].errors?.['required']">
-                                                            Please Enter SSC
+                                                            Enter value .
                                                         </span>
 
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+
+                                        <div class="col-12 pt-4 px-4">
                                             <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="doa" class="left-heading required">
-                                                        14. DOA
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="SRRTargetbySTATE" class="left-heading required">
+                                                        DOA
                                                     </label>
                                                 </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
                                                     <input type="number" class=" form-control input-inventory"
                                                         formControlName="doa" placeholder="Enter DOA"
                                                         (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['doa'].invalid && ngForm.controls['doa'].dirty || ngForm.controls['doa'].touched">
                                                         <span *ngIf=" ngForm.controls['doa'].errors?.['required']">
-                                                            Please Enter DOA.
+                                                            Enter value
                                                         </span>
 
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="sau" class="left-heading required">
-                                                        17. SAUs
+
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="nsc" class="left-heading required">
+                                                      SAUs
                                                     </label>
                                                 </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
                                                     <input type="number" class=" form-control input-inventory"
                                                         formControlName="sau" placeholder="Enter Email ID"
                                                         (keypress)="validateDecimal($event)">
-                                                    <div class="username errorMessage"
+                                                        <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['sau'].invalid && ngForm.controls['sau'].dirty || ngForm.controls['sau'].touched">
                                                         <span *ngIf=" ngForm.controls['sau'].errors?.['required']">
                                                             Please Enter SAU.
@@ -505,35 +447,33 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                        
+                                        <div class="col-12 pt-4 px-4">
                                             <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
                                                     <label for="nsc" class="left-heading required">
-                                                        18. NSC
+                                                        NSC
                                                     </label>
                                                 </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="nsc" placeholder="Enter nsc"
-                                                        (keypress)="validateDecimal($event)">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['nsc'].invalid && ngForm.controls['nsc'].dirty || ngForm.controls['nsc'].touched">
-                                                        <span *ngIf=" ngForm.controls['nsc'].errors?.['required']">
-                                                            Please Enter NSC.
-                                                        </span>
+                                                    formControlName="nsc" placeholder="Enter nsc"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['nsc'].invalid && ngForm.controls['nsc'].dirty || ngForm.controls['nsc'].touched">
+                                                    <span *ngIf=" ngForm.controls['nsc'].errors?.['required']">
+                                                        Please Enter NSC.
+                                                    </span>
 
-                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="coop" class="left-heading required">
-                                                        20. COOP.
+                                                </div>
+
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="nsc" class="left-heading required">
+                                                    COOP
                                                     </label>
                                                 </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
                                                     <input type="number" class=" form-control input-inventory"
                                                         formControlName="coop" placeholder="Enter coop"
                                                         (keypress)="validateDecimal($event)">
@@ -547,14 +487,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                     
+                                        <div class="col-12 pt-4 px-4">
                                             <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="pvt" class="left-heading required">
-                                                        21. PVT.
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="SRRTargetbySTATE" class="left-heading required">
+                                                   PVT
                                                     </label>
                                                 </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
                                                     <input type="number" class=" form-control input-inventory"
                                                         formControlName="pvt" placeholder="Enter Pvt"
                                                         (keypress)="validateDecimal($event)">
@@ -566,130 +507,118 @@
 
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="remarks" class="left-heading required">
-                                                        Remarks
+
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="nsc" class="left-heading required">
+                                                  Remarks
                                                     </label>
                                                 </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
                                                     <input type="text" class=" form-control input-inventory"
-                                                        formControlName="remarks" placeholder="Enter Reamrks">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['remarks'].invalid && ngForm.controls['remarks'].dirty || ngForm.controls['remarks'].touched">
-                                                        <span *ngIf=" ngForm.controls['remarks'].errors?.['required']">
-                                                            Please Enter Remarks.
-                                                        </span>
+                                                    formControlName="remarks" placeholder="Enter Reamrks">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['remarks'].invalid && ngForm.controls['remarks'].dirty || ngForm.controls['remarks'].touched">
+                                                    <span *ngIf=" ngForm.controls['remarks'].errors?.['required']">
+                                                        Please Enter Remarks.
+                                                    </span>
 
-                                                    </div>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                     
+                                        <div class="col-12 pt-4 px-4">
                                             <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="othersgovt" class="left-heading required">
-                                                        19. Other Govt PSUs
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="SRRTargetbySTATE" class="left-heading required">
+                                                        Other Govt PSUs
                                                     </label>
                                                 </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="othersgovt" placeholder="Enter Others"
-                                                        (keypress)="validateDecimal($event)">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['othersgovt'].invalid && ngForm.controls['othersgovt'].dirty || ngForm.controls['othersgovt'].touched">
-                                                        <span
-                                                            *ngIf=" ngForm.controls['othersgovt'].errors?.['required']">
-                                                            Others
-                                                        </span>
+                                                    formControlName="othersgovt" placeholder="Enter Others"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['othersgovt'].invalid && ngForm.controls['othersgovt'].dirty || ngForm.controls['othersgovt'].touched">
+                                                    <span
+                                                        *ngIf=" ngForm.controls['othersgovt'].errors?.['required']">
+                                                        Others
+                                                    </span>
 
-                                                    </div>
+                                                </div>
+                                                </div>
+
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="nsc" class="left-heading required">
+                                                        SEED HUB
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                formControlName="hub" placeholder="Enter Others"
+                                                (keypress)="validateDecimal($event)">
+                                            <div class="username errorMessage"
+                                                *ngIf="submitted ||ngForm.controls['hub'].invalid && ngForm.controls['hub'].dirty || ngForm.controls['hub'].touched">
+                                                <span *ngIf=" ngForm.controls['hub'].errors?.['required']">
+                                                    Seed Hub
+                                                </span>
+
+                                            </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                     
+                                        <div class="col-12 pt-4 px-4">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="SRRTargetbySTATE" class="left-heading required">
+                                                        Other Agency 
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
+                                                    <input type="number" class=" form-control input-inventory"
+                                                    formControlName="others" placeholder="Enter Others"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['others'].invalid && ngForm.controls['others'].dirty || ngForm.controls['others'].touched">
+                                                    <span *ngIf=" ngForm.controls['others'].errors?.['required']">
+                                                        Others
+                                                    </span>
+
+                                                </div>
+                                                </div>
+
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="nsc" class="left-heading required">
+                                                        Total
+                                                    </label>
+                                                </div>
+                                                
+                                                     <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                        <input type="number" class=" form-control input-inventory"
+                                                            formControlName="total" readonly>
+    
+                                                   
                                                 </div>
                                             </div>
                                         </div>
-
-
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                        <div class="col-12 pt-4 px-4">
                                             <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="hub" class="left-heading required">
-                                                        22. SEED HUB
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="SRRTargetbySTATE" class="left-heading required">
+                                                        Surplus(+)/Deficit(-)
                                                     </label>
                                                 </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="hub" placeholder="Enter Others"
-                                                        (keypress)="validateDecimal($event)">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['hub'].invalid && ngForm.controls['hub'].dirty || ngForm.controls['hub'].touched">
-                                                        <span *ngIf=" ngForm.controls['hub'].errors?.['required']">
-                                                            Seed Hub
-                                                        </span>
+                                                    formControlName="shtorsub" readonly>
+                                                </div>
 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="others" class="left-heading required">
-                                                        23. Other Agency
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
-                                                        formControlName="others" placeholder="Enter Others"
-                                                        (keypress)="validateDecimal($event)">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['others'].invalid && ngForm.controls['others'].dirty || ngForm.controls['others'].touched">
-                                                        <span *ngIf=" ngForm.controls['others'].errors?.['required']">
-                                                            Others
-                                                        </span>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="total" class="left-heading required">
-                                                        24. Total (14+15+16+....23)=24
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
-                                                        formControlName="total" readonly>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="shtorsur" class="left-heading required">
-                                                        25. Surplus(+)/Deficit(-)
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
-                                                        formControlName="shtorsub" readonly>
-                                                </div>
+                                              
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- finish section 2 -->
-
-
                             </div>
                         </div>
                     </div>
@@ -699,22 +628,25 @@
                     <div class="row card-inventory form-group">
 
                         <div class="col-12 col-md-12 col-lg-12 col-xl-12 mt-2" *ngIf="isAddSelected">
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-3 pb-2 ">
-                                <p style="margin-left:10px;font-weight:bold; font-size:large;">Part-III : FOUNDATION &
-                                    BREEDER SEED REQUIREMENT</p>
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-3 pb-2 d-flex justify-content-center align-items-center ">
+                            PART-III : FOUNDATION &
+                                    BREEDER SEED REQUIREMENT
                             </div>
                             <div class="row">
-                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                    <div class="row">
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="smrfs" class="left-heading required">
-                                                        26. SMR Kept in case of multiplication from FS to CS
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
+                                <div class="row form-group pl-2">
+                                    <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+    
+                                        <div class="row">
+    
+                                            <div class="col-12 pt-4 px-4">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                        <label for="req" class="left-heading required">
+                                                            SMR Kept in case of multiplication from FS to CS
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
+                                                        <input type="number" class=" form-control input-inventory"
                                                         formControlName="smrfs" (keypress)="validateDecimal($event)"
                                                         [attr.disabled]="isCertifiedquant === 0 ? true : null">
                                                     <div class="username errorMessage"
@@ -722,21 +654,19 @@
                                                         <span *ngIf=" ngForm.controls['smrfs'].errors?.['required']">
                                                             Please Enter SMR from FS to CS
                                                         </span>
-
+    
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="fsreq" class="left-heading required">
-                                                        27. FS Required to meet targets of CS (in Quintal)
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
+                                                    </div>
+    
+    
+    
+                                                    <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                        <label for="doa" class="left-heading required">
+                                                            FS Required to meet targets of CS (in Quintal)
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                        <input type="number" class=" form-control input-inventory"
                                                         formControlName="fsreq" (keypress)="validateDecimal($event)"
                                                         [attr.disabled]="isCertifiedquant === 0 ? true : null">
                                                     <div class="username errorMessage"
@@ -744,42 +674,40 @@
                                                         <span *ngIf=" ngForm.controls['fsreq'].errors?.['required']">
                                                             Please Enter FS of CS
                                                         </span>
-
+    
                                                     </div>
+                                                    </div>
+    
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="smrbs" class="left-heading required">
-                                                        28. SMR Kept in case of multiplication from BS to FS
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class="form-control input-inventory"
+    
+                                            <div class="col-12 pt-4 px-4">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                        <label for="SRRTargetbySTATE" class="left-heading required">
+                                                            SMR Kept in case of multiplication from BS to FS
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
+                                                        <input type="number" class="form-control input-inventory"
                                                         formControlName="smrbs" (keypress)="validateDecimal($event)"
                                                         [attr.disabled]="isCertifiedquant === 0 ? true : null">
-
+    
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted || ngForm.controls['smrbs'].invalid && ngForm.controls['smrbs'].dirty || ngForm.controls['smrbs'].touched">
                                                         <span *ngIf="ngForm.controls['smrbs'].errors?.['required']">
                                                             Please Enter SMR from BS to FS.
                                                         </span>
                                                     </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="bsreq" class="left-heading required">
-                                                        29. BS Required to meet targets of FS (in Quintal)
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
+                                                    </div>
+    
+                                                    <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                        <label for="nsc" class="left-heading required">
+                                                            BS Required to meet targets of FS (in Quintal)
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                        <input type="number" class=" form-control input-inventory"
                                                         formControlName="bsreq" placeholder="Enter bs req"
                                                         (keypress)="validateDecimal($event)"
                                                         [attr.disabled]="isCertifiedquant === 0 ? true : null">
@@ -789,13 +717,15 @@
                                                             Please Enter BS of FS.
                                                         </span>
                                                     </div>
+                                                    </div>
                                                 </div>
                                             </div>
+                                          
+    
+                                         
                                         </div>
-
                                     </div>
                                 </div>
-
                                
                                 <div class="col-12 col-md-10 col-lg-10 pt-4 pb-2 buttons-phone col-xl-10">
                                     <button
@@ -813,6 +743,7 @@
                                         *ngIf="is_update">Update</button>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div> <!-- start section 2 -->

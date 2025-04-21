@@ -285,3 +285,11 @@ input[type='radio'] {
     color: white !important;
     border: 2px solid #B64B1D !important;
 }
+.label-inventory-l1{
+    font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #cc1414;
+  white-space: nowrap !important;
+}

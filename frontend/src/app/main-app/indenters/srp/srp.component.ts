@@ -180,7 +180,7 @@ export class SrpComponent implements OnInit {
 
   SaveAsData() {
     this.isAddSelected = true;
-    this.isChangeMessage = "ENTER THE SOURCE AVAILABILITY"
+    this.isChangeMessage = "PART-I : SOURCE AVAILABILITY"
     this.resetCancelation();
     const variety_code = this.ngForm.controls['variety'].value;
     this.getVarietyDeatil(variety_code);
@@ -617,6 +617,8 @@ export class SrpComponent implements OnInit {
           this.ngForm.controls['certifiedquant'].reset(0)
           this.ngForm.controls['qualityquant'].reset(0)
           this.submitted = false;
+          this.isAddSelected = false;
+          this.disableUpperSection = false;
         })
       } else {
         Swal.fire({
@@ -630,8 +632,8 @@ export class SrpComponent implements OnInit {
   }
 
   createAndSave() {
+    this.isShowTable = true
     this.submitted = true;
-    this.isAddFormOpen = true;
     this.saveForm();
   }
   getVarietyData(varietyCode: any) {
