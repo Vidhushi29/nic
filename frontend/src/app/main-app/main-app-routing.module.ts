@@ -1313,6 +1313,10 @@ const routes: Routes = [
         component: SrpIndenterCropWiseReportComponent
       },
       {
+        path:'crop-wise-summary-srp-report',
+        component: SrpIndenterCropWiseSummaryReportComponent
+      },
+      {
         path:'crop-wise-srp-sd-report',
         component: CropWiseSrpSdReportComponent
       },

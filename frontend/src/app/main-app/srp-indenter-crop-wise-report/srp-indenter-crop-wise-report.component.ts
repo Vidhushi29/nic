@@ -268,13 +268,16 @@ export class SrpIndenterCropWiseReportComponent implements OnInit {
         for (let i in crop_name) {
           cropNameArr.push(crop_name && crop_name[i] && crop_name[i].id ? crop_name[i].id : '')
         }
+
         const param = {
           search: {
-            year: 'this.ngForm.controls["year_of_indent"].value',
-            season: this.ngForm.controls["season"].value,
-            crop_code: cropNameArr && (cropNameArr.length > 0) ? cropNameArr : '',
+            year: this.ngForm.controls["year_of_indent"].value,
+            crop_code: cropNameArr && cropNameArr.length > 0 ? cropNameArr : '',
+            ...(this.ngForm.controls["season"].value != 'all' ? { season: this.ngForm.controls["season"].value } : {})
           }
-        }
+        };
+        
+
         this.zsrmServiceService.postRequestCreator('view-srp-crop-wise', null, param).subscribe(data => {
  
          if (data.Response.status_code === 200) {
@@ -319,9 +322,148 @@ export class SrpIndenterCropWiseReportComponent implements OnInit {
             totals.BSRequiredtomeettargetsofFS += parseFloat(item.BSRequiredtomeettargetsofFS) || 0;
             totals.FSRequiredtomeettargetsofCS += parseFloat(item.FSRequiredtomeettargetsofCS) || 0;
           });
+          for (let key in totals) {
+            totals[key] = parseFloat(totals[key].toFixed(2));
+          }
+
+          let filteredData = [];
+          res.forEach((el) => {
+            const seasonIndex = filteredData.findIndex(
+              (item) => item.season === el.season
+            );
+            if (seasonIndex === -1) {
+              filteredData.push({
+                season: el.season,
+                crop_count: 1,
+                season_area: parseFloat(el.AreaUnderVariety).toFixed(2),
+                 season_seed_req: parseFloat(el.SeedRequired).toFixed(2),
+                 season_doa: parseFloat(el.doa).toFixed(2),
+                 season_ssfs: parseFloat(el.ssfs).toFixed(2),
+                 season_ssc: parseFloat(el.ssc).toFixed(2),
+                 season_nsc: parseFloat(el.nsc).toFixed(2),
+                 season_saus: parseFloat(el.saus).toFixed(2),
+                 season_othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
+                 season_coop: parseFloat(el.coop).toFixed(2),
+                 season_pvt: parseFloat(el.pvt).toFixed(2),
+                 season_seedhub: parseFloat(el.seedhub).toFixed(2),
+                 season_others: parseFloat(el.others).toFixed(2),
+                 season_total: parseFloat(el.total).toFixed(2),
+                 season_shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                 season_BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredtomeettargetsofFS).toFixed(2),
+                 season_FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
+                 crop: [
+                  {
+                    crop_code: el.crop_code,
+                    crop_name: el.crop_name,             
+                    AreaUnderVariety: parseFloat(el.AreaUnderVariety).toFixed(2),
+                    SeedRequired: parseFloat(el.SeedRequired).toFixed(2),
+                    doa: parseFloat(el.doa).toFixed(2),
+                    ssfs: parseFloat(el.ssfs).toFixed(2),
+                    ssc: parseFloat(el.ssc).toFixed(2),
+                    nsc: parseFloat(el.nsc).toFixed(2),
+                    saus: parseFloat(el.saus).toFixed(2),
+                    othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
+                    coop: parseFloat(el.coop).toFixed(2),
+                    pvt: parseFloat(el.pvt).toFixed(2),
+                    seedhub: parseFloat(el.seedhub).toFixed(2),
+                    others: parseFloat(el.others).toFixed(2),
+                    total: parseFloat(el.total).toFixed(2),
+                    shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                    BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredtomeettargetsofFS).toFixed(2),
+                    FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
+                  },
+                ],
+              });
+            } else {
+              filteredData[seasonIndex].crop_count += 1;
+              filteredData[seasonIndex].season_area = (
+                parseFloat(filteredData[seasonIndex].season_area) +
+                parseFloat(el.AreaUnderVariety)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_seed_req = (
+                parseFloat(filteredData[seasonIndex].season_seed_req) +
+                parseFloat(el.SeedRequired)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_doa = (
+                parseFloat(filteredData[seasonIndex].season_doa) +
+                parseFloat(el.doa)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_ssfs = (
+                parseFloat(filteredData[seasonIndex].season_ssfs) +
+                parseFloat(el.ssfs)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_ssc = (
+                parseFloat(filteredData[seasonIndex].season_ssc) +
+                parseFloat(el.ssc)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_nsc = (
+                parseFloat(filteredData[seasonIndex].season_nsc) +
+                parseFloat(el.nsc)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_saus = (
+                parseFloat(filteredData[seasonIndex].season_saus) +
+                parseFloat(el.saus)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_othergovpsu = (
+                parseFloat(filteredData[seasonIndex].season_othergovpsu) +
+                parseFloat(el.othergovpsu)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_coop = (
+                parseFloat(filteredData[seasonIndex].season_coop) +
+                parseFloat(el.coop)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_pvt = (
+                parseFloat(filteredData[seasonIndex].season_pvt) +
+                parseFloat(el.pvt)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_seedhub = (
+                parseFloat(filteredData[seasonIndex].season_seedhub) +
+                parseFloat(el.seedhub)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_others = (
+                parseFloat(filteredData[seasonIndex].season_others) +
+                parseFloat(el.others)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_total = (
+                parseFloat(filteredData[seasonIndex].season_total) +
+                parseFloat(el.total)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_shtorsur = (
+                parseFloat(filteredData[seasonIndex].season_shtorsur) +
+                parseFloat(el.shtorsur)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_BSRequiredtomeettargetsofFS = (
+                parseFloat(filteredData[seasonIndex].season_BSRequiredtomeettargetsofFS) +
+                parseFloat(el.BSRequiredtomeettargetsofFS)
+              ).toFixed(2);
+              filteredData[seasonIndex].season_FSRequiredtomeettargetsofCS = (
+                parseFloat(filteredData[seasonIndex].season_FSRequiredtomeettargetsofCS) +
+                parseFloat(el.FSRequiredtomeettargetsofCS)
+              ).toFixed(2);
+              filteredData[seasonIndex].crop.push({
+                    crop_code: el.crop_code,
+                   crop_name: el.crop_name,   
+                   AreaUnderVariety: parseFloat(el.AreaUnderVariety).toFixed(2),
+                   SeedRequired: parseFloat(el.SeedRequired).toFixed(2),
+                   doa: parseFloat(el.doa).toFixed(2),
+                   ssfs: parseFloat(el.ssfs).toFixed(2),
+                   ssc: parseFloat(el.ssc).toFixed(2),
+                   nsc: parseFloat(el.nsc).toFixed(2),
+                  saus: parseFloat(el.saus).toFixed(2),
+                   othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
+                   coop: parseFloat(el.coop).toFixed(2),
+                   pvt: parseFloat(el.pvt).toFixed(2),
+                   seedhub: parseFloat(el.seedhub).toFixed(2),
+                   others: parseFloat(el.others).toFixed(2),
+                   total: parseFloat(el.total).toFixed(2),
+                   shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                   BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredtomeettargetsofFS).toFixed(2),
+                   FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
+          }); }
 
 
-           this.finalData = res;
+      })
+          this.finalData = filteredData;
            this.totalData = totals;
            console.log(this.totalData,"response total");
          } 
@@ -446,9 +588,7 @@ export class SrpIndenterCropWiseReportComponent implements OnInit {
      const year = this.ngForm.controls['year_of_indent'].value;
      const season = this.ngForm.controls['season'].value;
      if (year) queryParams.push(`year=${encodeURIComponent(year)}`);
-     if(season) queryParams.push(`season=${encodeURIComponent(season)}`);
-     if (newValue) queryParams.push(`crop_type=${encodeURIComponent(newValue.toLowerCase())}`);
- 
+     if(season!='all') queryParams.push(`season=${encodeURIComponent(season)}`); 
      const apiUrl = `get-srp-crop?${queryParams.join('&')}`;
      console.log(apiUrl);
       this.zsrmServiceService.getRequestCreator(apiUrl).subscribe(data => {
