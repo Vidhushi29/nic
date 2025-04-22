@@ -1892,8 +1892,7 @@ if (data.length == 0)
      is_finalised: item.is_finalised
    }
  });
-//  console.log(result,'result')
-   // Get total records for pagination
+
 
    response(res, status.DATA_AVAILABLE, 200, result);
    
