@@ -21,6 +21,7 @@ import { ProductioncenterService } from 'src/app/services/productionCenter/produ
 export class SrpComponent implements OnInit {
   // @ViewChild(PaginationUiComponent) paginationUiComponent!: PaginationUiComponent;
   ngForm!: FormGroup;
+  
   filterPaginateSearch: FilterPaginateSearch = new FilterPaginateSearch();
   allData: any = [];
   is_update: boolean = false;
@@ -234,11 +235,18 @@ export class SrpComponent implements OnInit {
     this.ngForm.valueChanges.subscribe(values => {
       if (values.certifiedquant !== undefined) {
         this.isCertifiedquant = values.certifiedquant;
-
-      }
+        
+    }
     })
-
-
+    this.ngForm.controls['certifiedquant'].valueChanges.subscribe(values => {
+      if (values===0) {
+       this.ngForm.controls['smrbs'].setValue(0);
+       this.ngForm.controls['fsreq'].setValue(0);this.ngForm.controls['bsreq'].setValue(0);this.ngForm.controls['smrfs'].setValue(0);
+        
+    }
+    })
+   
+  
     this.ngForm.valueChanges.subscribe(values => {
       const totalreq =
         ((values.proposedarea || 0) *
@@ -256,20 +264,14 @@ export class SrpComponent implements OnInit {
         (values.othersgovt || 0) +
         (values.others || 0);
       const shtorsub = total - totalreq
-      const { year } = values;
-
-      if (year) {
-        this.getPageData();
-        this.isShowTable = true
-
-      }
       this.ngForm.patchValue(
         { total: this.formatNumber(total) || 0, shtorsub: this.formatNumber(shtorsub) || 0, totalreq: this.formatNumber(totalreq) || 0 },
         { emitEvent: false }
       );
 
     });
-    this.ngForm.controls['year'].valueChanges.subscribe(() => { this.resetSelections(); });
+    this.ngForm.controls['year'].valueChanges.subscribe(() => { this.getPageData();
+        this.isShowTable = true });
     this.ngForm.controls['season'].valueChanges.subscribe(() => this.resetSelections());
     this.ngForm.controls['crop_text'].valueChanges.subscribe(item => {
       if (item) {
