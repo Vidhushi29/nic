@@ -131,7 +131,8 @@ export class CropWiseSummarySrpSdReportComponent implements OnInit {
              this.ngForm.controls['spa_name'].setValue('');
              this.spa_names = ''
              this.finalData = [];
-          this.totalData = []
+          this.totalData = [];
+          this.enableTable = false;
            }
      
          });
@@ -235,8 +236,8 @@ export class CropWiseSummarySrpSdReportComponent implements OnInit {
            const param = {
              search: {
                year: this.ngForm.controls["year_of_indent"].value,
-               season: this.ngForm.controls["season"].value,
                userid: stateNameArr && (stateNameArr.length > 0) ? stateNameArr : '',
+               ...(this.ngForm.controls["season"].value != 'all' ? { season: this.ngForm.controls["season"].value } : {})
              }
            }
            this.zsrmServiceService.postRequestCreator('view-srp-crop-wise-summary-seed-division', null, param).subscribe(data => {
@@ -259,17 +260,32 @@ export class CropWiseSummarySrpSdReportComponent implements OnInit {
                totals.shtorsur += parseFloat(item.shtorsur) || 0;
             });
    
+
+            for (let key in totals) {
+              totals[key] = parseFloat(totals[key].toFixed(2));
+            }
+
              let filteredData = [];
              res.forEach((el) => {
-            const userIndex = filteredData.findIndex(
-              (item) => item.user_id === el.user_id
-            );
-            if (userIndex === -1) {
-              filteredData.push({
-                user_name: el.name,
-                user_id: el.user_id,
-                crop_count: 1,              
-                user_seed_req: parseFloat(el.req).toFixed(2),
+
+              const seasonIndex = filteredData.findIndex(
+                (item) => item.season === el.season
+              );
+  
+              if (seasonIndex === -1) {
+                filteredData.push({
+                  season: el.season,
+                  user_count:1,
+                  crop_count: 1,              
+                  season_req: parseFloat(el.req).toFixed(2),
+                  season_total: parseFloat(el.total).toFixed(2),
+                  season_shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                  user: [
+                    {
+                      user_name: el.name,
+                      user_id: el.user_id,
+                      user_crop_count: 1,              
+                      user_seed_req: parseFloat(el.req).toFixed(2),
                 user_total: parseFloat(el.total).toFixed(2),
                 user_shtorsur: parseFloat(el.shtorsur).toFixed(2),
                 crop: [
@@ -281,27 +297,89 @@ export class CropWiseSummarySrpSdReportComponent implements OnInit {
                     shtorsur: parseFloat(el.shtorsur).toFixed(2),
                   },
                 ],
-              });
-            } else {
-              filteredData[userIndex].crop_count += 1;
-            filteredData[userIndex].user_seed_req = (
-                parseFloat(filteredData[userIndex].user_seed_req) +
-                parseFloat(el.req)
-              ).toFixed(2);
-              filteredData[userIndex].user_total = (
-                parseFloat(filteredData[userIndex].user_total) +
-                parseFloat(el.total)
-              ).toFixed(2);
-              filteredData[userIndex].user_shtorsur = (
-                parseFloat(filteredData[userIndex].user_shtorsur) +
-                parseFloat(el.shtorsur)
-              ).toFixed(2);
-              filteredData[userIndex].crop.push({
-                crop_name: el.crop_name,             
-                seedRequired: parseFloat(el.req).toFixed(2),
-                total: parseFloat(el.total).toFixed(2),
-                shtorsur: parseFloat(el.shtorsur).toFixed(2),
-              }); }
+                    },
+                  ],
+                });
+              } else {
+                const userIndex = filteredData[seasonIndex].user.findIndex( (item) => item.user_id === el.user_id);
+                if(userIndex === -1) {
+                  filteredData[seasonIndex].user_count += 1;
+                  filteredData[seasonIndex].crop_count += 1;
+                  filteredData[seasonIndex].season_req = (
+                    parseFloat(filteredData[seasonIndex].season_req) +
+                    parseFloat(el.req)
+                  ).toFixed(2);
+                  filteredData[seasonIndex].season_total = (
+                    parseFloat(filteredData[seasonIndex].season_total) +
+                    parseFloat(el.total)
+                  ).toFixed(2);
+                  filteredData[seasonIndex].season_shtorsur = (
+                    parseFloat(filteredData[seasonIndex].season_shtorsur) +
+                    parseFloat(el.shtorsur)
+                  ).toFixed(2);
+                  filteredData[seasonIndex].user.push({
+                    user_name: el.name,
+                      user_id: el.user_id,
+                      user_crop_count: 1,              
+                      user_seed_req: parseFloat(el.req).toFixed(2),
+                user_total: parseFloat(el.total).toFixed(2),
+                user_shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                crop: [
+                  {
+                    crop_code: el.crop_code,
+                    crop_name: el.crop_name,              
+                    seedRequired: parseFloat(el.req).toFixed(2),
+                    total: parseFloat(el.total).toFixed(2),
+                    shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                  },
+                ],      });
+       
+  
+                }
+                else {
+                  filteredData[seasonIndex].user[userIndex].user_crop_count += 1;
+                  filteredData[seasonIndex].user[userIndex].user_seed_req = (
+                    parseFloat(filteredData[seasonIndex].user[userIndex].user_seed_req) +
+                    parseFloat(el.req)
+                  ).toFixed(2);
+                  filteredData[seasonIndex].user[userIndex].user_total = (
+                    parseFloat(filteredData[seasonIndex].user[userIndex].user_total) +
+                    parseFloat(el.total)
+                  ).toFixed(2);
+                  filteredData[seasonIndex].user[userIndex].user_shtorsur = (
+                    parseFloat(filteredData[seasonIndex].user[userIndex].user_shtorsur) +
+                    parseFloat(el.shtorsur)
+                  ).toFixed(2);
+        
+                  //usercontent
+                  filteredData[seasonIndex].crop_count+=1;
+                  filteredData[seasonIndex].season_req = (
+                    parseFloat(filteredData[seasonIndex].season_req) +
+                    parseFloat(el.req)
+                  ).toFixed(2);
+                  filteredData[seasonIndex].season_total = (
+                    parseFloat(filteredData[seasonIndex].season_total) +
+                    parseFloat(el.total)
+                  ).toFixed(2);
+                  filteredData[seasonIndex].season_shtorsur = (
+                    parseFloat(filteredData[seasonIndex].season_shtorsur) +
+                    parseFloat(el.shtorsur)
+                  ).toFixed(2);
+  
+                  filteredData[seasonIndex].user[userIndex].crop.push({
+                    crop_code: el.crop_code,
+                    crop_name: el.crop_name,              
+                    seedRequired: parseFloat(el.req).toFixed(2),
+                    total: parseFloat(el.total).toFixed(2),
+                    shtorsur: parseFloat(el.shtorsur).toFixed(2),
+              }); 
+                
+                  
+
+                }
+             
+         }
+
 
 
       })
@@ -434,7 +512,7 @@ export class CropWiseSummarySrpSdReportComponent implements OnInit {
         const year = this.ngForm.controls['year_of_indent'].value;
       
         if (year) queryParams.push(`year=${encodeURIComponent(year)}`);
-        if (newValue) queryParams.push(`season=${encodeURIComponent(newValue)}`);
+        if (newValue!='all') queryParams.push(`season=${encodeURIComponent(newValue)}`);
     
         const apiUrl = `get-srp-state?${queryParams.join('&')}`;
         console.log(apiUrl);

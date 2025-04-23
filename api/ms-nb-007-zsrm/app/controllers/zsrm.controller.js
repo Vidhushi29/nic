@@ -2075,7 +2075,7 @@ exports.getSrpCrop= async(req, res) => {
           attributes: []
         },
       ],
-      where: { user_id: userid, is_active: true, year: req.query.year, season: req.query.season
+      where: { user_id: userid, is_active: true, year: req.query.year
        },
       order: [ [cropDataModel, 'crop_name', 'ASC'],  // Ordering by crop_name in ascending order
      ],
@@ -2088,6 +2088,9 @@ group: [
   sequelize.col('seedrollingplan.crop_code'),
   sequelize.col('crop_name')
 ] // This groups by crop_name and crop_code to ensure uniqueness
+    }
+    if(req.query.season) {
+      condition.where.season = req.query.season;
     }
 
     let data = await srpModel.findAll(condition);
@@ -2116,7 +2119,7 @@ exports.getSrpStateSD= async(req, res) => {
           attributes: []
         },
       ],
-      where: { is_active: true, year: req.query.year, season: req.query.season,
+      where: { is_active: true, year: req.query.year,
        
        },
       order: [ [userModel, 'name', 'ASC'],  // Ordering by crop_name in ascending order
@@ -2131,7 +2134,9 @@ group: [
   sequelize.col('name')
 ] // This groups by crop_name and crop_code to ensure uniqueness
     }
-
+    if(req.query.season) {
+      condition.where.season = req.query.season;
+    }
     let data = await srpModel.findAll(condition);
     console.log("data found", data);
 if (data.length == 0)
@@ -2191,6 +2196,8 @@ return response(res, status.DATA_NOT_AVAILABLE, 404)
 
   const result = data.map((item)=> {
    return {  
+    year: item.year, 
+    season:item.season, 
     crop_code: item.crop_code,
     variety_code: item.variety_code,
     crop_name: item.m_crop.crop_name,
@@ -2245,7 +2252,7 @@ exports.viewSrpAllCropWiseSummary = async (req, res) => {
         // Grouping by crop_name and user_name  
         [sequelize.col('year'), 'year'],
         [sequelize.col('seedrollingplan.season'), 'season'],[sequelize.col('seedrollingplan.crop_code'), 'crop_code'],
-        [sequelize.col('user.name'), 'name'],
+        [sequelize.col('m_crop.crop_name'), 'crop_name'],
         [sequelize.fn('SUM', sequelize.col('seedRequired')), 'req'], // Count of records in 'zsrmReqFs'
         [sequelize.fn('SUM', sequelize.col('total')), 'total'], // Sum of 'total' from 'zsrmReqFs'
         [sequelize.fn('SUM', sequelize.col('shtorsur')), 'shtorsur'], 

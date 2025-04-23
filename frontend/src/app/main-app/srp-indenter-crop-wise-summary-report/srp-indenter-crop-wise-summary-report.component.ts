@@ -270,8 +270,8 @@ export class SrpIndenterCropWiseSummaryReportComponent implements OnInit {
         const param = {
           search: {
             year: this.ngForm.controls["year_of_indent"].value,
-            season: this.ngForm.controls["season"].value,
             crop_code: cropNameArr && (cropNameArr.length > 0) ? cropNameArr : '',
+            ...(this.ngForm.controls["season"].value != 'all' ? { season: this.ngForm.controls["season"].value } : {})
           }
         }
         this.zsrmServiceService.postRequestCreator('view-srp-crop-wise-summary', null, param).subscribe(data => {
@@ -292,8 +292,56 @@ export class SrpIndenterCropWiseSummaryReportComponent implements OnInit {
             totals.shtorsur += parseFloat(item.shtorsur) || 0;
             });
 
-
-           this.finalData = res;
+            for (let key in totals) {
+              totals[key] = parseFloat(totals[key].toFixed(2));
+            }
+            let filteredData = [];
+            res.forEach((el) => {
+              const seasonIndex = filteredData.findIndex(
+                (item) => item.season === el.season
+              );
+              if (seasonIndex === -1) {
+                filteredData.push({
+                  season: el.season,
+                  crop_count: 1,
+                   season_seed_req: parseFloat(el.req).toFixed(2),
+                   season_total: parseFloat(el.total).toFixed(2),
+                   season_shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                   crop: [
+                    {
+                      crop_code: el.crop_code,
+                      crop_name: el.crop_name,             
+                      req: parseFloat(el.req).toFixed(2),
+                      total: parseFloat(el.total).toFixed(2),
+                      shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                    },
+                  ],
+                });
+              } else {
+                filteredData[seasonIndex].crop_count += 1;
+                filteredData[seasonIndex].season_seed_req = (
+                  parseFloat(filteredData[seasonIndex].season_seed_req) +
+                  parseFloat(el.req)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_total = (
+                  parseFloat(filteredData[seasonIndex].season_total) +
+                  parseFloat(el.total)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_shtorsur = (
+                  parseFloat(filteredData[seasonIndex].season_shtorsur) +
+                  parseFloat(el.shtorsur)
+                ).toFixed(2);
+                filteredData[seasonIndex].crop.push({
+                      crop_code: el.crop_code,
+                     crop_name: el.crop_name,   
+                     req: parseFloat(el.req).toFixed(2),
+                     total: parseFloat(el.total).toFixed(2),
+                     shtorsur: parseFloat(el.shtorsur).toFixed(2),
+            }); }
+  
+  
+        })
+            this.finalData = filteredData;
            this.totalData = totals;
            console.log(this.totalData,"response total");
          } 
@@ -418,7 +466,7 @@ export class SrpIndenterCropWiseSummaryReportComponent implements OnInit {
      const year = this.ngForm.controls['year_of_indent'].value;
      const season = this.ngForm.controls['season'].value;
      if (year) queryParams.push(`year=${encodeURIComponent(year)}`);
-     if(season) queryParams.push(`season=${encodeURIComponent(season)}`);
+     if(season!='all') queryParams.push(`season=${encodeURIComponent(season)}`); 
      if (newValue) queryParams.push(`crop_type=${encodeURIComponent(newValue.toLowerCase())}`);
  
      const apiUrl = `get-srp-crop?${queryParams.join('&')}`;
