@@ -104,7 +104,15 @@
     left: 372px; */
     /* border-radius: 8px; */
 }
+.data-row-header1 {
+    background: #B64B1D 0% 0% no-repeat padding-box;
+}
 
+.data-row-header1 * {
+    font: normal Poppins 600 15px/19px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+}
 .btn-inventory {
     /* width: Hug (135px);
     height: Hug (43px); */

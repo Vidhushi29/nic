@@ -67,7 +67,7 @@ export class ZsrmComponent implements OnInit {
   dummyData = [];
   isCheck: boolean=false;
   finalData: any[];
-  
+  totalData: any;  
   constructor(
     private fb: FormBuilder,
     private zsrmServiceService: ZsrmServiceService
@@ -481,6 +481,7 @@ export class ZsrmComponent implements OnInit {
   getPageData(loadPageNumberData: number = 1) {
     this.filterPaginateSearch.itemList = [];
     this.finalData = [];
+     this.totalData = [];
     const year = this.ngForm.controls['year'].value;
     const season = this.ngForm.controls['season'].value;
     const crop = this.ngForm.controls['crop'].value;
@@ -509,6 +510,29 @@ export class ZsrmComponent implements OnInit {
           else {
             this.freezeData = false;
           }
+          let totals = {
+            req:0.00,
+            doa: 0.00,
+            sau:0.00,
+            ssc: 0.00,
+            nsc: 0.00,
+            pvt: 0.00,
+            others: 0.00,
+            total: 0.00,
+            shtorsur: 0.00
+          };
+          this.dummyData.forEach(item => {
+            totals.req += parseFloat(item.req) || 0.00;
+            totals.doa += parseFloat(item.doa) || 0.00;
+            totals.sau += parseFloat(item.sau) || 0.00;
+            totals.ssc += parseFloat(item.ssc) || 0.00;
+            totals.nsc += parseFloat(item.nsc) || 0.00;
+            totals.pvt += parseFloat(item.pvt) || 0.00;
+            totals.others += parseFloat(item.others) || 0.00;
+            totals.total += parseFloat(item.total) || 0.00;
+            totals.shtorsur += parseFloat(item.shtorsur) || 0.00;
+          }); 
+
           let filteredData = [];
           this.dummyData.forEach((el) => {
             const cropIndex = filteredData.findIndex(
@@ -599,6 +623,7 @@ export class ZsrmComponent implements OnInit {
 
       })
           this.finalData = filteredData;
+          this.totalData = totals;
           this.enableTable = true;
          
         } else {

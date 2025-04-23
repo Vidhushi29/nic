@@ -680,7 +680,22 @@
                                                             <td style="text-align: center;"><b>{{data && data.crop_shtorsur ? data.crop_shtorsur:0  }}</b></td>
                                                         </tr>
                                                         </ng-container>
-                                                       
+                                                        <ng-container *ngIf="totalData">
+                                                            <tr>
+                                                                <td colspan="3"
+                                                                    ><b>TOTAL:</b>
+                                                                </td>                                                                                                                                       
+                                                                <td style="text-align: center;"><b>{{ totalData.req ? totalData.req : 0 }}</b></td>
+                                                                <td style="text-align: center;"><b>{{ totalData.doa ? totalData.doa : 0 }}</b></td>
+                                                                <td style="text-align: center;"><b>{{ totalData.sau ? totalData.sau : 0 }}</b></td>
+                                                                <td style="text-align: center;"><b>{{ totalData.ssc ? totalData.ssc : 0 }}</b></td>
+                                                                <td style="text-align: center;"><b>{{ totalData.nsc ? totalData.nsc : 0 }}</b></td>
+                                                                <td style="text-align: center;"><b>{{ totalData.pvt ? totalData.pvt : 0 }}</b></td>
+                                                                <td style="text-align: center;"><b>{{ totalData.others ? totalData.others : 0 }}</b></td>
+                                                                <td style="text-align: center;"><b>{{ totalData.total ? totalData.total : 0 }}</b></td>
+                                                                <td style="text-align: center;"><b>{{ totalData.shtorsur ? totalData.shtorsur : 0 }}</b></td>
+                                                            </tr>
+                                                   </ng-container>
                                                  </tbody>
                         
                                       </table>
@@ -800,7 +815,22 @@
                                                  <td style="text-align: center;"><b>{{data && data.crop_shtorsur ? data.crop_shtorsur:0  }}</b></td>
                                              </tr>
                                              </ng-container>
-                                        
+                                             <ng-container *ngIf="totalData">
+                                                <tr>
+                                                    <td colspan="3"
+                                                        ><b>TOTAL:</b>
+                                                    </td>                                                                                                                                       
+                                                    <td style="text-align: center;"><b>{{ totalData.req ? totalData.req : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.doa ? totalData.doa : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.sau ? totalData.sau : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.ssc ? totalData.ssc : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.nsc ? totalData.nsc : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.pvt ? totalData.pvt : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.others ? totalData.others : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.total ? totalData.total : 0 }}</b></td>
+                                                    <td style="text-align: center;"><b>{{ totalData.shtorsur ? totalData.shtorsur : 0 }}</b></td>
+                                                </tr>
+                                       </ng-container>
                                      </tbody>
                 
                               </table>
