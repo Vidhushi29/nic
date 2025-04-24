@@ -261,6 +261,7 @@ import { CropWiseSrpSdReportComponent } from './crop-wise-srp-sd-report/crop-wis
 import { CropWiseSummarySrpSdReportComponent } from './crop-wise-summary-srp-sd-report/crop-wise-summary-srp-sd-report.component';
 import { CropVarietyWiseSrpSdReportComponent } from './crop-variety-wise-srp-sd-report/crop-variety-wise-srp-sd-report.component';
 import { SrpDashboardSdComponent } from './srp-dashboard-sd/srp-dashboard-sd.component';
+import { SrpStatusReportComponent } from './srp-status-report/srp-status-report.component';
 
 // import { ZsmrFoundationSeedComponent } from './indenters/zsmr-foundation-seed/zsmr-foundation-seed.component';
 const routes: Routes = [
@@ -1323,6 +1324,10 @@ const routes: Routes = [
       {
         path:'srp-dashboard-sd',
         component: SrpDashboardSdComponent
+      },
+      {
+        path:'srp-status-report',
+        component: SrpStatusReportComponent
       },
       {
         path:'crop-wise-summary-srp-sd-report',

@@ -2931,7 +2931,7 @@ exports.srpStatusReport = async (req, res) => {
             ['name', 'ASC'],
           ],
           where: {
-            user_type: 'IN',is_active:1
+            user_type: 'IN', is_active:1
           }
         })
         if (userData && userData.length) {
