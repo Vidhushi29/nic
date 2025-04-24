@@ -163,11 +163,12 @@
                                 <div class="col-12 col-md-4 col-lg-4 col-xl-2 col-sm-6 pl-1 pr-1">
                                     <div class="d-flex align-items-end justify-content-center h-100">
                                         <button class="btn btn-inventory search2"
-                                            style="margin-right: 10px; width: 8rem;  color: white;"
+                                            style="width: 6rem ; margin-right: 10px; color: white;"
                                             (click)="resetForm()"
                                             *ngIf="(!is_update) &&
-                                        (ngForm.controls['season'].valid ||
+                                        (
                                         ngForm.controls['crop'].valid || ngForm.controls['variety'].valid)">Reset</button>
+
                                         <button
                                         *ngIf="((dummyData&&dummyData.length< 1))
                                         &&  (ngForm.controls['year'].valid && ngForm.controls['season'].valid && 
@@ -274,7 +275,7 @@
                                                 <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
                                                     <input type="number" class=" form-control input-inventory"
                                                         formControlName="SRRTargetbySTATE" placeholder="Enter SRR Target by STATE"
-                                                        (keypress)="validateDecimal($event)">
+                                                        (input)=" srrValidation($event)">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['SRRTargetbySTATE'].invalid && ngForm.controls['SRRTargetbySTATE'].dirty || ngForm.controls['SRRTargetbySTATE'].touched">
                                                         <span *ngIf=" ngForm.controls['SRRTargetbySTATE'].errors?.['required']">
@@ -667,6 +668,7 @@
                                                     <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
                                                         <input type="number" class=" form-control input-inventory"
                                                         formControlName="fsreq" (keypress)="validateDecimal($event)"
+                                                        readonly
                                                         [attr.disabled]="isCertifiedquant === 0 ? true : null">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['fsreq'].invalid && ngForm.controls['fsreq'].dirty || ngForm.controls['fsreq'].touched">
@@ -709,6 +711,7 @@
                                                         <input type="number" class=" form-control input-inventory"
                                                         formControlName="bsreq" placeholder="Enter bs req"
                                                         (keypress)="validateDecimal($event)"
+                                                        readonly
                                                         [attr.disabled]="isCertifiedquant === 0 ? true : null">
                                                     <div class="username errorMessage"
                                                         *ngIf="submitted ||ngForm.controls['bsreq'].invalid && ngForm.controls['bsreq'].dirty || ngForm.controls['bsreq'].touched">
