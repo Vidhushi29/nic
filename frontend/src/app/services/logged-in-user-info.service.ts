@@ -1894,6 +1894,11 @@ export class LoggedInUserInfoService {
                 "icon": "seeding.svg"
               },
               {
+                "name": "SRP Status Report",
+                "href": "/srp-status-report",
+                "icon": "seeding.svg"
+              },
+              {
                 "name": "Crop-Wise SRP Report",
                 "href": "/crop-wise-srp-sd-report",
                 "icon": "seeding.svg"

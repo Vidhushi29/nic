@@ -133,7 +133,8 @@ export class CropVarietyWiseSrpSdReportComponent implements OnInit {
         this.ngForm.controls['spa_name'].setValue('');
         this.spa_names = ''
         this.finalData = [];
-     this.totalData = []
+     this.totalData = [];
+     this.enableTable=false;
       }
 
     });
@@ -237,8 +238,8 @@ export class CropVarietyWiseSrpSdReportComponent implements OnInit {
        const param = {
          search: {
            year: this.ngForm.controls["year_of_indent"].value,
-           season: this.ngForm.controls["season"].value,
            userid: stateNameArr && (stateNameArr.length > 0) ? stateNameArr : '',
+           ...(this.ngForm.controls["season"].value != 'all' ? { season: this.ngForm.controls["season"].value } : {})
          }
        }
        this.zsrmServiceService.postRequestCreator('view-srp-all-seed-division', null, param).subscribe(data => {
@@ -247,8 +248,8 @@ export class CropVarietyWiseSrpSdReportComponent implements OnInit {
            let res = data && data.Response && data.Response.data && data.Response.data ? data.Response.data : '';
            console.log(res, "response");
           let totals = {
-             AreaUnderVariety: 0.00,
-             SeedRequired: 0.00,
+             proposedAreaUnderVariety: 0.00,
+             seedRequired: 0.00,
              doa: 0.00,
              ssfs: 0.00,
              ssc: 0.00,
@@ -267,8 +268,8 @@ export class CropVarietyWiseSrpSdReportComponent implements OnInit {
  
            // Iterate through the data and sum up all the fields
            res.forEach(item => {
-             totals.AreaUnderVariety += parseFloat(item.proposedAreaUnderVariety) || 0.00;
-             totals.SeedRequired += parseFloat(item.seedRequired) || 0.00;
+             totals.proposedAreaUnderVariety += parseFloat(item.proposedAreaUnderVariety) || 0.00;
+             totals.seedRequired += parseFloat(item.seedRequired) || 0.00;
              totals.doa += parseFloat(item.doa) || 0.00;
              totals.ssfs += parseFloat(item.ssfs) || 0.00;
              totals.ssc += parseFloat(item.ssc) || 0.00;
@@ -283,17 +284,44 @@ export class CropVarietyWiseSrpSdReportComponent implements OnInit {
              totals.shtorsur += parseFloat(item.shtorsur) || 0.00;
              totals.BSRequiredtomeettargetsofFS += parseFloat(item.BSRequiredtomeettargetsofFS) || 0.00;
              totals.FSRequiredtomeettargetsofCS += parseFloat(item.FSRequiredtomeettargetsofCS) || 0.00;
-           }); 
+           });
+           for (let key in totals) {
+            totals[key] = parseFloat(totals[key].toFixed(2));
+          }
  
            let filteredData = [];
+
            res.forEach((el) => {
-             const userIndex = filteredData.findIndex( (item) => item.user_id === el.user_id);
-             if (userIndex === -1) {
-              filteredData.push({
-                user_name: el.user_name,
-                user_id: el.user_id,
-                crop_count: 1,
-                user_variety_count: 1,
+            const seasonIndex = filteredData.findIndex( (item) => item.season === el.season);
+            if (seasonIndex === -1) {
+             filteredData.push({
+               season: el.season,
+               season_crop_count: 1,
+               season_user_count: 1,
+               season_variety_count: 1,
+               season_area: parseFloat(el.proposedAreaUnderVariety).toFixed(2),
+               season_seed_req: parseFloat(el.seedRequired).toFixed(2),
+               season_doa: parseFloat(el.doa).toFixed(2),
+               season_ssfs: parseFloat(el.ssfs).toFixed(2),
+               season_ssc: parseFloat(el.ssc).toFixed(2),
+               season_nsc: parseFloat(el.nsc).toFixed(2),
+               season_saus: parseFloat(el.saus).toFixed(2),
+               season_othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
+               season_coop: parseFloat(el.coop).toFixed(2),
+               season_pvt: parseFloat(el.pvt).toFixed(2),
+               season_seedhub: parseFloat(el.seedhub).toFixed(2),
+               season_others: parseFloat(el.others).toFixed(2),
+               season_total: parseFloat(el.total).toFixed(2),
+               season_shtorsur: parseFloat(el.shtorsur).toFixed(2),
+               season_BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredtomeettargetsofFS).toFixed(2),
+               season_FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
+               user: [
+                {
+
+                  user_name: el.user_name,
+                    user_id: el.user_id,
+                    user_crop_count: 1,   
+                    user_variety_count: 1,              
                 user_area: parseFloat(el.proposedAreaUnderVariety).toFixed(2),
                 user_seed_req: parseFloat(el.seedRequired).toFixed(2),
                 user_doa: parseFloat(el.doa).toFixed(2),
@@ -310,6 +338,7 @@ export class CropVarietyWiseSrpSdReportComponent implements OnInit {
                 user_shtorsur: parseFloat(el.shtorsur).toFixed(2),
                 user_BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredtomeettargetsofFS).toFixed(2),
                 user_FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
+
                 crop: [
                   {
                     crop_code: el.crop_code,
@@ -361,78 +390,298 @@ export class CropVarietyWiseSrpSdReportComponent implements OnInit {
                     }]
                   },
                 ],
-              });
-            } else {
-              const cropIndex = filteredData[userIndex].crop.findIndex( (item) => item.crop_code === el.crop_code);
-              if(cropIndex === -1) {
-                filteredData[userIndex].crop_count += 1;
-                filteredData[userIndex].user_variety_count += 1;
-                filteredData[userIndex].user_area = (
-                  parseFloat(filteredData[userIndex].user_area) +
+
+                }
+               ]
+              
+             });
+           } else {
+             const userIndex = filteredData[seasonIndex].user.findIndex( (item) => item.user_id === el.user_id);
+             if(userIndex === -1) {
+               filteredData[seasonIndex].season_crop_count += 1;
+               filteredData[seasonIndex].season_user_count += 1;
+               filteredData[seasonIndex].season_variety_count += 1;
+               filteredData[seasonIndex].season_area = (
+                 parseFloat(filteredData[seasonIndex].season_area) +
+                 parseFloat(el.proposedAreaUnderVariety)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_seed_req = (
+                 parseFloat(filteredData[seasonIndex].season_seed_req) +
+                 parseFloat(el.seedRequired)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_doa = (
+                 parseFloat(filteredData[seasonIndex].season_doa) +
+                 parseFloat(el.doa)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_ssfs = (
+                 parseFloat(filteredData[seasonIndex].season_ssfs) +
+                 parseFloat(el.ssfs)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_ssc = (
+                 parseFloat(filteredData[seasonIndex].season_ssc) +
+                 parseFloat(el.ssc)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_nsc = (
+                 parseFloat(filteredData[seasonIndex].season_nsc) +
+                 parseFloat(el.nsc)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_saus = (
+                 parseFloat(filteredData[seasonIndex].season_saus) +
+                 parseFloat(el.saus)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_othergovpsu = (
+                 parseFloat(filteredData[seasonIndex].season_othergovpsu) +
+                 parseFloat(el.othergovpsu)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_coop = (
+                 parseFloat(filteredData[seasonIndex].season_coop) +
+                 parseFloat(el.coop)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_pvt = (
+                 parseFloat(filteredData[seasonIndex].season_pvt) +
+                 parseFloat(el.pvt)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_seedhub = (
+                 parseFloat(filteredData[seasonIndex].season_seedhub) +
+                 parseFloat(el.seedhub)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_others = (
+                 parseFloat(filteredData[seasonIndex].season_others) +
+                 parseFloat(el.others)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_total = (
+                 parseFloat(filteredData[seasonIndex].season_total) +
+                 parseFloat(el.total)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_shtorsur = (
+                 parseFloat(filteredData[seasonIndex].season_shtorsur) +
+                 parseFloat(el.shtorsur)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_BSRequiredtomeettargetsofFS = (
+                 parseFloat(filteredData[seasonIndex].season_BSRequiredtomeettargetsofFS) +
+                 parseFloat(el.BSRequiredtomeettargetsofFS)
+               ).toFixed(2);
+               filteredData[seasonIndex].season_FSRequiredtomeettargetsofCS = (
+                 parseFloat(filteredData[seasonIndex].season_FSRequiredtomeettargetsofCS) +
+                 parseFloat(el.FSRequiredtomeettargetsofCS)
+               ).toFixed(2);
+
+               filteredData[seasonIndex].user.push({
+                user_name: el.user_name,
+                    user_id: el.user_id,
+                    user_crop_count: 1,   
+                    user_variety_count: 1,              
+                user_area: parseFloat(el.proposedAreaUnderVariety).toFixed(2),
+                user_seed_req: parseFloat(el.seedRequired).toFixed(2),
+                user_doa: parseFloat(el.doa).toFixed(2),
+                user_ssfs: parseFloat(el.ssfs).toFixed(2),
+                user_ssc: parseFloat(el.ssc).toFixed(2),
+                user_nsc: parseFloat(el.nsc).toFixed(2),
+                user_saus: parseFloat(el.saus).toFixed(2),
+                user_othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
+                user_coop: parseFloat(el.coop).toFixed(2),
+                user_pvt: parseFloat(el.pvt).toFixed(2),
+                user_seedhub: parseFloat(el.seedhub).toFixed(2),
+                user_others: parseFloat(el.others).toFixed(2),
+                user_total: parseFloat(el.total).toFixed(2),
+                user_shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                user_BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredtomeettargetsofFS).toFixed(2),
+                user_FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
+
+                crop: [
+                  {
+                    crop_code: el.crop_code,
+                    crop_name: el.crop_name,   
+                    variety_count: 1,           
+                    crop_area: parseFloat(el.proposedAreaUnderVariety).toFixed(2),
+                    crop_seed_req: parseFloat(el.seedRequired).toFixed(2),
+                    crop_doa: parseFloat(el.doa).toFixed(2),
+                    crop_ssfs: parseFloat(el.ssfs).toFixed(2),
+                    crop_ssc: parseFloat(el.ssc).toFixed(2),
+                    crop_nsc: parseFloat(el.nsc).toFixed(2),
+                    crop_saus: parseFloat(el.saus).toFixed(2),
+                    crop_othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
+                    crop_coop: parseFloat(el.coop).toFixed(2),
+                    crop_pvt: parseFloat(el.pvt).toFixed(2),
+                    crop_seedhub: parseFloat(el.seedhub).toFixed(2),
+                    crop_others: parseFloat(el.others).toFixed(2),
+                    crop_total: parseFloat(el.total).toFixed(2),
+                    crop_shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                    crop_BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredtomeettargetsofFS).toFixed(2),
+                    crop_FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
+                    variety: [
+                      {
+                        variety_code: el.variety_code,
+                        variety_name: el.variety_name,
+                        not_year: el.not_year,
+                        proposedAreaUnderVariety: parseFloat(el.proposedAreaUnderVariety).toFixed(2),
+                        seedrate: parseFloat(el.seedrate).toFixed(2),      
+                        SRRTargetbySTATE: parseFloat(el.SRRTargetbySTATE).toFixed(2),
+                        seedRequired: parseFloat(el.seedRequired).toFixed(2),
+                        qualityquant: parseFloat(el.qualityquant).toFixed(2),
+                        certifiedquant: parseFloat(el.certifiedquant).toFixed(2),
+                        doa: parseFloat(el.doa).toFixed(2),
+                        ssfs: parseFloat(el.ssfs).toFixed(2),
+                        saus: parseFloat(el.saus).toFixed(2),
+                        ssc: parseFloat(el.ssc).toFixed(2),
+                        nsc: parseFloat(el.nsc).toFixed(2),
+                        othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
+                        coop: parseFloat(el.coop).toFixed(2),
+                        seedhub: parseFloat(el.seedhub).toFixed(2),
+                        pvt: parseFloat(el.pvt).toFixed(2),
+                        others: parseFloat(el.others).toFixed(2),
+                        total: parseFloat(el.total).toFixed(2),
+                        shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                        SMRKeptBSToFS: parseFloat(el.SMRKeptBSToFS).toFixed(2),
+                        SMRKeptFSToCS: parseFloat(el.SMRKeptFSToCS).toFixed(2),
+                        FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
+                        BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredtomeettargetsofFS).toFixed(2),
+                    }]
+                  },
+                ],
+             });
+    
+
+             }
+              else {
+              const cropIndex = filteredData[seasonIndex].user[userIndex].crop.findIndex( (item) => item.crop_code === el.crop_code);
+              if(cropIndex===-1) {
+                filteredData[seasonIndex].user[userIndex].user_crop_count += 1;
+                filteredData[seasonIndex].user[userIndex].user_variety_count += 1;
+                filteredData[seasonIndex].user[userIndex].user_area = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_area) +
                   parseFloat(el.proposedAreaUnderVariety)
                 ).toFixed(2);
-                filteredData[userIndex].user_seed_req = (
-                  parseFloat(filteredData[userIndex].user_seed_req) +
+                filteredData[seasonIndex].user[userIndex].user_seed_req = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_seed_req) +
                   parseFloat(el.seedRequired)
                 ).toFixed(2);
-                filteredData[userIndex].user_doa = (
-                  parseFloat(filteredData[userIndex].user_doa) +
+                filteredData[seasonIndex].user[userIndex].user_doa = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_doa) +
                   parseFloat(el.doa)
                 ).toFixed(2);
-                filteredData[userIndex].user_ssfs = (
-                  parseFloat(filteredData[userIndex].user_ssfs) +
+                filteredData[seasonIndex].user[userIndex].user_ssfs = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_ssfs) +
                   parseFloat(el.ssfs)
                 ).toFixed(2);
-                filteredData[userIndex].user_ssc = (
-                  parseFloat(filteredData[userIndex].user_ssc) +
+                filteredData[seasonIndex].user[userIndex].user_ssc = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_ssc) +
                   parseFloat(el.ssc)
                 ).toFixed(2);
-                filteredData[userIndex].user_nsc = (
-                  parseFloat(filteredData[userIndex].user_nsc) +
+                filteredData[seasonIndex].user[userIndex].user_nsc = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_nsc) +
                   parseFloat(el.nsc)
                 ).toFixed(2);
-                filteredData[userIndex].user_saus = (
-                  parseFloat(filteredData[userIndex].user_saus) +
+                filteredData[seasonIndex].user[userIndex].user_saus = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_saus) +
                   parseFloat(el.saus)
                 ).toFixed(2);
-                filteredData[userIndex].user_othergovpsu = (
-                  parseFloat(filteredData[userIndex].user_othergovpsu) +
+                filteredData[seasonIndex].user[userIndex].user_othergovpsu = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_othergovpsu) +
                   parseFloat(el.othergovpsu)
                 ).toFixed(2);
-                filteredData[userIndex].user_coop = (
-                  parseFloat(filteredData[userIndex].user_coop) +
+                filteredData[seasonIndex].user[userIndex].user_coop = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_coop) +
                   parseFloat(el.coop)
                 ).toFixed(2);
-                filteredData[userIndex].user_pvt = (
-                  parseFloat(filteredData[userIndex].user_pvt) +
+                filteredData[seasonIndex].user[userIndex].user_pvt = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_pvt) +
                   parseFloat(el.pvt)
                 ).toFixed(2);
-                filteredData[userIndex].user_seedhub = (
-                  parseFloat(filteredData[userIndex].user_seedhub) +
+                filteredData[seasonIndex].user[userIndex].user_seedhub = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_seedhub) +
                   parseFloat(el.seedhub)
                 ).toFixed(2);
-                filteredData[userIndex].user_others = (
-                  parseFloat(filteredData[userIndex].user_others) +
+                filteredData[seasonIndex].user[userIndex].user_others = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_others) +
                   parseFloat(el.others)
                 ).toFixed(2);
-                filteredData[userIndex].user_total = (
-                  parseFloat(filteredData[userIndex].user_total) +
+                filteredData[seasonIndex].user[userIndex].user_total = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_total) +
                   parseFloat(el.total)
                 ).toFixed(2);
-                filteredData[userIndex].user_shtorsur = (
-                  parseFloat(filteredData[userIndex].user_shtorsur) +
+                filteredData[seasonIndex].user[userIndex].user_shtorsur = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_shtorsur) +
                   parseFloat(el.shtorsur)
                 ).toFixed(2);
-                filteredData[userIndex].user_BSRequiredtomeettargetsofFS = (
-                  parseFloat(filteredData[userIndex].user_BSRequiredtomeettargetsofFS) +
+                filteredData[seasonIndex].user[userIndex].user_BSRequiredtomeettargetsofFS = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_BSRequiredtomeettargetsofFS) +
                   parseFloat(el.BSRequiredtomeettargetsofFS)
                 ).toFixed(2);
-                filteredData[userIndex].user_FSRequiredtomeettargetsofCS = (
-                  parseFloat(filteredData[userIndex].user_FSRequiredtomeettargetsofCS) +
+                filteredData[seasonIndex].user[userIndex].user_FSRequiredtomeettargetsofCS = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_FSRequiredtomeettargetsofCS) +
                   parseFloat(el.FSRequiredtomeettargetsofCS)
                 ).toFixed(2);
-
-                filteredData[userIndex].crop.push({
+                //usercontent
+              //  filteredData[seasonIndex].season_user_count+=1;
+                filteredData[seasonIndex].season_crop_count+=1;
+                filteredData[seasonIndex].season_variety_count+=1;
+                filteredData[seasonIndex].season_area = (
+                  parseFloat(filteredData[seasonIndex].season_area) +
+                  parseFloat(el.proposedAreaUnderVariety)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_seed_req = (
+                  parseFloat(filteredData[seasonIndex].season_seed_req) +
+                  parseFloat(el.seedRequired)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_doa = (
+                  parseFloat(filteredData[seasonIndex].season_doa) +
+                  parseFloat(el.doa)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_ssfs = (
+                  parseFloat(filteredData[seasonIndex].season_ssfs) +
+                  parseFloat(el.ssfs)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_ssc = (
+                  parseFloat(filteredData[seasonIndex].season_ssc) +
+                  parseFloat(el.ssc)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_nsc = (
+                  parseFloat(filteredData[seasonIndex].season_nsc) +
+                  parseFloat(el.nsc)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_saus = (
+                  parseFloat(filteredData[seasonIndex].season_saus) +
+                  parseFloat(el.saus)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_othergovpsu = (
+                  parseFloat(filteredData[seasonIndex].season_othergovpsu) +
+                  parseFloat(el.othergovpsu)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_coop = (
+                  parseFloat(filteredData[seasonIndex].season_coop) +
+                  parseFloat(el.coop)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_pvt = (
+                  parseFloat(filteredData[seasonIndex].season_pvt) +
+                  parseFloat(el.pvt)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_seedhub = (
+                  parseFloat(filteredData[seasonIndex].season_seedhub) +
+                  parseFloat(el.seedhub)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_others = (
+                  parseFloat(filteredData[seasonIndex].season_others) +
+                  parseFloat(el.others)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_total = (
+                  parseFloat(filteredData[seasonIndex].season_total) +
+                  parseFloat(el.total)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_shtorsur = (
+                  parseFloat(filteredData[seasonIndex].season_shtorsur) +
+                  parseFloat(el.shtorsur)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_BSRequiredtomeettargetsofFS = (
+                  parseFloat(filteredData[seasonIndex].season_BSRequiredtomeettargetsofFS) +
+                  parseFloat(el.BSRequiredtomeettargetsofFS)
+                ).toFixed(2);
+                filteredData[seasonIndex].season_FSRequiredtomeettargetsofCS = (
+                  parseFloat(filteredData[seasonIndex].season_FSRequiredtomeettargetsofCS) +
+                  parseFloat(el.FSRequiredtomeettargetsofCS)
+                ).toFixed(2);
+ 
+                filteredData[seasonIndex].user[userIndex].crop.push({
                   crop_code: el.crop_code,
                   crop_name: el.crop_name,   
                   variety_count: 1,           
@@ -479,179 +728,246 @@ export class CropVarietyWiseSrpSdReportComponent implements OnInit {
                       SMRKeptFSToCS: parseFloat(el.SMRKeptFSToCS).toFixed(2),
                       FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
                       BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredtomeettargetsofFS).toFixed(2),
-                  }]           });
-     
-
+                  }]
+            }); 
               }
               else {
-                filteredData[userIndex].crop[cropIndex].variety_count += 1;
-                filteredData[userIndex].crop[cropIndex].crop_area = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_area) +
+              
+                filteredData[seasonIndex].user[userIndex].user_variety_count += 1;
+                filteredData[seasonIndex].user[userIndex].user_area = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_area) +
                   parseFloat(el.proposedAreaUnderVariety)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_seed_req = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_seed_req) +
+                filteredData[seasonIndex].user[userIndex].user_seed_req = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_seed_req) +
                   parseFloat(el.seedRequired)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_doa = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_doa) +
+                filteredData[seasonIndex].user[userIndex].user_doa = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_doa) +
                   parseFloat(el.doa)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_ssfs = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_ssfs) +
+                filteredData[seasonIndex].user[userIndex].user_ssfs = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_ssfs) +
                   parseFloat(el.ssfs)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_ssc = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_ssc) +
+                filteredData[seasonIndex].user[userIndex].user_ssc = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_ssc) +
                   parseFloat(el.ssc)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_nsc = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_nsc) +
+                filteredData[seasonIndex].user[userIndex].user_nsc = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_nsc) +
                   parseFloat(el.nsc)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_saus = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_saus) +
+                filteredData[seasonIndex].user[userIndex].user_saus = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_saus) +
                   parseFloat(el.saus)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_othergovpsu = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_othergovpsu) +
+                filteredData[seasonIndex].user[userIndex].user_othergovpsu = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_othergovpsu) +
                   parseFloat(el.othergovpsu)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_coop = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_coop) +
+                filteredData[seasonIndex].user[userIndex].user_coop = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_coop) +
                   parseFloat(el.coop)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_pvt = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_pvt) +
+                filteredData[seasonIndex].user[userIndex].user_pvt = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_pvt) +
                   parseFloat(el.pvt)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_seedhub = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_seedhub) +
+                filteredData[seasonIndex].user[userIndex].user_seedhub = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_seedhub) +
                   parseFloat(el.seedhub)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_others = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_others) +
+                filteredData[seasonIndex].user[userIndex].user_others = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_others) +
                   parseFloat(el.others)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_total = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_total) +
+                filteredData[seasonIndex].user[userIndex].user_total = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_total) +
                   parseFloat(el.total)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_shtorsur = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_shtorsur) +
+                filteredData[seasonIndex].user[userIndex].user_shtorsur = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_shtorsur) +
                   parseFloat(el.shtorsur)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_BSRequiredtomeettargetsofFS = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_BSRequiredtomeettargetsofFS) +
+                filteredData[seasonIndex].user[userIndex].user_BSRequiredtomeettargetsofFS = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_BSRequiredtomeettargetsofFS) +
                   parseFloat(el.BSRequiredtomeettargetsofFS)
                 ).toFixed(2);
-                filteredData[userIndex].crop[cropIndex].crop_FSRequiredtomeettargetsofCS = (
-                  parseFloat(filteredData[userIndex].crop[cropIndex].crop_FSRequiredtomeettargetsofCS) +
+                filteredData[seasonIndex].user[userIndex].user_FSRequiredtomeettargetsofCS = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].user_FSRequiredtomeettargetsofCS) +
                   parseFloat(el.FSRequiredtomeettargetsofCS)
                 ).toFixed(2);
-                //usercontent
-                filteredData[userIndex].user_variety_count+=1;
-                filteredData[userIndex].user_area = (
-                  parseFloat(filteredData[userIndex].user_area) +
+             
+                filteredData[seasonIndex].season_variety_count+=1;
+                filteredData[seasonIndex].season_area = (
+                  parseFloat(filteredData[seasonIndex].season_area) +
                   parseFloat(el.proposedAreaUnderVariety)
                 ).toFixed(2);
-                filteredData[userIndex].user_seed_req = (
-                  parseFloat(filteredData[userIndex].user_seed_req) +
+                filteredData[seasonIndex].season_seed_req = (
+                  parseFloat(filteredData[seasonIndex].season_seed_req) +
                   parseFloat(el.seedRequired)
                 ).toFixed(2);
-                filteredData[userIndex].user_doa = (
-                  parseFloat(filteredData[userIndex].user_doa) +
+                filteredData[seasonIndex].season_doa = (
+                  parseFloat(filteredData[seasonIndex].season_doa) +
                   parseFloat(el.doa)
                 ).toFixed(2);
-                filteredData[userIndex].user_ssfs = (
-                  parseFloat(filteredData[userIndex].user_ssfs) +
+                filteredData[seasonIndex].season_ssfs = (
+                  parseFloat(filteredData[seasonIndex].season_ssfs) +
                   parseFloat(el.ssfs)
                 ).toFixed(2);
-                filteredData[userIndex].user_ssc = (
-                  parseFloat(filteredData[userIndex].user_ssc) +
+                filteredData[seasonIndex].season_ssc = (
+                  parseFloat(filteredData[seasonIndex].season_ssc) +
                   parseFloat(el.ssc)
                 ).toFixed(2);
-                filteredData[userIndex].user_nsc = (
-                  parseFloat(filteredData[userIndex].user_nsc) +
+                filteredData[seasonIndex].season_nsc = (
+                  parseFloat(filteredData[seasonIndex].season_nsc) +
                   parseFloat(el.nsc)
                 ).toFixed(2);
-                filteredData[userIndex].user_saus = (
-                  parseFloat(filteredData[userIndex].user_saus) +
+                filteredData[seasonIndex].season_saus = (
+                  parseFloat(filteredData[seasonIndex].season_saus) +
                   parseFloat(el.saus)
                 ).toFixed(2);
-                filteredData[userIndex].user_othergovpsu = (
-                  parseFloat(filteredData[userIndex].user_othergovpsu) +
+                filteredData[seasonIndex].season_othergovpsu = (
+                  parseFloat(filteredData[seasonIndex].season_othergovpsu) +
                   parseFloat(el.othergovpsu)
                 ).toFixed(2);
-                filteredData[userIndex].user_coop = (
-                  parseFloat(filteredData[userIndex].user_coop) +
+                filteredData[seasonIndex].season_coop = (
+                  parseFloat(filteredData[seasonIndex].season_coop) +
                   parseFloat(el.coop)
                 ).toFixed(2);
-                filteredData[userIndex].user_pvt = (
-                  parseFloat(filteredData[userIndex].user_pvt) +
+                filteredData[seasonIndex].season_pvt = (
+                  parseFloat(filteredData[seasonIndex].season_pvt) +
                   parseFloat(el.pvt)
                 ).toFixed(2);
-                filteredData[userIndex].user_seedhub = (
-                  parseFloat(filteredData[userIndex].user_seedhub) +
+                filteredData[seasonIndex].season_seedhub = (
+                  parseFloat(filteredData[seasonIndex].season_seedhub) +
                   parseFloat(el.seedhub)
                 ).toFixed(2);
-                filteredData[userIndex].user_others = (
-                  parseFloat(filteredData[userIndex].user_others) +
+                filteredData[seasonIndex].season_others = (
+                  parseFloat(filteredData[seasonIndex].season_others) +
                   parseFloat(el.others)
                 ).toFixed(2);
-                filteredData[userIndex].user_total = (
-                  parseFloat(filteredData[userIndex].user_total) +
+                filteredData[seasonIndex].season_total = (
+                  parseFloat(filteredData[seasonIndex].season_total) +
                   parseFloat(el.total)
                 ).toFixed(2);
-                filteredData[userIndex].user_shtorsur = (
-                  parseFloat(filteredData[userIndex].user_shtorsur) +
+                filteredData[seasonIndex].season_shtorsur = (
+                  parseFloat(filteredData[seasonIndex].season_shtorsur) +
                   parseFloat(el.shtorsur)
                 ).toFixed(2);
-                filteredData[userIndex].user_BSRequiredtomeettargetsofFS = (
-                  parseFloat(filteredData[userIndex].user_BSRequiredtomeettargetsofFS) +
+                filteredData[seasonIndex].season_BSRequiredtomeettargetsofFS = (
+                  parseFloat(filteredData[seasonIndex].season_BSRequiredtomeettargetsofFS) +
                   parseFloat(el.BSRequiredtomeettargetsofFS)
                 ).toFixed(2);
-                filteredData[userIndex].user_FSRequiredtomeettargetsofCS = (
-                  parseFloat(filteredData[userIndex].user_FSRequiredtomeettargetsofCS) +
+                filteredData[seasonIndex].season_FSRequiredtomeettargetsofCS = (
+                  parseFloat(filteredData[seasonIndex].season_FSRequiredtomeettargetsofCS) +
                   parseFloat(el.FSRequiredtomeettargetsofCS)
                 ).toFixed(2);
 
-                filteredData[userIndex].crop[cropIndex].variety.push({
-                  variety_code: el.variety_code,
-                  variety_name: el.variety_name,
-                  not_year: el.not_date,
-                  proposedAreaUnderVariety: parseFloat(el.proposedAreaUnderVariety).toFixed(2),
-                  seedrate: parseFloat(el.seedrate).toFixed(2),
-                  SRRTargetbySTATE: parseFloat(el.SRRTargetbySTATE).toFixed(2),
-                  seedRequired: parseFloat(el.seedRequired).toFixed(2),
-                  qualityquant: parseFloat(el.qualityquant).toFixed(2),
-                  certifiedquant: parseFloat(el.certifiedquant).toFixed(2),
-                  doa: parseFloat(el.doa).toFixed(2),
-                  ssfs: parseFloat(el.ssfs).toFixed(2),
-                  saus: parseFloat(el.saus).toFixed(2),
-                  ssc: parseFloat(el.ssc).toFixed(2),
-                  nsc: parseFloat(el.nsc).toFixed(2),
-                  othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
-                  coop: parseFloat(el.coop).toFixed(2),
-                  seedhub: parseFloat(el.seedhub).toFixed(2),
-                  pvt: parseFloat(el.pvt).toFixed(2),
-                  others: parseFloat(el.others).toFixed(2),
-                  total: parseFloat(el.total).toFixed(2),
-                  shtorsur: parseFloat(el.shtorsur).toFixed(2),
-                  SMRKeptBSToFS: parseFloat(el.SMRKeptBSToFS).toFixed(2),
-                  SMRKeptFSToCS: parseFloat(el.SMRKeptFSToCS).toFixed(2),
-                  FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
-                  BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredtomeettargetsofFS).toFixed(2),
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].variety_count += 1;
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_area = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_area) +
+                  parseFloat(el.proposedAreaUnderVariety)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_seed_req = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_seed_req) +
+                  parseFloat(el.seedRequired)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_doa = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_doa) +
+                  parseFloat(el.doa)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_ssfs = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_ssfs) +
+                  parseFloat(el.ssfs)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_ssc = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_ssc) +
+                  parseFloat(el.ssc)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_nsc = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_nsc) +
+                  parseFloat(el.nsc)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_saus = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_saus) +
+                  parseFloat(el.saus)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_othergovpsu = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_othergovpsu) +
+                  parseFloat(el.othergovpsu)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_coop = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_coop) +
+                  parseFloat(el.coop)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_pvt = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_pvt) +
+                  parseFloat(el.pvt)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_seedhub = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_seedhub) +
+                  parseFloat(el.seedhub)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_others = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_others) +
+                  parseFloat(el.others)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_total = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_total) +
+                  parseFloat(el.total)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_shtorsur = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_shtorsur) +
+                  parseFloat(el.shtorsur)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_BSRequiredtomeettargetsofFS = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_BSRequiredtomeettargetsofFS) +
+                  parseFloat(el.BSRequiredtomeettargetsofFS)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_FSRequiredtomeettargetsofCS = (
+                  parseFloat(filteredData[seasonIndex].user[userIndex].crop[cropIndex].crop_FSRequiredtomeettargetsofCS) +
+                  parseFloat(el.FSRequiredtomeettargetsofCS)
+                ).toFixed(2);
+                filteredData[seasonIndex].user[userIndex].crop[cropIndex].variety.push({
+                      variety_code: el.variety_code,
+                      variety_name: el.variety_name,
+                      not_year: el.not_year,
+                      proposedAreaUnderVariety: parseFloat(el.proposedAreaUnderVariety).toFixed(2),
+                      seedrate: parseFloat(el.seedrate).toFixed(2),      
+                      SRRTargetbySTATE: parseFloat(el.SRRTargetbySTATE).toFixed(2),
+                      seedRequired: parseFloat(el.seedRequired).toFixed(2),
+                      qualityquant: parseFloat(el.qualityquant).toFixed(2),
+                      certifiedquant: parseFloat(el.certifiedquant).toFixed(2),
+                      doa: parseFloat(el.doa).toFixed(2),
+                      ssfs: parseFloat(el.ssfs).toFixed(2),
+                      saus: parseFloat(el.saus).toFixed(2),
+                      ssc: parseFloat(el.ssc).toFixed(2),
+                      nsc: parseFloat(el.nsc).toFixed(2),
+                      othergovpsu: parseFloat(el.othergovpsu).toFixed(2),
+                      coop: parseFloat(el.coop).toFixed(2),
+                      seedhub: parseFloat(el.seedhub).toFixed(2),
+                      pvt: parseFloat(el.pvt).toFixed(2),
+                      others: parseFloat(el.others).toFixed(2),
+                      total: parseFloat(el.total).toFixed(2),
+                      shtorsur: parseFloat(el.shtorsur).toFixed(2),
+                      SMRKeptBSToFS: parseFloat(el.SMRKeptBSToFS).toFixed(2),
+                      SMRKeptFSToCS: parseFloat(el.SMRKeptFSToCS).toFixed(2),
+                      FSRequiredtomeettargetsofCS: parseFloat(el.FSRequiredtomeettargetsofCS).toFixed(2),
+                      BSRequiredtomeettargetsofFS: parseFloat(el.BSRequiredtomeettargetsofFS).toFixed(2),
+                  
             }); 
+
+              }
               
 
 
-              }
-            }
- 
- 
-       })
- 
+             }
+           }
+
+
+      })
  
            this.finalData = filteredData;
            this.totalData = totals;
@@ -673,6 +989,7 @@ export class CropVarietyWiseSrpSdReportComponent implements OnInit {
      this.ngForm.controls['crop_name'].patchValue("");
      this.ngForm.controls['variety_name'].setValue('');
      this.ngForm.controls['crop_type'].setValue('');
+     this.ngForm.controls['state_name'].patchValue('');
      this.ngForm.controls['spa_name'].setValue('');
      this.seasonList = [];
      this.cropTypeList = [];
@@ -777,7 +1094,7 @@ export class CropVarietyWiseSrpSdReportComponent implements OnInit {
     const year = this.ngForm.controls['year_of_indent'].value;
   
     if (year) queryParams.push(`year=${encodeURIComponent(year)}`);
-    if (newValue) queryParams.push(`season=${encodeURIComponent(newValue)}`);
+    if (newValue!='all') queryParams.push(`season=${encodeURIComponent(newValue)}`);
 
     const apiUrl = `get-srp-state?${queryParams.join('&')}`;
     console.log(apiUrl);
