@@ -165,13 +165,10 @@
                                         <button class="btn btn-inventory search2"
                                             style="width: 6rem ; margin-right: 10px; color: white;"
                                             (click)="resetForm()"
-                                            *ngIf="(!is_update) &&
-                                        (
-                                        ngForm.controls['crop'].valid || ngForm.controls['variety'].valid)">Reset</button>
-
+                                            *ngIf="(ngForm.controls['crop'].valid || ngForm.controls['variety'].valid)">Reset</button>
                                         <button
                                         *ngIf="((dummyData&&dummyData.length< 1))
-                                        &&  (ngForm.controls['year'].valid && ngForm.controls['season'].valid && 
+                                        && (ngForm.controls['year'].valid && ngForm.controls['season'].valid && 
                                         ngForm.controls['crop'].valid && ngForm.controls['variety'].valid  )"
                                             class="btn btn-inventory search2" style="width: 8rem; color: white;"
                                             (click)="SaveAsData()">Add</button>
@@ -509,7 +506,7 @@
                                                 </div>
 
                                                 <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
-                                                    <label for="nsc" class="left-heading required">
+                                                    <label for="remarks" >
                                                   Remarks
                                                     </label>
                                                 </div>
@@ -709,7 +706,7 @@
                                                     </div>
                                                     <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
                                                         <input type="number" class=" form-control input-inventory"
-                                                        formControlName="bsreq" placeholder="Enter bs req"
+                                                        formControlName="bsreq" 
                                                         (keypress)="validateDecimal($event)"
                                                         readonly
                                                         [attr.disabled]="isCertifiedquant === 0 ? true : null">
