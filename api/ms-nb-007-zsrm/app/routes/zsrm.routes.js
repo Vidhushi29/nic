@@ -28,11 +28,12 @@ module.exports = app => {
     app.post(`${process.env.MICRO_SERVICE}/api/add-req-qs-dist`,auth,zsrm.addZsrmReqQsDistWise);
     app.post(`${process.env.MICRO_SERVICE}/api/add-req-qs`,auth,zsrm.addZsrmReqQsFinal);
     app.put(`${process.env.MICRO_SERVICE}/api/update-req-qs/:id`,auth,zsrm.updateZsrmReqQs);
+    app.put(`${process.env.MICRO_SERVICE}/api/update-req-qs-dist/:id`,auth,zsrm.updateZsrmReqQsDist);
     app.get(`${process.env.MICRO_SERVICE}/api/view-req-qs`,auth,zsrm.viewZsrmReqQs);
     app.get(`${process.env.MICRO_SERVICE}/api/view-req-qs-dist`,auth,zsrm.viewZsrmReqQsDistWise);
     app.delete(`${process.env.MICRO_SERVICE}/api/delete-req-qs-dist/:id`,auth,zsrm.deleteZsrmReqQsDistWise);
     app.delete(`${process.env.MICRO_SERVICE}/api/delete-req-qs/:id`,auth,zsrm.deleteZsrmReqQs);
-    app.put(`${process.env.MICRO_SERVICE}/api/update-req-fs/:id`,auth,zsrm.updateZsrmReqFsById);
+    app.put(`${process.env.MICRO_SERVICE}/api/finalise-req-qs`,auth,zsrm.finaliseZsrmReqQs);
 
     //SRP
     app.post(`${process.env.MICRO_SERVICE}/api/add-srp`,auth,zsrm.addSrp);

@@ -37,42 +37,63 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false,
        },
-       seedType: {
-        type: Sequelize.STRING,
-        allowNull: false,
-       },
-       asOnDate: {
-        type: Sequelize.DATE,
-        default: Date.now()
-       },
       req: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      ssc: {
+      sscCs: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      doa: {
+      sscQs: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      sau: {
-        type: Sequelize.DECIMAL,
-      },
-      nsc: {
+      doaCs: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      seedhubs: {
+      doaQs: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      pvt: {
+      sauCs: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      others: {
+      sauQs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      nscCs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      nscQs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      seedhubsCs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      seedhubsQs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      pvtCs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      pvtQs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      othersCs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      othersQs: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
@@ -80,11 +101,18 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      total: {
-        type: Sequelize.DECIMAL,
-        allowNull: false,
-      },
-
+      csavl: {
+          type: Sequelize.DECIMAL,
+          allowNull: false,
+        },
+        qsavl: {
+          type: Sequelize.DECIMAL,
+          allowNull: false,
+        },
+        totalavl: {
+          type: Sequelize.DECIMAL,
+          allowNull: false,
+        },
       is_active: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,
@@ -104,10 +132,15 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
+      is_finalised: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       
       createdAt: { type: Sequelize.DATE, field: 'created_at', default: Date.now() },
       updatedAt: { type: Sequelize.DATE, field: 'updated_at', default: Date.now() },
-      deletedAt: { type: Sequelize.DATE, field: 'deleted_at', default: null }
+      deletedAt: { type: Sequelize.DATE, field: 'deleted_at', default: null },
+      finalisedAt: { type: Sequelize.DATE, field: 'finalised_at', default: null}
     },
     
       {

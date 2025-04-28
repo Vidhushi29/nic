@@ -13,15 +13,23 @@ module.exports = (sql, Sequelize) => {
         primaryKey: true,
         autoIncrement: true
         },
-        req: {
+        // req: {
+        //   type: Sequelize.DECIMAL,
+        //   allowNull: false,
+        // },
+        // shtorsur: {
+        //   type: Sequelize.DECIMAL,
+        //   allowNull: false,
+        // },
+        csavl: {
           type: Sequelize.DECIMAL,
           allowNull: false,
         },
-        shtorsur: {
+        qsavl: {
           type: Sequelize.DECIMAL,
           allowNull: false,
         },
-        avl: {
+        totalavl: {
           type: Sequelize.DECIMAL,
           allowNull: false,
         },
@@ -33,18 +41,14 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.INTEGER,
         allowNull: false,
         },
-
         user_id : {
           type: Sequelize.INTEGER,
          allowNull: false,
         },
-
         zsrmreqfs_id: {
           type: Sequelize.INTEGER,
          allowNull: false,
         },
-        
-      
       createdAt: { type: Sequelize.DATE, field: 'created_at', default: Date.now() },
       updatedAt: { type: Sequelize.DATE, field: 'updated_at', default: Date.now() },
       deletedAt: { type: Sequelize.DATE, field: 'deleted_at', default: null }
@@ -55,7 +59,7 @@ module.exports = (sql, Sequelize) => {
         // timezone: '+5:30'
       })
 
-     // ZsrmRefQsDist.sync({ alter: true });
+     //ZsrmRefQsDist.sync({ alter: true });
     return ZsrmRefQsDist;
   };
   
