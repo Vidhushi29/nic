@@ -1133,13 +1133,13 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
     });
     if (recordExist) {
 
-      if(await zsrmreqqsdistModel.findOne({where : {zsrmreqfs_id: recordExist.id, district_id: body.district_id, is_active:true }})) {
+      if(await zsrmreqqsdistModel.findOne({where : {zsrmreqqs_id: recordExist.id, district_id: body.district_id, is_active:true }})) {
         return response(res, "Record already exist for this district", 409, {});
       }
 
       await zsrmreqqsdistModel.create(
         {
-          zsrmreqfs_id: recordExist.id,
+          zsrmreqqs_id: recordExist.id,
           district_id: body.district_id,
           csavl: body.district_csavl,
           qsavl: body.district_qsavl,
@@ -1203,7 +1203,7 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
   if (data) {
     let dataDist = zsrmreqqsdistModel.create(
       {
-        zsrmreqfs_id: data.id,
+        zsrmreqqs_id: data.id,
         district_id: body.district_id,
         csavl: body.district_csavl,
         qsavl: body.district_qsavl,
@@ -1386,7 +1386,7 @@ exports.deleteZsrmReqQs = async (req, res) => {
   const dataDeleted = await zsrmreqqsdistModel.update({ is_active: false,  deletedAt: Date.now()},
   {
     where: {
-      zsrmreqfs_id: req.params.id,
+      zsrmreqqs_id: req.params.id,
     },
   },);
   
@@ -1523,7 +1523,7 @@ exports.viewZsrmReqQsDistWise = async(req, res) => {
           attributes: ['district_name']
         }, 
       ],
-      where: { user_id: userid, zsrmreqfs_id:zsrmreqfs_id, is_active: true },
+      where: { user_id: userid, zsrmreqqs_id:zsrmreqfs_id, is_active: true },
       order: [ [districtModel, 'district_name', 'ASC'],  // Ordering by crop_name in ascending order
       ],
       attributes: 
@@ -1535,7 +1535,7 @@ exports.viewZsrmReqQsDistWise = async(req, res) => {
 
     let dataSum = await db.zsrmReqQsDistWise.findAll({
       where: {
-        user_id: userid, zsrmreqfs_id:zsrmreqfs_id, is_active: true
+        user_id: userid, zsrmreqqs_id:zsrmreqfs_id, is_active: true
       },
       attributes: [
         // Grouping by crop_name and user_name  
@@ -1574,7 +1574,7 @@ exports.viewZsrmReqQsDistWise = async(req, res) => {
 } 
 exports.finaliseZsrmReqQs = async(req, res) => {
   try {
-    const recordsExist = await zsrmreqqsModel.findAll({where: {year: req.query.year, season: req.query.season, is_active:true, user_id:req.body.loginedUserid.id}});
+    const recordsExist = await zsrmreqqsModel.findAll({where: {year: req.query.year, season: req.query.season, is_active:true, user_id:req.body.loginedUserid.id,}});
     if (recordsExist.length === 0) {
       return response(res, status.DATA_NOT_AVAILABLE, 404);
     }

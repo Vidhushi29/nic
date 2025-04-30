@@ -182,12 +182,12 @@ db.zsrmReqQs.belongsTo(db.stateModel, {
 //---ZSRMQServiceDistWise--------------------------------
 db.zsrmReqQs.hasMany(db.zsrmReqQsDistWise, {
 
-    foreignKey: 'zsrmreqfs_id',
+    foreignKey: 'zsrmreqqs_id',
     targetKey: 'id'
 });
 
 db.zsrmReqQsDistWise.belongsTo(db.zsrmReqQs, {
-    foreignKey: 'zsrmreqfs_id',
+    foreignKey: 'zsrmreqqs_id',
     targetKey: 'id'
 });
 

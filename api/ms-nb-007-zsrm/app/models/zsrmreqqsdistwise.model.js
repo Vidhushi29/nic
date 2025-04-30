@@ -45,7 +45,7 @@ module.exports = (sql, Sequelize) => {
           type: Sequelize.INTEGER,
          allowNull: false,
         },
-        zsrmreqfs_id: {
+        zsrmreqqs_id: {
           type: Sequelize.INTEGER,
          allowNull: false,
         },
@@ -59,7 +59,7 @@ module.exports = (sql, Sequelize) => {
         // timezone: '+5:30'
       })
 
-     //ZsrmRefQsDist.sync({ alter: true });
+    // ZsrmRefQsDist.sync({ alter: true });
     return ZsrmRefQsDist;
   };
   
