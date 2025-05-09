@@ -1,22 +1,28 @@
-<div class="main-inventory 1">
-    <div class="row">
-        <div class="col-12 col-md-12 col-lg-12 pl-2 pb-3 pt-0">
-            <div class="title-inventory">Requirement and Availability of Certified/Quality Seed</div>
-            <!-- first card ui  -->
-            <form [formGroup]="ngForm">
+<form [formGroup]="ngForm">
+    <div class="main-inventory 1">
+        <div class="row">
+            <div class="col-12 px-3 mt-2">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-0 pt-1 pb-2">
+                    Requirement and Availability of Certified/Quality Seed
+                </div>
+
+                <!-- first card ui  -->
+
+                <!-- first card ui  -->
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                   
+                    <div class="row card-inventory form-group pb-3">
                         <!-- start sectio 1  -->
-                        <div class="row card-inventory form-group pl-3 pb-3">
+                        <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12 pt-1">
                             <div class="row for-width">
                                 <!-- year of indent -->
                                 <div class="col-12 col-md-4 col-lg-4 col-xl-2 col-sm-6">
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
-                                            <label for="year" class="left-heading required ">Year of Indent</label>
+                                            <label for="year" class="left-heading required ">Year</label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12 pr-1">
-                                            <select class=" form-control input-inventory" formControlName="year" [ngClass]="disableUpperSection ? 'disableFiel':''">
+                                            <select class=" form-control input-inventory" formControlName="year"
+                                                [ngClass]="disableUpperSection ? 'disableFiel':''">
                                                 <option value="">Please Select Year</option>
                                                 <option *ngFor="let year of inventoryYearData" value="{{year.value}}">
                                                     <!-- {{ year.year }}-{{ ((year.year % 100) + 1) < 10 ? '0' : '' }}{{ (year.year % 100) + 1 }} -->
@@ -40,10 +46,12 @@
                                             <label for="season" class="left-heading required">Season</label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <select class="form-control input-inventory" formControlName="season" [ngClass]="disableUpperSection ? 'disableFiel':''">
+                                            <select class="form-control input-inventory" formControlName="season"
+                                                [ngClass]="disableUpperSection ? 'disableFiel':''">
                                                 <option value="">Please Select Season</option>
                                                 <option value="Kharif">Kharif</option>
                                                 <option value="Rabi">Rabi</option>
+
                                             </select>
                                             <div class="errorMessage"
                                                 *ngIf="submitted || ngForm.controls['season'].invalid && (ngForm.controls['season'].dirty || ngForm.controls['season'].touched)">
@@ -54,17 +62,32 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-                                <!--  crop -->
-                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-2 pl-1 pr-1">
+                                <div class="col-12 col-md-4 col-lg-4 col-xl-2 col-sm-6 pl-1 pr-1" *ngIf="!freezeData">
+                                    <div class="d-flex align-items-end justify-content-center h-100" *ngIf="!is_update">
+                                        <button class="btn btn-inventory search2" style="width: 6rem; color: white;"
+                                            (click)="isAddMore()"
+                                            [disabled]="!(ngForm.controls['year'].valid && ngForm.controls['season'].valid )">Add
+                                            More</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                    [ngClass]="{ 'd-block': isCheck, 'd-none': !isCheck }"  *ngIf= "!freezeData" >
+                    <div class="row card-inventory form-group pb-3">
+                        <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12 pt-1">
+                            <div class="row for-width">
+                                <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-2 pr-1">
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                             <label for="year" class="left-heading required">Crop</label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <div ngbDropdown class="d-inline-block w-100" [ngClass]="disableUpperSection ? 'disableFiel':''">
-                                                <button
+                                            <div ngbDropdown class="d-inline-block w-100"
+                                                [ngClass]="disableUpperSection ? 'disableFiel':''">
+                                                <button [disabled]="disableUpperSection"
                                                     class="btn takeplacholder w-100 crop toggle-button input-inventory"
                                                     id="crop" ngbDropdownToggle style="text-align: left;">
                                                     {{ selectCrop && (selectCrop.length > 30) ?
@@ -102,8 +125,9 @@
                                             <label for="season" class="left-heading required">Variety</label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <div ngbDropdown class="d-inline-block w-100" [ngClass]="disableUpperSection ? 'disableFiel':''">
-                                                <button
+                                            <div ngbDropdown class="d-inline-block w-100"
+                                                [ngClass]="disableUpperSection ? 'disableFiel':''">
+                                                <button [disabled]="disableUpperSection"
                                                     class="btn takeplacholder w-100 crop toggle-button input-inventory"
                                                     id="crop" ngbDropdownToggle style="text-align: left;">
                                                     {{ selectVariety && (selectVariety.length > 30) ?
@@ -114,7 +138,9 @@
                                                 <div class="dropdown-menu w-100" ngbDropdownMenu="variety"
                                                     aria-labelledby="sortMenu">
                                                     <input type="text" class="form-control px-4"
-                                                        formControlName="variety_text" placeholder="Search Variety...">
+                                                        formControlName="variety_text"
+                                                        [ngClass]="disableUpperSection ? 'disableFiel':''"
+                                                        placeholder="Search Variety...">
                                                     <button class="dropdown-item" *ngFor="let item of varietyData"
                                                         (click)="variety(item)" #dropdownItem
                                                         [attr.data-parent-name]="'variety_name'">
@@ -135,94 +161,76 @@
 
                                     </div>
                                 </div>
-                                <!-- Category -->            
-                                 <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-2 pr-1 pl-1">
-                                    <div class="row">
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <label for="category" class="left-heading required">Type</label>
-                                        </div>
-                                        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                            <select class="form-control input-inventory" formControlName="category" [ngClass]="disableUpperSection ? 'disableFiel':''">
-                                                <option value="">Please Select Type</option>
-                                                <option value="Certified">Certified</option> 
-                                             <option value="Quality">Quality</option>                                                
-                                            </select>
-                                            <div class="errorMessage"
-                                                *ngIf="submitted || ngForm.controls['category'].invalid && (ngForm.controls['category'].dirty || ngForm.controls['category'].touched)">
-                                                <span *ngIf="ngForm.controls['category'].errors?.['required']">
-                                                    Please Select Type.
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                
-                                <!-- Add Button -->
-                                <div class="col-9 col-md-4 col-lg-4 col-xl-2 col-sm-6 ">
+                                <!-- Variety Notification Year -->
+                                <div class="col-12 col-md-4 col-lg-4 col-xl-2 col-sm-6 pl-1 pr-1">
                                     <div class="d-flex align-items-end justify-content-center h-100">
                                         <button class="btn btn-inventory search2"
-                                        style="width: 6rem ; margin-right: 10px; color: white;"
-                                        (click)="resetForm()" *ngIf="(!is_update) &&
-                                        (ngForm.controls['year'].valid || ngForm.controls['season'].valid ||
-                                        ngForm.controls['crop'].valid || ngForm.controls['variety'].valid)"
-                                        >Reset</button> 
+                                            style="width: 6rem ; margin-right: 10px; color: white;"
+                                            (click)="resetForm()" *ngIf="(!is_update) &&
+                                    (
+                                    ngForm.controls['crop'].valid || ngForm.controls['variety'].valid)">Reset</button>
 
-                                        <button
-                                            *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList) || filterPaginateSearch.itemList.length < 1)
-                                            &&  (ngForm.controls['year'].valid && ngForm.controls['season'].valid && 
-                                            ngForm.controls['crop'].valid && ngForm.controls['variety'].valid && ngForm.controls['category'].valid )"
-                                            class="btn btn-inventory search2" style="width: 6rem; color: white;"
-                                            (click)="SaveAsData()"
-                                            [disabled]="!(ngForm.controls['year'].valid && ngForm.controls['season'].valid && 
-                                        ngForm.controls['crop'].valid && ngForm.controls['variety'].valid)">Add</button>
+                                        <button *ngIf="((dummyData&&dummyData.length< 1))&&(ngForm.controls['year'].valid && ngForm.controls['season'].valid && 
+                                    ngForm.controls['crop'].valid && ngForm.controls['variety'].valid  )"
+                                            class="btn btn-inventory search2" style="width: 8rem; color: white;"
+                                            (click)="SaveAsData()">Add</button>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
-                  
+                    </div>
                 </div>
+
                 <!-- end sectio 1  -->
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <div class="row card-inventory form-group">
 
                         <div class="col-12 col-md-12 col-lg-12 col-xl-12 mt-2" *ngIf="isAddSelected">
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-3 pb-2 ">
-                                District-wise Requirement and Availability of Certified/Quality Seed in State
+                                District-wise Availability of Certified/Quality Seed in State
                             </div>
-                            <div class="row">
+
+                            <div class="row form-group pl-2">
                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+
                                     <div class="row">
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+
+                                        <div class="col-12 pt-4 px-4">
                                             <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="district" class="left-heading required">
-                                                        Select District
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="req" class="left-heading required">
+                                                        District
                                                     </label>
                                                 </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <div ngbDropdown class="d-inline-block w-100">
+                                                <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                    <div ngbDropdown class="d-inline-block w-100"
+                                                    [ngClass]="disableDistUpperSection ? 'disableFiel':''"  >
                                                         <button
                                                             class="btn takeplacholder w-100 crop toggle-button input-inventory"
                                                             id="district" ngbDropdownToggle style="text-align: left;">
                                                             {{ selectDistrict && (selectDistrict.length > 30) ?
                                                             (selectDistrict.substring(0,23)
-                                                            + '...') : selectDistrict ? selectDistrict : 'Select District' }}
+                                                            + '...') : selectDistrict ? selectDistrict : 'Select
+                                                            District' }}
                                                         </button>
                                                         <div class="dropdown-menu w-100" ngbDropdownMenu="district"
                                                             aria-labelledby="sortMenu">
                                                             <input type="text" class="form-control px-4"
-                                                                formControlName="district_text" placeholder="Search Di...">
-                                                            <button class="dropdown-item" *ngFor="let item of districtList"
+                                                                formControlName="district_text"
+                                                                placeholder="Search Di...">
+                                                            <button class="dropdown-item"
+                                                                *ngFor="let item of districtList"
                                                                 (click)="district_select(item)" #dropdownItem
                                                                 [attr.data-parent-name]="'district'">
-                                                                {{ item && item.district_name ? item.district_name : '' }}
+                                                                {{ item && item.district_name ? item.district_name : ''
+                                                                }}
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div class="pl-0 toggle-button" ngbDropdown>
-                                                        <i class="fa-solid fa-angle-down downicon" (click)="dClick()"></i>
+                                                        <i class="fa-solid fa-angle-down downicon"
+                                                            (click)="dClick()"></i>
                                                     </div>
                                                     <div class="errorMessage"
                                                         *ngIf="submitted || ngForm.controls['district'].invalid && (ngForm.controls['district'].dirty || ngForm.controls['district'].touched)">
@@ -231,114 +239,220 @@
                                                         </span>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>                        
 
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="district_req" class="left-heading required">
-                                                        Requirement
+
+
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="district_csavl" class="left-heading required">
+                                                        Certified Seed
                                                     </label>
                                                 </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="district_req" placeholder="Enter Req" (keypress)="validateDecimal($event)">
+                                                        formControlName="district_csavl"
+                                                        placeholder="Enter Certified Seed"
+                                                        (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['district_req'].invalid && ngForm.controls['district_req'].dirty || ngForm.controls['district_req'].touched">
-                                                        <span *ngIf=" ngForm.controls['district_req'].errors?.['required']">
-                                                            Please Enter Req
+                                                        *ngIf="submitted ||ngForm.controls['district_csavl'].invalid && ngForm.controls['district_csavl'].dirty || ngForm.controls['district_csavl'].touched">
+                                                        <span
+                                                            *ngIf=" ngForm.controls['district_csavl'].errors?.['required']">
+                                                            Enter Certified Seed.
                                                         </span>
 
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+
+                                        <div class="col-12 pt-4 px-4">
                                             <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="district_avl" class="left-heading required">
-                                                        Availabilty
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="district_qsavl" class="left-heading required">
+                                                        Quality Seed
                                                     </label>
                                                 </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
                                                     <input type="number" class=" form-control input-inventory"
-                                                        formControlName="district_avl" placeholder="Enter Avl" (keypress)="validateDecimal($event)" >
+                                                        formControlName="district_qsavl"
+                                                        placeholder="Enter Quality Seed"
+                                                        (keypress)="validateDecimal($event)">
                                                     <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['district_avl'].invalid && ngForm.controls['district_avl'].dirty || ngForm.controls['district_avl'].touched">
-                                                        <span *ngIf=" ngForm.controls['district_avl'].errors?.['required']">
-                                                            Please Enter AVL
+                                                        *ngIf="submitted ||ngForm.controls['district_qsavl'].invalid && ngForm.controls['district_qsavl'].dirty || ngForm.controls['district_qsavl'].touched">
+                                                        <span
+                                                            *ngIf=" ngForm.controls['district_qsavl'].errors?.['required']">
+                                                            Enter Quality Seed.
                                                         </span>
 
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                       
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-12 col-lg-12 col-xl-12 pt-1">
-                                    <div class="row">
-                                        
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                              
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <button class="btn btn-inventory search2"
-                                        style="width: 6rem ; margin-right: 10px; color: white;"
-                                        (click)="saveDistData()" 
-                                        >Add</button> 
+
+                                                <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                    <label for="nsc" class="left-heading required">
+                                                        Total
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                    <input type="number" class="form-control input-inventory"
+                                                        formControlName="district_total" readonly>
+
                                                 </div>
                                             </div>
                                         </div>
 
-                                    </div>
-                                </div>
-                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                    <div class="row">
-                                       
-                                                <div class="col-12" style="border: none; padding-top: 10px;">
-                                                    <table class="table  table-striped table-responsive" style="max-height: 500px; overflow-y: auto; width:fit-content" >
-                                                      <thead style="background: #B64B1D 0% 0% no-repeat padding-box; color: white">
-                                                        <tr>                                                
-                                                          <th>District Name</th>
-                                                          <th>Requirement</th>
-                                                          <th>Availability</th>
-                                                          <th>Shortfall/Surplus</th>                                            
-                                                          <th>Actions</th>
-                                                        </tr>                                                
-                                                      </thead>
-                                                      <tbody >
-                                                        <tr *ngFor="let data of allDistrictData; let dataIndex = index">
-                                                         
-                                                          <td>{{ data?.district_name || "N/A" }}</td>
-                                                          <td>{{ formatNumber(data?.req) || 0 }}</td>
-                                                          <td>{{ formatNumber(data?.avl) || 0 }}</td>
-                                                          <td>{{ formatNumber(data?.shtorsur) || 0 }}</td>                                    
-                                                          <td>
-                                                            <button class="list-action-buttons" style="cursor: pointer;" (click)="deleteDistrictData(data)">
-                                                              <img src="assets/images/Vector_delete.svg">
-                                                            </button>
-                                    
-                                                          </td>
-                                                        </tr>
-                                                      </tbody>
-                                                    </table>
-                                                  </div>
-                                   
-                                    
-                                    
+
 
                                     </div>
                                 </div>
 
-                                <!-- finish section 2 -->
 
                                 <!-- button section -->
-                                <div class="col-12 col-md-10 col-lg-10 pt-4 pb-2 buttons-phone col-xl-10">
-                                  
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12 pt-1">
+                                    <div class="row">
+
+                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
+                                            <div class="row">
+
+                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <!-- <button class="btn btn-inventory search2"
+                                                        style="width: 6rem ; margin-right: 10px; color: white;"
+                                                        (click)="saveDistData()">Add</button> -->
+                                                    <button
+                                                        class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                                        (click)="is_distUpdate ? updateFormDistrict() : saveDistData()"
+                                                        style="border: 2px solid #B64B1D;">
+                                                        {{ is_distUpdate ? 'Update' : 'Add' }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+
+                                    <div class="row card-inventory form-group">
+                                        <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12"
+                                            style="border: none; padding-top: 10px">
+                                            <div class="list-wrapper">
+
+
+                                                <div class="row d-none d-md-flex data-row-header">
+                                                    <div
+                                                        class="col-6 col-md-2 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center fs-4">
+                                                        S/N
+                                                    </div>
+                                                    <div
+                                                        class="col-6 col-md-2 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center fs-4">
+                                                        District Name
+                                                    </div>
+                                                    <div
+                                                        class="col-6 col-md-2 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center fs-4">
+                                                        Certified Seed
+                                                    </div>
+                                                    <div
+                                                        class="col-6 col-md-2 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center fs-4">
+                                                        Quality Seed
+                                                    </div>
+                                                    <div
+                                                        class="col-6 col-md-2 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center fs-4">
+                                                        Total Availability
+                                                    </div>
+                                                    <div
+                                                        class="col-6 col-md-2 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center fs-4">
+                                                        Actions
+                                                    </div>
+                                                </div>
+
+                                                <div style="max-height: 500px; overflow-y: auto;">
+                                                    <div *ngFor="let data of allDistrictData; let dataIndex = index"
+                                                        class="row data-row">
+                                                        <div
+                                                            class="col-6 col-md-2 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center fs-4">
+                                                            <div class="w-fit-content">
+                                                                <label class="d-md-none"
+                                                                    class="d-md-none"><b>S/N:</b>&nbsp;</label>
+                                                                <span title="{{ dataIndex + 1 }}">{{ dataIndex + 1
+                                                                    }}.</span>
+                                                            </div>
+                                                        </div>
+
+
+
+
+                                                        <div
+                                                            class="col-6 col-md-2 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center fs-4">
+                                                            <div class="w-fit-content">
+                                                                <label class="d-md-none"
+                                                                    class="d-md-none"><b>District:</b>&nbsp;</label>
+                                                                <span>{{data.district_name
+                                                                    }}
+
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="col-6 col-md-2 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center fs-4">
+                                                            <div class="w-fit-content">
+                                                                <label class="d-md-none" class="d-md-none"><b>Certified
+                                                                        Seed:</b>&nbsp;</label>
+                                                                <span>{{data.csavl
+                                                                    }}
+
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="col-6 col-md-2 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center fs-4">
+                                                            <div class="w-fit-content">
+                                                                <label class="d-md-none" class="d-md-none"><b>Quality
+                                                                        Seed</b>&nbsp;</label>
+                                                                <span>{{data.qsavl
+                                                                    }}
+
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="col-6 col-md-2 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center fs-4">
+                                                            <div class="w-fit-content">
+                                                                <label class="d-md-none" class="d-md-none"><b>Total
+                                                                        Availability</b>&nbsp;</label>
+                                                                <span>{{data.totalavl
+                                                                    }}
+
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div
+                                                            class="col-6 col-md-2 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center fs-4">
+                                                            <div
+                                                                class="list-action-buttons-wrapper w-fit-content phone_view_action_btn col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+
+                                                                <button class="list-action-buttons"
+                                                                    style="cursor: pointer;"
+                                                                    (click)="patchDataDistForUpdate(data)">
+                                                                    <img src="assets/images/Vector.svg">
+                                                                </button>
+                                                                <button class="list-action-buttons"
+                                                                    style="cursor: pointer;"
+                                                                    (click)="deleteDistrictData(data)">
+                                                                    <img src="assets/images/Vector_delete.svg">
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
+
                         </div>
                     </div>
                     <div class="row card-inventory form-group">
@@ -347,204 +461,400 @@
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 title-inventory pl-3 pb-2 ">
                                 State's Requirement and Agency-wise Availability of Certified/Quality Seed
                             </div>
+
+                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+
+                                <div class="row">
+
+                                    <div class="col-12 pt-4 px-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="req" class="left-heading required">
+                                                    Req
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="req" placeholder="Enter DOA-Certified Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['req'].invalid && ngForm.controls['req'].dirty || ngForm.controls['req'].touched">
+                                                    <span *ngIf=" ngForm.controls['req'].errors?.['required']">
+                                                        Enter DOA-Certified Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 pt-4 px-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="req" class="left-heading required">
+                                                    DOA-Certified Seed
+                                                </label>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="doaCs" placeholder="Enter DOA-Certified Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['doaCs'].invalid && ngForm.controls['doaCs'].dirty || ngForm.controls['doaCs'].touched">
+                                                    <span *ngIf=" ngForm.controls['doaCs'].errors?.['required']">
+                                                        Enter DOA-Certified Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="doaQs" class="left-heading required">
+                                                    DOA-Quality Seed
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="doaQs" placeholder="Enter DOA-Quality Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['doaQs'].invalid && ngForm.controls['doaQs'].dirty || ngForm.controls['doaQs'].touched">
+                                                    <span *ngIf=" ngForm.controls['doaQs'].errors?.['required']">
+                                                        Enter DOA-Quality Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 pt-4 px-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="req" class="left-heading required">
+                                                    SSC-Certified Seed
+                                                </label>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="sscCs" placeholder="Enter SSC-Certified Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['sscCs'].invalid && ngForm.controls['sscCs'].dirty || ngForm.controls['sscCs'].touched">
+                                                    <span *ngIf=" ngForm.controls['sscCs'].errors?.['required']">
+                                                        Enter SSC-Certified Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="doa" class="left-heading required">
+                                                    SSC-Quality Seed
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="sscQs" placeholder="Enter SSC-Quality Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['sscQs'].invalid && ngForm.controls['sscQs'].dirty || ngForm.controls['sscQs'].touched">
+                                                    <span *ngIf=" ngForm.controls['sscQs'].errors?.['required']">
+                                                        Enter SSC-Quality Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 pt-4 px-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="req" class="left-heading required">
+                                                    NSC-Certified Seed
+                                                </label>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="nscCs" placeholder="Enter NSC-Certified Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['nscCs'].invalid && ngForm.controls['nscCs'].dirty || ngForm.controls['nscCs'].touched">
+                                                    <span *ngIf=" ngForm.controls['nscCs'].errors?.['required']">
+                                                        Enter NSC-Certified Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="nscQs" class="left-heading required">
+                                                    NSC-Quality Seed
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="nscQs" placeholder="Enter  NSC-Quality Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['nscQs'].invalid && ngForm.controls['nscQs'].dirty || ngForm.controls['nscQs'].touched">
+                                                    <span *ngIf=" ngForm.controls['nscQs'].errors?.['required']">
+                                                        Enter NSC-Quality Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 pt-4 px-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="req" class="left-heading required">
+                                                    SAU-Certified Seed
+                                                </label>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="sauCs" placeholder="Enter SAU-Certified Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['sauCs'].invalid && ngForm.controls['sauCs'].dirty || ngForm.controls['sauCs'].touched">
+                                                    <span *ngIf=" ngForm.controls['sauCs'].errors?.['required']">
+                                                        Enter SAU-Certified Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="doa" class="left-heading required">
+                                                    SAU-Quality Seed
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="sauQs" placeholder="Enter  SAU-Quality Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['sauQs'].invalid && ngForm.controls['sauQs'].dirty || ngForm.controls['sauQs'].touched">
+                                                    <span *ngIf=" ngForm.controls['sauQs'].errors?.['required']">
+                                                        Enter SAU-Quality Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-12 pt-4 px-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="req" class="left-heading required">
+                                                    SeedHubs-Certified Seed
+                                                </label>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="seedhubsCs"
+                                                    placeholder="Enter SeedHubs-Certified Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['seedhubsCs'].invalid && ngForm.controls['seedhubsCs'].dirty || ngForm.controls['seedhubsCs'].touched">
+                                                    <span *ngIf=" ngForm.controls['seedhubsCs'].errors?.['required']">
+                                                        Enter SeedHubs-Certified Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="doa" class="left-heading required">
+                                                    SeedHubs-Quality Seed
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="seedhubsQs"
+                                                    placeholder="Enter  SeedHubs-Quality Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['seedhubsQs'].invalid && ngForm.controls['seedhubsQs'].dirty || ngForm.controls['seedhubsQs'].touched">
+                                                    <span *ngIf=" ngForm.controls['seedhubsQs'].errors?.['required']">
+                                                        Enter SeedHubs-Quality Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 pt-4 px-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="req" class="left-heading required">
+                                                    Private-Certified Seed
+                                                </label>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="pvtCs" placeholder="Enter Private-Certified Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['pvtCs'].invalid && ngForm.controls['pvtCs'].dirty || ngForm.controls['pvtCs'].touched">
+                                                    <span *ngIf=" ngForm.controls['pvtCs'].errors?.['required']">
+                                                        Enter Private-Certified Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="doa" class="left-heading required">
+                                                    Private-Quality Seed
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="pvtQs" placeholder="Enter Private-Quality Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['pvtQs'].invalid && ngForm.controls['pvtQs'].dirty || ngForm.controls['pvtQs'].touched">
+                                                    <span *ngIf=" ngForm.controls['pvtQs'].errors?.['required']">
+                                                        Enter Private-Quality Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-12 pt-4 px-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="req" class="left-heading required">
+                                                    Others-Certified Seed
+                                                </label>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-12 col-lg-4 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="othersCs" placeholder="Enter Others-Certified Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['othersCs'].invalid && ngForm.controls['othersCs'].dirty || ngForm.controls['othersCs'].touched">
+                                                    <span *ngIf=" ngForm.controls['othersCs'].errors?.['required']">
+                                                        Enter Others-Certified Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="doa" class="left-heading required">
+                                                    Others-Quality Seed
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                <input type="number" class=" form-control input-inventory"
+                                                    formControlName="othersQs" placeholder="Enter Others-Quality Seed"
+                                                    (keypress)="validateDecimal($event)">
+                                                <div class="username errorMessage"
+                                                    *ngIf="submitted ||ngForm.controls['othersQs'].invalid && ngForm.controls['othersQs'].dirty || ngForm.controls['othersQs'].touched">
+                                                    <span *ngIf=" ngForm.controls['othersQs'].errors?.['required']">
+                                                        Enter Others-Quality Seed.
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-12 pt-4 px-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="req" class="left-heading required">
+                                                    Total-Certified Seed
+                                                </label>
+                                            </div>
+
+                                            <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                {{totalCsavl}}
+                                            </div>
+
+
+
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="doa" class="left-heading required">
+                                                    Total-Quality Seed
+                                                </label>
+                                            </div>
+
+                                            <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                {{totalQsavl}}
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 pt-4 px-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="req" class="left-heading required">
+                                                    Total
+                                                </label>
+                                            </div>
+
+                                            <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                {{totalavl}}
+                                            </div>
+
+
+
+                                            <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
+                                                <label for="doa" class="left-heading required">
+                                                    Shortfall/Surplus
+                                                </label>
+                                            </div>
+
+                                            <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
+                                                <span>{{ formatNumber(ngForm.controls['shotorsur'].value) }}</span>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row">
-                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                    <div class="row">
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="req" class="left-heading required">
-                                                        Req
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    {{totalReq}}
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="doa" class="left-heading required">
-                                                        DOA
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
-                                                        formControlName="doa" placeholder="Enter DOA">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['doa'].invalid && ngForm.controls['doa'].dirty || ngForm.controls['doa'].touched">
-                                                        <span *ngIf=" ngForm.controls['doa'].errors?.['required']">
-                                                            Please Enter DOA
-                                                        </span>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="ssc" class="left-heading required">
-                                                        SSC
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
-                                                        formControlName="ssc" placeholder="Enter SSC" (keypress)="validateDecimal($event)">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['ssc'].invalid && ngForm.controls['ssc'].dirty || ngForm.controls['ssc'].touched">
-                                                        <span *ngIf=" ngForm.controls['ssc'].errors?.['required']">
-                                                            Please Enter SSC
-                                                        </span>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="nsc" class="left-heading required">
-                                                        NSC
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
-                                                        formControlName="nsc" placeholder="Enter NSC" (keypress)="validateDecimal($event)" >
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['nsc'].invalid && ngForm.controls['nsc'].dirty || ngForm.controls['nsc'].touched">
-                                                        <span *ngIf=" ngForm.controls['nsc'].errors?.['required']">
-                                                            Please Enter NSC
-                                                        </span>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                    <div class="row">
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="sau" class="left-heading required">
-                                                        SAU
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
-                                                        formControlName="sau" placeholder="Enter SAU">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['sau'].invalid && ngForm.controls['sau'].dirty || ngForm.controls['sau'].touched">
-                                                        <span *ngIf=" ngForm.controls['sau'].errors?.['required']">
-                                                            Please Enter SAU
-                                                        </span>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="seedhubs" class="left-heading required">
-                                                       Seedhubs
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
-                                                        formControlName="seedhubs" placeholder="Enter Seedhubs" (keypress)="validateDecimal($event)">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['seedhubs'].invalid && ngForm.controls['seedhubs'].dirty || ngForm.controls['seedhubs'].touched">
-                                                        <span *ngIf=" ngForm.controls['seedhubs'].errors?.['required']">
-                                                            Please Enter Seedhubs
-                                                        </span>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="pvt" class="left-heading required">
-                                                       Priavte
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
-                                                        formControlName="pvt" placeholder="Enter Priavte" (keypress)="validateDecimal($event)">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['pvt'].invalid && ngForm.controls['pvt'].dirty || ngForm.controls['pvt'].touched">
-                                                        <span *ngIf=" ngForm.controls['pvt'].errors?.['required']">
-                                                            Please Enter Priavte
-                                                        </span>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="others" class="left-heading required">
-                                                        Others
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <input type="number" class=" form-control input-inventory"
-                                                        formControlName="others" placeholder="Enter Others" (keypress)="validateDecimal($event)">
-                                                    <div class="username errorMessage"
-                                                        *ngIf="submitted ||ngForm.controls['others'].invalid && ngForm.controls['others'].dirty || ngForm.controls['others'].touched">
-                                                        <span *ngIf=" ngForm.controls['others'].errors?.['required']">
-                                                            Please Enter Others
-                                                        </span>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                       
-
-                                    </div>
-                                </div>
-                                 <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                    <div class="row">
-                                       
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="total" class="left-heading required">
-                                                        Total
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    {{totalAvl}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4 col-lg-4 col-sm-6 col-xl-3 pt-1">
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    <label for="shtorsur" class="left-heading required">
-                                                        Shortfall/Surplus
-                                                    </label>
-                                                </div>
-                                                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                                                    {{totalSoS}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    
-
-                                    </div>
-                                </div>
 
                                 <!-- finish section 2 -->
 
@@ -556,229 +866,263 @@
                                         style="border: 2px solid #B64B1D;">Cancel</button>
                                     <button
                                         class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        (click)="is_update ? updateForm() : createAndSave()"
+                                        style="border: 2px solid #B64B1D;">
+                                        {{ is_update ? 'Update' : 'Add' }}
+                                    </button>
+                                    <!-- <button
+                                        class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
                                         (click)="createAndSave()" *ngIf="!is_update"
-                                        style="border: 2px solid #B64B1D;">Add</button>
+                                        style="border: 2px solid #B64B1D;">{{"!is_update"?Add:Update}}Add</button>
 
                                     <button
                                         class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
-                                        (click)="updateForm()" *ngIf="is_update">Update</button>
+                                        (click)="updateForm()" *ngIf="is_update">Update</button> -->
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                 
-                    
+
+
+
                 </div> <!-- start section 2 -->
 
-                    <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header" style="margin-bottom: -25px;">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">
-                                        Disrict Wise Data</h5>
-                                    <button type="button" class="close" data-dismiss="modal" (click)="close()">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
-                                    <table class="table">
-                                        <thead class="data-row-header">
-                                            <tr class="">
-                                                <th class="table-header-left">District</th>
-                                                <th>Requirement</th>
-                                                <th>Availability</th>
-                                                <th class="table-header-right">Shortfall/Surplus</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="data-row table-bordered" style="text-align: center;">
-                                            <tr *ngFor="let data of allDistrictData">
-                                                <td>{{data.district_name}}</td>
-                                                <td>{{data.req}}</td>
-                                                <td>{{data.avl}}</td>
-                                                <td>{{data.shtorsur}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" style="margin-bottom: -25px;">
+                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                    Disrict Wise Data</h5>
+                                <button type="button" class="close" data-dismiss="modal" (click)="close()">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
+                                <table class="table">
+                                    <thead class="data-row-header">
+                                        <tr class="">
+                                            <th class="table-header-left">District</th>
+                                            <th>Certified Seed Availability</th>
+                                            <th>Quality Seed Availability</th>
+                                            <th class="table-header-right">Total Availability</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="data-row table-bordered" style="text-align: center;">
+                                        <tr *ngFor="let data of allDistrictData">
+                                            <td>{{data.district_name}}</td>
+                                            <td>{{data.csavl}}</td>
+                                            <td>{{data.qsavl}}</td>
+                                            <td>{{data.totalavl}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                <!-- second card ui  -->
-                <div class="col-12 col-md-12 col-lg-12 col-xl-12" *ngIf="isShowTable">
-                    <div class="row card-inventory form-group">
+                </div>
 
+                <div class="col-12 col-md-12 col-lg-12 col-xl-12" *ngIf="isShowTable">
+
+                    <div class="row card-inventory form-group">
                         <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12">
                             <div class="list-wrapper">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="text-align: right; font-weight: bold;">
+                                    <a (click)="download()"> <img src="assets\icons\pdf-icon.png" alt=""
+                                        width="30px" height="30px"></a>&nbsp;
+                                <a (click)="exportexcel()"> <img src="assets\icons\excel.jpg" alt=""
+                                    width="30px" height="30px"></a>
+                                 </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                    style="text-align: right; font-weight: bold;">
+                                    (Agriculture Crops - in Qts., Horticulture Crops - in Kgs.)
+                                </div>
                                 <div class="row d-none d-md-flex data-row-header">
-                                    <div class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">S/N</div>
                                     <div
-                                        class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
+                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        S/N</div>
+                                    <div
+                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        Year</div>
+                                    <div
+                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         Season</div>
                                     <div
-                                        class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
+                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         Crop</div>
                                     <div
-                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         Variety</div>
                                     <div
-                                        class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
-                                        Category</div>
+                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        Requirement</div>
+                                       
+
                                     <div
-                                        class="col-4 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
-                                        Unit
+                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        Total Certified Seed</div>
+                                    <div
+                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        Total Quality Seed
+                                    </div>
+
+                                    <div
+                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        Total
                                     </div>
                                     <div
-                                        class="col-4 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
-                                        Req
+                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                        Shortfall/Surplus
                                     </div>
-                                    
                                     <div
-                                    class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
-                                    Availabilty</div>    
+                                    class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                    District</div>
                                     <div
-                                    class="col-4 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
-                                    District
-                                </div>
-                                    <div
-                                        class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
+                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         Actions</div>
                                 </div>
-                                <div>
-                                    <div *ngFor="let data of filterPaginateSearch.itemList; let dataIndex=index"
-                                        class="row data-row">
-                                        <div class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center ">
+                                <div style="max-height: 500px; overflow-y: auto;">
+                                    <div *ngFor="let data of dummyData; let dataIndex=index" class="row data-row">
+                                        <div
+                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
                                                 <label class="d-md-none" class="d-md-none"><b>S/N:</b>&nbsp;</label>
-                                                <span title="{{(filterPaginateSearch.itemListCurrentPage - 1) *
-                                                    filterPaginateSearch.itemListPageSize + dataIndex + 1}}">{{
-                                                    (filterPaginateSearch.itemListCurrentPage - 1) *
-                                                    filterPaginateSearch.itemListPageSize + dataIndex + 1}}.</span>
+                                                <span title="{{ dataIndex + 1 }}">{{ dataIndex + 1 }}.</span>
                                             </div>
                                         </div>
                                         <div
-                                            class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
-                                                <label class="d-md-none" class="d-md-none"><b>Season:</b>&nbsp;</label>
+                                                <label class="d-md-none" class="d-md-none"><b>year:</b>&nbsp;</label>
+                                                <span>{{data && data.year ? data.year: ""}}</span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                            <div class="w-fit-content">
                                                 <span>
                                                     {{data && data.season ? data.season : ""}}
+
                                                 </span>
                                             </div>
                                         </div>
                                         <div
-                                            class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
-                                                <label class="d-md-none" class="d-md-none"><b>Crop:</b>&nbsp;</label>
                                                 <span>
                                                     {{data && data.crop_name ? data.crop_name : ""}}
+
                                                 </span>
                                             </div>
                                         </div>
                                         <div
-                                            class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
-                                                <label class="d-md-none" class="d-md-none"><b>Variety:</b>&nbsp;</label>
-                                              <span>{{data&&data.variety_name?data.variety_name:""}}</span>
+                                                <span>
+                                                    {{data && data.variety_name ? data.variety_name : ""}}
+                                                </span>
                                             </div>
                                         </div>
                                         <div
-                                            class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
-                                                <label class="d-md-none" class="d-md-none"><b>Type:</b>&nbsp;</label>
-                                                <span>{{data&&data.seed_type?data.seed_type:""}}</span>
+                                                <label class="d-md-none" class="d-md-none"><b>:</b>&nbsp;</label>
+                                                <span>{{data&&data.req?data.req:""}}
+
+                                                </span>
                                             </div>
+                                        </div>
+                                        <div
+                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+<span>
+                                          {{data && data.csavl ?
+                                                        formatNumber(data.csavl) : 0}}</span>
+                                                
                                         </div>
 
                                         <div
-                                            class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+
+                                            
+                                                   
+                                                    <span>
+                                                        {{data && data.qsavl ?
+                                                        formatNumber(data.qsavl) : 0}}</span>
+                                               
+                                        </div>
+                                        <div
+                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                             <div class="w-fit-content">
-                                                <label class="d-md-none" class="d-md-none"><b>Unit:</b>&nbsp;</label>
-                                                <span>{{data && data.unit ? data.unit : ""}}</span>
+                                                <span>
+                                                    {{data &&data.totalavl ? formatNumber(data.totalavl) : 0}}
+                                                </span>
                                             </div>
                                         </div>
                                         <div
-                                        class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
-                                        <div class="w-fit-content">
-                                            <label class="d-md-none" class="d-md-none"><b>Unit:</b>&nbsp;</label>
-                                            <span>{{data && data.req ? data.req : ""}}</span>
+                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
+                                            <div class="w-fit-content">
+                                                <span>
+                                                    {{data && data.shtorsur ? formatNumber(data.shtorsur) : 0}}
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
                                         <div
-                                        class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
+                                        class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                         <div class="w-fit-content">
-                                            <label class="d-md-none" class="d-md-none"><b>Seed Distribution:</b>&nbsp;</label>
+                                            <label class="d-md-none" class="d-md-none"><b>View:</b>&nbsp;</label>
                                             <span>
-                                                <td style="font-weight: 500;">
-                                                    <span><b class="font-weight-bold">DOA:</b> {{data && data.doa ?
-                                                            formatNumber(data.doa) : 0}},
-                                                            <b class="font-weight-bold">SSC: </b>{{data && data.ssc ?
-                                                            formatNumber(data.ssc)  : 0}}</span><br>
-                                                    <span><b class="font-weight-bold">NSC:</b> {{data && data.nsc ?
-                                                            formatNumber(data.nsc) : 0}},
-                                                            <b class="font-weight-bold">SAU: </b>{{data && data.sau ?
-                                                            formatNumber(data.sau)  : 0}}</span><br>
-                                                    <span><b class="font-weight-bold">SEEDHUBS:</b> {{data && data.seedhubs ?
-                                                        formatNumber(data.seedhubs) : 0}},
-                                                        <b class="font-weight-bold">PRIVATE: </b>{{data && data.pvt ?
-                                                        formatNumber(data.pvt)  : 0}}</span><br>
-                                                    <span>
-                                                        <b class="font-weight-bold">OTHERS: </b>{{data && data.others ?
-                                                        formatNumber(data.others)  : 0}}</span><br>
-                                                    <span>
-                                                        <b class="font-weight-bold">Total: </b>{{data && data.total ?
-                                                        formatNumber(data.total)  : 0}}</span><br>
-                                                        <span>
-                                                            <b class="font-weight-bold">SURPLUS/SHORTFALL: </b>{{data && data.shtorsur ?
-                                                            formatNumber(data.shtorsur)  : 0}}</span><br>
-                                            </td>
+                                                <a
+                                                style="color:blue;text-decoration: underline; cursor: pointer;"
+                                                (click)="getDistrictData(data.id)">View</a>
                                             </span>
                                         </div>
                                     </div>
-                                                                
-                                        
+
                                         <div
-                                            class="col-4 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
-                                            <div class="w-fit-content">
-                                                <label class="d-md-none" class="d-md-none"><b>View:</b>&nbsp;</label>
-                                                <span>
-                                                    <a
-                                                    style="color:blue;text-decoration: underline; cursor: pointer;"
-                                                    (click)="getDistrictData(data.id)">View</a>
-                                                </span>
-                                            </div>
-                                        </div>
-                                       
-                                        <div
-                                            class="col-6 col-md-1 py-3 d-flex vertical-content-middle align-items-center justify-content-center text-center">
+                                            class="col-6 col-md-1 py-3 d-flex verticle-content-middle align-items-center justify-content-center text-center">
                                             <div
                                                 class="list-action-buttons-wrapper w-fit-content phone_view_action_btn col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 py-2 d-flex align-items-center justify-content-center text-center">
 
                                                 <button class="list-action-buttons" style="cursor: pointer;"
-                                                    (click)="patchDataForUpdate(data)">
-                                                    <img src="assets/images/Vector.svg">
+                                                    (click)="patchDataForUpdate(data)" [disabled]="freezeData">
+                                                    <img src="assets/images/Vector.svg" [ngStyle]="{'opacity': freezeData ? '0.5' : '1', 'cursor': freezeData ? 'not-allowed' : 'pointer'}" >
                                                 </button>
-                                                <button class="list-action-buttons " style="cursor: pointer;">
-                                                    <img src="assets/images/Vector_delete.svg"
-                                                        (click)="deleteDirectIndent(data.id)">
+                                                <button class="list-action-buttons" style="cursor: pointer;"
+                                                    (click)="deleteDirectIndent(data.id)" [disabled]="freezeData">
+                                                    <img src="assets/images/Vector_delete.svg"  [ngStyle]="{'opacity': freezeData ? '0.5' : '1', 'cursor': freezeData ? 'not-allowed' : 'pointer'}">
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div *ngIf="(filterPaginateSearch && filterPaginateSearch.initialized &&(!filterPaginateSearch.itemList) || filterPaginateSearch.itemList.length < 1)"
-                                class="px-2 py-3 w-100" style="height: 50px;">
+                            <div *ngIf="(dummyData&&dummyData.length< 1)" class="px-2 py-3 w-100" style="height: 50px;">
                                 <div class="d-flex verticle-content-middle justify-content-center w-100">
                                     No Data Found.
                                 </div>
                             </div>
+
+                        </div>
+                        <div class="col-12 col-md-10 col-lg-10 pt-4 pb-2 buttons-phone col-xl-10 ">
+
+                            <button
+                                class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="finalizeData()" [disabled]="freezeData"
+                                [ngClass]="{'activeBtn': !freezeData, 'disableBtn': freezeData}"
+                                [ngStyle]="{'border': freezeData ? '2px solid #DCDCDC' : '2px solid #B64B1D'}">
+                                Submit
+                            </button>
+
+
                         </div>
                         <div class="col-12 col-md-12 col-lg-12 px-4 px-md-3 py-1 pb-4 pl-4">
                             <app-pagination-ui></app-pagination-ui>
                         </div>
                     </div>
                 </div>
-            </form>
+               
+
+
+            </div>
         </div>
     </div>
-</div>
+</form>

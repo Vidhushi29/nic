@@ -98,6 +98,22 @@
     /* linear-gradient(0deg, #1C1C1C, #1C1C1C); */
     /* linear-gradient(0deg, #FF0000, #FF0000); */
 }
+.disableBtn {
+    width: 32px;
+    /* height: 39px; */
+    height: 35px;
+    outline: none;
+    border: none !important;
+    background: gainsboro !important;
+    cursor: pointer;
+}
+
+.activeBtn {
+    background-color: #B64B1D !important;
+    color: white !important;
+    border: 2px solid #B64B1D !important;
+}
+
 
 .input-inventory {
     /* border: 1px solid #A1A1A1; */

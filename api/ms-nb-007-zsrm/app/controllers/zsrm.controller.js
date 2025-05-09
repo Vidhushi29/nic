@@ -1099,7 +1099,7 @@ if (data.length == 0)
 exports.addZsrmReqQsDistWise = async (req, res) => {
   try {
     const body = req.body;
-    console.log(body.loginedUserid.id);
+   
     let crop_type="";
     let unit= "";
     let cropExist = await cropDataModel.findOne({
@@ -1169,7 +1169,7 @@ exports.addZsrmReqQsDistWise = async (req, res) => {
           attributes: ['state_id']
         }
         )
-        console.log("state_id:", state);
+        
 
         let data = await zsrmreqqsModel.create({
           year: body.year,
@@ -1326,35 +1326,41 @@ exports.updateZsrmReqQsDist = async (req, res) => {
   try {
     const body = req.body;
     console.log(body.loginedUserid.id);
-    let recordExist = await zsrmcsqsdistModel.findOne({
+    
+    let recordExist = await zsrmreqqsdistModel.findOne({
       where: {
-       id: req.params.id,
+        id: req.params.id,
         user_id: body.loginedUserid.id,
         is_active: true
       },
     });
+    console.log(recordExist, 'recordExist');
+
     if (!recordExist) {
-      return response(res, status.DATA_NOT_AVAILABLE, 404);
+      return response(res, status.DATA_NOT_FOUND, 404);
     }
-  
-         await recordExist.update({
-          csavl: body.district_csavl,
-          qsavl: body.district_qsavl,
-          totalavl: body.district_totalavl,
-        }).then(() => response(res, status.DATA_UPDATED, 200, {}) )
-        .catch(() => response(res, status.DATA_NOT_UPDATED, 500));   
+
+    const updatedRecord = await recordExist.update({
+      csavl: body.district_csavl,
+      qsavl: body.district_qsavl,
+      totalavl: body.district_totalavl,
+    });
+console.log(updatedRecord,'updatedRecord');
+    return response(res, status.DATA_UPDATED, 200, updatedRecord);
+    
   } catch (error) {
     console.log(error);
-    return response(res, status.UNEXPECTED_ERROR, 501)
+    return response(res, status.UNEXPECTED_ERROR, 501);
   }
-}
+};
+
 
 exports.deleteZsrmReqQsDistWise = async (req, res) => {
   try {
     const body =req.body;
   const data = await zsrmreqqsdistModel.findOne({ where: { id: req.params.id, is_active:true, user_id:body.loginedUserid.id}});
   const result = {
-    zsrmreqfs_id : data.zsrmreqfs_id
+    zsrmreqqs_id : data.zsrmreqqs_id
   }
   if (!data) {
     return response(res, status.DATA_NOT_AVAILABLE, 404);
@@ -1456,9 +1462,8 @@ exports.viewZsrmReqQs = async(req, res) => {
     if(req.query.variety_code) {
       condition.where.variety_code = (req.query.variety_code);
     }
-
+   
     let data = await zsrmreqqsModel.findAll(condition);
-    console.log("data found", data);
   if (data.length == 0)
   //res.status(404).json({message: "No data found"})
   return response(res, status.DATA_NOT_AVAILABLE, 404)
@@ -1495,10 +1500,11 @@ exports.viewZsrmReqQs = async(req, res) => {
       qsavl: parseFloat(item.qsavl),
       totalavl: parseFloat(item.totalavl),
       shtorsur: parseFloat(item.shtorsur),
-      isFinalSubmitted: item.isFinalSubmitted
+      isFinalSubmitted: item.isFinalSubmitted,
+      is_finalised:item.is_finalised
     }
   });
-
+   
     response(res, status.DATA_AVAILABLE, 200, result);
     
  
@@ -1514,7 +1520,7 @@ exports.viewZsrmReqQsDistWise = async(req, res) => {
    // const { search } = req.body;
     const userid = req.body.loginedUserid.id;
 
-    const { zsrmreqfs_id } = req.query;  // Extract pagination params from query string
+    const { zsrmreqqs_id } = req.query;  // Extract pagination params from query string
 
      let condition = {
       include: [
@@ -1523,7 +1529,7 @@ exports.viewZsrmReqQsDistWise = async(req, res) => {
           attributes: ['district_name']
         }, 
       ],
-      where: { user_id: userid, zsrmreqqs_id:zsrmreqfs_id, is_active: true },
+      where: { user_id: userid, zsrmreqqs_id:zsrmreqqs_id, is_active: true },
       order: [ [districtModel, 'district_name', 'ASC'],  // Ordering by crop_name in ascending order
       ],
       attributes: 
@@ -1535,7 +1541,7 @@ exports.viewZsrmReqQsDistWise = async(req, res) => {
 
     let dataSum = await db.zsrmReqQsDistWise.findAll({
       where: {
-        user_id: userid, zsrmreqqs_id:zsrmreqfs_id, is_active: true
+        user_id: userid, zsrmreqqs_id:zsrmreqqs_id, is_active: true
       },
       attributes: [
         // Grouping by crop_name and user_name  
@@ -1543,7 +1549,7 @@ exports.viewZsrmReqQsDistWise = async(req, res) => {
         [sequelize.fn('SUM', sequelize.col('qsavl')), 'qsavl'], // Count of records in 'zsrmReqFs'
         [sequelize.fn('SUM', sequelize.col('totalavl')), 'totalavl'], // Sum of 'total' from 'zsrmReqFs'
       ],
-     group: [ [sequelize.col('zsrmreqfs_id'), 'zsrmreqfs_id'],], // Grouping by user_id and crop_id (or crop_name depending on your logic)
+     group: [ [sequelize.col('zsrmreqqs_id'), 'zsrmreqqs_id'],], // Grouping by user_id and crop_id (or crop_name depending on your logic)
     });
 
   // if (data.length == 0)
@@ -1559,7 +1565,7 @@ exports.viewZsrmReqQsDistWise = async(req, res) => {
     district_name: item.m_district.district_name
   }
 });
-
+console.log(result,'totalavl')
     response(res, status.DATA_AVAILABLE, 200, {
       result:result,
       total_req: dataSum.length? dataSum[0].req : 0,

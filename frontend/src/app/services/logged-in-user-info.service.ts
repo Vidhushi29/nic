@@ -2119,12 +2119,7 @@ export class LoggedInUserInfoService {
           //   subMenus: undefined
           // },
        
-          {
-            icon: "seeding.svg",
-            name: "SRP",
-            href: "/SeedRollingPlan",
-            subMenus: undefined
-          },
+          
           {
             icon: "Reports.svg",
             name: "Reports",
