@@ -413,7 +413,7 @@ export class ZsrmReqQsComponent implements OnInit {
           // this.ngForm.controls['district'].setValue('');
           this.submitted = true;
           this.isShowTable = true;
-          console.log("submitted", this.submitted)
+       
           this.disableDistUpperSection = false;
 
         })
@@ -844,8 +844,8 @@ console.log(this.fileName,)
             this.getDistrictWiseData(data.Response.data.id);
             this.ngForm.controls['district_csavl'].reset(0);
             this.ngForm.controls['district_qsavl'].reset(0);
-            // this.selectDistrict = '';
-            this.ngForm.controls['district'].setValue('');
+            this.selectDistrict = '';
+            // this.ngForm.controls['district'].setValue('');
           });
         }
       },
@@ -886,7 +886,7 @@ console.log(this.fileName,)
       if (data.Response.status_code === 200) {
         this.varietyData = data && data.Response && data.Response.data ? data.Response.data : '';
         this.varietyListSecond = this.varietyData;
-        console.log(this.isEditMode, "...................")
+        
         if (this.isEditMode) {
 
           const varietyName = this.varietyData.filter(variety => variety.variety_code === varietyCode);
