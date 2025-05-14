@@ -477,17 +477,6 @@ db.ZsrmCSQsDist.belongsTo(db.varietyModel, {
      targetKey: 'variety_code'
 });
 
-db.cropGroupModel.hasMany(db.ZsrmCSQsDist, {
-    foreignKey: 'crop_group_code',
-    targetKey: 'group_code'
-
-});
-
-db.ZsrmCSQsDist.belongsTo(db.cropGroupModel, {
-     foreignKey: 'crop_group_code',
-    targetKey: 'group_code'
-
-});
 
 
 
@@ -501,6 +490,17 @@ db.ZsrmCSQsDist.belongsTo(db.userModel, {
     foreignKey: 'user_id',
     targetKey: 'id'
 });
+
+db.zsrmReqQs.hasMany(db.ZsrmCSQsDist, {
+    foreignKey: 'zsrmreqqs_id',
+    targetKey: 'id'
+});
+
+db.ZsrmCSQsDist.belongsTo(db.zsrmReqQs, {
+    foreignKey: 'zsrmreqqs_id',
+    targetKey: 'id'
+});
+
 
 
 db.stateModel.hasMany(db.ZsrmCSQsDist, {

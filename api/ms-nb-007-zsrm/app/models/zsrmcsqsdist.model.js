@@ -32,10 +32,6 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      crop_group_code: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       variety_code: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -44,31 +40,67 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false,
        },
-      seedType: {
-        type: Sequelize.STRING,
-        allowNull: false,
-       },
-      doa: {
+       sscCs: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      ssc: {
+      sscQs: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      others: {
+      doaCs: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      nsc: {
+      doaQs: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      sfci: {
+      sauCs: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      private: {
+      sauQs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      nscCs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      nscQs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      seedhubsCs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      seedhubsQs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      pvtCs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      pvtQs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      othersCs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      othersQs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      totalCs: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      totalQs: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
@@ -84,15 +116,22 @@ module.exports = (sql, Sequelize) => {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-
       state_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      
+      zsrmreqqs_id: {
+        type: Sequelize.INTEGER,
+
+      },
+      is_finalised: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       createdAt: { type: Sequelize.DATE, field: 'created_at', default: Date.now() },
       updatedAt: { type: Sequelize.DATE, field: 'updated_at', default: Date.now() },
-      deletedAt: { type: Sequelize.DATE, field: 'deleted_at', default: null}
+      deletedAt: { type: Sequelize.DATE, field: 'deleted_at', default: null},
+      finalisedAt: { type: Sequelize.DATE, field: 'finalised_at', default: null}
     },
     
       {
@@ -100,7 +139,7 @@ module.exports = (sql, Sequelize) => {
         // timezone: '+5:30'
       })
 
-   //ZsrmCSQsDist.sync({ alter: true });
+    //ZsrmCSQsDist.sync({ alter: true });
     return ZsrmCSQsDist;
   };
   
