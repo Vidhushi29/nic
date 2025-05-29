@@ -181,13 +181,13 @@
                     </div>
                 </div>
 
-                <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyleCs}">
+                <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header" style="margin-bottom: -25px;">
                                 <h5 class="modal-title" id="exampleModalLongTitle">
-                                    Certified Seed Details</h5>
-                                <button type="button" class="close" data-dismiss="modal" (click)="close('Cs')">
+                                      {{ modalType === 'Cs' ? 'Certified Seed Details' : 'Quality Seed Details' }}</h5>
+                                <button type="button" class="close" data-dismiss="modal" (click)="close(modalType)">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -195,24 +195,24 @@
                                 <table class="table">
                                     <thead class="data-row-header">
                                         <tr class="">
-                                            <th class="table-header-left">DoaCs</th>
-                                            <th>SauCs</th>
-                                            <th>NscCs</th>
-                                            <th>SeedhubsCs</th>
-                                            <th>OthersCs</th>
-                                            <th>PvtCs</th>
-                                            <th class="table-header-right">SscCs</th>
+                                            <th class="table-header-left">Doa{{modalType}}</th>
+                                            <th>Sau{{modalType}}</th>
+                                            <th>Nsc{{modalType}}</th>
+                                            <th>Seedhubs{{modalType}}</th>
+                                            <th>Others{{modalType}}</th>
+                                            <th>Pvt{{modalType}}</th>
+                                            <th class="table-header-right">Ssc{{modalType}}</th>
                                         </tr>
                                     </thead>
                                     <tbody class="data-row table-bordered" style="text-align: center;">
                                         <tr>
-                                            <td>{{ dummyCsAndQsData.doaCs}}</td>
-                                            <td>{{ dummyCsAndQsData.sauCs}}</td>
-                                            <td>{{ dummyCsAndQsData.nscCs}}</td>
-                                            <td>{{ dummyCsAndQsData.seedhubsCs}}</td>
-                                            <td>{{ dummyCsAndQsData.othersCs}}</td>
-                                            <td>{{dummyCsAndQsData.pvtCs}}</td>
-                                            <td>{{ dummyCsAndQsData.sscCs}}</td>
+                                            <td>{{ modalType==='Cs'?dummyCsAndQsData.doaCs:dummyCsAndQsData.doaQs}}td>
+                                            <td>{{modalType==='Cs'?dummyCsAndQsData.sauCs:dummyCsAndQsData.sauQs}}</td>
+                                            <td>{{ modalType==='Cs'?dummyCsAndQsData.nscCs:dummyCsAndQsData.nscQs}}</td>
+                                            <td>{{ modalType==='Cs'?dummyCsAndQsData.seedhubsCs:dummyCsAndQsData.seedhubsQs}}</td>
+                                            <td>{{ modalType==='Cs'?dummyCsAndQsData.othersCs:dummyCsAndQsData.othersQs}}</td>
+                                            <td>{{modalType==='Cs'?dummyCsAndQsData.pvtCs:dummyCsAndQsData.pvtQs}}</td>
+                                            <td>{{ modalType==='Cs'?dummyCsAndQsData.sscCs:dummyCsAndQsData.sscQs}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -220,46 +220,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyleQs}">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header" style="margin-bottom: -25px;">
-                                <h5 class="modal-title" id="exampleModalLongTitle">
-                                    Quality Seed Details</h5>
-                                <button type="button" class="close" data-dismiss="modal" (click)="close('Qs')">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
-                                <table class="table">
-                                    <thead class="data-row-header">
-                                        <tr class="">
-                                            <th class="table-header-left">DoaQs</th>
-                                            <th>SauQs</th>
-                                            <th>NscQs</th>
-                                            <th>SeedhubsQs</th>
-                                            <th>OthersQs</th>
-                                            <th>PvtQs</th>
-                                            <th class="table-header-right">SscQs</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="data-row table-bordered" style="text-align: center;">
-                                        <tr>
-                                            <td>{{ dummyCsAndQsData.doaQs}}</td>
-                                            <td>{{ dummyCsAndQsData.sauQs}}</td>
-                                            <td>{{ dummyCsAndQsData.nscQs}}</td>
-                                            <td>{{ dummyCsAndQsData.seedhubsQs}}</td>
-                                            <td>{{ dummyCsAndQsData.othersQs}}</td>
-                                            <td>{{dummyCsAndQsData.pvtQs}}</td>
-                                            <td>{{ dummyCsAndQsData.sscQs}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+             
                 <div class="row card-inventory form-group">
 
                     <div class="col-12 col-md-12 col-lg-12 col-xl-12 mt-2" *ngIf="isAddSelected">
@@ -722,52 +683,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-12 pt-4 px-4">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
-                                            <label for="req" class="left-heading required">
-                                                Total-availability
-                                            </label>
-                                        </div>
-
-                                        <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
-                                            {{availabilityData.length===0?'Na':availabilityData[0].csavl}}
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
-                                            <label for="doa" class="left-heading required">
-                                                Total-availability
-                                            </label>
-                                        </div>
-
-                                        <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
-                                            {{availabilityData.length===0?'Na':availabilityData[0].qsavl}}
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
-                                            <label for="req" class="left-heading required">
-                                                Total-distribution
-                                            </label>
-                                        </div>
-
-                                        <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
-                                            <span>{{formatNumber(ngForm.controls['totalCs'].value)}}</span>
-                                        </div>
-
-
-
-                                        <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
-                                            <label for="doa" class="left-heading required">
-                                                Total-Quality Seed
-                                            </label>
-                                        </div>
-
-                                        <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
-                                            <span>{{formatNumber(ngForm.controls['totalQs'].value)}}</span>
-                                        </div>
-
-
-                                    </div>
-                                </div>
+                              
                                 <div class="col-12 pt-4 px-4">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
@@ -830,10 +746,6 @@
                                         </div>
                                     </div>
                                     <div class="row">
-
-
-
-
                                         <div class="col-sm-12 col-md-12 col-lg-2 pl-3">
                                             <label for="req" class="left-heading required">
                                                 Total-distribution

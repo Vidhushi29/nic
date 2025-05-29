@@ -45,7 +45,7 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
   varietyData: any[] = [];
   showOtherInputBox = false;
   displayModal = false;
-  modalType: 'cs' | 'qs' = 'cs';
+  modalType: 'Cs' | 'Qs' = 'Cs';
   dummyCsAndQsData: any = []
   inventoryYearData = [
     { year: '2026-27', value: '2026-27' },
@@ -90,15 +90,13 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
   disableUpperSection: boolean;
   dummyData: any;
   freezeData: boolean;
-  displayStyleCs: any = 'none'
-  displayStyleQs: any = 'none'
+  displayStyle: any = 'none'
   dummyDataCs: any;
   isCheck: boolean;
   totalCsavl: number = 0;
   totalQsavl: number = 0;
   totalAvl: number = 0;
   availabilityData: SeedDistributionData[] = [];
-  doa: number;
   constructor(
     private fb: FormBuilder,
     private zsrmServiceService: ZsrmServiceService
@@ -226,7 +224,7 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
 
     this.ngForm.valueChanges.subscribe((formValues) => {
       const { year, season, crop, variety, } = formValues;
-      if (year || season || crop || variety) {
+      if (year && season || crop || variety) {
         this.getPageData();
         this.isShowTable = true;
       }
@@ -234,11 +232,8 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
 
 
   }
-  close(type) {
-    if(type==='Cs')
-    this.displayStyleCs = 'none'
-  else
-  this.displayStyleQs = 'none'
+  close(type: 'Cs' | 'Qs') {
+    this.displayStyle = 'none';
   }
   patchDataForUpdate(data: any) {
     this.isAddSelected = true
@@ -719,10 +714,12 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
   }
   async getSeedData(id: number, type: 'Cs' | 'Qs') {
     if (type === 'Cs') {
-      this['displayStyleCs'] = 'block'
+       this.modalType = type;
+      this['displayStyle'] = 'block'
       this.showCsData(id)
     } else {
-      this['displayStyleQs'] = 'block'
+      this.modalType = type;
+      this['displayStyle'] = 'block'
       this.showCsData(id)
     }
   
