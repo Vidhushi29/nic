@@ -113,7 +113,11 @@
     color: white !important;
     border: 2px solid #B64B1D !important;
 }
-
+.disableFiel{
+    pointer-events: none;
+    background-color: #cccccc;
+    cursor: none;
+}
 
 .input-inventory {
     /* border: 1px solid #A1A1A1; */

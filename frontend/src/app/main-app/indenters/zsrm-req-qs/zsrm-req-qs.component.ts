@@ -187,7 +187,7 @@ export class ZsrmReqQsComponent implements OnInit {
     console.log(id)
     this.openpopup();
     this.getDistrictWiseData(id)
-    // this.getBspcTeamData(null, data);
+   
   }
   openpopup() {
     this.displayStyle = 'block'
@@ -215,7 +215,6 @@ export class ZsrmReqQsComponent implements OnInit {
       seedhubsCs: [0, [Validators.required]],
       seedhubsQs: [0, [Validators.required]],
       req: [0, [Validators.required]],
-
       pvtCs: [0, [Validators.required]],
       pvtQs: [0, [Validators.required]],
       othersCs: [0, [Validators.required]],
@@ -231,6 +230,7 @@ export class ZsrmReqQsComponent implements OnInit {
     });
 
     this.ngForm.valueChanges.subscribe(values => {
+
       const sos =
         this.totalavl - Number(values.req || 0)
 
@@ -362,7 +362,7 @@ export class ZsrmReqQsComponent implements OnInit {
     const sauQs = Number(this.ngForm.controls['sauQs'].value) || 0;
     const pvtQs = Number(this.ngForm.controls['pvtQs'].value) || 0;
     const othersQs = Number(this.ngForm.controls['othersQs'].value) || 0;
-    const shtorsur = this.totalavl + req;
+    const shtorsur = (totalavl - req);
     const baseParam = {
       "year": this.ngForm.controls['year'].value,
       "season": this.ngForm.controls['season'].value,
@@ -413,7 +413,7 @@ export class ZsrmReqQsComponent implements OnInit {
           // this.ngForm.controls['district'].setValue('');
           this.submitted = true;
           this.isShowTable = true;
-       
+
           this.disableDistUpperSection = false;
 
         })
@@ -429,33 +429,33 @@ export class ZsrmReqQsComponent implements OnInit {
   }
 
   download() {
-      const name = 'Fs-req-report';
-      const element = document.getElementById('excel-table');
-      const options = {
-        margin: 5,
-        filename: `${name}.pdf`,
-        image: { type: 'jpeg', quality: 1 },
-        html2canvas: {
-          dpi: 100,
-          scale: 1,
-          letterRendering: true,
-          useCORS: true
-        },
-        // jsPDF: { unit: 'mm', format: pageSize, orientation: 'portrait' }
-        jsPDF: { unit: 'mm', format: 'A3', orientation: 'landscape' }
-      };
-      html2PDF().set(options).from(element).toPdf().save();
-    }
+    const name = 'Fs-req-report';
+    const element = document.getElementById('excel-table');
+    const options = {
+      margin: 5,
+      filename: `${name}.pdf`,
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: {
+        dpi: 100,
+        scale: 1,
+        letterRendering: true,
+        useCORS: true
+      },
+      // jsPDF: { unit: 'mm', format: pageSize, orientation: 'portrait' }
+      jsPDF: { unit: 'mm', format: 'A3', orientation: 'landscape' }
+    };
+    html2PDF().set(options).from(element).toPdf().save();
+  }
 
 
   exportexcel(): void {
     let element = document.getElementById('excel-tables');
-    console.log(element,'element')
+    console.log(element, 'element')
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-console.log(this.fileName,)
+    console.log(this.fileName,)
     XLSX.writeFile(wb, this.fileName);
 
   }
@@ -468,7 +468,7 @@ console.log(this.fileName,)
     this.is_update = true;
     this.dataId = data.id;
     this.isCheck = true;
-
+    this.disableUpperSection = true;
     const cropName = this.cropData.find(crop => crop.crop_code === data.crop_code)?.crop_name;
     if (data) {
       this.selectCrop = cropName;
@@ -491,9 +491,10 @@ console.log(this.fileName,)
       this.ngForm.controls['othersQs'].patchValue(data.othersQs);
       this.ngForm.controls['pvtQs'].patchValue(data.pvtQs);
       this.ngForm.controls['seedhubsQs'].patchValue(data.seedhubsQs);
+      this.ngForm.controls['shtorsur'].patchValue(data.shtorsur)
       this.getDistrictList(data.state_id.toString());
       this.getDistrictWiseData(this.dataId);
-      this.disableUpperSection = true;
+      console.log(this.disableUpperSection,'this.disableUpperSection')
     }
   }
 
@@ -664,7 +665,7 @@ console.log(this.fileName,)
     const sauQs = Number(this.ngForm.controls['sauQs'].value) || 0;
     const pvtQs = Number(this.ngForm.controls['pvtQs'].value) || 0;
     const othersQs = Number(this.ngForm.controls['othersQs'].value) || 0;
-    const shtorsur = this.totalavl + req;
+    const shtorsur = this.totalavl - req;
     const baseParam = {
       "year": this.ngForm.controls['year'].value,
       "season": this.ngForm.controls['season'].value,
@@ -740,6 +741,7 @@ console.log(this.fileName,)
           this.ngForm.controls['seedhubsQs'].reset(0);
           this.submitted = false;
           this.isAddSelected = false;
+          this.disableUpperSection = false;
           this.totalCsavl = 0;
           this.totalQsavl = 0;
           this.totalSoS = 0;
@@ -781,7 +783,6 @@ console.log(this.fileName,)
     const route = "add-req-qs-dist";
     const totalCsavl = this.totalCsavl;
     const totalQsavl = this.totalQsavl;
-    const shtorsur = this.totalSoS;
     const totalavl = this.totalavl;
     const req = Number(this.ngForm.controls['req'].value) || 0;
     const doaCs = Number(this.ngForm.controls['doaCs'].value) || 0;
@@ -799,6 +800,7 @@ console.log(this.fileName,)
     const pvtQs = Number(this.ngForm.controls['pvtQs'].value) || 0;
     const othersQs = Number(this.ngForm.controls['othersQs'].value) || 0;
     const district_total = Number(this.ngForm.controls['district_csavl'].value || 0) + Number(this.ngForm.controls['district_qsavl'].value || 0)
+    const shtorsur = this.totalavl - req;
     const baseParam = {
       "user_id": this.authUserId,
       "year": this.ngForm.controls['year'].value,
@@ -886,7 +888,7 @@ console.log(this.fileName,)
       if (data.Response.status_code === 200) {
         this.varietyData = data && data.Response && data.Response.data ? data.Response.data : '';
         this.varietyListSecond = this.varietyData;
-        
+
         if (this.isEditMode) {
 
           const varietyName = this.varietyData.filter(variety => variety.variety_code === varietyCode);
@@ -899,13 +901,13 @@ console.log(this.fileName,)
     })
   }
 
-  isAddMore(){
-    this.isCheck=true;
-    
+  isAddMore() {
+    this.isCheck = true;
+
     if (this.dummyData && this.dummyData[0]?.is_finalised) {
       this.freezeData = true;
       console.log("hello", this.freezeData)
-      
+
     } else {
       this.freezeData = false;
     }
@@ -919,7 +921,7 @@ console.log(this.fileName,)
     if (season) queryParams.push(`season=${encodeURIComponent(season)}`);
 
     const apiUrl = `finalise-req-qs?${queryParams.join('&')}`;
-    console.log(apiUrl,'apiUrl')
+    console.log(apiUrl, 'apiUrl')
     Swal.fire({
       showConfirmButton: true,
       showCancelButton: true,
@@ -931,13 +933,13 @@ console.log(this.fileName,)
       position: "center",
       cancelButtonColor: "#DD6B55",
     }).then(x => {
-    
+
       if (x.isConfirmed) {
 
         this.zsrmServiceService.putRequestCreator(apiUrl).subscribe(apiResponse => {
 
           if (apiResponse.Response.status_code === 200) {
-       
+
             Swal.fire({
               title: '<p style="font-size:25px;">Data Submited Successfully.</p>',
               icon: 'success',
@@ -945,7 +947,7 @@ console.log(this.fileName,)
                 'OK',
               confirmButtonColor: '#E97E15'
             }).then(x => {
-      
+
               this.getPageData()
             })
           } else {
@@ -984,19 +986,19 @@ console.log(this.fileName,)
 
             this.allData = apiResponse.Response.data || [];
             this.dummyData = this.allData;
-            console.log(this.dummyData[0],'cedfedeee')
+
             if (this.dummyData && this.dummyData[0]?.is_finalised) {
               this.freezeData = true;
-            } 
-            
+            }
+
             else {
               this.freezeData = false;
             }
-          } 
+          }
         },
         (error) => {
           if (error.status === 404) {
-            this.freezeData = false; 
+            this.freezeData = false;
             this.dummyData = [];
           } else if (error.status === 500) {
             Swal.fire({
@@ -1008,7 +1010,7 @@ console.log(this.fileName,)
               confirmButtonColor: '#E97E15'
             })
           } else {
-      
+
             console.error('Error fetching data:', error);
           }
         }
@@ -1204,9 +1206,11 @@ console.log(this.fileName,)
     this.ngForm.controls['season'].reset('');
     this.selectCrop = '';
     this.selectVariety = '';
+    this.disableUpperSection = false;
     this.ngForm.controls['crop'].reset('');
     this.ngForm.controls['variety'].reset('');
     this.isShowTable = false; this.isAddSelected = false;
   }
+
 
 }

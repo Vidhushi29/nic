@@ -21,8 +21,7 @@
                                             <label for="year" class="left-heading required ">Year</label>
                                         </div>
                                         <div class="col-12 col-md-12 col-lg-12 col-lg-12 col-xl-12 pr-1">
-                                            <select class=" form-control input-inventory" formControlName="year"
-                                                [ngClass]="disableUpperSection ? 'disableFiel':''">
+                                            <select class=" form-control input-inventory" formControlName="year" [ngClass]="disableUpperSection ? 'disableFiel':''">
                                                 <option value="">Please Select Year</option>
                                                 <option *ngFor="let year of inventoryYearData" value="{{year.value}}">
                                                     <!-- {{ year.year }}-{{ ((year.year % 100) + 1) < 10 ? '0' : '' }}{{ (year.year % 100) + 1 }} -->
@@ -141,7 +140,8 @@
                                                         formControlName="variety_text"
                                                         [ngClass]="disableUpperSection ? 'disableFiel':''"
                                                         placeholder="Search Variety...">
-                                                    <button class="dropdown-item" *ngFor="let item of varietyData"
+                                                    <button [disabled]="disableUpperSection"
+                                                    class="dropdown-item" *ngFor="let item of varietyData"
                                                         (click)="variety(item)" #dropdownItem
                                                         [attr.data-parent-name]="'variety_name'">
                                                         {{ item && item.variety_name ? item.variety_name : '' }}
@@ -844,7 +844,7 @@
                                             </div>
 
                                             <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
-                                                <span>{{ formatNumber(ngForm.controls['shotorsur'].value) }}</span>
+                                                <span>{{formatNumber(ngForm.controls['shotorsur'].value)}}</span>
                                             </div>
 
 
@@ -870,14 +870,7 @@
                                         style="border: 2px solid #B64B1D;">
                                         {{ is_update ? 'Update' : 'Add' }}
                                     </button>
-                                    <!-- <button
-                                        class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
-                                        (click)="createAndSave()" *ngIf="!is_update"
-                                        style="border: 2px solid #B64B1D;">{{"!is_update"?Add:Update}}Add</button>
-
-                                    <button
-                                        class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
-                                        (click)="updateForm()" *ngIf="is_update">Update</button> -->
+                                 
                                 </div>
                             </div>
                         </div>
