@@ -206,7 +206,7 @@
                                     </thead>
                                     <tbody class="data-row table-bordered" style="text-align: center;">
                                         <tr>
-                                            <td>{{ modalType==='Cs'?dummyCsAndQsData.doaCs:dummyCsAndQsData.doaQs}}td>
+                                            <td>{{ modalType==='Cs'?dummyCsAndQsData.doaCs:dummyCsAndQsData.doaQs}}</td>
                                             <td>{{modalType==='Cs'?dummyCsAndQsData.sauCs:dummyCsAndQsData.sauQs}}</td>
                                             <td>{{ modalType==='Cs'?dummyCsAndQsData.nscCs:dummyCsAndQsData.nscQs}}</td>
                                             <td>{{ modalType==='Cs'?dummyCsAndQsData.seedhubsCs:dummyCsAndQsData.seedhubsQs}}</td>
@@ -724,7 +724,7 @@
                                         </div>
 
                                         <div class="col-sm-12 col-lg-4 col-md-12 pr-4">
-                                            <span>{{formatNumber(ngForm.controls['total'].value)}}</span>
+                                            <span>{{formatNumber(ngForm.controls['totalQs'].value)}}</span>
                                         </div>
 
 
@@ -756,12 +756,6 @@
                                             <span>{{formatNumber(ngForm.controls['total'].value)}}</span>
 
                                         </div>
-
-
-
-
-
-
                                     </div>
                                 </div>
 
@@ -771,8 +765,6 @@
                         </div>
 
                         <div class="row">
-
-
                             <!-- finish section 2 -->
 
                             <!-- button section -->
@@ -780,15 +772,21 @@
                                 <button
                                     class="btn-inventory-cancel search d-inline-flex justify-content-center verticle-content-middle mb-3"
                                     (click)="revertDataCancelation()" style="border: 2px solid #B64B1D;">Cancel</button>
-
-                                <button
+                                         <button
+                                        class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                        (click)="is_update ? updateForm() : createAndSave()"
+                                        style="border: 2px solid #B64B1D;">
+                                        {{ is_update ? 'Update' : 'Add' }}
+                                    </button>
+                                 
+                                <!-- <button
                                     class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
                                     (click)="createAndSave()" *ngIf="!is_update"
                                     style="border: 2px solid #B64B1D;">Add</button>
 
                                 <button
                                     class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
-                                    (click)="updateForm()" *ngIf="is_update">Update</button>
+                                    (click)="updateForm()" *ngIf="is_update">Update</button> -->
                             </div>
                         </div>
                     </div>
