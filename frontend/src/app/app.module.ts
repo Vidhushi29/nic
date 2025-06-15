@@ -199,7 +199,6 @@ import { SrpComponent } from './main-app/indenters/srp/srp.component';
     ReactiveFormsModule,
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
     MainAppModule,
     MatRadioModule,
     HttpClientJsonpModule,

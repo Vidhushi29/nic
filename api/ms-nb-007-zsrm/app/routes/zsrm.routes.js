@@ -101,6 +101,7 @@ module.exports = app => {
     app.post(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-data`,auth,zsrm.getZsrmCsQsDistData);
     app.post(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-data-sd`,auth,zsrm.getZsrmCsQsDistDataSeedDiv);
     app.post(`${process.env.MICRO_SERVICE}/api/get-zsrm-cs-qs-dist-data-cropwise-sd`,auth,zsrm.getZsrmCsQsDistDataCropWiseSeedDiv);
+    app.put(`${process.env.MICRO_SERVICE}/api/finalise-cs-qs-dist`,auth,zsrm.finaliseZsrmCsQsDist);
      //ZSRMCSFSAREA
      app.post(`${process.env.MICRO_SERVICE}/api/add-zsrm-cs-fs-area`,auth,zsrm.addZsrmCsFsArea);
      app.delete(`${process.env.MICRO_SERVICE}/api/delete-zsrm-cs-fs-area/:id`,auth,zsrm.deleteZsrmCsFsArea);

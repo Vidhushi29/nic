@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
-                    [ngClass]="{ 'd-block': isCheck, 'd-none': !isCheck }">
+                    [ngClass]="{ 'd-block': isCheck, 'd-none': !isCheck }"  *ngIf="!freezeData">
                     <div class="row card-inventory form-group pb-3">
                         <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xl-12 pt-1">
                             <div class="row for-width">
@@ -959,12 +959,8 @@
                                                                 <img src="assets/images/Vector.svg"
                                                                     [ngStyle]="{'opacity': freezeData ? '0.5' : '1', 'cursor': freezeData ? 'not-allowed' : 'pointer'}">
                                                             </button>
-                                                            <!-- <button class="list-action-buttons" style="cursor: pointer;"
-                                                                (click)="deleteDirectIndent(data.id)"
-                                                                [disabled]="freezeData">
-                                                                <img src="assets/images/Vector_delete.svg"
-                                                                    [ngStyle]="{'opacity': freezeData ? '0.5' : '1', 'cursor': freezeData ? 'not-allowed' : 'pointer'}">
-                                                            </button> -->
+                                                            
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -978,7 +974,18 @@
                                         </div>
 
                                     </div>
+ <div class="col-12 col-md-10 col-lg-10 pt-4 pb-2 buttons-phone col-xl-10 ">
 
+                            <button
+                                class="search form-button btn-inventory ml-2 d-inline-flex justify-content-center verticle-content-middle mb-3"
+                                (click)="finalizeData()" [disabled]="freezeData"
+                                [ngClass]="{'activeBtn': !freezeData, 'disableBtn': freezeData}"
+                                [ngStyle]="{'border': freezeData ? '2px solid #DCDCDC' : '2px solid #B64B1D'}">
+                                Submit
+                            </button>
+
+
+                        </div>
                                     <div class="col-12 col-md-12 col-lg-12 px-4 px-md-3 py-1 pb-4 pl-4">
                                         <app-pagination-ui></app-pagination-ui>
                                     </div>

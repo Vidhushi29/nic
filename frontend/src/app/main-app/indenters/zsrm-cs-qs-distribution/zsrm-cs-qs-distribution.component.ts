@@ -539,7 +539,8 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
 
             this.allData = apiResponse.Response.data || [];
             this.dummyData = this.allData;
-
+            console.log(this.dummyData);
+            console.log(this.dummyData && this.dummyData[0]?.is_finalised,'this.dummyData && this.dummyData[0]?.is_finalised')
             if (this.dummyData && this.dummyData[0]?.is_finalised) {
               this.freezeData = true;
             }
@@ -682,7 +683,7 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
 
     if (this.dummyData && this.dummyData[0]?.is_finalised) {
       this.freezeData = true;
-      console.log("hello", this.freezeData)
+
 
     } else {
       this.freezeData = false;
@@ -714,7 +715,7 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
   }
   async getSeedData(id: number, type: 'Cs' | 'Qs') {
     if (type === 'Cs') {
-       this.modalType = type;
+      this.modalType = type;
       this['displayStyle'] = 'block'
       this.showCsData(id)
     } else {
@@ -722,8 +723,59 @@ export class ZsrmCsQsDistributionComponent implements OnInit {
       this['displayStyle'] = 'block'
       this.showCsData(id)
     }
-  
 
 
+
+  }
+  finalizeData() {
+    const year = this.ngForm.controls['year'].value;
+    const season = this.ngForm.controls['season'].value;
+    const queryParams = [];
+    if (year) queryParams.push(`year=${encodeURIComponent(year)}`);
+    if (season) queryParams.push(`season=${encodeURIComponent(season)}`);
+
+    const apiUrl = `finalise-cs-qs-dist?${queryParams.join('&')}`;
+    console.log(apiUrl, 'apiUrl')
+    Swal.fire({
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Yes,Submit it!",
+      cancelButtonText: "Cancel",
+      icon: "warning",
+      title: "Are You Sure?",
+      text: "You won't be able to Edit this!",
+      position: "center",
+      cancelButtonColor: "#DD6B55",
+    }).then(x => {
+
+      if (x.isConfirmed) {
+
+        this.zsrmServiceService.putRequestCreator(apiUrl).subscribe(apiResponse => {
+
+          if (apiResponse.Response.status_code === 200) {
+
+            Swal.fire({
+              title: '<p style="font-size:25px;">Data Submited Successfully.</p>',
+              icon: 'success',
+              confirmButtonText:
+                'OK',
+              confirmButtonColor: '#E97E15'
+            }).then(x => {
+
+              this.getPageData()
+            })
+          } else {
+            Swal.fire({
+              title: '<p style="font-size:25px;">Something Went Wrong.</p>',
+              icon: 'error',
+              confirmButtonText:
+                'OK',
+              confirmButtonColor: '#E97E15'
+            })
+          }
+        })
+      }
+
+    })
   }
 }

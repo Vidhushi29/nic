@@ -906,7 +906,7 @@ export class ZsrmReqQsComponent implements OnInit {
 
     if (this.dummyData && this.dummyData[0]?.is_finalised) {
       this.freezeData = true;
-      console.log("hello", this.freezeData)
+  
 
     } else {
       this.freezeData = false;
@@ -989,8 +989,8 @@ export class ZsrmReqQsComponent implements OnInit {
 
             if (this.dummyData && this.dummyData[0]?.is_finalised) {
               this.freezeData = true;
+              console.log(this.freezeData,'freezeData');
             }
-
             else {
               this.freezeData = false;
             }
@@ -1010,7 +1010,6 @@ export class ZsrmReqQsComponent implements OnInit {
               confirmButtonColor: '#E97E15'
             })
           } else {
-
             console.error('Error fetching data:', error);
           }
         }

@@ -386,7 +386,6 @@ export class ZsrmComponent implements OnInit {
     const ssc = this.ngForm.controls['ssc'].value || 0;
     const doa = this.ngForm.controls['doa'].value || 0;
     const sau = this.ngForm.controls['sau'].value || 0;
-
     const pvt = this.ngForm.controls['pvt'].value || 0;
     const nsc = this.ngForm.controls['nsc'].value || 0;
     const others = this.ngForm.controls['others'].value || 0;
@@ -402,7 +401,6 @@ export class ZsrmComponent implements OnInit {
       "ssc": ssc,
       "doa": doa,
       "sau": sau,
-
       "pvt": pvt,
       "nsc": nsc,
       "others": others,
@@ -427,7 +425,6 @@ export class ZsrmComponent implements OnInit {
           this.ngForm.controls['sau'].reset('');
           this.ngForm.controls['remarks'].patchValue('');
           this.ngForm.controls['others'].reset('');
-
           this.ngForm.controls['ssc'].reset('');
           this.ngForm.controls['nsc'].reset('');
           this.ngForm.controls['pvt'].reset('');
@@ -478,7 +475,7 @@ export class ZsrmComponent implements OnInit {
     })
   }
 
-  getPageData(loadPageNumberData: number = 1) {
+  getPageData() {
     this.filterPaginateSearch.itemList = [];
     this.finalData = [];
      this.totalData = [];
@@ -502,7 +499,6 @@ export class ZsrmComponent implements OnInit {
         if (apiResponse?.Response.status_code === 200) {
           this.allData = apiResponse.Response.data || [];
           this.dummyData = this.allData;
- 
           if (this.dummyData && this.dummyData[0]?.is_finalised) {
             this.freezeData = true;
           } 
@@ -556,6 +552,9 @@ export class ZsrmComponent implements OnInit {
                   {
                     variety_code: el.variety_code,
                     variety_name: el.variety_name,
+        
+        
+        
                     req: parseFloat(el.req).toFixed(2),
                     doa: parseFloat(el.doa).toFixed(2),
                     sau: parseFloat(el.sau).toFixed(2),

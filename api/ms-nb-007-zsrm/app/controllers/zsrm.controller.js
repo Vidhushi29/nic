@@ -4553,6 +4553,7 @@ exports.viewZsrmCsQsDist = async (req, res) => {
         totalCs: parseFloat(item.totalCs),
         totalQs: parseFloat(item.totalQs),
         total: parseFloat(item.total),
+        is_finalised:item.is_finalised
       }
     });
 
@@ -5268,6 +5269,28 @@ exports.getZsrmCsQsDistDataCropWiseSeedDiv = async (req, res) => {
   }
 };
 
+
+exports.finaliseZsrmCsQsDist = async (req, res) => {
+  try {
+    const recordsExist = await zsrmcsqsdistModel.findAll({ where: { year: req.query.year, season: req.query.season, is_active: true, user_id: req.body.loginedUserid.id, } });
+    if (recordsExist.length === 0) {
+      return response(res, status.DATA_NOT_AVAILABLE, 404);
+    }
+    await zsrmcsqsdistModel.update({
+      is_finalised: true,
+      finalisedAt: Date.now()
+    },
+      {
+        where: { year: req.query.year, season: req.query.season, is_active: true, user_id: req.body.loginedUserid.id }
+      },).then(() => response(res, status.DATA_UPDATED, 200, {}))
+      .catch(() => response(res, status.DATA_NOT_UPDATED, 500));
+
+  } catch (error) {
+    console.log(error);
+    return response(res, status.UNEXPECTED_ERROR, 501)
+  }
+
+}
 
 //zsrmcsfsarea
 exports.addZsrmCsFsArea = async (req, res) => {
