@@ -1447,7 +1447,38 @@ export class LoggedInUserInfoService {
         }
       );
     }
+if (this.userRole == "OILSEEDADMIN") {
+      subMenuCollection.push(
+        {
+          "name": "Lifting/ Utilization of Breeder Seed Report",
+          "href": "/lifting-utilization-of-breeder-seed-report",
+          "icon": "character.svg"
+        }, 
+         {
+          "name": "SRP Report",
+          "href": "javascript:void(0)",
+          "subMenus": [
+            {
+              "name": "Crop-Wise SRP Report",
+              "href": "/crop-wise-srp-report",
+              "icon": "seeding.svg"
+            },
+            {
+              "name": "Crop-Wise Summary of SRP",
+              "href": "/crop-wise-summary-srp-report",
+              "icon": "seeding.svg"
+            },
+            {
+              "name": "CROP-VARIETY WISE SRP REPORT",
+              "href": "/master-srp-report",
+              "icon": "seeding.svg"
+            }
+          ]
 
+        },
+       
+      );
+    }
     subMenuCollection = subMenuCollection.concat(
       [
         // {
@@ -1759,6 +1790,61 @@ export class LoggedInUserInfoService {
           
           
         ]
+      },
+       "OILSEEDADMIN": {
+        name: "SEED DIVISION (Oil Seed)",
+        icon: "coffee-bean (1).svg",
+        menus: [
+          {
+            icon: "farmer (2)@2x.png",
+            name: "Dashboard",
+            href: "bsp-dashboard",
+            subMenus: undefined
+          },
+          // {
+          //   icon: "farmer (2)@2x.png",
+          //   name: "Dashboard Second",
+          //   href: "bsp-dashboard-second",
+          //   subMenus: undefined
+          // },
+          {
+            icon: "farmer (2)@2x.png",
+            name: "Recieved Indent Oil Seed",
+            href: "recieved-indent-oil-seed",
+            subMenus: undefined
+          }, { icon: "seeding-one.svg",
+            "name": "SRP",
+            "href": "javascript:void(0)",
+            "subMenus": [
+              {
+                "name": "SRP Dashboard",
+                "href": "/srp-dashboard-sd",
+                "icon": "seeding.svg"
+              },
+              {
+                "name": "SRP Status Report",
+                "href": "/srp-status-report",
+                "icon": "seeding.svg"
+              },
+              {
+                "name": "Crop-Wise SRP Report",
+                "href": "/crop-wise-srp-sd-report",
+                "icon": "seeding.svg"
+              },
+              {
+                "name": "CROP-WISE SUMMARY OF SRP",
+                "href": "/crop-wise-summary-srp-sd-report",
+                "icon": "seeding.svg"
+              },
+              {
+                "name": "CROP-VARIETY WISE SRP REPORT",
+                "href": "/master-srp-sd-report",
+                "icon": "seeding.svg"
+              }
+            ]
+  
+          },
+        ],
       },
       // "Seed": {
       "SD": {
